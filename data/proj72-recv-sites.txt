@@ -1,0 +1,78 @@
+{
+"data":[
+  {
+    "ID": 2078,
+    "projectID": 72,
+    "landOwnerID": "NA",
+    "name": "HR Summer Deployment",
+    "latitude": 47.19,
+    "longitude": -66.54,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2079,
+    "projectID": 72,
+    "landOwnerID": "NA",
+    "name": "HR Summer Deployment",
+    "latitude": 47.2,
+    "longitude": -66.55,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2080,
+    "projectID": 72,
+    "landOwnerID": "NA",
+    "name": "Migration Fall Deplo",
+    "latitude": 47.2,
+    "longitude": -66.55,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2081,
+    "projectID": 72,
+    "landOwnerID": "NA",
+    "name": "NBBITH1",
+    "latitude": 47.2,
+    "longitude": -66.55,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2082,
+    "projectID": 72,
+    "landOwnerID": "NA",
+    "name": "NBBITH2",
+    "latitude": 47.21,
+    "longitude": -66.54,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

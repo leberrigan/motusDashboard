@@ -1,0 +1,69 @@
+{
+"data":[
+  {
+    "ID": 2672,
+    "projectID": 234,
+    "landOwnerID": 18871,
+    "name": "WGLBBO - Forest Beach Migratory Preserve",
+    "latitude": 43.45,
+    "longitude": 87.81,
+    "lastEditedDt": "7/3/2019 11:20:19"
+  },
+  {
+    "ID": 2762,
+    "projectID": 234,
+    "landOwnerID": "NA",
+    "name": "Woodland Dunes- Goodwin Road",
+    "latitude": 44.13,
+    "longitude": -87.61,
+    "lastEditedDt": "7/3/2019 11:20:19"
+  },
+  {
+    "ID": 2788,
+    "projectID": 234,
+    "landOwnerID": "NA",
+    "name": "Camp Whitcomb Mason",
+    "latitude": 43.17,
+    "longitude": 88.32,
+    "lastEditedDt": "7/3/2019 11:41:16"
+  },
+  {
+    "ID": 2888,
+    "projectID": 234,
+    "landOwnerID": "NA",
+    "name": "Kohler Eagle Valley",
+    "latitude": 42.81,
+    "longitude": -91.06,
+    "lastEditedDt": "8/27/2019 19:48:24"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

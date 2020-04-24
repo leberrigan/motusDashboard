@@ -1,0 +1,42 @@
+{
+"data":[
+  {
+    "ID": 2630,
+    "projectID": 193,
+    "landOwnerID": 10774,
+    "name": "Mary Gray Bird Sanctuary Indiana",
+    "latitude": 39.59,
+    "longitude": -85.22,
+    "lastEditedDt": "10/10/2018 11:59:56"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

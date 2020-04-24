@@ -1,0 +1,217 @@
+{
+"data":[
+  {
+    "motusRecvID": 1440,
+    "recvProjectID": 107,
+    "receiverID": "SG-1715BBBK0746",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2576,
+    "deploymentStatus": "terminated",
+    "deploymentName": "BEECH",
+    "siteName": "BEECH",
+    "dtStart": "2015-08-21 23:00:00 +00:00",
+    "dtEnd": "2015-11-16 22:00:00 +00:00",
+    "tsStart": 1440198000,
+    "tsEnd": 1447711200,
+    "latitude": 44.3107,
+    "longitude": -68.3451,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1440,
+    "recvProjectID": 107,
+    "receiverID": "SG-1715BBBK0746",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3436,
+    "deploymentStatus": "terminated",
+    "deploymentName": "BEECH",
+    "siteName": "BEECH",
+    "dtStart": "2016-05-15 00:00:00 +00:00",
+    "dtEnd": "2016-09-02 20:00:00 +00:00",
+    "tsStart": 1463270400,
+    "tsEnd": 1472846400,
+    "latitude": 44.3102,
+    "longitude": -68.3462,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1440,
+    "recvProjectID": 107,
+    "receiverID": "SG-1715BBBK0746",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3437,
+    "deploymentStatus": "terminated",
+    "deploymentName": "BEECH2",
+    "siteName": "BEECH2",
+    "dtStart": "2016-09-02 20:30:00 +00:00",
+    "dtEnd": "2017-02-07 09:00:00 +00:00",
+    "tsStart": 1472848200,
+    "tsEnd": 1486458000,
+    "latitude": 44.3102,
+    "longitude": -68.3462,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1440,
+    "recvProjectID": 107,
+    "receiverID": "SG-1715BBBK0746",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4336,
+    "deploymentStatus": "active",
+    "deploymentName": "BEECH2",
+    "siteName": "BEECH2",
+    "dtStart": "2017-08-22 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1503360000,
+    "tsEnd": "NA",
+    "latitude": 44.3102,
+    "longitude": -68.3462,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1441,
+    "recvProjectID": 107,
+    "receiverID": "SG-1715BBBK0752",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4095,
+    "deploymentStatus": "terminated",
+    "deploymentName": "SCHOODIC",
+    "siteName": "SCHOODIC",
+    "dtStart": "2016-08-03 00:00:00 +00:00",
+    "dtEnd": "2016-10-25 00:00:00 +00:00",
+    "tsStart": 1470182400,
+    "tsEnd": 1477353600,
+    "latitude": 44.3505,
+    "longitude": -68.053,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1441,
+    "recvProjectID": 107,
+    "receiverID": "SG-1715BBBK0752",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2577,
+    "deploymentStatus": "terminated",
+    "deploymentName": "SCHOODIC",
+    "siteName": "SCHOODIC",
+    "dtStart": "2015-08-21 00:00:00 +00:00",
+    "dtEnd": "2015-11-17 18:00:00 +00:00",
+    "tsStart": 1440115200,
+    "tsEnd": 1447783200,
+    "latitude": 44.3505,
+    "longitude": -68.053,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1853,
+    "recvProjectID": 107,
+    "receiverID": "SG-1715BBBK0720",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3438,
+    "deploymentStatus": "terminated",
+    "deploymentName": "PEMETIC",
+    "siteName": "PEMETIC",
+    "dtStart": "2016-09-12 18:37:00 +00:00",
+    "dtEnd": "2016-11-02 00:00:00 +00:00",
+    "tsStart": 1473705420,
+    "tsEnd": 1478044800,
+    "latitude": 44.3375,
+    "longitude": -68.2466,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

@@ -1,0 +1,267 @@
+{
+"data":[
+  {
+    "ID": 2115,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "FG1",
+    "latitude": 54.18,
+    "longitude": 7.88,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2116,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "FG1_2016",
+    "latitude": 54.18,
+    "longitude": 7.88,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2117,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "FG1_2016_2",
+    "latitude": 54.18,
+    "longitude": 7.88,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2118,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "HelgolandFG1",
+    "latitude": 54.18,
+    "longitude": 7.88,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2119,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "FG1fall",
+    "latitude": 54.18,
+    "longitude": 7.88,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2120,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "Juist 1 ",
+    "latitude": 53.67,
+    "longitude": 6.97,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2121,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "Langeoog 1 ",
+    "latitude": 53.75,
+    "longitude": 7.48,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2122,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "HelgolandML1",
+    "latitude": 54.17,
+    "longitude": 7.88,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2123,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "ML1_2016",
+    "latitude": 54.17,
+    "longitude": 7.88,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2124,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "ML1_2017",
+    "latitude": 54.17,
+    "longitude": 7.88,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2125,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "ML1fall",
+    "latitude": 54.17,
+    "longitude": 7.88,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2126,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "ML2_2017",
+    "latitude": 54.17,
+    "longitude": 7.88,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2127,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "RT1",
+    "latitude": 54.18,
+    "longitude": 7.87,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2128,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "RT1_2016",
+    "latitude": 54.18,
+    "longitude": 7.87,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2129,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "HelgolandRT1",
+    "latitude": 54.18,
+    "longitude": 7.87,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2130,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "RT1spring",
+    "latitude": 54.18,
+    "longitude": 7.87,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2131,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "RT2",
+    "latitude": 54.18,
+    "longitude": 7.87,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2132,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "RT2_2016",
+    "latitude": 54.18,
+    "longitude": 7.87,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2133,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "HelgolandRT2",
+    "latitude": 54.18,
+    "longitude": 7.87,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2134,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "RT2fall",
+    "latitude": 54.18,
+    "longitude": 7.87,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2135,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "Wangerooge 1 ",
+    "latitude": 53.78,
+    "longitude": 7.91,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2398,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "Spiekeroog 1",
+    "latitude": 53.77,
+    "longitude": 7.71,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2488,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "Norderney 1 ",
+    "latitude": 53.7,
+    "longitude": 7.23,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2491,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "Borkum 1 ",
+    "latitude": 53.58,
+    "longitude": 6.66,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2638,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "Amrum 1 ",
+    "latitude": 54.64,
+    "longitude": 8.36,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  },
+  {
+    "ID": 2639,
+    "projectID": 76,
+    "landOwnerID": "NA",
+    "name": "Sylt 1 ",
+    "latitude": 54.79,
+    "longitude": 8.28,
+    "lastEditedDt": "12/3/2019 5:08:58"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

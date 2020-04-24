@@ -1,0 +1,217 @@
+{
+"data":[
+  {
+    "errorID": 5899495,
+    "projectID": 107,
+    "ID": 1853,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_hits_out_deploy",
+    "string": "776",
+    "string2": "44",
+    "string3": "2016-09-03 00:17:04 - 2016-09-05 23:51:30",
+    "errorDescr": "Device ID: %s, number of detections: %s, from %s",
+    "severity": 3,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Detections Outside of Receiver Deployment",
+    "descr": "These receivers have tag detections that are outside of any deployments for the receiver.",
+    "urlView": "/data/receiver/timeline?id=%2$d",
+    "urlFix": "/data/receivers/edit?projectID=%d&id=%d",
+    "tableName": "",
+    "fixInstruct": "Please create deployments for this receiver that capture these detections.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5900281,
+    "projectID": 107,
+    "ID": 2243,
+    "idConflict": "NA",
+    "errorCode": "v_no_landowner",
+    "string": "BEECH",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Site: %s (#%5$d)",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Missing Landowner Information",
+    "descr": "These sites do not have any landowner information.",
+    "urlView": "",
+    "urlFix": "/data/project/sites?projectID=%d#site-%d",
+    "tableName": "sensor_sites",
+    "fixInstruct": "Please populate the landowner information so they can be properly credited for their contributions to the Motus Network.  Landowner first and last names will appear here: https://motus.org/data/partners.jsp",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5900282,
+    "projectID": 107,
+    "ID": 2244,
+    "idConflict": "NA",
+    "errorCode": "v_no_landowner",
+    "string": "BEECH",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Site: %s (#%5$d)",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Missing Landowner Information",
+    "descr": "These sites do not have any landowner information.",
+    "urlView": "",
+    "urlFix": "/data/project/sites?projectID=%d#site-%d",
+    "tableName": "sensor_sites",
+    "fixInstruct": "Please populate the landowner information so they can be properly credited for their contributions to the Motus Network.  Landowner first and last names will appear here: https://motus.org/data/partners.jsp",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5900283,
+    "projectID": 107,
+    "ID": 2245,
+    "idConflict": "NA",
+    "errorCode": "v_no_landowner",
+    "string": "BEECH2",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Site: %s (#%5$d)",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Missing Landowner Information",
+    "descr": "These sites do not have any landowner information.",
+    "urlView": "",
+    "urlFix": "/data/project/sites?projectID=%d#site-%d",
+    "tableName": "sensor_sites",
+    "fixInstruct": "Please populate the landowner information so they can be properly credited for their contributions to the Motus Network.  Landowner first and last names will appear here: https://motus.org/data/partners.jsp",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5900284,
+    "projectID": 107,
+    "ID": 2246,
+    "idConflict": "NA",
+    "errorCode": "v_no_landowner",
+    "string": "PEMETIC",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Site: %s (#%5$d)",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Missing Landowner Information",
+    "descr": "These sites do not have any landowner information.",
+    "urlView": "",
+    "urlFix": "/data/project/sites?projectID=%d#site-%d",
+    "tableName": "sensor_sites",
+    "fixInstruct": "Please populate the landowner information so they can be properly credited for their contributions to the Motus Network.  Landowner first and last names will appear here: https://motus.org/data/partners.jsp",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5900285,
+    "projectID": 107,
+    "ID": 2247,
+    "idConflict": "NA",
+    "errorCode": "v_no_landowner",
+    "string": "SCHOODIC",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Site: %s (#%5$d)",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Missing Landowner Information",
+    "descr": "These sites do not have any landowner information.",
+    "urlView": "",
+    "urlFix": "/data/project/sites?projectID=%d#site-%d",
+    "tableName": "sensor_sites",
+    "fixInstruct": "Please populate the landowner information so they can be properly credited for their contributions to the Motus Network.  Landowner first and last names will appear here: https://motus.org/data/partners.jsp",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  }
+], "columns":[
+  {
+    "data": "errorID",
+    "name": "Error ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "idConflict",
+    "name": "ID Conflict"
+  },
+  {
+    "data": "errorCode",
+    "name": "Error Code"
+  },
+  {
+    "data": "string",
+    "name": "String"
+  },
+  {
+    "data": "string2",
+    "name": "String2"
+  },
+  {
+    "data": "string3",
+    "name": "String3"
+  },
+  {
+    "data": "errorDescr",
+    "name": "Error Descr"
+  },
+  {
+    "data": "severity",
+    "name": "Severity"
+  },
+  {
+    "data": "type",
+    "name": "Type"
+  },
+  {
+    "data": "subType",
+    "name": "Sub Type"
+  },
+  {
+    "data": "descrShort",
+    "name": "Descr Short"
+  },
+  {
+    "data": "descr",
+    "name": "Descr"
+  },
+  {
+    "data": "urlView",
+    "name": "Url View"
+  },
+  {
+    "data": "urlFix",
+    "name": "Url Fix"
+  },
+  {
+    "data": "tableName",
+    "name": "Table Name"
+  },
+  {
+    "data": "fixInstruct",
+    "name": "Fix Instruct"
+  },
+  {
+    "data": "severityDescr",
+    "name": "Severity Descr"
+  },
+  {
+    "data": "tooltip",
+    "name": "Tooltip"
+  }
+]
+}

@@ -1,0 +1,51 @@
+{
+"data":[
+  {
+    "ID": 2819,
+    "projectID": 282,
+    "landOwnerID": 20012,
+    "name": "Smithsonian Conservation Biology Institute",
+    "latitude": 38.89,
+    "longitude": -78.16,
+    "lastEditedDt": "2/19/2020 14:18:52"
+  },
+  {
+    "ID": 2955,
+    "projectID": 282,
+    "landOwnerID": 21241,
+    "name": "Castleton View",
+    "latitude": 38.6,
+    "longitude": -78.1,
+    "lastEditedDt": "2/19/2020 14:18:52"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

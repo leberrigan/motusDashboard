@@ -1,0 +1,69 @@
+{
+"data":[
+  {
+    "ID": 2606,
+    "projectID": 134,
+    "receiverID": "SG-86F3RPI23EF6",
+    "approved": 0,
+    "lastEditedDt": "8/10/2018 12:15:57",
+    "lastEditedUserID": 2398,
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 2607,
+    "projectID": 134,
+    "receiverID": "SG-5332RPI27B17",
+    "approved": 0,
+    "lastEditedDt": "8/10/2018 12:18:47",
+    "lastEditedUserID": 2398,
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 2608,
+    "projectID": 134,
+    "receiverID": "SG-C858RPI2F049",
+    "approved": 0,
+    "lastEditedDt": "8/10/2018 12:20:47",
+    "lastEditedUserID": 2398,
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 2610,
+    "projectID": 134,
+    "receiverID": "Lotek-D000465",
+    "approved": 0,
+    "lastEditedDt": "8/14/2018 15:43:23",
+    "lastEditedUserID": 2398,
+    "receiverType": "LOTEKSRX800D"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "approved",
+    "name": "Approved"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  },
+  {
+    "data": "lastEditedUserID",
+    "name": "Last Edited User ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  }
+]
+}

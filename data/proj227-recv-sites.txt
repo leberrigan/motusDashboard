@@ -1,0 +1,51 @@
+{
+"data":[
+  {
+    "ID": 2662,
+    "projectID": 227,
+    "landOwnerID": "NA",
+    "name": "Hanbao Yuan, Changhua",
+    "latitude": 24,
+    "longitude": 120.35,
+    "lastEditedDt": "11/18/2018 7:12:15"
+  },
+  {
+    "ID": 2783,
+    "projectID": 227,
+    "landOwnerID": "NA",
+    "name": "Wanggong, Changhua",
+    "latitude": 23.97,
+    "longitude": 120.32,
+    "lastEditedDt": "6/26/2019 3:43:39"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

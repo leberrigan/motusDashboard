@@ -1,0 +1,231 @@
+{
+"data":[
+  {
+    "ID": 2308,
+    "projectID": 145,
+    "landOwnerID": 3832,
+    "name": "Chase Bridge",
+    "latitude": 44.58,
+    "longitude": -84.55,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2309,
+    "projectID": 145,
+    "landOwnerID": 3832,
+    "name": "Clare",
+    "latitude": 44.15,
+    "longitude": -84.94,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2310,
+    "projectID": 145,
+    "landOwnerID": 3832,
+    "name": "Clear Lake",
+    "latitude": 45.15,
+    "longitude": -84.18,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2311,
+    "projectID": 145,
+    "landOwnerID": 3832,
+    "name": "Fletcher",
+    "latitude": 44.54,
+    "longitude": -84.86,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2312,
+    "projectID": 145,
+    "landOwnerID": 3832,
+    "name": "Mack Lake",
+    "latitude": 44.56,
+    "longitude": -84.02,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2313,
+    "projectID": 145,
+    "landOwnerID": 3832,
+    "name": "No Pablo",
+    "latitude": 44.53,
+    "longitude": -84.26,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2314,
+    "projectID": 145,
+    "landOwnerID": 3833,
+    "name": "North Tawas",
+    "latitude": 44.49,
+    "longitude": -83.54,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2315,
+    "projectID": 145,
+    "landOwnerID": 3832,
+    "name": "Ogemaw",
+    "latitude": 44.48,
+    "longitude": -84.29,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2316,
+    "projectID": 145,
+    "landOwnerID": 3832,
+    "name": "Red Oak",
+    "latitude": 44.73,
+    "longitude": -84.27,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2317,
+    "projectID": 145,
+    "landOwnerID": 3833,
+    "name": "South Tawas",
+    "latitude": 44.33,
+    "longitude": -83.6,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2318,
+    "projectID": 145,
+    "landOwnerID": 3832,
+    "name": "St. Helen",
+    "latitude": 44.34,
+    "longitude": -84.34,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2519,
+    "projectID": 145,
+    "landOwnerID": 3834,
+    "name": "Franks Tower",
+    "latitude": 24.66,
+    "longitude": -75.74,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2520,
+    "projectID": 145,
+    "landOwnerID": 3840,
+    "name": "Josie's Farm",
+    "latitude": 24.51,
+    "longitude": -75.58,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2521,
+    "projectID": 145,
+    "landOwnerID": 3835,
+    "name": "Knowles Tower",
+    "latitude": 24.38,
+    "longitude": -75.51,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2522,
+    "projectID": 145,
+    "landOwnerID": 3840,
+    "name": "McQueens",
+    "latitude": 24.18,
+    "longitude": -75.47,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2523,
+    "projectID": 145,
+    "landOwnerID": 3837,
+    "name": "Ft. Clinch",
+    "latitude": 30.69,
+    "longitude": -81.43,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2524,
+    "projectID": 145,
+    "landOwnerID": 3836,
+    "name": "GTM NERR",
+    "latitude": 30.02,
+    "longitude": -81.32,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2525,
+    "projectID": 145,
+    "landOwnerID": 3839,
+    "name": "Lighthouse Point",
+    "latitude": 29.07,
+    "longitude": -80.91,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2526,
+    "projectID": 145,
+    "landOwnerID": 3837,
+    "name": "Little Talbot",
+    "latitude": 30.43,
+    "longitude": -81.41,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2527,
+    "projectID": 145,
+    "landOwnerID": 3838,
+    "name": "UNF",
+    "latitude": 30.27,
+    "longitude": -81.5,
+    "lastEditedDt": "6/6/2018 9:46:56"
+  },
+  {
+    "ID": 2528,
+    "projectID": 145,
+    "landOwnerID": 3837,
+    "name": "Washington Oaks",
+    "latitude": 29.63,
+    "longitude": -81.21,
+    "lastEditedDt": "6/7/2018 15:12:07"
+  },
+  {
+    "ID": 2870,
+    "projectID": 145,
+    "landOwnerID": "NA",
+    "name": "Ogemaw 2",
+    "latitude": 44.46,
+    "longitude": -84.32,
+    "lastEditedDt": "8/17/2019 10:35:16"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

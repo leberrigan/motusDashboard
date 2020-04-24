@@ -1,0 +1,87 @@
+{
+"data":[
+  {
+    "ID": 2565,
+    "projectID": 191,
+    "landOwnerID": 6163,
+    "name": "Dinner Island",
+    "latitude": 49.12,
+    "longitude": -125.84,
+    "lastEditedDt": "8/14/2018 14:36:56"
+  },
+  {
+    "ID": 2566,
+    "projectID": 191,
+    "landOwnerID": 6161,
+    "name": "Kwisitis Visitor Centre, PRNPR",
+    "latitude": 49.01,
+    "longitude": -125.67,
+    "lastEditedDt": "8/14/2018 14:36:56"
+  },
+  {
+    "ID": 2567,
+    "projectID": 191,
+    "landOwnerID": 6162,
+    "name": "Wickaninnish Inn",
+    "latitude": 49.12,
+    "longitude": -125.9,
+    "lastEditedDt": "8/14/2018 14:36:56"
+  },
+  {
+    "ID": 2696,
+    "projectID": 191,
+    "landOwnerID": "NA",
+    "name": "Brunswick Point farm",
+    "latitude": 49.05,
+    "longitude": -123.14,
+    "lastEditedDt": "3/12/2019 19:48:10"
+  },
+  {
+    "ID": 2718,
+    "projectID": 191,
+    "landOwnerID": "NA",
+    "name": "Breckenridge Bluff",
+    "latitude": 46.98,
+    "longitude": -123.97,
+    "lastEditedDt": "4/15/2019 12:59:11"
+  },
+  {
+    "ID": 2722,
+    "projectID": 191,
+    "landOwnerID": "NA",
+    "name": "Iona Shore Station",
+    "latitude": 49.21,
+    "longitude": -123.2,
+    "lastEditedDt": "4/29/2019 21:48:55"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

@@ -1,0 +1,47 @@
+{
+"data":[
+  {
+    "ID": 557,
+    "projectID": 251,
+    "landOwnerID": 17926,
+    "backupID": "NA",
+    "lastEditedDt": "5/23/2019 13:34:39",
+    "lastEditedUserID": 17936,
+    "acknowledge": 1,
+    "comments": ""
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "backupID",
+    "name": "Backup ID"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  },
+  {
+    "data": "lastEditedUserID",
+    "name": "Last Edited User ID"
+  },
+  {
+    "data": "acknowledge",
+    "name": "Acknowledge"
+  },
+  {
+    "data": "comments",
+    "name": "Comments"
+  }
+]
+}

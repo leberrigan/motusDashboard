@@ -1,0 +1,51 @@
+{
+"data":[
+  {
+    "ID": 3426,
+    "projectID": 274,
+    "receiverID": "Lotek-D000807",
+    "approved": 1,
+    "lastEditedDt": "12/5/2019 10:37:58",
+    "lastEditedUserID": 17301,
+    "receiverType": "LOTEKSRX800D"
+  },
+  {
+    "ID": 3427,
+    "projectID": 274,
+    "receiverID": "Lotek-D000806",
+    "approved": 1,
+    "lastEditedDt": "12/5/2019 10:38:52",
+    "lastEditedUserID": 17301,
+    "receiverType": "LOTEKSRX800D"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "approved",
+    "name": "Approved"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  },
+  {
+    "data": "lastEditedUserID",
+    "name": "Last Edited User ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  }
+]
+}

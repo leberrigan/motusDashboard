@@ -1,0 +1,168 @@
+{
+"data":[
+  {
+    "ID": 2227,
+    "projectID": 92,
+    "landOwnerID": "NA",
+    "name": "Cryderman Tower",
+    "latitude": 43.5,
+    "longitude": -80.08,
+    "lastEditedDt": "9/6/2018 15:25:51"
+  },
+  {
+    "ID": 2228,
+    "projectID": 92,
+    "landOwnerID": "NA",
+    "name": "Hindmarsh Tower",
+    "latitude": 43.76,
+    "longitude": -80.15,
+    "lastEditedDt": "9/6/2018 15:25:51"
+  },
+  {
+    "ID": 2229,
+    "projectID": 92,
+    "landOwnerID": "NA",
+    "name": "Kitching Farm Tower",
+    "latitude": 43.51,
+    "longitude": -80.09,
+    "lastEditedDt": "9/6/2018 15:25:51"
+  },
+  {
+    "ID": 2230,
+    "projectID": 92,
+    "landOwnerID": "NA",
+    "name": "Osborne Tower",
+    "latitude": 43.6,
+    "longitude": -80.19,
+    "lastEditedDt": "9/6/2018 15:25:51"
+  },
+  {
+    "ID": 2231,
+    "projectID": 92,
+    "landOwnerID": "NA",
+    "name": "Quarry Tower",
+    "latitude": 43.83,
+    "longitude": -80.26,
+    "lastEditedDt": "9/6/2018 15:25:51"
+  },
+  {
+    "ID": 2232,
+    "projectID": 92,
+    "landOwnerID": "NA",
+    "name": "Sunset Farm",
+    "latitude": 43.71,
+    "longitude": -80.33,
+    "lastEditedDt": "9/6/2018 15:25:51"
+  },
+  {
+    "ID": 2234,
+    "projectID": 92,
+    "landOwnerID": "NA",
+    "name": "VanBerlo Tower",
+    "latitude": 43.69,
+    "longitude": -80.04,
+    "lastEditedDt": "9/6/2018 15:25:51"
+  },
+  {
+    "ID": 2600,
+    "projectID": 92,
+    "landOwnerID": "NA",
+    "name": "Olivers",
+    "latitude": 43.74,
+    "longitude": -80.14,
+    "lastEditedDt": "9/6/2018 15:33:24"
+  },
+  {
+    "ID": 2601,
+    "projectID": 92,
+    "landOwnerID": "NA",
+    "name": "McFarlands",
+    "latitude": 43.58,
+    "longitude": -80.19,
+    "lastEditedDt": "9/6/2018 15:38:00"
+  },
+  {
+    "ID": 2792,
+    "projectID": 92,
+    "landOwnerID": "NA",
+    "name": "Jones Baseline",
+    "latitude": 43.81,
+    "longitude": -80.51,
+    "lastEditedDt": "7/9/2019 8:41:52"
+  },
+  {
+    "ID": 2793,
+    "projectID": 92,
+    "landOwnerID": "NA",
+    "name": "Sixth Line",
+    "latitude": 43.82,
+    "longitude": -80.38,
+    "lastEditedDt": "7/9/2019 8:43:54"
+  },
+  {
+    "ID": 2795,
+    "projectID": 92,
+    "landOwnerID": "NA",
+    "name": "TRES Field North",
+    "latitude": 43.6,
+    "longitude": -80.25,
+    "lastEditedDt": "7/9/2019 15:11:57"
+  },
+  {
+    "ID": 2796,
+    "projectID": 92,
+    "landOwnerID": "NA",
+    "name": "Test",
+    "latitude": 43.63,
+    "longitude": -79.53,
+    "lastEditedDt": "7/9/2019 17:56:39"
+  },
+  {
+    "ID": 2872,
+    "projectID": 92,
+    "landOwnerID": "NA",
+    "name": "Hindmarsh Small Barn",
+    "latitude": 43.75,
+    "longitude": -80.14,
+    "lastEditedDt": "8/19/2019 9:01:38"
+  },
+  {
+    "ID": 2873,
+    "projectID": 92,
+    "landOwnerID": "NA",
+    "name": "Hindmarsh Large Barn",
+    "latitude": 43.75,
+    "longitude": -80.15,
+    "lastEditedDt": "8/19/2019 9:03:52"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

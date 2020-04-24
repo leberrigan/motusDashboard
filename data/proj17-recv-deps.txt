@@ -1,0 +1,157 @@
+{
+"data":[
+  {
+    "motusRecvID": 1734,
+    "recvProjectID": 17,
+    "receiverID": "SG-0613BB001754",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3185,
+    "deploymentStatus": "terminated",
+    "deploymentName": "White Island",
+    "siteName": "White Island",
+    "dtStart": "2013-07-01 00:00:00 +00:00",
+    "dtEnd": "2013-08-15 00:00:00 +00:00",
+    "tsStart": 1372636800,
+    "tsEnd": 1376524800,
+    "latitude": 42.9685,
+    "longitude": -70.6253,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1734,
+    "recvProjectID": 17,
+    "receiverID": "SG-0613BB001754",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3186,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Appledore",
+    "siteName": "Appledore",
+    "dtStart": "2013-08-18 00:00:00 +00:00",
+    "dtEnd": "2013-11-15 00:00:00 +00:00",
+    "tsStart": 1376784000,
+    "tsEnd": 1384473600,
+    "latitude": 42.9872,
+    "longitude": -70.6153,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1734,
+    "recvProjectID": 17,
+    "receiverID": "SG-0613BB001754",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3187,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Appledore",
+    "siteName": "Appledore",
+    "dtStart": "2014-06-29 00:00:00 +00:00",
+    "dtEnd": "2014-09-15 00:00:00 +00:00",
+    "tsStart": 1404000000,
+    "tsEnd": 1410739200,
+    "latitude": 42.9872,
+    "longitude": -70.6153,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1736,
+    "recvProjectID": 17,
+    "receiverID": "SG-2113BB001373",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3188,
+    "deploymentStatus": "terminated",
+    "deploymentName": "CML",
+    "siteName": "CML",
+    "dtStart": "2014-06-29 00:00:00 +00:00",
+    "dtEnd": "2014-09-19 00:00:00 +00:00",
+    "tsStart": 1404000000,
+    "tsEnd": 1411084800,
+    "latitude": 43.0718,
+    "longitude": -70.7095,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

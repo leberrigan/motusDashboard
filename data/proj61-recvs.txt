@@ -1,0 +1,78 @@
+{
+"data":[
+  {
+    "ID": 1275,
+    "projectID": 61,
+    "receiverID": "SG-4001BBBK7590",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 1276,
+    "projectID": 61,
+    "receiverID": "SG-4002BBBK2530",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 1277,
+    "projectID": 61,
+    "receiverID": "SG-4001BBBK0350",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 1278,
+    "projectID": 61,
+    "receiverID": "SG-4001BBBK2380",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 1394,
+    "projectID": 61,
+    "receiverID": "SG-4001BBBK1670",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "SENSORGNOME"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "approved",
+    "name": "Approved"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  },
+  {
+    "data": "lastEditedUserID",
+    "name": "Last Edited User ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  }
+]
+}

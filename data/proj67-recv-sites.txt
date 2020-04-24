@@ -1,0 +1,132 @@
+{
+"data":[
+  {
+    "ID": 2068,
+    "projectID": 67,
+    "landOwnerID": "NA",
+    "name": "Churchill - 4 Mile Beach ",
+    "latitude": 58.76,
+    "longitude": -93.97,
+    "lastEditedDt": "9/13/2019 15:08:07"
+  },
+  {
+    "ID": 2069,
+    "projectID": 67,
+    "landOwnerID": "NA",
+    "name": "Churchill - Fen",
+    "latitude": 58.66,
+    "longitude": -93.83,
+    "lastEditedDt": "9/13/2019 15:08:07"
+  },
+  {
+    "ID": 2070,
+    "projectID": 67,
+    "landOwnerID": "NA",
+    "name": "Churchill - Gordon Point",
+    "latitude": 58.77,
+    "longitude": -93.73,
+    "lastEditedDt": "9/13/2019 15:08:07"
+  },
+  {
+    "ID": 2071,
+    "projectID": 67,
+    "landOwnerID": "NA",
+    "name": "Churchill - Bird Cove",
+    "latitude": 58.75,
+    "longitude": -93.9,
+    "lastEditedDt": "9/13/2019 15:08:07"
+  },
+  {
+    "ID": 2072,
+    "projectID": 67,
+    "landOwnerID": "NA",
+    "name": "Churchill - Fen",
+    "latitude": 58.67,
+    "longitude": -93.83,
+    "lastEditedDt": "9/13/2019 15:08:07"
+  },
+  {
+    "ID": 2073,
+    "projectID": 67,
+    "landOwnerID": "NA",
+    "name": "Churchill - Fen",
+    "latitude": 58.67,
+    "longitude": -93.83,
+    "lastEditedDt": "9/13/2019 15:08:07"
+  },
+  {
+    "ID": 2074,
+    "projectID": 67,
+    "landOwnerID": "NA",
+    "name": "Churchill - Gordon Point",
+    "latitude": 58.77,
+    "longitude": -93.73,
+    "lastEditedDt": "9/13/2019 15:08:07"
+  },
+  {
+    "ID": 2075,
+    "projectID": 67,
+    "landOwnerID": "NA",
+    "name": "Churchill - Gordon Point",
+    "latitude": 58.77,
+    "longitude": -93.73,
+    "lastEditedDt": "9/13/2019 15:08:07"
+  },
+  {
+    "ID": 2076,
+    "projectID": 67,
+    "landOwnerID": "NA",
+    "name": "Churchill - CNSC",
+    "latitude": 58.73,
+    "longitude": -93.82,
+    "lastEditedDt": "9/13/2019 15:08:07"
+  },
+  {
+    "ID": 2754,
+    "projectID": 67,
+    "landOwnerID": "NA",
+    "name": "Churchill - Nester 1",
+    "latitude": 58.66,
+    "longitude": -93.19,
+    "lastEditedDt": "9/13/2019 15:08:07"
+  },
+  {
+    "ID": 2797,
+    "projectID": 67,
+    "landOwnerID": "NA",
+    "name": "Churchill - Mobile",
+    "latitude": 58.73,
+    "longitude": -93.81,
+    "lastEditedDt": "9/13/2019 15:08:07"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

@@ -1,0 +1,77 @@
+{
+"data":[
+  {
+    "ID": 591,
+    "projectID": 291,
+    "landOwnerID": 19952,
+    "backupID": "NA",
+    "lastEditedDt": "9/15/2019 16:29:16",
+    "lastEditedUserID": 19952,
+    "acknowledge": 1,
+    "comments": ""
+  },
+  {
+    "ID": 592,
+    "projectID": 291,
+    "landOwnerID": 19954,
+    "backupID": "NA",
+    "lastEditedDt": "9/15/2019 16:31:40",
+    "lastEditedUserID": 19954,
+    "acknowledge": 1,
+    "comments": ""
+  },
+  {
+    "ID": 593,
+    "projectID": 291,
+    "landOwnerID": 19970,
+    "backupID": "NA",
+    "lastEditedDt": "9/16/2019 15:32:42",
+    "lastEditedUserID": 19974,
+    "acknowledge": 1,
+    "comments": "Sandwich Bay Bird Observatory"
+  },
+  {
+    "ID": 595,
+    "projectID": 291,
+    "landOwnerID": 19995,
+    "backupID": "NA",
+    "lastEditedDt": "9/18/2019 10:44:06",
+    "lastEditedUserID": 19995,
+    "acknowledge": 1,
+    "comments": ""
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "backupID",
+    "name": "Backup ID"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  },
+  {
+    "data": "lastEditedUserID",
+    "name": "Last Edited User ID"
+  },
+  {
+    "data": "acknowledge",
+    "name": "Acknowledge"
+  },
+  {
+    "data": "comments",
+    "name": "Comments"
+  }
+]
+}

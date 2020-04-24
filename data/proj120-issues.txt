@@ -1,0 +1,327 @@
+{
+"data":[
+  {
+    "errorID": 5887975,
+    "projectID": 120,
+    "ID": 2035,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_no_detections",
+    "string": "",
+    "string2": "SG-7100BBK1493",
+    "string3": "",
+    "errorDescr": "Device ID: %s, %s",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver",
+    "descrShort": "Receiver With No Detections",
+    "descr": "These receivers do not have any associated detection data.",
+    "urlView": "",
+    "urlFix": "/data/receivers/edit?projectID=%d&id=%d",
+    "tableName": "sensors",
+    "fixInstruct": "If you have not uploaded any data for this receiver there is no need for further action.  If you have uploaded data from the receiver, it is possible the serial number registered to your project does not match the serial number in raw detection files, please ensure the serial number listed here is correct.  If you are sure that the receiver serial number is correct and you have submitted raw detection data, please contact us at motus@birdscanada.org",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5888403,
+    "projectID": 120,
+    "ID": 3709,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_no_recent_data180",
+    "string": "Scenic Galveston : 2017-01-05 00:00 - Present",
+    "string2": "May  8 2019 12:47AM",
+    "string3": "",
+    "errorDescr": "Receiver deployment ID : %5$d, Deployment %s, Last Detection Data Upload %2$s",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "No Recent Detection Data(6 months)",
+    "descr": "These deployments are active, but it has been over 180 days since detection data from these deployments has been uploaded to the Motus database.",
+    "urlView": "",
+    "urlFix": "/data/receiver/deployment/edit?projectID=%d&id=%d",
+    "tableName": "sensor_deployments",
+    "fixInstruct": "If this station is still active we recommend attempting to visit this station soon to ensure functionality and download any detection data. If the station is no longer active, please ensure that any terminated deployments have their End Date populated correctly on the deployment management page.",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5888435,
+    "projectID": 120,
+    "ID": 3550,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_no_recent_data180",
+    "string": "San Bernard NWR (Big Pond Unit) : 2016-10-11 21:27 - Present",
+    "string2": "Jul 31 2019  8:28PM",
+    "string3": "",
+    "errorDescr": "Receiver deployment ID : %5$d, Deployment %s, Last Detection Data Upload %2$s",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "No Recent Detection Data(6 months)",
+    "descr": "These deployments are active, but it has been over 180 days since detection data from these deployments has been uploaded to the Motus database.",
+    "urlView": "",
+    "urlFix": "/data/receiver/deployment/edit?projectID=%d&id=%d",
+    "tableName": "sensor_deployments",
+    "fixInstruct": "If this station is still active we recommend attempting to visit this station soon to ensure functionality and download any detection data. If the station is no longer active, please ensure that any terminated deployments have their End Date populated correctly on the deployment management page.",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5888506,
+    "projectID": 120,
+    "ID": 3714,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_no_recent_data180",
+    "string": "Trinity River NWR - Champion Lake : 2017-01-12 12:30 - Present",
+    "string2": "Dec 17 2018 12:23PM",
+    "string3": "",
+    "errorDescr": "Receiver deployment ID : %5$d, Deployment %s, Last Detection Data Upload %2$s",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "No Recent Detection Data(6 months)",
+    "descr": "These deployments are active, but it has been over 180 days since detection data from these deployments has been uploaded to the Motus database.",
+    "urlView": "",
+    "urlFix": "/data/receiver/deployment/edit?projectID=%d&id=%d",
+    "tableName": "sensor_deployments",
+    "fixInstruct": "If this station is still active we recommend attempting to visit this station soon to ensure functionality and download any detection data. If the station is no longer active, please ensure that any terminated deployments have their End Date populated correctly on the deployment management page.",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5888708,
+    "projectID": 120,
+    "ID": 3714,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_no_recent_data365",
+    "string": "Trinity River NWR - Champion Lake : 2017-01-12 12:30 - Present",
+    "string2": "Dec 17 2018 12:23PM",
+    "string3": "",
+    "errorDescr": "Receiver deployment ID : %5$d, Deployment %s, Last Detection Data Upload %2$s",
+    "severity": 3,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "No Recent Detection Data(1 year)",
+    "descr": "These deployments are active, but it has been over 1 year since detection data from these deployments has been uploaded to the Motus database.",
+    "urlView": "",
+    "urlFix": "/data/receiver/deployment/edit?projectID=%d&id=%d",
+    "tableName": "sensor_deployments",
+    "fixInstruct": "If this station is still active we recommend attempting to visit this station soon to ensure functionality and download any detection data. If the station is no longer active, please ensure that any terminated deployments have their End Date populated correctly on the deployment management page.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5898829,
+    "projectID": 120,
+    "ID": 27408,
+    "idConflict": "NA",
+    "errorCode": "v_tag_hits_no_deploy",
+    "string": "934",
+    "string2": "2017-10-03 05:55:56 - 2018-10-06 01:59:48",
+    "string3": "",
+    "errorDescr": "Tag ID #%5$d, number of detections: %s, from %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Tag Detections With No Deployment",
+    "descr": "These tags have associated detections but the tags have not been deployed.",
+    "urlView": "",
+    "urlFix": "/data/tag/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please create deployment(s) that capture these detections. If these detections occurred during testing, please create and mark the deployment as a test.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5899463,
+    "projectID": 120,
+    "ID": 1632,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_hits_out_deploy",
+    "string": "273",
+    "string2": "164050",
+    "string3": "2014-07-25 20:36:54 - 2014-07-28 10:13:56",
+    "errorDescr": "Device ID: %s, number of detections: %s, from %s",
+    "severity": 3,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Detections Outside of Receiver Deployment",
+    "descr": "These receivers have tag detections that are outside of any deployments for the receiver.",
+    "urlView": "/data/receiver/timeline?id=%2$d",
+    "urlFix": "/data/receivers/edit?projectID=%d&id=%d",
+    "tableName": "",
+    "fixInstruct": "Please create deployments for this receiver that capture these detections.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5900855,
+    "projectID": 120,
+    "ID": 4451,
+    "idConflict": "NA",
+    "errorCode": "v_dist_deploy_gps_2",
+    "string": "2",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Receiver deployment ID: %5$d, # of days: %s",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "GPS Fixes Far from Deployment Location",
+    "descr": "At least 3 GPS fixes from these receivers fell over 100m away from the deployment latitude and longitude within a 24 hour period.",
+    "urlView": "receiverMap?receiverDeploymentId=%2$d",
+    "urlFix": "/data/receiver/deployment/edit?projectID=%d&id=%d",
+    "tableName": "sp_gps",
+    "fixInstruct": "Please check that your deployment location is correct. If you are positive that your deployment information   is correct but your GPS locations are consistently incorrect, you may have a faulty GPS unit and should contact us at   motus@birdscanada.org.This error can also arise if your deployment start and end times include GPS fixes   from the receiver when it wasn't at the deployment location. Please check that your deployment start and end times are correct. ",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5900880,
+    "projectID": 120,
+    "ID": 3553,
+    "idConflict": "NA",
+    "errorCode": "v_dist_deploy_gps_2",
+    "string": "4",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Receiver deployment ID: %5$d, # of days: %s",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "GPS Fixes Far from Deployment Location",
+    "descr": "At least 3 GPS fixes from these receivers fell over 100m away from the deployment latitude and longitude within a 24 hour period.",
+    "urlView": "receiverMap?receiverDeploymentId=%2$d",
+    "urlFix": "/data/receiver/deployment/edit?projectID=%d&id=%d",
+    "tableName": "sp_gps",
+    "fixInstruct": "Please check that your deployment location is correct. If you are positive that your deployment information   is correct but your GPS locations are consistently incorrect, you may have a faulty GPS unit and should contact us at   motus@birdscanada.org.This error can also arise if your deployment start and end times include GPS fixes   from the receiver when it wasn't at the deployment location. Please check that your deployment start and end times are correct. ",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5900967,
+    "projectID": 120,
+    "ID": 4379,
+    "idConflict": "NA",
+    "errorCode": "v_dist_deploy_gps_2",
+    "string": "8",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Receiver deployment ID: %5$d, # of days: %s",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "GPS Fixes Far from Deployment Location",
+    "descr": "At least 3 GPS fixes from these receivers fell over 100m away from the deployment latitude and longitude within a 24 hour period.",
+    "urlView": "receiverMap?receiverDeploymentId=%2$d",
+    "urlFix": "/data/receiver/deployment/edit?projectID=%d&id=%d",
+    "tableName": "sp_gps",
+    "fixInstruct": "Please check that your deployment location is correct. If you are positive that your deployment information   is correct but your GPS locations are consistently incorrect, you may have a faulty GPS unit and should contact us at   motus@birdscanada.org.This error can also arise if your deployment start and end times include GPS fixes   from the receiver when it wasn't at the deployment location. Please check that your deployment start and end times are correct. ",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5901192,
+    "projectID": 120,
+    "ID": 3809,
+    "idConflict": "NA",
+    "errorCode": "v_dist_deploy_gps_3",
+    "string": "1",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Receiver deployment ID: %5$d, # of days: %s",
+    "severity": 3,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Deployment Location Incorrect",
+    "descr": "Over 50% of the GPS fixes from these receivers fell over 1000m away from the deployment latitude and longitude within a 24 hour period.",
+    "urlView": "receiverMap?receiverDeploymentId=%2$d",
+    "urlFix": "/data/receiver/deployment/edit?projectID=%d&id=%d",
+    "tableName": "sp_gpssp_gps",
+    "fixInstruct": "Please check that your deployment location is correct. If you are positive that your deployment information   is correct but your GPS locations are consistently incorrect, you may have a faulty GPS unit and should contact us at   motus@birdscanada.org.This error can also arise if your deployment start and end times include GPS fixes   from the receiver when it wasn't at the deployment location. Please check that your deployment start and end times are correct. ",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  }
+], "columns":[
+  {
+    "data": "errorID",
+    "name": "Error ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "idConflict",
+    "name": "ID Conflict"
+  },
+  {
+    "data": "errorCode",
+    "name": "Error Code"
+  },
+  {
+    "data": "string",
+    "name": "String"
+  },
+  {
+    "data": "string2",
+    "name": "String2"
+  },
+  {
+    "data": "string3",
+    "name": "String3"
+  },
+  {
+    "data": "errorDescr",
+    "name": "Error Descr"
+  },
+  {
+    "data": "severity",
+    "name": "Severity"
+  },
+  {
+    "data": "type",
+    "name": "Type"
+  },
+  {
+    "data": "subType",
+    "name": "Sub Type"
+  },
+  {
+    "data": "descrShort",
+    "name": "Descr Short"
+  },
+  {
+    "data": "descr",
+    "name": "Descr"
+  },
+  {
+    "data": "urlView",
+    "name": "Url View"
+  },
+  {
+    "data": "urlFix",
+    "name": "Url Fix"
+  },
+  {
+    "data": "tableName",
+    "name": "Table Name"
+  },
+  {
+    "data": "fixInstruct",
+    "name": "Fix Instruct"
+  },
+  {
+    "data": "severityDescr",
+    "name": "Severity Descr"
+  },
+  {
+    "data": "tooltip",
+    "name": "Tooltip"
+  }
+]
+}

@@ -1,0 +1,217 @@
+{
+"data":[
+  {
+    "motusRecvID": 1046,
+    "recvProjectID": 16,
+    "receiverID": "SG-4001BBBK1680",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 1487,
+    "deploymentStatus": "terminated",
+    "deploymentName": "RAYS",
+    "siteName": "RAYS",
+    "dtStart": "2014-08-12 18:20:00 +00:00",
+    "dtEnd": "2014-11-07 00:00:00 +00:00",
+    "tsStart": 1407867600,
+    "tsEnd": 1415318400,
+    "latitude": 39.045,
+    "longitude": -86.8078,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1047,
+    "recvProjectID": 16,
+    "receiverID": "SG-4002BBBK1270",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 1481,
+    "deploymentStatus": "terminated",
+    "deploymentName": "FORDRIDGE",
+    "siteName": "FORDRIDGE",
+    "dtStart": "2014-08-12 22:21:00 +00:00",
+    "dtEnd": "2014-11-07 00:00:00 +00:00",
+    "tsStart": 1407882060,
+    "tsEnd": 1415318400,
+    "latitude": "NA",
+    "longitude": "NA",
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1048,
+    "recvProjectID": 16,
+    "receiverID": "SG-4002BBBK2650",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 1485,
+    "deploymentStatus": "terminated",
+    "deploymentName": "MIDFORK2",
+    "siteName": "MIDFORK2",
+    "dtStart": "2014-08-08 22:31:00 +00:00",
+    "dtEnd": "2014-11-07 00:00:00 +00:00",
+    "tsStart": 1407537060,
+    "tsEnd": 1415318400,
+    "latitude": 40.3857,
+    "longitude": -87.9797,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1049,
+    "recvProjectID": 16,
+    "receiverID": "SG-5113BBBK2668",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 1483,
+    "deploymentStatus": "terminated",
+    "deploymentName": "KICKAPOO",
+    "siteName": "KICKAPOO",
+    "dtStart": "2014-07-28 10:14:00 +00:00",
+    "dtEnd": "2014-11-07 00:00:00 +00:00",
+    "tsStart": 1406542440,
+    "tsEnd": 1415318400,
+    "latitude": 40.1413,
+    "longitude": -87.7476,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1050,
+    "recvProjectID": 16,
+    "receiverID": "SG-5113BBBK3080",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 1484,
+    "deploymentStatus": "terminated",
+    "deploymentName": "MIDFORK1",
+    "siteName": "MIDFORK1",
+    "dtStart": "2014-05-20 20:04:00 +00:00",
+    "dtEnd": "2014-11-07 23:59:00 +00:00",
+    "tsStart": 1400616240,
+    "tsEnd": 1415404740,
+    "latitude": 40.3857,
+    "longitude": -87.9797,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1051,
+    "recvProjectID": 16,
+    "receiverID": "SG-5113BBBK3103",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 1486,
+    "deploymentStatus": "terminated",
+    "deploymentName": "MIDFORK2",
+    "siteName": "MIDFORK2",
+    "dtStart": "2014-03-24 13:56:00 +00:00",
+    "dtEnd": "2014-07-22 23:59:00 +00:00",
+    "tsStart": 1395669360,
+    "tsEnd": 1406073540,
+    "latitude": 40.3857,
+    "longitude": -87.9797,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1052,
+    "recvProjectID": 16,
+    "receiverID": "SG-5113BBBK3180",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 1482,
+    "deploymentStatus": "terminated",
+    "deploymentName": "HOOPESTON",
+    "siteName": "HOOPESTON",
+    "dtStart": "2014-05-14 16:17:00 +00:00",
+    "dtEnd": "2014-11-07 00:00:00 +00:00",
+    "tsStart": 1400084220,
+    "tsEnd": 1415318400,
+    "latitude": "NA",
+    "longitude": "NA",
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

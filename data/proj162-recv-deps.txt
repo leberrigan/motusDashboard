@@ -1,0 +1,117 @@
+{
+"data":[
+  {
+    "motusRecvID": 2152,
+    "recvProjectID": 162,
+    "receiverID": "Lotek-159",
+    "receiverType": "LOTEKSRX800",
+    "recvDeployID": 4093,
+    "deploymentStatus": "active",
+    "deploymentName": "Amherst College 2",
+    "siteName": "Amherst College 2",
+    "dtStart": "2017-06-14 12:08:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1497442080,
+    "tsEnd": "NA",
+    "latitude": 42.3605,
+    "longitude": -72.5073,
+    "elevation": "NA",
+    "isMobile": "",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2153,
+    "recvProjectID": 162,
+    "receiverID": "Lotek-162",
+    "receiverType": "LOTEKSRX800",
+    "recvDeployID": 4094,
+    "deploymentStatus": "active",
+    "deploymentName": "Amherst College 1",
+    "siteName": "Amherst College 1",
+    "dtStart": "2017-06-09 08:53:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1496998380,
+    "tsEnd": "NA",
+    "latitude": 42.3633,
+    "longitude": -72.5123,
+    "elevation": "NA",
+    "isMobile": "",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

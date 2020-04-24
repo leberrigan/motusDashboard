@@ -1,0 +1,114 @@
+{
+"data":[
+  {
+    "ID": 490,
+    "projectID": 18,
+    "receiverID": "SG-4812BB000230",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 491,
+    "projectID": 18,
+    "receiverID": "SG-4712BB000554",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 564,
+    "projectID": 18,
+    "receiverID": "SG-1212BB000222",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 1053,
+    "projectID": 18,
+    "receiverID": "SG-1813BBBK4711",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 1054,
+    "projectID": 18,
+    "receiverID": "SG-2712BB000074",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 1055,
+    "projectID": 18,
+    "receiverID": "SG-4812BB000334",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 1323,
+    "projectID": 18,
+    "receiverID": "Lotek-8204",
+    "approved": 1,
+    "lastEditedDt": "6/15/2018 10:46:50",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX-DL"
+  },
+  {
+    "ID": 1393,
+    "projectID": 18,
+    "receiverID": "Lotek-6345",
+    "approved": 1,
+    "lastEditedDt": "1/17/2018 14:54:19",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX600"
+  },
+  {
+    "ID": 1587,
+    "projectID": 18,
+    "receiverID": "SG-1012BB012085",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "SENSORGNOME"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "approved",
+    "name": "Approved"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  },
+  {
+    "data": "lastEditedUserID",
+    "name": "Last Edited User ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  }
+]
+}

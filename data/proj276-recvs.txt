@@ -1,0 +1,96 @@
+{
+"data":[
+  {
+    "ID": 3545,
+    "projectID": 276,
+    "receiverID": "Lotek-D123456",
+    "approved": 0,
+    "lastEditedDt": "10/2/2019 13:54:23",
+    "lastEditedUserID": 19795,
+    "receiverType": "LOTEKSRX800D"
+  },
+  {
+    "ID": 3557,
+    "projectID": 276,
+    "receiverID": "Lotek-D000889",
+    "approved": 0,
+    "lastEditedDt": "10/7/2019 15:14:14",
+    "lastEditedUserID": 19795,
+    "receiverType": "LOTEKSRX800D"
+  },
+  {
+    "ID": 3558,
+    "projectID": 276,
+    "receiverID": "Lotek-D000887",
+    "approved": 0,
+    "lastEditedDt": "10/7/2019 15:18:05",
+    "lastEditedUserID": 19795,
+    "receiverType": "LOTEKSRX800D"
+  },
+  {
+    "ID": 3559,
+    "projectID": 276,
+    "receiverID": "Lotek-D000888",
+    "approved": 0,
+    "lastEditedDt": "10/7/2019 15:18:44",
+    "lastEditedUserID": 19795,
+    "receiverType": "LOTEKSRX800D"
+  },
+  {
+    "ID": 3560,
+    "projectID": 276,
+    "receiverID": "Lotek-D000890",
+    "approved": 0,
+    "lastEditedDt": "10/7/2019 15:25:43",
+    "lastEditedUserID": 19795,
+    "receiverType": "LOTEKSRX800D"
+  },
+  {
+    "ID": 3579,
+    "projectID": 276,
+    "receiverID": "Lotek-D000891",
+    "approved": 0,
+    "lastEditedDt": "10/26/2019 7:07:08",
+    "lastEditedUserID": 2435,
+    "receiverType": "LOTEKSRX800D"
+  },
+  {
+    "ID": 3596,
+    "projectID": 276,
+    "receiverID": "Lotek-D000892",
+    "approved": 0,
+    "lastEditedDt": "10/30/2019 7:46:50",
+    "lastEditedUserID": 547,
+    "receiverType": "LOTEKSRX800D"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "approved",
+    "name": "Approved"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  },
+  {
+    "data": "lastEditedUserID",
+    "name": "Last Edited User ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  }
+]
+}

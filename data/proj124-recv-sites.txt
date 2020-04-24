@@ -1,0 +1,78 @@
+{
+"data":[
+  {
+    "ID": 2291,
+    "projectID": 124,
+    "landOwnerID": "NA",
+    "name": "Bigi Pan",
+    "latitude": 5.95,
+    "longitude": -56.86,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2292,
+    "projectID": 124,
+    "landOwnerID": "NA",
+    "name": "Warappa Kreek",
+    "latitude": 5.99,
+    "longitude": -54.97,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2293,
+    "projectID": 124,
+    "landOwnerID": "NA",
+    "name": "Weg naar Zee",
+    "latitude": 5.89,
+    "longitude": -55.19,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2688,
+    "projectID": 124,
+    "landOwnerID": "NA",
+    "name": "Ilha de Maraca",
+    "latitude": 2.09,
+    "longitude": -50.49,
+    "lastEditedDt": "2/24/2019 20:00:30"
+  },
+  {
+    "ID": 2689,
+    "projectID": 124,
+    "landOwnerID": "NA",
+    "name": "Apeu-Salvador",
+    "latitude": -0.94,
+    "longitude": -46.18,
+    "lastEditedDt": "2/24/2019 20:37:09"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

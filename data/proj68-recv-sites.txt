@@ -1,0 +1,42 @@
+{
+"data":[
+  {
+    "ID": 2077,
+    "projectID": 68,
+    "landOwnerID": 11620,
+    "name": "Polar Bear Pass National Wildlife Area",
+    "latitude": 75.73,
+    "longitude": -98.42,
+    "lastEditedDt": "11/1/2018 11:50:16"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

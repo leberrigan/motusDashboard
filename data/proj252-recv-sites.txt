@@ -1,0 +1,42 @@
+{
+"data":[
+  {
+    "ID": 2752,
+    "projectID": 252,
+    "landOwnerID": 19237,
+    "name": "South Valley",
+    "latitude": 44.87,
+    "longitude": -71.22,
+    "lastEditedDt": "7/23/2019 11:00:39"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

@@ -1,0 +1,157 @@
+{
+"data":[
+  {
+    "motusRecvID": 1900,
+    "recvProjectID": 117,
+    "receiverID": "SG-3115BBBK1C9E",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3526,
+    "deploymentStatus": "active",
+    "deploymentName": "Cayenne",
+    "siteName": "Cayenne",
+    "dtStart": "2016-09-28 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1475020800,
+    "tsEnd": "NA",
+    "latitude": 4.9444,
+    "longitude": -52.3254,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1901,
+    "recvProjectID": 117,
+    "receiverID": "SG-3115BBBK1D40",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3527,
+    "deploymentStatus": "active",
+    "deploymentName": "Mana Rice Fields",
+    "siteName": "Mana Rice Fields",
+    "dtStart": "2016-10-05 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1475625600,
+    "tsEnd": "NA",
+    "latitude": 5.6115,
+    "longitude": -53.6702,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1902,
+    "recvProjectID": 117,
+    "receiverID": "SG-3115BBBK1B0A",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3528,
+    "deploymentStatus": "active",
+    "deploymentName": "Awala-Yalimapo",
+    "siteName": "Awala-Yalimapo",
+    "dtStart": "2016-10-28 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1477612800,
+    "tsEnd": "NA",
+    "latitude": 5.7461,
+    "longitude": -53.9353,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1903,
+    "recvProjectID": 117,
+    "receiverID": "SG-2315BBBK2A01",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3529,
+    "deploymentStatus": "active",
+    "deploymentName": "Kourou",
+    "siteName": "Kourou",
+    "dtStart": "2016-11-30 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1480464000,
+    "tsEnd": "NA",
+    "latitude": 5.1601,
+    "longitude": -52.6273,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

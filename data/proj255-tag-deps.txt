@@ -1,0 +1,389 @@
+{
+"data":[
+  {
+    "tagID": 34625,
+    "tagProjectID": 255,
+    "mfgID": "92",
+    "dateBin": "2019-2",
+    "lifespan": 120,
+    "tagDeployID": 22747,
+    "deploymentStatus": "active",
+    "dtStart": "2019-06-10 00:00:00 +00:00",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": 1560124800,
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 15560,
+    "speciesName": "Catharus minimus",
+    "motusScientificName": "Catharus minimus",
+    "motusEnglishName": "Gray-cheeked Thrush",
+    "motusFrenchName": "Grive à joues grises",
+    "bandNumber": "XR86811",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": 64.6827,
+    "longitude": 170.4151,
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 34626,
+    "tagProjectID": 255,
+    "mfgID": "93",
+    "dateBin": "2019-2",
+    "lifespan": 120,
+    "tagDeployID": 22748,
+    "deploymentStatus": "active",
+    "dtStart": "2019-06-10 00:00:00 +00:00",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": 1560124800,
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 15560,
+    "speciesName": "Catharus minimus",
+    "motusScientificName": "Catharus minimus",
+    "motusEnglishName": "Gray-cheeked Thrush",
+    "motusFrenchName": "Grive à joues grises",
+    "bandNumber": "XR86810",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": 64.6774,
+    "longitude": 170.3966,
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 34627,
+    "tagProjectID": 255,
+    "mfgID": "94",
+    "dateBin": "2019-2",
+    "lifespan": 120,
+    "tagDeployID": 22749,
+    "deploymentStatus": "active",
+    "dtStart": "2019-06-12 00:00:00 +00:00",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": 1560297600,
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 15560,
+    "speciesName": "Catharus minimus",
+    "motusScientificName": "Catharus minimus",
+    "motusEnglishName": "Gray-cheeked Thrush",
+    "motusFrenchName": "Grive à joues grises",
+    "bandNumber": "XR86823",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": 64.6844,
+    "longitude": 170.4028,
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 34628,
+    "tagProjectID": 255,
+    "mfgID": "98",
+    "dateBin": "2019-2",
+    "lifespan": 120,
+    "tagDeployID": 22750,
+    "deploymentStatus": "active",
+    "dtStart": "2019-06-14 00:00:00 +00:00",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": 1560470400,
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 15560,
+    "speciesName": "Catharus minimus",
+    "motusScientificName": "Catharus minimus",
+    "motusEnglishName": "Gray-cheeked Thrush",
+    "motusFrenchName": "Grive à joues grises",
+    "bandNumber": "XR86830",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": 64.681,
+    "longitude": 170.4021,
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 34629,
+    "tagProjectID": 255,
+    "mfgID": "99",
+    "dateBin": "2019-2",
+    "lifespan": 120,
+    "tagDeployID": 22751,
+    "deploymentStatus": "active",
+    "dtStart": "2019-06-10 00:00:00 +00:00",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": 1560124800,
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 15560,
+    "speciesName": "Catharus minimus",
+    "motusScientificName": "Catharus minimus",
+    "motusEnglishName": "Gray-cheeked Thrush",
+    "motusFrenchName": "Grive à joues grises",
+    "bandNumber": "XR86809",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": 64.6784,
+    "longitude": 170.4021,
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 34630,
+    "tagProjectID": 255,
+    "mfgID": "100",
+    "dateBin": "2019-2",
+    "lifespan": 120,
+    "tagDeployID": 22752,
+    "deploymentStatus": "active",
+    "dtStart": "2019-06-07 00:00:00 +00:00",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": 1559865600,
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 15560,
+    "speciesName": "Catharus minimus",
+    "motusScientificName": "Catharus minimus",
+    "motusEnglishName": "Gray-cheeked Thrush",
+    "motusFrenchName": "Grive à joues grises",
+    "bandNumber": "XR86802",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": 64.6671,
+    "longitude": 170.4687,
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 34631,
+    "tagProjectID": 255,
+    "mfgID": "91",
+    "dateBin": "2019-2",
+    "lifespan": 120,
+    "tagDeployID": 22753,
+    "deploymentStatus": "active",
+    "dtStart": "2019-06-14 00:00:00 +00:00",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": 1560470400,
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 15560,
+    "speciesName": "Catharus minimus",
+    "motusScientificName": "Catharus minimus",
+    "motusEnglishName": "Gray-cheeked Thrush",
+    "motusFrenchName": "Grive à joues grises",
+    "bandNumber": "XR86831",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": 64.6909,
+    "longitude": 170.3664,
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 34632,
+    "tagProjectID": 255,
+    "mfgID": "95",
+    "dateBin": "2019-2",
+    "lifespan": 120,
+    "tagDeployID": 22754,
+    "deploymentStatus": "active",
+    "dtStart": "2019-06-12 00:00:00 +00:00",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": 1560297600,
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 15560,
+    "speciesName": "Catharus minimus",
+    "motusScientificName": "Catharus minimus",
+    "motusEnglishName": "Gray-cheeked Thrush",
+    "motusFrenchName": "Grive à joues grises",
+    "bandNumber": "XR86829",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": 64.6853,
+    "longitude": 170.3966,
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 34633,
+    "tagProjectID": 255,
+    "mfgID": "96",
+    "dateBin": "2019-2",
+    "lifespan": 120,
+    "tagDeployID": 22755,
+    "deploymentStatus": "active",
+    "dtStart": "2019-06-12 00:00:00 +00:00",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": 1560297600,
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 15560,
+    "speciesName": "Catharus minimus",
+    "motusScientificName": "Catharus minimus",
+    "motusEnglishName": "Gray-cheeked Thrush",
+    "motusFrenchName": "Grive à joues grises",
+    "bandNumber": "XR86825",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": 64.6839,
+    "longitude": 170.3959,
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 34634,
+    "tagProjectID": 255,
+    "mfgID": "97",
+    "dateBin": "2019-2",
+    "lifespan": 120,
+    "tagDeployID": 22756,
+    "deploymentStatus": "active",
+    "dtStart": "2019-06-12 00:00:00 +00:00",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": 1560297600,
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 15560,
+    "speciesName": "Catharus minimus",
+    "motusScientificName": "Catharus minimus",
+    "motusEnglishName": "Gray-cheeked Thrush",
+    "motusFrenchName": "Grive à joues grises",
+    "bandNumber": "XR86824",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": 64.6838,
+    "longitude": 170.3966,
+    "elevation": "NA",
+    "comments": ""
+  }
+], "columns":[
+  {
+    "data": "tagID",
+    "name": "Tag ID"
+  },
+  {
+    "data": "tagProjectID",
+    "name": "Tag Project ID"
+  },
+  {
+    "data": "mfgID",
+    "name": "Manufacturer ID"
+  },
+  {
+    "data": "dateBin",
+    "name": "Date Bin"
+  },
+  {
+    "data": "lifespan",
+    "name": "Lifespan"
+  },
+  {
+    "data": "tagDeployID",
+    "name": "Tag Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "dtStartAnticipated",
+    "name": "Date Start Anticipated"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "tsStartAnticipated",
+    "name": "Time Start Anticipated"
+  },
+  {
+    "data": "deferSec",
+    "name": "Defer Sec"
+  },
+  {
+    "data": "speciesID",
+    "name": "Species ID"
+  },
+  {
+    "data": "speciesName",
+    "name": "Species Name"
+  },
+  {
+    "data": "motusScientificName",
+    "name": "Motus Scientific Name"
+  },
+  {
+    "data": "motusEnglishName",
+    "name": "Motus English Name"
+  },
+  {
+    "data": "motusFrenchName",
+    "name": "Motus French Name"
+  },
+  {
+    "data": "bandNumber",
+    "name": "Band Number"
+  },
+  {
+    "data": "markerNumber",
+    "name": "Marker Number"
+  },
+  {
+    "data": "markerType",
+    "name": "Marker Type"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "comments",
+    "name": "Comments"
+  }
+]
+}

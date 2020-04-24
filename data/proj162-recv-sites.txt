@@ -1,0 +1,51 @@
+{
+"data":[
+  {
+    "ID": 2352,
+    "projectID": 162,
+    "landOwnerID": "NA",
+    "name": "Amherst College 1",
+    "latitude": 42.36,
+    "longitude": -72.51,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2353,
+    "projectID": 162,
+    "landOwnerID": "NA",
+    "name": "Amherst College 2",
+    "latitude": 42.36,
+    "longitude": -72.5,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

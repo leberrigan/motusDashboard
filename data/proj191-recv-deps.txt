@@ -1,0 +1,197 @@
+{
+"data":[
+  {
+    "motusRecvID": 2573,
+    "recvProjectID": 191,
+    "receiverID": "SG-2315BBBK28AA",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4794,
+    "deploymentStatus": "active",
+    "deploymentName": "Dinner Island",
+    "siteName": "Dinner Island",
+    "dtStart": "2018-07-19 20:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1532030400,
+    "tsEnd": "NA",
+    "latitude": 49.1237,
+    "longitude": -125.8414,
+    "elevation": 5,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2576,
+    "recvProjectID": 191,
+    "receiverID": "SG-2313BBBK3569",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4795,
+    "deploymentStatus": "active",
+    "deploymentName": "Kwisitis Visitor Centre, PRNPR",
+    "siteName": "Kwisitis Visitor Centre, PRNPR",
+    "dtStart": "2018-07-20 19:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1532113200,
+    "tsEnd": "NA",
+    "latitude": 49.0133,
+    "longitude": -125.6747,
+    "elevation": 16,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2577,
+    "recvProjectID": 191,
+    "receiverID": "SG-2516BBBK249C",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4796,
+    "deploymentStatus": "active",
+    "deploymentName": "Wickaninnish Inn",
+    "siteName": "Wickaninnish Inn",
+    "dtStart": "2018-07-20 20:48:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1532119680,
+    "tsEnd": "NA",
+    "latitude": 49.123,
+    "longitude": -125.9019,
+    "elevation": 24,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2943,
+    "recvProjectID": 191,
+    "receiverID": "SG-5120RPI325E2",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 5085,
+    "deploymentStatus": "active",
+    "deploymentName": "Brunswick Point farm",
+    "siteName": "Brunswick Point farm",
+    "dtStart": "2019-03-12 22:50:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1552431000,
+    "tsEnd": "NA",
+    "latitude": 49.0588,
+    "longitude": -123.1421,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 3009,
+    "recvProjectID": 191,
+    "receiverID": "SG-6BF0RPI32CC3",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 5172,
+    "deploymentStatus": "active",
+    "deploymentName": "Breckenridge Bluff",
+    "siteName": "Breckenridge Bluff",
+    "dtStart": "2019-04-13 17:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1555174800,
+    "tsEnd": "NA",
+    "latitude": 46.9827,
+    "longitude": -123.9749,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 3035,
+    "recvProjectID": 191,
+    "receiverID": "SG-749ARPI33E7C",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 5216,
+    "deploymentStatus": "active",
+    "deploymentName": "Iona Shore Station",
+    "siteName": "Iona Shore Station",
+    "dtStart": "2019-04-29 18:50:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1556563800,
+    "tsEnd": "NA",
+    "latitude": 49.2161,
+    "longitude": -123.2055,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

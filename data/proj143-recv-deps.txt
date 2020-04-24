@@ -1,0 +1,177 @@
+{
+"data":[
+  {
+    "motusRecvID": 2088,
+    "recvProjectID": 143,
+    "receiverID": "Lotek-439",
+    "receiverType": "",
+    "recvDeployID": 3945,
+    "deploymentStatus": "active",
+    "deploymentName": "Barn Island",
+    "siteName": "Barn Island",
+    "dtStart": "2017-04-18 20:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1492545600,
+    "tsEnd": "NA",
+    "latitude": 41.3376,
+    "longitude": -71.8755,
+    "elevation": 3,
+    "isMobile": "false",
+    "macAddress": "NA",
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2088,
+    "recvProjectID": 143,
+    "receiverID": "Lotek-439",
+    "receiverType": "",
+    "recvDeployID": 3946,
+    "deploymentStatus": "active",
+    "deploymentName": "Guilford",
+    "siteName": "Guilford",
+    "dtStart": "2017-04-18 20:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1492545600,
+    "tsEnd": "NA",
+    "latitude": 41.2712,
+    "longitude": -72.6651,
+    "elevation": 4,
+    "isMobile": "false",
+    "macAddress": "NA",
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2091,
+    "recvProjectID": 143,
+    "receiverID": "Lotek-442",
+    "receiverType": "",
+    "recvDeployID": 3964,
+    "deploymentStatus": "active",
+    "deploymentName": "Guilford",
+    "siteName": "Guilford",
+    "dtStart": "2017-04-18 20:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1492545600,
+    "tsEnd": "NA",
+    "latitude": 41.2712,
+    "longitude": -72.6651,
+    "elevation": 3,
+    "isMobile": "false",
+    "macAddress": "NA",
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2171,
+    "recvProjectID": 143,
+    "receiverID": "Lotek-440",
+    "receiverType": "",
+    "recvDeployID": 4125,
+    "deploymentStatus": "active",
+    "deploymentName": "Sherwood",
+    "siteName": "Sherwood",
+    "dtStart": "2017-06-28 20:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1498680000,
+    "tsEnd": "NA",
+    "latitude": 41.1121,
+    "longitude": -73.3305,
+    "elevation": 0,
+    "isMobile": "false",
+    "macAddress": "NA",
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2204,
+    "recvProjectID": 143,
+    "receiverID": "Lotek-441",
+    "receiverType": "",
+    "recvDeployID": 4194,
+    "deploymentStatus": "active",
+    "deploymentName": "Harkness",
+    "siteName": "Harkness",
+    "dtStart": "2017-08-08 20:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1502222400,
+    "tsEnd": "NA",
+    "latitude": 41.1826,
+    "longitude": -72.0656,
+    "elevation": 15,
+    "isMobile": "false",
+    "macAddress": "NA",
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

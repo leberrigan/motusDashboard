@@ -1,0 +1,107 @@
+{
+"data":[
+  {
+    "errorID": 5900800,
+    "projectID": 98,
+    "ID": 98,
+    "idConflict": "NA",
+    "errorCode": "v_proj_descr",
+    "string": "Zvenigorod",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "%s (#%5$d)",
+    "severity": 2,
+    "type": "Project",
+    "subType": "Project",
+    "descrShort": "No Project Description",
+    "descr": "There is no project description.",
+    "urlView": "",
+    "urlFix": "/data/project/edit?id=%d",
+    "tableName": "projects",
+    "fixInstruct": "Please provide a description of your project. These project descriptions are visible to other users and the public here: https://motus.org/data/projects",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  }
+], "columns":[
+  {
+    "data": "errorID",
+    "name": "Error ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "idConflict",
+    "name": "ID Conflict"
+  },
+  {
+    "data": "errorCode",
+    "name": "Error Code"
+  },
+  {
+    "data": "string",
+    "name": "String"
+  },
+  {
+    "data": "string2",
+    "name": "String2"
+  },
+  {
+    "data": "string3",
+    "name": "String3"
+  },
+  {
+    "data": "errorDescr",
+    "name": "Error Descr"
+  },
+  {
+    "data": "severity",
+    "name": "Severity"
+  },
+  {
+    "data": "type",
+    "name": "Type"
+  },
+  {
+    "data": "subType",
+    "name": "Sub Type"
+  },
+  {
+    "data": "descrShort",
+    "name": "Descr Short"
+  },
+  {
+    "data": "descr",
+    "name": "Descr"
+  },
+  {
+    "data": "urlView",
+    "name": "Url View"
+  },
+  {
+    "data": "urlFix",
+    "name": "Url Fix"
+  },
+  {
+    "data": "tableName",
+    "name": "Table Name"
+  },
+  {
+    "data": "fixInstruct",
+    "name": "Fix Instruct"
+  },
+  {
+    "data": "severityDescr",
+    "name": "Severity Descr"
+  },
+  {
+    "data": "tooltip",
+    "name": "Tooltip"
+  }
+]
+}

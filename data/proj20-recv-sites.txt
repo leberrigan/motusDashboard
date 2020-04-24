@@ -1,0 +1,42 @@
+{
+"data":[
+  {
+    "ID": 2952,
+    "projectID": 20,
+    "landOwnerID": "NA",
+    "name": "AFAR",
+    "latitude": 42.61,
+    "longitude": -83.6,
+    "lastEditedDt": "12/2/2019 15:26:12"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

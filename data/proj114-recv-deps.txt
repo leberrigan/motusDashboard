@@ -1,0 +1,177 @@
+{
+"data":[
+  {
+    "motusRecvID": 1856,
+    "recvProjectID": 114,
+    "receiverID": "SG-2516BBBK1636",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3443,
+    "deploymentStatus": "terminated",
+    "deploymentName": "LAUW",
+    "siteName": "LAUW",
+    "dtStart": "2016-09-04 12:00:00 +00:00",
+    "dtEnd": "2016-11-30 00:00:00 +00:00",
+    "tsStart": 1472990400,
+    "tsEnd": 1480464000,
+    "latitude": 53.388,
+    "longitude": 6.204,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1904,
+    "recvProjectID": 114,
+    "receiverID": "SG-4815BBBK1A47",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3536,
+    "deploymentStatus": "terminated",
+    "deploymentName": "KOPAFSL",
+    "siteName": "KOPAFSL",
+    "dtStart": "2016-09-26 00:00:00 +00:00",
+    "dtEnd": "2016-11-30 00:00:00 +00:00",
+    "tsStart": 1474848000,
+    "tsEnd": 1480464000,
+    "latitude": 53.0862,
+    "longitude": 5.4037,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1904,
+    "recvProjectID": 114,
+    "receiverID": "SG-4815BBBK1A47",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4371,
+    "deploymentStatus": "active",
+    "deploymentName": "Twente University receiver 02 - MALAGA",
+    "siteName": "MALAGA",
+    "dtStart": "2017-07-13 22:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1499983200,
+    "tsEnd": "NA",
+    "latitude": 36.7408,
+    "longitude": -4.473,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1905,
+    "recvProjectID": 114,
+    "receiverID": "SG-3214BBBK9591",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3537,
+    "deploymentStatus": "terminated",
+    "deploymentName": "AFSL",
+    "siteName": "AFSL",
+    "dtStart": "2016-09-05 00:00:00 +00:00",
+    "dtEnd": "2016-11-30 00:00:00 +00:00",
+    "tsStart": 1473033600,
+    "tsEnd": 1480464000,
+    "latitude": 52.9774,
+    "longitude": 5.1238,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2315,
+    "recvProjectID": 114,
+    "receiverID": "SG-2516BBBK055B",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4370,
+    "deploymentStatus": "active",
+    "deploymentName": "Twente University receiver 01 - OLHAO",
+    "siteName": "OLHAO",
+    "dtStart": "2017-09-05 12:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1504612800,
+    "tsEnd": "NA",
+    "latitude": 37.0323,
+    "longitude": -7.8174,
+    "elevation": 20,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

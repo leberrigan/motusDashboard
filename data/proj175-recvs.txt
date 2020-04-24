@@ -1,0 +1,51 @@
+{
+"data":[
+  {
+    "ID": 2332,
+    "projectID": 175,
+    "receiverID": "SG-F642RPI3D852",
+    "approved": 0,
+    "lastEditedDt": "1/5/2018 12:34:38",
+    "lastEditedUserID": 545,
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 2340,
+    "projectID": 175,
+    "receiverID": "SG-D939RPI31F4E",
+    "approved": 0,
+    "lastEditedDt": "2/2/2018 13:45:20",
+    "lastEditedUserID": 2745,
+    "receiverType": "SENSORGNOME"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "approved",
+    "name": "Approved"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  },
+  {
+    "data": "lastEditedUserID",
+    "name": "Last Edited User ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  }
+]
+}

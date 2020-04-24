@@ -1,0 +1,249 @@
+{
+"data":[
+  {
+    "ID": 1788,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "AMMAR",
+    "latitude": 45.85,
+    "longitude": -64.18,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1789,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "AMPNT",
+    "latitude": 45.77,
+    "longitude": -64.27,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1790,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "Bridge St Sackville ",
+    "latitude": 45.9,
+    "longitude": -64.34,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1791,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "COLONY",
+    "latitude": 45.89,
+    "longitude": -64.34,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1792,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "COLONY1 ",
+    "latitude": 45.89,
+    "longitude": -64.34,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1793,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "COLONY2",
+    "latitude": 45.9,
+    "longitude": -64.33,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1794,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "DIKES",
+    "latitude": 45.89,
+    "longitude": -64.33,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1795,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "Eddie rd. ",
+    "latitude": 45.84,
+    "longitude": -64.22,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1796,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "EDDY",
+    "latitude": 45.84,
+    "longitude": -64.22,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1797,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "Fork Field Farms",
+    "latitude": 45.94,
+    "longitude": -64.33,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1798,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "Hospital Loop Road",
+    "latitude": 45.86,
+    "longitude": -64.36,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1799,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "HWY",
+    "latitude": 45.9,
+    "longitude": -64.35,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1800,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "LOWERW",
+    "latitude": 45.9,
+    "longitude": -64.33,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1801,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "Marsh Landings",
+    "latitude": 45.85,
+    "longitude": -64.18,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1802,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "MISSA",
+    "latitude": 45.89,
+    "longitude": -64.23,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1803,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "RCI Sackville",
+    "latitude": 45.89,
+    "longitude": -64.32,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1804,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "RCI Sackville Engine",
+    "latitude": 45.89,
+    "longitude": -64.32,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1805,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "Richard's Farm",
+    "latitude": 45.92,
+    "longitude": -64.23,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1806,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "Sackville Eng",
+    "latitude": 45.89,
+    "longitude": -64.35,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1809,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "SCHOOL",
+    "latitude": 45.91,
+    "longitude": -64.33,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1810,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "SE",
+    "latitude": 45.89,
+    "longitude": -64.35,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1811,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "TINTA",
+    "latitude": 45.93,
+    "longitude": -64.31,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1812,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "UPTAN",
+    "latitude": 45.9,
+    "longitude": -64.3,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1813,
+    "projectID": 26,
+    "landOwnerID": "NA",
+    "name": "WCOCK",
+    "latitude": 45.87,
+    "longitude": -64.34,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

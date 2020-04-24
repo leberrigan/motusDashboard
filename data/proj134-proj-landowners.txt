@@ -1,0 +1,57 @@
+{
+"data":[
+  {
+    "ID": 515,
+    "projectID": 134,
+    "landOwnerID": 6165,
+    "backupID": "NA",
+    "lastEditedDt": "8/14/2018 15:33:49",
+    "lastEditedUserID": 2398,
+    "acknowledge": 1,
+    "comments": ""
+  },
+  {
+    "ID": 516,
+    "projectID": 134,
+    "landOwnerID": 6166,
+    "backupID": "NA",
+    "lastEditedDt": "8/14/2018 15:36:20",
+    "lastEditedUserID": 2398,
+    "acknowledge": 1,
+    "comments": ""
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "backupID",
+    "name": "Backup ID"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  },
+  {
+    "data": "lastEditedUserID",
+    "name": "Last Edited User ID"
+  },
+  {
+    "data": "acknowledge",
+    "name": "Acknowledge"
+  },
+  {
+    "data": "comments",
+    "name": "Comments"
+  }
+]
+}

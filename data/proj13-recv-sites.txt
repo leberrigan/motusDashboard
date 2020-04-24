@@ -1,0 +1,384 @@
+{
+"data":[
+  {
+    "ID": 1646,
+    "projectID": 13,
+    "landOwnerID": 2846,
+    "name": "AMHRST",
+    "latitude": 45.79,
+    "longitude": -64.28,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1647,
+    "projectID": 13,
+    "landOwnerID": 2846,
+    "name": "AMHRST",
+    "latitude": 45.79,
+    "longitude": -64.28,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1648,
+    "projectID": 13,
+    "landOwnerID": 2852,
+    "name": "AVPRT",
+    "latitude": 45.1,
+    "longitude": -64.22,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1649,
+    "projectID": 13,
+    "landOwnerID": 2852,
+    "name": "AVPRT",
+    "latitude": 45.1,
+    "longitude": -64.22,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1650,
+    "projectID": 13,
+    "landOwnerID": 2848,
+    "name": "BEAUB",
+    "latitude": 45.84,
+    "longitude": -64.28,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1651,
+    "projectID": 13,
+    "landOwnerID": 2854,
+    "name": "COBEQUID1",
+    "latitude": 45.37,
+    "longitude": -63.52,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1652,
+    "projectID": 13,
+    "landOwnerID": 2854,
+    "name": "COBEQUID2",
+    "latitude": 45.37,
+    "longitude": -63.48,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1653,
+    "projectID": 13,
+    "landOwnerID": 2854,
+    "name": "COBEQUID3",
+    "latitude": 45.36,
+    "longitude": -63.44,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1654,
+    "projectID": 13,
+    "landOwnerID": 2854,
+    "name": "COBEQUID3",
+    "latitude": 45.36,
+    "longitude": -63.44,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1655,
+    "projectID": 13,
+    "landOwnerID": 2855,
+    "name": "CPENR",
+    "latitude": 45.59,
+    "longitude": -64.77,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1656,
+    "projectID": 13,
+    "landOwnerID": 2855,
+    "name": "CPENRAG",
+    "latitude": 45.59,
+    "longitude": -64.77,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1657,
+    "projectID": 13,
+    "landOwnerID": 2851,
+    "name": "EVANGEL",
+    "latitude": 45.13,
+    "longitude": -64.31,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1658,
+    "projectID": 13,
+    "landOwnerID": 2857,
+    "name": "FTBLC",
+    "latitude": 45.36,
+    "longitude": -63.4,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1659,
+    "projectID": 13,
+    "landOwnerID": 2857,
+    "name": "FTBLC",
+    "latitude": 45.36,
+    "longitude": -63.4,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1660,
+    "projectID": 13,
+    "landOwnerID": 2857,
+    "name": "FTBLC",
+    "latitude": 45.36,
+    "longitude": -63.41,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1661,
+    "projectID": 13,
+    "landOwnerID": 2845,
+    "name": "HPWLF",
+    "latitude": 45.81,
+    "longitude": -64.57,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1662,
+    "projectID": 13,
+    "landOwnerID": 2845,
+    "name": "HPWLF",
+    "latitude": 45.81,
+    "longitude": -64.57,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1663,
+    "projectID": 13,
+    "landOwnerID": 2851,
+    "name": "HPWLR",
+    "latitude": 45.13,
+    "longitude": -64.31,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1664,
+    "projectID": 13,
+    "landOwnerID": 2845,
+    "name": "HPWLR",
+    "latitude": 45.82,
+    "longitude": -64.57,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1665,
+    "projectID": 13,
+    "landOwnerID": 2845,
+    "name": "HPWLR",
+    "latitude": 45.82,
+    "longitude": -64.57,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1666,
+    "projectID": 13,
+    "landOwnerID": 2849,
+    "name": "JOGG",
+    "latitude": 45.69,
+    "longitude": -64.44,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1667,
+    "projectID": 13,
+    "landOwnerID": 2849,
+    "name": "JOGG",
+    "latitude": 45.69,
+    "longitude": -64.45,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1668,
+    "projectID": 13,
+    "landOwnerID": 2860,
+    "name": "JOHNS",
+    "latitude": 45.8,
+    "longitude": -64.49,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1669,
+    "projectID": 13,
+    "landOwnerID": 2860,
+    "name": "JONSONSMILLS",
+    "latitude": 45.83,
+    "longitude": -64.51,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1670,
+    "projectID": 13,
+    "landOwnerID": 2853,
+    "name": "MAIT",
+    "latitude": 45.33,
+    "longitude": -63.54,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1671,
+    "projectID": 13,
+    "landOwnerID": "NA",
+    "name": "Mal Bay South",
+    "latitude": 47.94,
+    "longitude": -64.48,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1672,
+    "projectID": 13,
+    "landOwnerID": 2846,
+    "name": "MARYP",
+    "latitude": 45.72,
+    "longitude": -64.67,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1673,
+    "projectID": 13,
+    "landOwnerID": 2846,
+    "name": "MARYP",
+    "latitude": 45.72,
+    "longitude": -64.67,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1674,
+    "projectID": 13,
+    "landOwnerID": 2846,
+    "name": "MARYP",
+    "latitude": 45.72,
+    "longitude": -64.67,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1675,
+    "projectID": 13,
+    "landOwnerID": 2858,
+    "name": "MILLCREEK",
+    "latitude": 45.77,
+    "longitude": -64.37,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1676,
+    "projectID": 13,
+    "landOwnerID": "NA",
+    "name": "Neguac",
+    "latitude": 47.27,
+    "longitude": -64.96,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1677,
+    "projectID": 13,
+    "landOwnerID": 2859,
+    "name": "NHRB",
+    "latitude": 45.08,
+    "longitude": -64.36,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1678,
+    "projectID": 13,
+    "landOwnerID": 2850,
+    "name": "PARRS",
+    "latitude": 45.37,
+    "longitude": -64.4,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1679,
+    "projectID": 13,
+    "landOwnerID": "NA",
+    "name": "PORTP",
+    "latitude": 45.13,
+    "longitude": -64.37,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1680,
+    "projectID": 13,
+    "landOwnerID": "NA",
+    "name": "PORTP",
+    "latitude": 45.13,
+    "longitude": -64.37,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1681,
+    "projectID": 13,
+    "landOwnerID": 2853,
+    "name": "SELMA",
+    "latitude": 45.33,
+    "longitude": -63.54,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1682,
+    "projectID": 13,
+    "landOwnerID": 2850,
+    "name": "WESTBAY",
+    "latitude": 45.37,
+    "longitude": -64.4,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1683,
+    "projectID": 13,
+    "landOwnerID": 2859,
+    "name": "WNDSR",
+    "latitude": 44.99,
+    "longitude": -64.15,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  },
+  {
+    "ID": 1684,
+    "projectID": 13,
+    "landOwnerID": 2859,
+    "name": "WNDSR",
+    "latitude": 44.99,
+    "longitude": -64.15,
+    "lastEditedDt": "1/18/2018 14:28:32"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

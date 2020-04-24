@@ -1,0 +1,117 @@
+{
+"data":[
+  {
+    "motusRecvID": 2135,
+    "recvProjectID": 155,
+    "receiverID": "SG-F37DRPI38476",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4485,
+    "deploymentStatus": "active",
+    "deploymentName": "FL_East_Boca",
+    "siteName": "boca_fl",
+    "dtStart": "2018-01-30 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1517270400,
+    "tsEnd": "NA",
+    "latitude": 26.3752,
+    "longitude": -80.0821,
+    "elevation": 8,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2135,
+    "recvProjectID": 155,
+    "receiverID": "SG-F37DRPI38476",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4025,
+    "deploymentStatus": "terminated",
+    "deploymentName": "FL_East_Boca",
+    "siteName": "boca_fl",
+    "dtStart": "2017-04-19 15:00:00 +00:00",
+    "dtEnd": "2018-01-29 23:59:00 +00:00",
+    "tsStart": 1492614000,
+    "tsEnd": 1517270340,
+    "latitude": 26.3752,
+    "longitude": -80.0821,
+    "elevation": 8,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

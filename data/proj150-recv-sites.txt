@@ -1,0 +1,60 @@
+{
+"data":[
+  {
+    "ID": 2336,
+    "projectID": 150,
+    "landOwnerID": 2495,
+    "name": "GA_DNR_DOCK",
+    "latitude": 31.12,
+    "longitude": -81.47,
+    "lastEditedDt": "10/2/2017 9:16:23"
+  },
+  {
+    "ID": 2337,
+    "projectID": 150,
+    "landOwnerID": 2495,
+    "name": "GA_OSS_DOCK",
+    "latitude": 31.84,
+    "longitude": -81.08,
+    "lastEditedDt": "10/2/2017 9:16:23"
+  },
+  {
+    "ID": 2401,
+    "projectID": 150,
+    "landOwnerID": 2692,
+    "name": "GA_SSI_DOCK",
+    "latitude": 31.29,
+    "longitude": -81.34,
+    "lastEditedDt": "10/2/2017 9:16:23"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

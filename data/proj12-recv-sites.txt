@@ -1,0 +1,123 @@
+{
+"data":[
+  {
+    "ID": 1636,
+    "projectID": 12,
+    "landOwnerID": "NA",
+    "name": "BHILL",
+    "latitude": 44.42,
+    "longitude": -68.58,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1637,
+    "projectID": 12,
+    "landOwnerID": "NA",
+    "name": "GDI",
+    "latitude": 44.15,
+    "longitude": -68.25,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1638,
+    "projectID": 12,
+    "landOwnerID": "NA",
+    "name": "MDR",
+    "latitude": 43.97,
+    "longitude": -68.13,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1639,
+    "projectID": 12,
+    "landOwnerID": "NA",
+    "name": "METINIC",
+    "latitude": 43.89,
+    "longitude": -69.12,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1640,
+    "projectID": 12,
+    "landOwnerID": "NA",
+    "name": "PMP",
+    "latitude": 44.41,
+    "longitude": -67.9,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1641,
+    "projectID": 12,
+    "landOwnerID": "NA",
+    "name": "PMP1",
+    "latitude": 44.41,
+    "longitude": -67.9,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1642,
+    "projectID": 12,
+    "landOwnerID": "NA",
+    "name": "PMP2",
+    "latitude": 44.4,
+    "longitude": -67.9,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1643,
+    "projectID": 12,
+    "landOwnerID": "NA",
+    "name": "RCARS",
+    "latitude": 43.33,
+    "longitude": -70.54,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1644,
+    "projectID": 12,
+    "landOwnerID": "NA",
+    "name": "SERC",
+    "latitude": 44.33,
+    "longitude": -68.06,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1645,
+    "projectID": 12,
+    "landOwnerID": "NA",
+    "name": "SHIP",
+    "latitude": 44.23,
+    "longitude": -68.43,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

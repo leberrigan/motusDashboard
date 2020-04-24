@@ -1,0 +1,150 @@
+{
+"data":[
+  {
+    "tagID": 27278,
+    "tagProjectID": 121,
+    "mfgID": "471",
+    "dateBin": "2017-3",
+    "dtRegistered": "2017-09-21 17:42:24.133",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB-1",
+    "lifespan": 51,
+    "nomFreq": 150.1,
+    "offsetFreq": -0.1335,
+    "period": 10.8958,
+    "periodSD": 5.7735e-010,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 27279,
+    "tagProjectID": 121,
+    "mfgID": "472",
+    "dateBin": "2017-3",
+    "dtRegistered": "2017-09-21 17:42:24.133",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB-1",
+    "lifespan": 51,
+    "nomFreq": 150.1,
+    "offsetFreq": 0.1033,
+    "period": 10.896,
+    "periodSD": 0.0002,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 27280,
+    "tagProjectID": 121,
+    "mfgID": "473",
+    "dateBin": "2017-3",
+    "dtRegistered": "2017-09-21 17:42:24.133",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB-1",
+    "lifespan": 51,
+    "nomFreq": 150.1,
+    "offsetFreq": -0.8637,
+    "period": 10.8957,
+    "periodSD": 0,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 27281,
+    "tagProjectID": 121,
+    "mfgID": "474",
+    "dateBin": "2017-3",
+    "dtRegistered": "2017-09-21 17:42:24.133",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB-1",
+    "lifespan": 51,
+    "nomFreq": 150.1,
+    "offsetFreq": -0.7892,
+    "period": 10.8961,
+    "periodSD": 0.0001,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 27282,
+    "tagProjectID": 121,
+    "mfgID": "476",
+    "dateBin": "2017-3",
+    "dtRegistered": "2017-09-21 17:42:24.133",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB-1",
+    "lifespan": 51,
+    "nomFreq": 150.1,
+    "offsetFreq": -0.794,
+    "period": 10.8961,
+    "periodSD": 0.0001,
+    "pulseLen": 2.5
+  }
+], "columns":[
+  {
+    "data": "tagID",
+    "name": "Tag ID"
+  },
+  {
+    "data": "tagProjectID",
+    "name": "Tag Project ID"
+  },
+  {
+    "data": "mfgID",
+    "name": "Manufacturer ID"
+  },
+  {
+    "data": "dateBin",
+    "name": "Date Bin"
+  },
+  {
+    "data": "dtRegistered",
+    "name": "Date Registered"
+  },
+  {
+    "data": "type",
+    "name": "Type"
+  },
+  {
+    "data": "codeset",
+    "name": "Codeset"
+  },
+  {
+    "data": "manufacturer",
+    "name": "Manufacturer"
+  },
+  {
+    "data": "model",
+    "name": "Model"
+  },
+  {
+    "data": "lifespan",
+    "name": "Lifespan"
+  },
+  {
+    "data": "nomFreq",
+    "name": "Nominal Frequency"
+  },
+  {
+    "data": "offsetFreq",
+    "name": "Offset Frequency"
+  },
+  {
+    "data": "period",
+    "name": "Period"
+  },
+  {
+    "data": "periodSD",
+    "name": "Period SD"
+  },
+  {
+    "data": "pulseLen",
+    "name": "Pulse Length"
+  }
+]
+}

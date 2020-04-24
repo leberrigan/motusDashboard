@@ -1,0 +1,114 @@
+{
+"data":[
+  {
+    "ID": 2442,
+    "projectID": 177,
+    "landOwnerID": "NA",
+    "name": "Preston Beach 1",
+    "latitude": -32.87,
+    "longitude": 115.65,
+    "lastEditedDt": "12/10/2017 22:10:21"
+  },
+  {
+    "ID": 2480,
+    "projectID": 177,
+    "landOwnerID": "NA",
+    "name": "Yarrie",
+    "latitude": -20.54,
+    "longitude": 120.25,
+    "lastEditedDt": "2/27/2018 6:50:00"
+  },
+  {
+    "ID": 2489,
+    "projectID": 177,
+    "landOwnerID": "NA",
+    "name": "MAC",
+    "latitude": -23,
+    "longitude": 118.82,
+    "lastEditedDt": "3/17/2018 6:45:05"
+  },
+  {
+    "ID": 2507,
+    "projectID": 177,
+    "landOwnerID": "NA",
+    "name": "Marillana",
+    "latitude": -22.61,
+    "longitude": 119.18,
+    "lastEditedDt": "5/8/2018 23:34:29"
+  },
+  {
+    "ID": 2558,
+    "projectID": 177,
+    "landOwnerID": "NA",
+    "name": "Calidus",
+    "latitude": -21.33,
+    "longitude": 119.88,
+    "lastEditedDt": "7/13/2018 19:48:32"
+  },
+  {
+    "ID": 2607,
+    "projectID": 177,
+    "landOwnerID": "NA",
+    "name": "RTIO Western Range",
+    "latitude": -23.22,
+    "longitude": 117.36,
+    "lastEditedDt": "9/12/2018 3:59:42"
+  },
+  {
+    "ID": 2636,
+    "projectID": 177,
+    "landOwnerID": "NA",
+    "name": "Koodaideri",
+    "latitude": -22.51,
+    "longitude": 118.97,
+    "lastEditedDt": "10/4/2018 21:02:18"
+  },
+  {
+    "ID": 2674,
+    "projectID": 177,
+    "landOwnerID": "NA",
+    "name": "Darwin",
+    "latitude": -12.37,
+    "longitude": 130.86,
+    "lastEditedDt": "1/19/2019 23:34:09"
+  },
+  {
+    "ID": 2734,
+    "projectID": 177,
+    "landOwnerID": "NA",
+    "name": "Perth",
+    "latitude": -31.95,
+    "longitude": 115.86,
+    "lastEditedDt": "5/8/2019 0:31:39"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

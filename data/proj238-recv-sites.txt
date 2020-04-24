@@ -1,0 +1,42 @@
+{
+"data":[
+  {
+    "ID": 2676,
+    "projectID": 238,
+    "landOwnerID": "NA",
+    "name": "KLIVV",
+    "latitude": 48.22,
+    "longitude": 16.28,
+    "lastEditedDt": "1/22/2019 7:26:17"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

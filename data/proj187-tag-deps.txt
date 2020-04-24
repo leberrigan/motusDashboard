@@ -1,0 +1,305 @@
+{
+"data":[
+  {
+    "tagID": 32549,
+    "tagProjectID": 187,
+    "mfgID": "457",
+    "dateBin": "2019-2",
+    "lifespan": 226,
+    "tagDeployID": 20369,
+    "deploymentStatus": "active",
+    "dtStart": "2019-04-01 00:00:00 +00:00",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": 1554076800,
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 2810,
+    "speciesName": "Platalea ajaja",
+    "motusScientificName": "Platalea ajaja",
+    "motusEnglishName": "Roseate Spoonbill",
+    "motusFrenchName": "Spatule rosée",
+    "bandNumber": "",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": "NA",
+    "longitude": "NA",
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 32550,
+    "tagProjectID": 187,
+    "mfgID": "458",
+    "dateBin": "2019-2",
+    "lifespan": 226,
+    "tagDeployID": 20370,
+    "deploymentStatus": "active",
+    "dtStart": "2019-04-01 00:00:00 +00:00",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": 1554076800,
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 2810,
+    "speciesName": "Platalea ajaja",
+    "motusScientificName": "Platalea ajaja",
+    "motusEnglishName": "Roseate Spoonbill",
+    "motusFrenchName": "Spatule rosée",
+    "bandNumber": "",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": "NA",
+    "longitude": "NA",
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 32551,
+    "tagProjectID": 187,
+    "mfgID": "459",
+    "dateBin": "2019-2",
+    "lifespan": 226,
+    "tagDeployID": 20371,
+    "deploymentStatus": "active",
+    "dtStart": "2019-04-01 00:00:00 +00:00",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": 1554076800,
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 2810,
+    "speciesName": "Platalea ajaja",
+    "motusScientificName": "Platalea ajaja",
+    "motusEnglishName": "Roseate Spoonbill",
+    "motusFrenchName": "Spatule rosée",
+    "bandNumber": "",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": "NA",
+    "longitude": "NA",
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 32552,
+    "tagProjectID": 187,
+    "mfgID": "460",
+    "dateBin": "2019-2",
+    "lifespan": 226,
+    "tagDeployID": 20372,
+    "deploymentStatus": "active",
+    "dtStart": "2019-04-01 00:00:00 +00:00",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": 1554076800,
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 2810,
+    "speciesName": "Platalea ajaja",
+    "motusScientificName": "Platalea ajaja",
+    "motusEnglishName": "Roseate Spoonbill",
+    "motusFrenchName": "Spatule rosée",
+    "bandNumber": "",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": "NA",
+    "longitude": "NA",
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 32553,
+    "tagProjectID": 187,
+    "mfgID": "463",
+    "dateBin": "2019-2",
+    "lifespan": 226,
+    "tagDeployID": 20373,
+    "deploymentStatus": "active",
+    "dtStart": "2019-04-01 00:00:00 +00:00",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": 1554076800,
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 2810,
+    "speciesName": "Platalea ajaja",
+    "motusScientificName": "Platalea ajaja",
+    "motusEnglishName": "Roseate Spoonbill",
+    "motusFrenchName": "Spatule rosée",
+    "bandNumber": "",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": "NA",
+    "longitude": "NA",
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 32554,
+    "tagProjectID": 187,
+    "mfgID": "464",
+    "dateBin": "2019-2",
+    "lifespan": 226,
+    "tagDeployID": 20374,
+    "deploymentStatus": "active",
+    "dtStart": "2019-04-01 00:00:00 +00:00",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": 1554076800,
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 2810,
+    "speciesName": "Platalea ajaja",
+    "motusScientificName": "Platalea ajaja",
+    "motusEnglishName": "Roseate Spoonbill",
+    "motusFrenchName": "Spatule rosée",
+    "bandNumber": "",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": "NA",
+    "longitude": "NA",
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 32555,
+    "tagProjectID": 187,
+    "mfgID": "467",
+    "dateBin": "2019-2",
+    "lifespan": 226,
+    "tagDeployID": 20375,
+    "deploymentStatus": "active",
+    "dtStart": "2019-04-01 00:00:00 +00:00",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": 1554076800,
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 2810,
+    "speciesName": "Platalea ajaja",
+    "motusScientificName": "Platalea ajaja",
+    "motusEnglishName": "Roseate Spoonbill",
+    "motusFrenchName": "Spatule rosée",
+    "bandNumber": "",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": "NA",
+    "longitude": "NA",
+    "elevation": "NA",
+    "comments": ""
+  }
+], "columns":[
+  {
+    "data": "tagID",
+    "name": "Tag ID"
+  },
+  {
+    "data": "tagProjectID",
+    "name": "Tag Project ID"
+  },
+  {
+    "data": "mfgID",
+    "name": "Manufacturer ID"
+  },
+  {
+    "data": "dateBin",
+    "name": "Date Bin"
+  },
+  {
+    "data": "lifespan",
+    "name": "Lifespan"
+  },
+  {
+    "data": "tagDeployID",
+    "name": "Tag Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "dtStartAnticipated",
+    "name": "Date Start Anticipated"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "tsStartAnticipated",
+    "name": "Time Start Anticipated"
+  },
+  {
+    "data": "deferSec",
+    "name": "Defer Sec"
+  },
+  {
+    "data": "speciesID",
+    "name": "Species ID"
+  },
+  {
+    "data": "speciesName",
+    "name": "Species Name"
+  },
+  {
+    "data": "motusScientificName",
+    "name": "Motus Scientific Name"
+  },
+  {
+    "data": "motusEnglishName",
+    "name": "Motus English Name"
+  },
+  {
+    "data": "motusFrenchName",
+    "name": "Motus French Name"
+  },
+  {
+    "data": "bandNumber",
+    "name": "Band Number"
+  },
+  {
+    "data": "markerNumber",
+    "name": "Marker Number"
+  },
+  {
+    "data": "markerType",
+    "name": "Marker Type"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "comments",
+    "name": "Comments"
+  }
+]
+}

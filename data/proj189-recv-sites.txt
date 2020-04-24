@@ -1,0 +1,69 @@
+{
+"data":[
+  {
+    "ID": 2853,
+    "projectID": 189,
+    "landOwnerID": "NA",
+    "name": "Fort Wayne Children's Zoo",
+    "latitude": 41.1,
+    "longitude": -85.14,
+    "lastEditedDt": "9/25/2019 18:06:11"
+  },
+  {
+    "ID": 2854,
+    "projectID": 189,
+    "landOwnerID": "NA",
+    "name": "Wildwood",
+    "latitude": 41.07,
+    "longitude": -85.82,
+    "lastEditedDt": "9/25/2019 18:06:11"
+  },
+  {
+    "ID": 2855,
+    "projectID": 189,
+    "landOwnerID": "NA",
+    "name": "Dygert",
+    "latitude": 41.22,
+    "longitude": -85.5,
+    "lastEditedDt": "9/25/2019 18:06:11"
+  },
+  {
+    "ID": 2856,
+    "projectID": 189,
+    "landOwnerID": "NA",
+    "name": "Bluecast",
+    "latitude": 41.15,
+    "longitude": -84.86,
+    "lastEditedDt": "9/25/2019 18:06:11"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

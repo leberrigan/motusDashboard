@@ -1,0 +1,96 @@
+{
+"data":[
+  {
+    "ID": 1997,
+    "projectID": 62,
+    "landOwnerID": "NA",
+    "name": "Awktower",
+    "latitude": 43.19,
+    "longitude": -81.31,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1998,
+    "projectID": 62,
+    "landOwnerID": "NA",
+    "name": "CP",
+    "latitude": 43.18,
+    "longitude": -81.31,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1999,
+    "projectID": 62,
+    "landOwnerID": "NA",
+    "name": "El nina",
+    "latitude": 43.19,
+    "longitude": -81.32,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2000,
+    "projectID": 62,
+    "landOwnerID": "NA",
+    "name": "FF North",
+    "latitude": 43.18,
+    "longitude": -81.31,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2001,
+    "projectID": 62,
+    "landOwnerID": "NA",
+    "name": "FF South",
+    "latitude": 43.18,
+    "longitude": -81.31,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2002,
+    "projectID": 62,
+    "landOwnerID": "NA",
+    "name": "hans",
+    "latitude": 43.19,
+    "longitude": -81.31,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2003,
+    "projectID": 62,
+    "landOwnerID": "NA",
+    "name": "Nanoswamp",
+    "latitude": 43.19,
+    "longitude": -81.31,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

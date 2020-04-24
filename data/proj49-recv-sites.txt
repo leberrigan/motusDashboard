@@ -1,0 +1,60 @@
+{
+"data":[
+  {
+    "ID": 2608,
+    "projectID": 49,
+    "landOwnerID": 8505,
+    "name": "Grève de Tadoussac",
+    "latitude": 48.14,
+    "longitude": -69.71,
+    "lastEditedDt": "9/12/2018 11:40:56"
+  },
+  {
+    "ID": 2609,
+    "projectID": 49,
+    "landOwnerID": 8506,
+    "name": "Dunes de Tadoussac",
+    "latitude": 48.15,
+    "longitude": -69.66,
+    "lastEditedDt": "9/12/2018 11:40:56"
+  },
+  {
+    "ID": 2610,
+    "projectID": 49,
+    "landOwnerID": 8506,
+    "name": "Pointe-Noire",
+    "latitude": 48.12,
+    "longitude": -69.71,
+    "lastEditedDt": "9/12/2018 11:40:56"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

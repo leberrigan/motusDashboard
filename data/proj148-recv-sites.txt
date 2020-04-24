@@ -1,0 +1,123 @@
+{
+"data":[
+  {
+    "ID": 2325,
+    "projectID": 148,
+    "landOwnerID": 2325,
+    "name": "Wabashiki S1",
+    "latitude": 39.49,
+    "longitude": -87.43,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2326,
+    "projectID": 148,
+    "landOwnerID": 2326,
+    "name": "Lieber S3",
+    "latitude": 39.47,
+    "longitude": -86.88,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2327,
+    "projectID": 148,
+    "landOwnerID": 2328,
+    "name": "MorganMonroe S5",
+    "latitude": 39.32,
+    "longitude": -86.41,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2328,
+    "projectID": 148,
+    "landOwnerID": 2329,
+    "name": "Brown S6",
+    "latitude": 39.16,
+    "longitude": -86.22,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2329,
+    "projectID": 148,
+    "landOwnerID": 2331,
+    "name": "Clarkson S8",
+    "latitude": 39.06,
+    "longitude": -85.59,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2330,
+    "projectID": 148,
+    "landOwnerID": 2332,
+    "name": "Versailles S9",
+    "latitude": 39.06,
+    "longitude": -85.2,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2331,
+    "projectID": 148,
+    "landOwnerID": 2333,
+    "name": "Oxbow S10",
+    "latitude": 39.11,
+    "longitude": -84.84,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2332,
+    "projectID": 148,
+    "landOwnerID": 2334,
+    "name": "Lincoln Ridge S11",
+    "latitude": 38.96,
+    "longitude": -84.56,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2333,
+    "projectID": 148,
+    "landOwnerID": 2335,
+    "name": "Woodland Mound S12",
+    "latitude": 39.03,
+    "longitude": -84.32,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2334,
+    "projectID": 148,
+    "landOwnerID": 2503,
+    "name": "Columbus S7",
+    "latitude": 39.2,
+    "longitude": -85.93,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

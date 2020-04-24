@@ -1,0 +1,195 @@
+{
+"data":[
+  {
+    "ID": 1512,
+    "projectID": 7,
+    "landOwnerID": "NA",
+    "name": "EAGLENEST1",
+    "latitude": 41.46,
+    "longitude": -82.99,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1513,
+    "projectID": 7,
+    "landOwnerID": "NA",
+    "name": "HART",
+    "latitude": 43.9,
+    "longitude": -69.26,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1514,
+    "projectID": 7,
+    "landOwnerID": "NA",
+    "name": "JORDL",
+    "latitude": 44.44,
+    "longitude": -67.82,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1516,
+    "projectID": 7,
+    "landOwnerID": "NA",
+    "name": "Matinicus",
+    "latitude": 43.78,
+    "longitude": -68.85,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1517,
+    "projectID": 7,
+    "landOwnerID": "NA",
+    "name": "MATINICUS",
+    "latitude": 43.78,
+    "longitude": -68.85,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1518,
+    "projectID": 7,
+    "landOwnerID": "NA",
+    "name": "MATINICUS",
+    "latitude": 43.78,
+    "longitude": -68.85,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1519,
+    "projectID": 7,
+    "landOwnerID": "NA",
+    "name": "MATINICUS",
+    "latitude": 43.78,
+    "longitude": -68.85,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1520,
+    "projectID": 7,
+    "landOwnerID": "NA",
+    "name": "MDR",
+    "latitude": 43.96,
+    "longitude": -68.12,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1521,
+    "projectID": 7,
+    "landOwnerID": "NA",
+    "name": "METINIC",
+    "latitude": 43.89,
+    "longitude": -69.12,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1522,
+    "projectID": 7,
+    "landOwnerID": "NA",
+    "name": "NASH",
+    "latitude": 44.46,
+    "longitude": -67.74,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1523,
+    "projectID": 7,
+    "landOwnerID": "NA",
+    "name": "PMI",
+    "latitude": 44.53,
+    "longitude": -67.88,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1524,
+    "projectID": 7,
+    "landOwnerID": "NA",
+    "name": "PMP_WL",
+    "latitude": 44.4,
+    "longitude": -67.89,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1525,
+    "projectID": 7,
+    "landOwnerID": "NA",
+    "name": "ROBERTS",
+    "latitude": 44.01,
+    "longitude": -68.8,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1526,
+    "projectID": 7,
+    "landOwnerID": "NA",
+    "name": "Roberts",
+    "latitude": 44.01,
+    "longitude": -68.8,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1527,
+    "projectID": 7,
+    "landOwnerID": "NA",
+    "name": "Seal",
+    "latitude": 43.88,
+    "longitude": -68.73,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1528,
+    "projectID": 7,
+    "landOwnerID": "NA",
+    "name": "SHIP",
+    "latitude": 44.23,
+    "longitude": -68.43,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1529,
+    "projectID": 7,
+    "landOwnerID": "NA",
+    "name": "Two Bush",
+    "latitude": 43.87,
+    "longitude": -68.88,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1530,
+    "projectID": 7,
+    "landOwnerID": "NA",
+    "name": "TWOBUSH",
+    "latitude": 43.87,
+    "longitude": -68.88,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

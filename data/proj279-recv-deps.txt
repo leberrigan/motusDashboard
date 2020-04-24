@@ -1,0 +1,137 @@
+{
+"data":[
+  {
+    "motusRecvID": 2243,
+    "recvProjectID": 279,
+    "receiverID": "Lotek-6293",
+    "receiverType": "",
+    "recvDeployID": 4240,
+    "deploymentStatus": "active",
+    "deploymentName": "FBO_Watertower",
+    "siteName": "FBO_Watertower",
+    "dtStart": "2017-08-24 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1503532800,
+    "tsEnd": "NA",
+    "latitude": 55.404,
+    "longitude": 12.845,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": "NA",
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2245,
+    "recvProjectID": 279,
+    "receiverID": "Lotek-6329",
+    "receiverType": "",
+    "recvDeployID": 4241,
+    "deploymentStatus": "active",
+    "deploymentName": "FBO_Farm",
+    "siteName": "FBO_Farm",
+    "dtStart": "2017-08-24 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1503532800,
+    "tsEnd": "NA",
+    "latitude": 55.429,
+    "longitude": 12.852,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": "NA",
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 3302,
+    "recvProjectID": 279,
+    "receiverID": "Lotek-6325",
+    "receiverType": "",
+    "recvDeployID": 4242,
+    "deploymentStatus": "active",
+    "deploymentName": "FBO_Lighthouse",
+    "siteName": "FBO_Lighthouse",
+    "dtStart": "2017-08-24 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1503532800,
+    "tsEnd": "NA",
+    "latitude": 55.384,
+    "longitude": 12.817,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": "NA",
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

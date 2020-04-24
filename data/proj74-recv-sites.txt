@@ -1,0 +1,195 @@
+{
+"data":[
+  {
+    "ID": 2089,
+    "projectID": 74,
+    "landOwnerID": "NA",
+    "name": "Arcadia ",
+    "latitude": 42.29,
+    "longitude": -72.63,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2090,
+    "projectID": 74,
+    "landOwnerID": "NA",
+    "name": "Bennett Meadow",
+    "latitude": 42.68,
+    "longitude": -72.47,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2091,
+    "projectID": 74,
+    "landOwnerID": "NA",
+    "name": "BennettMeadow",
+    "latitude": 42.68,
+    "longitude": -72.47,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2092,
+    "projectID": 74,
+    "landOwnerID": "NA",
+    "name": "Cornish WMA",
+    "latitude": 43.48,
+    "longitude": -72.37,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2093,
+    "projectID": 74,
+    "landOwnerID": "NA",
+    "name": "Fannie Stebbins",
+    "latitude": 42.03,
+    "longitude": -72.6,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2094,
+    "projectID": 74,
+    "landOwnerID": "NA",
+    "name": "Fort River",
+    "latitude": 42.34,
+    "longitude": -72.56,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2095,
+    "projectID": 74,
+    "landOwnerID": "NA",
+    "name": "FortRiver",
+    "latitude": 42.34,
+    "longitude": -72.56,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2096,
+    "projectID": 74,
+    "landOwnerID": "NA",
+    "name": "Hogback",
+    "latitude": 42.84,
+    "longitude": -72.79,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2097,
+    "projectID": 74,
+    "landOwnerID": "NA",
+    "name": "Mount Ascutney",
+    "latitude": 43.43,
+    "longitude": -72.44,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2098,
+    "projectID": 74,
+    "landOwnerID": "NA",
+    "name": "MountGrace",
+    "latitude": 42.69,
+    "longitude": -72.35,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2099,
+    "projectID": 74,
+    "landOwnerID": "NA",
+    "name": "MountToby",
+    "latitude": 42.48,
+    "longitude": -72.53,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2100,
+    "projectID": 74,
+    "landOwnerID": "NA",
+    "name": "SatansKingdom",
+    "latitude": 42.71,
+    "longitude": -72.5,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2101,
+    "projectID": 74,
+    "landOwnerID": "NA",
+    "name": "Shelburne",
+    "latitude": 42.6,
+    "longitude": -72.71,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2102,
+    "projectID": 74,
+    "landOwnerID": "NA",
+    "name": "Sugarloaf",
+    "latitude": 42.46,
+    "longitude": -72.59,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2103,
+    "projectID": 74,
+    "landOwnerID": "NA",
+    "name": "Sugarloaf",
+    "latitude": 42.47,
+    "longitude": -72.59,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2104,
+    "projectID": 74,
+    "landOwnerID": "NA",
+    "name": "Wantastiquet",
+    "latitude": 42.85,
+    "longitude": -72.53,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2399,
+    "projectID": 74,
+    "landOwnerID": "NA",
+    "name": "Orchard Hill UMASS",
+    "latitude": 42.39,
+    "longitude": -72.52,
+    "lastEditedDt": "9/18/2017 13:51:56"
+  },
+  {
+    "ID": 2820,
+    "projectID": 74,
+    "landOwnerID": "NA",
+    "name": "Glover's Ledge",
+    "latitude": 43.14,
+    "longitude": -72.39,
+    "lastEditedDt": "7/22/2019 16:42:52"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

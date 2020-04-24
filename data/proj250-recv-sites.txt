@@ -1,0 +1,87 @@
+{
+"data":[
+  {
+    "ID": 2739,
+    "projectID": 250,
+    "landOwnerID": 18069,
+    "name": "Bright Water North",
+    "latitude": 51.62,
+    "longitude": -106.55,
+    "lastEditedDt": "7/23/2019 16:00:29"
+  },
+  {
+    "ID": 2746,
+    "projectID": 250,
+    "landOwnerID": 18447,
+    "name": "Bradwell",
+    "latitude": 51.92,
+    "longitude": -106.21,
+    "lastEditedDt": "7/23/2019 16:00:29"
+  },
+  {
+    "ID": 2747,
+    "projectID": 250,
+    "landOwnerID": 18067,
+    "name": "Allan Hills",
+    "latitude": 51.73,
+    "longitude": -106.21,
+    "lastEditedDt": "7/23/2019 16:00:29"
+  },
+  {
+    "ID": 2757,
+    "projectID": 250,
+    "landOwnerID": 18376,
+    "name": "Kenaston",
+    "latitude": 51.32,
+    "longitude": -106.22,
+    "lastEditedDt": "7/23/2019 16:00:29"
+  },
+  {
+    "ID": 2799,
+    "projectID": 250,
+    "landOwnerID": 19063,
+    "name": "DIEFENBAKER",
+    "latitude": 51.25,
+    "longitude": -106.82,
+    "lastEditedDt": "7/23/2019 16:00:29"
+  },
+  {
+    "ID": 2822,
+    "projectID": 250,
+    "landOwnerID": 19293,
+    "name": "SEIB",
+    "latitude": 51.63,
+    "longitude": -105.87,
+    "lastEditedDt": "7/23/2019 16:00:29"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

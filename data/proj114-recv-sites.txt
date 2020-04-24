@@ -1,0 +1,78 @@
+{
+"data":[
+  {
+    "ID": 2252,
+    "projectID": 114,
+    "landOwnerID": "NA",
+    "name": "AFSL",
+    "latitude": 52.97,
+    "longitude": 5.12,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2253,
+    "projectID": 114,
+    "landOwnerID": "NA",
+    "name": "KOPAFSL",
+    "latitude": 53.08,
+    "longitude": 5.4,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2254,
+    "projectID": 114,
+    "landOwnerID": "NA",
+    "name": "LAUW",
+    "latitude": 53.38,
+    "longitude": 6.2,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2432,
+    "projectID": 114,
+    "landOwnerID": "NA",
+    "name": "OLHAO",
+    "latitude": 37.03,
+    "longitude": -7.81,
+    "lastEditedDt": "11/2/2017 4:18:49"
+  },
+  {
+    "ID": 2433,
+    "projectID": 114,
+    "landOwnerID": "NA",
+    "name": "MALAGA",
+    "latitude": 36.74,
+    "longitude": -4.47,
+    "lastEditedDt": "11/2/2017 4:39:11"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

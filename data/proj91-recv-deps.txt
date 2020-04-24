@@ -1,0 +1,257 @@
+{
+"data":[
+  {
+    "motusRecvID": 1477,
+    "recvProjectID": 91,
+    "receiverID": "SG-4002BBBK0110",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2630,
+    "deploymentStatus": "terminated",
+    "deploymentName": "SMAR",
+    "siteName": "SMAR",
+    "dtStart": "2015-09-24 18:00:00 +00:00",
+    "dtEnd": "2015-10-29 08:00:00 +00:00",
+    "tsStart": 1443117600,
+    "tsEnd": 1446105600,
+    "latitude": 44.3402,
+    "longitude": -66.1188,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1477,
+    "recvProjectID": 91,
+    "receiverID": "SG-4002BBBK0110",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2768,
+    "deploymentStatus": "terminated",
+    "deploymentName": "SMAR",
+    "siteName": "SMAR",
+    "dtStart": "2015-10-29 08:01:00 +00:00",
+    "dtEnd": "2015-11-01 14:00:00 +00:00",
+    "tsStart": 1446105660,
+    "tsEnd": 1446386400,
+    "latitude": 44.3402,
+    "longitude": -66.1188,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1477,
+    "recvProjectID": 91,
+    "receiverID": "SG-4002BBBK0110",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2769,
+    "deploymentStatus": "terminated",
+    "deploymentName": "SMAR",
+    "siteName": "SMAR",
+    "dtStart": "2015-11-01 14:01:00 +00:00",
+    "dtEnd": "2017-02-27 20:43:00 +00:00",
+    "tsStart": 1446386460,
+    "tsEnd": 1488228180,
+    "latitude": 44.3402,
+    "longitude": -66.1188,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1478,
+    "recvProjectID": 91,
+    "receiverID": "SG-4002BBBK1630",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2770,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Ford",
+    "siteName": "Ford",
+    "dtStart": "2015-10-29 08:01:00 +00:00",
+    "dtEnd": "2015-11-01 14:15:00 +00:00",
+    "tsStart": 1446105660,
+    "tsEnd": 1446387300,
+    "latitude": 44.325,
+    "longitude": -66.1149,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1478,
+    "recvProjectID": 91,
+    "receiverID": "SG-4002BBBK1630",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2771,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Ford",
+    "siteName": "Ford",
+    "dtStart": "2015-11-01 14:16:00 +00:00",
+    "dtEnd": "2015-11-03 16:00:00 +00:00",
+    "tsStart": 1446387360,
+    "tsEnd": 1446566400,
+    "latitude": 44.325,
+    "longitude": -66.1149,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1478,
+    "recvProjectID": 91,
+    "receiverID": "SG-4002BBBK1630",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2772,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Ford",
+    "siteName": "Ford",
+    "dtStart": "2015-11-03 16:01:00 +00:00",
+    "dtEnd": "2015-11-04 12:25:00 +00:00",
+    "tsStart": 1446566460,
+    "tsEnd": 1446639900,
+    "latitude": 44.325,
+    "longitude": -66.1149,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1478,
+    "recvProjectID": 91,
+    "receiverID": "SG-4002BBBK1630",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2773,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Ford",
+    "siteName": "Ford",
+    "dtStart": "2015-11-04 12:26:00 +00:00",
+    "dtEnd": "2017-07-13 10:15:00 +00:00",
+    "tsStart": 1446639960,
+    "tsEnd": 1499940900,
+    "latitude": 44.325,
+    "longitude": -66.1149,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1478,
+    "recvProjectID": 91,
+    "receiverID": "SG-4002BBBK1630",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2631,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Ford",
+    "siteName": "Ford",
+    "dtStart": "2015-09-25 12:00:00 +00:00",
+    "dtEnd": "2015-10-29 08:00:00 +00:00",
+    "tsStart": 1443182400,
+    "tsEnd": 1446105600,
+    "latitude": 44.325,
+    "longitude": -66.1149,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1876,
+    "recvProjectID": 91,
+    "receiverID": "SG-1614BBBK1870",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3497,
+    "deploymentStatus": "terminated",
+    "deploymentName": "CORB",
+    "siteName": "CORB",
+    "dtStart": "2016-10-04 23:05:00 +00:00",
+    "dtEnd": "2017-05-12 13:00:00 +00:00",
+    "tsStart": 1475622300,
+    "tsEnd": 1494594000,
+    "latitude": 44.2382,
+    "longitude": -65.9274,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

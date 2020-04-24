@@ -1,0 +1,177 @@
+{
+"data":[
+  {
+    "motusRecvID": 1230,
+    "recvProjectID": 138,
+    "receiverID": "SG-4005BBBK4150",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3874,
+    "deploymentStatus": "terminated",
+    "deploymentName": "McGill_Bird_Observatory",
+    "siteName": "McGill_Bird_Observat",
+    "dtStart": "2017-03-22 18:00:00 +00:00",
+    "dtEnd": "2017-07-27 23:59:00 +00:00",
+    "tsStart": 1490205600,
+    "tsEnd": 1501199940,
+    "latitude": 45.4307,
+    "longitude": -73.9385,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1230,
+    "recvProjectID": 138,
+    "receiverID": "SG-4005BBBK4150",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4720,
+    "deploymentStatus": "terminated",
+    "deploymentName": "McGill_Bird_Observatory",
+    "siteName": "McGill_Bird_Observat",
+    "dtStart": "2018-06-16 15:31:00 +00:00",
+    "dtEnd": "2018-07-16 15:00:00 +00:00",
+    "tsStart": 1529163060,
+    "tsEnd": 1531753200,
+    "latitude": 45.4307,
+    "longitude": -73.9385,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1230,
+    "recvProjectID": 138,
+    "receiverID": "SG-4005BBBK4150",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4655,
+    "deploymentStatus": "terminated",
+    "deploymentName": "McGill_Bird_Observatory",
+    "siteName": "McGill_Bird_Observat",
+    "dtStart": "2018-05-10 13:31:00 +00:00",
+    "dtEnd": "2018-06-16 15:31:00 +00:00",
+    "tsStart": 1525959060,
+    "tsEnd": 1529163060,
+    "latitude": 45.4307,
+    "longitude": -73.9385,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1230,
+    "recvProjectID": 138,
+    "receiverID": "SG-4005BBBK4150",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4585,
+    "deploymentStatus": "terminated",
+    "deploymentName": "McGill_Bird_Observatory",
+    "siteName": "McGill_Bird_Observat",
+    "dtStart": "2018-04-06 20:01:00 +00:00",
+    "dtEnd": "2018-05-10 13:30:00 +00:00",
+    "tsStart": 1523044860,
+    "tsEnd": 1525959000,
+    "latitude": 45.4307,
+    "longitude": -73.9385,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1230,
+    "recvProjectID": 138,
+    "receiverID": "SG-4005BBBK4150",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2178,
+    "deploymentStatus": "terminated",
+    "deploymentName": "McGill_Bird_Observatory",
+    "siteName": "McGill_Bird_Observat",
+    "dtStart": "2015-05-10 13:20:00 +00:00",
+    "dtEnd": "2017-03-22 09:14:00 +00:00",
+    "tsStart": 1431264000,
+    "tsEnd": 1490174040,
+    "latitude": 45.4307,
+    "longitude": -73.9385,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

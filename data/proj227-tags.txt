@@ -1,0 +1,354 @@
+{
+"data":[
+  {
+    "tagID": 32437,
+    "tagProjectID": 227,
+    "mfgID": "100",
+    "dateBin": "2018-4",
+    "dtRegistered": "2018-11-17 09:07:33.517",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB-4-2",
+    "lifespan": 233,
+    "nomFreq": 151.5,
+    "offsetFreq": -1.3184,
+    "period": 4.6998,
+    "periodSD": 0,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 32438,
+    "tagProjectID": 227,
+    "mfgID": "101",
+    "dateBin": "2018-4",
+    "dtRegistered": "2018-11-17 09:07:33.517",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB-4-2",
+    "lifespan": 233,
+    "nomFreq": 151.5,
+    "offsetFreq": -1.3332,
+    "period": 4.6998,
+    "periodSD": 0,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 32439,
+    "tagProjectID": 227,
+    "mfgID": "103",
+    "dateBin": "2018-4",
+    "dtRegistered": "2018-11-17 09:07:33.517",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB-4-2",
+    "lifespan": 233,
+    "nomFreq": 151.5,
+    "offsetFreq": -1.405,
+    "period": 4.6998,
+    "periodSD": 0.0001,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 32440,
+    "tagProjectID": 227,
+    "mfgID": "102",
+    "dateBin": "2018-4",
+    "dtRegistered": "2018-11-18 10:24:54.953",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB-4-2",
+    "lifespan": 233,
+    "nomFreq": 151.5,
+    "offsetFreq": -1.355,
+    "period": 4.6997,
+    "periodSD": 0.0001,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 35515,
+    "tagProjectID": 227,
+    "mfgID": "110",
+    "dateBin": "2019-3",
+    "dtRegistered": "2019-06-17 13:36:23.563",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB2-4-2S",
+    "lifespan": 299,
+    "nomFreq": 151.5,
+    "offsetFreq": -0.3992,
+    "period": 4.6993,
+    "periodSD": 0,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 35516,
+    "tagProjectID": 227,
+    "mfgID": "111",
+    "dateBin": "2019-3",
+    "dtRegistered": "2019-06-17 13:36:23.563",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB2-4-2S",
+    "lifespan": 299,
+    "nomFreq": 151.5,
+    "offsetFreq": -0.3662,
+    "period": 4.6993,
+    "periodSD": 0,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 35517,
+    "tagProjectID": 227,
+    "mfgID": "112",
+    "dateBin": "2019-3",
+    "dtRegistered": "2019-06-17 13:36:23.563",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB2-4-2S",
+    "lifespan": 299,
+    "nomFreq": 151.5,
+    "offsetFreq": -0.4748,
+    "period": 4.6993,
+    "periodSD": 0,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 35518,
+    "tagProjectID": 227,
+    "mfgID": "113",
+    "dateBin": "2019-3",
+    "dtRegistered": "2019-06-17 13:36:23.563",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB2-4-2S",
+    "lifespan": 299,
+    "nomFreq": 151.5,
+    "offsetFreq": -0.7372,
+    "period": 4.6993,
+    "periodSD": 0,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 35519,
+    "tagProjectID": 227,
+    "mfgID": "114",
+    "dateBin": "2019-3",
+    "dtRegistered": "2019-06-17 13:36:23.563",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB2-4-2S",
+    "lifespan": 299,
+    "nomFreq": 151.5,
+    "offsetFreq": -0.4787,
+    "period": 4.6989,
+    "periodSD": 0.0008,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 35520,
+    "tagProjectID": 227,
+    "mfgID": "115",
+    "dateBin": "2019-3",
+    "dtRegistered": "2019-06-17 13:36:23.563",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB2-4-2S",
+    "lifespan": 299,
+    "nomFreq": 151.5,
+    "offsetFreq": -0.4548,
+    "period": 4.6992,
+    "periodSD": 0,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 35521,
+    "tagProjectID": 227,
+    "mfgID": "116",
+    "dateBin": "2019-3",
+    "dtRegistered": "2019-06-17 13:36:23.563",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB2-4-2S",
+    "lifespan": 299,
+    "nomFreq": 151.5,
+    "offsetFreq": -0.471,
+    "period": 4.6998,
+    "periodSD": 0,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 35522,
+    "tagProjectID": 227,
+    "mfgID": "117",
+    "dateBin": "2019-3",
+    "dtRegistered": "2019-06-17 13:36:23.563",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB2-4-2S",
+    "lifespan": 299,
+    "nomFreq": 151.5,
+    "offsetFreq": -0.168,
+    "period": 4.6989,
+    "periodSD": 0.0009,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 32495,
+    "tagProjectID": 227,
+    "mfgID": "104",
+    "dateBin": "2019-1",
+    "dtRegistered": "2019-01-05 06:46:07.893",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB2-6-2",
+    "lifespan": 803,
+    "nomFreq": 151.5,
+    "offsetFreq": -1.3323,
+    "period": 4.6991,
+    "periodSD": 0.0003,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 32496,
+    "tagProjectID": 227,
+    "mfgID": "105",
+    "dateBin": "2019-1",
+    "dtRegistered": "2019-01-05 06:46:07.893",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB2-6-2",
+    "lifespan": 804,
+    "nomFreq": 151.5,
+    "offsetFreq": -1.2796,
+    "period": 4.6994,
+    "periodSD": 0.0001,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 32497,
+    "tagProjectID": 227,
+    "mfgID": "107",
+    "dateBin": "2019-1",
+    "dtRegistered": "2019-01-05 06:46:07.893",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB2-6-2",
+    "lifespan": 804,
+    "nomFreq": 151.5,
+    "offsetFreq": -1.2676,
+    "period": 4.6992,
+    "periodSD": 0,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 32498,
+    "tagProjectID": 227,
+    "mfgID": "108",
+    "dateBin": "2019-1",
+    "dtRegistered": "2019-01-05 06:46:07.893",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB2-6-2",
+    "lifespan": 804,
+    "nomFreq": 151.5,
+    "offsetFreq": -1.3526,
+    "period": 4.6992,
+    "periodSD": 0.0006,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 32499,
+    "tagProjectID": 227,
+    "mfgID": "109",
+    "dateBin": "2019-1",
+    "dtRegistered": "2019-01-05 06:46:07.893",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB2-6-2",
+    "lifespan": 803,
+    "nomFreq": 151.5,
+    "offsetFreq": -1.315,
+    "period": 4.6991,
+    "periodSD": 0.0002,
+    "pulseLen": 2.5
+  }
+], "columns":[
+  {
+    "data": "tagID",
+    "name": "Tag ID"
+  },
+  {
+    "data": "tagProjectID",
+    "name": "Tag Project ID"
+  },
+  {
+    "data": "mfgID",
+    "name": "Manufacturer ID"
+  },
+  {
+    "data": "dateBin",
+    "name": "Date Bin"
+  },
+  {
+    "data": "dtRegistered",
+    "name": "Date Registered"
+  },
+  {
+    "data": "type",
+    "name": "Type"
+  },
+  {
+    "data": "codeset",
+    "name": "Codeset"
+  },
+  {
+    "data": "manufacturer",
+    "name": "Manufacturer"
+  },
+  {
+    "data": "model",
+    "name": "Model"
+  },
+  {
+    "data": "lifespan",
+    "name": "Lifespan"
+  },
+  {
+    "data": "nomFreq",
+    "name": "Nominal Frequency"
+  },
+  {
+    "data": "offsetFreq",
+    "name": "Offset Frequency"
+  },
+  {
+    "data": "period",
+    "name": "Period"
+  },
+  {
+    "data": "periodSD",
+    "name": "Period SD"
+  },
+  {
+    "data": "pulseLen",
+    "name": "Pulse Length"
+  }
+]
+}

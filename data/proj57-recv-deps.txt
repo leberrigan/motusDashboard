@@ -1,0 +1,357 @@
+{
+"data":[
+  {
+    "motusRecvID": 1241,
+    "recvProjectID": 57,
+    "receiverID": "SG-4001BBBK2480",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3878,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Necocli",
+    "siteName": "Necocli",
+    "dtStart": "2016-09-25 00:00:00 +00:00",
+    "dtEnd": "2017-03-27 00:00:00 +00:00",
+    "tsStart": 1474761600,
+    "tsEnd": 1490572800,
+    "latitude": 8.4273,
+    "longitude": -76.7886,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1241,
+    "recvProjectID": 57,
+    "receiverID": "SG-4001BBBK2480",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3190,
+    "deploymentStatus": "terminated",
+    "deploymentName": "La Victoria 1",
+    "siteName": "La Victoria 1",
+    "dtStart": "2016-04-08 00:00:00 +00:00",
+    "dtEnd": "2016-07-25 00:00:00 +00:00",
+    "tsStart": 1460073600,
+    "tsEnd": 1469404800,
+    "latitude": 11.1234,
+    "longitude": -74.0896,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1241,
+    "recvProjectID": 57,
+    "receiverID": "SG-4001BBBK2480",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2392,
+    "deploymentStatus": "terminated",
+    "deploymentName": "La Victoria 1",
+    "siteName": "La Victoria 1",
+    "dtStart": "2015-04-11 00:00:00 +00:00",
+    "dtEnd": "2015-05-15 00:00:00 +00:00",
+    "tsStart": 1428710400,
+    "tsEnd": 1431648000,
+    "latitude": 11.1234,
+    "longitude": -74.0896,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1242,
+    "recvProjectID": 57,
+    "receiverID": "SG-4002BBBK0040",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2393,
+    "deploymentStatus": "terminated",
+    "deploymentName": "La Victoria 2",
+    "siteName": "La Victoria 2",
+    "dtStart": "2015-04-20 00:00:00 +00:00",
+    "dtEnd": "2015-05-16 00:00:00 +00:00",
+    "tsStart": 1429488000,
+    "tsEnd": 1431734400,
+    "latitude": 11.1233,
+    "longitude": -74.0933,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1242,
+    "recvProjectID": 57,
+    "receiverID": "SG-4002BBBK0040",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3191,
+    "deploymentStatus": "terminated",
+    "deploymentName": "La Victoria 2",
+    "siteName": "La Victoria 2",
+    "dtStart": "2016-04-07 00:00:00 +00:00",
+    "dtEnd": "2019-09-01 23:59:00 +00:00",
+    "tsStart": 1459987200,
+    "tsEnd": 1567382340,
+    "latitude": 11.1233,
+    "longitude": -74.0933,
+    "elevation": 1030,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1243,
+    "recvProjectID": 57,
+    "receiverID": "SG-4001BBBK2250",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3872,
+    "deploymentStatus": "active",
+    "deploymentName": "Finca Las Palmeras",
+    "siteName": "Finca Las Palmeras",
+    "dtStart": "2017-04-01 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1491004800,
+    "tsEnd": "NA",
+    "latitude": 8.5259,
+    "longitude": -76.0968,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1244,
+    "recvProjectID": 57,
+    "receiverID": "SG-4001BBBK1870",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3192,
+    "deploymentStatus": "terminated",
+    "deploymentName": "La Fragua",
+    "siteName": "La Fragua",
+    "dtStart": "2016-02-26 00:00:00 +00:00",
+    "dtEnd": "2016-05-18 00:00:00 +00:00",
+    "tsStart": 1456444800,
+    "tsEnd": 1463529600,
+    "latitude": 4.3224,
+    "longitude": -74.5417,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1244,
+    "recvProjectID": 57,
+    "receiverID": "SG-4001BBBK1870",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2324,
+    "deploymentStatus": "terminated",
+    "deploymentName": "La Fragua",
+    "siteName": "La Fragua",
+    "dtStart": "2015-02-15 00:00:00 +00:00",
+    "dtEnd": "2015-06-01 00:00:00 +00:00",
+    "tsStart": 1423958400,
+    "tsEnd": 1433116800,
+    "latitude": 4.3224,
+    "longitude": -74.5417,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2063,
+    "recvProjectID": 57,
+    "receiverID": "SG-0816BBBK0BB8",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3869,
+    "deploymentStatus": "active",
+    "deploymentName": "Los Vientos Forest",
+    "siteName": "Los Vientos Forest",
+    "dtStart": "2017-02-22 08:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1487750400,
+    "tsEnd": "NA",
+    "latitude": 4.3646,
+    "longitude": -74.5164,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2064,
+    "recvProjectID": 57,
+    "receiverID": "SG-0816BBBK0206",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3871,
+    "deploymentStatus": "active",
+    "deploymentName": "Los Vientos Coffee",
+    "siteName": "Los Vientos Coffee",
+    "dtStart": "2017-02-22 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1487721600,
+    "tsEnd": "NA",
+    "latitude": 4.3615,
+    "longitude": -74.5185,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2066,
+    "recvProjectID": 57,
+    "receiverID": "SG-0816BBBK0268",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3876,
+    "deploymentStatus": "active",
+    "deploymentName": "Necocli",
+    "siteName": "Necocli",
+    "dtStart": "2017-03-27 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1490572800,
+    "tsEnd": "NA",
+    "latitude": 8.4273,
+    "longitude": -76.7886,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2067,
+    "recvProjectID": 57,
+    "receiverID": "SG-0816BBBK0273",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3877,
+    "deploymentStatus": "active",
+    "deploymentName": "Capurganá",
+    "siteName": "Capurganá",
+    "dtStart": "2017-03-29 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1490745600,
+    "tsEnd": "NA",
+    "latitude": 8.6355,
+    "longitude": -77.3486,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2089,
+    "recvProjectID": 57,
+    "receiverID": "SG-0816BBBK03EF",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3948,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Universidad de los Llanos",
+    "siteName": "Universidad de los L",
+    "dtStart": "2017-04-25 23:00:00 +00:00",
+    "dtEnd": "2017-05-21 14:00:00 +00:00",
+    "tsStart": 1493161200,
+    "tsEnd": 1495375200,
+    "latitude": 4.0804,
+    "longitude": -73.5833,
+    "elevation": 400,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2469,
+    "recvProjectID": 57,
+    "receiverID": "SG-0B73RPI3F1C3",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4656,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Unillanos",
+    "siteName": "Universidad de los L",
+    "dtStart": "2018-05-03 17:00:00 +00:00",
+    "dtEnd": "2018-05-15 17:00:00 +00:00",
+    "tsStart": 1525366800,
+    "tsEnd": 1526403600,
+    "latitude": 4.074,
+    "longitude": -73.5844,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

@@ -1,0 +1,51 @@
+{
+"data":[
+  {
+    "ID": 2831,
+    "projectID": 198,
+    "landOwnerID": 19708,
+    "name": "UNAM en Sisal",
+    "latitude": 21.16,
+    "longitude": -90.04,
+    "lastEditedDt": "8/26/2019 12:42:43"
+  },
+  {
+    "ID": 2832,
+    "projectID": 198,
+    "landOwnerID": 19706,
+    "name": "DUMAC en Celestun",
+    "latitude": 20.85,
+    "longitude": -90.38,
+    "lastEditedDt": "8/26/2019 12:42:43"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

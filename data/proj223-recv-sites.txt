@@ -1,0 +1,150 @@
+{
+"data":[
+  {
+    "ID": 2743,
+    "projectID": 223,
+    "landOwnerID": "NA",
+    "name": "Ekologihuset, Lund",
+    "latitude": 55.7,
+    "longitude": 13.19,
+    "lastEditedDt": "9/10/2019 3:29:21"
+  },
+  {
+    "ID": 2748,
+    "projectID": 223,
+    "landOwnerID": "NA",
+    "name": "Gammalsby 205",
+    "latitude": 55.7,
+    "longitude": 13.19,
+    "lastEditedDt": "9/10/2019 3:29:21"
+  },
+  {
+    "ID": 2749,
+    "projectID": 223,
+    "landOwnerID": "NA",
+    "name": "Stenåsa",
+    "latitude": 56.51,
+    "longitude": 16.6,
+    "lastEditedDt": "9/10/2019 3:29:21"
+  },
+  {
+    "ID": 2750,
+    "projectID": 223,
+    "landOwnerID": "NA",
+    "name": "Ottenby Bird Observatory",
+    "latitude": 56.19,
+    "longitude": 16.39,
+    "lastEditedDt": "9/10/2019 3:29:21"
+  },
+  {
+    "ID": 2751,
+    "projectID": 223,
+    "landOwnerID": "NA",
+    "name": "Linnaeus University",
+    "latitude": 56.65,
+    "longitude": 16.36,
+    "lastEditedDt": "9/10/2019 3:29:21"
+  },
+  {
+    "ID": 2878,
+    "projectID": 223,
+    "landOwnerID": "NA",
+    "name": "Valsörarna",
+    "latitude": 63.42,
+    "longitude": 21.06,
+    "lastEditedDt": "9/10/2019 3:29:21"
+  },
+  {
+    "ID": 2879,
+    "projectID": 223,
+    "landOwnerID": "NA",
+    "name": "Holmögadd",
+    "latitude": 63.59,
+    "longitude": 20.75,
+    "lastEditedDt": "9/10/2019 3:29:21"
+  },
+  {
+    "ID": 2881,
+    "projectID": 223,
+    "landOwnerID": "NA",
+    "name": "Klobbskat",
+    "latitude": 63.3,
+    "longitude": 21.09,
+    "lastEditedDt": "9/10/2019 3:29:21"
+  },
+  {
+    "ID": 2882,
+    "projectID": 223,
+    "landOwnerID": "NA",
+    "name": "Bonden",
+    "latitude": 63.43,
+    "longitude": 20.03,
+    "lastEditedDt": "9/10/2019 3:29:21"
+  },
+  {
+    "ID": 2883,
+    "projectID": 223,
+    "landOwnerID": "NA",
+    "name": "Skagsudde",
+    "latitude": 63.18,
+    "longitude": 19.01,
+    "lastEditedDt": "9/10/2019 3:29:21"
+  },
+  {
+    "ID": 2884,
+    "projectID": 223,
+    "landOwnerID": "NA",
+    "name": "Lungön",
+    "latitude": 62.64,
+    "longitude": 18.08,
+    "lastEditedDt": "9/10/2019 3:29:21"
+  },
+  {
+    "ID": 2890,
+    "projectID": 223,
+    "landOwnerID": "NA",
+    "name": "Näsby 154",
+    "latitude": 56.24,
+    "longitude": 16.46,
+    "lastEditedDt": "9/10/2019 3:29:21"
+  },
+  {
+    "ID": 2896,
+    "projectID": 223,
+    "landOwnerID": "NA",
+    "name": "Östra Torn",
+    "latitude": 55.71,
+    "longitude": 13.23,
+    "lastEditedDt": "9/10/2019 3:29:21"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

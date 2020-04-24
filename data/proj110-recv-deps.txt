@@ -1,0 +1,137 @@
+{
+"data":[
+  {
+    "motusRecvID": 1793,
+    "recvProjectID": 110,
+    "receiverID": "SG-1013BB000626",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3351,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Popham Beach ",
+    "siteName": "Popham Beach ",
+    "dtStart": "2016-07-20 09:21:00 +00:00",
+    "dtEnd": "2016-10-12 00:00:00 +00:00",
+    "tsStart": 1469006460,
+    "tsEnd": 1476230400,
+    "latitude": 43.736,
+    "longitude": -69.7997,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1793,
+    "recvProjectID": 110,
+    "receiverID": "SG-1013BB000626",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4175,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Popham Beach ",
+    "siteName": "Popham Beach ",
+    "dtStart": "2015-08-01 00:00:00 +00:00",
+    "dtEnd": "2015-11-02 17:00:00 +00:00",
+    "tsStart": 1438387200,
+    "tsEnd": 1446483600,
+    "latitude": 43.736,
+    "longitude": -69.7997,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1794,
+    "recvProjectID": 110,
+    "receiverID": "SG-0613BB000613",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3352,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Seguin Island",
+    "siteName": "Seguin Island",
+    "dtStart": "2016-07-27 09:32:00 +00:00",
+    "dtEnd": "2016-10-12 00:00:00 +00:00",
+    "tsStart": 1469611920,
+    "tsEnd": 1476230400,
+    "latitude": 43.7099,
+    "longitude": -69.7596,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

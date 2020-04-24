@@ -1,0 +1,60 @@
+{
+"data":[
+  {
+    "ID": 2615,
+    "projectID": 222,
+    "landOwnerID": "NA",
+    "name": "Canarie",
+    "latitude": 43.48,
+    "longitude": -80.7,
+    "lastEditedDt": "9/17/2018 14:19:33"
+  },
+  {
+    "ID": 2616,
+    "projectID": 222,
+    "landOwnerID": "NA",
+    "name": "canarie",
+    "latitude": 43.48,
+    "longitude": -80.7,
+    "lastEditedDt": "9/17/2018 14:21:04"
+  },
+  {
+    "ID": 2617,
+    "projectID": 222,
+    "landOwnerID": "NA",
+    "name": "Canarie",
+    "latitude": 43.36,
+    "longitude": -80.61,
+    "lastEditedDt": "9/17/2018 17:20:03"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

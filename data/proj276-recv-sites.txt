@@ -1,0 +1,96 @@
+{
+"data":[
+  {
+    "ID": 2922,
+    "projectID": 276,
+    "landOwnerID": "NA",
+    "name": "Hodgdon 1",
+    "latitude": 46.03,
+    "longitude": -67.83,
+    "lastEditedDt": "2/26/2020 17:21:55"
+  },
+  {
+    "ID": 2923,
+    "projectID": 276,
+    "landOwnerID": "NA",
+    "name": "Bridgewater 2",
+    "latitude": 46.39,
+    "longitude": -67.84,
+    "lastEditedDt": "2/26/2020 17:21:55"
+  },
+  {
+    "ID": 2924,
+    "projectID": 276,
+    "landOwnerID": "NA",
+    "name": "Fort Fairfield 3",
+    "latitude": 46.71,
+    "longitude": -67.82,
+    "lastEditedDt": "2/26/2020 17:21:55"
+  },
+  {
+    "ID": 2925,
+    "projectID": 276,
+    "landOwnerID": "NA",
+    "name": "Caswell 4",
+    "latitude": 49.99,
+    "longitude": -67.8,
+    "lastEditedDt": "2/26/2020 17:21:55"
+  },
+  {
+    "ID": 2935,
+    "projectID": 276,
+    "landOwnerID": "NA",
+    "name": "Stratford Point",
+    "latitude": 41.15,
+    "longitude": -73.1,
+    "lastEditedDt": "2/26/2020 17:21:55"
+  },
+  {
+    "ID": 2936,
+    "projectID": 276,
+    "landOwnerID": "NA",
+    "name": "Hammonassett SP",
+    "latitude": 41.25,
+    "longitude": -72.54,
+    "lastEditedDt": "2/26/2020 17:21:55"
+  },
+  {
+    "ID": 2938,
+    "projectID": 276,
+    "landOwnerID": "NA",
+    "name": "Stratford Point",
+    "latitude": 41.15,
+    "longitude": -73.1,
+    "lastEditedDt": "2/26/2020 17:21:55"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

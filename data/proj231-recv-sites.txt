@@ -1,0 +1,60 @@
+{
+"data":[
+  {
+    "ID": 2666,
+    "projectID": 231,
+    "landOwnerID": "NA",
+    "name": "CCIW",
+    "latitude": 43.29,
+    "longitude": -79.8,
+    "lastEditedDt": "12/5/2018 13:20:52"
+  },
+  {
+    "ID": 2690,
+    "projectID": 231,
+    "landOwnerID": "NA",
+    "name": "Guelph Lake 2",
+    "latitude": 43.6,
+    "longitude": -80.24,
+    "lastEditedDt": "2/25/2019 11:09:48"
+  },
+  {
+    "ID": 2691,
+    "projectID": 231,
+    "landOwnerID": "NA",
+    "name": "Guelph Lake Nature Centre",
+    "latitude": 43.59,
+    "longitude": -80.26,
+    "lastEditedDt": "2/25/2019 11:35:25"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

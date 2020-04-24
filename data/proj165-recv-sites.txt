@@ -1,0 +1,69 @@
+{
+"data":[
+  {
+    "ID": 2495,
+    "projectID": 165,
+    "landOwnerID": "NA",
+    "name": "Fort Custer Training Center",
+    "latitude": 42.33,
+    "longitude": -85.29,
+    "lastEditedDt": "10/14/2019 15:05:10"
+  },
+  {
+    "ID": 2512,
+    "projectID": 165,
+    "landOwnerID": 3524,
+    "name": "Pitsfield Banding Station",
+    "latitude": 42.16,
+    "longitude": -85.51,
+    "lastEditedDt": "10/14/2019 15:05:10"
+  },
+  {
+    "ID": 2514,
+    "projectID": 165,
+    "landOwnerID": "NA",
+    "name": "Kalamazoo Nature Center",
+    "latitude": 42.36,
+    "longitude": -85.58,
+    "lastEditedDt": "10/14/2019 15:05:10"
+  },
+  {
+    "ID": 2928,
+    "projectID": 165,
+    "landOwnerID": "NA",
+    "name": "Kensington",
+    "latitude": 42.55,
+    "longitude": -83.63,
+    "lastEditedDt": "10/14/2019 15:05:10"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

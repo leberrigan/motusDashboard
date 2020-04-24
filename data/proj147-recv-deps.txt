@@ -1,0 +1,297 @@
+{
+"data":[
+  {
+    "motusRecvID": 2073,
+    "recvProjectID": 147,
+    "receiverID": "SG-1914BBBK0851",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3900,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Tahoka Lake",
+    "siteName": "Tahoka Lake",
+    "dtStart": "2017-04-08 13:10:00 +00:00",
+    "dtEnd": "2018-09-13 23:59:00 +00:00",
+    "tsStart": 1491657000,
+    "tsEnd": 1536883140,
+    "latitude": 33.2571,
+    "longitude": -101.7431,
+    "elevation": 915,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2132,
+    "recvProjectID": 147,
+    "receiverID": "SG-1914BBBK0916",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4017,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Mound Lake",
+    "siteName": "Mound Lake",
+    "dtStart": "2017-05-07 20:00:00 +00:00",
+    "dtEnd": "2017-06-07 00:00:00 +00:00",
+    "tsStart": 1494187200,
+    "tsEnd": 1496793600,
+    "latitude": 33.2353,
+    "longitude": -102.0746,
+    "elevation": 958,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2132,
+    "recvProjectID": 147,
+    "receiverID": "SG-1914BBBK0916",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4083,
+    "deploymentStatus": "active",
+    "deploymentName": "Mound Lake 2",
+    "siteName": "Mound Lake 2",
+    "dtStart": "2017-06-08 20:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1496952000,
+    "tsEnd": "NA",
+    "latitude": 33.2353,
+    "longitude": -102.0746,
+    "elevation": 958,
+    "isMobile": "",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2147,
+    "recvProjectID": 147,
+    "receiverID": "SG-1914BBBK0935",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4078,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Salt Plains",
+    "siteName": "Salt Plains",
+    "dtStart": "2017-05-31 20:00:00 +00:00",
+    "dtEnd": "2017-10-25 00:00:00 +00:00",
+    "tsStart": 1496260800,
+    "tsEnd": 1508889600,
+    "latitude": 36.7106,
+    "longitude": -98.271,
+    "elevation": 351,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2147,
+    "recvProjectID": 147,
+    "receiverID": "SG-1914BBBK0935",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4344,
+    "deploymentStatus": "active",
+    "deploymentName": "Salt Plains 2",
+    "siteName": "Salt Plains",
+    "dtStart": "2017-10-26 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1508976000,
+    "tsEnd": "NA",
+    "latitude": 36.7106,
+    "longitude": -98.271,
+    "elevation": 351,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2175,
+    "recvProjectID": 147,
+    "receiverID": "SG-1914BBBK0894",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4133,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Bitter Lake",
+    "siteName": "Bitter Lake",
+    "dtStart": "2017-06-18 20:00:00 +00:00",
+    "dtEnd": "2017-07-20 00:00:00 +00:00",
+    "tsStart": 1497816000,
+    "tsEnd": 1500508800,
+    "latitude": 33.4635,
+    "longitude": -104.4054,
+    "elevation": 1074,
+    "isMobile": "",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2186,
+    "recvProjectID": 147,
+    "receiverID": "SG-1914BBBK0819",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4174,
+    "deploymentStatus": "active",
+    "deploymentName": "Bitter Lake 2",
+    "siteName": "Bitter Lake 2",
+    "dtStart": "2017-07-20 08:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1500537600,
+    "tsEnd": "NA",
+    "latitude": 33.4636,
+    "longitude": -104.4053,
+    "elevation": 1073,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2292,
+    "recvProjectID": 147,
+    "receiverID": "SG-1914BBBK0887",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4337,
+    "deploymentStatus": "active",
+    "deploymentName": "Rich Lake",
+    "siteName": "Rich Lake",
+    "dtStart": "2017-10-16 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1508112000,
+    "tsEnd": "NA",
+    "latitude": 33.2891,
+    "longitude": -102.1968,
+    "elevation": 991,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2399,
+    "recvProjectID": 147,
+    "receiverID": "SG-BB71RPI31CE1",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4533,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Muleshoe",
+    "siteName": "Muleshoe NWR",
+    "dtStart": "2018-03-09 09:00:00 +00:00",
+    "dtEnd": "2018-07-18 11:00:00 +00:00",
+    "tsStart": 1520586000,
+    "tsEnd": 1531911600,
+    "latitude": 33.9662,
+    "longitude": -102.7454,
+    "elevation": 1172,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2586,
+    "recvProjectID": 147,
+    "receiverID": "SG-4452RPI3CF82",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4803,
+    "deploymentStatus": "active",
+    "deploymentName": "Muleshoe 2",
+    "siteName": "Muleshoe NWR",
+    "dtStart": "2018-07-19 12:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1532001600,
+    "tsEnd": "NA",
+    "latitude": 33.9662,
+    "longitude": -102.7453,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2732,
+    "recvProjectID": 147,
+    "receiverID": "SG-3507RPI34D59",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4929,
+    "deploymentStatus": "active",
+    "deploymentName": "Tahoka Tower 2",
+    "siteName": "Tahoka Lake",
+    "dtStart": "2018-09-24 10:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1537783200,
+    "tsEnd": "NA",
+    "latitude": 33.2572,
+    "longitude": -101.743,
+    "elevation": 917,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

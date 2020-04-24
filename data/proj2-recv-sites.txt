@@ -1,0 +1,654 @@
+{
+"data":[
+  {
+    "ID": 1342,
+    "projectID": 2,
+    "landOwnerID": 3101,
+    "name": "Cape Jourimain",
+    "latitude": 46.16,
+    "longitude": -63.82,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1344,
+    "projectID": 2,
+    "landOwnerID": 3094,
+    "name": "Church Point - Ford",
+    "latitude": 44.32,
+    "longitude": -66.11,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1349,
+    "projectID": 2,
+    "landOwnerID": 595,
+    "name": "Miscou - Mal Bay North",
+    "latitude": 47.99,
+    "longitude": -64.48,
+    "lastEditedDt": "3/17/2020 10:40:53"
+  },
+  {
+    "ID": 1350,
+    "projectID": 2,
+    "landOwnerID": 160,
+    "name": "Prospect",
+    "latitude": 44.47,
+    "longitude": -63.79,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1355,
+    "projectID": 2,
+    "landOwnerID": 162,
+    "name": "Irving Nature Park",
+    "latitude": 45.22,
+    "longitude": -66.11,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1357,
+    "projectID": 2,
+    "landOwnerID": 162,
+    "name": "Irving St. John",
+    "latitude": 45.22,
+    "longitude": -66.11,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1358,
+    "projectID": 2,
+    "landOwnerID": 163,
+    "name": "Lookoff",
+    "latitude": 45.2,
+    "longitude": -64.39,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1359,
+    "projectID": 2,
+    "landOwnerID": 164,
+    "name": "Kingsburg",
+    "latitude": 44.26,
+    "longitude": -64.25,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1361,
+    "projectID": 2,
+    "landOwnerID": 165,
+    "name": "Cape Forchu",
+    "latitude": 43.79,
+    "longitude": -66.15,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1362,
+    "projectID": 2,
+    "landOwnerID": 166,
+    "name": "Stanton (Digby Neck)",
+    "latitude": 44.42,
+    "longitude": -66.16,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1364,
+    "projectID": 2,
+    "landOwnerID": 167,
+    "name": "Matthew's Lake",
+    "latitude": 43.69,
+    "longitude": -65.02,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1365,
+    "projectID": 2,
+    "landOwnerID": 168,
+    "name": "Kouchibouguac",
+    "latitude": 46.77,
+    "longitude": -64.95,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1367,
+    "projectID": 2,
+    "landOwnerID": 169,
+    "name": "New Harbour",
+    "latitude": 45.16,
+    "longitude": -61.45,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1368,
+    "projectID": 2,
+    "landOwnerID": 170,
+    "name": "Jordan Bay",
+    "latitude": 43.69,
+    "longitude": -65.23,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1370,
+    "projectID": 2,
+    "landOwnerID": 171,
+    "name": "Sonora",
+    "latitude": 45.05,
+    "longitude": -61.89,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1371,
+    "projectID": 2,
+    "landOwnerID": 172,
+    "name": "Port Mouton",
+    "latitude": 43.94,
+    "longitude": -64.83,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1373,
+    "projectID": 2,
+    "landOwnerID": 173,
+    "name": "Escuminac",
+    "latitude": 47.07,
+    "longitude": -64.87,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1375,
+    "projectID": 2,
+    "landOwnerID": 174,
+    "name": "Lockhartville",
+    "latitude": 45.08,
+    "longitude": -64.21,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1376,
+    "projectID": 2,
+    "landOwnerID": 175,
+    "name": "Taylor Head",
+    "latitude": 44.8,
+    "longitude": -62.55,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1378,
+    "projectID": 2,
+    "landOwnerID": 176,
+    "name": "Comeau (Marshalltown)",
+    "latitude": 44.58,
+    "longitude": -65.79,
+    "lastEditedDt": "3/17/2020 10:29:33"
+  },
+  {
+    "ID": 1379,
+    "projectID": 2,
+    "landOwnerID": 176,
+    "name": "Marshalltown",
+    "latitude": 44.58,
+    "longitude": -65.79,
+    "lastEditedDt": "3/17/2020 10:29:33"
+  },
+  {
+    "ID": 1381,
+    "projectID": 2,
+    "landOwnerID": 177,
+    "name": "Northview (Upper Clements)",
+    "latitude": 44.72,
+    "longitude": -65.54,
+    "lastEditedDt": "3/17/2020 10:32:01"
+  },
+  {
+    "ID": 1382,
+    "projectID": 2,
+    "landOwnerID": 177,
+    "name": "Upper Clements",
+    "latitude": 44.72,
+    "longitude": -65.54,
+    "lastEditedDt": "3/17/2020 10:32:01"
+  },
+  {
+    "ID": 1383,
+    "projectID": 2,
+    "landOwnerID": 178,
+    "name": "Hampton",
+    "latitude": 44.9,
+    "longitude": -65.35,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1385,
+    "projectID": 2,
+    "landOwnerID": 179,
+    "name": "Baccaro",
+    "latitude": 43.45,
+    "longitude": -65.48,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1386,
+    "projectID": 2,
+    "landOwnerID": 180,
+    "name": "Port George",
+    "latitude": 45,
+    "longitude": -65.11,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1388,
+    "projectID": 2,
+    "landOwnerID": 181,
+    "name": "Brier Island",
+    "latitude": 44.27,
+    "longitude": -66.34,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1390,
+    "projectID": 2,
+    "landOwnerID": 182,
+    "name": "Point Lepreau",
+    "latitude": 45.05,
+    "longitude": -66.45,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1391,
+    "projectID": 2,
+    "landOwnerID": 183,
+    "name": "Port Maitland",
+    "latitude": 43.98,
+    "longitude": -66.15,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1393,
+    "projectID": 2,
+    "landOwnerID": 184,
+    "name": "Clam Bay",
+    "latitude": 44.72,
+    "longitude": -62.92,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1395,
+    "projectID": 2,
+    "landOwnerID": 185,
+    "name": "Eagle Head/West Berlin",
+    "latitude": 44.06,
+    "longitude": -64.6,
+    "lastEditedDt": "3/17/2020 10:29:51"
+  },
+  {
+    "ID": 1396,
+    "projectID": 2,
+    "landOwnerID": 186,
+    "name": "Gardner Creek",
+    "latitude": 45.26,
+    "longitude": -65.74,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1398,
+    "projectID": 2,
+    "landOwnerID": 187,
+    "name": "Pubnico",
+    "latitude": 43.65,
+    "longitude": -65.76,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1401,
+    "projectID": 2,
+    "landOwnerID": 188,
+    "name": "West Quoddy",
+    "latitude": 44.91,
+    "longitude": -62.34,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1402,
+    "projectID": 2,
+    "landOwnerID": 189,
+    "name": "Cap Pele",
+    "latitude": 46.23,
+    "longitude": -64.29,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1403,
+    "projectID": 2,
+    "landOwnerID": 190,
+    "name": "Fundy NP",
+    "latitude": 45.59,
+    "longitude": -64.99,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1404,
+    "projectID": 2,
+    "landOwnerID": 191,
+    "name": "Cape Enrage",
+    "latitude": 45.59,
+    "longitude": -64.78,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1407,
+    "projectID": 2,
+    "landOwnerID": 192,
+    "name": "Black Rock",
+    "latitude": 45.14,
+    "longitude": -64.74,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1409,
+    "projectID": 2,
+    "landOwnerID": 193,
+    "name": "Blandford",
+    "latitude": 44.48,
+    "longitude": -64.1,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1411,
+    "projectID": 2,
+    "landOwnerID": 194,
+    "name": "Fundy Parkway",
+    "latitude": 45.43,
+    "longitude": -65.4,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1412,
+    "projectID": 2,
+    "landOwnerID": 195,
+    "name": "Lawrencetown",
+    "latitude": 44.63,
+    "longitude": -63.31,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1414,
+    "projectID": 2,
+    "landOwnerID": 196,
+    "name": "Canso",
+    "latitude": 45.31,
+    "longitude": -60.96,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1415,
+    "projectID": 2,
+    "landOwnerID": 197,
+    "name": "East Walton",
+    "latitude": 45.24,
+    "longitude": -63.95,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1416,
+    "projectID": 2,
+    "landOwnerID": 211,
+    "name": "Kejimkujik",
+    "latitude": 44.4,
+    "longitude": -65.21,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1418,
+    "projectID": 2,
+    "landOwnerID": 212,
+    "name": "Middle Ohio",
+    "latitude": 43.92,
+    "longitude": -65.4,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1421,
+    "projectID": 2,
+    "landOwnerID": 284,
+    "name": "Joggins",
+    "latitude": 45.69,
+    "longitude": -64.45,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1422,
+    "projectID": 2,
+    "landOwnerID": 285,
+    "name": "West Bay",
+    "latitude": 45.37,
+    "longitude": -64.4,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1425,
+    "projectID": 2,
+    "landOwnerID": 303,
+    "name": "Shag Harbour",
+    "latitude": 43.49,
+    "longitude": -65.71,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1429,
+    "projectID": 2,
+    "landOwnerID": 311,
+    "name": "Selma2",
+    "latitude": 45.33,
+    "longitude": -63.54,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1430,
+    "projectID": 2,
+    "landOwnerID": 434,
+    "name": "Mount Thom",
+    "latitude": 45.55,
+    "longitude": -62.98,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1431,
+    "projectID": 2,
+    "landOwnerID": 500,
+    "name": "East Kemptville",
+    "latitude": 44.1,
+    "longitude": -65.68,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1433,
+    "projectID": 2,
+    "landOwnerID": 501,
+    "name": "Truro",
+    "latitude": 45.36,
+    "longitude": -63.34,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1434,
+    "projectID": 2,
+    "landOwnerID": 502,
+    "name": "Tangier (Mooseland)",
+    "latitude": 44.93,
+    "longitude": -62.78,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1435,
+    "projectID": 2,
+    "landOwnerID": 503,
+    "name": "Louisbourg",
+    "latitude": 45.88,
+    "longitude": -59.98,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1436,
+    "projectID": 2,
+    "landOwnerID": 503,
+    "name": "Skyline",
+    "latitude": 46.74,
+    "longitude": -60.89,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1437,
+    "projectID": 2,
+    "landOwnerID": 559,
+    "name": "Swallowtail",
+    "latitude": 44.76,
+    "longitude": -66.73,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1438,
+    "projectID": 2,
+    "landOwnerID": 560,
+    "name": "Machias Seal Island",
+    "latitude": 44.5,
+    "longitude": -67.1,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1439,
+    "projectID": 2,
+    "landOwnerID": 561,
+    "name": "Beaubassin",
+    "latitude": 45.85,
+    "longitude": -64.28,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1440,
+    "projectID": 2,
+    "landOwnerID": 595,
+    "name": "Inkerman",
+    "latitude": 47.67,
+    "longitude": -64.76,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1441,
+    "projectID": 2,
+    "landOwnerID": 609,
+    "name": "Kent Island",
+    "latitude": 44.58,
+    "longitude": -66.75,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1442,
+    "projectID": 2,
+    "landOwnerID": 640,
+    "name": "Port Joli",
+    "latitude": 43.81,
+    "longitude": -64.89,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 1443,
+    "projectID": 2,
+    "landOwnerID": 2356,
+    "name": "Tantramar School",
+    "latitude": 45.91,
+    "longitude": -64.36,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 2430,
+    "projectID": 2,
+    "landOwnerID": 3095,
+    "name": "Horton High School",
+    "latitude": 45.07,
+    "longitude": -64.4,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 2486,
+    "projectID": 2,
+    "landOwnerID": "NA",
+    "name": "Country Island",
+    "latitude": 45.09,
+    "longitude": -61.54,
+    "lastEditedDt": "3/22/2018 14:26:05"
+  },
+  {
+    "ID": 2499,
+    "projectID": 2,
+    "landOwnerID": "NA",
+    "name": "Motus Test",
+    "latitude": 45.08,
+    "longitude": -64.36,
+    "lastEditedDt": "4/16/2018 16:10:31"
+  },
+  {
+    "ID": 2698,
+    "projectID": 2,
+    "landOwnerID": "NA",
+    "name": "Southern Sierra Research Station",
+    "latitude": 35.69,
+    "longitude": -118.3,
+    "lastEditedDt": "3/16/2019 13:18:25"
+  },
+  {
+    "ID": 2709,
+    "projectID": 2,
+    "landOwnerID": "NA",
+    "name": "Motus Mobile Test",
+    "latitude": 45.89,
+    "longitude": -64.37,
+    "lastEditedDt": "3/28/2019 6:39:51"
+  },
+  {
+    "ID": 2968,
+    "projectID": 2,
+    "landOwnerID": "NA",
+    "name": "Sackville Apt",
+    "latitude": 45.89,
+    "longitude": -64.37,
+    "lastEditedDt": "1/14/2020 12:55:09"
+  },
+  {
+    "ID": 2977,
+    "projectID": 2,
+    "landOwnerID": "NA",
+    "name": "Motus Mobile 1",
+    "latitude": -41.82,
+    "longitude": -73.63,
+    "lastEditedDt": "1/30/2020 15:06:33"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

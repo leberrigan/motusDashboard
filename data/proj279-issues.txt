@@ -1,0 +1,349 @@
+{
+"data":[
+  {
+    "errorID": 5887916,
+    "projectID": 279,
+    "ID": 2243,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_no_detections",
+    "string": "",
+    "string2": "Lotek-6293",
+    "string3": "",
+    "errorDescr": "Device ID: %s, %s",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver",
+    "descrShort": "Receiver With No Detections",
+    "descr": "These receivers do not have any associated detection data.",
+    "urlView": "",
+    "urlFix": "/data/receivers/edit?projectID=%d&id=%d",
+    "tableName": "sensors",
+    "fixInstruct": "If you have not uploaded any data for this receiver there is no need for further action.  If you have uploaded data from the receiver, it is possible the serial number registered to your project does not match the serial number in raw detection files, please ensure the serial number listed here is correct.  If you are sure that the receiver serial number is correct and you have submitted raw detection data, please contact us at motus@birdscanada.org",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5887918,
+    "projectID": 279,
+    "ID": 3302,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_no_detections",
+    "string": "",
+    "string2": "Lotek-6325",
+    "string3": "",
+    "errorDescr": "Device ID: %s, %s",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver",
+    "descrShort": "Receiver With No Detections",
+    "descr": "These receivers do not have any associated detection data.",
+    "urlView": "",
+    "urlFix": "/data/receivers/edit?projectID=%d&id=%d",
+    "tableName": "sensors",
+    "fixInstruct": "If you have not uploaded any data for this receiver there is no need for further action.  If you have uploaded data from the receiver, it is possible the serial number registered to your project does not match the serial number in raw detection files, please ensure the serial number listed here is correct.  If you are sure that the receiver serial number is correct and you have submitted raw detection data, please contact us at motus@birdscanada.org",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5887919,
+    "projectID": 279,
+    "ID": 2245,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_no_detections",
+    "string": "",
+    "string2": "Lotek-6329",
+    "string3": "",
+    "errorDescr": "Device ID: %s, %s",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver",
+    "descrShort": "Receiver With No Detections",
+    "descr": "These receivers do not have any associated detection data.",
+    "urlView": "",
+    "urlFix": "/data/receivers/edit?projectID=%d&id=%d",
+    "tableName": "sensors",
+    "fixInstruct": "If you have not uploaded any data for this receiver there is no need for further action.  If you have uploaded data from the receiver, it is possible the serial number registered to your project does not match the serial number in raw detection files, please ensure the serial number listed here is correct.  If you are sure that the receiver serial number is correct and you have submitted raw detection data, please contact us at motus@birdscanada.org",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5889007,
+    "projectID": 279,
+    "ID": 36327,
+    "idConflict": "NA",
+    "errorCode": "v_tag_dupl_registration",
+    "string": "36327",
+    "string2": "38769",
+    "string3": "113",
+    "errorDescr": "Tag ID : %s  is equivalent to Tag ID : %s from Project ID : %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag",
+    "descrShort": "Tag Registered Twice",
+    "descr": "These pairs of tags were registered during the same time period and have the same properties. \nThey are very likely duplicate registrations.",
+    "urlView": "/data/tag?id=%2$d",
+    "urlFix": "/data/tags/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please confirm whether or not these tags are duplicate registrations. If they are duplicate registrations,  contact us at motus@birdscanada.org to request that one of the duplicate registrations be deleted. If these are not duplicate  registrations, it is important that the tags not be deployed at the same time, as they will not be differentiable when detected,  leading to ambiguous detections.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5889015,
+    "projectID": 279,
+    "ID": 36328,
+    "idConflict": "NA",
+    "errorCode": "v_tag_dupl_registration",
+    "string": "36328",
+    "string2": "38770",
+    "string3": "113",
+    "errorDescr": "Tag ID : %s  is equivalent to Tag ID : %s from Project ID : %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag",
+    "descrShort": "Tag Registered Twice",
+    "descr": "These pairs of tags were registered during the same time period and have the same properties. \nThey are very likely duplicate registrations.",
+    "urlView": "/data/tag?id=%2$d",
+    "urlFix": "/data/tags/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please confirm whether or not these tags are duplicate registrations. If they are duplicate registrations,  contact us at motus@birdscanada.org to request that one of the duplicate registrations be deleted. If these are not duplicate  registrations, it is important that the tags not be deployed at the same time, as they will not be differentiable when detected,  leading to ambiguous detections.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5889079,
+    "projectID": 279,
+    "ID": 36305,
+    "idConflict": "NA",
+    "errorCode": "v_tag_dupl_registration",
+    "string": "36305",
+    "string2": "38344",
+    "string3": "113",
+    "errorDescr": "Tag ID : %s  is equivalent to Tag ID : %s from Project ID : %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag",
+    "descrShort": "Tag Registered Twice",
+    "descr": "These pairs of tags were registered during the same time period and have the same properties. \nThey are very likely duplicate registrations.",
+    "urlView": "/data/tag?id=%2$d",
+    "urlFix": "/data/tags/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please confirm whether or not these tags are duplicate registrations. If they are duplicate registrations,  contact us at motus@birdscanada.org to request that one of the duplicate registrations be deleted. If these are not duplicate  registrations, it is important that the tags not be deployed at the same time, as they will not be differentiable when detected,  leading to ambiguous detections.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5889165,
+    "projectID": 279,
+    "ID": 36329,
+    "idConflict": "NA",
+    "errorCode": "v_tag_dupl_registration",
+    "string": "36329",
+    "string2": "38345",
+    "string3": "113",
+    "errorDescr": "Tag ID : %s  is equivalent to Tag ID : %s from Project ID : %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag",
+    "descrShort": "Tag Registered Twice",
+    "descr": "These pairs of tags were registered during the same time period and have the same properties. \nThey are very likely duplicate registrations.",
+    "urlView": "/data/tag?id=%2$d",
+    "urlFix": "/data/tags/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please confirm whether or not these tags are duplicate registrations. If they are duplicate registrations,  contact us at motus@birdscanada.org to request that one of the duplicate registrations be deleted. If these are not duplicate  registrations, it is important that the tags not be deployed at the same time, as they will not be differentiable when detected,  leading to ambiguous detections.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5893844,
+    "projectID": 279,
+    "ID": 36305,
+    "idConflict": 38344,
+    "errorCode": "v_tag_overlap_deploy_prop",
+    "string": "36305 Turdus merula : 2019-07-29 09:00 - 2021-01-21 09:00",
+    "string2": "38344 Pipistrellus nathusii : 2019-08-20 06:00 - 2019-12-15 06:00",
+    "string3": "113",
+    "errorDescr": "\"%s\" overlaps deployment \"%s\" from project %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Overlapping Tag Deployments (Tag Properties)",
+    "descr": "These tag deployments overlap in time with a deployment for a tag with identical properties, which may lead to ambiguous detections.",
+    "urlView": "/data/tag?id=%3$d",
+    "urlFix": "/data/tags/edit?projectID=%d&id=%d",
+    "tableName": "",
+    "fixInstruct": "Please confirm the deployment dates for both deployments are accurate. You may need to resolve ambiguities between these two tags using spatial or temporal factors.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5893870,
+    "projectID": 279,
+    "ID": 36327,
+    "idConflict": 38769,
+    "errorCode": "v_tag_overlap_deploy_prop",
+    "string": "36327 Turdus merula : 2019-09-08 04:00 - 2021-03-03 04:00",
+    "string2": "38769 Pipistrellus nathusii : 2019-08-19 00:00 - 2019-12-14 00:00",
+    "string3": "113",
+    "errorDescr": "\"%s\" overlaps deployment \"%s\" from project %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Overlapping Tag Deployments (Tag Properties)",
+    "descr": "These tag deployments overlap in time with a deployment for a tag with identical properties, which may lead to ambiguous detections.",
+    "urlView": "/data/tag?id=%3$d",
+    "urlFix": "/data/tags/edit?projectID=%d&id=%d",
+    "tableName": "",
+    "fixInstruct": "Please confirm the deployment dates for both deployments are accurate. You may need to resolve ambiguities between these two tags using spatial or temporal factors.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5894117,
+    "projectID": 279,
+    "ID": 36328,
+    "idConflict": 38770,
+    "errorCode": "v_tag_overlap_deploy_prop",
+    "string": "36328 Turdus merula : 2019-07-27 02:00 - 2021-01-19 02:00",
+    "string2": "38770 Pipistrellus nathusii : 2019-08-19 00:00 - 2019-12-14 00:00",
+    "string3": "113",
+    "errorDescr": "\"%s\" overlaps deployment \"%s\" from project %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Overlapping Tag Deployments (Tag Properties)",
+    "descr": "These tag deployments overlap in time with a deployment for a tag with identical properties, which may lead to ambiguous detections.",
+    "urlView": "/data/tag?id=%3$d",
+    "urlFix": "/data/tags/edit?projectID=%d&id=%d",
+    "tableName": "",
+    "fixInstruct": "Please confirm the deployment dates for both deployments are accurate. You may need to resolve ambiguities between these two tags using spatial or temporal factors.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5894352,
+    "projectID": 279,
+    "ID": 36329,
+    "idConflict": 38345,
+    "errorCode": "v_tag_overlap_deploy_prop",
+    "string": "36329 Turdus merula : 2019-08-02 04:00 - 2021-01-26 04:00",
+    "string2": "38345 Pipistrellus nathusii : 2019-08-19 00:00 - 2019-12-14 00:00",
+    "string3": "113",
+    "errorDescr": "\"%s\" overlaps deployment \"%s\" from project %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Overlapping Tag Deployments (Tag Properties)",
+    "descr": "These tag deployments overlap in time with a deployment for a tag with identical properties, which may lead to ambiguous detections.",
+    "urlView": "/data/tag?id=%3$d",
+    "urlFix": "/data/tags/edit?projectID=%d&id=%d",
+    "tableName": "",
+    "fixInstruct": "Please confirm the deployment dates for both deployments are accurate. You may need to resolve ambiguities between these two tags using spatial or temporal factors.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5896378,
+    "projectID": 279,
+    "ID": 38574,
+    "idConflict": "NA",
+    "errorCode": "v_tag_hits_out_deploy",
+    "string": "2062",
+    "string2": "2019-09-16 04:58:45 - 2019-09-16 07:47:21",
+    "string3": "",
+    "errorDescr": "Tag ID #%5$d, number of detections: %s, from %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Tag Detections Outside of Deployments",
+    "descr": "These tags have detections that fall outside of any current tag deployment.",
+    "urlView": "",
+    "urlFix": "/data/tag/edit?projectID=%d&id=%d",
+    "tableName": "",
+    "fixInstruct": "Please modify or create deployment(s) that capture these detections. If these detections occurred during testing, please create a deployment and mark it as a test.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  }
+], "columns":[
+  {
+    "data": "errorID",
+    "name": "Error ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "idConflict",
+    "name": "ID Conflict"
+  },
+  {
+    "data": "errorCode",
+    "name": "Error Code"
+  },
+  {
+    "data": "string",
+    "name": "String"
+  },
+  {
+    "data": "string2",
+    "name": "String2"
+  },
+  {
+    "data": "string3",
+    "name": "String3"
+  },
+  {
+    "data": "errorDescr",
+    "name": "Error Descr"
+  },
+  {
+    "data": "severity",
+    "name": "Severity"
+  },
+  {
+    "data": "type",
+    "name": "Type"
+  },
+  {
+    "data": "subType",
+    "name": "Sub Type"
+  },
+  {
+    "data": "descrShort",
+    "name": "Descr Short"
+  },
+  {
+    "data": "descr",
+    "name": "Descr"
+  },
+  {
+    "data": "urlView",
+    "name": "Url View"
+  },
+  {
+    "data": "urlFix",
+    "name": "Url Fix"
+  },
+  {
+    "data": "tableName",
+    "name": "Table Name"
+  },
+  {
+    "data": "fixInstruct",
+    "name": "Fix Instruct"
+  },
+  {
+    "data": "severityDescr",
+    "name": "Severity Descr"
+  },
+  {
+    "data": "tooltip",
+    "name": "Tooltip"
+  }
+]
+}

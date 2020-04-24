@@ -1,0 +1,165 @@
+{
+"data":[
+  {
+    "tagID": 26457,
+    "tagProjectID": 115,
+    "mfgID": "380",
+    "dateBin": "2017-3",
+    "lifespan": 76,
+    "tagDeployID": 14138,
+    "deploymentStatus": "active",
+    "dtStart": "2017-08-15 00:00:00 +00:00",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": 1502755200,
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": "NA",
+    "speciesID": 16960,
+    "speciesName": "Geothlypis formosa",
+    "motusScientificName": "Geothlypis formosa",
+    "motusEnglishName": "Kentucky Warbler",
+    "motusFrenchName": "Paruline du Kentucky",
+    "bandNumber": "2631-67601",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": 42.5828,
+    "longitude": -80.3983,
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 16153,
+    "tagProjectID": 115,
+    "mfgID": "398",
+    "dateBin": "2014-2",
+    "lifespan": 55,
+    "tagDeployID": 9256,
+    "deploymentStatus": "active",
+    "dtStart": "2016-09-12 16:00:00 +00:00",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": 1473696000,
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": "NA",
+    "speciesID": 19500,
+    "speciesName": "Passerina ciris",
+    "motusScientificName": "Passerina ciris",
+    "motusEnglishName": "Painted Bunting",
+    "motusFrenchName": "Passerin nonpareil",
+    "bandNumber": "",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": 42.5829,
+    "longitude": -80.3985,
+    "elevation": "NA",
+    "comments": ""
+  }
+], "columns":[
+  {
+    "data": "tagID",
+    "name": "Tag ID"
+  },
+  {
+    "data": "tagProjectID",
+    "name": "Tag Project ID"
+  },
+  {
+    "data": "mfgID",
+    "name": "Manufacturer ID"
+  },
+  {
+    "data": "dateBin",
+    "name": "Date Bin"
+  },
+  {
+    "data": "lifespan",
+    "name": "Lifespan"
+  },
+  {
+    "data": "tagDeployID",
+    "name": "Tag Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "dtStartAnticipated",
+    "name": "Date Start Anticipated"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "tsStartAnticipated",
+    "name": "Time Start Anticipated"
+  },
+  {
+    "data": "deferSec",
+    "name": "Defer Sec"
+  },
+  {
+    "data": "speciesID",
+    "name": "Species ID"
+  },
+  {
+    "data": "speciesName",
+    "name": "Species Name"
+  },
+  {
+    "data": "motusScientificName",
+    "name": "Motus Scientific Name"
+  },
+  {
+    "data": "motusEnglishName",
+    "name": "Motus English Name"
+  },
+  {
+    "data": "motusFrenchName",
+    "name": "Motus French Name"
+  },
+  {
+    "data": "bandNumber",
+    "name": "Band Number"
+  },
+  {
+    "data": "markerNumber",
+    "name": "Marker Number"
+  },
+  {
+    "data": "markerType",
+    "name": "Marker Type"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "comments",
+    "name": "Comments"
+  }
+]
+}

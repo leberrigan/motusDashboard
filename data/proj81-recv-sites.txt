@@ -1,0 +1,69 @@
+{
+"data":[
+  {
+    "ID": 2190,
+    "projectID": 81,
+    "landOwnerID": "NA",
+    "name": "Alaksen",
+    "latitude": 49.09,
+    "longitude": -123.16,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2191,
+    "projectID": 81,
+    "landOwnerID": "NA",
+    "name": "Boundary Bay",
+    "latitude": 49.06,
+    "longitude": -123.02,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2192,
+    "projectID": 81,
+    "landOwnerID": "NA",
+    "name": "Crescent Stables",
+    "latitude": 49.12,
+    "longitude": -123.04,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2193,
+    "projectID": 81,
+    "landOwnerID": "NA",
+    "name": "Sea Island",
+    "latitude": 49.2,
+    "longitude": -123.17,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

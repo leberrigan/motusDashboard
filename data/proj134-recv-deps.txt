@@ -1,0 +1,157 @@
+{
+"data":[
+  {
+    "motusRecvID": 2606,
+    "recvProjectID": 134,
+    "receiverID": "SG-86F3RPI23EF6",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4824,
+    "deploymentStatus": "active",
+    "deploymentName": " Howard Nursery Fall 2018",
+    "siteName": "Howard Nursey",
+    "dtStart": "2018-07-31 10:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1533031200,
+    "tsEnd": "NA",
+    "latitude": 40.9856,
+    "longitude": -77.7096,
+    "elevation": 207,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2607,
+    "recvProjectID": 134,
+    "receiverID": "SG-5332RPI27B17",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4826,
+    "deploymentStatus": "active",
+    "deploymentName": "Curtin Road Tower Fall 2018",
+    "siteName": "State Game Lands Curtin Road",
+    "dtStart": "2018-08-07 20:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1533672000,
+    "tsEnd": "NA",
+    "latitude": 40.9566,
+    "longitude": -77.7221,
+    "elevation": 460,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2608,
+    "recvProjectID": 134,
+    "receiverID": "SG-C858RPI2F049",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4825,
+    "deploymentStatus": "active",
+    "deploymentName": "Foster Joseph Sayers Dam Fall 2018",
+    "siteName": "Foster Joseph Sayers Dam",
+    "dtStart": "2018-08-12 15:37:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1534088220,
+    "tsEnd": "NA",
+    "latitude": 41.05,
+    "longitude": -77.6169,
+    "elevation": 217,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2610,
+    "recvProjectID": 134,
+    "receiverID": "Lotek-D000465",
+    "receiverType": "LOTEKSRX800D",
+    "recvDeployID": 4925,
+    "deploymentStatus": "active",
+    "deploymentName": "Lamb's Gap Tower",
+    "siteName": "323 Lamb's Gap",
+    "dtStart": "2018-07-30 19:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1532977200,
+    "tsEnd": "NA",
+    "latitude": 40.9708,
+    "longitude": -77.6969,
+    "elevation": 469,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

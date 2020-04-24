@@ -1,0 +1,42 @@
+{
+"data":[
+  {
+    "ID": 2431,
+    "projectID": 129,
+    "landOwnerID": "NA",
+    "name": "Oklahoma Biological Survey",
+    "latitude": 35.18,
+    "longitude": -97.44,
+    "lastEditedDt": "11/1/2017 16:39:11"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

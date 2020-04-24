@@ -1,0 +1,429 @@
+{
+"data":[
+  {
+    "ID": 2403,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Zwanenwater",
+    "latitude": 52.81,
+    "longitude": 4.68,
+    "lastEditedDt": "10/4/2017 11:20:32"
+  },
+  {
+    "ID": 2404,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "ECN",
+    "latitude": 52.78,
+    "longitude": 4.67,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2405,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Petten",
+    "latitude": 52.75,
+    "longitude": 4.65,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2406,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Castricum",
+    "latitude": 52.55,
+    "longitude": 4.6,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2407,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Camperduin",
+    "latitude": 52.72,
+    "longitude": 4.64,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2445,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "IJmuiden - WURSG011 ",
+    "latitude": 52.46,
+    "longitude": 4.58,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2446,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Schagerbrug",
+    "latitude": 52.81,
+    "longitude": 4.72,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2447,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Camper-08",
+    "latitude": 52.72,
+    "longitude": 4.64,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2448,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Nog niet in gebruik",
+    "latitude": 0,
+    "longitude": 0,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2501,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Julianadorp",
+    "latitude": 52.88,
+    "longitude": 4.71,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2504,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Den Helder vuurtoren",
+    "latitude": 52.95,
+    "longitude": 4.72,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2508,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Westkapelle vuurtoren Hoog",
+    "latitude": 51.52,
+    "longitude": 3.44,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2509,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Breskens vuurtoren",
+    "latitude": 51.4,
+    "longitude": 3.52,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2515,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Reddingsbrigade Maasvlakte",
+    "latitude": 51.92,
+    "longitude": 3.98,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2529,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Noorderhaven Julianadorp",
+    "latitude": 52.88,
+    "longitude": 4.75,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2531,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "zandmotor Argusmast",
+    "latitude": 52.05,
+    "longitude": 4.18,
+    "lastEditedDt": "6/14/2018 2:46:33"
+  },
+  {
+    "ID": 2549,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Hoek van Holland Zeetoren",
+    "latitude": 51.99,
+    "longitude": 4.12,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2550,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Brandweer Maasvlakte",
+    "latitude": 51.98,
+    "longitude": 4.02,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2570,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "RWS gebouw Haringvlietdam",
+    "latitude": 51.82,
+    "longitude": 4.04,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2611,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Huiberts",
+    "latitude": 52.77,
+    "longitude": 4.7,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2627,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Kennemerwind",
+    "latitude": 52.73,
+    "longitude": 4.68,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2634,
+    "projectID": 113,
+    "landOwnerID": 10376,
+    "name": "Heemtuin Hillegom",
+    "latitude": 52.28,
+    "longitude": 4.58,
+    "lastEditedDt": "10/4/2018 11:06:45"
+  },
+  {
+    "ID": 2649,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Barts mobile",
+    "latitude": 52.78,
+    "longitude": 4.7,
+    "lastEditedDt": "10/25/2018 5:44:39"
+  },
+  {
+    "ID": 2661,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Bergen aan zee",
+    "latitude": 52.66,
+    "longitude": 4.64,
+    "lastEditedDt": "11/12/2018 8:36:43"
+  },
+  {
+    "ID": 2668,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Natuurcentrum Ameland",
+    "latitude": 53.44,
+    "longitude": 5.77,
+    "lastEditedDt": "12/14/2018 9:31:30"
+  },
+  {
+    "ID": 2670,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Strandhotel Vlieland",
+    "latitude": 53.3,
+    "longitude": 5.05,
+    "lastEditedDt": "12/21/2018 3:41:06"
+  },
+  {
+    "ID": 2713,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Paal 9",
+    "latitude": 53.02,
+    "longitude": 4.71,
+    "lastEditedDt": "4/4/2019 7:19:13"
+  },
+  {
+    "ID": 2730,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Caister-on-Sea Lifeboat",
+    "latitude": 50.59,
+    "longitude": 4.35,
+    "lastEditedDt": "5/6/2019 6:07:40"
+  },
+  {
+    "ID": 2731,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Lowersoft - CEFAS",
+    "latitude": 52.45,
+    "longitude": 1.74,
+    "lastEditedDt": "5/6/2019 7:36:25"
+  },
+  {
+    "ID": 2732,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "Landguard Bird Observatory",
+    "latitude": 51.93,
+    "longitude": 1.32,
+    "lastEditedDt": "5/6/2019 9:24:19"
+  },
+  {
+    "ID": 2816,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "WUR - Schagerbrug2019",
+    "latitude": 52.8,
+    "longitude": 4.75,
+    "lastEditedDt": "7/22/2019 10:25:52"
+  },
+  {
+    "ID": 2824,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "WUR - t Zand",
+    "latitude": 52.84,
+    "longitude": 4.75,
+    "lastEditedDt": "7/25/2019 10:13:45"
+  },
+  {
+    "ID": 2825,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "WUR - Oostvoorne",
+    "latitude": 51.91,
+    "longitude": 4.06,
+    "lastEditedDt": "7/25/2019 10:20:25"
+  },
+  {
+    "ID": 2826,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "WUR - De Kooy",
+    "latitude": 52.9,
+    "longitude": 4.78,
+    "lastEditedDt": "7/25/2019 10:28:23"
+  },
+  {
+    "ID": 2827,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "WUR st Maartensvlotbrug Parallelweg",
+    "latitude": 52.79,
+    "longitude": 4.71,
+    "lastEditedDt": "7/30/2019 8:41:45"
+  },
+  {
+    "ID": 2852,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "WUR Callantsoog Inland",
+    "latitude": 52.84,
+    "longitude": 4.72,
+    "lastEditedDt": "8/9/2019 3:46:53"
+  },
+  {
+    "ID": 2866,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "WUR - Noordwijk - Huis ter Duin",
+    "latitude": 52.24,
+    "longitude": 4.42,
+    "lastEditedDt": "8/16/2019 4:47:10"
+  },
+  {
+    "ID": 2885,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "WUR Vinetaduin Hoek van Holland",
+    "latitude": 51.98,
+    "longitude": 4.11,
+    "lastEditedDt": "8/26/2019 7:38:47"
+  },
+  {
+    "ID": 2886,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "WUR Callantsoog Reddingsbrigade",
+    "latitude": 52.83,
+    "longitude": 4.69,
+    "lastEditedDt": "8/26/2019 7:52:34"
+  },
+  {
+    "ID": 2887,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "WUR Groote Keeten Reddingsbrigade",
+    "latitude": 52.86,
+    "longitude": 4.7,
+    "lastEditedDt": "8/26/2019 7:59:57"
+  },
+  {
+    "ID": 2889,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "WUR - Neeltje Jans - Lange Neel",
+    "latitude": 51.62,
+    "longitude": 3.66,
+    "lastEditedDt": "8/28/2019 5:17:47"
+  },
+  {
+    "ID": 2893,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "WUR Brouwersdam sluis",
+    "latitude": 51.74,
+    "longitude": 3.82,
+    "lastEditedDt": "9/6/2019 4:01:18"
+  },
+  {
+    "ID": 2894,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "WUR Dunwich",
+    "latitude": 52.27,
+    "longitude": 1.63,
+    "lastEditedDt": "9/6/2019 8:44:11"
+  },
+  {
+    "ID": 2909,
+    "projectID": 113,
+    "landOwnerID": "NA",
+    "name": "WUR - Eendekooi 't Zand",
+    "latitude": 52.84,
+    "longitude": 4.77,
+    "lastEditedDt": "9/20/2019 7:15:15"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

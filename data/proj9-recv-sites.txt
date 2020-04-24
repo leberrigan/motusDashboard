@@ -1,0 +1,231 @@
+{
+"data":[
+  {
+    "ID": 1534,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "2016PKR_salt_pannes",
+    "latitude": 42.78,
+    "longitude": -70.8,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1535,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "2017GTB_Thomas",
+    "latitude": 43.07,
+    "longitude": -70.83,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1536,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "2017PKR_salt_pannes",
+    "latitude": 42.78,
+    "longitude": -70.8,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1537,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "GB_ferry way",
+    "latitude": 43.08,
+    "longitude": -70.85,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1538,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "GB_ferryway",
+    "latitude": 43.08,
+    "longitude": -70.85,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1539,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "GB_thomas",
+    "latitude": 43.07,
+    "longitude": -70.83,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1540,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "GB_Thomas",
+    "latitude": 43.07,
+    "longitude": -70.83,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1541,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "GTB_Thomas",
+    "latitude": 43.07,
+    "longitude": -70.83,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1542,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "PKR Nelson",
+    "latitude": 42.74,
+    "longitude": -70.82,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1543,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "PKR- Nelson's Island",
+    "latitude": 42.74,
+    "longitude": -70.82,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1544,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "PKR salt pannes",
+    "latitude": 42.78,
+    "longitude": -70.8,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1545,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "PKR_HQ",
+    "latitude": 42.79,
+    "longitude": -70.84,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1546,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "PKR_lot1",
+    "latitude": 42.79,
+    "longitude": -70.8,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1547,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "PKR_Nelson",
+    "latitude": 42.74,
+    "longitude": -70.82,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1548,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "PKR_Nelsons",
+    "latitude": 42.74,
+    "longitude": -70.82,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1549,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "PKR_salt pannes",
+    "latitude": 42.78,
+    "longitude": -70.8,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1550,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "PKR_salt_pannes",
+    "latitude": 42.78,
+    "longitude": -70.8,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1551,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "PKR_stage",
+    "latitude": 42.71,
+    "longitude": -70.77,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1552,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "PKR-Stage1",
+    "latitude": 42.71,
+    "longitude": -70.77,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1553,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "PKR-Stage2",
+    "latitude": 42.71,
+    "longitude": -70.77,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1554,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "PKR-Stage3",
+    "latitude": 42.71,
+    "longitude": -70.77,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  },
+  {
+    "ID": 1555,
+    "projectID": 9,
+    "landOwnerID": 2918,
+    "name": "STAGE",
+    "latitude": 42.71,
+    "longitude": -70.77,
+    "lastEditedDt": "2/12/2018 15:11:36"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

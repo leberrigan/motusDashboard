@@ -1,0 +1,87 @@
+{
+"data":[
+  {
+    "ID": 2408,
+    "projectID": 151,
+    "landOwnerID": 2703,
+    "name": "Tower Farm",
+    "latitude": 40.4,
+    "longitude": -76.68,
+    "lastEditedDt": "11/1/2017 7:34:49"
+  },
+  {
+    "ID": 2409,
+    "projectID": 151,
+    "landOwnerID": 2703,
+    "name": "Rg27 Tower",
+    "latitude": 40.4,
+    "longitude": -76.71,
+    "lastEditedDt": "11/1/2017 7:34:49"
+  },
+  {
+    "ID": 2410,
+    "projectID": 151,
+    "landOwnerID": 2703,
+    "name": "A34 Repeater",
+    "latitude": 40.44,
+    "longitude": -76.59,
+    "lastEditedDt": "11/1/2017 7:34:49"
+  },
+  {
+    "ID": 2411,
+    "projectID": 151,
+    "landOwnerID": 2703,
+    "name": "Connex Village",
+    "latitude": 40.46,
+    "longitude": -76.6,
+    "lastEditedDt": "11/1/2017 7:34:49"
+  },
+  {
+    "ID": 2424,
+    "projectID": 151,
+    "landOwnerID": 2703,
+    "name": "D2 Pine Tree",
+    "latitude": 40.42,
+    "longitude": -76.72,
+    "lastEditedDt": "11/1/2017 7:34:49"
+  },
+  {
+    "ID": 2425,
+    "projectID": 151,
+    "landOwnerID": 2703,
+    "name": "B10A Oak Tree",
+    "latitude": 40.47,
+    "longitude": -76.6,
+    "lastEditedDt": "11/1/2017 7:34:49"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

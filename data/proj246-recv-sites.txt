@@ -1,0 +1,69 @@
+{
+"data":[
+  {
+    "ID": 2771,
+    "projectID": 246,
+    "landOwnerID": 19458,
+    "name": "MadIsland1",
+    "latitude": 28.68,
+    "longitude": -96.1,
+    "lastEditedDt": "8/8/2019 11:40:16"
+  },
+  {
+    "ID": 2772,
+    "projectID": 246,
+    "landOwnerID": 19458,
+    "name": "MadIsland2",
+    "latitude": 28.68,
+    "longitude": -96,
+    "lastEditedDt": "8/8/2019 11:40:16"
+  },
+  {
+    "ID": 2773,
+    "projectID": 246,
+    "landOwnerID": 19458,
+    "name": "MadIsland3",
+    "latitude": 28.62,
+    "longitude": -96.1,
+    "lastEditedDt": "8/8/2019 11:40:16"
+  },
+  {
+    "ID": 2774,
+    "projectID": 246,
+    "landOwnerID": 19458,
+    "name": "MadIsland4",
+    "latitude": 28.63,
+    "longitude": -96.09,
+    "lastEditedDt": "8/8/2019 11:40:16"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

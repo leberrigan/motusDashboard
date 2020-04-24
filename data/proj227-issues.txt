@@ -1,0 +1,239 @@
+{
+"data":[
+  {
+    "errorID": 5890589,
+    "projectID": 227,
+    "ID": 27793,
+    "idConflict": "NA",
+    "errorCode": "v_tag_confirm_dt",
+    "string": "2020-03-30 02:20",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Tag deployment ID #%5$d, date anticipated was %s",
+    "severity": 4,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Unconfirmed Tag Start Date",
+    "descr": "These tag deployments were originally created with start dates in the future. The start dates are now in the past, but have not yet been confirmed. You confirm each tag deployment date individually under Manage tags, or through the bulk tag deployment upload tool. If these tags have not yet been deployed and you intend to use them later, please remove the start date deployments so Motus is aware the tags are still undeployed and so that new tags with these properties are not manufactured.  If you do not intend to deploy these tags, please delete the unused deployment and mark the tags as deprecated.",
+    "urlView": "",
+    "urlFix": "/data/tag/deployment/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "To confirm the tag deployment, open the deployment record, verify that the start date, species and other deployment details are accurate and click on the save button to confirm. This error cannot be ignored.",
+    "severityDescr": "Critical Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other motus projects. Critical errors cannot be ignored."
+  },
+  {
+    "errorID": 5896236,
+    "projectID": 227,
+    "ID": 35516,
+    "idConflict": "NA",
+    "errorCode": "v_tag_hits_out_deploy",
+    "string": "20",
+    "string2": "2019-07-02 01:15:16 - 2019-07-10 03:43:45",
+    "string3": "",
+    "errorDescr": "Tag ID #%5$d, number of detections: %s, from %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Tag Detections Outside of Deployments",
+    "descr": "These tags have detections that fall outside of any current tag deployment.",
+    "urlView": "",
+    "urlFix": "/data/tag/edit?projectID=%d&id=%d",
+    "tableName": "",
+    "fixInstruct": "Please modify or create deployment(s) that capture these detections. If these detections occurred during testing, please create a deployment and mark it as a test.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5896237,
+    "projectID": 227,
+    "ID": 35517,
+    "idConflict": "NA",
+    "errorCode": "v_tag_hits_out_deploy",
+    "string": "2",
+    "string2": "2019-07-03 00:12:49 - 2019-07-03 00:13:45",
+    "string3": "",
+    "errorDescr": "Tag ID #%5$d, number of detections: %s, from %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Tag Detections Outside of Deployments",
+    "descr": "These tags have detections that fall outside of any current tag deployment.",
+    "urlView": "",
+    "urlFix": "/data/tag/edit?projectID=%d&id=%d",
+    "tableName": "",
+    "fixInstruct": "Please modify or create deployment(s) that capture these detections. If these detections occurred during testing, please create a deployment and mark it as a test.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5896238,
+    "projectID": 227,
+    "ID": 35522,
+    "idConflict": "NA",
+    "errorCode": "v_tag_hits_out_deploy",
+    "string": "150",
+    "string2": "2019-10-03 01:18:43 - 2019-10-03 01:23:21",
+    "string3": "",
+    "errorDescr": "Tag ID #%5$d, number of detections: %s, from %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Tag Detections Outside of Deployments",
+    "descr": "These tags have detections that fall outside of any current tag deployment.",
+    "urlView": "",
+    "urlFix": "/data/tag/edit?projectID=%d&id=%d",
+    "tableName": "",
+    "fixInstruct": "Please modify or create deployment(s) that capture these detections. If these detections occurred during testing, please create a deployment and mark it as a test.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5899072,
+    "projectID": 227,
+    "ID": 35521,
+    "idConflict": "NA",
+    "errorCode": "v_tag_hits_no_deploy",
+    "string": "257",
+    "string2": "2019-07-02 02:25:27 - 2020-02-19 02:50:14",
+    "string3": "",
+    "errorDescr": "Tag ID #%5$d, number of detections: %s, from %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Tag Detections With No Deployment",
+    "descr": "These tags have associated detections but the tags have not been deployed.",
+    "urlView": "",
+    "urlFix": "/data/tag/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please create deployment(s) that capture these detections. If these detections occurred during testing, please create and mark the deployment as a test.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5900520,
+    "projectID": 227,
+    "ID": 2662,
+    "idConflict": "NA",
+    "errorCode": "v_no_landowner",
+    "string": "Hanbao Yuan, Changhua",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Site: %s (#%5$d)",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Missing Landowner Information",
+    "descr": "These sites do not have any landowner information.",
+    "urlView": "",
+    "urlFix": "/data/project/sites?projectID=%d#site-%d",
+    "tableName": "sensor_sites",
+    "fixInstruct": "Please populate the landowner information so they can be properly credited for their contributions to the Motus Network.  Landowner first and last names will appear here: https://motus.org/data/partners.jsp",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5900607,
+    "projectID": 227,
+    "ID": 2783,
+    "idConflict": "NA",
+    "errorCode": "v_no_landowner",
+    "string": "Wanggong, Changhua",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Site: %s (#%5$d)",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Missing Landowner Information",
+    "descr": "These sites do not have any landowner information.",
+    "urlView": "",
+    "urlFix": "/data/project/sites?projectID=%d#site-%d",
+    "tableName": "sensor_sites",
+    "fixInstruct": "Please populate the landowner information so they can be properly credited for their contributions to the Motus Network.  Landowner first and last names will appear here: https://motus.org/data/partners.jsp",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  }
+], "columns":[
+  {
+    "data": "errorID",
+    "name": "Error ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "idConflict",
+    "name": "ID Conflict"
+  },
+  {
+    "data": "errorCode",
+    "name": "Error Code"
+  },
+  {
+    "data": "string",
+    "name": "String"
+  },
+  {
+    "data": "string2",
+    "name": "String2"
+  },
+  {
+    "data": "string3",
+    "name": "String3"
+  },
+  {
+    "data": "errorDescr",
+    "name": "Error Descr"
+  },
+  {
+    "data": "severity",
+    "name": "Severity"
+  },
+  {
+    "data": "type",
+    "name": "Type"
+  },
+  {
+    "data": "subType",
+    "name": "Sub Type"
+  },
+  {
+    "data": "descrShort",
+    "name": "Descr Short"
+  },
+  {
+    "data": "descr",
+    "name": "Descr"
+  },
+  {
+    "data": "urlView",
+    "name": "Url View"
+  },
+  {
+    "data": "urlFix",
+    "name": "Url Fix"
+  },
+  {
+    "data": "tableName",
+    "name": "Table Name"
+  },
+  {
+    "data": "fixInstruct",
+    "name": "Fix Instruct"
+  },
+  {
+    "data": "severityDescr",
+    "name": "Severity Descr"
+  },
+  {
+    "data": "tooltip",
+    "name": "Tooltip"
+  }
+]
+}

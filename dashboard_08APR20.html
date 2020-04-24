@@ -1,0 +1,154 @@
+<html>
+
+	<head>
+
+	<title>Motus Dashboard</title>
+
+		<link rel="stylesheet" type="text/css" href="jquery-ui-1.12.1.custom/jquery-ui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/datatables.min.css"/>
+		<link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/jquery.fileupload.css" />
+		<link rel="stylesheet" type="text/css" href="css/dashboard_08APR20.css" />
+		<script type='text/javascript' src='js/jquery-3.4.1.min.js'></script>
+		<script type='text/javascript' src='jquery-ui-1.12.1.custom/jquery-ui.min.js'></script>
+		<script type='text/javascript' src="js/jquery.fileupload.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+		<script type="text/javascript" src="js/datatables.min.js"></script>	
+		<script type='text/javascript' src='js/dashboard_data_v0.1.1.js'></script>
+		<script type="text/javascript" src="js/dataTables.pageResize.min.js"></script>
+		<script type='text/javascript' src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+		<script type='text/javascript' src='js/dashboard_structure_0.2.js'></script>
+		<script type='text/javascript' src='js/dashboard_08APR20.js'></script>
+		<script type='text/javascript' src='js/dashboard_requestTableData.js'></script>
+		<script type='text/javascript' src='js/dashboard_requestProjectData.js'></script>
+		<script type='text/javascript' src='js/URLparameters.js'></script>
+		<script type='text/javascript' src='js/bar_canvas.js'></script>
+
+	</head>
+	<body>
+
+		<div class='content-wrapper'>
+			
+			<div class='content'>
+				
+				<div class='projectList-wrapper'>Project: <select id='projectList'></select></div>
+				
+				<div id='main-menu'>
+					<ul>
+						<!--li>Project Settings
+							<img src='SVG/Options.svg' width='16'>
+						</li>
+						<li>User Permissions
+							<img src='SVG/Lock.svg' width='16'>
+						</li>
+						<li>Data Issues
+							<img src='SVG/Issue.svg' width='16'>
+						</li>
+						<li>Receivers
+							<img src='SVG/Station.svg' width='16'></li>
+						<li>Tags
+							<img src='SVG/Tag2.svg' width='16'></li>
+						<li>Upload Files
+							<img src='SVG/Upload.svg' width='16'></li>
+						<li>Download Data
+							<img src='SVG/Download.svg' width='16'>
+						</li-->
+					</ul>
+				</div>
+				
+				<div id="main-content">
+						<div id="demotable">
+							<div>
+								<div>
+									<img src='SVG/Station.svg' height='100px'>
+									<br>
+									<h3>Receivers</h3>
+								</div>
+								<div>
+									<canvas id="myCanvas" width="" height="10" style="border:1px solid #000000;">
+										Your browser does not support the HTML5 canvas tag.
+									</canvas>
+									<script>
+									</script>
+								</div>
+								<ul>
+									<li>
+										<div><span>58</span>/75</div>
+										Active
+									</li>
+									<li>
+										<div><span>3</span>/58</div>
+										Networked
+									</li>
+									<li class='warning'>
+										<div><span>16</span>/58</div>
+										Missing Data
+									</li>
+								</ul>
+							</div>
+							
+							<div>
+								<div>
+									<img src='SVG/Tag4.svg' height='100px'>
+									<br>
+									<h3>Tags</h3>
+								</div>
+								<div></div>
+								<ul>
+									<li>
+										<div>
+											<span>506</span>/550
+										</div>
+										Deployed
+									</li>
+									<li>
+										<div><span>77</span>/550</div>
+										Active
+									</li>
+									<li class='warning'>
+										<div><span>63</span>/506</div>
+										Missing Data
+									</li>
+								</ul>
+							</div>
+							
+							<div>
+								<div>
+									<img src='SVG/Issue2.svg' height='100px'>
+									<br>
+									<h3>Issues</h3>
+								</div>
+								<div></div>
+								<ul>
+									<li class='critical'>
+										<div><span>4</span></div>
+										Critical
+									</li>
+									<li class='warning'>
+										<div><span>13</span></div>
+										Errors
+									</li>
+									<li class='warning'>
+										<div><span>36</span></div>
+										Warnings
+									</li>
+									<li>
+										<div><span>3</span></div>
+										Notes
+									</li>
+								</ul>
+							</div>
+						</div>
+				</div>
+				
+			</div>
+			
+		</div>
+	<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUWjOcaQ4B5zMEFzGudOUuhQ0PaUAhNbw&callback=initMap">
+		</script>
+
+	</body>
+
+</html>

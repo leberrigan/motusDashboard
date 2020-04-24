@@ -1,0 +1,116 @@
+{
+"data":[
+  {
+    "tagID": 11499,
+    "tagProjectID": 30,
+    "mfgID": "3",
+    "dateBin": "2014-3",
+    "dtRegistered": "2014-07-22 14:29:45.85",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "",
+    "lifespan": "NA",
+    "nomFreq": 166.38,
+    "offsetFreq": 0.1942,
+    "period": 39.689,
+    "periodSD": 0.0001,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 11500,
+    "tagProjectID": 30,
+    "mfgID": "134",
+    "dateBin": "2014-3",
+    "dtRegistered": "2014-08-28 19:43:31.097",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "",
+    "lifespan": "NA",
+    "nomFreq": 166.38,
+    "offsetFreq": -0.8555,
+    "period": 7.5976,
+    "periodSD": 0.0001,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 11501,
+    "tagProjectID": 30,
+    "mfgID": "170",
+    "dateBin": "2014-3",
+    "dtRegistered": "2014-08-28 19:43:31.417",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "",
+    "lifespan": "NA",
+    "nomFreq": 166.38,
+    "offsetFreq": 2.8189,
+    "period": 7.7979,
+    "periodSD": 0.0001,
+    "pulseLen": 2.5
+  }
+], "columns":[
+  {
+    "data": "tagID",
+    "name": "Tag ID"
+  },
+  {
+    "data": "tagProjectID",
+    "name": "Tag Project ID"
+  },
+  {
+    "data": "mfgID",
+    "name": "Manufacturer ID"
+  },
+  {
+    "data": "dateBin",
+    "name": "Date Bin"
+  },
+  {
+    "data": "dtRegistered",
+    "name": "Date Registered"
+  },
+  {
+    "data": "type",
+    "name": "Type"
+  },
+  {
+    "data": "codeset",
+    "name": "Codeset"
+  },
+  {
+    "data": "manufacturer",
+    "name": "Manufacturer"
+  },
+  {
+    "data": "model",
+    "name": "Model"
+  },
+  {
+    "data": "lifespan",
+    "name": "Lifespan"
+  },
+  {
+    "data": "nomFreq",
+    "name": "Nominal Frequency"
+  },
+  {
+    "data": "offsetFreq",
+    "name": "Offset Frequency"
+  },
+  {
+    "data": "period",
+    "name": "Period"
+  },
+  {
+    "data": "periodSD",
+    "name": "Period SD"
+  },
+  {
+    "data": "pulseLen",
+    "name": "Pulse Length"
+  }
+]
+}

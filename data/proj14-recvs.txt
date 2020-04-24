@@ -1,0 +1,492 @@
+{
+"data":[
+  {
+    "ID": 495,
+    "projectID": 14,
+    "receiverID": "Lotek-6448",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX600"
+  },
+  {
+    "ID": 1451,
+    "projectID": 14,
+    "receiverID": "Lotek-6546",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX600"
+  },
+  {
+    "ID": 1454,
+    "projectID": 14,
+    "receiverID": "Lotek-6464",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX600"
+  },
+  {
+    "ID": 1455,
+    "projectID": 14,
+    "receiverID": "Lotek-6532",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX600"
+  },
+  {
+    "ID": 1456,
+    "projectID": 14,
+    "receiverID": "Lotek-6457",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX600"
+  },
+  {
+    "ID": 1457,
+    "projectID": 14,
+    "receiverID": "Lotek-6533",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX600"
+  },
+  {
+    "ID": 1458,
+    "projectID": 14,
+    "receiverID": "Lotek-6544",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX600"
+  },
+  {
+    "ID": 1459,
+    "projectID": 14,
+    "receiverID": "Lotek-6517",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX600"
+  },
+  {
+    "ID": 1460,
+    "projectID": 14,
+    "receiverID": "Lotek-6461",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX600"
+  },
+  {
+    "ID": 1461,
+    "projectID": 14,
+    "receiverID": "Lotek-225",
+    "approved": 1,
+    "lastEditedDt": "3/14/2017 16:46:29",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1462,
+    "projectID": 14,
+    "receiverID": "Lotek-221",
+    "approved": 1,
+    "lastEditedDt": "3/14/2017 16:46:30",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1463,
+    "projectID": 14,
+    "receiverID": "Lotek-220",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1464,
+    "projectID": 14,
+    "receiverID": "Lotek-6460",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX600"
+  },
+  {
+    "ID": 1466,
+    "projectID": 14,
+    "receiverID": "Lotek-6458",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX600"
+  },
+  {
+    "ID": 1468,
+    "projectID": 14,
+    "receiverID": "Lotek-6352",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX600"
+  },
+  {
+    "ID": 1469,
+    "projectID": 14,
+    "receiverID": "Lotek-6454",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX600"
+  },
+  {
+    "ID": 1470,
+    "projectID": 14,
+    "receiverID": "Lotek-6455",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX600"
+  },
+  {
+    "ID": 1471,
+    "projectID": 14,
+    "receiverID": "Lotek-224",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1472,
+    "projectID": 14,
+    "receiverID": "Lotek-6545",
+    "approved": 1,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX600"
+  },
+  {
+    "ID": 1756,
+    "projectID": 14,
+    "receiverID": "Lotek-370",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:02",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1758,
+    "projectID": 14,
+    "receiverID": "Lotek-382",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:05",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1759,
+    "projectID": 14,
+    "receiverID": "Lotek-373",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:03",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1760,
+    "projectID": 14,
+    "receiverID": "Lotek-372",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:02",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1862,
+    "projectID": 14,
+    "receiverID": "Lotek-381",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:04",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1863,
+    "projectID": 14,
+    "receiverID": "Lotek-386",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:09",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1864,
+    "projectID": 14,
+    "receiverID": "Lotek-379",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:04",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1865,
+    "projectID": 14,
+    "receiverID": "Lotek-380",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:04",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1866,
+    "projectID": 14,
+    "receiverID": "Lotek-390",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:10",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1867,
+    "projectID": 14,
+    "receiverID": "Lotek-374",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:03",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1868,
+    "projectID": 14,
+    "receiverID": "Lotek-383",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:05",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1869,
+    "projectID": 14,
+    "receiverID": "Lotek-389",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:10",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1870,
+    "projectID": 14,
+    "receiverID": "Lotek-385",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:06",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1925,
+    "projectID": 14,
+    "receiverID": "Lotek-6462",
+    "approved": 0,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX600"
+  },
+  {
+    "ID": 1929,
+    "projectID": 14,
+    "receiverID": "SG-1012BB012871",
+    "approved": 0,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 1955,
+    "projectID": 14,
+    "receiverID": "SG-2712BB000208",
+    "approved": 0,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 1974,
+    "projectID": 14,
+    "receiverID": "Lotek-375",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:03",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1976,
+    "projectID": 14,
+    "receiverID": "Lotek-371",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:02",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1977,
+    "projectID": 14,
+    "receiverID": "Lotek-387",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:09",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 1979,
+    "projectID": 14,
+    "receiverID": "Lotek-384",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:05",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 2020,
+    "projectID": 14,
+    "receiverID": "Lotek-6283",
+    "approved": 0,
+    "lastEditedDt": "3/13/2017 19:14:34",
+    "lastEditedUserID": "NA",
+    "receiverType": "LOTEKSRX600"
+  },
+  {
+    "ID": 2056,
+    "projectID": 14,
+    "receiverID": "SG-3115BBBK1375",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:56:22",
+    "lastEditedUserID": "NA",
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 2057,
+    "projectID": 14,
+    "receiverID": "SG-1914BBBK0866",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:50",
+    "lastEditedUserID": "NA",
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 2058,
+    "projectID": 14,
+    "receiverID": "SG-1914BBBK0832",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:50",
+    "lastEditedUserID": "NA",
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 2059,
+    "projectID": 14,
+    "receiverID": "SG-1914BBBK0870",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:50",
+    "lastEditedUserID": "NA",
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 2060,
+    "projectID": 14,
+    "receiverID": "SG-1914BBBK0875",
+    "approved": 0,
+    "lastEditedDt": "1/17/2018 14:55:51",
+    "lastEditedUserID": "NA",
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 2118,
+    "projectID": 14,
+    "receiverID": "SG-2616BBBK1111",
+    "approved": 0,
+    "lastEditedDt": "9/13/2018 20:22:14",
+    "lastEditedUserID": 2,
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 2241,
+    "projectID": 14,
+    "receiverID": "Lotek-223",
+    "approved": 0,
+    "lastEditedDt": "8/29/2017 11:58:28",
+    "lastEditedUserID": 545,
+    "receiverType": "LOTEKSRX800"
+  },
+  {
+    "ID": 2335,
+    "projectID": 14,
+    "receiverID": "SG-4001BBBK2230",
+    "approved": 0,
+    "lastEditedDt": "1/24/2018 10:58:11",
+    "lastEditedUserID": 230,
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 2798,
+    "projectID": 14,
+    "receiverID": "SG-30B8RPI3AB49",
+    "approved": 0,
+    "lastEditedDt": "10/30/2018 11:10:08",
+    "lastEditedUserID": 11540,
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 2799,
+    "projectID": 14,
+    "receiverID": "SG-B4B4RPI36D28",
+    "approved": 0,
+    "lastEditedDt": "10/30/2018 11:19:06",
+    "lastEditedUserID": 11540,
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 3248,
+    "projectID": 14,
+    "receiverID": "Lotek-D000793",
+    "approved": 0,
+    "lastEditedDt": "7/3/2019 14:01:46",
+    "lastEditedUserID": 11540,
+    "receiverType": "LOTEKSRX800D"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "approved",
+    "name": "Approved"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  },
+  {
+    "data": "lastEditedUserID",
+    "name": "Last Edited User ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  }
+]
+}

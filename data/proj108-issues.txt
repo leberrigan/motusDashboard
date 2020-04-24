@@ -1,0 +1,173 @@
+{
+"data":[
+  {
+    "errorID": 5891358,
+    "projectID": 108,
+    "ID": 18192,
+    "idConflict": "NA",
+    "errorCode": "v_tag_deploy_species",
+    "string": "",
+    "string2": " - ",
+    "string3": "",
+    "errorDescr": "Tag deployment ID #%5$d, species: %s, %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Tag Missing Species",
+    "descr": "These tag deployments are missing species information.",
+    "urlView": "",
+    "urlFix": "/data/tag/deployment/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please provide species information for these deployments.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5891359,
+    "projectID": 108,
+    "ID": 18193,
+    "idConflict": "NA",
+    "errorCode": "v_tag_deploy_species",
+    "string": "",
+    "string2": " - ",
+    "string3": "",
+    "errorDescr": "Tag deployment ID #%5$d, species: %s, %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Tag Missing Species",
+    "descr": "These tag deployments are missing species information.",
+    "urlView": "",
+    "urlFix": "/data/tag/deployment/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please provide species information for these deployments.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5893528,
+    "projectID": 108,
+    "ID": 18192,
+    "idConflict": 18193,
+    "errorCode": "v_tag_overlap_deploy_reg",
+    "string": "18192 NULL : NULL - NULL",
+    "string2": "18193 NULL : NULL - NULL",
+    "string3": "108",
+    "errorDescr": "Tag deployment ID #%5$d overlaps with %2$s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Overlapping Tag Deployments (TagID)",
+    "descr": "These tag deployments overlap in time with another deployment for the same registered tag.",
+    "urlView": "/data/tagDeployment?id=%3$d",
+    "urlFix": "/data/tag/deployment/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please alter the deployment dates for one or both deployments to make them discrete. These overlapping deployments may occur within your own project or, if you've shared tags with other projects, the overlap may be between projects and you may need to contact the other project to request that they edit their deployment.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5893529,
+    "projectID": 108,
+    "ID": 18193,
+    "idConflict": 18192,
+    "errorCode": "v_tag_overlap_deploy_reg",
+    "string": "18193 NULL : NULL - NULL",
+    "string2": "18192 NULL : NULL - NULL",
+    "string3": "108",
+    "errorDescr": "Tag deployment ID #%5$d overlaps with %2$s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Overlapping Tag Deployments (TagID)",
+    "descr": "These tag deployments overlap in time with another deployment for the same registered tag.",
+    "urlView": "/data/tagDeployment?id=%3$d",
+    "urlFix": "/data/tag/deployment/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please alter the deployment dates for one or both deployments to make them discrete. These overlapping deployments may occur within your own project or, if you've shared tags with other projects, the overlap may be between projects and you may need to contact the other project to request that they edit their deployment.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  }
+], "columns":[
+  {
+    "data": "errorID",
+    "name": "Error ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "idConflict",
+    "name": "ID Conflict"
+  },
+  {
+    "data": "errorCode",
+    "name": "Error Code"
+  },
+  {
+    "data": "string",
+    "name": "String"
+  },
+  {
+    "data": "string2",
+    "name": "String2"
+  },
+  {
+    "data": "string3",
+    "name": "String3"
+  },
+  {
+    "data": "errorDescr",
+    "name": "Error Descr"
+  },
+  {
+    "data": "severity",
+    "name": "Severity"
+  },
+  {
+    "data": "type",
+    "name": "Type"
+  },
+  {
+    "data": "subType",
+    "name": "Sub Type"
+  },
+  {
+    "data": "descrShort",
+    "name": "Descr Short"
+  },
+  {
+    "data": "descr",
+    "name": "Descr"
+  },
+  {
+    "data": "urlView",
+    "name": "Url View"
+  },
+  {
+    "data": "urlFix",
+    "name": "Url Fix"
+  },
+  {
+    "data": "tableName",
+    "name": "Table Name"
+  },
+  {
+    "data": "fixInstruct",
+    "name": "Fix Instruct"
+  },
+  {
+    "data": "severityDescr",
+    "name": "Severity Descr"
+  },
+  {
+    "data": "tooltip",
+    "name": "Tooltip"
+  }
+]
+}

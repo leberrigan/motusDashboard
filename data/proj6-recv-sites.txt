@@ -1,0 +1,69 @@
+{
+"data":[
+  {
+    "ID": 1508,
+    "projectID": 6,
+    "landOwnerID": 15420,
+    "name": "Panama Barro Colorad",
+    "latitude": 9.15,
+    "longitude": -79.84,
+    "lastEditedDt": "2/27/2019 21:29:20"
+  },
+  {
+    "ID": 1509,
+    "projectID": 6,
+    "landOwnerID": 15422,
+    "name": "Panama Sewage Plant",
+    "latitude": 9.01,
+    "longitude": -79.44,
+    "lastEditedDt": "2/27/2019 21:29:20"
+  },
+  {
+    "ID": 1510,
+    "projectID": 6,
+    "landOwnerID": 567,
+    "name": "Canopy Tower",
+    "latitude": 9.07,
+    "longitude": -79.64,
+    "lastEditedDt": "2/27/2019 21:29:20"
+  },
+  {
+    "ID": 1511,
+    "projectID": 6,
+    "landOwnerID": 568,
+    "name": "Galeta",
+    "latitude": 9.4,
+    "longitude": -79.86,
+    "lastEditedDt": "2/27/2019 21:29:20"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

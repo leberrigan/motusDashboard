@@ -1,0 +1,168 @@
+{
+"data":[
+  {
+    "ID": 2803,
+    "projectID": 280,
+    "landOwnerID": "NA",
+    "name": "Stump Lake",
+    "latitude": 50.38,
+    "longitude": -120.32,
+    "lastEditedDt": "7/17/2019 20:14:00"
+  },
+  {
+    "ID": 2804,
+    "projectID": 280,
+    "landOwnerID": "NA",
+    "name": "Douglas Lake",
+    "latitude": 50.12,
+    "longitude": -120.36,
+    "lastEditedDt": "7/17/2019 20:27:46"
+  },
+  {
+    "ID": 2805,
+    "projectID": 280,
+    "landOwnerID": "NA",
+    "name": "Merritt",
+    "latitude": 50.08,
+    "longitude": -120.76,
+    "lastEditedDt": "7/17/2019 20:30:51"
+  },
+  {
+    "ID": 2806,
+    "projectID": 280,
+    "landOwnerID": "NA",
+    "name": "Kamloops",
+    "latitude": 50.6,
+    "longitude": -120.31,
+    "lastEditedDt": "7/17/2019 21:27:32"
+  },
+  {
+    "ID": 2807,
+    "projectID": 280,
+    "landOwnerID": "NA",
+    "name": "Coldwater",
+    "latitude": 48.88,
+    "longitude": -120.19,
+    "lastEditedDt": "7/17/2019 21:52:10"
+  },
+  {
+    "ID": 2808,
+    "projectID": 280,
+    "landOwnerID": "NA",
+    "name": "Britton Creek",
+    "latitude": 49.64,
+    "longitude": -121,
+    "lastEditedDt": "7/17/2019 21:59:00"
+  },
+  {
+    "ID": 2809,
+    "projectID": 280,
+    "landOwnerID": "NA",
+    "name": "Othello",
+    "latitude": 49.38,
+    "longitude": -121.37,
+    "lastEditedDt": "7/17/2019 22:04:24"
+  },
+  {
+    "ID": 2810,
+    "projectID": 280,
+    "landOwnerID": "NA",
+    "name": "Laidlaw",
+    "latitude": 49.32,
+    "longitude": -121.62,
+    "lastEditedDt": "7/17/2019 22:08:00"
+  },
+  {
+    "ID": 2811,
+    "projectID": 280,
+    "landOwnerID": "NA",
+    "name": "Box Canyon",
+    "latitude": 49.57,
+    "longitude": -121.17,
+    "lastEditedDt": "7/17/2019 22:34:09"
+  },
+  {
+    "ID": 2812,
+    "projectID": 280,
+    "landOwnerID": "NA",
+    "name": "Peers",
+    "latitude": 49.38,
+    "longitude": -121.31,
+    "lastEditedDt": "7/17/2019 22:43:05"
+  },
+  {
+    "ID": 2850,
+    "projectID": 280,
+    "landOwnerID": "NA",
+    "name": "FG_Leary_Chilliwack",
+    "latitude": 49.17,
+    "longitude": -121.92,
+    "lastEditedDt": "8/7/2019 23:36:50"
+  },
+  {
+    "ID": 2859,
+    "projectID": 280,
+    "landOwnerID": "NA",
+    "name": "Surrey",
+    "latitude": 49.15,
+    "longitude": 122.71,
+    "lastEditedDt": "8/12/2019 0:32:13"
+  },
+  {
+    "ID": 2871,
+    "projectID": 280,
+    "landOwnerID": "NA",
+    "name": "Abbotsford",
+    "latitude": 49.02,
+    "longitude": -122.26,
+    "lastEditedDt": "8/17/2019 20:02:05"
+  },
+  {
+    "ID": 2996,
+    "projectID": 280,
+    "landOwnerID": "NA",
+    "name": "Carolin_Mine",
+    "latitude": 49.49,
+    "longitude": -121.24,
+    "lastEditedDt": "3/21/2020 17:05:56"
+  },
+  {
+    "ID": 2997,
+    "projectID": 280,
+    "landOwnerID": "NA",
+    "name": "Rayleigh_Elementary_School",
+    "latitude": 50.79,
+    "longitude": -120.31,
+    "lastEditedDt": "3/22/2020 1:26:23"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

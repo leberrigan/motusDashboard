@@ -1,0 +1,173 @@
+{
+"data":[
+  {
+    "errorID": 5891407,
+    "projectID": 111,
+    "ID": 14143,
+    "idConflict": "NA",
+    "errorCode": "v_tag_deploy_species",
+    "string": "",
+    "string2": " - ",
+    "string3": "",
+    "errorDescr": "Tag deployment ID #%5$d, species: %s, %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Tag Missing Species",
+    "descr": "These tag deployments are missing species information.",
+    "urlView": "",
+    "urlFix": "/data/tag/deployment/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please provide species information for these deployments.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5895858,
+    "projectID": 111,
+    "ID": 26739,
+    "idConflict": "NA",
+    "errorCode": "v_tag_hits_out_deploy",
+    "string": "1118",
+    "string2": "2017-09-12 15:28:44 - 2017-09-12 15:57:11",
+    "string3": "",
+    "errorDescr": "Tag ID #%5$d, number of detections: %s, from %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Tag Detections Outside of Deployments",
+    "descr": "These tags have detections that fall outside of any current tag deployment.",
+    "urlView": "",
+    "urlFix": "/data/tag/edit?projectID=%d&id=%d",
+    "tableName": "",
+    "fixInstruct": "Please modify or create deployment(s) that capture these detections. If these detections occurred during testing, please create a deployment and mark it as a test.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5898821,
+    "projectID": 111,
+    "ID": 18616,
+    "idConflict": "NA",
+    "errorCode": "v_tag_hits_no_deploy",
+    "string": "898",
+    "string2": "2016-04-29 00:21:38 - 2016-09-19 01:43:52",
+    "string3": "",
+    "errorDescr": "Tag ID #%5$d, number of detections: %s, from %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Tag Detections With No Deployment",
+    "descr": "These tags have associated detections but the tags have not been deployed.",
+    "urlView": "",
+    "urlFix": "/data/tag/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please create deployment(s) that capture these detections. If these detections occurred during testing, please create and mark the deployment as a test.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5898822,
+    "projectID": 111,
+    "ID": 18617,
+    "idConflict": "NA",
+    "errorCode": "v_tag_hits_no_deploy",
+    "string": "8599",
+    "string2": "2016-05-07 06:56:49 - 2016-09-30 23:59:58",
+    "string3": "",
+    "errorDescr": "Tag ID #%5$d, number of detections: %s, from %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Tag Detections With No Deployment",
+    "descr": "These tags have associated detections but the tags have not been deployed.",
+    "urlView": "",
+    "urlFix": "/data/tag/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please create deployment(s) that capture these detections. If these detections occurred during testing, please create and mark the deployment as a test.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  }
+], "columns":[
+  {
+    "data": "errorID",
+    "name": "Error ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "idConflict",
+    "name": "ID Conflict"
+  },
+  {
+    "data": "errorCode",
+    "name": "Error Code"
+  },
+  {
+    "data": "string",
+    "name": "String"
+  },
+  {
+    "data": "string2",
+    "name": "String2"
+  },
+  {
+    "data": "string3",
+    "name": "String3"
+  },
+  {
+    "data": "errorDescr",
+    "name": "Error Descr"
+  },
+  {
+    "data": "severity",
+    "name": "Severity"
+  },
+  {
+    "data": "type",
+    "name": "Type"
+  },
+  {
+    "data": "subType",
+    "name": "Sub Type"
+  },
+  {
+    "data": "descrShort",
+    "name": "Descr Short"
+  },
+  {
+    "data": "descr",
+    "name": "Descr"
+  },
+  {
+    "data": "urlView",
+    "name": "Url View"
+  },
+  {
+    "data": "urlFix",
+    "name": "Url Fix"
+  },
+  {
+    "data": "tableName",
+    "name": "Table Name"
+  },
+  {
+    "data": "fixInstruct",
+    "name": "Fix Instruct"
+  },
+  {
+    "data": "severityDescr",
+    "name": "Severity Descr"
+  },
+  {
+    "data": "tooltip",
+    "name": "Tooltip"
+  }
+]
+}

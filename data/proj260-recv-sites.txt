@@ -1,0 +1,42 @@
+{
+"data":[
+  {
+    "ID": 2775,
+    "projectID": 260,
+    "landOwnerID": "NA",
+    "name": "Interstate Island",
+    "latitude": 46.74,
+    "longitude": -92.1,
+    "lastEditedDt": "6/19/2019 13:31:41"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

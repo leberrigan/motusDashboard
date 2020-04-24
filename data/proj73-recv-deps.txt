@@ -1,0 +1,197 @@
+{
+"data":[
+  {
+    "motusRecvID": 1334,
+    "recvProjectID": 73,
+    "receiverID": "Lotek-174",
+    "receiverType": "LOTEKSRX800",
+    "recvDeployID": 2381,
+    "deploymentStatus": "terminated",
+    "deploymentName": "GB2",
+    "siteName": "GB2",
+    "dtStart": "2015-06-24 00:00:00 +00:00",
+    "dtEnd": "2017-01-28 00:00:00 +00:00",
+    "tsStart": 1435104000,
+    "tsEnd": 1485561600,
+    "latitude": 30.3739,
+    "longitude": -88.4266,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1335,
+    "recvProjectID": 73,
+    "receiverID": "Lotek-178",
+    "receiverType": "LOTEKSRX800",
+    "recvDeployID": 2382,
+    "deploymentStatus": "terminated",
+    "deploymentName": "GB1",
+    "siteName": "GB1",
+    "dtStart": "2015-04-15 00:00:00 +00:00",
+    "dtEnd": "2017-01-28 00:00:00 +00:00",
+    "tsStart": 1429056000,
+    "tsEnd": 1485561600,
+    "latitude": 30.3595,
+    "longitude": -88.456,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1377,
+    "recvProjectID": 73,
+    "receiverID": "Lotek-176",
+    "receiverType": "LOTEKSRX800",
+    "recvDeployID": 2445,
+    "deploymentStatus": "terminated",
+    "deploymentName": "PR1",
+    "siteName": "PR1",
+    "dtStart": "2015-07-28 00:00:00 +00:00",
+    "dtEnd": "2017-01-28 00:00:00 +00:00",
+    "tsStart": 1438041600,
+    "tsEnd": 1485561600,
+    "latitude": 30.4156,
+    "longitude": -88.6106,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1378,
+    "recvProjectID": 73,
+    "receiverID": "Lotek-175",
+    "receiverType": "LOTEKSRX800",
+    "recvDeployID": 2446,
+    "deploymentStatus": "terminated",
+    "deploymentName": "PR2",
+    "siteName": "PR2",
+    "dtStart": "2015-07-28 00:00:00 +00:00",
+    "dtEnd": "2017-01-28 00:00:00 +00:00",
+    "tsStart": 1438041600,
+    "tsEnd": 1485561600,
+    "latitude": 30.4298,
+    "longitude": -88.5944,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1379,
+    "recvProjectID": 73,
+    "receiverID": "Lotek-177",
+    "receiverType": "LOTEKSRX800",
+    "recvDeployID": 2447,
+    "deploymentStatus": "terminated",
+    "deploymentName": "PR3",
+    "siteName": "PR3",
+    "dtStart": "2015-08-03 00:00:00 +00:00",
+    "dtEnd": "2017-01-28 00:00:00 +00:00",
+    "tsStart": 1438560000,
+    "tsEnd": 1485561600,
+    "latitude": 30.4545,
+    "longitude": -88.5857,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1503,
+    "recvProjectID": 73,
+    "receiverID": "Lotek-179",
+    "receiverType": "LOTEKSRX800",
+    "recvDeployID": 2732,
+    "deploymentStatus": "terminated",
+    "deploymentName": "GB3",
+    "siteName": "GB3",
+    "dtStart": "2015-07-27 00:00:00 +00:00",
+    "dtEnd": "2017-01-28 00:00:00 +00:00",
+    "tsStart": 1437955200,
+    "tsEnd": 1485561600,
+    "latitude": 30.3597,
+    "longitude": -88.4559,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

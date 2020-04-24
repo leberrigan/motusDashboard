@@ -1,0 +1,114 @@
+{
+"data":[
+  {
+    "ID": 2136,
+    "projectID": 77,
+    "landOwnerID": "NA",
+    "name": "Bob",
+    "latitude": 39.07,
+    "longitude": -74.73,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2137,
+    "projectID": 77,
+    "landOwnerID": "NA",
+    "name": "Bruce",
+    "latitude": 39.03,
+    "longitude": -74.77,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2138,
+    "projectID": 77,
+    "landOwnerID": "NA",
+    "name": "Holgate",
+    "latitude": 39.52,
+    "longitude": -74.27,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2139,
+    "projectID": 77,
+    "landOwnerID": "NA",
+    "name": "Holgate 2",
+    "latitude": 39.51,
+    "longitude": -74.28,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2140,
+    "projectID": 77,
+    "landOwnerID": "NA",
+    "name": "Holgate1",
+    "latitude": 39.51,
+    "longitude": -74.28,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2141,
+    "projectID": 77,
+    "landOwnerID": "NA",
+    "name": "North Brigantine Nat",
+    "latitude": 39.44,
+    "longitude": -74.33,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2142,
+    "projectID": 77,
+    "landOwnerID": "NA",
+    "name": "SHPT",
+    "latitude": 39.03,
+    "longitude": -74.77,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2143,
+    "projectID": 77,
+    "landOwnerID": "NA",
+    "name": "Stone Harbor Point",
+    "latitude": 39.03,
+    "longitude": -74.77,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2144,
+    "projectID": 77,
+    "landOwnerID": "NA",
+    "name": "Tacey",
+    "latitude": 39.76,
+    "longitude": -74.09,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

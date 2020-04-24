@@ -1,0 +1,87 @@
+{
+"data":[
+  {
+    "ID": 2675,
+    "projectID": 236,
+    "landOwnerID": "NA",
+    "name": "DarwinCDU",
+    "latitude": -12.37,
+    "longitude": 130.86,
+    "lastEditedDt": "1/21/2019 19:58:20"
+  },
+  {
+    "ID": 2677,
+    "projectID": 236,
+    "landOwnerID": "NA",
+    "name": "Koodaideri",
+    "latitude": -22.51,
+    "longitude": 118.97,
+    "lastEditedDt": "1/25/2019 23:03:36"
+  },
+  {
+    "ID": 2681,
+    "projectID": 236,
+    "landOwnerID": "NA",
+    "name": "Wandering",
+    "latitude": -32.75,
+    "longitude": 116.64,
+    "lastEditedDt": "2/7/2019 2:28:29"
+  },
+  {
+    "ID": 2687,
+    "projectID": 236,
+    "landOwnerID": "NA",
+    "name": "Western Range",
+    "latitude": -23.2,
+    "longitude": 117.51,
+    "lastEditedDt": "2/24/2019 7:13:27"
+  },
+  {
+    "ID": 2950,
+    "projectID": 236,
+    "landOwnerID": "NA",
+    "name": "Juna Downs",
+    "latitude": -22.94,
+    "longitude": 118.47,
+    "lastEditedDt": "11/28/2019 4:28:22"
+  },
+  {
+    "ID": 2993,
+    "projectID": 236,
+    "landOwnerID": "NA",
+    "name": "Brockman",
+    "latitude": -22.63,
+    "longitude": 117.28,
+    "lastEditedDt": "3/16/2020 1:19:27"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

@@ -1,0 +1,327 @@
+{
+"data":[
+  {
+    "errorID": 5887977,
+    "projectID": 117,
+    "ID": 3542,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_no_detections",
+    "string": "",
+    "string2": "SG-7C5RPI38C3C",
+    "string3": "",
+    "errorDescr": "Device ID: %s, %s",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver",
+    "descrShort": "Receiver With No Detections",
+    "descr": "These receivers do not have any associated detection data.",
+    "urlView": "",
+    "urlFix": "/data/receivers/edit?projectID=%d&id=%d",
+    "tableName": "sensors",
+    "fixInstruct": "If you have not uploaded any data for this receiver there is no need for further action.  If you have uploaded data from the receiver, it is possible the serial number registered to your project does not match the serial number in raw detection files, please ensure the serial number listed here is correct.  If you are sure that the receiver serial number is correct and you have submitted raw detection data, please contact us at motus@birdscanada.org",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5887984,
+    "projectID": 117,
+    "ID": 3767,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_no_detections",
+    "string": "",
+    "string2": "SG-8C49RPI38F48",
+    "string3": "",
+    "errorDescr": "Device ID: %s, %s",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver",
+    "descrShort": "Receiver With No Detections",
+    "descr": "These receivers do not have any associated detection data.",
+    "urlView": "",
+    "urlFix": "/data/receivers/edit?projectID=%d&id=%d",
+    "tableName": "sensors",
+    "fixInstruct": "If you have not uploaded any data for this receiver there is no need for further action.  If you have uploaded data from the receiver, it is possible the serial number registered to your project does not match the serial number in raw detection files, please ensure the serial number listed here is correct.  If you are sure that the receiver serial number is correct and you have submitted raw detection data, please contact us at motus@birdscanada.org",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5888626,
+    "projectID": 117,
+    "ID": 5917,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_no_recent_data180",
+    "string": "Mana Rice Fields : 2019-12-03 12:00 - Present",
+    "string2": "Jul  5 2019  4:14PM",
+    "string3": "",
+    "errorDescr": "Receiver deployment ID : %5$d, Deployment %s, Last Detection Data Upload %2$s",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "No Recent Detection Data(6 months)",
+    "descr": "These deployments are active, but it has been over 180 days since detection data from these deployments has been uploaded to the Motus database.",
+    "urlView": "",
+    "urlFix": "/data/receiver/deployment/edit?projectID=%d&id=%d",
+    "tableName": "sensor_deployments",
+    "fixInstruct": "If this station is still active we recommend attempting to visit this station soon to ensure functionality and download any detection data. If the station is no longer active, please ensure that any terminated deployments have their End Date populated correctly on the deployment management page.",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5900290,
+    "projectID": 117,
+    "ID": 2255,
+    "idConflict": "NA",
+    "errorCode": "v_no_landowner",
+    "string": "Awala-Yalimapo",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Site: %s (#%5$d)",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Missing Landowner Information",
+    "descr": "These sites do not have any landowner information.",
+    "urlView": "",
+    "urlFix": "/data/project/sites?projectID=%d#site-%d",
+    "tableName": "sensor_sites",
+    "fixInstruct": "Please populate the landowner information so they can be properly credited for their contributions to the Motus Network.  Landowner first and last names will appear here: https://motus.org/data/partners.jsp",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5900291,
+    "projectID": 117,
+    "ID": 2256,
+    "idConflict": "NA",
+    "errorCode": "v_no_landowner",
+    "string": "Cayenne",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Site: %s (#%5$d)",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Missing Landowner Information",
+    "descr": "These sites do not have any landowner information.",
+    "urlView": "",
+    "urlFix": "/data/project/sites?projectID=%d#site-%d",
+    "tableName": "sensor_sites",
+    "fixInstruct": "Please populate the landowner information so they can be properly credited for their contributions to the Motus Network.  Landowner first and last names will appear here: https://motus.org/data/partners.jsp",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5900292,
+    "projectID": 117,
+    "ID": 2257,
+    "idConflict": "NA",
+    "errorCode": "v_no_landowner",
+    "string": "Kourou",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Site: %s (#%5$d)",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Missing Landowner Information",
+    "descr": "These sites do not have any landowner information.",
+    "urlView": "",
+    "urlFix": "/data/project/sites?projectID=%d#site-%d",
+    "tableName": "sensor_sites",
+    "fixInstruct": "Please populate the landowner information so they can be properly credited for their contributions to the Motus Network.  Landowner first and last names will appear here: https://motus.org/data/partners.jsp",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5900293,
+    "projectID": 117,
+    "ID": 2258,
+    "idConflict": "NA",
+    "errorCode": "v_no_landowner",
+    "string": "Mana Rice Fields",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Site: %s (#%5$d)",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Missing Landowner Information",
+    "descr": "These sites do not have any landowner information.",
+    "urlView": "",
+    "urlFix": "/data/project/sites?projectID=%d#site-%d",
+    "tableName": "sensor_sites",
+    "fixInstruct": "Please populate the landowner information so they can be properly credited for their contributions to the Motus Network.  Landowner first and last names will appear here: https://motus.org/data/partners.jsp",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5900828,
+    "projectID": 117,
+    "ID": 3528,
+    "idConflict": "NA",
+    "errorCode": "v_dist_deploy_gps_2",
+    "string": "616",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Receiver deployment ID: %5$d, # of days: %s",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "GPS Fixes Far from Deployment Location",
+    "descr": "At least 3 GPS fixes from these receivers fell over 100m away from the deployment latitude and longitude within a 24 hour period.",
+    "urlView": "receiverMap?receiverDeploymentId=%2$d",
+    "urlFix": "/data/receiver/deployment/edit?projectID=%d&id=%d",
+    "tableName": "sp_gps",
+    "fixInstruct": "Please check that your deployment location is correct. If you are positive that your deployment information   is correct but your GPS locations are consistently incorrect, you may have a faulty GPS unit and should contact us at   motus@birdscanada.org.This error can also arise if your deployment start and end times include GPS fixes   from the receiver when it wasn't at the deployment location. Please check that your deployment start and end times are correct. ",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5900989,
+    "projectID": 117,
+    "ID": 3529,
+    "idConflict": "NA",
+    "errorCode": "v_dist_deploy_gps_2",
+    "string": "355",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Receiver deployment ID: %5$d, # of days: %s",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "GPS Fixes Far from Deployment Location",
+    "descr": "At least 3 GPS fixes from these receivers fell over 100m away from the deployment latitude and longitude within a 24 hour period.",
+    "urlView": "receiverMap?receiverDeploymentId=%2$d",
+    "urlFix": "/data/receiver/deployment/edit?projectID=%d&id=%d",
+    "tableName": "sp_gps",
+    "fixInstruct": "Please check that your deployment location is correct. If you are positive that your deployment information   is correct but your GPS locations are consistently incorrect, you may have a faulty GPS unit and should contact us at   motus@birdscanada.org.This error can also arise if your deployment start and end times include GPS fixes   from the receiver when it wasn't at the deployment location. Please check that your deployment start and end times are correct. ",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5901198,
+    "projectID": 117,
+    "ID": 3528,
+    "idConflict": "NA",
+    "errorCode": "v_dist_deploy_gps_3",
+    "string": "617",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Receiver deployment ID: %5$d, # of days: %s",
+    "severity": 3,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Deployment Location Incorrect",
+    "descr": "Over 50% of the GPS fixes from these receivers fell over 1000m away from the deployment latitude and longitude within a 24 hour period.",
+    "urlView": "receiverMap?receiverDeploymentId=%2$d",
+    "urlFix": "/data/receiver/deployment/edit?projectID=%d&id=%d",
+    "tableName": "sp_gpssp_gps",
+    "fixInstruct": "Please check that your deployment location is correct. If you are positive that your deployment information   is correct but your GPS locations are consistently incorrect, you may have a faulty GPS unit and should contact us at   motus@birdscanada.org.This error can also arise if your deployment start and end times include GPS fixes   from the receiver when it wasn't at the deployment location. Please check that your deployment start and end times are correct. ",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5901204,
+    "projectID": 117,
+    "ID": 3529,
+    "idConflict": "NA",
+    "errorCode": "v_dist_deploy_gps_3",
+    "string": "355",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Receiver deployment ID: %5$d, # of days: %s",
+    "severity": 3,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Deployment Location Incorrect",
+    "descr": "Over 50% of the GPS fixes from these receivers fell over 1000m away from the deployment latitude and longitude within a 24 hour period.",
+    "urlView": "receiverMap?receiverDeploymentId=%2$d",
+    "urlFix": "/data/receiver/deployment/edit?projectID=%d&id=%d",
+    "tableName": "sp_gpssp_gps",
+    "fixInstruct": "Please check that your deployment location is correct. If you are positive that your deployment information   is correct but your GPS locations are consistently incorrect, you may have a faulty GPS unit and should contact us at   motus@birdscanada.org.This error can also arise if your deployment start and end times include GPS fixes   from the receiver when it wasn't at the deployment location. Please check that your deployment start and end times are correct. ",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  }
+], "columns":[
+  {
+    "data": "errorID",
+    "name": "Error ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "idConflict",
+    "name": "ID Conflict"
+  },
+  {
+    "data": "errorCode",
+    "name": "Error Code"
+  },
+  {
+    "data": "string",
+    "name": "String"
+  },
+  {
+    "data": "string2",
+    "name": "String2"
+  },
+  {
+    "data": "string3",
+    "name": "String3"
+  },
+  {
+    "data": "errorDescr",
+    "name": "Error Descr"
+  },
+  {
+    "data": "severity",
+    "name": "Severity"
+  },
+  {
+    "data": "type",
+    "name": "Type"
+  },
+  {
+    "data": "subType",
+    "name": "Sub Type"
+  },
+  {
+    "data": "descrShort",
+    "name": "Descr Short"
+  },
+  {
+    "data": "descr",
+    "name": "Descr"
+  },
+  {
+    "data": "urlView",
+    "name": "Url View"
+  },
+  {
+    "data": "urlFix",
+    "name": "Url Fix"
+  },
+  {
+    "data": "tableName",
+    "name": "Table Name"
+  },
+  {
+    "data": "fixInstruct",
+    "name": "Fix Instruct"
+  },
+  {
+    "data": "severityDescr",
+    "name": "Severity Descr"
+  },
+  {
+    "data": "tooltip",
+    "name": "Tooltip"
+  }
+]
+}

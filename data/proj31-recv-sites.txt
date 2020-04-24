@@ -1,0 +1,204 @@
+{
+"data":[
+  {
+    "ID": 1815,
+    "projectID": 31,
+    "landOwnerID": 2574,
+    "name": "East Timbalier",
+    "latitude": 29.06,
+    "longitude": -90.32,
+    "lastEditedDt": "4/9/2019 8:18:26"
+  },
+  {
+    "ID": 1816,
+    "projectID": 31,
+    "landOwnerID": 2596,
+    "name": "Peveto Woods",
+    "latitude": 29.75,
+    "longitude": -93.6,
+    "lastEditedDt": "4/9/2019 8:18:26"
+  },
+  {
+    "ID": 1817,
+    "projectID": 31,
+    "landOwnerID": 2574,
+    "name": "Sabine NWR",
+    "latitude": 29.88,
+    "longitude": -93.4,
+    "lastEditedDt": "4/9/2019 8:18:26"
+  },
+  {
+    "ID": 1818,
+    "projectID": 31,
+    "landOwnerID": 624,
+    "name": "East Grand Terre",
+    "latitude": 29.31,
+    "longitude": -89.86,
+    "lastEditedDt": "4/9/2019 8:18:26"
+  },
+  {
+    "ID": 1819,
+    "projectID": 31,
+    "landOwnerID": 624,
+    "name": "Grand_Isle",
+    "latitude": 29.23,
+    "longitude": -90,
+    "lastEditedDt": "4/9/2019 8:18:26"
+  },
+  {
+    "ID": 1820,
+    "projectID": 31,
+    "landOwnerID": 624,
+    "name": "Pass-A-Loutre Wildlife Management Area",
+    "latitude": 29.11,
+    "longitude": -89.2,
+    "lastEditedDt": "3/17/2020 10:34:58"
+  },
+  {
+    "ID": 1821,
+    "projectID": 31,
+    "landOwnerID": 624,
+    "name": "Point-Aux-Chenes Wil",
+    "latitude": 29.45,
+    "longitude": -90.47,
+    "lastEditedDt": "4/9/2019 8:18:26"
+  },
+  {
+    "ID": 1822,
+    "projectID": 31,
+    "landOwnerID": 624,
+    "name": "Rock E",
+    "latitude": 29.63,
+    "longitude": -92.57,
+    "lastEditedDt": "4/9/2019 8:18:26"
+  },
+  {
+    "ID": 1823,
+    "projectID": 31,
+    "landOwnerID": 624,
+    "name": "Rock W",
+    "latitude": 29.7,
+    "longitude": -92.83,
+    "lastEditedDt": "4/9/2019 8:18:26"
+  },
+  {
+    "ID": 1824,
+    "projectID": 31,
+    "landOwnerID": 651,
+    "name": "Wisner",
+    "latitude": 29.12,
+    "longitude": -90.16,
+    "lastEditedDt": "4/9/2019 8:18:26"
+  },
+  {
+    "ID": 2494,
+    "projectID": 31,
+    "landOwnerID": 3349,
+    "name": "Miller",
+    "latitude": 29.43,
+    "longitude": -91.24,
+    "lastEditedDt": "4/9/2019 8:18:26"
+  },
+  {
+    "ID": 2597,
+    "projectID": 31,
+    "landOwnerID": 624,
+    "name": "BRHQ",
+    "latitude": 30.39,
+    "longitude": -91.12,
+    "lastEditedDt": "4/9/2019 8:18:26"
+  },
+  {
+    "ID": 2631,
+    "projectID": 31,
+    "landOwnerID": 624,
+    "name": "Attakapas Wildlife Management Area",
+    "latitude": 29.87,
+    "longitude": -91.45,
+    "lastEditedDt": "4/9/2019 8:18:26"
+  },
+  {
+    "ID": 2632,
+    "projectID": 31,
+    "landOwnerID": 624,
+    "name": "Richard K. Yancey Wildlife Management Area",
+    "latitude": 31.19,
+    "longitude": -91.63,
+    "lastEditedDt": "4/9/2019 8:18:26"
+  },
+  {
+    "ID": 2641,
+    "projectID": 31,
+    "landOwnerID": 624,
+    "name": "Marsh Island",
+    "latitude": 29.54,
+    "longitude": -91.9,
+    "lastEditedDt": "4/9/2019 8:18:26"
+  },
+  {
+    "ID": 2658,
+    "projectID": 31,
+    "landOwnerID": 624,
+    "name": "LCHQ",
+    "latitude": 30.23,
+    "longitude": -93.22,
+    "lastEditedDt": "4/9/2019 8:18:26"
+  },
+  {
+    "ID": 2659,
+    "projectID": 31,
+    "landOwnerID": 624,
+    "name": "Atchafalaya Delta WMA",
+    "latitude": 29.44,
+    "longitude": -91.33,
+    "lastEditedDt": "4/9/2019 8:18:26"
+  },
+  {
+    "ID": 2716,
+    "projectID": 31,
+    "landOwnerID": 16787,
+    "name": "Jean Lafitte National Historical Park and Preserve",
+    "latitude": 29.78,
+    "longitude": -90.11,
+    "lastEditedDt": "4/9/2019 8:22:32"
+  },
+  {
+    "ID": 2717,
+    "projectID": 31,
+    "landOwnerID": 16790,
+    "name": "Ladd",
+    "latitude": 29.75,
+    "longitude": -92.89,
+    "lastEditedDt": "4/9/2019 9:51:26"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

@@ -1,0 +1,277 @@
+{
+"data":[
+  {
+    "motusRecvID": 1336,
+    "recvProjectID": 75,
+    "receiverID": "SG-3214BBBK5558",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2383,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Chistochina",
+    "siteName": "Chistochina",
+    "dtStart": "2015-07-29 00:00:00 +00:00",
+    "dtEnd": "2015-09-15 00:00:00 +00:00",
+    "tsStart": 1438128000,
+    "tsEnd": 1442275200,
+    "latitude": 62.605,
+    "longitude": -144.6017,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1337,
+    "recvProjectID": 75,
+    "receiverID": "SG-3214BBBK7294",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2384,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Mentasta Lodge",
+    "siteName": "Mentasta Lodge",
+    "dtStart": "2015-07-31 01:52:00 +00:00",
+    "dtEnd": "2015-09-17 00:00:00 +00:00",
+    "tsStart": 1438307520,
+    "tsEnd": 1442448000,
+    "latitude": 62.8887,
+    "longitude": -143.6766,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1338,
+    "recvProjectID": 75,
+    "receiverID": "SG-3214BBBK8616",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2385,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Woodhams",
+    "siteName": "Woodhams",
+    "dtStart": "2015-07-31 02:11:00 +00:00",
+    "dtEnd": "2015-09-16 00:00:00 +00:00",
+    "tsStart": 1438308660,
+    "tsEnd": 1442361600,
+    "latitude": 62.7227,
+    "longitude": -143.8776,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1339,
+    "recvProjectID": 75,
+    "receiverID": "SG-4001BBBK1790",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2386,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Ruby's",
+    "siteName": "Ruby's",
+    "dtStart": "2015-07-31 02:08:00 +00:00",
+    "dtEnd": "2015-09-17 00:00:00 +00:00",
+    "tsStart": 1438308480,
+    "tsEnd": 1442448000,
+    "latitude": 62.8907,
+    "longitude": -143.6817,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1389,
+    "recvProjectID": 75,
+    "receiverID": "SG-3214BBBK8444",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2466,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Nabesna",
+    "siteName": "Nabesna",
+    "dtStart": "2015-07-30 00:00:00 +00:00",
+    "dtEnd": "2015-09-16 00:00:00 +00:00",
+    "tsStart": 1438214400,
+    "tsEnd": 1442361600,
+    "latitude": 62.5014,
+    "longitude": -143.152,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1390,
+    "recvProjectID": 75,
+    "receiverID": "SG-3214BBBK6425",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2467,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Chitina",
+    "siteName": "Chitina",
+    "dtStart": "2015-07-30 02:09:00 +00:00",
+    "dtEnd": "2015-09-14 00:00:00 +00:00",
+    "tsStart": 1438222140,
+    "tsEnd": 1442188800,
+    "latitude": 61.5224,
+    "longitude": -144.3506,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1391,
+    "recvProjectID": 75,
+    "receiverID": "SG-3214BBBK8453",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2468,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Kenny Lake",
+    "siteName": "Kenny Lake",
+    "dtStart": "2015-07-29 02:10:00 +00:00",
+    "dtEnd": "2015-09-14 00:00:00 +00:00",
+    "tsStart": 1438135800,
+    "tsEnd": 1442188800,
+    "latitude": 61.676,
+    "longitude": -144.691,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1392,
+    "recvProjectID": 75,
+    "receiverID": "SG-3214BBBK8447",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2470,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Park HQ",
+    "siteName": "Park HQ",
+    "dtStart": "2015-07-29 02:10:00 +00:00",
+    "dtEnd": "2015-09-15 00:00:00 +00:00",
+    "tsStart": 1438135800,
+    "tsEnd": 1442275200,
+    "latitude": 62.0248,
+    "longitude": -145.3719,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1414,
+    "recvProjectID": 75,
+    "receiverID": "SG-3214BBBK6472",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2542,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Mentasta Lakeside",
+    "siteName": "Mentasta Lakeside",
+    "dtStart": "2015-07-31 01:53:00 +00:00",
+    "dtEnd": "2015-09-17 00:00:00 +00:00",
+    "tsStart": 1438307580,
+    "tsEnd": 1442448000,
+    "latitude": 62.883,
+    "longitude": -143.6787,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2014,
+    "recvProjectID": 75,
+    "receiverID": "SG-3214BBBK8690",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3795,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Tanada Lake",
+    "siteName": "Tanada Lake",
+    "dtStart": "2015-08-12 00:00:00 +00:00",
+    "dtEnd": "2015-09-12 00:00:00 +00:00",
+    "tsStart": 1439337600,
+    "tsEnd": 1442016000,
+    "latitude": 62.4164,
+    "longitude": -143.3664,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

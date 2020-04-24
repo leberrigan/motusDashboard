@@ -1,0 +1,317 @@
+{
+"data":[
+  {
+    "motusRecvID": 526,
+    "recvProjectID": 40,
+    "receiverID": "SG-5113BBBK2103",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 1865,
+    "deploymentStatus": "active",
+    "deploymentName": "EASTBAY",
+    "siteName": "EASTBAY",
+    "dtStart": "2014-06-23 00:24:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1403483040,
+    "tsEnd": "NA",
+    "latitude": 63.9873,
+    "longitude": -81.6954,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 554,
+    "recvProjectID": 40,
+    "receiverID": "SG-5113BBBK3164",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 1867,
+    "deploymentStatus": "terminated",
+    "deploymentName": "NANUK",
+    "siteName": "NANUK",
+    "dtStart": "2014-06-01 16:05:00 +00:00",
+    "dtEnd": "2014-10-01 00:00:00 +00:00",
+    "tsStart": 1401638700,
+    "tsEnd": 1412121600,
+    "latitude": 57.1223,
+    "longitude": -91.6701,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 554,
+    "recvProjectID": 40,
+    "receiverID": "SG-5113BBBK3164",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2636,
+    "deploymentStatus": "terminated",
+    "deploymentName": "NANUK",
+    "siteName": "NANUK",
+    "dtStart": "2015-06-01 00:00:00 +00:00",
+    "dtEnd": "2015-09-24 00:00:00 +00:00",
+    "tsStart": 1433116800,
+    "tsEnd": 1443052800,
+    "latitude": 57.1223,
+    "longitude": -91.6702,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 554,
+    "recvProjectID": 40,
+    "receiverID": "SG-5113BBBK3164",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4331,
+    "deploymentStatus": "terminated",
+    "deploymentName": "NANUK",
+    "siteName": "NANUK",
+    "dtStart": "2017-07-30 20:00:00 +00:00",
+    "dtEnd": "2017-09-27 23:59:00 +00:00",
+    "tsStart": 1501444800,
+    "tsEnd": 1506556740,
+    "latitude": 57.1229,
+    "longitude": -91.6689,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 554,
+    "recvProjectID": 40,
+    "receiverID": "SG-5113BBBK3164",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3444,
+    "deploymentStatus": "terminated",
+    "deploymentName": "NANUK",
+    "siteName": "NANUK",
+    "dtStart": "2016-05-28 00:00:00 +00:00",
+    "dtEnd": "2016-09-30 00:00:00 +00:00",
+    "tsStart": 1464393600,
+    "tsEnd": 1475193600,
+    "latitude": 57.1223,
+    "longitude": -91.6702,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 554,
+    "recvProjectID": 40,
+    "receiverID": "SG-5113BBBK3164",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4973,
+    "deploymentStatus": "terminated",
+    "deploymentName": "NANUK",
+    "siteName": "NANUK",
+    "dtStart": "2018-03-02 00:00:00 +00:00",
+    "dtEnd": "2018-09-14 23:59:00 +00:00",
+    "tsStart": 1519948800,
+    "tsEnd": 1536969540,
+    "latitude": 57.1229,
+    "longitude": -91.6689,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1158,
+    "recvProjectID": 40,
+    "receiverID": "SG-5113BBBK2670",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 1864,
+    "deploymentStatus": "active",
+    "deploymentName": "COATSI",
+    "siteName": "COATSI",
+    "dtStart": "2014-03-20 05:19:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1395292740,
+    "tsEnd": "NA",
+    "latitude": 62.8518,
+    "longitude": -82.4848,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1187,
+    "recvProjectID": 40,
+    "receiverID": "SG-5113BBBK2939",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2032,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Churchill-Fen",
+    "siteName": "Churchill-Fen",
+    "dtStart": "2014-06-23 00:00:00 +00:00",
+    "dtEnd": "2014-10-09 00:00:00 +00:00",
+    "tsStart": 1403481600,
+    "tsEnd": 1412812800,
+    "latitude": 58.6788,
+    "longitude": -93.8364,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1188,
+    "recvProjectID": 40,
+    "receiverID": "SG-5113BBBK2818",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2033,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Churchill-Bird Cove",
+    "siteName": "Churchill-Bird Cove",
+    "dtStart": "2014-07-16 00:00:00 +00:00",
+    "dtEnd": "2014-10-17 00:00:00 +00:00",
+    "tsStart": 1405468800,
+    "tsEnd": 1413504000,
+    "latitude": 58.7553,
+    "longitude": -93.9022,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1481,
+    "recvProjectID": 40,
+    "receiverID": "SG-3214BBBK5686",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 2635,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Burntpoint",
+    "siteName": "Burntpoint",
+    "dtStart": "2015-06-26 00:00:00 +00:00",
+    "dtEnd": "2016-06-19 00:00:00 +00:00",
+    "tsStart": 1435276800,
+    "tsEnd": 1466294400,
+    "latitude": 55.2417,
+    "longitude": -84.3178,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1481,
+    "recvProjectID": 40,
+    "receiverID": "SG-3214BBBK5686",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3229,
+    "deploymentStatus": "active",
+    "deploymentName": "Burntpoint",
+    "siteName": "Burntpoint",
+    "dtStart": "2016-06-20 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1466380800,
+    "tsEnd": "NA",
+    "latitude": 55.2416,
+    "longitude": -84.3182,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2562,
+    "recvProjectID": 40,
+    "receiverID": "SG-9AF3RPI33983",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4800,
+    "deploymentStatus": "active",
+    "deploymentName": "Akimiski",
+    "siteName": "Akimiski",
+    "dtStart": "2018-05-28 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1527465600,
+    "tsEnd": "NA",
+    "latitude": 53.1049,
+    "longitude": -80.9581,
+    "elevation": 2,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

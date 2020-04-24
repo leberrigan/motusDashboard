@@ -1,0 +1,87 @@
+{
+"data":[
+  {
+    "ID": 2243,
+    "projectID": 107,
+    "landOwnerID": "NA",
+    "name": "BEECH",
+    "latitude": 44.31,
+    "longitude": -68.34,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2244,
+    "projectID": 107,
+    "landOwnerID": "NA",
+    "name": "BEECH",
+    "latitude": 44.31,
+    "longitude": -68.34,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2245,
+    "projectID": 107,
+    "landOwnerID": "NA",
+    "name": "BEECH2",
+    "latitude": 44.31,
+    "longitude": -68.34,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2246,
+    "projectID": 107,
+    "landOwnerID": "NA",
+    "name": "PEMETIC",
+    "latitude": 44.33,
+    "longitude": -68.24,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2247,
+    "projectID": 107,
+    "landOwnerID": "NA",
+    "name": "SCHOODIC",
+    "latitude": 44.35,
+    "longitude": -68.05,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2248,
+    "projectID": 107,
+    "landOwnerID": 441,
+    "name": "SCHOODIC",
+    "latitude": 44.35,
+    "longitude": -68.05,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

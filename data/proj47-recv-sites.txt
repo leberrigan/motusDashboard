@@ -1,0 +1,276 @@
+{
+"data":[
+  {
+    "ID": 1896,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "AVFP",
+    "latitude": 39.09,
+    "longitude": -74.71,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1897,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "Bivalve",
+    "latitude": 39.23,
+    "longitude": -75.01,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1898,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "BRIG",
+    "latitude": 39.41,
+    "longitude": -74.53,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1899,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "CISP",
+    "latitude": 39.21,
+    "longitude": -74.64,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1900,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "Dads Place",
+    "latitude": 39.02,
+    "longitude": -74.8,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1901,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "FORT",
+    "latitude": 39.22,
+    "longitude": -75.16,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1902,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "Fortescue",
+    "latitude": 39.22,
+    "longitude": -75.16,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1903,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "GOLF",
+    "latitude": 39.41,
+    "longitude": -74.37,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1904,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "GOLF",
+    "latitude": 39.42,
+    "longitude": -74.7,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1905,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "MISP",
+    "latitude": 38.94,
+    "longitude": -75.31,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1906,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "Mispillion",
+    "latitude": 38.94,
+    "longitude": -75.31,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1907,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "NORB",
+    "latitude": 39.05,
+    "longitude": -74.92,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1908,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "Norbury",
+    "latitude": 39.05,
+    "longitude": -74.92,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1909,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "NWW",
+    "latitude": 39.02,
+    "longitude": -74.81,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1910,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "REED",
+    "latitude": 39.12,
+    "longitude": -74.89,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1911,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "Reed",
+    "latitude": 39.12,
+    "longitude": -74.89,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1912,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "REEDS",
+    "latitude": 39.12,
+    "longitude": -74.89,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1913,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "RUTG",
+    "latitude": 39.5,
+    "longitude": -74.32,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1914,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "RUTG",
+    "latitude": 39.5,
+    "longitude": -74.32,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1915,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "Seaview Harbor Marina",
+    "latitude": 39.31,
+    "longitude": -74.54,
+    "lastEditedDt": "3/17/2020 10:38:53"
+  },
+  {
+    "ID": 1916,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "SIBD",
+    "latitude": 39.16,
+    "longitude": -74.7,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1917,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "testing",
+    "latitude": 39.12,
+    "longitude": -74.89,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1918,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "TWI",
+    "latitude": 39.05,
+    "longitude": -74.77,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1919,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "TWO",
+    "latitude": 39.05,
+    "longitude": -74.77,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1920,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "Wetland",
+    "latitude": 39.05,
+    "longitude": -74.77,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2564,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "Grassy Sound",
+    "latitude": 39.02,
+    "longitude": -74.8,
+    "lastEditedDt": "7/18/2018 13:17:44"
+  },
+  {
+    "ID": 2678,
+    "projectID": 47,
+    "landOwnerID": "NA",
+    "name": "Nummy Island",
+    "latitude": 39.03,
+    "longitude": -74.78,
+    "lastEditedDt": "1/28/2019 10:27:07"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

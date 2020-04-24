@@ -1,0 +1,127 @@
+{
+"data":[
+  {
+    "ID": 235,
+    "projectID": 35,
+    "landOwnerID": 572,
+    "backupID": "NA",
+    "lastEditedDt": "2/21/2019 11:09:46",
+    "lastEditedUserID": 347,
+    "acknowledge": 1,
+    "comments": ""
+  },
+  {
+    "ID": 236,
+    "projectID": 35,
+    "landOwnerID": 573,
+    "backupID": "NA",
+    "lastEditedDt": "2/21/2019 11:41:19",
+    "lastEditedUserID": 347,
+    "acknowledge": 1,
+    "comments": ""
+  },
+  {
+    "ID": 237,
+    "projectID": 35,
+    "landOwnerID": 574,
+    "backupID": "NA",
+    "lastEditedDt": "",
+    "lastEditedUserID": "NA",
+    "acknowledge": 1,
+    "comments": ""
+  },
+  {
+    "ID": 354,
+    "projectID": 35,
+    "landOwnerID": 2484,
+    "backupID": "NA",
+    "lastEditedDt": "4/24/2017 13:30:10",
+    "lastEditedUserID": "NA",
+    "acknowledge": 1,
+    "comments": ""
+  },
+  {
+    "ID": 356,
+    "projectID": 35,
+    "landOwnerID": 2486,
+    "backupID": "NA",
+    "lastEditedDt": "4/24/2017 13:35:03",
+    "lastEditedUserID": "NA",
+    "acknowledge": 1,
+    "comments": ""
+  },
+  {
+    "ID": 357,
+    "projectID": 35,
+    "landOwnerID": 2487,
+    "backupID": "NA",
+    "lastEditedDt": "4/24/2017 13:39:58",
+    "lastEditedUserID": "NA",
+    "acknowledge": 1,
+    "comments": ""
+  },
+  {
+    "ID": 362,
+    "projectID": 35,
+    "landOwnerID": 2511,
+    "backupID": "NA",
+    "lastEditedDt": "2/21/2019 11:09:11",
+    "lastEditedUserID": 347,
+    "acknowledge": 1,
+    "comments": ""
+  },
+  {
+    "ID": 387,
+    "projectID": 35,
+    "landOwnerID": 2621,
+    "backupID": "NA",
+    "lastEditedDt": "8/15/2017 13:23:04",
+    "lastEditedUserID": 2621,
+    "acknowledge": 1,
+    "comments": ""
+  },
+  {
+    "ID": 496,
+    "projectID": 35,
+    "landOwnerID": 3404,
+    "backupID": "NA",
+    "lastEditedDt": "2/21/2019 11:12:27",
+    "lastEditedUserID": 347,
+    "acknowledge": 1,
+    "comments": ""
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "backupID",
+    "name": "Backup ID"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  },
+  {
+    "data": "lastEditedUserID",
+    "name": "Last Edited User ID"
+  },
+  {
+    "data": "acknowledge",
+    "name": "Acknowledge"
+  },
+  {
+    "data": "comments",
+    "name": "Comments"
+  }
+]
+}

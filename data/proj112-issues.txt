@@ -1,0 +1,217 @@
+{
+"data":[
+  {
+    "errorID": 5888998,
+    "projectID": 112,
+    "ID": 25173,
+    "idConflict": "NA",
+    "errorCode": "v_tag_dupl_registration",
+    "string": "25173",
+    "string2": "33540",
+    "string3": "1",
+    "errorDescr": "Tag ID : %s  is equivalent to Tag ID : %s from Project ID : %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag",
+    "descrShort": "Tag Registered Twice",
+    "descr": "These pairs of tags were registered during the same time period and have the same properties. \nThey are very likely duplicate registrations.",
+    "urlView": "/data/tag?id=%2$d",
+    "urlFix": "/data/tags/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please confirm whether or not these tags are duplicate registrations. If they are duplicate registrations,  contact us at motus@birdscanada.org to request that one of the duplicate registrations be deleted. If these are not duplicate  registrations, it is important that the tags not be deployed at the same time, as they will not be differentiable when detected,  leading to ambiguous detections.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5898823,
+    "projectID": 112,
+    "ID": 25171,
+    "idConflict": "NA",
+    "errorCode": "v_tag_hits_no_deploy",
+    "string": "265",
+    "string2": "2017-04-10 08:03:27 - 2018-07-02 00:18:32",
+    "string3": "",
+    "errorDescr": "Tag ID #%5$d, number of detections: %s, from %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Tag Detections With No Deployment",
+    "descr": "These tags have associated detections but the tags have not been deployed.",
+    "urlView": "",
+    "urlFix": "/data/tag/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please create deployment(s) that capture these detections. If these detections occurred during testing, please create and mark the deployment as a test.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5898824,
+    "projectID": 112,
+    "ID": 25173,
+    "idConflict": "NA",
+    "errorCode": "v_tag_hits_no_deploy",
+    "string": "469",
+    "string2": "2017-09-30 00:22:10 - 2018-07-01 15:05:11",
+    "string3": "",
+    "errorDescr": "Tag ID #%5$d, number of detections: %s, from %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Tag Detections With No Deployment",
+    "descr": "These tags have associated detections but the tags have not been deployed.",
+    "urlView": "",
+    "urlFix": "/data/tag/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please create deployment(s) that capture these detections. If these detections occurred during testing, please create and mark the deployment as a test.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5899489,
+    "projectID": 112,
+    "ID": 1800,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_hits_out_deploy",
+    "string": "123",
+    "string2": "32",
+    "string3": "2016-02-07 01:47:48 - 2016-02-14 09:16:36",
+    "errorDescr": "Device ID: %s, number of detections: %s, from %s",
+    "severity": 3,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Detections Outside of Receiver Deployment",
+    "descr": "These receivers have tag detections that are outside of any deployments for the receiver.",
+    "urlView": "/data/receiver/timeline?id=%2$d",
+    "urlFix": "/data/receivers/edit?projectID=%d&id=%d",
+    "tableName": "",
+    "fixInstruct": "Please create deployments for this receiver that capture these detections.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5900286,
+    "projectID": 112,
+    "ID": 2251,
+    "idConflict": "NA",
+    "errorCode": "v_no_landowner",
+    "string": "Duluth",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Site: %s (#%5$d)",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Missing Landowner Information",
+    "descr": "These sites do not have any landowner information.",
+    "urlView": "",
+    "urlFix": "/data/project/sites?projectID=%d#site-%d",
+    "tableName": "sensor_sites",
+    "fixInstruct": "Please populate the landowner information so they can be properly credited for their contributions to the Motus Network.  Landowner first and last names will appear here: https://motus.org/data/partners.jsp",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5900386,
+    "projectID": 112,
+    "ID": 2438,
+    "idConflict": "NA",
+    "errorCode": "v_no_landowner",
+    "string": "Thunder Cape",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Site: %s (#%5$d)",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Missing Landowner Information",
+    "descr": "These sites do not have any landowner information.",
+    "urlView": "",
+    "urlFix": "/data/project/sites?projectID=%d#site-%d",
+    "tableName": "sensor_sites",
+    "fixInstruct": "Please populate the landowner information so they can be properly credited for their contributions to the Motus Network.  Landowner first and last names will appear here: https://motus.org/data/partners.jsp",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  }
+], "columns":[
+  {
+    "data": "errorID",
+    "name": "Error ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "idConflict",
+    "name": "ID Conflict"
+  },
+  {
+    "data": "errorCode",
+    "name": "Error Code"
+  },
+  {
+    "data": "string",
+    "name": "String"
+  },
+  {
+    "data": "string2",
+    "name": "String2"
+  },
+  {
+    "data": "string3",
+    "name": "String3"
+  },
+  {
+    "data": "errorDescr",
+    "name": "Error Descr"
+  },
+  {
+    "data": "severity",
+    "name": "Severity"
+  },
+  {
+    "data": "type",
+    "name": "Type"
+  },
+  {
+    "data": "subType",
+    "name": "Sub Type"
+  },
+  {
+    "data": "descrShort",
+    "name": "Descr Short"
+  },
+  {
+    "data": "descr",
+    "name": "Descr"
+  },
+  {
+    "data": "urlView",
+    "name": "Url View"
+  },
+  {
+    "data": "urlFix",
+    "name": "Url Fix"
+  },
+  {
+    "data": "tableName",
+    "name": "Table Name"
+  },
+  {
+    "data": "fixInstruct",
+    "name": "Fix Instruct"
+  },
+  {
+    "data": "severityDescr",
+    "name": "Severity Descr"
+  },
+  {
+    "data": "tooltip",
+    "name": "Tooltip"
+  }
+]
+}

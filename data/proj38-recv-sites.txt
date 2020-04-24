@@ -1,0 +1,231 @@
+{
+"data":[
+  {
+    "ID": 1858,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "East Point",
+    "latitude": 51.23,
+    "longitude": -79.71,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1859,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "East Point",
+    "latitude": 51.38,
+    "longitude": -79.68,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1860,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "Halfway Point",
+    "latitude": 51.87,
+    "longitude": -80.79,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1861,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "Halfway Point",
+    "latitude": 51.87,
+    "longitude": -80.79,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1863,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "Longridge",
+    "latitude": 51.82,
+    "longitude": -80.69,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1864,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "Longridge",
+    "latitude": 51.82,
+    "longitude": -80.69,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1865,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "Longridge",
+    "latitude": 51.82,
+    "longitude": -80.69,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1866,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "Longridge",
+    "latitude": 51.82,
+    "longitude": -80.69,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1868,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "Netitishi",
+    "latitude": 51.29,
+    "longitude": -80.11,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1869,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "Netitishi",
+    "latitude": 51.29,
+    "longitude": -80.11,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1870,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "Netitishi",
+    "latitude": 51.29,
+    "longitude": -80.11,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1871,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "North Bluff",
+    "latitude": 51.48,
+    "longitude": -80.45,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1872,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "North Bluff",
+    "latitude": 51.48,
+    "longitude": -80.45,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1873,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "North Bluff",
+    "latitude": 51.48,
+    "longitude": -80.45,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1875,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "Piskwamish",
+    "latitude": 51.65,
+    "longitude": -80.56,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1876,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "Piskwamish",
+    "latitude": 51.65,
+    "longitude": -80.56,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1877,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "Piskwamish",
+    "latitude": 51.65,
+    "longitude": -80.56,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1878,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "Piskwamish",
+    "latitude": 51.65,
+    "longitude": -80.56,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1879,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "Washiskogau Creek",
+    "latitude": 51.15,
+    "longitude": -79.81,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1880,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "Washiskogau Creek",
+    "latitude": 51.15,
+    "longitude": -79.81,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 1881,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "Washiskogau Creek",
+    "latitude": 51.15,
+    "longitude": -79.81,
+    "lastEditedDt": "1/18/2018 14:44:21"
+  },
+  {
+    "ID": 2517,
+    "projectID": 38,
+    "landOwnerID": "NA",
+    "name": "Northbluff Point",
+    "latitude": 51.48,
+    "longitude": -80.45,
+    "lastEditedDt": "5/31/2018 14:02:21"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

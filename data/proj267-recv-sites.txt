@@ -1,0 +1,51 @@
+{
+"data":[
+  {
+    "ID": 2814,
+    "projectID": 267,
+    "landOwnerID": 21403,
+    "name": "SGDC QC",
+    "latitude": 45.02,
+    "longitude": -73.18,
+    "lastEditedDt": "3/11/2020 12:42:46"
+  },
+  {
+    "ID": 2821,
+    "projectID": 267,
+    "landOwnerID": 21405,
+    "name": "ISB QC",
+    "latitude": 45.38,
+    "longitude": -73.75,
+    "lastEditedDt": "3/11/2020 12:42:45"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

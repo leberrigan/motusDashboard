@@ -1,0 +1,217 @@
+{
+"data":[
+  {
+    "errorID": 5888029,
+    "projectID": 42,
+    "ID": 855,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_not_registered",
+    "string": "SG-1315BBBK0112",
+    "string2": "234",
+    "string3": "",
+    "errorDescr": "Receiver Serial Number: %s UserID: %s",
+    "severity": 3,
+    "type": "Receivers",
+    "subType": "Receiver",
+    "descrShort": "Receiver Not Registered",
+    "descr": "Receiver detection data has been uploaded by a user registered to this project, however the receiver is not registered to this project. ",
+    "urlView": "",
+    "urlFix": "/data/receivers/edit?projectID=%d",
+    "tableName": "sensors",
+    "fixInstruct": "If this receiver should be registered to this project you can do so by going to Manage Your Receivers under Manager data and selecting \"Register new receiver\".  Please make sure to create a deployment after registration.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5892170,
+    "projectID": 42,
+    "ID": 8610,
+    "idConflict": "NA",
+    "errorCode": "v_tag_deploy_coordinates",
+    "string": "20795",
+    "string2": "Picoides arcticus:  - ",
+    "string3": "Latitude : NULL Longitude : NULL",
+    "errorDescr": "Tag ID %s, Tag deployment ID #%5$d, species %s, location: %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Invalid Tag Location Coordinates",
+    "descr": "These tag deployment location coordinates are either missing or invalid.",
+    "urlView": "",
+    "urlFix": "/data/tag/deployment/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please verify and enter the correct location for this deployment.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5892736,
+    "projectID": 42,
+    "ID": 8613,
+    "idConflict": "NA",
+    "errorCode": "v_tag_deploy_coordinates",
+    "string": "20798",
+    "string2": "Picoides arcticus:  - ",
+    "string3": "Latitude : NULL Longitude : NULL",
+    "errorDescr": "Tag ID %s, Tag deployment ID #%5$d, species %s, location: %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Invalid Tag Location Coordinates",
+    "descr": "These tag deployment location coordinates are either missing or invalid.",
+    "urlView": "",
+    "urlFix": "/data/tag/deployment/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please verify and enter the correct location for this deployment.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5892787,
+    "projectID": 42,
+    "ID": 8612,
+    "idConflict": "NA",
+    "errorCode": "v_tag_deploy_coordinates",
+    "string": "20797",
+    "string2": "Picoides arcticus:  - ",
+    "string3": "Latitude : NULL Longitude : NULL",
+    "errorDescr": "Tag ID %s, Tag deployment ID #%5$d, species %s, location: %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Invalid Tag Location Coordinates",
+    "descr": "These tag deployment location coordinates are either missing or invalid.",
+    "urlView": "",
+    "urlFix": "/data/tag/deployment/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please verify and enter the correct location for this deployment.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5893087,
+    "projectID": 42,
+    "ID": 8611,
+    "idConflict": "NA",
+    "errorCode": "v_tag_deploy_coordinates",
+    "string": "20796",
+    "string2": "Picoides arcticus:  - ",
+    "string3": "Latitude : NULL Longitude : NULL",
+    "errorDescr": "Tag ID %s, Tag deployment ID #%5$d, species %s, location: %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Invalid Tag Location Coordinates",
+    "descr": "These tag deployment location coordinates are either missing or invalid.",
+    "urlView": "",
+    "urlFix": "/data/tag/deployment/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please verify and enter the correct location for this deployment.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5894251,
+    "projectID": 42,
+    "ID": 20800,
+    "idConflict": 24629,
+    "errorCode": "v_tag_overlap_deploy_prop",
+    "string": "20800 Picoides arcticus : 2016-05-27 00:00 - 2017-06-20 00:00",
+    "string2": "24629 Charadrius melodus : 2017-05-19 00:00 - 2018-02-16 00:00",
+    "string3": "14",
+    "errorDescr": "\"%s\" overlaps deployment \"%s\" from project %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Overlapping Tag Deployments (Tag Properties)",
+    "descr": "These tag deployments overlap in time with a deployment for a tag with identical properties, which may lead to ambiguous detections.",
+    "urlView": "/data/tag?id=%3$d",
+    "urlFix": "/data/tags/edit?projectID=%d&id=%d",
+    "tableName": "",
+    "fixInstruct": "Please confirm the deployment dates for both deployments are accurate. You may need to resolve ambiguities between these two tags using spatial or temporal factors.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  }
+], "columns":[
+  {
+    "data": "errorID",
+    "name": "Error ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "idConflict",
+    "name": "ID Conflict"
+  },
+  {
+    "data": "errorCode",
+    "name": "Error Code"
+  },
+  {
+    "data": "string",
+    "name": "String"
+  },
+  {
+    "data": "string2",
+    "name": "String2"
+  },
+  {
+    "data": "string3",
+    "name": "String3"
+  },
+  {
+    "data": "errorDescr",
+    "name": "Error Descr"
+  },
+  {
+    "data": "severity",
+    "name": "Severity"
+  },
+  {
+    "data": "type",
+    "name": "Type"
+  },
+  {
+    "data": "subType",
+    "name": "Sub Type"
+  },
+  {
+    "data": "descrShort",
+    "name": "Descr Short"
+  },
+  {
+    "data": "descr",
+    "name": "Descr"
+  },
+  {
+    "data": "urlView",
+    "name": "Url View"
+  },
+  {
+    "data": "urlFix",
+    "name": "Url Fix"
+  },
+  {
+    "data": "tableName",
+    "name": "Table Name"
+  },
+  {
+    "data": "fixInstruct",
+    "name": "Fix Instruct"
+  },
+  {
+    "data": "severityDescr",
+    "name": "Severity Descr"
+  },
+  {
+    "data": "tooltip",
+    "name": "Tooltip"
+  }
+]
+}

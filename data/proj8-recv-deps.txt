@@ -1,0 +1,157 @@
+{
+"data":[
+  {
+    "motusRecvID": 521,
+    "recvProjectID": 8,
+    "receiverID": "SG-1013BB000626",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 1573,
+    "deploymentStatus": "terminated",
+    "deploymentName": "SECO",
+    "siteName": "SECO",
+    "dtStart": "2014-07-08 00:00:00 +00:00",
+    "dtEnd": "2014-10-29 00:00:00 +00:00",
+    "tsStart": 1404777600,
+    "tsEnd": 1414540800,
+    "latitude": 44.5431,
+    "longitude": -67.7528,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 521,
+    "recvProjectID": 8,
+    "receiverID": "SG-1013BB000626",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 954,
+    "deploymentStatus": "terminated",
+    "deploymentName": "SECO",
+    "siteName": "SECO",
+    "dtStart": "2013-08-12 17:09:00 +00:00",
+    "dtEnd": "2013-11-01 00:00:00 +00:00",
+    "tsStart": 1376327340,
+    "tsEnd": 1383264000,
+    "latitude": 44.5431,
+    "longitude": -67.7528,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 557,
+    "recvProjectID": 8,
+    "receiverID": "SG-0613BB000613",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 935,
+    "deploymentStatus": "terminated",
+    "deploymentName": "PINEO",
+    "siteName": "PINEO",
+    "dtStart": "2014-07-08 00:00:00 +00:00",
+    "dtEnd": "2014-10-29 00:00:00 +00:00",
+    "tsStart": 1404777600,
+    "tsEnd": 1414540800,
+    "latitude": 44.5645,
+    "longitude": -67.8067,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 557,
+    "recvProjectID": 8,
+    "receiverID": "SG-0613BB000613",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 936,
+    "deploymentStatus": "terminated",
+    "deploymentName": "PINEO",
+    "siteName": "PINEO",
+    "dtStart": "2013-08-12 18:05:00 +00:00",
+    "dtEnd": "2013-10-23 05:47:00 +00:00",
+    "tsStart": 1376330700,
+    "tsEnd": 1382507220,
+    "latitude": 44.5645,
+    "longitude": -67.8066,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

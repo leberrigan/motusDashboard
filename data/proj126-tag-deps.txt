@@ -1,0 +1,333 @@
+{
+"data":[
+  {
+    "tagID": 22919,
+    "tagProjectID": 126,
+    "mfgID": "321",
+    "dateBin": "2016-4",
+    "lifespan": 651,
+    "tagDeployID": 10525,
+    "deploymentStatus": "pending",
+    "dtStart": "",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": "NA",
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 3680,
+    "speciesName": "Coturnicops noveboracensis",
+    "motusScientificName": "Coturnicops noveboracensis",
+    "motusEnglishName": "Yellow Rail",
+    "motusFrenchName": "Râle jaune",
+    "bandNumber": "",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": "NA",
+    "longitude": "NA",
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 22920,
+    "tagProjectID": 126,
+    "mfgID": "322",
+    "dateBin": "2016-4",
+    "lifespan": 651,
+    "tagDeployID": 10526,
+    "deploymentStatus": "pending",
+    "dtStart": "",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": "NA",
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 3680,
+    "speciesName": "Coturnicops noveboracensis",
+    "motusScientificName": "Coturnicops noveboracensis",
+    "motusEnglishName": "Yellow Rail",
+    "motusFrenchName": "Râle jaune",
+    "bandNumber": "",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": "NA",
+    "longitude": "NA",
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 22921,
+    "tagProjectID": 126,
+    "mfgID": "323",
+    "dateBin": "2016-4",
+    "lifespan": 651,
+    "tagDeployID": 10527,
+    "deploymentStatus": "pending",
+    "dtStart": "",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": "NA",
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 3680,
+    "speciesName": "Coturnicops noveboracensis",
+    "motusScientificName": "Coturnicops noveboracensis",
+    "motusEnglishName": "Yellow Rail",
+    "motusFrenchName": "Râle jaune",
+    "bandNumber": "",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": "NA",
+    "longitude": "NA",
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 22922,
+    "tagProjectID": 126,
+    "mfgID": "316",
+    "dateBin": "2016-4",
+    "lifespan": 457,
+    "tagDeployID": 10528,
+    "deploymentStatus": "pending",
+    "dtStart": "",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": "NA",
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 3680,
+    "speciesName": "Coturnicops noveboracensis",
+    "motusScientificName": "Coturnicops noveboracensis",
+    "motusEnglishName": "Yellow Rail",
+    "motusFrenchName": "Râle jaune",
+    "bandNumber": "",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": "NA",
+    "longitude": "NA",
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 22923,
+    "tagProjectID": 126,
+    "mfgID": "317",
+    "dateBin": "2016-4",
+    "lifespan": 457,
+    "tagDeployID": 10529,
+    "deploymentStatus": "pending",
+    "dtStart": "",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": "NA",
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 3680,
+    "speciesName": "Coturnicops noveboracensis",
+    "motusScientificName": "Coturnicops noveboracensis",
+    "motusEnglishName": "Yellow Rail",
+    "motusFrenchName": "Râle jaune",
+    "bandNumber": "",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": "NA",
+    "longitude": "NA",
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 22924,
+    "tagProjectID": 126,
+    "mfgID": "318",
+    "dateBin": "2016-4",
+    "lifespan": 457,
+    "tagDeployID": 10530,
+    "deploymentStatus": "pending",
+    "dtStart": "",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": "NA",
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 3680,
+    "speciesName": "Coturnicops noveboracensis",
+    "motusScientificName": "Coturnicops noveboracensis",
+    "motusEnglishName": "Yellow Rail",
+    "motusFrenchName": "Râle jaune",
+    "bandNumber": "",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": "NA",
+    "longitude": "NA",
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 22925,
+    "tagProjectID": 126,
+    "mfgID": "319",
+    "dateBin": "2016-4",
+    "lifespan": 457,
+    "tagDeployID": 10531,
+    "deploymentStatus": "pending",
+    "dtStart": "",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": "NA",
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 3680,
+    "speciesName": "Coturnicops noveboracensis",
+    "motusScientificName": "Coturnicops noveboracensis",
+    "motusEnglishName": "Yellow Rail",
+    "motusFrenchName": "Râle jaune",
+    "bandNumber": "",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": "NA",
+    "longitude": "NA",
+    "elevation": "NA",
+    "comments": ""
+  },
+  {
+    "tagID": 22926,
+    "tagProjectID": 126,
+    "mfgID": "320",
+    "dateBin": "2016-4",
+    "lifespan": 457,
+    "tagDeployID": 10532,
+    "deploymentStatus": "pending",
+    "dtStart": "",
+    "dtEnd": "",
+    "dtStartAnticipated": "",
+    "tsStart": "NA",
+    "tsEnd": "NA",
+    "tsStartAnticipated": "NA",
+    "deferSec": 0,
+    "speciesID": 3680,
+    "speciesName": "Coturnicops noveboracensis",
+    "motusScientificName": "Coturnicops noveboracensis",
+    "motusEnglishName": "Yellow Rail",
+    "motusFrenchName": "Râle jaune",
+    "bandNumber": "",
+    "markerNumber": "",
+    "markerType": "",
+    "latitude": "NA",
+    "longitude": "NA",
+    "elevation": "NA",
+    "comments": ""
+  }
+], "columns":[
+  {
+    "data": "tagID",
+    "name": "Tag ID"
+  },
+  {
+    "data": "tagProjectID",
+    "name": "Tag Project ID"
+  },
+  {
+    "data": "mfgID",
+    "name": "Manufacturer ID"
+  },
+  {
+    "data": "dateBin",
+    "name": "Date Bin"
+  },
+  {
+    "data": "lifespan",
+    "name": "Lifespan"
+  },
+  {
+    "data": "tagDeployID",
+    "name": "Tag Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "dtStartAnticipated",
+    "name": "Date Start Anticipated"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "tsStartAnticipated",
+    "name": "Time Start Anticipated"
+  },
+  {
+    "data": "deferSec",
+    "name": "Defer Sec"
+  },
+  {
+    "data": "speciesID",
+    "name": "Species ID"
+  },
+  {
+    "data": "speciesName",
+    "name": "Species Name"
+  },
+  {
+    "data": "motusScientificName",
+    "name": "Motus Scientific Name"
+  },
+  {
+    "data": "motusEnglishName",
+    "name": "Motus English Name"
+  },
+  {
+    "data": "motusFrenchName",
+    "name": "Motus French Name"
+  },
+  {
+    "data": "bandNumber",
+    "name": "Band Number"
+  },
+  {
+    "data": "markerNumber",
+    "name": "Marker Number"
+  },
+  {
+    "data": "markerType",
+    "name": "Marker Type"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "comments",
+    "name": "Comments"
+  }
+]
+}

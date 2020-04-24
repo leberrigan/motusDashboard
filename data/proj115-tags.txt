@@ -1,0 +1,99 @@
+{
+"data":[
+  {
+    "tagID": 16153,
+    "tagProjectID": 115,
+    "mfgID": "398",
+    "dateBin": "2014-2",
+    "dtRegistered": "2014-05-23 13:42:43.143",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB-1",
+    "lifespan": 55,
+    "nomFreq": 166.38,
+    "offsetFreq": -7.9662,
+    "period": 12.6954,
+    "periodSD": 0,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 26457,
+    "tagProjectID": 115,
+    "mfgID": "380",
+    "dateBin": "2017-3",
+    "dtRegistered": "2017-08-15 16:40:50.123",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB-2",
+    "lifespan": 76,
+    "nomFreq": 166.38,
+    "offsetFreq": -0.8553,
+    "period": 9.6972,
+    "periodSD": 0.0001,
+    "pulseLen": 2.5
+  }
+], "columns":[
+  {
+    "data": "tagID",
+    "name": "Tag ID"
+  },
+  {
+    "data": "tagProjectID",
+    "name": "Tag Project ID"
+  },
+  {
+    "data": "mfgID",
+    "name": "Manufacturer ID"
+  },
+  {
+    "data": "dateBin",
+    "name": "Date Bin"
+  },
+  {
+    "data": "dtRegistered",
+    "name": "Date Registered"
+  },
+  {
+    "data": "type",
+    "name": "Type"
+  },
+  {
+    "data": "codeset",
+    "name": "Codeset"
+  },
+  {
+    "data": "manufacturer",
+    "name": "Manufacturer"
+  },
+  {
+    "data": "model",
+    "name": "Model"
+  },
+  {
+    "data": "lifespan",
+    "name": "Lifespan"
+  },
+  {
+    "data": "nomFreq",
+    "name": "Nominal Frequency"
+  },
+  {
+    "data": "offsetFreq",
+    "name": "Offset Frequency"
+  },
+  {
+    "data": "period",
+    "name": "Period"
+  },
+  {
+    "data": "periodSD",
+    "name": "Period SD"
+  },
+  {
+    "data": "pulseLen",
+    "name": "Pulse Length"
+  }
+]
+}

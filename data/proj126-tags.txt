@@ -1,0 +1,201 @@
+{
+"data":[
+  {
+    "tagID": 22919,
+    "tagProjectID": 126,
+    "mfgID": "321",
+    "dateBin": "2016-4",
+    "dtRegistered": "2016-12-13 15:33:19.163",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB-6-1",
+    "lifespan": 651,
+    "nomFreq": 166.38,
+    "offsetFreq": 0,
+    "period": 14.8949,
+    "periodSD": 0.0003,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 22920,
+    "tagProjectID": 126,
+    "mfgID": "322",
+    "dateBin": "2016-4",
+    "dtRegistered": "2016-12-13 15:33:23.4",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB-6-1",
+    "lifespan": 651,
+    "nomFreq": 166.38,
+    "offsetFreq": 0,
+    "period": 14.8949,
+    "periodSD": 0.0003,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 22921,
+    "tagProjectID": 126,
+    "mfgID": "323",
+    "dateBin": "2016-4",
+    "dtRegistered": "2016-12-13 15:33:26.303",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB-6-1",
+    "lifespan": 651,
+    "nomFreq": 166.38,
+    "offsetFreq": 0,
+    "period": 14.8949,
+    "periodSD": 0.0003,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 22922,
+    "tagProjectID": 126,
+    "mfgID": "316",
+    "dateBin": "2016-4",
+    "dtRegistered": "2016-12-13 15:33:43.907",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB-4-2",
+    "lifespan": 457,
+    "nomFreq": 166.38,
+    "offsetFreq": 0,
+    "period": 14.8949,
+    "periodSD": 0.0003,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 22923,
+    "tagProjectID": 126,
+    "mfgID": "317",
+    "dateBin": "2016-4",
+    "dtRegistered": "2016-12-13 15:33:46.707",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB-4-2",
+    "lifespan": 457,
+    "nomFreq": 166.38,
+    "offsetFreq": 0,
+    "period": 14.8949,
+    "periodSD": 0.0003,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 22924,
+    "tagProjectID": 126,
+    "mfgID": "318",
+    "dateBin": "2016-4",
+    "dtRegistered": "2016-12-13 15:33:49.527",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB-4-2",
+    "lifespan": 457,
+    "nomFreq": 166.38,
+    "offsetFreq": 0,
+    "period": 14.8949,
+    "periodSD": 0.0003,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 22925,
+    "tagProjectID": 126,
+    "mfgID": "319",
+    "dateBin": "2016-4",
+    "dtRegistered": "2016-12-13 15:33:52.44",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB-4-2",
+    "lifespan": 457,
+    "nomFreq": 166.38,
+    "offsetFreq": 0,
+    "period": 14.8949,
+    "periodSD": 0.0003,
+    "pulseLen": 2.5
+  },
+  {
+    "tagID": 22926,
+    "tagProjectID": 126,
+    "mfgID": "320",
+    "dateBin": "2016-4",
+    "dtRegistered": "2016-12-13 15:33:55.343",
+    "type": "ID",
+    "codeset": "Lotek4",
+    "manufacturer": "Lotek",
+    "model": "NTQB-4-2",
+    "lifespan": 457,
+    "nomFreq": 166.38,
+    "offsetFreq": 0,
+    "period": 14.8949,
+    "periodSD": 0.0003,
+    "pulseLen": 2.5
+  }
+], "columns":[
+  {
+    "data": "tagID",
+    "name": "Tag ID"
+  },
+  {
+    "data": "tagProjectID",
+    "name": "Tag Project ID"
+  },
+  {
+    "data": "mfgID",
+    "name": "Manufacturer ID"
+  },
+  {
+    "data": "dateBin",
+    "name": "Date Bin"
+  },
+  {
+    "data": "dtRegistered",
+    "name": "Date Registered"
+  },
+  {
+    "data": "type",
+    "name": "Type"
+  },
+  {
+    "data": "codeset",
+    "name": "Codeset"
+  },
+  {
+    "data": "manufacturer",
+    "name": "Manufacturer"
+  },
+  {
+    "data": "model",
+    "name": "Model"
+  },
+  {
+    "data": "lifespan",
+    "name": "Lifespan"
+  },
+  {
+    "data": "nomFreq",
+    "name": "Nominal Frequency"
+  },
+  {
+    "data": "offsetFreq",
+    "name": "Offset Frequency"
+  },
+  {
+    "data": "period",
+    "name": "Period"
+  },
+  {
+    "data": "periodSD",
+    "name": "Period SD"
+  },
+  {
+    "data": "pulseLen",
+    "name": "Pulse Length"
+  }
+]
+}

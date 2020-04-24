@@ -1,0 +1,51 @@
+{
+"data":[
+  {
+    "ID": 2972,
+    "projectID": 247,
+    "receiverID": "SG-69E8RPI30B74",
+    "approved": 0,
+    "lastEditedDt": "3/22/2019 15:36:25",
+    "lastEditedUserID": 16192,
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 3715,
+    "projectID": 247,
+    "receiverID": "CTT-867459049276215",
+    "approved": 0,
+    "lastEditedDt": "12/11/2019 12:10:02",
+    "lastEditedUserID": 587,
+    "receiverType": "SENSORSTATION"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "approved",
+    "name": "Approved"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  },
+  {
+    "data": "lastEditedUserID",
+    "name": "Last Edited User ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  }
+]
+}

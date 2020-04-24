@@ -1,0 +1,157 @@
+{
+"data":[
+  {
+    "motusRecvID": 2599,
+    "recvProjectID": 211,
+    "receiverID": "SG-1816BBBK2137",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4814,
+    "deploymentStatus": "active",
+    "deploymentName": "Store Færder Bird Observatory",
+    "siteName": "Store Færder_Norway",
+    "dtStart": "2018-08-07 17:42:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1533663720,
+    "tsEnd": "NA",
+    "latitude": 59.069,
+    "longitude": 10.5227,
+    "elevation": 10,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2600,
+    "recvProjectID": 211,
+    "receiverID": "SG-2316BBBK0426",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4816,
+    "deploymentStatus": "pending",
+    "deploymentName": "Akerøya Bird Observatory",
+    "siteName": "Akerøya_Norway",
+    "dtStart": "",
+    "dtEnd": "",
+    "tsStart": "NA",
+    "tsEnd": "NA",
+    "latitude": 59.049,
+    "longitude": 10.888,
+    "elevation": 10,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2601,
+    "recvProjectID": 211,
+    "receiverID": "SG-1914BBBK0960",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4817,
+    "deploymentStatus": "active",
+    "deploymentName": "Jomfruland Bird Observatory",
+    "siteName": "Jomfruland_Norway",
+    "dtStart": "2018-08-07 17:52:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1533664320,
+    "tsEnd": "NA",
+    "latitude": 58.883,
+    "longitude": 9.613,
+    "elevation": 10,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2602,
+    "recvProjectID": 211,
+    "receiverID": "SG-4616BBBK2363",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4818,
+    "deploymentStatus": "active",
+    "deploymentName": "Mølen Bird Observatory",
+    "siteName": "Mølen_Norway",
+    "dtStart": "2018-08-07 17:58:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1533664680,
+    "tsEnd": "NA",
+    "latitude": 58.9727,
+    "longitude": 9.8364,
+    "elevation": 10,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

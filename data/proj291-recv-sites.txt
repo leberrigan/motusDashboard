@@ -1,0 +1,78 @@
+{
+"data":[
+  {
+    "ID": 2900,
+    "projectID": 291,
+    "landOwnerID": 19952,
+    "name": "Spurn Bird Observatory",
+    "latitude": 53.62,
+    "longitude": 0.13,
+    "lastEditedDt": "10/6/2019 11:10:02"
+  },
+  {
+    "ID": 2901,
+    "projectID": 291,
+    "landOwnerID": 19954,
+    "name": "Dungeness Bird Observatory",
+    "latitude": 50.91,
+    "longitude": 0.96,
+    "lastEditedDt": "10/6/2019 11:10:02"
+  },
+  {
+    "ID": 2902,
+    "projectID": 291,
+    "landOwnerID": 19995,
+    "name": "Test Site",
+    "latitude": 52.86,
+    "longitude": 1.35,
+    "lastEditedDt": "10/6/2019 11:10:02"
+  },
+  {
+    "ID": 2910,
+    "projectID": 291,
+    "landOwnerID": 19970,
+    "name": "Sandwich Bay Bird Observatory",
+    "latitude": 51.26,
+    "longitude": 1.37,
+    "lastEditedDt": "10/6/2019 11:10:02"
+  },
+  {
+    "ID": 2918,
+    "projectID": 291,
+    "landOwnerID": 19995,
+    "name": "Test Site 2",
+    "latitude": 52.1,
+    "longitude": -2.68,
+    "lastEditedDt": "10/6/2019 11:10:02"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

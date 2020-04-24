@@ -1,0 +1,240 @@
+{
+"data":[
+  {
+    "ID": 2203,
+    "projectID": 90,
+    "landOwnerID": 21316,
+    "name": "PC1 - Primitive Campsite",
+    "latitude": 29.65,
+    "longitude": -84.88,
+    "lastEditedDt": "2/27/2020 16:00:27"
+  },
+  {
+    "ID": 2204,
+    "projectID": 90,
+    "landOwnerID": 556,
+    "name": "Box R WMA",
+    "latitude": 29.72,
+    "longitude": -85.09,
+    "lastEditedDt": "2/27/2020 16:00:27"
+  },
+  {
+    "ID": 2205,
+    "projectID": 90,
+    "landOwnerID": 2895,
+    "name": "Telogia Creek",
+    "latitude": 30.35,
+    "longitude": -84.94,
+    "lastEditedDt": "1/29/2018 15:16:42"
+  },
+  {
+    "ID": 2206,
+    "projectID": 90,
+    "landOwnerID": 555,
+    "name": "Howard's Creek",
+    "latitude": 29.89,
+    "longitude": -85.06,
+    "lastEditedDt": "2/27/2020 16:00:27"
+  },
+  {
+    "ID": 2207,
+    "projectID": 90,
+    "landOwnerID": 556,
+    "name": "Box R WMA",
+    "latitude": 29.72,
+    "longitude": -85.09,
+    "lastEditedDt": "2/27/2020 16:00:27"
+  },
+  {
+    "ID": 2208,
+    "projectID": 90,
+    "landOwnerID": 563,
+    "name": "Carrabelle THSF Headquarters",
+    "latitude": 29.84,
+    "longitude": -84.69,
+    "lastEditedDt": "3/17/2020 10:37:06"
+  },
+  {
+    "ID": 2209,
+    "projectID": 90,
+    "landOwnerID": 563,
+    "name": "Carrabelle THSF Headquarters",
+    "latitude": 29.84,
+    "longitude": -84.69,
+    "lastEditedDt": "3/17/2020 10:37:06"
+  },
+  {
+    "ID": 2210,
+    "projectID": 90,
+    "landOwnerID": 563,
+    "name": "East Bay Fire Tower ",
+    "latitude": 29.82,
+    "longitude": -84.88,
+    "lastEditedDt": "2/27/2020 16:00:27"
+  },
+  {
+    "ID": 2211,
+    "projectID": 90,
+    "landOwnerID": 563,
+    "name": "East Bay Fire Tower ",
+    "latitude": 29.82,
+    "longitude": -84.88,
+    "lastEditedDt": "2/27/2020 16:00:27"
+  },
+  {
+    "ID": 2212,
+    "projectID": 90,
+    "landOwnerID": 563,
+    "name": "Tate's Hell SF Deep ",
+    "latitude": 29.85,
+    "longitude": -84.91,
+    "lastEditedDt": "2/27/2020 16:00:27"
+  },
+  {
+    "ID": 2213,
+    "projectID": 90,
+    "landOwnerID": 564,
+    "name": "Eastpoint ANERR Dock",
+    "latitude": 29.76,
+    "longitude": -84.88,
+    "lastEditedDt": "2/27/2020 16:00:27"
+  },
+  {
+    "ID": 2214,
+    "projectID": 90,
+    "landOwnerID": 564,
+    "name": "St. George Island AN",
+    "latitude": 29.64,
+    "longitude": -84.91,
+    "lastEditedDt": "2/27/2020 16:00:27"
+  },
+  {
+    "ID": 2215,
+    "projectID": 90,
+    "landOwnerID": 564,
+    "name": "St. George Island AN",
+    "latitude": 29.67,
+    "longitude": -84.84,
+    "lastEditedDt": "2/27/2020 16:00:27"
+  },
+  {
+    "ID": 2216,
+    "projectID": 90,
+    "landOwnerID": 564,
+    "name": "St. George Island AN",
+    "latitude": 29.67,
+    "longitude": -84.84,
+    "lastEditedDt": "2/27/2020 16:00:27"
+  },
+  {
+    "ID": 2217,
+    "projectID": 90,
+    "landOwnerID": 565,
+    "name": "St. Vincent NWR",
+    "latitude": 29.63,
+    "longitude": -85.14,
+    "lastEditedDt": "2/27/2020 16:00:27"
+  },
+  {
+    "ID": 2218,
+    "projectID": 90,
+    "landOwnerID": 2420,
+    "name": "FSU Marine Lab",
+    "latitude": 29.91,
+    "longitude": -84.51,
+    "lastEditedDt": "2/27/2020 16:00:27"
+  },
+  {
+    "ID": 2219,
+    "projectID": 90,
+    "landOwnerID": 2446,
+    "name": "Apalachicola Work St",
+    "latitude": 30.28,
+    "longitude": -85.01,
+    "lastEditedDt": "2/27/2020 16:00:27"
+  },
+  {
+    "ID": 2220,
+    "projectID": 90,
+    "landOwnerID": 2446,
+    "name": "Bradwell Game Farm A",
+    "latitude": 30.38,
+    "longitude": -84.67,
+    "lastEditedDt": "2/27/2020 16:00:27"
+  },
+  {
+    "ID": 2221,
+    "projectID": 90,
+    "landOwnerID": 2446,
+    "name": "Sumatra Weather Stat",
+    "latitude": 30.02,
+    "longitude": -84.98,
+    "lastEditedDt": "2/27/2020 16:00:27"
+  },
+  {
+    "ID": 2222,
+    "projectID": 90,
+    "landOwnerID": 2446,
+    "name": "Wakulla Work Station",
+    "latitude": 30.3,
+    "longitude": -84.42,
+    "lastEditedDt": "1/29/2018 15:16:42"
+  },
+  {
+    "ID": 2223,
+    "projectID": 90,
+    "landOwnerID": 2446,
+    "name": "Wilma Work Station A",
+    "latitude": 30.16,
+    "longitude": -84.96,
+    "lastEditedDt": "1/29/2018 15:16:42"
+  },
+  {
+    "ID": 2471,
+    "projectID": 90,
+    "landOwnerID": 21314,
+    "name": "Lab Test",
+    "latitude": 42.4,
+    "longitude": -72.5,
+    "lastEditedDt": "2/27/2020 16:00:27"
+  },
+  {
+    "ID": 2503,
+    "projectID": 90,
+    "landOwnerID": 21316,
+    "name": "St. George Island",
+    "latitude": 29.67,
+    "longitude": -84.84,
+    "lastEditedDt": "2/27/2020 16:00:27"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

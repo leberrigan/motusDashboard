@@ -1,0 +1,42 @@
+{
+"data":[
+  {
+    "ID": 2685,
+    "projectID": 240,
+    "landOwnerID": 15205,
+    "name": "Kent Farm Research Station",
+    "latitude": 39.15,
+    "longitude": -86.39,
+    "lastEditedDt": "2/21/2019 14:12:32"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

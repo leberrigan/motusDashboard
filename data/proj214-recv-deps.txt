@@ -1,0 +1,257 @@
+{
+"data":[
+  {
+    "motusRecvID": 2640,
+    "recvProjectID": 214,
+    "receiverID": "SG-EDDARPI38599",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4910,
+    "deploymentStatus": "terminated",
+    "deploymentName": "WaterTower.1",
+    "siteName": "WaterTower",
+    "dtStart": "2018-09-18 03:31:00 +00:00",
+    "dtEnd": "2018-11-09 10:00:00 +00:00",
+    "tsStart": 1537241460,
+    "tsEnd": 1541757600,
+    "latitude": -15.4748,
+    "longitude": 128.1309,
+    "elevation": 38,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2640,
+    "recvProjectID": 214,
+    "receiverID": "SG-EDDARPI38599",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4839,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Test-CDUFieldStore",
+    "siteName": "CDU Field Store",
+    "dtStart": "2018-08-27 00:00:00 +00:00",
+    "dtEnd": "2018-09-12 23:59:00 +00:00",
+    "tsStart": 1535328000,
+    "tsEnd": 1536796740,
+    "latitude": -12.3705,
+    "longitude": 130.8648,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2665,
+    "recvProjectID": 214,
+    "receiverID": "SG-AED4RPI38099",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4855,
+    "deploymentStatus": "terminated",
+    "deploymentName": "CDU Lab - Test",
+    "siteName": "CDU Lab",
+    "dtStart": "2018-09-03 01:00:00 +00:00",
+    "dtEnd": "2018-09-12 23:59:00 +00:00",
+    "tsStart": 1535936400,
+    "tsEnd": 1536796740,
+    "latitude": -12.3705,
+    "longitude": 130.869,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2665,
+    "recvProjectID": 214,
+    "receiverID": "SG-AED4RPI38099",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4909,
+    "deploymentStatus": "active",
+    "deploymentName": "Powerline.1",
+    "siteName": "Powerline",
+    "dtStart": "2018-09-17 23:10:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1537225800,
+    "tsEnd": "NA",
+    "latitude": -15.4628,
+    "longitude": 128.1177,
+    "elevation": 151,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2716,
+    "recvProjectID": 214,
+    "receiverID": "SG-50ABRPI3D2FB",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4907,
+    "deploymentStatus": "terminated",
+    "deploymentName": "CASA.1",
+    "siteName": "CASA",
+    "dtStart": "2018-09-16 23:20:00 +00:00",
+    "dtEnd": "2018-11-11 08:00:00 +00:00",
+    "tsStart": 1537140000,
+    "tsEnd": 1541923200,
+    "latitude": -15.533,
+    "longitude": 128.1569,
+    "elevation": 136,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2717,
+    "recvProjectID": 214,
+    "receiverID": "SG-6BEBRPI37660",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4908,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Island.1",
+    "siteName": "Island",
+    "dtStart": "2018-09-16 01:04:00 +00:00",
+    "dtEnd": "2018-11-10 12:00:00 +00:00",
+    "tsStart": 1537059840,
+    "tsEnd": 1541851200,
+    "latitude": -15.522,
+    "longitude": 128.1418,
+    "elevation": 47,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2718,
+    "recvProjectID": 214,
+    "receiverID": "SG-E561RPI3DE10",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4911,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Quarry.1",
+    "siteName": "Quarry",
+    "dtStart": "2018-09-17 03:49:00 +00:00",
+    "dtEnd": "2018-11-10 04:00:00 +00:00",
+    "tsStart": 1537156140,
+    "tsEnd": 1541822400,
+    "latitude": -15.4708,
+    "longitude": 128.1068,
+    "elevation": 116,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2719,
+    "recvProjectID": 214,
+    "receiverID": "SG-21B9RPI33855",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4912,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Caravan.1",
+    "siteName": "Caravan",
+    "dtStart": "2018-09-17 01:39:00 +00:00",
+    "dtEnd": "2018-11-10 04:00:00 +00:00",
+    "tsStart": 1537148340,
+    "tsEnd": 1541822400,
+    "latitude": -15.4788,
+    "longitude": 128.1122,
+    "elevation": 33,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2720,
+    "recvProjectID": 214,
+    "receiverID": "SG-7F39RPI3E0D9",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4913,
+    "deploymentStatus": "terminated",
+    "deploymentName": "WaterTower2.1",
+    "siteName": "WaterTower",
+    "dtStart": "2018-09-19 02:41:00 +00:00",
+    "dtEnd": "2018-09-21 23:59:00 +00:00",
+    "tsStart": 1537324860,
+    "tsEnd": 1537574340,
+    "latitude": -15.4748,
+    "longitude": 128.1309,
+    "elevation": 38,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

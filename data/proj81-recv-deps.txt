@@ -1,0 +1,157 @@
+{
+"data":[
+  {
+    "motusRecvID": 1738,
+    "recvProjectID": 81,
+    "receiverID": "SG-2315BBBK28AA",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3193,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Crescent Stables",
+    "siteName": "Crescent Stables",
+    "dtStart": "2016-06-09 13:00:00 +00:00",
+    "dtEnd": "2016-08-24 11:00:00 +00:00",
+    "tsStart": 1465477200,
+    "tsEnd": 1472036400,
+    "latitude": 49.1247,
+    "longitude": -123.0473,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1741,
+    "recvProjectID": 81,
+    "receiverID": "SG-2315BBBK2C0B",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3222,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Sea Island",
+    "siteName": "Sea Island",
+    "dtStart": "2016-06-17 17:00:00 +00:00",
+    "dtEnd": "2016-08-24 09:00:00 +00:00",
+    "tsStart": 1466182800,
+    "tsEnd": 1472029200,
+    "latitude": 49.2078,
+    "longitude": -123.1777,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1742,
+    "recvProjectID": 81,
+    "receiverID": "SG-0816BBBK009F",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 3225,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Alaksen",
+    "siteName": "Alaksen",
+    "dtStart": "2016-06-18 14:00:00 +00:00",
+    "dtEnd": "2016-09-01 23:59:00 +00:00",
+    "tsStart": 1466258400,
+    "tsEnd": 1472774340,
+    "latitude": 49.0987,
+    "longitude": -123.1656,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 1743,
+    "recvProjectID": 81,
+    "receiverID": "Lotek-158",
+    "receiverType": "LOTEKSRX800",
+    "recvDeployID": 3227,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Boundary Bay",
+    "siteName": "Boundary Bay",
+    "dtStart": "2016-06-17 12:30:00 +00:00",
+    "dtEnd": "2016-08-26 10:00:00 +00:00",
+    "tsStart": 1466166600,
+    "tsEnd": 1472205600,
+    "latitude": 49.06,
+    "longitude": -123.0246,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

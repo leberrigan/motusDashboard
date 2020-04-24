@@ -1,0 +1,117 @@
+{
+"data":[
+  {
+    "motusRecvID": 2794,
+    "recvProjectID": 225,
+    "receiverID": "SG-46F1RPI35627",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4986,
+    "deploymentStatus": "active",
+    "deploymentName": "Connecticut Audubon Deer Pond Farm",
+    "siteName": "Deer Pond Farm",
+    "dtStart": "2018-10-24 17:20:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1540401600,
+    "tsEnd": "NA",
+    "latitude": 41.553,
+    "longitude": -73.5236,
+    "elevation": 365,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 3378,
+    "recvProjectID": 225,
+    "receiverID": "SG-3962RPI3DD74",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 5519,
+    "deploymentStatus": "active",
+    "deploymentName": "Connecticut Audubon Shepaug Dam",
+    "siteName": "Shepaug Dam",
+    "dtStart": "2019-08-15 16:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1565884800,
+    "tsEnd": "NA",
+    "latitude": 41.4485,
+    "longitude": -73.2957,
+    "elevation": 97.5,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

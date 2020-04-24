@@ -1,0 +1,117 @@
+{
+"data":[
+  {
+    "ID": 716,
+    "projectID": 197,
+    "userID": 103,
+    "manageProject": 2,
+    "manageTags": 2,
+    "manageSensors": 2,
+    "manageData": 2,
+    "backupID": "NA",
+    "lastEditedDt": "7/26/2019 12:53:53",
+    "lastEditedUserID": "NA"
+  },
+  {
+    "ID": 1039,
+    "projectID": 197,
+    "userID": 375,
+    "manageProject": 2,
+    "manageTags": 2,
+    "manageSensors": 2,
+    "manageData": 2,
+    "backupID": "NA",
+    "lastEditedDt": "7/26/2019 12:54:00",
+    "lastEditedUserID": "NA"
+  },
+  {
+    "ID": 823,
+    "projectID": 197,
+    "userID": 547,
+    "manageProject": 2,
+    "manageTags": 2,
+    "manageSensors": 2,
+    "manageData": 2,
+    "backupID": "NA",
+    "lastEditedDt": "7/26/2019 12:53:53",
+    "lastEditedUserID": "NA"
+  },
+  {
+    "ID": 729,
+    "projectID": 197,
+    "userID": 2905,
+    "manageProject": 2,
+    "manageTags": 2,
+    "manageSensors": 2,
+    "manageData": 2,
+    "backupID": "NA",
+    "lastEditedDt": "7/26/2019 12:53:53",
+    "lastEditedUserID": "NA"
+  },
+  {
+    "ID": 715,
+    "projectID": 197,
+    "userID": 3900,
+    "manageProject": 2,
+    "manageTags": 2,
+    "manageSensors": 2,
+    "manageData": 2,
+    "backupID": "NA",
+    "lastEditedDt": "7/26/2019 12:53:53",
+    "lastEditedUserID": "NA"
+  },
+  {
+    "ID": 1135,
+    "projectID": 197,
+    "userID": 20678,
+    "manageProject": 2,
+    "manageTags": 2,
+    "manageSensors": 2,
+    "manageData": 2,
+    "backupID": "NA",
+    "lastEditedDt": "11/27/2019 7:38:34",
+    "lastEditedUserID": "NA"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "userID",
+    "name": "User ID"
+  },
+  {
+    "data": "manageProject",
+    "name": "Manage Project"
+  },
+  {
+    "data": "manageTags",
+    "name": "Manage Tags"
+  },
+  {
+    "data": "manageSensors",
+    "name": "Manage Sensors"
+  },
+  {
+    "data": "manageData",
+    "name": "Manage Data"
+  },
+  {
+    "data": "backupID",
+    "name": "Backup ID"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  },
+  {
+    "data": "lastEditedUserID",
+    "name": "Last Edited User ID"
+  }
+]
+}

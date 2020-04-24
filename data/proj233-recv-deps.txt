@@ -1,0 +1,117 @@
+{
+"data":[
+  {
+    "motusRecvID": 2878,
+    "recvProjectID": 233,
+    "receiverID": "SG-3115BBBK1118",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 5039,
+    "deploymentStatus": "active",
+    "deploymentName": "Craney Island",
+    "siteName": "Craney Island North Cell",
+    "dtStart": "2018-11-08 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1541635200,
+    "tsEnd": "NA",
+    "latitude": 36.9226,
+    "longitude": -76.3841,
+    "elevation": 5.2,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2924,
+    "recvProjectID": 233,
+    "receiverID": "SG-872DRPI3F431",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 5070,
+    "deploymentStatus": "active",
+    "deploymentName": "Craney Island",
+    "siteName": "Craney Island North Cell",
+    "dtStart": "2018-11-08 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1541635200,
+    "tsEnd": "NA",
+    "latitude": 36.9226,
+    "longitude": -76.3841,
+    "elevation": 5.2,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

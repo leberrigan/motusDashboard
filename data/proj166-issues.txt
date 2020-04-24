@@ -1,0 +1,129 @@
+{
+"data":[
+  {
+    "errorID": 5899537,
+    "projectID": 166,
+    "ID": 2181,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_hits_out_deploy",
+    "string": "880",
+    "string2": "35",
+    "string3": "2017-09-30 05:07:40 - 2017-09-30 08:20:06",
+    "errorDescr": "Device ID: %s, number of detections: %s, from %s",
+    "severity": 3,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Detections Outside of Receiver Deployment",
+    "descr": "These receivers have tag detections that are outside of any deployments for the receiver.",
+    "urlView": "/data/receiver/timeline?id=%2$d",
+    "urlFix": "/data/receivers/edit?projectID=%d&id=%d",
+    "tableName": "",
+    "fixInstruct": "Please create deployments for this receiver that capture these detections.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5900932,
+    "projectID": 166,
+    "ID": 5086,
+    "idConflict": "NA",
+    "errorCode": "v_dist_deploy_gps_2",
+    "string": "1",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Receiver deployment ID: %5$d, # of days: %s",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "GPS Fixes Far from Deployment Location",
+    "descr": "At least 3 GPS fixes from these receivers fell over 100m away from the deployment latitude and longitude within a 24 hour period.",
+    "urlView": "receiverMap?receiverDeploymentId=%2$d",
+    "urlFix": "/data/receiver/deployment/edit?projectID=%d&id=%d",
+    "tableName": "sp_gps",
+    "fixInstruct": "Please check that your deployment location is correct. If you are positive that your deployment information   is correct but your GPS locations are consistently incorrect, you may have a faulty GPS unit and should contact us at   motus@birdscanada.org.This error can also arise if your deployment start and end times include GPS fixes   from the receiver when it wasn't at the deployment location. Please check that your deployment start and end times are correct. ",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  }
+], "columns":[
+  {
+    "data": "errorID",
+    "name": "Error ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "idConflict",
+    "name": "ID Conflict"
+  },
+  {
+    "data": "errorCode",
+    "name": "Error Code"
+  },
+  {
+    "data": "string",
+    "name": "String"
+  },
+  {
+    "data": "string2",
+    "name": "String2"
+  },
+  {
+    "data": "string3",
+    "name": "String3"
+  },
+  {
+    "data": "errorDescr",
+    "name": "Error Descr"
+  },
+  {
+    "data": "severity",
+    "name": "Severity"
+  },
+  {
+    "data": "type",
+    "name": "Type"
+  },
+  {
+    "data": "subType",
+    "name": "Sub Type"
+  },
+  {
+    "data": "descrShort",
+    "name": "Descr Short"
+  },
+  {
+    "data": "descr",
+    "name": "Descr"
+  },
+  {
+    "data": "urlView",
+    "name": "Url View"
+  },
+  {
+    "data": "urlFix",
+    "name": "Url Fix"
+  },
+  {
+    "data": "tableName",
+    "name": "Table Name"
+  },
+  {
+    "data": "fixInstruct",
+    "name": "Fix Instruct"
+  },
+  {
+    "data": "severityDescr",
+    "name": "Severity Descr"
+  },
+  {
+    "data": "tooltip",
+    "name": "Tooltip"
+  }
+]
+}

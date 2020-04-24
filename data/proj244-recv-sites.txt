@@ -1,0 +1,42 @@
+{
+"data":[
+  {
+    "ID": 2699,
+    "projectID": 244,
+    "landOwnerID": 16189,
+    "name": "Shell Island Rd",
+    "latitude": 26.02,
+    "longitude": -81.73,
+    "lastEditedDt": "3/21/2019 14:17:25"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

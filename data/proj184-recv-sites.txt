@@ -1,0 +1,42 @@
+{
+"data":[
+  {
+    "ID": 2506,
+    "projectID": 184,
+    "landOwnerID": 3503,
+    "name": "Zoo Miami",
+    "latitude": 25.6,
+    "longitude": -80.39,
+    "lastEditedDt": "5/15/2018 13:54:42"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

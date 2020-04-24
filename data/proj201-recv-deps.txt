@@ -1,0 +1,177 @@
+{
+"data":[
+  {
+    "motusRecvID": 2560,
+    "recvProjectID": 201,
+    "receiverID": "SG-2516BBBK1DB1",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4788,
+    "deploymentStatus": "active",
+    "deploymentName": "OHM",
+    "siteName": "Oak hammock marsh",
+    "dtStart": "2018-07-01 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1530403200,
+    "tsEnd": "NA",
+    "latitude": 50.1737,
+    "longitude": -97.1328,
+    "elevation": 249,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2570,
+    "recvProjectID": 201,
+    "receiverID": "SG-2516BBBK24A6",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4787,
+    "deploymentStatus": "active",
+    "deploymentName": "St. Norbert",
+    "siteName": "Clifton",
+    "dtStart": "2018-07-01 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1530403200,
+    "tsEnd": "NA",
+    "latitude": 49.734,
+    "longitude": -97.1317,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2571,
+    "recvProjectID": 201,
+    "receiverID": "SG-2516BBBK1FBE",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4789,
+    "deploymentStatus": "active",
+    "deploymentName": "FW",
+    "siteName": "Fortwhyte Alive",
+    "dtStart": "2018-07-01 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1530403200,
+    "tsEnd": "NA",
+    "latitude": 49.8192,
+    "longitude": -97.2252,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2580,
+    "recvProjectID": 201,
+    "receiverID": "SG-5DDFRPI3131A",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4798,
+    "deploymentStatus": "active",
+    "deploymentName": "Altona",
+    "siteName": "Altona",
+    "dtStart": "2018-07-20 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1532044800,
+    "tsEnd": "NA",
+    "latitude": 49.127,
+    "longitude": -97.5703,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2681,
+    "recvProjectID": 201,
+    "receiverID": "SG-707FRPI3AF84",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4869,
+    "deploymentStatus": "active",
+    "deploymentName": "Tall grass prairie",
+    "siteName": "Tall grass prairie",
+    "dtStart": "2018-09-04 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1536019200,
+    "tsEnd": "NA",
+    "latitude": 49.1531,
+    "longitude": -96.7291,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

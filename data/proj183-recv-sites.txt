@@ -1,0 +1,42 @@
+{
+"data":[
+  {
+    "ID": 2588,
+    "projectID": 183,
+    "landOwnerID": 6949,
+    "name": "Albany Pine Bush Preserve Discovery Center",
+    "latitude": 42.71,
+    "longitude": -73.86,
+    "lastEditedDt": "8/24/2018 13:26:34"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

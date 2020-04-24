@@ -1,0 +1,42 @@
+{
+"data":[
+  {
+    "ID": 2753,
+    "projectID": 264,
+    "landOwnerID": "NA",
+    "name": "TC Steele",
+    "latitude": 39.12,
+    "longitude": -86.34,
+    "lastEditedDt": "6/6/2019 12:29:03"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

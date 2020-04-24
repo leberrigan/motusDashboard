@@ -1,0 +1,239 @@
+{
+"data":[
+  {
+    "errorID": 5888315,
+    "projectID": 148,
+    "ID": 2994,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_short_deploy",
+    "string": "Columbus S7 : 2016-04-17 00:39 - 2016-04-17 13:35",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Receiver deployment ID %5$d, %s",
+    "severity": 1,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Receiver Short Deployment",
+    "descr": "These deployments are very short in duration but are not marked as test deployments.",
+    "urlView": "",
+    "urlFix": "/data/receiver/deployment/edit?projectID=%d&id=%d",
+    "tableName": "sensor_deployments",
+    "fixInstruct": "Please ensure these deployments are accurate. If the deployment needs to be altered or deleted please contact us at motus@birdscanada.org",
+    "severityDescr": "Note",
+    "tooltip": "Notes draw attention to records that may require future action, but are not necessarily incorrect."
+  },
+  {
+    "errorID": 5899464,
+    "projectID": 148,
+    "ID": 1637,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_hits_out_deploy",
+    "string": "568",
+    "string2": "1261",
+    "string3": "2017-07-27 12:05:49 - 2018-06-02 17:38:59",
+    "errorDescr": "Device ID: %s, number of detections: %s, from %s",
+    "severity": 3,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Detections Outside of Receiver Deployment",
+    "descr": "These receivers have tag detections that are outside of any deployments for the receiver.",
+    "urlView": "/data/receiver/timeline?id=%2$d",
+    "urlFix": "/data/receivers/edit?projectID=%d&id=%d",
+    "tableName": "",
+    "fixInstruct": "Please create deployments for this receiver that capture these detections.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5899465,
+    "projectID": 148,
+    "ID": 1638,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_hits_out_deploy",
+    "string": "81",
+    "string2": "122914",
+    "string3": "2015-03-27 20:37:59 - 2015-03-30 15:09:17",
+    "errorDescr": "Device ID: %s, number of detections: %s, from %s",
+    "severity": 3,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Detections Outside of Receiver Deployment",
+    "descr": "These receivers have tag detections that are outside of any deployments for the receiver.",
+    "urlView": "/data/receiver/timeline?id=%2$d",
+    "urlFix": "/data/receivers/edit?projectID=%d&id=%d",
+    "tableName": "",
+    "fixInstruct": "Please create deployments for this receiver that capture these detections.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5899466,
+    "projectID": 148,
+    "ID": 1640,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_hits_out_deploy",
+    "string": "107",
+    "string2": "5851",
+    "string3": "2015-03-27 20:37:13 - 2017-02-06 15:40:42",
+    "errorDescr": "Device ID: %s, number of detections: %s, from %s",
+    "severity": 3,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Detections Outside of Receiver Deployment",
+    "descr": "These receivers have tag detections that are outside of any deployments for the receiver.",
+    "urlView": "/data/receiver/timeline?id=%2$d",
+    "urlFix": "/data/receivers/edit?projectID=%d&id=%d",
+    "tableName": "",
+    "fixInstruct": "Please create deployments for this receiver that capture these detections.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5899467,
+    "projectID": 148,
+    "ID": 1642,
+    "idConflict": "NA",
+    "errorCode": "v_sensor_hits_out_deploy",
+    "string": "92",
+    "string2": "70",
+    "string3": "2017-02-01 17:23:05 - 2019-06-04 03:17:47",
+    "errorDescr": "Device ID: %s, number of detections: %s, from %s",
+    "severity": 3,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "Detections Outside of Receiver Deployment",
+    "descr": "These receivers have tag detections that are outside of any deployments for the receiver.",
+    "urlView": "/data/receiver/timeline?id=%2$d",
+    "urlFix": "/data/receivers/edit?projectID=%d&id=%d",
+    "tableName": "",
+    "fixInstruct": "Please create deployments for this receiver that capture these detections.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5900804,
+    "projectID": 148,
+    "ID": 148,
+    "idConflict": "NA",
+    "errorCode": "v_proj_descr",
+    "string": "Indiana",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "%s (#%5$d)",
+    "severity": 2,
+    "type": "Project",
+    "subType": "Project",
+    "descrShort": "No Project Description",
+    "descr": "There is no project description.",
+    "urlView": "",
+    "urlFix": "/data/project/edit?id=%d",
+    "tableName": "projects",
+    "fixInstruct": "Please provide a description of your project. These project descriptions are visible to other users and the public here: https://motus.org/data/projects",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  },
+  {
+    "errorID": 5900984,
+    "projectID": 148,
+    "ID": 2996,
+    "idConflict": "NA",
+    "errorCode": "v_dist_deploy_gps_2",
+    "string": "2",
+    "string2": "",
+    "string3": "",
+    "errorDescr": "Receiver deployment ID: %5$d, # of days: %s",
+    "severity": 2,
+    "type": "Receivers",
+    "subType": "Receiver Deployment",
+    "descrShort": "GPS Fixes Far from Deployment Location",
+    "descr": "At least 3 GPS fixes from these receivers fell over 100m away from the deployment latitude and longitude within a 24 hour period.",
+    "urlView": "receiverMap?receiverDeploymentId=%2$d",
+    "urlFix": "/data/receiver/deployment/edit?projectID=%d&id=%d",
+    "tableName": "sp_gps",
+    "fixInstruct": "Please check that your deployment location is correct. If you are positive that your deployment information   is correct but your GPS locations are consistently incorrect, you may have a faulty GPS unit and should contact us at   motus@birdscanada.org.This error can also arise if your deployment start and end times include GPS fixes   from the receiver when it wasn't at the deployment location. Please check that your deployment start and end times are correct. ",
+    "severityDescr": "Warning",
+    "tooltip": "Warnings point out issues with data completeness and quality which will not cause severe problems."
+  }
+], "columns":[
+  {
+    "data": "errorID",
+    "name": "Error ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "idConflict",
+    "name": "ID Conflict"
+  },
+  {
+    "data": "errorCode",
+    "name": "Error Code"
+  },
+  {
+    "data": "string",
+    "name": "String"
+  },
+  {
+    "data": "string2",
+    "name": "String2"
+  },
+  {
+    "data": "string3",
+    "name": "String3"
+  },
+  {
+    "data": "errorDescr",
+    "name": "Error Descr"
+  },
+  {
+    "data": "severity",
+    "name": "Severity"
+  },
+  {
+    "data": "type",
+    "name": "Type"
+  },
+  {
+    "data": "subType",
+    "name": "Sub Type"
+  },
+  {
+    "data": "descrShort",
+    "name": "Descr Short"
+  },
+  {
+    "data": "descr",
+    "name": "Descr"
+  },
+  {
+    "data": "urlView",
+    "name": "Url View"
+  },
+  {
+    "data": "urlFix",
+    "name": "Url Fix"
+  },
+  {
+    "data": "tableName",
+    "name": "Table Name"
+  },
+  {
+    "data": "fixInstruct",
+    "name": "Fix Instruct"
+  },
+  {
+    "data": "severityDescr",
+    "name": "Severity Descr"
+  },
+  {
+    "data": "tooltip",
+    "name": "Tooltip"
+  }
+]
+}

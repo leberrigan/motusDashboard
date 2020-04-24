@@ -1,0 +1,87 @@
+{
+"data":[
+  {
+    "ID": 1986,
+    "projectID": 59,
+    "landOwnerID": "NA",
+    "name": "East Point",
+    "latitude": 39.2,
+    "longitude": -75.02,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1987,
+    "projectID": 59,
+    "landOwnerID": "NA",
+    "name": "Heislerville",
+    "latitude": 39.23,
+    "longitude": -75.01,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1988,
+    "projectID": 59,
+    "landOwnerID": 428,
+    "name": "Bombay Hook",
+    "latitude": 39.2,
+    "longitude": -75.45,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1989,
+    "projectID": 59,
+    "landOwnerID": 428,
+    "name": "Cape May NWR",
+    "latitude": 38.95,
+    "longitude": -74.85,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1990,
+    "projectID": 59,
+    "landOwnerID": 428,
+    "name": "Forsythe NWR",
+    "latitude": 39.46,
+    "longitude": -74.44,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1991,
+    "projectID": 59,
+    "landOwnerID": 428,
+    "name": "Prime Hook",
+    "latitude": 38.81,
+    "longitude": -75.22,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

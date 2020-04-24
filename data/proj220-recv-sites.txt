@@ -1,0 +1,42 @@
+{
+"data":[
+  {
+    "ID": 2802,
+    "projectID": 220,
+    "landOwnerID": "NA",
+    "name": "UQO",
+    "latitude": 45.42,
+    "longitude": -75.73,
+    "lastEditedDt": "7/17/2019 12:34:25"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

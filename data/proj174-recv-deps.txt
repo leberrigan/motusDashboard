@@ -1,0 +1,337 @@
+{
+"data":[
+  {
+    "motusRecvID": 2327,
+    "recvProjectID": 174,
+    "receiverID": "SG-4002BBBK2550",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 5185,
+    "deploymentStatus": "pending",
+    "deploymentName": "MiraMar",
+    "siteName": "E. MiraMar",
+    "dtStart": "",
+    "dtEnd": "",
+    "tsStart": "NA",
+    "tsEnd": "NA",
+    "latitude": -52.5473,
+    "longitude": -69.3191,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2327,
+    "recvProjectID": 174,
+    "receiverID": "SG-4002BBBK2550",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4452,
+    "deploymentStatus": "terminated",
+    "deploymentName": "MiraMar",
+    "siteName": "E. MiraMar",
+    "dtStart": "2017-12-08 00:00:00 +00:00",
+    "dtEnd": "2018-01-16 10:00:00 +00:00",
+    "tsStart": 1512691200,
+    "tsEnd": 1516096800,
+    "latitude": -52.5473,
+    "longitude": -69.3191,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2327,
+    "recvProjectID": 174,
+    "receiverID": "SG-4002BBBK2550",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4482,
+    "deploymentStatus": "terminated",
+    "deploymentName": "MiraMar",
+    "siteName": "E. MiraMar",
+    "dtStart": "2018-01-16 10:01:00 +00:00",
+    "dtEnd": "2018-06-30 23:59:00 +00:00",
+    "tsStart": 1516096860,
+    "tsEnd": 1530403140,
+    "latitude": -52.5473,
+    "longitude": -69.3191,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2328,
+    "recvProjectID": 174,
+    "receiverID": "SG-1315BBBK0085",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4453,
+    "deploymentStatus": "terminated",
+    "deploymentName": "E. Pepita",
+    "siteName": "E. Pepita",
+    "dtStart": "2017-12-08 00:00:00 +00:00",
+    "dtEnd": "2018-05-21 23:59:00 +00:00",
+    "tsStart": 1512691200,
+    "tsEnd": 1526947140,
+    "latitude": -52.4693,
+    "longitude": -69.3849,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2328,
+    "recvProjectID": 174,
+    "receiverID": "SG-1315BBBK0085",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 5184,
+    "deploymentStatus": "active",
+    "deploymentName": "E. Pepita",
+    "siteName": "E. Pepita",
+    "dtStart": "2019-02-10 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1549756800,
+    "tsEnd": "NA",
+    "latitude": -52.4693,
+    "longitude": -69.3849,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2336,
+    "recvProjectID": 174,
+    "receiverID": "SG-0815BBBK0176",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 5183,
+    "deploymentStatus": "active",
+    "deploymentName": "E. El Pantano",
+    "siteName": "E. El Pantano",
+    "dtStart": "2019-02-05 18:20:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1549390800,
+    "tsEnd": "NA",
+    "latitude": -52.6858,
+    "longitude": -69.0608,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2336,
+    "recvProjectID": 174,
+    "receiverID": "SG-0815BBBK0176",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4479,
+    "deploymentStatus": "terminated",
+    "deploymentName": "E. El Pantano",
+    "siteName": "E. El Pantano",
+    "dtStart": "2018-01-17 00:00:00 +00:00",
+    "dtEnd": "2018-06-30 23:59:00 +00:00",
+    "tsStart": 1516147200,
+    "tsEnd": 1530403140,
+    "latitude": -52.6858,
+    "longitude": -69.0608,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2337,
+    "recvProjectID": 174,
+    "receiverID": "SG-1315BBBK0105",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4481,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Punta Catalina",
+    "siteName": "Punta Catalina",
+    "dtStart": "2018-01-17 00:00:00 +00:00",
+    "dtEnd": "2018-05-22 23:59:00 +00:00",
+    "tsStart": 1516147200,
+    "tsEnd": 1527033540,
+    "latitude": -52.5506,
+    "longitude": -68.7733,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2337,
+    "recvProjectID": 174,
+    "receiverID": "SG-1315BBBK0105",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 5182,
+    "deploymentStatus": "active",
+    "deploymentName": "S. Pepita",
+    "siteName": "Pepita",
+    "dtStart": "2019-02-06 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1549411200,
+    "tsEnd": "NA",
+    "latitude": -52.4849,
+    "longitude": -69.3745,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2497,
+    "recvProjectID": 174,
+    "receiverID": "SG-3214BBBK6871",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 5180,
+    "deploymentStatus": "active",
+    "deploymentName": "Buque Quemado",
+    "siteName": "Buque Quemado",
+    "dtStart": "2019-02-10 22:40:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1549838400,
+    "tsEnd": "NA",
+    "latitude": -52.4191,
+    "longitude": -69.5842,
+    "elevation": 9,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2497,
+    "recvProjectID": 174,
+    "receiverID": "SG-3214BBBK6871",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 5178,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Buque Quemado",
+    "siteName": "Buque Quemado",
+    "dtStart": "2018-10-05 00:00:00 +00:00",
+    "dtEnd": "2019-02-10 22:40:00 +00:00",
+    "tsStart": 1538697600,
+    "tsEnd": 1549838400,
+    "latitude": -52.4191,
+    "longitude": -69.5842,
+    "elevation": 9,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2497,
+    "recvProjectID": 174,
+    "receiverID": "SG-3214BBBK6871",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4677,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Buque Quemado",
+    "siteName": "Buque Quemado",
+    "dtStart": "2018-02-25 00:00:00 +00:00",
+    "dtEnd": "2018-05-12 23:59:00 +00:00",
+    "tsStart": 1519516800,
+    "tsEnd": 1526169540,
+    "latitude": -52.4191,
+    "longitude": -69.5842,
+    "elevation": 9,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 3029,
+    "recvProjectID": 174,
+    "receiverID": "SG-D414RPI33D62",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 5208,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Lagoa De Peixe - Brazil",
+    "siteName": "Lagoa De Peixe - Brazil",
+    "dtStart": "2019-04-25 00:00:00 +00:00",
+    "dtEnd": "2019-08-27 23:59:00 +00:00",
+    "tsStart": 1556150400,
+    "tsEnd": 1566950340,
+    "latitude": -31.324,
+    "longitude": -50.9969,
+    "elevation": 2,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

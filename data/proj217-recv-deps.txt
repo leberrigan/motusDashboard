@@ -1,0 +1,117 @@
+{
+"data":[
+  {
+    "motusRecvID": 2672,
+    "recvProjectID": 217,
+    "receiverID": "SG-0816BBBK0909",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4860,
+    "deploymentStatus": "active",
+    "deploymentName": "Koksijde- aug 2018",
+    "siteName": "Kokszijde",
+    "dtStart": "2018-08-27 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1535328000,
+    "tsEnd": "NA",
+    "latitude": 51.1236,
+    "longitude": 2.6483,
+    "elevation": 20,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2673,
+    "recvProjectID": 217,
+    "receiverID": "SG-4815BBBK20BC",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4861,
+    "deploymentStatus": "active",
+    "deploymentName": "Heist - augustus 2018",
+    "siteName": "Heist",
+    "dtStart": "2018-08-31 15:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1535727600,
+    "tsEnd": "NA",
+    "latitude": 51.341,
+    "longitude": 3.2378,
+    "elevation": 40,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

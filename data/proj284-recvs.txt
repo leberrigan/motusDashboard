@@ -1,0 +1,42 @@
+{
+"data":[
+  {
+    "ID": 3410,
+    "projectID": 284,
+    "receiverID": "SG-08AFRPI37A7D",
+    "approved": 0,
+    "lastEditedDt": "8/21/2019 13:15:42",
+    "lastEditedUserID": 19021,
+    "receiverType": "SENSORGNOME"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "approved",
+    "name": "Approved"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  },
+  {
+    "data": "lastEditedUserID",
+    "name": "Last Edited User ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  }
+]
+}

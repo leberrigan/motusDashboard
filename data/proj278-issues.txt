@@ -1,0 +1,173 @@
+{
+"data":[
+  {
+    "errorID": 5889006,
+    "projectID": 278,
+    "ID": 36351,
+    "idConflict": "NA",
+    "errorCode": "v_tag_dupl_registration",
+    "string": "36351",
+    "string2": "36678",
+    "string3": "134",
+    "errorDescr": "Tag ID : %s  is equivalent to Tag ID : %s from Project ID : %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag",
+    "descrShort": "Tag Registered Twice",
+    "descr": "These pairs of tags were registered during the same time period and have the same properties. \nThey are very likely duplicate registrations.",
+    "urlView": "/data/tag?id=%2$d",
+    "urlFix": "/data/tags/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please confirm whether or not these tags are duplicate registrations. If they are duplicate registrations,  contact us at motus@birdscanada.org to request that one of the duplicate registrations be deleted. If these are not duplicate  registrations, it is important that the tags not be deployed at the same time, as they will not be differentiable when detected,  leading to ambiguous detections.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5892438,
+    "projectID": 278,
+    "ID": 24252,
+    "idConflict": "NA",
+    "errorCode": "v_tag_deploy_coordinates",
+    "string": "36349",
+    "string2": "Charadrius melodus: 2019-08-25 - ",
+    "string3": "Latitude : NULL Longitude : NULL",
+    "errorDescr": "Tag ID %s, Tag deployment ID #%5$d, species %s, location: %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Invalid Tag Location Coordinates",
+    "descr": "These tag deployment location coordinates are either missing or invalid.",
+    "urlView": "",
+    "urlFix": "/data/tag/deployment/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please verify and enter the correct location for this deployment.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5893061,
+    "projectID": 278,
+    "ID": 24243,
+    "idConflict": "NA",
+    "errorCode": "v_tag_deploy_coordinates",
+    "string": "36340",
+    "string2": "Charadrius melodus: 2019-08-25 - ",
+    "string3": "Latitude : NULL Longitude : NULL",
+    "errorDescr": "Tag ID %s, Tag deployment ID #%5$d, species %s, location: %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Invalid Tag Location Coordinates",
+    "descr": "These tag deployment location coordinates are either missing or invalid.",
+    "urlView": "",
+    "urlFix": "/data/tag/deployment/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please verify and enter the correct location for this deployment.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  },
+  {
+    "errorID": 5893116,
+    "projectID": 278,
+    "ID": 24242,
+    "idConflict": "NA",
+    "errorCode": "v_tag_deploy_coordinates",
+    "string": "36339",
+    "string2": "Charadrius melodus: 2019-08-25 - ",
+    "string3": "Latitude : NULL Longitude : NULL",
+    "errorDescr": "Tag ID %s, Tag deployment ID #%5$d, species %s, location: %s",
+    "severity": 3,
+    "type": "Tags",
+    "subType": "Tag Deployment",
+    "descrShort": "Invalid Tag Location Coordinates",
+    "descr": "These tag deployment location coordinates are either missing or invalid.",
+    "urlView": "",
+    "urlFix": "/data/tag/deployment/edit?projectID=%d&id=%d",
+    "tableName": "tag_deployments",
+    "fixInstruct": "Please verify and enter the correct location for this deployment.",
+    "severityDescr": "Error",
+    "tooltip": "Errors are metadata issues which typically lead to ambiguous or missing data for your project or other Motus projects."
+  }
+], "columns":[
+  {
+    "data": "errorID",
+    "name": "Error ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "idConflict",
+    "name": "ID Conflict"
+  },
+  {
+    "data": "errorCode",
+    "name": "Error Code"
+  },
+  {
+    "data": "string",
+    "name": "String"
+  },
+  {
+    "data": "string2",
+    "name": "String2"
+  },
+  {
+    "data": "string3",
+    "name": "String3"
+  },
+  {
+    "data": "errorDescr",
+    "name": "Error Descr"
+  },
+  {
+    "data": "severity",
+    "name": "Severity"
+  },
+  {
+    "data": "type",
+    "name": "Type"
+  },
+  {
+    "data": "subType",
+    "name": "Sub Type"
+  },
+  {
+    "data": "descrShort",
+    "name": "Descr Short"
+  },
+  {
+    "data": "descr",
+    "name": "Descr"
+  },
+  {
+    "data": "urlView",
+    "name": "Url View"
+  },
+  {
+    "data": "urlFix",
+    "name": "Url Fix"
+  },
+  {
+    "data": "tableName",
+    "name": "Table Name"
+  },
+  {
+    "data": "fixInstruct",
+    "name": "Fix Instruct"
+  },
+  {
+    "data": "severityDescr",
+    "name": "Severity Descr"
+  },
+  {
+    "data": "tooltip",
+    "name": "Tooltip"
+  }
+]
+}

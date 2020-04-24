@@ -1,0 +1,42 @@
+{
+"data":[
+  {
+    "ID": 2692,
+    "projectID": 243,
+    "landOwnerID": 15404,
+    "name": "Center for Conservation",
+    "latitude": 27.77,
+    "longitude": -82.4,
+    "lastEditedDt": "2/27/2019 11:19:15"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

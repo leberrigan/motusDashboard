@@ -1,0 +1,97 @@
+{
+"data":[
+  {
+    "ID": 300,
+    "projectID": 75,
+    "landOwnerID": 448,
+    "backupID": "NA",
+    "lastEditedDt": "",
+    "lastEditedUserID": "NA",
+    "acknowledge": 1,
+    "comments": ""
+  },
+  {
+    "ID": 301,
+    "projectID": 75,
+    "landOwnerID": 449,
+    "backupID": "NA",
+    "lastEditedDt": "",
+    "lastEditedUserID": "NA",
+    "acknowledge": 1,
+    "comments": ""
+  },
+  {
+    "ID": 302,
+    "projectID": 75,
+    "landOwnerID": 450,
+    "backupID": "NA",
+    "lastEditedDt": "2/21/2019 11:10:41",
+    "lastEditedUserID": 347,
+    "acknowledge": 1,
+    "comments": "Barb owns Posty's"
+  },
+  {
+    "ID": 303,
+    "projectID": 75,
+    "landOwnerID": 451,
+    "backupID": "NA",
+    "lastEditedDt": "",
+    "lastEditedUserID": "NA",
+    "acknowledge": 1,
+    "comments": ""
+  },
+  {
+    "ID": 304,
+    "projectID": 75,
+    "landOwnerID": 452,
+    "backupID": "NA",
+    "lastEditedDt": "",
+    "lastEditedUserID": "NA",
+    "acknowledge": 1,
+    "comments": ""
+  },
+  {
+    "ID": 305,
+    "projectID": 75,
+    "landOwnerID": 467,
+    "backupID": "NA",
+    "lastEditedDt": "2/21/2019 11:15:11",
+    "lastEditedUserID": 347,
+    "acknowledge": 1,
+    "comments": ""
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "backupID",
+    "name": "Backup ID"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  },
+  {
+    "data": "lastEditedUserID",
+    "name": "Last Edited User ID"
+  },
+  {
+    "data": "acknowledge",
+    "name": "Acknowledge"
+  },
+  {
+    "data": "comments",
+    "name": "Comments"
+  }
+]
+}

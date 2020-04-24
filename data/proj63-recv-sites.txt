@@ -1,0 +1,168 @@
+{
+"data":[
+  {
+    "ID": 2004,
+    "projectID": 63,
+    "landOwnerID": 641,
+    "name": "Chaplin East",
+    "latitude": 50.4,
+    "longitude": -106.55,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2005,
+    "projectID": 63,
+    "landOwnerID": 641,
+    "name": "OldWives",
+    "latitude": 50.17,
+    "longitude": -106.16,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2006,
+    "projectID": 63,
+    "landOwnerID": 642,
+    "name": "Chaplin North",
+    "latitude": 50.46,
+    "longitude": -106.65,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2007,
+    "projectID": 63,
+    "landOwnerID": 643,
+    "name": "Chaplin W",
+    "latitude": 50.41,
+    "longitude": -106.75,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2008,
+    "projectID": 63,
+    "landOwnerID": 644,
+    "name": "Reed East",
+    "latitude": 50.4,
+    "longitude": -106.98,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2009,
+    "projectID": 63,
+    "landOwnerID": 645,
+    "name": "Reed West",
+    "latitude": 50.39,
+    "longitude": -107.15,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2010,
+    "projectID": 63,
+    "landOwnerID": 646,
+    "name": "Halvorgate",
+    "latitude": 50.6,
+    "longitude": -106.68,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2011,
+    "projectID": 63,
+    "landOwnerID": 647,
+    "name": "Last Mountain Lake (",
+    "latitude": 51.41,
+    "longitude": -105.24,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2012,
+    "projectID": 63,
+    "landOwnerID": 648,
+    "name": "Diefenbaker (Dief)",
+    "latitude": 51.25,
+    "longitude": -106.82,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2013,
+    "projectID": 63,
+    "landOwnerID": 649,
+    "name": "Quill",
+    "latitude": 51.78,
+    "longitude": -104.31,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2014,
+    "projectID": 63,
+    "landOwnerID": 650,
+    "name": "Manitou",
+    "latitude": 52.79,
+    "longitude": -109.64,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 2974,
+    "projectID": 63,
+    "landOwnerID": "NA",
+    "name": "Chiloe",
+    "latitude": -41.82,
+    "longitude": -73.62,
+    "lastEditedDt": "1/22/2020 21:31:52"
+  },
+  {
+    "ID": 2976,
+    "projectID": 63,
+    "landOwnerID": "NA",
+    "name": "Laboratorio Costero Calfuco",
+    "latitude": -39.78,
+    "longitude": -73.39,
+    "lastEditedDt": "1/28/2020 16:10:46"
+  },
+  {
+    "ID": 2986,
+    "projectID": 63,
+    "landOwnerID": "NA",
+    "name": "Zorritos - Maria del Mar",
+    "latitude": -3.67,
+    "longitude": -80.66,
+    "lastEditedDt": "2/15/2020 14:08:43"
+  },
+  {
+    "ID": 2987,
+    "projectID": 63,
+    "landOwnerID": "NA",
+    "name": "Reserva Nacional Paracas",
+    "latitude": -13.86,
+    "longitude": -76.27,
+    "lastEditedDt": "2/23/2020 11:12:42"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

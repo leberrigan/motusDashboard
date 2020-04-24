@@ -1,0 +1,42 @@
+{
+"data":[
+  {
+    "ID": 2197,
+    "projectID": 83,
+    "landOwnerID": 11107,
+    "name": "Windhover",
+    "latitude": 41.21,
+    "longitude": -71.55,
+    "lastEditedDt": "10/23/2019 11:17:52"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

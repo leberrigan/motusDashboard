@@ -1,0 +1,51 @@
+{
+"data":[
+  {
+    "ID": 2800,
+    "projectID": 248,
+    "landOwnerID": "NA",
+    "name": "Wimindji MTL",
+    "latitude": 52.99,
+    "longitude": -78.83,
+    "lastEditedDt": "7/15/2019 10:28:52"
+  },
+  {
+    "ID": 2861,
+    "projectID": 248,
+    "landOwnerID": "NA",
+    "name": "Boatswain Bay",
+    "latitude": 51.79,
+    "longitude": -78.97,
+    "lastEditedDt": "8/14/2019 6:18:07"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

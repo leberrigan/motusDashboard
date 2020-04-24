@@ -1,0 +1,51 @@
+{
+"data":[
+  {
+    "ID": 1855,
+    "projectID": 37,
+    "landOwnerID": 653,
+    "name": "Napanee LOSH",
+    "latitude": 44.34,
+    "longitude": -76.89,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  },
+  {
+    "ID": 1856,
+    "projectID": 37,
+    "landOwnerID": 2347,
+    "name": "Carden LOSH",
+    "latitude": 44.6,
+    "longitude": -79.04,
+    "lastEditedDt": "8/14/2017 17:26:36"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

@@ -1,0 +1,60 @@
+{
+"data":[
+  {
+    "ID": 2413,
+    "projectID": 173,
+    "landOwnerID": "NA",
+    "name": "Ventotene - Museo",
+    "latitude": 40.79,
+    "longitude": 13.41,
+    "lastEditedDt": "10/10/2017 4:10:36"
+  },
+  {
+    "ID": 2414,
+    "projectID": 173,
+    "landOwnerID": "NA",
+    "name": "Ventotene - Municipio",
+    "latitude": 40.79,
+    "longitude": 13.43,
+    "lastEditedDt": "10/10/2017 4:12:50"
+  },
+  {
+    "ID": 2415,
+    "projectID": 173,
+    "landOwnerID": "NA",
+    "name": "Ventotene - Punta dell'Arco",
+    "latitude": 40.78,
+    "longitude": 13.41,
+    "lastEditedDt": "10/10/2017 4:14:34"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

@@ -1,0 +1,42 @@
+{
+"data":[
+  {
+    "ID": 1814,
+    "projectID": 29,
+    "landOwnerID": 594,
+    "name": "Kiawah Island Club",
+    "latitude": 32.61,
+    "longitude": -80.09,
+    "lastEditedDt": "3/17/2020 10:40:23"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

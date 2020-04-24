@@ -1,0 +1,42 @@
+{
+"data":[
+  {
+    "ID": 2740,
+    "projectID": 256,
+    "landOwnerID": "NA",
+    "name": "Blandin",
+    "latitude": 47.19,
+    "longitude": -93.23,
+    "lastEditedDt": "5/18/2019 8:17:05"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

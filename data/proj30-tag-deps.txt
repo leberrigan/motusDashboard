@@ -1,0 +1,108 @@
+{
+"data":[], "columns":[
+  {
+    "data": "tagID",
+    "name": "Tag ID"
+  },
+  {
+    "data": "tagProjectID",
+    "name": "Tag Project ID"
+  },
+  {
+    "data": "mfgID",
+    "name": "Manufacturer ID"
+  },
+  {
+    "data": "dateBin",
+    "name": "Date Bin"
+  },
+  {
+    "data": "lifespan",
+    "name": "Lifespan"
+  },
+  {
+    "data": "tagDeployID",
+    "name": "Tag Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "dtStartAnticipated",
+    "name": "Date Start Anticipated"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "tsStartAnticipated",
+    "name": "Time Start Anticipated"
+  },
+  {
+    "data": "deferSec",
+    "name": "Defer Sec"
+  },
+  {
+    "data": "speciesID",
+    "name": "Species ID"
+  },
+  {
+    "data": "speciesName",
+    "name": "Species Name"
+  },
+  {
+    "data": "motusScientificName",
+    "name": "Motus Scientific Name"
+  },
+  {
+    "data": "motusEnglishName",
+    "name": "Motus English Name"
+  },
+  {
+    "data": "motusFrenchName",
+    "name": "Motus French Name"
+  },
+  {
+    "data": "bandNumber",
+    "name": "Band Number"
+  },
+  {
+    "data": "markerNumber",
+    "name": "Marker Number"
+  },
+  {
+    "data": "markerType",
+    "name": "Marker Type"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "comments",
+    "name": "Comments"
+  }
+]
+}

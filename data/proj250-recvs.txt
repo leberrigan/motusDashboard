@@ -1,0 +1,87 @@
+{
+"data":[
+  {
+    "ID": 3085,
+    "projectID": 250,
+    "receiverID": "SG-4001BBBK2550",
+    "approved": 0,
+    "lastEditedDt": "5/17/2019 13:14:14",
+    "lastEditedUserID": 16845,
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 3135,
+    "projectID": 250,
+    "receiverID": "SG-2715BBBK0626",
+    "approved": 0,
+    "lastEditedDt": "5/29/2019 17:50:00",
+    "lastEditedUserID": 16845,
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 3136,
+    "projectID": 250,
+    "receiverID": "SG-2715BBBK0304",
+    "approved": 0,
+    "lastEditedDt": "5/29/2019 18:11:37",
+    "lastEditedUserID": 16845,
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 3168,
+    "projectID": 250,
+    "receiverID": "SG-CC66RPI3E120",
+    "approved": 0,
+    "lastEditedDt": "7/11/2019 0:10:24",
+    "lastEditedUserID": 16845,
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 3216,
+    "projectID": 250,
+    "receiverID": "SG-AAFFRPI33E39",
+    "approved": 0,
+    "lastEditedDt": "6/24/2019 14:38:27",
+    "lastEditedUserID": 16845,
+    "receiverType": "SENSORGNOME"
+  },
+  {
+    "ID": 3217,
+    "projectID": 250,
+    "receiverID": "SG-FFFFRPI3266E",
+    "approved": 0,
+    "lastEditedDt": "6/24/2019 14:46:04",
+    "lastEditedUserID": 16845,
+    "receiverType": "SENSORGNOME"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "approved",
+    "name": "Approved"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  },
+  {
+    "data": "lastEditedUserID",
+    "name": "Last Edited User ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  }
+]
+}

@@ -1,0 +1,105 @@
+{
+"data":[
+  {
+    "ID": 460,
+    "projectID": 156,
+    "userID": 2514,
+    "manageProject": 2,
+    "manageTags": 2,
+    "manageSensors": 2,
+    "manageData": 2,
+    "backupID": "NA",
+    "lastEditedDt": "9/16/2019 15:23:18",
+    "lastEditedUserID": "NA"
+  },
+  {
+    "ID": 546,
+    "projectID": 156,
+    "userID": 2672,
+    "manageProject": 2,
+    "manageTags": 2,
+    "manageSensors": 2,
+    "manageData": 2,
+    "backupID": "NA",
+    "lastEditedDt": "9/16/2019 15:23:18",
+    "lastEditedUserID": "NA"
+  },
+  {
+    "ID": 1087,
+    "projectID": 156,
+    "userID": 15007,
+    "manageProject": 2,
+    "manageTags": 2,
+    "manageSensors": 2,
+    "manageData": 2,
+    "backupID": "NA",
+    "lastEditedDt": "9/24/2019 15:42:42",
+    "lastEditedUserID": "NA"
+  },
+  {
+    "ID": 1081,
+    "projectID": 156,
+    "userID": 19968,
+    "manageProject": 2,
+    "manageTags": 2,
+    "manageSensors": 2,
+    "manageData": 2,
+    "backupID": "NA",
+    "lastEditedDt": "9/16/2019 15:23:18",
+    "lastEditedUserID": "NA"
+  },
+  {
+    "ID": 1114,
+    "projectID": 156,
+    "userID": 20436,
+    "manageProject": 2,
+    "manageTags": 2,
+    "manageSensors": 2,
+    "manageData": 2,
+    "backupID": "NA",
+    "lastEditedDt": "11/1/2019 7:54:48",
+    "lastEditedUserID": "NA"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "userID",
+    "name": "User ID"
+  },
+  {
+    "data": "manageProject",
+    "name": "Manage Project"
+  },
+  {
+    "data": "manageTags",
+    "name": "Manage Tags"
+  },
+  {
+    "data": "manageSensors",
+    "name": "Manage Sensors"
+  },
+  {
+    "data": "manageData",
+    "name": "Manage Data"
+  },
+  {
+    "data": "backupID",
+    "name": "Backup ID"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  },
+  {
+    "data": "lastEditedUserID",
+    "name": "Last Edited User ID"
+  }
+]
+}

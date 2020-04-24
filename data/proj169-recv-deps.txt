@@ -1,0 +1,137 @@
+{
+"data":[
+  {
+    "motusRecvID": 2251,
+    "recvProjectID": 169,
+    "receiverID": "SG-2916BBBK072E",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4243,
+    "deploymentStatus": "active",
+    "deploymentName": "Moore",
+    "siteName": "Uphill",
+    "dtStart": "2017-07-18 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1500336000,
+    "tsEnd": "NA",
+    "latitude": 44.7414,
+    "longitude": -79.0084,
+    "elevation": 291,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2252,
+    "recvProjectID": 169,
+    "receiverID": "SG-2916BBBK0751",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4244,
+    "deploymentStatus": "terminated",
+    "deploymentName": "Harrington",
+    "siteName": "Brechin",
+    "dtStart": "2017-08-17 00:00:00 +00:00",
+    "dtEnd": "2018-04-25 23:59:00 +00:00",
+    "tsStart": 1502928000,
+    "tsEnd": 1524700740,
+    "latitude": 44.5426,
+    "longitude": -79.1876,
+    "elevation": 230,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2252,
+    "recvProjectID": 169,
+    "receiverID": "SG-2916BBBK0751",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4748,
+    "deploymentStatus": "active",
+    "deploymentName": "Harrington",
+    "siteName": "Brechin",
+    "dtStart": "2018-06-25 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1529884800,
+    "tsEnd": "NA",
+    "latitude": 44.5426,
+    "longitude": -79.1876,
+    "elevation": 230,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

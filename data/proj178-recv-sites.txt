@@ -1,0 +1,42 @@
+{
+"data":[
+  {
+    "ID": 2441,
+    "projectID": 178,
+    "landOwnerID": "NA",
+    "name": "Toronto Zoo",
+    "latitude": 43.81,
+    "longitude": 79.18,
+    "lastEditedDt": "12/1/2017 13:23:44"
+  }
+], "columns":[
+  {
+    "data": "ID",
+    "name": "ID"
+  },
+  {
+    "data": "projectID",
+    "name": "Project ID"
+  },
+  {
+    "data": "landOwnerID",
+    "name": "Land Owner ID"
+  },
+  {
+    "data": "name",
+    "name": "Name"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "lastEditedDt",
+    "name": "Last Edited Date"
+  }
+]
+}

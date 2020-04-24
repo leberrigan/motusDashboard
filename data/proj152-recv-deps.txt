@@ -1,0 +1,157 @@
+{
+"data":[
+  {
+    "motusRecvID": 2231,
+    "recvProjectID": 152,
+    "receiverID": "SG-1914BBBK0855",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4286,
+    "deploymentStatus": "active",
+    "deploymentName": "Morgan Rd. Office 1",
+    "siteName": "Northern Montezuma WMA",
+    "dtStart": "2017-09-26 09:30:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1506418200,
+    "tsEnd": "NA",
+    "latitude": 43.0677,
+    "longitude": -76.7187,
+    "elevation": 123,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2295,
+    "recvProjectID": 152,
+    "receiverID": "SG-1914BBBK0893",
+    "receiverType": "SENSORGNOME",
+    "recvDeployID": 4340,
+    "deploymentStatus": "active",
+    "deploymentName": "MontezumaNWR#1",
+    "siteName": "MontezumaNWR_Office",
+    "dtStart": "2017-10-12 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1507766400,
+    "tsEnd": "NA",
+    "latitude": 42.9668,
+    "longitude": -76.7387,
+    "elevation": 127,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 2298,
+    "recvProjectID": 152,
+    "receiverID": "Lotek-D000473",
+    "receiverType": "LOTEKSRX800D",
+    "recvDeployID": 4349,
+    "deploymentStatus": "active",
+    "deploymentName": "Seneca Meadows",
+    "siteName": "Seneca Meadows",
+    "dtStart": "2017-08-30 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1504051200,
+    "tsEnd": "NA",
+    "latitude": 42.9313,
+    "longitude": -76.848,
+    "elevation": 220.1,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 3329,
+    "recvProjectID": 152,
+    "receiverID": "Lotek-D000472",
+    "receiverType": "LOTEKSRX800D",
+    "recvDeployID": 5483,
+    "deploymentStatus": "active",
+    "deploymentName": "Braddock Bay Bird Observatory",
+    "siteName": "Kaiser-Manitou Beach",
+    "dtStart": "2019-08-04 00:00:00 +00:00",
+    "dtEnd": "",
+    "tsStart": 1564876800,
+    "tsEnd": "NA",
+    "latitude": 43.3236,
+    "longitude": -77.7175,
+    "elevation": 85,
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}

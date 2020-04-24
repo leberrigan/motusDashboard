@@ -1,0 +1,157 @@
+{
+"data":[
+  {
+    "motusRecvID": 3193,
+    "recvProjectID": 246,
+    "receiverID": "Lotek-D000733",
+    "receiverType": "LOTEKSRX800D",
+    "recvDeployID": 5334,
+    "deploymentStatus": "terminated",
+    "deploymentName": "MadTower1",
+    "siteName": "MadIsland1",
+    "dtStart": "2019-03-27 18:31:00 +00:00",
+    "dtEnd": "2019-05-16 20:53:00 +00:00",
+    "tsStart": 1553711460,
+    "tsEnd": 1558039980,
+    "latitude": 28.6827,
+    "longitude": -96.1083,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 3196,
+    "recvProjectID": 246,
+    "receiverID": "Lotek-D000729",
+    "receiverType": "LOTEKSRX800D",
+    "recvDeployID": 5335,
+    "deploymentStatus": "terminated",
+    "deploymentName": "MadTower2",
+    "siteName": "MadIsland2",
+    "dtStart": "2019-03-28 11:26:00 +00:00",
+    "dtEnd": "2019-05-16 14:50:00 +00:00",
+    "tsStart": 1553772360,
+    "tsEnd": 1558018200,
+    "latitude": 28.682,
+    "longitude": -96.008,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 3197,
+    "recvProjectID": 246,
+    "receiverID": "Lotek-D000731",
+    "receiverType": "LOTEKSRX800D",
+    "recvDeployID": 5336,
+    "deploymentStatus": "terminated",
+    "deploymentName": "MadTower3",
+    "siteName": "MadIsland3",
+    "dtStart": "2019-04-04 13:22:00 +00:00",
+    "dtEnd": "2019-05-17 07:25:00 +00:00",
+    "tsStart": 1554384120,
+    "tsEnd": 1558077900,
+    "latitude": 28.6268,
+    "longitude": -96.1032,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  },
+  {
+    "motusRecvID": 3199,
+    "recvProjectID": 246,
+    "receiverID": "Lotek-D000730",
+    "receiverType": "LOTEKSRX800D",
+    "recvDeployID": 5337,
+    "deploymentStatus": "terminated",
+    "deploymentName": "MadTower4",
+    "siteName": "MadIsland4",
+    "dtStart": "2019-04-06 13:18:00 +00:00",
+    "dtEnd": "2019-05-17 08:36:00 +00:00",
+    "tsStart": 1554556680,
+    "tsEnd": 1558082160,
+    "latitude": 28.6309,
+    "longitude": -96.096,
+    "elevation": "NA",
+    "isMobile": "false",
+    "macAddress": 0,
+    "locationPrecision": "Exact"
+  }
+], "columns":[
+  {
+    "data": "motusRecvID",
+    "name": "Motus Receiver ID"
+  },
+  {
+    "data": "recvProjectID",
+    "name": "Receiver Project ID"
+  },
+  {
+    "data": "receiverID",
+    "name": "Receiver ID"
+  },
+  {
+    "data": "receiverType",
+    "name": "Receiver Type"
+  },
+  {
+    "data": "recvDeployID",
+    "name": "Receiver Deploy ID"
+  },
+  {
+    "data": "deploymentStatus",
+    "name": "Deployment Status"
+  },
+  {
+    "data": "deploymentName",
+    "name": "Deployment Name"
+  },
+  {
+    "data": "siteName",
+    "name": "Site Name"
+  },
+  {
+    "data": "dtStart",
+    "name": "Date Start"
+  },
+  {
+    "data": "dtEnd",
+    "name": "Date End"
+  },
+  {
+    "data": "tsStart",
+    "name": "Time Start"
+  },
+  {
+    "data": "tsEnd",
+    "name": "Time End"
+  },
+  {
+    "data": "latitude",
+    "name": "Latitude"
+  },
+  {
+    "data": "longitude",
+    "name": "Longitude"
+  },
+  {
+    "data": "elevation",
+    "name": "Elevation"
+  },
+  {
+    "data": "isMobile",
+    "name": "Is Mobile"
+  },
+  {
+    "data": "macAddress",
+    "name": "Mac Address"
+  },
+  {
+    "data": "locationPrecision",
+    "name": "Location Precision"
+  }
+]
+}
