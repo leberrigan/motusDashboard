@@ -18,6 +18,7 @@ html, body {
 
 #main-menu {
 	margin:0px -20px;
+	display:none;
 }
 #main-menu ul {
 	display:flex;
@@ -244,7 +245,7 @@ div.dt-buttons {
 
 #demotable  {
 	margin:0px auto;
-	margin-top:50px;
+	margin-top:0px;
 	display: flex;
 	flex-wrap: wrap;
 }
@@ -286,6 +287,7 @@ div.dt-buttons {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+	align-items:center;
 	width:250px;
 }
 #demotable canvas {
@@ -293,6 +295,7 @@ div.dt-buttons {
 }
 
 #demotable > div  li {
+	max-width:50%;
 	list-style:none;
 	font-weight:bold;
 	padding:4px;
@@ -318,7 +321,7 @@ div.dt-buttons {
 	cursor:pointer;
 }
 #demotable > div  li div span {
-	font-size:32pt;
+	font-size:24pt;
 }
 #demotable > div  li div span.small {
 	font-size:16pt;
