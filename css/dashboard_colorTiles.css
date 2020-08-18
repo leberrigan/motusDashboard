@@ -1,0 +1,132 @@
+
+#card-menu > div:hover img.red, #card-menu > div.selected img.red {
+	filter:invert(10%)drop-shadow(0px 0px 2px #F00);
+}
+#card-menu > div:not(.selected) img.red {
+	animation-name: tile_hover_out_red;
+}
+#card-menu > div:not(.selected):hover img.red {
+	animation-name: tile_hover_in_red;
+}
+
+#card-menu > div:hover img.orange, #card-menu > div.selected img.orange {
+	filter:invert(10%)drop-shadow(0px 0px 2px #F50);
+}
+#card-menu > div:not(.selected) img.orange {
+	animation-name: tile_hover_out_orange;
+}
+#card-menu > div:not(.selected):hover img.orange {
+	animation-name: tile_hover_in_orange;
+}
+
+#card-menu > div:hover img.yellow, #card-menu > div.selected img.yellow {
+	filter:invert(10%)drop-shadow(0px 0px 2px #FF0);
+}
+#card-menu > div:not(.selected) img.yellow {
+	animation-name: tile_hover_out_yellow;
+}
+#card-menu > div:not(.selected):hover img.yellow {
+	animation-name: tile_hover_in_yellow;
+}
+
+#card-menu > div:hover img.green, #card-menu > div.selected img.green {
+	filter:invert(10%)drop-shadow(0px 0px 2px #0F0);
+}
+#card-menu > div:not(.selected) img.green {
+	animation-name: tile_hover_out_green;
+}
+#card-menu > div:not(.selected):hover img.green {
+	animation-name: tile_hover_in_green;
+}
+
+#card-menu > div:hover img.teal, #card-menu > div.selected img.teal {
+	filter:invert(10%) drop-shadow(0px 0px 2px #0FF);
+}
+#card-menu > div:not(.selected) img.teal {
+	animation-name: tile_hover_out_teal;
+}
+#card-menu > div:not(.selected):hover img.teal {
+	animation-name: tile_hover_in_teal;
+}
+
+#card-menu > div:hover img.blue, #card-menu > div.selected img.blue {
+	filter:invert(10%)drop-shadow(0px 0px 2px #00F);
+}
+#card-menu > div:not(.selected) img.blue {
+	animation-name: tile_hover_out_blue;
+}
+#card-menu > div:not(.selected):hover img.blue {
+	animation-name: tile_hover_in_blue;
+}
+
+#card-menu > div:hover img.purple, #card-menu > div.selected img.purple {
+	filter:invert(10%)drop-shadow(0px 0px 2px #50F);
+}
+#card-menu > div:not(.selected) img.purple {
+	animation-name: tile_hover_out_purple;
+}
+#card-menu > div:not(.selected):hover img.purple {
+	animation-name: tile_hover_in_purple;
+}
+
+@keyframes tile_hover_in_red {
+	from {filter:invert(100%) drop-shadow(0px 0px 1px black);}
+	to {filter:invert(10%) drop-shadow(0px 0px 2px #F00);}
+}
+@keyframes tile_hover_out_red {
+	from {filter:invert(10%) drop-shadow(0px 0px 2px #F00);}
+	to {filter:invert(100%) drop-shadow(0px 0px 1px black);}
+}
+@keyframes tile_hover_in_orange {
+	from {filter:invert(100%) drop-shadow(0px 0px 1px black);}
+	to {filter:invert(10%) drop-shadow(0px 0px 2px #F50);}
+}
+@keyframes tile_hover_out_orange {
+	from {filter:invert(10%) drop-shadow(0px 0px 2px #F50);}
+	to {filter:invert(100%) drop-shadow(0px 0px 1px black);}
+}
+
+@keyframes tile_hover_in_yellow {
+	from {filter:invert(100%) drop-shadow(0px 0px 1px black);}
+	to {filter:invert(10%) drop-shadow(0px 0px 2px #FF0);}
+}
+@keyframes tile_hover_out_yellow {
+	from {filter:invert(10%) drop-shadow(0px 0px 2px #FF0);}
+	to {filter:invert(100%) drop-shadow(0px 0px 1px black);}
+}
+
+@keyframes tile_hover_in_green {
+	from {filter:invert(100%) drop-shadow(0px 0px 1px black);}
+	to {filter:invert(10%) drop-shadow(0px 0px 2px #0F0);}
+}
+@keyframes tile_hover_out_green {
+	from {filter:invert(10%) drop-shadow(0px 0px 2px #0F0);}
+	to {filter:invert(100%) drop-shadow(0px 0px 1px black);}
+}
+
+@keyframes tile_hover_in_teal {
+	from {filter:invert(100%) drop-shadow(0px 0px 1px black);}
+	to {filter:invert(10%) drop-shadow(0px 0px 2px #0FF);}
+}
+@keyframes tile_hover_out_teal {
+	from {filter:invert(10%) drop-shadow(0px 0px 2px #0FF);}
+	to {filter:invert(100%) drop-shadow(0px 0px 1px black);}
+}
+
+@keyframes tile_hover_in_blue {
+	from {filter:invert(100%) drop-shadow(0px 0px 1px black);}
+	to {filter:invert(10%) drop-shadow(0px 0px 2px #00F);}
+}
+@keyframes tile_hover_out_blue {
+	from {filter:invert(10%) drop-shadow(0px 0px 2px #00F);}
+	to {filter:invert(100%) drop-shadow(0px 0px 1px black);}
+}
+
+@keyframes tile_hover_in_purple {
+	from {filter:invert(100%) drop-shadow(0px 0px 1px black);}
+	to {filter:invert(10%) drop-shadow(0px 0px 2px #A0F);}
+}
+@keyframes tile_hover_out_purple {
+	from {filter:invert(10%) drop-shadow(0px 0px 2px #A0F);}
+	to {filter:invert(100%) drop-shadow(0px 0px 1px black);}
+}

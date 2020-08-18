@@ -1,1 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-upload"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="336" height="336" viewBox="0 0 357.98 357.98">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke: #000;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 24px;
+        fill: none;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path d="M325.000,324.719 L325.000,325.719 L25.000,325.719 L25.000,324.719 L24.000,324.719 L24.000,224.719 L26.000,224.719 L26.000,323.719 L324.000,323.719 L324.000,224.719 L326.000,224.719 L326.000,324.719 L325.000,324.719 ZM176.000,27.133 L176.000,224.719 L174.000,224.719 L174.000,27.133 L75.707,125.426 L74.293,124.012 L174.293,24.012 L175.000,24.719 L175.707,24.012 L275.707,124.012 L274.293,125.426 L176.000,27.133 Z" transform="translate(15.99 16.13)" class="cls-1"/>
+</svg>

@@ -1,11 +1,13 @@
 
 function requestTableData(targetTable, proj, dataset) {
 	//	console.log("Opening table: data/proj" + proj + "-" + dataset.replace('-tbl', '') + ".txt   - for table: " + targetTable);
+	dataset = dataset.replace('-tbl', '')
 	var data,
 				tableName= targetTable,
 				columns,
 				str,
-				jqxhr = $.ajax("data/proj" + proj + "-" + dataset.replace('-tbl', '') + ".txt").done(function(){
+				summarised = false,
+				jqxhr = $.ajax("data/proj" + proj + "-" + dataset + ".txt").done(function(){
 					data = JSON.parse(jqxhr.responseText);
 				//	console.log(data.columns.length);
 					if (!$(targetTable + " > thead > tr > th").length) {
@@ -70,20 +72,31 @@ function requestTableData(targetTable, proj, dataset) {
 								}
 							],
 							"rowCallback": function (row, data, index) {
-								if (data.severityDescr == 'Critical Error') {
-									$(row).addClass('issue-critical-error');
-								} else if (data.severityDescr == 'Error') {
-									$(row).addClass('issue-error');
-								}  else if (data.severityDescr == 'Warning') {
-									$(row).addClass('issue-warning');
-								}  else if (data.severityDescr == 'Note') {
-									$(row).addClass('issue-note');
-								} 
+								if (index == 0) {
+									console.log("targetTable: " + targetTable);
+								}
+								
+								all_dataTable_summaries[dataset][]
+								
+								if (data.severityDescr != undefined) {
+									if (data.severityDescr == 'Critical Error') {
+										$(row).addClass('issue-critical-error');
+									} else if (data.severityDescr == 'Error') {
+										$(row).addClass('issue-error');
+									}  else if (data.severityDescr == 'Warning') {
+										$(row).addClass('issue-warning');
+									}  else if (data.severityDescr == 'Note') {
+										$(row).addClass('issue-note');
+									} 
+								}
 							}
 						}).columns.adjust().draw();
+						
+						
 					} else {
 						console.log('Updating table');
 						all_dataTables[targetTable].clear().rows.add(data.data).draw();
+						
 					}
 	
 
