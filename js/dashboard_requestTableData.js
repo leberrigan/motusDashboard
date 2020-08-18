@@ -76,7 +76,7 @@ function requestTableData(targetTable, proj, dataset) {
 									console.log("targetTable: " + targetTable);
 								}
 								
-								all_dataTable_summaries[dataset][]
+								//all_dataTable_summaries[dataset][]
 								
 								if (data.severityDescr != undefined) {
 									if (data.severityDescr == 'Critical Error') {

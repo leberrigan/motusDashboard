@@ -8,7 +8,7 @@
 		<link rel="stylesheet" type="text/css" href="css/datatables.min.css"/>
 		<link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="css/jquery.fileupload.css" />
-		<link rel="stylesheet" type="text/css" href="css/dashboard_08APR20.css" />
+		<link rel="stylesheet" type="text/css" href="css/dashboard.css" />
 		<script type='text/javascript' src='js/jquery-3.4.1.min.js'></script>
 		<script type='text/javascript' src='jquery-ui-1.12.1.custom/jquery-ui.min.js'></script>
 		<script type='text/javascript' src="js/jquery.fileupload.js"></script>
@@ -18,47 +18,34 @@
 		<script type='text/javascript' src='js/dashboard_data_v0.1.1.js'></script>
 		<script type="text/javascript" src="js/dataTables.pageResize.min.js"></script>
 		<script type='text/javascript' src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
-		<script type='text/javascript' src='js/dashboard_structure_0.2.js'></script>
-		<script type='text/javascript' src='js/dashboard_08APR20.js'></script>
+		<script type='text/javascript' src='js/dashboard_structure_0.3.js'></script>
 		<script type='text/javascript' src='js/dashboard_requestTableData.js'></script>
 		<script type='text/javascript' src='js/dashboard_requestProjectData.js'></script>
 		<script type='text/javascript' src='js/URLparameters.js'></script>
 		<script type='text/javascript' src='js/bar_canvas.js'></script>
+		<script type='text/javascript' src='js/dashboard.js'></script>
 
 	</head>
 	<body>
 
-		<div class='content-wrapper'>
-			
+		<div class='content-wr apper'>
+				
 			<div class='content'>
 				
 				<div class='projectList-wrapper'>Project: <select id='projectList'></select></div>
 				
-				<div id='main-menu'>
-					<ul>
-						<!--li>Project Settings
-							<img src='SVG/Options.svg' width='16'>
-						</li>
-						<li>User Permissions
-							<img src='SVG/Lock.svg' width='16'>
-						</li>
-						<li>Data Issues
-							<img src='SVG/Issue.svg' width='16'>
-						</li>
-						<li>Receivers
-							<img src='SVG/Station.svg' width='16'></li>
-						<li>Tags
-							<img src='SVG/Tag2.svg' width='16'></li>
-						<li>Upload Files
-							<img src='SVG/Upload.svg' width='16'></li>
-						<li>Download Data
-							<img src='SVG/Download.svg' width='16'>
-						</li-->
-					</ul>
-				</div>
 				
-				<div id="main-content">
-						<div id="demotable">
+				<div id="card-menu">
+				<img src='SVG/Menu.svg' id='card-menu_btn' class='card-menu_btn'>
+				<img src='SVG/Settings.svg' id='card-settings_btn' class='card-menu_btn'>
+					<div id='card_main'>
+						<div>
+							<img src='SVG/Home.svg'>
+							<br>
+							<h3>Main</h3>
+						</div>
+					</div>
+						<!--div id="demotable">
 							<div>
 								<div>
 									<img src='SVG/Station.svg' height='100px'>
@@ -66,7 +53,7 @@
 									<h3>Receivers</h3>
 								</div>
 								<div>
-									<canvas id="myCanvas" width="" height="10" style="border:1px solid #000000;">
+									<canvas id="myCanvas" width="200" height="10" style="border:1px solid #000000;">
 										Your browser does not support the HTML5 canvas tag.
 									</canvas>
 									<script>
@@ -115,6 +102,56 @@
 							
 							<div>
 								<div>
+									<img src='SVG/Landowners.svg' height='100px'>
+									<br>
+									<h3>Project<br>Collaborators</h3>
+								</div>
+								<div></div>
+								<ul>
+									<li>
+										<div><span>16</span></div>
+										Users
+									</li>
+									<li class='warning'>
+										<div><span class='small'>OPEN</span></div>
+										Data access
+									</li>
+									<li class='warning'>
+										<div><span>2</span></div>
+										Access<br>requests
+									</li>
+								</ul>
+							</div>
+							<div>
+								<div>
+									<img src='SVG/Marker.svg' height='100px'>
+									<br>
+									<h3>Sites and Landowners</h3>
+								</div>
+								<div></div>
+								<ul>
+									<li>
+										<div><span>58/</span>92</div>
+										Sites with<br>receivers
+									</li>
+									<li class='warning'>
+										<div><span>8</span></div>
+										Incomplete<br>landowner<br>information
+									</li>
+								</ul>
+							</div>
+							
+							<div>
+								<div>
+									<img src='SVG/Upload.svg' height='100px'>
+									<br>
+									<h3>Upload</h3>
+								</div>
+								<div></div>
+							</div>
+							
+							<div>
+								<div>
 									<img src='SVG/Issue2.svg' height='100px'>
 									<br>
 									<h3>Issues</h3>
@@ -139,7 +176,31 @@
 									</li>
 								</ul>
 							</div>
-						</div>
+							
+							<div>
+								<div>
+									<img src='SVG/Options.svg' height='100px'>
+									<br>
+									<h3>Project Preferences</h3>
+								</div>
+								<div></div>
+								<ul>
+									<li class='warning'>
+										<div><span>2</span></div>
+										Incomplete<br>information
+									</li>
+									<li class='good'>
+										<div><span class='small'>PAID</span></div>
+										Project fees
+									</li>
+								</ul>
+							</div>
+						</div-->
+				</div>
+				
+				
+				<div id="main-content">
+						
 				</div>
 				
 			</div>
