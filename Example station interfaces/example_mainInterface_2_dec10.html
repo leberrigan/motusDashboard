@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+	<html>
+		<head>
+			<title>Explore Data</title>
+			<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+			<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"/>
+			<link href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet"/>
+			<link rel='stylesheet' href='example_interface_2_Dec11.css'/>
+			<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+			<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+			<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+			
+			<script src="https://d3js.org/d3.v4.js"></script>
+			<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+			<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+			
+			<script src="https://d3js.org/d3.v4.js"></script>
+			<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+			<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+			<script src="https://d3js.org/topojson.v2.min.js"></script>
+			<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+			
+			<script src="example_interface_2_dec11.js"></script>
+		</head>
+		<body>
+			<!-- Start your code here -->
+			<div id="lightbox_bg"></div>
+			<div id="lightbox" alt="Click to close" class="tips">
+				<span class="helper"></span>
+				<img src="" alt="Click to close" />
+			</div>
+			<div class='tooltip'> </div>
+			<div id='leftMenu'>
+				<img class="icon tips open" src="https://www.flaticon.com/svg/static/icons/svg/545/545705.svg" width="20" , alt="Open menu"></h1>
+				<img class="icon tips close" src="https://www.flaticon.com/svg/static/icons/svg/1828/1828778.svg" width="20" , alt="Close menu"></h1>
+				<div class='content_wrapper'>
+					<a href='javascript:void(0);'>Manage your stations</a>
+					<a href='javascript:void(0);'>Manage your tags</a>
+					<a href='javascript:void(0);'>Manage your landowners</a>
+					<div>Explore </div>
+					<a href="javascript:void(0);">All stations</a>
+					<a href="javascript:void(0);">All species</a>
+				</div>
+			</div>
+			<div id='userContent_wrapper'>
+				<a class="icon tips" href='javascript:void(0);' id='login_wrapper' alt="Settings">
+					Lucas Berrigan
+					<img src="https://www.flaticon.com/premium-icon/icons/svg/2040/2040504.svg" width="20" alt="Settings">
+				</a>
+				<div id='lang_wrapper'>
+					<b>EN</b> | <a href='?lang=FR'>FR</a> | <a href='?lang=ES'>ES</a>
+				</div>
+			</div>
+			
+			<div class='explore_main'>
+				<h1 class="explore_header">
+					Explore Data
+				</h1>
+				<table class="content_table">
+					<tbody>
+						<tr>
+							<td>
+								<div class='explore_stats explore_card visible'>
+									<!--div class='header'>
+										Explore stats:
+									</div-->
+									<table>
+										<tbody>
+											<tr>
+												<td class='explore_stats_projects'>
+													<big>348</big>
+													<small>Projects</small>
+												</td>
+												<td class='explore_stats_collaborators'>
+													
+													<big>888</big>
+													<small>Collaborators</small>
+												</td>
+												<td class='explore_stats_institutions'>
+													<big>76</big>
+													<small>Institutions</small>
+												</td>
+												<td class='explore_stats_publications'>
+													
+													<big>116</big>
+													<small>Publications</small>
+												</td>
+												<td class='explore_stats_stations'>
+													
+													<big>985</big>
+													<small>Stations</small>
+												</td>
+												<td class='explore_stats_species'>
+													
+													<big>233</big>
+													<small>Species</small>
+												</td>
+												<td class='explore_stats_animals'>
+													
+													<big>25,064</big>
+													<small>Animals</small>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<table class='station_topInfo_table'>
+									<tbody>
+										<tr>
+											<td class='explore_filters'>
+												Explore by: 
+											</td>
+											<td class='explore_filters'>
+												
+													<div class='toggleButton explore selected'>Stations</div>
+													
+													<br/>
+													
+													<div class='toggleButton explore'>Species</div>
+											<!--/td>
+												
+										</tr>
+										<tr>
+										
+											<td class='explore_filters' colspan='3'-->
+										<td class='explore_filters'>
+											
+												<span style='margin:0 20px;'> Map by: </span>
+										</td>
+										<td class='explore_filters'>
+													
+												<div class='toggleButton mapStations selected explore_type explore_type_stations '>Points</div>
+													
+												<div class='toggleButton mapSpecies selected explore_type explore_type_species'>Tracks</div>
+											<br/>
+												<div class='toggleButton mapStations explore_type explore_type_stations'>Regions</div>
+												
+												<div class='toggleButton mapSpecies explore_type explore_type_species'>Regions</div>
+												
+											</td>
+											<td class='explore_filters'>
+												Map view:
+											</td>
+											
+											<td class='explore_filters'>
+											
+												<div class='toggleButton explore-choropleth-mapType explore-choropleth-options explore-choropleth-naturalEarth'>Flat</div>
+												
+												<br/>
+												
+												<div class='toggleButton explore-choropleth-mapType selected explore-choropleth-options explore-choropleth-sphere'>Sphere</div>
+											
+											</td>
+											<td class='explore_filters'>
+											
+												<input type='button' value='Reset map view' id='explore-choropleth-resetMap' class='button' />
+											</td>
+										</tr>
+										<tr>
+											<td class='explore_filters'>
+											
+												<span style='margin:0 20px;'> Filter by: </span>
+												
+											</td>
+											<td class='explore_filters' colspan=2>
+											
+													<label for='explore_filters_region'>
+													Region: 
+													</label>
+													<select id='explore_filters_region'>
+														<option>Select a region</option>
+														<option>-------------------------------</option>
+													</select>
+													
+													<br/>
+													
+													<label for='explore_filters_project'>
+													Project:
+													</label>
+													<select id='explore_filters_project'>
+														<option selected='selected'>Select a project</option>
+														<option value='1'>Motus Ontario Array</option>
+														<option value='2'>Motus Atlantic Array</option>
+														<option value='3'>ECCC Quebec</option>
+														<option value='4'>USFWS Region 4</option>
+														<option value='6'>Panama</option>
+													</select>
+											</td>
+											<td class='explore_filters' colspan=2>
+											
+													<label for='explore_filters_species'>
+													Species: 
+													</label>
+													<select id='explore_filters_species'>
+														<option>Select a species</option>
+														<option>-------------------------------</option>
+													</select>
+													
+													<br/>
+													
+													<label for='explore_filters_station'>
+													Station:
+													</label>
+													<select id='explore_filters_station'>
+														<option>Select a station</option>
+														<option>-------------------------------</option>
+													</select>
+											</td>
+											<td class='explore_filters' colspan=2>
+											
+													<label for='explore_filters_frequency'>
+														Frequency: 
+													</label>
+													<select id='explore_filters_frequency'>
+														<option value='1' selected='selected'>166.380 MHz</option>
+														<option value='2'>433 MHz</option>
+														<option value='3'>150.1 MHz</option>
+														<option value='4'>151.5 MHz</option>
+													</select>
+													
+											</td>
+											
+										</tr>
+									</tbody>
+								</table>
+								<div class='station_activityTimeline explore_metrics visible'>
+									<div class='header'>Detection timeline
+										<div class='metric_controls'>
+											<img src='https://www.flaticon.com/svg/static/icons/svg/724/724933.svg' alt='Download chart data' class='tips download'/>
+											<img src='https://www.flaticon.com/svg/static/icons/svg/570/570953.svg' alt='Expand view' class='tips expand'/>
+											<img src='https://www.flaticon.com/svg/static/icons/svg/157/157933.svg' alt='About these data' class='tips about'/>
+										</div>
+										<div class='metric_legend' style='float:right;'>
+											<div style='display:inline-block;background-color:#888;width:15px;height:15px;margin:2.5px;border:solid 1px #000;padding:5px;'>
+											</div>
+											<div style='display:inline-block;vertical-align:top;font-size:10pt;margin-right:20px;'>Tag detection</div>
+										</div>
+									</div>
+									<div class='slider visible'>
+										<div id="custom-handle-1" class="ui-slider-handle">
+											<div class="ui-slider-handle-text"></div>
+										</div>
+										<div id="custom-handle-2" class="ui-slider-handle">
+											<div class="ui-slider-handle-text"></div>
+										</div>
+									</div>
+									<img class='timeline visible' src='https://i.postimg.cc/13ScwwVZ/Screenshot-2020-12-10-135353.png' alt='Click to enlarge' class='tips enlarge'/>
+								</div>
+
+									<div class="explore_map_container explore_metrics visible">
+										<div class='header'>
+											<div class='metric_controls'>
+												<img src='https://www.flaticon.com/svg/static/icons/svg/27/27223.svg' alt='Play animation' class='tips animate' />
+												<img src='https://www.flaticon.com/svg/static/icons/svg/724/724933.svg' alt='Download chart data' class='tips download' />
+												<img src='https://www.flaticon.com/svg/static/icons/svg/570/570953.svg' alt='Expand view' class='tips expand' />
+												<img src='https://www.flaticon.com/svg/static/icons/svg/157/157933.svg' alt='About these data' class='tips about' />
+											</div>
+										</div>
+										
+										<!--img class="explore_map explore_type_species mapSpecies_type_tracks" src="https://i.postimg.cc/NFh702RL/Screenshot-2020-12-11-113730.png">
+										<img class="explore_map explore_type_stations mapStations_type_points" src="https://i.postimg.cc/wBtMMfqT/Screenshot-2020-12-11-110650.png"-->
+										<img class="explore_map explore_type_stations mapStations_type_regions" src="https://i.postimg.cc/3wwD9cfh/Screenshot-2020-12-11-085808.png">
+										<img class="explore_map explore_type_species mapSpecies_type_regions" src="https://i.postimg.cc/3wwD9cfh/Screenshot-2020-12-11-085808.png">
+										<svg id="explore_map_regions" class="explore_map explore_type_stations explore_type_species mapStations_type_points mapSpecies_type_tracks explore-choropleth visible"> </svg>
+										<!--svg id="explore_mapSpecies_regions" class="explore_map explore_type_species mapSpecies_type_regions explore-choropleth"> </svg-->
+								
+									</div>
+									<div class='explore_metrics'>
+										<div class='explore_species explore_type_stations'>
+											<div class='header'>Stations
+												<div class='metric_controls'>
+													<img src='https://www.flaticon.com/svg/static/icons/svg/724/724933.svg' alt='Download chart data' class='tips download'/>
+													<img src='https://www.flaticon.com/svg/static/icons/svg/570/570953.svg' alt='Expand view' class='tips expand'/>
+													<img src='https://www.flaticon.com/svg/static/icons/svg/157/157933.svg' alt='About these data' class='tips about'/>
+												</div>
+											</div>
+											<table class="table visible compact" id='explore_stations_table'>
+												<thead>
+													<tr>
+														<td></td>
+														<td>Project</td>
+														<!--td>Tag ID</td-->
+														<td>Station name</td>
+														<td>Location</td>
+														<td>Deployed since</td>
+														<td># Animals detected</td>
+														<td>Latest data</td>
+														<td></td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr class='tips' alt='Click to view'>
+														<td>
+															<div class='legend_color' style='background-color:#F00'> </div>
+														</td>
+														<!--td>41 : 10324</td-->
+														<td>Atlantic Canada Shorebirds</td>
+														<td>Allison's</td>
+														<td>(46.1483, -64.0773)</td>
+														<td>July 26, 2020</td>
+														<td>12</td>
+														<td>Oct 25, 2020</td>
+														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+													</tr>
+													<tr class='tips' alt='Click to view'>
+														<td>
+															<div class='legend_color' style='background-color:#FF0'> </div>
+														</td>
+														<td>Atlantic Canada Shorebirds</td>
+														<td>Salutation Cove</td>
+														<td>(46.3381, -63.785)</td>
+														<td>July 28, 2020</td>
+														<td>3</td>
+														<td>Oct 25, 2020</td>
+														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+													</tr>
+													<tr class='tips' alt='Click to view'>
+														<td>
+															<div class='legend_color' style='background-color:#0F0'> </div>
+														</td>
+														<td>Atlantic Canada Shorebirds</td>
+														<td>Baie Verte</td>
+														<td>(46.0188, -64.1008)</td>
+														<td>July 24, 2020</td>
+														<td>38</td>
+														<td>Oct 26, 2020</td>
+														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+													</tr>
+													<tr class='tips' alt='Click to view'>
+														<td>
+															<div class='legend_color' style='background-color:#0FF'> </div>
+														</td>
+														<td>Atlantic Canada Shorebirds</td>
+														<td>Linden</td>
+														<td>(45.8892, -63.8218)</td>
+														<td>July 22, 2020</td>
+														<td>26</td>
+														<td>Nov 05, 2020</td>
+														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+													</tr>
+													<tr class='tips' alt='Click to view'>
+														<td>
+															<div class='legend_color' style='background-color:#00F'> </div>
+														</td>
+														<td>Atlantic Canada Shorebirds</td>
+														<td>Brule Point</td>
+														<td>(45.7551, -63.2108)</td>
+														<td>July 22, 2020</td>
+														<td>1st Year</td>
+														<td>Nov 18, 2020</td>
+														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+													</tr>
+													<tr class='tips' alt='Click to view'>
+														<td>
+															<div class='legend_color' style='background-color:#F0F'> </div>
+														</td>
+														<td>Atlantic Canada Shorebirds</td>
+														<td>Pugwash</td>
+														<td>(45.8617, -63.7129)</td>
+														<td>July 21, 2020</td>
+														<td>Adult</td>
+														<td>Oct 18, 2020</td>
+														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+													</tr>
+													<tr class='tips' alt='Click to view'>
+														<td>
+															<div class='legend_color' style='background-color:#000'> </div>
+														</td>
+														<td>Atlantic Canada Shorebirds</td>
+														<td>Big Island</td>
+														<td>(45.6495, -62.4565)</td>
+														<td>July 16, 2020</td>
+														<td>1st Year</td>
+														<td>Oct 18, 2020</td>
+														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+													</tr>
+													<tr class='tips' alt='Click to view'>
+														<td>
+															<div class='legend_color' style='background-color:#FFF'> </div>
+														</td>
+														<td>Atlantic Canada Shorebirds</td>
+														<td>Hopewell</td>
+														<td>(45.8164, -64.5831)</td>
+														<td>July 10, 2020</td>
+														<td>1st Year</td>
+														<td>Nov 04, 2020</td>
+														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class='explore_metrics'>
+										<div class='explore_species explore_type_species'>
+											<div class='header'>Animals tagged
+												<div class='metric_controls'>
+													<img src='https://www.flaticon.com/svg/static/icons/svg/724/724933.svg' alt='Download chart data' class='tips download'/>
+													<img src='https://www.flaticon.com/svg/static/icons/svg/570/570953.svg' alt='Expand view' class='tips expand'/>
+													<img src='https://www.flaticon.com/svg/static/icons/svg/157/157933.svg' alt='About these data' class='tips about'/>
+												</div>
+											</div>
+											<table class="table visible compact" id='explore_species_table'>
+												<thead>
+													<tr>
+														<td></td>
+														<td>Project</td>
+														<!--td>Tag ID</td-->
+														<td>Species</td>
+														<td>Band Number</td>
+														<td>Deployment date</td>
+														<td>Age</td>
+														<td>Sex</td>
+														<td></td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr class='tips' alt='Click to view'>
+														<td>
+															<div class='legend_color' style='background-color:#F00'> </div>
+														</td>
+														<!--td>41 : 10324</td-->
+														<td>Atlantic Canada Shorebirds</td>
+														<td>Semipalmated Sandpiper</td>
+														<td>1861-23452</td>
+														<td>August 3, 2019</td>
+														<td>Adult</td>
+														<td>?</td>
+														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+													</tr>
+													<tr class='tips' alt='Click to view'>
+														<td>
+															<div class='legend_color' style='background-color:#FF0'> </div>
+														</td>
+														<td>Atlantic Canada Shorebirds</td>
+														<td>Semipalmated Sandpiper</td>
+														<td>1861-23454</td>
+														<td>August 3, 2019</td>
+														<td>1st Year</td>
+														<td>?</td>
+														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+													</tr>
+													<tr class='tips' alt='Click to view'>
+														<td>
+															<div class='legend_color' style='background-color:#0F0'> </div>
+														</td>
+														<td>Atlantic Canada Shorebirds</td>
+														<td>Semipalmated Sandpiper</td>
+														<td>1861-23461</td>
+														<td>August 3, 2019</td>
+														<td>Adult</td>
+														<td>?</td>
+														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+													</tr>
+													<tr class='tips' alt='Click to view'>
+														<td>
+															<div class='legend_color' style='background-color:#0FF'> </div>
+														</td>
+														<td>Atlantic Canada Shorebirds</td>
+														<td>Semipalmated Sandpiper</td>
+														<td>1861-23462</td>
+														<td>August 4, 2019</td>
+														<td>1st Year</td>
+														<td>?</td>
+														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+													</tr>
+													<tr class='tips' alt='Click to view'>
+														<td>
+															<div class='legend_color' style='background-color:#00F'> </div>
+														</td>
+														<td>Atlantic Canada Shorebirds</td>
+														<td>Semipalmated Sandpiper</td>
+														<td>1861-23466</td>
+														<td>August 4, 2019</td>
+														<td>1st Year</td>
+														<td>?</td>
+														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+													</tr>
+													<tr class='tips' alt='Click to view'>
+														<td>
+															<div class='legend_color' style='background-color:#F0F'> </div>
+														</td>
+														<td>Atlantic Canada Shorebirds</td>
+														<td>Semipalmated Sandpiper</td>
+														<td>1861-23468</td>
+														<td>August 4, 2019</td>
+														<td>Adult</td>
+														<td>?</td>
+														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+													</tr>
+													<tr class='tips' alt='Click to view'>
+														<td>
+															<div class='legend_color' style='background-color:#000'> </div>
+														</td>
+														<td>Atlantic Canada Shorebirds</td>
+														<td>Semipalmated Sandpiper</td>
+														<td>1861-23490</td>
+														<td>August 5, 2019</td>
+														<td>1st Year</td>
+														<td>?</td>
+														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+													</tr>
+													<tr class='tips' alt='Click to view'>
+														<td>
+															<div class='legend_color' style='background-color:#FFF'> </div>
+														</td>
+														<td>Atlantic Canada Shorebirds</td>
+														<td>Semipalmated Sandpiper</td>
+														<td>1861-23511</td>
+														<td>August 18, 2019</td>
+														<td>1st Year</td>
+														<td>?</td>
+														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					</div>
+					
+					<script>	
+
+						// 
+						// D3 Globe projections: https://github.com/d3/d3-geo
+						//		Orthographic: 
+						// 
+						// Tween between projections: https://bl.ocks.org/git-ashish/35d6480d477d22a21961e641955ba03c
+						//
+						// Transition between any two projections: https://bl.ocks.org/alexmacy/082cb12c8f4d5c0d5c4445c16a3db383
+						//
+						// Great circle paths: https://www.d3-graph-gallery.com/graph/connectionmap_csv.html
+						//
+						// Flight path edge bundling: https://bl.ocks.org/sjengle/2e58e83685f6d854aa40c7bc546aeb24
+						//
+						// Voronoi Arc Map: https://bl.ocks.org/mbostock/7608400
+						//
+						// Zoomable choropleth: https://observablehq.com/@bjnsn/zoomable-choropleth
+
+						// The svg
+						
+
+
+						var mapType='track';
+						var svg = {
+							el: d3.select("#explore_map_regions"),
+							t: d3.timer(function() {}),
+							width: 1200,
+							height: 400,
+							timer: d3.timer(function() {}),
+							resetTimer: d3.timer(function() {}),
+							selectedProjection: 1,
+							posX: 0,
+							posY: 0,
+							tweenProjections: function(projectionID) {
+								svg.selectedProjection = projectionID == "sphere" ? 1 : 0;
+								svg.centerX = svg.selectedProjection === 0 ? 0 : 36;
+								svg.centerY = svg.selectedProjection === 0 ? 0 : -15;
+								svg.proj_pos = svg.selectedProjection;
+								svg.projectionMorph();
+								svg.t.restart(function(elapsed) {
+									svg.proj_pos = (elapsed/500)
+									svg.proj_pos = svg.proj_pos > 1 ? 1 : svg.proj_pos
+									svg.proj_pos = svg.selectedProjection == 0 ? 1 - svg.proj_pos : svg.proj_pos;
+									svg.projectionMorph();
+									if (elapsed > 500) svg.t.stop();
+								}, 0)
+							},	// Map and projection
+							projection: d3.geoOrthographic().scale(100).clipAngle(90),
+							path: d3.geoPath(),// A path generator 
+							pointPath: d3.geoPath().pointRadius(1),// A path generator 
+							proj_pos: 0,
+							grid: {},
+							centerX: 36,
+							centerY: -15,
+							zoom: {},
+							zoomLevel: 1,
+							colorScale: {},
+							isVisible: function(d, vis) {
+								//	console.log(!(motusFilter.dtEnd <= d.dtStart || motusFilter.dtStart >= d.dtEnd));
+								//	console.log(motusFilter.dtEnd + " <= " + d.dtStart + " = " + (motusFilter.dtEnd <= d.dtStart));
+									return vis && !(motusFilter.dtEnd <= d.dtStart || motusFilter.dtStart >= d.dtEnd) ? 'visible' : 'hidden';
+								//}
+							},
+							setVisibility: function(elType) {
+								if (elType === undefined) {
+									elType = $(".explore_type:visible.toggleButton.selected").html().toLowerCase() == 'tracks' ? 'track' : 'station';
+									svg.el.selectAll(".explore-choropleth-" + elType)
+										.attr('visibility', d => svg.isVisible(d, true));
+								} else {
+									svg.el.selectAll(".explore-choropleth-track")
+										.attr('visibility', d => svg.isVisible(d, elType == 'tracks'))
+									svg.el.selectAll(".explore-choropleth-station")
+										.attr('visibility', d => svg.isVisible(d, elType == 'stations'))
+								}
+							},
+							resetCenter: function() {
+								svg.el.transition().duration(750).call(svg.zoom.transform, d3.zoomIdentity);
+								svg.resetTimer.restart(function(elapsed) {
+									//elapsed = Math.max(0, (1000 - elapsed));
+									svg.posX = ((Math.min(1000, elapsed) / 1000) * svg.centerX) + (svg.posX * (Math.max(0, (1000 - elapsed)) / 1000));
+									svg.posY = ((Math.min(1000, elapsed) / 1000) * svg.centerY) + (svg.posY * (Math.max(0, (1000 - elapsed)) / 1000));
+									//posY = () posY * (Math.max(0, (1000 - elapsed)) / 1000);
+									svg.projectionMorph();
+									if (svg.posX == svg.centerX && svg.posY == svg.centerY) svg.resetTimer.stop();
+								});
+							},
+							ready: function(error, dataGeo, trackData, pointData) {
+								
+								svg.colorScale = d3.scaleOrdinal(d3.schemePaired);
+										  
+								var defs = svg.el.append("defs")
+
+								defs.append("path")
+									.datum({type: "Sphere"})
+									.attr("id", "sphere")
+									
+								svg.el.append("use")
+									.attr("class", "explore-choropleth-stroke")
+									.attr("xlink:href", "#sphere");
+
+								svg.el.append("use")
+									.attr("class", "explore-choropleth-fill")
+									.attr("xlink:href", "#sphere");
+
+								svg.proj_pos = d3.select('.explore-choropleth-mapType.selected').html().toLowerCase() == 'sphere' ? 1 : 0;
+								
+								
+								// Draw the map
+								const land = svg.el.append("g");
+								
+								land.selectAll("path")
+									.data(dataGeo.features)
+									.enter().append("path")
+										.attr("class", "explore-choropleth-land")
+										.attr("d", d3.geoPath()
+											.projection(svg.projection)
+										)
+										.style("stroke", "#FFF")
+										.style("stroke-width", 0);
+									
+								
+									var pointDataLink = [];
+									
+									pointData.forEach(function(row){
+										topush = {type: "Point", coordinates: [+row.lon, +row.lat], id: row.deployID, name: row.name, status: row.status, dtStart: new Date(row.dtStart), dtEnd: new Date(row.dtEnd)}
+										
+										if (!isNaN(topush.coordinates[0]) && !isNaN(topush.coordinates[1]))	pointDataLink.push(topush)
+									});
+									
+									const points = svg.el.selectAll("stations")
+									
+								//	console.log(pointDataLink)
+									
+									points.data(pointDataLink)
+										.enter()
+										.append("path")
+										//.attr("d", (d) => svg.path(d))
+										.attr('class', (d) => "explore-choropleth-station station" + d.id)
+										.style("stroke", "#FFF")
+										.style('fill', (d) => svg.colorScale(d.status))
+									//	.attr('visibility', svg.isVisible.recvs)
+										//.attr("transform", d => "translate(" + svg.projection(d.coordinates) + ")")
+										.attr("d", (d) => svg.pointPath(d))
+										.on('mouseover', function(d){
+											d3.selectAll(".station" + d.id).style('opacity', '1');
+											d3.selectAll(".explore-choropleth-station:not(.station" + d.id + ")").style('opacity', '0.1');
+										})
+										.on('mouseout', function(d){d3.selectAll(".explore-choropleth-station").style('opacity', '0.5');});
+										
+								
+									// Reformat the list of link. Note that columns in csv file are called long1, long2, lat1, lat2
+									var trackDataLink = [];
+									
+									trackData.forEach(function(row){
+										source = [+row.lon1, +row.lat1];
+										target = [+row.lon2, +row.lat2];
+										topush = {
+												type: "LineString", 
+												coordinates: [source, target], 
+												id: row.tagDeployID, 
+												dtStart: new Date(row.dtStart), 
+												dtEnd: new Date(row.dtEnd)
+											};
+										trackDataLink.push(topush)
+									});
+									
+									// Add the path
+									const tracks = svg.el.selectAll("myPath");
+									
+									tracks.data(trackDataLink)
+										.enter()
+										.append("path")
+										.attr("class", "explore-choropleth-track")
+										.attr("d", (d) => svg.path(d))
+										.attr('class', (d) => "explore-choropleth-track track" + d.id)
+										.style("fill", "none")
+										.style('stroke', (d) => svg.colorScale(d.id))
+										.on('mouseover', function(d){
+											d3.selectAll(".track" + d.id).style('opacity', '1');
+											d3.selectAll(".explore-choropleth-track:not(.track" + d.id + ")").style('opacity', '0.1');
+										})
+										.on('mouseout', function(d){d3.selectAll(".explore-choropleth-track").style('opacity', '0.5');});
+										
+								svg.zoom = d3.zoom()
+									.scaleExtent([1, 10])
+									.translateExtent([[0, 0], [svg.width, svg.height]])
+									.extent([[0, 0], [svg.width, svg.height]])
+									.on("zoom", function() {
+										//svg.el.selectAll('path:not(.explore-choropleth-station)')
+										svg.el.selectAll('path')
+											.attr("transform", d3.event.transform);
+									})
+									.on('end', function() {
+										svg.zoomLevel = d3.event.transform.k;
+									});
+								
+								svg.el.call(svg.zoom);
+								
+								svg.projectionMorph();
+								svg.resetCenter();
+								$(".explore_type:visible.toggleButton.selected").click();
+							},
+							dragged: function() {
+								svg.posX = ( svg.posX + d3.event.dx / (4 * svg.zoomLevel) ) % 360;
+								svg.posY = ( svg.posY - d3.event.dy / (4 * svg.zoomLevel) ) % 360;
+								svg.projectionMorph();
+							},
+							projectionMorph: function() {
+								var t = svg.proj_pos;
+							//	var projections = [d3.geoNaturalEarth(), d3.geoOrthographic()];
+								var projections = [d3.geoMiller(), d3.geoOrthographic()];
+								
+								  
+								svg.centerX = svg.selectedProjection == 0 ? 0 : 36;
+								svg.centerY = svg.selectedProjection == 0 ? 0 : -15;
+							  
+								svg.el.selectAll("path")
+								  .attr("d", getProjection)
+								//	.attr("transform", function(d) {console.log(d);return getProjection(d);})
+								  
+							/*	
+								svg.el.selectAll("circle")
+								//  .attr("transform", d => "translate(" + getProjection(d) + ")")
+								  .attr("transform", function(d) {console.log(getProjection(d));return "translate(" + getProjection(d) + ")";})
+							*/	  
+								function getProjection(d) {
+									var projection = d3.geoProjection(project)
+										.rotate([svg.posX, svg.posY])
+									   // .rotate([posX + 36, posY - 15])
+										.fitExtent([[10, 10], [svg.width - 10, svg.height - 10]], {
+										  type: "Sphere"
+										});
+
+									var path = d3.geoPath(projection);
+
+									var clip = projection.clipAngle;
+
+									clip( t == 0 ? null : (180 - (t * 90)) );
+
+									function project(λ, φ) {
+									  λ *= 180 / Math.PI, 
+									  φ *= 180 / Math.PI;
+
+									  var p0 = projections[0]([λ, φ]), 
+										  p1 = projections[1]([λ, φ]);
+
+									  return [
+										(1 - t) * p0[0] + t * p1[0], 
+										(1 - t) * -p0[1] + t * -p1[1]
+										];
+									}
+									projection.alpha = function(_) {
+										if (!arguments.length) return α;
+										α = +_;
+										var ca = a.center(), cb = b.center(),
+										ta = a.translate(), tb = b.translate();
+										center([(1 - α) * ca[0] + α * cb[0], (1 - α) * ca[1] + α * cb[1]]);
+										translate([(1 - α) * ta[0] + α * tb[0], (1 - α) * ta[1] + α * tb[1]]);
+										if (ortho === true) {clip(180 - α * 90);}
+										return projection;
+									};
+
+									return path(d)
+								}
+
+							}
+						};
+
+						svg.path = svg.path.projection(svg.projection);
+
+						svg.grid = svg.el.append("path");
+
+						svg.el
+							.call(d3.drag().on("drag", svg.dragged))
+							.attr("width", svg.width)
+							.attr("height", svg.height);
+
+
+						svg.grid.datum(d3.geoGraticule().step([10, 10]))
+							.attr("class", "explore-choropleth-graticule")
+							.attr("d", svg.path)
+							.style("stroke", "#CCC");
+								
+						// Load world shape AND list of connection
+						d3.queue()
+						  .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")  // World shape
+						 // .defer(d3.json, "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_admin_0_countries.geojson")  // World shape
+						//  .defer(d3.csv, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_connectionmap.csv") // Position of circles
+						  .defer(d3.csv, "./data/siteTrans.csv") // Position of circles
+						  .defer(d3.csv, "./data/recv-deps.csv") // Position of circles
+						  .await(svg.ready);
+						  
+						d3.select('#explore-choropleth-resetMap').on('click', svg.resetCenter);
+					
+					</script>
+					
+					<!-- End your code here -->
+				</body>
+			</html>
+			

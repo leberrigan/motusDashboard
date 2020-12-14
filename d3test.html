@@ -1,0 +1,322 @@
+ <!DOCTYPE HTML>
+
+<meta charset="utf-8">
+
+  <meta name=”viewport” content=”width=device-width, initial-scale=1.0">
+
+<html>
+<head>
+
+<title>Motus D3 Test</title>
+
+  <style>
+    rect.bar-rect { fill: #189ad3; }
+    rect.bar-rect:hover { 
+      fill: #107dac;
+      transition: all .2s;
+    }
+  </style>
+  
+</head>
+
+<body>
+
+<select id='allProjs'>
+
+</select>
+
+
+  <div id="chart1"></div>
+  <div id="chart2"></div>
+  <script src="https://d3js.org/d3.v6.js"></script>
+<script type='text/javascript'>
+
+// Keep a global object of all charts
+var allCharts = new Array();
+
+// Project selection dropdown
+var proj_s = document.getElementById("allProjs");
+
+// Default project
+var selectedProj = 2;
+
+
+
+function updateChart() {
+	selectedProj = proj_s.options[proj_s.selectedIndex].id.replace("proj", "");
+	for (chart in allCharts) {
+		loadChart(chart)
+	}
+}
+function initiateChart(chartID,
+									source,
+									xvar,
+									yvar,
+									chartType,
+									xname = '',
+									yname,
+									w = 1000, 
+									h = 600, 
+									m = [20, 20, 100, 100]) {
+
+	c = {
+		source: source,
+		xvar: xvar,
+		yvar: yvar,
+		width: w, 
+		height: h, 
+		margin:{
+			top: m[0], 
+			right: m[1], 
+			bottom: m[2],
+			left: m[3]
+		},
+		xname: xname,
+		yname: yname,
+		chartType: chartType,
+		graphWidth:  w - m[3] - m[1],
+		graphHeight: h - m[0] - m[2]
+	}
+	
+	c.svg = d3.select(chartID)
+	  .append('svg')
+	  .attr('width', c.width)
+	  .attr('height', c.height);
+	
+	c.graph = c.svg.append('g')
+	  .attr('width', c.graphWidth)
+	  .attr('height', c.graphHeight)
+	  .attr('transform', `translate(${c.margin.left}, ${c.margin.top})`);
+	  
+	c.gXAxis = c.graph.append('g')
+		.attr('transform', `translate(0, ${c.graphHeight})`);
+		
+	c.gYAxis = c.graph.append('g');
+	
+	
+	return c;
+}
+const timeActive = function(d){
+			return ((isNaN(+d.tsEnd) ? +(Date.now()/1000) : +d.tsEnd) - +d.tsStart) / (3600 * 24);
+		}
+const numberIndividuals = function(d){
+		return 1;
+	}
+//allCharts[0] = initiateChart("#chart1", "recv-deps", xvar = "siteName", yvar = timeActive);
+//allCharts[0] = initiateChart("#chart1", "recv-deps", xvar = function(d){return d===undefined?"siteName":d["siteName"];}, yvar = timeActive);
+allCharts[0] = initiateChart("#chart1", "recv-deps", xvar = function(d){return d===undefined?"receiverID":d["receiverID"];}, yvar = function(d){return d===undefined?"count":d["count"];}, chartType = 'count');
+allCharts[1] = initiateChart("#chart2", "tag-deps", xvar = function(d){return d===undefined?"motusEnglishName":d["motusEnglishName"];}, yvar = function(d){return d===undefined?"count":d["count"];}, chartType = 'count');
+//console.log(allCharts[0]);
+/*
+const width = 1000;
+const height = 600;
+const margin = {'top': 20, 'right': 20, 'bottom': 100, 'left': 100};
+const graphWidth = width - margin.left - margin.right;
+const graphHeight = height - margin.top - margin.bottom;
+
+ const svg = d3.select('#chart1')
+  .append('svg')
+  .attr('width', width)
+  .attr('height', height);
+ 
+ const graph = svg.append('g')
+  .attr('width', graphWidth)
+  .attr('height', graphHeight)
+  .attr('transform', `translate(${margin.left}, ${margin.top})`)
+  
+ const gXAxis = graph.append('g')
+  .attr('transform', `translate(0, ${graphHeight})`);
+  
+  const gYAxis = graph.append('g')
+*/
+var test = function(data, variableName) {
+
+	var toReturn = new Array();
+
+	for (d in data) {
+	
+		toReturn.push(d[variableName]);
+	
+	}
+	
+	return toReturn;
+
+}
+
+function data_summary(d, keyname, valname) {
+	console.log(d);
+	var data = [];
+	for (i in d) {
+		data[i] = {};
+		data[i][keyname] = d[i][0];
+		data[i][valname] = d[i][1];
+	}
+	return data;
+}
+
+var loadChart = function(chartNum) {
+//	var chartNum  = 0;
+	d3.json('data/proj' + selectedProj + '-' + allCharts[chartNum].source + '.txt').then(function(json_file, chart = chartNum) {
+	
+		var data = json_file["data"];
+		/*.reduce((acc, curr) => {
+			  const foundObject = acc.find(e => e.key === curr);
+			  if (foundObject) ++foundObject.count;
+			  else acc.push({
+				key: curr,
+				count: 1
+			  });
+			  return acc;
+			}, [])*/
+		
+	///	console.log(Object.keys(testData));
+	/*	console.log(data);
+		
+		var dataTest = d3.rollup(data, v => v.length, d => d[allCharts[chartNum].xvar]);
+		
+		console.log(dataTest);
+		var tmp = [];
+		
+		dataTest.forEach(function(v, k){
+			return this[k] = v;
+		}, tmp)
+			console.log(tmp);
+			
+			
+		data = new Array();
+		for (d in dataTest) {
+		
+			console.log(d);
+		
+		
+		}
+		
+		
+		const xvar = allCharts[chartNum].xvar(item);
+		const yvar = allCharts[chartNum].yvar(d);
+		
+		
+		*/
+		
+		var yvals, y, x, rects;
+		
+		if (allCharts[chartNum].chartType === "count") {
+//		console.log(d3.max(d3.rollup(data, v => v.length, d => allCharts[chartNum].xvar(d)).values()));
+//		console.log(d3.map(data, d => allCharts[chartNum].xvar(d)));
+			console.log(data);
+			
+			var dataSummary = data_summary(d3.rollups(data, v => v.length, d => allCharts[chartNum].xvar(d)), keyname = allCharts[chartNum].xvar(), valname = "count");
+			
+			console.log(dataSummary);
+			//yvals = d3.rollup(data, v => v.length, d => allCharts[chartNum].xvar(d)).entries();
+			
+			y = d3.scaleLinear()
+				.domain([0, d3.max(dataSummary, d => allCharts[chartNum].yvar(d))])
+				.range([allCharts[chart].graphHeight, 0]);
+			x = d3.scaleBand()
+			.domain(data.map(item => allCharts[chartNum].xvar(item)))
+			.range([0, allCharts[chart].graphWidth])
+			.paddingInner(0.2)
+			.paddingOuter(0.2);
+		rects = allCharts[chart].graph.selectAll('rect').data(dataSummary);  
+		
+		rects.attr('width', x.bandwidth)
+			.attr('class', 'bar-rect')
+			.attr('height', d => allCharts[chart].graphHeight - y(allCharts[chartNum].yvar(d)))
+			.attr('x', d => x(allCharts[chartNum].xvar(d)))
+			.attr('y', d => y(allCharts[chartNum].yvar(d)));  
+			
+		rects.enter()
+			.append('rect')
+			.attr('class', 'bar-rect')
+			.attr('width', x.bandwidth)
+			.attr('height', d => allCharts[chart].graphHeight - y(allCharts[chartNum].yvar(d)))
+			.attr('x', d => x(allCharts[chartNum].xvar(d)))
+			.attr('y', d => y(allCharts[chartNum].yvar(d)));
+ 
+		} else {		
+			y = d3.scaleLinear()
+				.domain([0, d3.max(data, d => allCharts[chartNum].yvar(d))])
+				.range([allCharts[chart].graphHeight, 0]); 
+		x = d3.scaleBand()
+			.domain(data.map(item => allCharts[chartNum].xvar(item)))
+			.range([0, allCharts[chart].graphWidth])
+			.paddingInner(0.2)
+			.paddingOuter(0.2);
+		rects = allCharts[chart].graph.selectAll('rect').data(data);  
+		
+		rects.attr('width', x.bandwidth)
+			.attr('class', 'bar-rect')
+			.attr('height', d => allCharts[chart].graphHeight - y(allCharts[chartNum].yvar(d)))
+			.attr('x', d => x(allCharts[chartNum].xvar(d)))
+			.attr('y', d => y(allCharts[chartNum].yvar(d)));  
+			
+		rects.enter()
+			.append('rect')
+			.attr('class', 'bar-rect')
+			.attr('width', x.bandwidth)
+			.attr('height', d => allCharts[chart].graphHeight - y(allCharts[chartNum].yvar(d)))
+			.attr('x', d => x(allCharts[chartNum].xvar(d)))
+			.attr('y', d => y(allCharts[chartNum].yvar(d)));
+
+		}
+		
+		rects.exit().remove();
+			
+		const xAxis = d3.axisBottom(x);
+		const yAxis = d3.axisLeft(y)
+			.ticks(5)
+			.tickFormat(d => allCharts[chartNum].yname == undefined ? `${d}` : allCharts[chartNum].yname);  
+			
+		allCharts[chart].gXAxis.call(xAxis);
+			
+		allCharts[chart].gYAxis.call(yAxis);  
+		
+		allCharts[chart].gXAxis.selectAll('text')
+			.style('font-size', 14)
+			.style("text-anchor", "end")
+			.attr("dx", "-.8em")
+			.attr("transform", "rotate(-65)");
+		 
+		allCharts[chart].gYAxis.selectAll('text')
+			.style('font-size', 14);
+			
+
+	});
+
+}
+
+// Load projects into dropdown
+d3.json('data/projs.txt').then(json_file => {
+
+	var data = json_file['data'];
+	
+	d3.select("#allProjs")
+		.on("change", updateChart)
+		.selectAll('option')
+		.data(data)
+		.enter()
+		.append("option")
+		.attr("id", function(d){return "proj"+d.projectID;})
+		.text(function(d){return d.projectName;})
+		.property("selected", function(d){ return d.projectID == 1; });
+		
+	updateChart();
+	
+	/*
+	for (proj in data) {
+		d3.select("#allProjs").append("option").attr("id", "proj"+data[proj].id).text(data[proj].projectName);
+	}
+	*/
+
+});
+
+
+</script>
+
+
+
+
+</body>
+
+</html>

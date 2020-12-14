@@ -1,6 +1,6 @@
 
 function requestTableData(targetTable, proj, dataset) {
-	//	console.log("Opening table: data/proj" + proj + "-" + dataset.replace('-tbl', '') + ".txt   - for table: " + targetTable);
+		console.log("Opening table: data/proj" + proj + "-" + dataset.replace('-tbl', '') + ".txt   - for table: " + targetTable);
 	dataset = dataset.replace('-tbl', '')
 	var data,
 				tableName= targetTable,
@@ -17,12 +17,12 @@ function requestTableData(targetTable, proj, dataset) {
 						});
 					//	console.log(targetTable);
 						
-						
-						var tt = targetTable.replace("#", "").split(delimiter);
-					//	console.log(tt);
-					//	console.log(tt.length);
-						var hideCols = tt.length > 2 ? pageContent[tt[0]].elements[tt[1]].tabs[tt[2]].elements[tt[3] + (tt[4] == undefined ? "" : "-"+tt[4])].hideCols : pageContent[tt[0]].elements[tt[1]].hideCols;
-						
+						if (typeof pageContent !== 'undefined') {
+							var tt = targetTable.replace("#", "").split(delimiter);
+						//	console.log(tt);
+						//	console.log(tt.length);
+							var hideCols = tt.length > 2 ? pageContent[tt[0]].elements[tt[1]].tabs[tt[2]].elements[tt[3] + (tt[4] == undefined ? "" : "-"+tt[4])].hideCols : pageContent[tt[0]].elements[tt[1]].hideCols;
+						}
 					//	console.log(hideCols);
 						
 						
@@ -106,6 +106,8 @@ function requestTableData(targetTable, proj, dataset) {
 						return '<h4>' + data + '</h4>';
 					}*/
 							// Debug? console.log(data.columns[0]);
+							
+					if (typeof loadTable_callback !== 'undefined') {loadTable_callback();}
 					
 				})
 				.fail(function (jqXHR, exception) {

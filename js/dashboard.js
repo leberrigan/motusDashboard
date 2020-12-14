@@ -15,6 +15,15 @@ map.data.setStyle(function(feature) {
     };
   });
 
+
+
+
+ var tagDeploymentId = 18512;
+  document.addEventListener('DOMContentLoaded', function() {
+   ajax('/data/json/track?tagDeploymentId=' + tagDeploymentId, initialize);
+  });
+
+
 */
 
 
@@ -116,9 +125,36 @@ var _default_marker_shape = 'https://cdn.mapmarker.io/api/v1/pin?size=50&backgro
 var _default_marker_zIndex = '100';
 
 var testtest = 0;
-$(document).ready(function() {
+
+function loadScript(name, url, callback) {
+	if (typeof config[name + "_API_KEY"] !== 'undefined') {
+		url = url.replace(/%s/, config[name + "_API_KEY"]);
+	}
+	
+//	console.log(name + ": " + url);
+	
+  var script = document.createElement( "script" )
+  script.type = "text/javascript";
+  if(script.readyState) {  // only required for IE <9
+    script.onreadystatechange = function() {
+      if ( script.readyState === "loaded" || script.readyState === "complete" ) {
+        script.onreadystatechange = null;
+        callback();
+      }
+    };
+  } else {  //Others
+    script.onload = function() {
+      callback();
+    };
+  }
+
+  script.src = url;
+  document.getElementsByTagName( "head" )[0].appendChild( script );
+}
+
+function loadPage() {
+	loadAccountBadge();
 //	initialise_projectTables();
-	infowindow = new google.maps.InfoWindow();
 	requestProjectData("projs", undefined, "#projectList");
 	if (window.location.href.indexOf("?") != -1) {
 		//console.log("getUrlParameter: " + getUrlParameter(window.location.href, 'proj'))
@@ -138,9 +174,10 @@ $(document).ready(function() {
 
 	$("#projectList").html(project_select_html).select2({placeholder:"Select Project", width:"200px"}).change(function(){loadData();});
 */
+	infowindow = new google.maps.InfoWindow()
 	loadCards();
 //	loadCanvas();
-});
+}
 
 function loadMenu() {
 	for (item in pageContent) {
@@ -188,7 +225,7 @@ function loadCards() {
 }
 
 function loadContentHTML() {
-	console.log("TETSTATATS");
+	
 	var page = this.id.replace("card_", "");
 	
 	if (page != 'main') {
@@ -273,7 +310,6 @@ function addMap(appendTo, id, el) {
 function centerMap(locations, map) {
 	var bounds = new google.maps.LatLngBounds();
 	var infowindow = new google.maps.InfoWindow();    
-
 	for (i = 0; i < locations.length; i++) {  
 	  var marker = new google.maps.Marker({
 		position: new google.maps.LatLng(locations[i][1], locations[i][2]),
@@ -335,7 +371,9 @@ function addTable(appendTo, id, cols)  {
 	
 }
 
-function loadData(catID = $("#main-menu li.selected").attr("id")) {
+function loadData(catID = $("#card-menu > div.selected").attr("id").replace('card_', '')) {
+	
+	console.log(catID);
 	
 	var projID = selectedProject;
 	
@@ -364,6 +402,12 @@ function loadData(catID = $("#main-menu li.selected").attr("id")) {
 	
 }
 
+// Load data into and element on a 'page'
+// supports types:
+// 	table
+//		input
+//		map
+
 function insertElementData(el, obj, projID, catID, tabID) {
 	if (el.type == 'table') {
 		requestTableData("#" + catID + delimiter + (tabID != undefined ? tabID + delimiter : "") + el.id, projID, el.id)
@@ -380,6 +424,7 @@ function insertElementData(el, obj, projID, catID, tabID) {
 		
 		var mapID = "#" + catID + delimiter + el.id;
 		
+		$(mapID).parent().hide();
 		
 		allMaps[mapID] = {
 										map: new google.maps.Map($(mapID).get(0), {zoom: 4}),
@@ -393,7 +438,13 @@ function insertElementData(el, obj, projID, catID, tabID) {
 		
 		allMarkers[mapID] = {};
 		
+			
+			
 		google.maps.event.addListener(allMaps[mapID].map.data, 'addfeature', function (e) {
+			// Show the map if there are receiver deployments 
+			
+			$(mapID).parent().filter(":hidden").show();
+			
 			if (e.feature.getGeometry().getType() === "Point") {
 				allMaps[mapID].bounds.extend(e.feature.getGeometry().get());
 				allMaps[mapID].map.fitBounds(allMaps[mapID].bounds);
@@ -443,7 +494,7 @@ function insertElementData(el, obj, projID, catID, tabID) {
 				count = isNaN(count) ? 1 : count + 1;
 				
 				
-				console.log($(mapID + "_option-" + shape_val + "-" + color_val).siblings(".nSites").text() + " - " + count);
+			//	console.log($(mapID + "_option-" + shape_val + "-" + color_val).siblings(".nSites").text() + " - " + count);
 				$(mapID + "_option-" + shape_val + "-" + color_val).siblings(".nSites").text(count);
 			//	$(mapID + "_option-" + shape_val + "-" + color_val).siblings(".").text();  
 				
@@ -463,8 +514,10 @@ function insertElementData(el, obj, projID, catID, tabID) {
 		//						console.log("data/proj" + projID + "-" + el.id.replace('-map', '') + ".geojson");
 		allMaps[mapID].map.data.loadGeoJson("data/proj" + projID + "-" + el.id.replace('-map', '') + ".geojson", {
 			idPropertyName: "ID"
+		}, function (features) {
+			console.log("loadGeoJson finished, number of features:" + features.length);
 		});
-		console.log(allMaps[mapID].map.data);
+	//	console.log(allMaps[mapID].map.data);
 		allMaps[mapID].map.data.setStyle(function(feature){
 		//	if (el.id.replace('-map','') == 'recv-deps') {
 				var mapStyle = pageContent[mapID.split(delimiter)[0].replace("#", "")].elements[mapID.split(delimiter)[1]]
@@ -509,7 +562,7 @@ function insertElementData(el, obj, projID, catID, tabID) {
 					var marker_color = _default_marker_color;
 					var marker_color_shape = 0;
 					marker_color_val = "NA";
-					console.log("mapStyle.colors: " + mapStyle.colors + " - mapStyle.colors.col: " + mapStyle.colors.col + " - feature.getProperty(mapStyle.colors.col): " + feature.getProperty(mapStyle.colors.col));
+			//		console.log("mapStyle.colors: " + mapStyle.colors + " - mapStyle.colors.col: " + mapStyle.colors.col + " - feature.getProperty(mapStyle.colors.col): " + feature.getProperty(mapStyle.colors.col));
 				}
 				if (mapStyle.shapes !== undefined && mapStyle.shapes.col !== "NA" && feature.getProperty(mapStyle.shapes.col) !== undefined) {
 					// console.log("marker_color_val: " + marker_color_val +" - marker_color_shape[" + i + "]: " + marker_color_shape);
@@ -546,7 +599,7 @@ function insertElementData(el, obj, projID, catID, tabID) {
 						marker_color_val = "NA";
 					}
 					if (marker_shape_val == 0) {
-						console.log("Shape = 0; marker_color_shape: " + marker_color_shape +" - marker_shape: " + marker_shape + " - mapStyle.shapes.col: " + mapStyle.shapes.col + " - j: " +j + " - mapStyle.shapes.shape[j]: " + mapStyle.shapes.shape[j]);
+				//		console.log("Shape = 0; marker_color_shape: " + marker_color_shape +" - marker_shape: " + marker_shape + " - mapStyle.shapes.col: " + mapStyle.shapes.col + " - j: " +j + " - mapStyle.shapes.shape[j]: " + mapStyle.shapes.shape[j]);
 					}
 				} else if (mapStyle.shapes !== undefined && feature.getProperty(mapStyle.shapes.col) != undefined) {
 					var marker_shape = (mapStyle.colors.col !== "NA" && marker_color_shape != 0 ? marker_color_shape : mapStyle.shapes.shape);
@@ -555,7 +608,7 @@ function insertElementData(el, obj, projID, catID, tabID) {
 					marker_zIndex = marker_zIndex == undefined ? 100 : marker_zIndex;
 					marker_shape_val = "NA";
 				} else {
-					console.log(marker_color);
+		//			console.log(marker_color);
 					var marker_shape = _default_marker_shape.replace("%s", marker_color);
 					var marker_zIndex = _default_marker_zIndex;
 					marker_shape_val = "NA";
@@ -655,11 +708,11 @@ function createLegend(mapID) {
 	legend_toAppend += "</tr></tbody></table>";
 	$(mapID).siblings('.map-legend').append(legend_toAppend);
 	
-	console.log($(mapID).siblings('.map-legend-tbl').find('label').length)
+//	console.log($(mapID).siblings('.map-legend-tbl').find('label').length)
 	$(mapID).siblings('.map-legend').find('.map-legend-tbl label').click(function(){
 		var markers = allMarkers[mapID][$(this).attr('for').split("_option-")[1]];
 		if (markers != undefined) {
-			console.log($(this).attr('for').split("_option-")[1] + " - " + markers.length + " - " + $("#" + $(this).attr('for')).is(":checked"));
+	//		console.log($(this).attr('for').split("_option-")[1] + " - " + markers.length + " - " + $("#" + $(this).attr('for')).is(":checked"));
 	//		console.log(markers[0])
 			for (i in markers) {
 				allMaps[mapID].map.data.getFeatureById(markers[i]).setProperty('isHidden', $("#" + $(this).attr('for')).is(":checked"));

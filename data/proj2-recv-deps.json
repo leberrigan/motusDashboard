@@ -6397,44 +6397,5 @@
 		 "lon":     -66.3493,
 		 "mobile":     "false"
 		}     
-	  ],
-	  "columns": [
-			{
-				"data" : "id"
-				"name" : "Deployment ID"
-			}, {
-				"data" : "motusID"
-				"name" : "Motus ID"
-			}, {
-				"data" : "serialNo"
-				"name" : "Serial Number"
-			}, {
-				"data" : "model"
-				"name" : "Model"
-			}, {
-				"data" : "status"
-				"name" : "Status"
-			}, {
-				"data" : "name"
-				"name" : "Name"
-			}, {
-				"data" : "site"
-				"name" : "Site"
-			}, {
-				"data" : "depStart"
-				"name" : "Start"
-			}, {
-				"data" : "depEnd"
-				"name" : "End"
-			}, {
-				"data" : "lat"
-				"name" : "Latitude"
-			}, {
-				"data" : "lon"
-				"name" : "Longitude"
-			}, {
-				"data" : "mobile"
-				"name" : "Is Mobile?"
-			}
 	  ]
 }

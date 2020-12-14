@@ -1,0 +1,368 @@
+
+  <script src="https://d3js.org/d3.v6.js"></script>
+  
+  <script type='text/javascript'>
+  
+		
+		var allCharts = {};
+		
+		var dataServerURL = "https://sandbox.motus.org/data/";
+  
+		function initiateChart(chartID, opts) {
+			console.log("Initiating chart \"" + chartID + "\"");
+		
+			opts.xAxisLabels = opts.xAxisLabels === undefined ? function(d){return d;} : opts.xAxisLabels;
+			opts.yAxisLabels = opts.yAxisLabels === undefined ? function(d){return d;} : opts.yAxisLabels;
+			opts.w = opts.w === undefined ? 1000 : opts.w;
+			opts.h = opts.h === undefined ? 600 : opts.h;
+			opts.m = opts.m === undefined ?  [20, 20, 100, 100] : opts.m;
+
+			var c = {
+				source: opts.dataSource,
+				xvar: opts.xvar,
+				xwidth: opts.xwidth,
+				yvar: opts.yvar,
+				width: opts.w, 
+				height: opts.h, 
+				margin:{
+					top: opts.m[0], 
+					right: opts.m[1], 
+					bottom: opts.m[2],
+					left: opts.m[3]
+				},
+				xAxisLabels: opts.xAxisLabels,
+				yAxisLabels: opts.yAxisLabels,
+				chartType: opts.chartType,
+				graphWidth:  opts.w - opts.m[3] - opts.m[1],
+				graphHeight: opts.h - opts.m[0] - opts.m[2]
+			};
+			
+			c.svg = d3.select(chartID)
+			.append('svg')
+			.attr('width', c.width)
+			.attr('height', c.height);
+			
+			c.graph = c.svg.append('g')
+			.attr('width', c.graphWidth)
+			.attr('height', c.graphHeight)
+			.attr('transform', `translate(${c.margin.left}, ${c.margin.top})`);
+			 
+			c.tooltip = c.svg.append('div')
+				.style('position','absolute')
+				.style('visibility','hidden');
+			 
+			c.gXAxis = c.graph.append('g')
+				.attr('transform', `translate(0, ${c.graphHeight})`);
+				
+			c.gYAxis = c.graph.append('g');
+			
+			
+			allCharts[chartID] = c;
+			
+			console.log("Chart initiated.");
+		}
+		
+
+		function updateCharts() {
+			selectedProj = proj_s.options[proj_s.selectedIndex].id.replace("proj", "");
+			for (chart in allCharts) {
+				loadChart(chart)
+			}
+		}
+		const calculate_timeActive = function(d){
+			return ((isNaN(+d.tsEnd) ? +(Date.now()) : +d.tsEnd * 1000) - (+d.tsStart * 1000));
+		};
+
+		const calculate_tsEnd = function(d){
+			return d===undefined ? 
+													"tsEnd"
+													: 
+													isNaN(+d["tsEnd"]) ?	
+																					Date.now()
+																					: 
+																					+d["tsEnd"] * 1000;
+		};
+
+		var chart1_opts = {
+			url: dataServerURL + "receiverDeploymentDetections?n=1000&q=&f=1&o=0a1a2a3a4a5a&id=",
+			xvar: function(d){return d===undefined?"project_name":d["project_name"];},
+			yvar: function(d){return d===undefined?"receivers":d["receivers"];},
+			chartType: 'bar',
+			w: 1000,
+			h: 600
+		};
+		
+
+		var chart2_opts = {
+			url: dataServerURL + "receiverDeploymentDetections?n=1000&q=&f=1&o=0a1a2a3a4a5a&id=",
+			xvar: function(d){return d===undefined?"id":d["id"] + d["deployment_name"];},
+			yvar: function(d){return d===undefined?"tags_detected":d["tags_detected"];},
+			chartType: 'bar',
+			w: 1000,
+			h: 600
+		};
+
+		var chart3_opts = {
+			url: dataServerURL + "receiverDeploymentDetections?n=1000&q=&f=1&o=0a1a2a3a4a5a&id=",
+			xvar: function(d){return d===undefined?"species":d["species"];},
+			yvar: function(d){return d===undefined?"count":d["count"];},
+			chartType: 'count',
+			w: 1000,
+			h: 600
+		};
+		
+		
+		function jsonify($table) {
+		var json = [];
+			$table.find("tbody tr").each(function(i){
+				var obj = {};
+				
+				for (var j=0; j<$table.find("thead:first th").length; j++) {
+					var key = $table.find("th").eq(j).clone().children().remove().end().text().replace(/[ \t#]+$/,'').replace(/ /g, '_').toLowerCase(),
+							val = $(this).find('td').eq(j).text();
+						  
+					obj[key] = val;
+				}
+				json.push(obj);
+			});
+			console.log(json);
+			return json;
+		}
+		
+		function dataSummary(d, keyname, valname) {
+			var data = [];
+			for (i in d) {
+				data[i] = {};
+				data[i][keyname] = d[i][0];
+				data[i][valname] = d[i][1];
+			}
+			return data;
+		}
+		
+		function loadChart(chartID, url, callback = false) {
+			
+			console.log("Loading data into chart \"" + chartID + "\"");
+			
+			d3.html(url).then(function(html_content, chart = chartID, fn_call = callback) {
+			
+				console.log("Data loaded!");
+			
+				var data = jsonify($(html_content).find(".motus-table"));
+				
+				console.log(data);
+				
+				var yvals, y, x, rects;
+				
+				if (allCharts[chartID].chartType === "count") {
+					
+					data = dataSummary(	
+														d3.rollups(data, 
+																		v => v.length, 
+																		d => allCharts[chartID].xvar(d)
+																		), 
+														keyname = allCharts[chartID].xvar(), 
+														valname = "count"
+													);
+				} 
+				
+				
+				if (allCharts[chartID].chartType === "count" || allCharts[chartID].chartType === "bar") {
+				
+				
+					
+					var colourScale = d3.scaleOrdinal()
+											.domain(data.map(item => allCharts[chartID].yvar(item)))
+											.range(d3.schemeCategory10);
+											
+					y = d3.scaleLinear()
+						.domain([0, d3.max(data, d => allCharts[chartID].yvar(d))])
+						.range([allCharts[chart].graphHeight, 0]); 
+
+					x = d3.scaleBand()
+						.domain(data.map(item => allCharts[chartID].xvar(item)))
+						.range([0, allCharts[chart].graphWidth])
+						.paddingInner(0.2)
+						.paddingOuter(0.2);
+					rects = allCharts[chart].graph.selectAll('rect').data(data);  
+					
+					rects.attr('width', x.bandwidth)
+						.attr('class', 'bar-rect')
+						.attr('height', d => allCharts[chart].graphHeight - y(allCharts[chartID].yvar(d)))
+						.attr('x', d => x(allCharts[chartID].xvar(d)))
+						.attr('y', d => y(allCharts[chartID].yvar(d)));  
+						
+					rects.enter()
+						.append('rect')
+						.attr('class', 'bar-rect')
+						.attr('width', x.bandwidth)
+						.attr('height', d => allCharts[chart].graphHeight - y(allCharts[chartID].yvar(d)))
+						.attr('x', d => x(allCharts[chartID].xvar(d)))
+						.attr('y', d => y(allCharts[chartID].yvar(d)))
+						.style('fill', function(d, i) {return colourScale(i);});
+					
+					rects.exit().remove();
+					
+					
+					const xAxis = d3.axisBottom(x)
+						.tickFormat(allCharts[chartID].xAxisLabels);  ;
+					const yAxis = d3.axisLeft(y)
+						.tickFormat(allCharts[chartID].yAxisLabels);  
+						
+					allCharts[chart].gXAxis.call(xAxis);
+						
+					allCharts[chart].gYAxis.call(yAxis);  
+					
+					allCharts[chart].gXAxis.selectAll('text')
+						.style('font-size', 14)
+						.style("text-anchor", "end")
+						.attr("dx", "-.8em")
+						.attr("transform", "rotate(-65)");
+					 
+					allCharts[chart].gYAxis.selectAll('text')
+						.style('font-size', 14);
+				} else if (allCharts[chartID].chartType === "deployment-timeline") {
+					console.log(data);
+					x = d3.scaleLinear()
+						.domain([
+										d3.min(data, d => allCharts[chartID].xvar(d)), 
+										d3.max(data, d => allCharts[chartID].xvar(d) + allCharts[chartID].xwidth(d))
+									])
+						.range([0, allCharts[chart].graphWidth]); 
+						
+					y = d3.scaleBand()
+						.domain(data.map(item => allCharts[chartID].yvar(item)))
+						.range([0, allCharts[chart].graphHeight])
+						.paddingInner(0.2)
+						.paddingOuter(0.2);
+						
+					
+					var colourScale = d3.scaleOrdinal()
+											.domain(data.map(item => allCharts[chartID].yvar(item)))
+											.range(d3.schemeCategory10);
+											
+					rects = allCharts[chart].graph.selectAll('rect').data(data);  
+					
+					rects.attr('height', y.bandwidth)
+						.attr('class', 'bar-rect')
+						.attr('width', d => x(allCharts[chartID].xwidth(d)))
+						.attr('x', d => x(allCharts[chartID].xvar(d)))
+						.attr('y', d => y(allCharts[chartID].yvar(d)));  
+						
+					rects.enter()
+						.append('rect')
+						.attr('class', 'bar-rect')
+						.attr('height', y.bandwidth)
+						.attr('width', d => x(allCharts[chartID].xwidth(d) + allCharts[chartID].xvar(d)) - x(allCharts[chartID].xvar(d)))
+						.attr('x', d => x(allCharts[chartID].xvar(d)))
+						.attr('y', d => y(allCharts[chartID].yvar(d)))
+						.style('fill', function(d, i) {return colourScale(i);});
+						
+						
+					rects.exit().remove();
+					
+					const asDate = function(d) {
+						return new Date(d);
+					};
+					
+					
+					const xAxis = d3.axisBottom(x)
+						.tickFormat(d => asDate(d)).tickFormat(d3.timeFormat("%b-%Y"));
+					const yAxis = d3.axisLeft(y)
+						.tickFormat(allCharts[chartID].yAxisLabels);  
+						
+					allCharts[chart].gXAxis.call(xAxis);
+						
+					allCharts[chart].gYAxis.call(yAxis);  
+					
+					allCharts[chart].gYAxis.selectAll('text')
+						.style('font-size', 14)
+						.style("text-anchor", "end")
+						.attr("dx", "-.8em");
+					 
+					allCharts[chart].gXAxis.selectAll('text')
+						.style('font-size', 14);
+					
+				}
+				
+				if (fn_call !== false) {
+					fn_call(html_content);
+				}
+				
+			});
+
+		}
+    $(document).ready(function(){  
+	
+		initiateChart("#chart1", chart1_opts);
+		initiateChart("#chart2", chart2_opts);
+		initiateChart("#chart3", chart3_opts);
+				$("#iframe1").on("load", function(){
+			var nProjs = $("#iframe1").contents().find(".motus-table tr").length;			console.log("Number of projects = " + nProjs);	
+			$("#iframe1").before("<select id='projects'><option> -- Select a project -- </option></select>");			$("#iframe1").contents().find(".motus-table tr").each(function(i){				
+				$("#projects").append("<option value='" + $(this).find("td:first").text() + "'>" + $(this).find("td:eq(0)").text()  + ": " + $(this).find("td:eq(2)").text()  + "</option>");
+							});
+			
+			loadChart("#chart1", dataServerURL + "projects?n=1000&q=&f=1&o=0a1a2a3a4a5a6a7a");
+			
+			$("#projects").change(function(){
+				var proj = this.value;
+				console.log("Project: " + proj);
+				loadChart("#chart2", dataServerURL + "projectReceiverDeployments?n=1000&q=&f=1&o=0a1a2a3a4a5a&id=" + proj, function(html_content){
+					var nRecvs = $(html_content).find(".motus-table tr").length;
+					console.log("Number of receivers: " + nRecvs);
+					if ($("#receivers").length == 0) {$("#iframe2").before("<select id='receivers'></select>");}
+					else {$("#receivers").html("");}
+					$(html_content).find(".motus-table tr").each(function(i){
+						$("#receivers").append("<option value='" + $(this).find("td:first").text() + "'>" + $(this).find("td:eq(0)").text()  + ": " + $(this).find("td:eq(1)").text()  + " [" + $(this).find("td:eq(2)").text()  + "]</option>");
+					});
+					$("#receivers").change(function(){
+						var recv = this.value;
+						console.log("Receiver: " + recv);
+						loadChart("#chart3", dataServerURL + "receiverDeploymentDetections?n=1000&q=&f=1&o=0a1a2a3a4a5a&id=" + recv, function(html_content){
+							var nTags = $(html_content).find(".motus-table tr").length;
+							console.log("Number of tags: " + nTags);
+							if ($("#tags").length == 0) {$("#iframe3").before("<select id='tags'></select>");}
+							else {$("#tags").html("");}
+							$(html_content).find(".motus-table tr").each(function(i){
+								var tagID = $(this).find("td:eq(1)").text().replace(/.*\./, "");
+								$("#tags").append("<option value='" + tagID + "'>" +  tagID + ": " + $(this).find("td:eq(2)").text()  + " [" + $(this).find("td:eq(4)").text()  + ", " + $(this).find("td:eq(5)").text()  + "]</option>");
+							});
+						});
+					});			
+				});
+			});		}).attr("src",dataServerURL + "projects?n=1000&q=&f=1&o=0a1a2a3a4a5a6a7a");  
+		/*
+		$("#iframe2").on("load", function(){
+			var nRecvs = $("#iframe2").contents().find(".motus-table tr").length;
+			console.log("Number of receivers: " + nRecvs);
+			if ($("#receivers").length == 0) {$("#iframe2").before("<select id='receivers'></select>");}
+			else {$("#receivers").html("");}
+			$("#iframe2").contents().find(".motus-table tr").each(function(i){
+				$("#receivers").append("<option value='" + $(this).find("td:first").text() + "'>" + $(this).find("td:eq(0)").text()  + ": " + $(this).find("td:eq(1)").text()  + " [" + $(this).find("td:eq(2)").text()  + "]</option>");
+			});
+			$("#receivers").change(function(){
+				var recv = this.value;
+				console.log("Receiver: " + recv);
+				$("#iframe3").attr("src", "");
+			});			
+		});  
+		
+		$("#iframe3").on("load", function(){
+			var nRecvs = $("#iframe3").contents().find(".motus-table tr").length;
+			console.log("Number of tags: " + nRecvs);
+			if ($("#tags").length == 0) {$("#iframe3").before("<select id='tags'></select>");}
+			else {$("#tags").html("");}
+			$("#iframe3").contents().find(".motus-table tr").each(function(i){
+				var tagID = $(this).find("td:eq(1)").text().replace(/.*\./, "");
+				$("#tags").append("<option value='" + tagID + "'>" +  tagID + ": " + $(this).find("td:eq(2)").text()  + " [" + $(this).find("td:eq(4)").text()  + ", " + $(this).find("td:eq(5)").text()  + "]</option>");
+			});
+		});  */	});  
+  </script>
+
+
+  <div id="chart1"></div>
+<iframe id='iframe1' src='' style='display:none;'></iframe>
+  <div id="chart2"></div>
+<iframe id='iframe2' src='' style='display:none;'></iframe>
+  <div id="chart3"></div>
+<iframe id='iframe3' src='' style='display:none;'></iframe>

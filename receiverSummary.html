@@ -1,0 +1,97 @@
+<html>
+
+	<head>
+
+	<title>Motus Dashboard</title>
+
+		<link rel="stylesheet" type="text/css" href="jquery-ui-1.12.1.custom/jquery-ui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/datatables.min.css"/>
+		<link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/jquery.fileupload.css" />
+		<link rel="stylesheet" type="text/css" href="css/dashboard.css" />
+		<script type='text/javascript' src='js/config.js'></script>
+		<script type='text/javascript' src='js/jquery-3.4.1.min.js'></script>
+		<script type='text/javascript' src='jquery-ui-1.12.1.custom/jquery-ui.min.js'></script>
+		<script type='text/javascript' src="js/jquery.fileupload.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+		<script type="text/javascript" src="js/datatables.min.js"></script>	
+		<script type='text/javascript' src='js/dashboard_data_v0.1.1.js'></script>
+		<script type="text/javascript" src="js/dataTables.pageResize.min.js"></script>
+		<script type='text/javascript' src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+		<script type='text/javascript' src='js/dashboard_requestTableData.js'></script>
+		<script type='text/javascript' src='js/URLparameters.js'></script>
+		<script type='text/javascript' src='js/bar_canvas.js'></script>
+		<script type='text/javascript' src='js/projectSelector.js'></script>
+		
+		<script type='text/javascript'>
+							
+			var all_dataTables = {};
+			var all_dataTable_summaries = {};
+			var selectedProject = 2;
+
+			var iframeSRC_prefix = "https://motus.org/data/receiverDeploymentDetections?n=1000&q=&f=1&o=0a1a2a3a4a5a&id=";
+
+			$(document).ready(function(){
+			//	initialise_projectTables();
+				requestProjectData("projs", undefined, "#projectList");
+				if (window.location.href.indexOf("?") != -1) {
+					//console.log("getUrlParameter: " + getUrlParameter(window.location.href, 'proj'))
+					selectedProject = getUrlParameter(window.location.href, 'proj');
+					currentPage = getUrlParameter(window.location.href, 'page').toLowerCase();
+				} else {
+					window.history.pushState("test", "test", setUrlParameter(window.location.href, 'proj', selectedProject));
+					window.history.pushState("test2", "test2", setUrlParameter(window.location.href, 'page', currentPage));
+				}
+				
+				requestTableData("#recv-table", selectedProject, 'recv-deps');
+				
+				$("#recv-table tbody").on('click', 'tr', function(){
+					var siteID = all_dataTables["#recv-table"].row(this).data()["recvDeployID"];
+					console.log(siteID); 
+					$("#recv-info").attr('src', iframeSRC_prefix + siteID);
+				});
+			});
+
+
+
+			function loadTable_callback() {
+				
+			}
+
+			function iframeLoaded() {
+					console.log("iFrame has finished loading page: " + $("#recv-info").attr('src'));
+					console.log($("#recv-info").contents());
+			}
+
+		
+		</script>
+
+	</head>
+	<body>
+
+		<div class='content-wrapper'>
+				
+			<div class='content'>
+				
+				<div class='projectList-wrapper'>Project: <select id='projectList'></select></div>
+				
+				
+				
+				
+				<div id="main-content">
+						<table id="recv-table">
+							<thead><tr></tr></thead>
+							<tbody></tbody>
+						</table>
+						
+						<iframe id='recv-info' style='width:100%;border:0px;height:500px;background-color:#FFF;margin:25px 0px;' onload='iframeLoaded();'></iframe>
+				</div>
+				
+			</div>
+			
+		</div>
+
+	</body>
+
+</html>

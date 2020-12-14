@@ -9,6 +9,7 @@
 		<link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="css/jquery.fileupload.css" />
 		<link rel="stylesheet" type="text/css" href="css/dashboard.css" />
+		<script type='text/javascript' src='js/config.js'></script>
 		<script type='text/javascript' src='js/jquery-3.4.1.min.js'></script>
 		<script type='text/javascript' src='jquery-ui-1.12.1.custom/jquery-ui.min.js'></script>
 		<script type='text/javascript' src="js/jquery.fileupload.js"></script>
@@ -24,11 +25,12 @@
 		<script type='text/javascript' src='js/URLparameters.js'></script>
 		<script type='text/javascript' src='js/bar_canvas.js'></script>
 		<script type='text/javascript' src='js/dashboard.js'></script>
+		<script type='text/javascript' src='js/accountBadge.js'></script>
 
 	</head>
 	<body>
 
-		<div class='content-wr apper'>
+		<div class='content-wrapper'>
 				
 			<div class='content'>
 				
@@ -42,7 +44,7 @@
 						<div>
 							<img src='SVG/Home.svg'>
 							<br>
-							<h3>Main</h3>
+							<h3></h3>
 						</div>
 					</div>
 						<!--div id="demotable">
@@ -206,9 +208,7 @@
 			</div>
 			
 		</div>
-	<script async defer
-		src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap">
-		</script>
+	<script type='text/javascript'>loadScript("GOOGLE_MAPS", "https://maps.googleapis.com/maps/api/js?key=%s&callback=initMap", loadPage);</script>
 
 	</body>
 
