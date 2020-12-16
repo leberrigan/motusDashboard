@@ -17,14 +17,14 @@
 
 						// The svg
 						
-						$('.explore_map_container').append('<svg id="explore_map_regions" class="explore_map explore_type_stations explore_type_species mapStations_type_points mapSpecies_type_tracks explore-choropleth visible"></svg>')
+						$('.explore_map_container').append('<svg id="explore_map_regions" class="explore_map explore_type_stations explore_type_species mapStations_type_points mapSpecies_type_tracks mapSpecies_type_deployments explore-choropleth visible"></svg>')
 
 						var mapType='track';
 						var svg = {
 							el: d3.select("#explore_map_regions"),
 							t: d3.timer(function() {}),
-							width: 1200,
-							height: 400,
+							width: $("#explore_map_regions").parent().innerWidth(),
+							height: $("#explore_map_regions").parent().innerHeight() - 30,
 							timer: d3.timer(function() {}),
 							resetTimer: d3.timer(function() {}),
 							selectedProjection: 1,
@@ -54,22 +54,61 @@
 							zoom: {},
 							zoomLevel: 1,
 							colorScale: {},
-							isVisible: function(d, vis) {
-								//	console.log(!(motusFilter.dtEnd <= d.dtStart || motusFilter.dtStart >= d.dtEnd));
-								//	console.log(motusFilter.dtEnd + " <= " + d.dtStart + " = " + (motusFilter.dtEnd <= d.dtStart));
-									return vis && !(motusFilter.dtEnd <= d.dtStart || motusFilter.dtStart >= d.dtEnd) ? 'visible' : 'hidden';
-								//}
+							isVisible: function(d, vis, ch) {
+								
+								const visibility = vis && 
+									!(motusFilter.dtEnd <= d.dtStart || motusFilter.dtStart >= d.dtEnd) &&
+									(motusFilter.project == d.projID || motusFilter.project == 'all') &&
+									(typeof d.species == "undefined" || motusFilter.species == d.species || motusFilter.species == 'all');
+								
+							//	console.log(visibility);
+								
+								return (ch ? (visibility ? 'visible' : 'hidden') : !visibility);
+										
 							},
 							setVisibility: function(elType) {
 								if (elType === undefined) {
-									elType = $(".explore_type:visible.toggleButton.selected").html().toLowerCase() == 'tracks' ? 'track' : 'station';
+									if (tracksStations == 'both') 
+										elType = $(".explore_type:visible.toggleButton.selected").html().toLowerCase() == 'tracks' ? 'track' : $(".explore_type:visible.toggleButton.selected").html().toLowerCase() == 'points' ?'station' : $(".explore_type:visible.toggleButton.selected").html().toLowerCase() == 'regions' ?'region' : 'tagDeps';
+									else if (tracksStations == 'stations') elType = 'track'
+									else if (tracksStations == 'species') elType = 'station'
+									else if (tracksStations == 'tagDeps') elType = 'tagDeps'
+									
+								//	console.log(elType);
 									svg.el.selectAll(".explore-choropleth-" + elType)
-										.attr('visibility', d => svg.isVisible(d, true));
+										.attr('visibility', d => svg.isVisible(d, true, true))
+										.classed('hidden', d => svg.isVisible(d, true, false))
+										//.attr('class', d => svg.isVisible(d, true));
+									svg.projectionMorph();
 								} else {
-									svg.el.selectAll(".explore-choropleth-track")
-										.attr('visibility', d => svg.isVisible(d, elType == 'tracks'))
-									svg.el.selectAll(".explore-choropleth-station")
-										.attr('visibility', d => svg.isVisible(d, elType == 'stations'))
+									if (tracksStations == 'both') {
+										elType = $(".explore_type:visible.toggleButton.selected").html().toLowerCase() == 'tracks' ? 'track' : $(".explore_type:visible.toggleButton.selected").html().toLowerCase() == 'points' ?'station' : $(".explore_type:visible.toggleButton.selected").html().toLowerCase() == 'regions' ?'region' : 'tagDeps';
+									}
+								//	console.log("2: " + elType);
+								/*	else if (tracksStations == 'stations') elType = 'track'
+									else if (tracksStations == 'species') elType = 'station'
+									else if (tracksStations == 'tagDeps') elType = 'tagDeps'*/
+								//	if (tracksStations != 'stations') 
+										svg.el.selectAll(".explore-choropleth-station")
+											.attr('visibility', elType != 'station' ? 'hidden' : 'visible')
+											.classed('hidden', elType != 'station')
+											//.attr('class', d => svg.isVisible(d, elType == 'tracks'))
+								//	if (tracksStations != 'species') 
+										svg.el.selectAll(".explore-choropleth-track")
+											.attr('visibility', elType != 'track' ? 'hidden' : 'visible')
+											.classed('hidden', elType != 'track')
+								//	if (tracksStations != 'tagDeps') 
+										svg.el.selectAll(".explore-choropleth-tagDeps")
+											.attr('visibility', elType != 'tagDeps' ? 'hidden' : 'visible')
+											.classed('hidden', elType != 'tagDeps')
+											//.attr('class', d => svg.isVisible(d, elType == 'tagDeps'))
+									
+									
+								/*	svg.el.selectAll(".explore-choropleth-" + elType)
+										.attr('visibility', d => svg.isVisible(d, true, true))
+										.classed('hidden', d => svg.isVisible(d, true, false));
+									*/
+									svg.projectionMorph();
 								}
 							},
 							resetCenter: function() {
@@ -83,9 +122,10 @@
 									if (svg.posX == svg.centerX && svg.posY == svg.centerY) svg.resetTimer.stop();
 								});
 							},
-							ready: function(error, dataGeo, trackData, pointData) {
+							ready: function(error, dataGeo, trackData, recvDeps, tagDeps) {
 								
-								svg.colorScale = d3.scaleOrdinal(d3.schemePaired);
+								tracksStations = $('title').html().indexOf('Stations') == -1 ? $('title').html().indexOf('Species') == -1 ? 'both' : 'species' : 'stations';
+								
 										  
 								var defs = svg.el.append("defs")
 
@@ -100,8 +140,13 @@
 								svg.el.append("use")
 									.attr("class", "explore-choropleth-fill")
 									.attr("xlink:href", "#sphere");
+									
+								if ($('.explore-choropleth-mapType.selected').length > 0) {
+									svg.proj_pos = $('.explore-choropleth-mapType.selected').hasClass('explore-choropleth-sphere') ? 1 : 0;
+								} else {
+									svg.proj_pos = 1;
+								}
 
-								svg.proj_pos = 1//d3.select('.explore-choropleth-mapType.selected').html().toLowerCase() == 'sphere' ? 1 : 0;
 								
 								
 								// Draw the map
@@ -116,21 +161,35 @@
 										)
 										.style("stroke", "#FFF")
 										.style("stroke-width", 0);
-									
 								
-									var pointDataLink = [];
+								if (/*tracksStations == 'species' || */tracksStations == 'both') {
+								
+									var recvDepsLink = [];
 									
-									pointData.forEach(function(row){
-										topush = {type: "Point", coordinates: [+row.lon, +row.lat], id: row.deployID, name: row.name, status: row.status, dtStart: new Date(row.dtStart), dtEnd: new Date(row.dtEnd)}
+									recvDeps.forEach(function(row){
+										topush = {
+											type: "Point", 
+											coordinates: [+row.lon, +row.lat], 
+											id: row.deployID, 
+											name: row.name, 
+											status: row.status, 
+											dtStart: new Date(row.dtStart), 
+											dtEnd: new Date(row.dtEnd), 
+											projID: row.projID, 
+											serno: row.serno
+										}
 										
-										if (!isNaN(topush.coordinates[0]) && !isNaN(topush.coordinates[1]))	pointDataLink.push(topush)
+										if (!isNaN(topush.coordinates[0]) && !isNaN(topush.coordinates[1]))	recvDepsLink.push(topush)
 									});
 									
-									const points = svg.el.selectAll("stations")
+									const stations = svg.el.selectAll("stations")
 									
-								//	console.log(pointDataLink)
+								//	console.log(recvDepsLink)
+								
 									
-									points.data(pointDataLink)
+									svg.colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+									
+									stations.data(recvDepsLink)
 										.enter()
 										.append("path")
 										//.attr("d", (d) => svg.path(d))
@@ -144,9 +203,55 @@
 											d3.selectAll(".station" + d.id).style('opacity', '1');
 											d3.selectAll(".explore-choropleth-station:not(.station" + d.id + ")").style('opacity', '0.1');
 										})
-										.on('mouseout', function(d){d3.selectAll(".explore-choropleth-station").style('opacity', '0.5');});
+										.on('mouseout', function(d){d3.selectAll(".explore-choropleth-station").style('opacity', '0.5');})
+										.on('click', d => mapInfoPanel(d, 'show', 'station'));
 										
-								
+								}
+								if (tracksStations == 'species' || tracksStations == 'both') {
+									
+									var tagDepsLink = [];
+									
+									svg.colorScale = d3.scaleOrdinal(d3.schemePaired);
+									
+									tagDeps.forEach(function(row){
+										topush = {
+											type: "Point", 
+											coordinates: [+row.lon, +row.lat], 
+											id: row.deployID, 
+											tagID: row.tagID, 
+											status: row.status, 
+											dtStart: new Date(row.dtStart), 
+											dtEnd: new Date(row.dtEnd), 
+											projID: row.projID, 
+											species: row.species
+										}
+										
+										if (!isNaN(topush.coordinates[0]) && !isNaN(topush.coordinates[1]))	tagDepsLink.push(topush)
+									});
+									
+									const tags = svg.el.selectAll("tags")
+									
+								//	console.log(tagDepsLink)
+									
+									tags.data(tagDepsLink)
+										.enter()
+										.append("path")
+										//.attr("d", (d) => svg.path(d))
+										.attr('class', (d) => "explore-choropleth-tagDeps tagDeps" + d.id)
+										.style("stroke", "#FFF")
+										.style('fill', (d) => svg.colorScale(d.species))
+									//	.attr('visibility', svg.isVisible.recvs)
+										//.attr("transform", d => "translate(" + svg.projection(d.coordinates) + ")")
+										.attr("d", (d) => svg.pointPath(d))
+										.on('mouseover', function(d){
+											d3.selectAll(".tagDeps" + d.id).style('opacity', '1');
+											d3.selectAll(".explore-choropleth-tagDeps:not(.tagDeps" + d.id + ")").style('opacity', '0.1');
+										})	
+										.on('mouseout', function(d){d3.selectAll(".explore-choropleth-tagDeps").style('opacity', '0.5');})
+										.on('click', d => mapInfoPanel(d, 'show', 'tagDeps'));
+										
+								}
+								if (true/*tracksStations == 'stations' || tracksStations == 'both'*/) {
 									// Reformat the list of link. Note that columns in csv file are called long1, long2, lat1, lat2
 									var trackDataLink = [];
 									
@@ -156,13 +261,17 @@
 										topush = {
 												type: "LineString", 
 												coordinates: [source, target], 
-												id: row.tagDeployID, 
+												id: row.deployID, 
 												dtStart: new Date(row.dtStart), 
-												dtEnd: new Date(row.dtEnd)
+												dtEnd: new Date(row.dtEnd),
+												species: row.species, 
+												projID: row.projID
 											};
 										trackDataLink.push(topush)
 									});
 									
+									svg.colorScale = d3.scaleOrdinal(d3.schemePaired);
+								
 									// Add the path
 									const tracks = svg.el.selectAll("myPath");
 									
@@ -178,8 +287,11 @@
 											d3.selectAll(".track" + d.id).style('opacity', '1');
 											d3.selectAll(".explore-choropleth-track:not(.track" + d.id + ")").style('opacity', '0.1');
 										})
-										.on('mouseout', function(d){d3.selectAll(".explore-choropleth-track").style('opacity', '0.5');});
-										
+										.on('mouseout', function(d){d3.selectAll(".explore-choropleth-track").style('opacity', '0.5');})
+										.on('click', d => mapInfoPanel(d, 'show', 'track'));
+									
+								}
+								
 								svg.zoom = d3.zoom()
 									.scaleExtent([1, 10])
 									.translateExtent([[0, 0], [svg.width, svg.height]])
@@ -197,23 +309,27 @@
 								
 								svg.projectionMorph();
 								svg.resetCenter();
+								console.log(tracksStations);
+								if (tracksStations != "both") {
+									//svg.setVisibility(elType = tracksStations == 'species' ? 'track' : 'station');
+								}
 								$(".explore_type:visible.toggleButton.selected").click();
 							},
 							dragged: function() {
-								svg.posX = ( svg.posX + d3.event.dx / (4 * svg.zoomLevel) ) % 360;
-								svg.posY = ( svg.posY - d3.event.dy / (4 * svg.zoomLevel) ) % 360;
+								svg.posX = ( svg.posX + d3.event.dx / (4 * (svg.zoomLevel ^ 0.5) ) ) % 360;
+								svg.posY = ( svg.posY - d3.event.dy / (4 * (svg.zoomLevel ^ 0.5) ) ) % 360;
 								svg.projectionMorph();
 							},
 							projectionMorph: function() {
 								var t = svg.proj_pos;
-							//	var projections = [d3.geoNaturalEarth(), d3.geoOrthographic()];
-								var projections = [d3.geoMiller(), d3.geoOrthographic()];
+					//			var projections = [d3.geoNaturalEarth(), d3.geoOrthographic()];
+								var projections = [d3.geoEquirectangular(), d3.geoOrthographic()];
 								
 								  
 								svg.centerX = svg.selectedProjection == 0 ? 0 : 36;
 								svg.centerY = svg.selectedProjection == 0 ? 0 : -15;
 							  
-								svg.el.selectAll("path")
+								svg.el.selectAll("path:not(.hidden)")
 								  .attr("d", getProjection)
 								//	.attr("transform", function(d) {console.log(d);return getProjection(d);})
 								  
@@ -286,8 +402,15 @@
 						 // .defer(d3.json, "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_admin_0_countries.geojson")  // World shape
 						//  .defer(d3.csv, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_connectionmap.csv") // Position of circles
 						//  .defer(d3.csv, "./data/siteTrans.csv") // Position of circles
-						  .defer(d3.csv, "https://raw.githubusercontent.com/leberrigan/motusDashboard/master/Example%20station%20interfaces/data/siteTrans.csv") // Position of circles
-						  .defer(d3.csv, "https://raw.githubusercontent.com/leberrigan/motusDashboard/master/Example%20station%20interfaces/data/recv-deps.csv") // Position of circles
+						  .defer(d3.csv, "data/siteTrans.csv") // Tracks
+						  .defer(d3.csv, "data/recv-deps.csv") // Stations
+						  .defer(d3.csv, "data/tag-deps.csv") // Tag deployments
 						  .await(svg.ready);
 						  
 						d3.select('#explore-choropleth-resetMap').on('click', svg.resetCenter);
+						
+						d3.queue()
+							.defer(d3.csv, "data/projs.csv")
+							.defer(d3.csv, "data/spp.csv")
+							.await(populateSelectOptions);
+							

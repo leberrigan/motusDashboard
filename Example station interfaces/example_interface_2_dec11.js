@@ -101,8 +101,11 @@ $.widget("ui.dragslider", $.ui.slider, {
 });
 
 })(jQuery);
+
+var tracksStations = 'undefined';
 			
 	$(document).ready(function(){
+	
 	
 		$('.tips').mousemove(function(e){
 			$('.tooltip').text($(this).attr('alt'));
@@ -239,9 +242,6 @@ $.widget("ui.dragslider", $.ui.slider, {
 		
 		});
 		
-		
-		$(".explore_filters select").select2();
-		
 		$(".station_activityTimeline .slider").dragslider({
 			range: true,
 			rangeDrag: true,
@@ -288,12 +288,12 @@ $.widget("ui.dragslider", $.ui.slider, {
 				
 				$(".toggleButton." + toggleName + ":not(.selected)").each(function(){
 					
-			//		console.log("Hide: ." + toggleName + "_type_" + $(this).html().toLowerCase());
+					console.log("Hide: ." + toggleName + "_type_" + $(this).html().toLowerCase());
 					$("." + toggleName + "_type_" + $(this).html().toLowerCase()).hide();
 					
 				});
 				
-			//	console.log("Show: ." + toggleName + "_type_" + typeToShow);
+				console.log("Show: ." + toggleName + "_type_" + typeToShow);
 				
 				$("." + toggleName + "_type_" + typeToShow + (toggleName == "explore" ? ":not(.explore_map)" : "")).show();
 				
@@ -301,13 +301,12 @@ $.widget("ui.dragslider", $.ui.slider, {
 				if (toggleName == 'explore') {
 					$(".explore_type:visible.toggleButton.selected").click();
 				} else {
-				
-					svg.setVisibility(typeToShow == "tracks" ? 'tracks' : 'stations');
+					svg.setVisibility(typeToShow == "tracks" ? 'tracks' : typeToShow == "points" ? 'stations' : 'tagDeps');
 				}
 				
 			} else if (toggleName = 'explore-choropleth-mapType') {
 				
-				svg.tweenProjections(this.innerHTML.toLowerCase());
+				svg.tweenProjections($('.explore-choropleth-mapType.selected').hasClass('explore-choropleth-sphere') ? "sphere" : "flat");
 				
 			}
 			
@@ -333,6 +332,7 @@ $.widget("ui.dragslider", $.ui.slider, {
 
 	});
 
+
 var motusFilter = {
 	dtStart: new Date(),
 	dtEnd: new Date(),
@@ -342,3 +342,157 @@ var motusFilter = {
 	station: "all",
 	frequency: "all"
 };
+
+
+function populateSelectOptions(error, projs, spp) { // projs = projects, spp = species
+	
+	if (error === null) {
+	
+//		$("#explore_filters_project").html("");
+		
+		projs.forEach(function(r){ // r = row
+			
+			$("#explore_filters_project").append("<option value='" + r.id + "'>" + r.name + "</option>");
+			
+		});
+	
+//	$("#explore_filters_species").html("");
+	
+	spp.forEach(function(r){ // r = row
+		
+		$("#explore_filters_species").append("<option value='" + r.id + "'>" + r.english + "</option>");
+		
+	});
+		
+	} else {console.error(error);}
+	
+	
+	$(".explore_filters select").select2({
+		matcher: function(params, data) {
+			// If there are no search terms, return all of the data
+			if ($.trim(params.term) === '') {
+				return data;
+			}
+
+			// Do not display the item if there is no 'text' property
+			if (typeof data.text === 'undefined') {
+				return null;
+			}
+
+			// `params.term` should be the term that is used for searching
+			// `data.text` is the text that is displayed for the data object
+			if (data.text.toUpperCase().indexOf(params.term.toUpperCase()) > -1) {
+				return data;
+			}
+			
+			
+			if (data.id.indexOf(params.term) > -1) {
+				return data;
+			}
+
+			// Return `null` if the term should not be displayed
+			return null;
+		}
+	}).change(setFilter);//.trigger('change'); 
+}
+
+function setFilter(e) {
+	console.log("ID: " + e.target.id + " - Value: " + $(e.target).val());
+	
+	motusFilter[e.target.id.replace("explore_filters_", "")] = $(e.target).val();
+	
+	console.log("Species: " + motusFilter.species + " - Project: " + motusFilter.project);
+	
+	svg.setVisibility();
+}
+
+function mapInfoPanel(data, showHide, infoType) {
+	if (showHide == 'show') {
+		$('#explore_map_regions').unbind('click');
+		if ($('#mapInfoPanel').length == 0) {
+			$('body').append('<div id="mapInfoPanel"></div>');
+		}
+		
+		var mapPos = $('#explore_map_regions').offset();
+		var mapDim = {width: $('#explore_map_regions').innerWidth(), 
+		height: $('#explore_map_regions').innerHeight()};
+		
+		if (infoType == 'station') {
+		
+			var dateEnd = !isNaN(data.dtEnd.getTime()) ? new Date(data.dtEnd).toISOString().substr(0,10) : "present";
+			
+			var project = $("#explore_filters_project option[value=" + data.projID + "]").text();
+			
+			var htmlContent = "<h2>" + data.name + "</h2>";
+			htmlContent += "<div>"+
+								"<div class='project'><b>Project: </b>" + project + "</div>"+
+								"<div class='coords'><b>Location: </b>" + data.coordinates.join(", ") + "</div>"+
+								"<div class='deployDates'><b>Deployment Status: </b>" + data.status + "</div>"+
+								"<div class='deployStatus'><b>Deployed: </b>" + (new Date(data.dtStart).toISOString().substr(0,10)) + " - " + dateEnd + "</div>"+
+								"<div class='receiver'><b>Receiver: </b>" + data.serno + "</div>"+
+								"<div></div>"+
+								"<div class='tagDetections'><b>Tags detected [Table]: </b></div>"+
+							"</div>";
+
+		}
+		
+		if (infoType == 'track') {
+			
+			var species = $("#explore_filters_species option[value=" + data.species + "]").text();
+			
+			var project = $("#explore_filters_project option[value=" + data.projID + "]").text();
+			
+			var htmlContent = "<h2>" + species + "</h2>";
+			
+			htmlContent += "<div>"+
+								"<div class='project'><b>Tag project: </b>" + project + "</div>"+
+								"<div class='coords'><b>Start location: </b>" + data.coordinates[0].join(", ") + "</div>"+
+								"<div class='coords'><b>End location: </b>" + data.coordinates[1].join(", ") + "</div>"+
+								"<div class='deployStatus'><b>Time of flight: </b>" + (new Date(data.dtStart).toISOString().substr(0,10)) + " - " + new Date(data.dtEnd).toISOString().substr(0,10) + "</div>"+
+								"<div class='project'><b>Deployment ID: </b>" + data.id + "</div>"+
+								"<div></div>"+
+								"<div class='tagDetections'><b>Stations visited [Table]: </b></div>"+
+							"</div>";
+
+		}
+		
+		
+		
+		if (infoType == 'tagDeps') {
+		
+			var species = $("#explore_filters_species option[value=" + data.species + "]").text();
+			
+			var project = $("#explore_filters_project option[value=" + data.projID + "]").text();
+		
+			var dateEnd = !isNaN(data.dtEnd.getTime()) ? new Date(data.dtEnd).toISOString().substr(0,10) : "present";
+			
+			var htmlContent = "<h2>" + species + "</h2>";
+			
+			htmlContent += "<div>"+
+								"<div class='project'><b>Tag project: </b>" + project + "</div>"+
+								"<div class='project'><b>Tag ID: </b>" + data.id + "</div>"+
+								"<div class='coords'><b>Deployment location: </b>" + data.coordinates.join(", ") + "</div>"+
+								"<div class='coords'><b>Deployment status: </b>" + data.status + "</div>"+
+								"<div class='deployStatus'><b>Deployment period: </b>" + (new Date(data.dtStart).toISOString().substr(0,10)) + " - " + dateEnd + "</div>"+
+								"<div class='project'><b>Deployment ID: </b>" + data.id + "</div>"+
+								"<div></div>"+
+								"<div class='tagDetections'><b>Stations visited [Table]: </b></div>"+
+							"</div>";
+
+		}
+		
+		$('#mapInfoPanel').html(htmlContent).css({
+			top: mapPos.top - 30,
+			left: mapPos.left,
+			height: mapDim.height,
+			display: 'block',
+			background: "#FFF",
+			border: "solid 1px #777",
+			position: "absolute"
+		});
+		setTimeout(function(){$('#explore_map_regions').click(function(){mapInfoPanel(false, 'hide');})}, 200);
+	} else {
+		$('#mapInfoPanel').hide(250);
+		$('#explore_map_regions').unbind('click');
+	}
+}

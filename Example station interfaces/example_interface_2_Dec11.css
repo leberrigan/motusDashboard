@@ -280,6 +280,9 @@ body {
 	border-left:solid 2px #EEE;
 	background:#CCC;
 }
+.metric_controls .toggleButton {
+	border-width:0px;
+}
 
 /***************************
 		
@@ -629,4 +632,13 @@ body {
 }
 .explore-choropleth-track {
 
+}
+
+#mapInfoPanel {
+	display:none;
+	padding:20px;
+	max-width:300px;
+}
+#mapInfoPanel div {
+	margin:10px;
 }
