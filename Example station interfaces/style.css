@@ -141,9 +141,9 @@ body {
 	background-color: #EEE;
 }
 
-.explore_map {
+#explore_map {
 	width:100%;
-  height:400px;
+	height:600px;
 }
 
 .station_manage {
@@ -196,6 +196,7 @@ body {
 	padding: 0 10px;
 	margin:0px;
 	line-height: 30px;
+	height: 30px;
 	border: 1px solid #DDD;
 	background-color: #E6E6E6;
 	font-weight:bold;
@@ -385,7 +386,7 @@ body {
 	position:fixed;
 	left: 10%;
 	width:80%;
-	z-index: 98;
+	z-index: 1098;
 }
 
 .helper {
@@ -396,7 +397,7 @@ body {
 
 .tooltip {
 	display:none;
-	z-index:99;
+	z-index:1099;
 	position:absolute;
 	background:#FAFAFA;
 	border:solid 1px #DDD;
@@ -417,7 +418,7 @@ body {
 	right:0;
 	cursor:pointer;
 	display:none; 
-	z-index:98;
+	z-index:1098;
 	text-align: center;
 	white-space: nowrap;
 }
@@ -432,7 +433,7 @@ body {
 	bottom:0;
 	right:0;
 	display:none; 
-	z-index:98;
+	z-index:1098;
 	background:#555;
 	opacity:0.5;
 	cursor:pointer;
@@ -450,7 +451,7 @@ body {
 	transition-property: all;
 }
 #leftMenu.visible {
-	z-index:96;
+	z-index:1096;
 	background:#FFF;
 	width:300px;
 }
@@ -630,14 +631,20 @@ body {
 	opacity: 0.5;
 	cursor: pointer;
 }
-.explore-choropleth-track {
-
+.explore-map-regions {
+	fill-opacity: 0.5;
+	stroke: black;
+	stroke-width:2px;
 }
 
+.explore-map-stations, .explore-map-species {
+	cursor:pointer;
+}
 #mapInfoPanel {
 	display:none;
 	padding:20px;
 	max-width:300px;
+	z-index:900;
 }
 #mapInfoPanel div {
 	margin:10px;

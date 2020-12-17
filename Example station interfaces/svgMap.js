@@ -366,6 +366,7 @@
 
 							}
 						};
+						var tracksStations = 'undefined';
 						var m0,
 							o0;
 

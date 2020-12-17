@@ -13,7 +13,7 @@
 			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 			<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 			<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-			<script src="https://d3js.org/d3.v4.js"></script>
+			<script src="https://d3js.org/d3.v6.min.js"></script>
 			<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 			<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 			<script src="https://d3js.org/topojson.v2.min.js"></script>
@@ -130,11 +130,11 @@
 													
 												<div class='toggleButton mapStations selected explore_type explore_type_stations '>Points</div>
 													
-												<div class='toggleButton mapSpecies selected explore_type explore_type_species'>Tracks</div>
+												<div class='toggleButton mapSpecies selected explore_type explore_type_species'>Regions</div>
 											<br/>
 												<div class='toggleButton mapStations explore_type explore_type_stations'>Regions</div>
 												
-												<div class='toggleButton mapSpecies explore_type explore_type_species'>Deployments</div>
+												<div class='toggleButton mapSpecies explore_type explore_type_species'>Points</div>
 												
 											</td>
 											<td class='explore_filters' style='display:none !important;'>
@@ -214,6 +214,22 @@
 											</td>
 											
 										</tr>
+										<tr id='explore_filter_metrics'>
+											<td>
+												<div>
+													Showing <span class='stations'></span> of <span class='stations'></span> <b>stations</b> from <span class='projects'></span> of <span class='projects'></span> <b>projects</b>.
+												</div>
+												<div class='species'>
+													<b>Species</b>: showing <span></span> of <span></span>
+												</div>
+												<div class='animals'>
+													<b>Animals</b>: showing <span></span> of <span></span>
+												</div>
+												<div class='detections'>
+													<b>Detections</b>: showing <span></span> of <span></span>
+												</div>
+											<td>
+										</tr>
 									</tbody>
 								</table>
 								<div class='station_activityTimeline explore_metrics visible'>
@@ -233,9 +249,9 @@
 										<div id="custom-handle-1" class="ui-slider-handle">
 											<div class="ui-slider-handle-text"></div>
 										</div>
-										<div id="custom-handle-2" class="ui-slider-handle">
+										<!--div id="custom-handle-2" class="ui-slider-handle">
 											<div class="ui-slider-handle-text"></div>
-										</div>
+										</div-->
 									</div>
 									<img class='timeline visible' src='https://i.postimg.cc/13ScwwVZ/Screenshot-2020-12-10-135353.png' alt='Click to enlarge' class='tips enlarge'/>
 								</div>
@@ -252,8 +268,8 @@
 										
 										<!--img class="explore_map explore_type_species mapSpecies_type_tracks" src="https://i.postimg.cc/NFh702RL/Screenshot-2020-12-11-113730.png">
 										<img class="explore_map explore_type_stations mapStations_type_points" src="https://i.postimg.cc/wBtMMfqT/Screenshot-2020-12-11-110650.png"-->
-										<img class="explore_map explore_type_stations mapStations_type_regions" src="https://i.postimg.cc/3wwD9cfh/Screenshot-2020-12-11-085808.png">
-										<img class="explore_map explore_type_species mapSpecies_type_regions" src="https://i.postimg.cc/3wwD9cfh/Screenshot-2020-12-11-085808.png">
+										<!--img class="explore_map explore_type_stations mapStations_type_regions" src="https://i.postimg.cc/3wwD9cfh/Screenshot-2020-12-11-085808.png">
+										<img class="explore_map explore_type_species mapSpecies_type_regions" src="https://i.postimg.cc/3wwD9cfh/Screenshot-2020-12-11-085808.png"-->
 										<!--svg id="explore_map_regions" class="explore_map explore_type_stations explore_type_species mapStations_type_points mapSpecies_type_tracks explore-choropleth visible"> </svg-->
 										<!--svg id="explore_mapSpecies_regions" class="explore_map explore_type_species mapSpecies_type_regions explore-choropleth"> </svg-->
 								
@@ -514,7 +530,8 @@
 					</table>
 					</div>
 					
-					<script type='text/javascript' src='svgMap.js'></script>
+					<script type='text/javascript' src='leafletMap.js'></script>
+					<!--script type='text/javascript' src='svgMap.js'></script-->
 					
 					<!-- End your code here -->
 				</body>
