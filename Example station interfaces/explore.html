@@ -1,24 +1,36 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-	<html>
+<html lang="en">
 		<head>
+			<!-- Required meta tags -->
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+
 			<title>Explore Data</title>
 			<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
 			<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"/>
 			<link href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet"/>
 			<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+			<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
 			<link rel='stylesheet' href='style.css'/>
-			
+			<!-- CSS only -->
+
+<!-- JavaScript Bundle with Popper -->
 			<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 			<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 			<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 			<script src="https://d3js.org/d3.v6.min.js"></script>
-			<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+			<script src="https://d3js.org/d3-scale-chromatic.v2	.min.js"></script>
 			<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 			<script src="https://d3js.org/topojson.v2.min.js"></script>
+			<script src="https://d3js.org/d3-time.v2.min.js"></script>
+			<script src="d3-colour-legend.js"></script>
+			<script src="d3-colour-legend-vertical.js"></script>
+			<script src="timelines.js"></script>
 			<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+			<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
 			
+			<script src="common_scripts.js"></script>
 			<script src="scripts.js"></script>
 		</head>
 		<body>
@@ -51,483 +63,503 @@
 				</div>
 			</div>
 			
-			<div class='explore_main'>
-				<h1 class="explore_header">
-					Explore Data
-				</h1>
-				<table class="content_table">
-					<tbody>
-						<tr>
-							<td>
-								<div class='explore_stats explore_card visible'>
-									<!--div class='header'>
-										Explore stats:
-									</div-->
-									<table>
-										<tbody>
-											<tr>
-												<td class='explore_stats_projects'>
-													<big>348</big>
-													<small>Projects</small>
-												</td>
-												<td class='explore_stats_collaborators'>
-													
-													<big>888</big>
-													<small>Collaborators</small>
-												</td>
-												<td class='explore_stats_institutions'>
-													<big>76</big>
-													<small>Institutions</small>
-												</td>
-												<td class='explore_stats_publications'>
-													
-													<big>116</big>
-													<small>Publications</small>
-												</td>
-												<td class='explore_stats_stations'>
-													
-													<big>985</big>
-													<small>Stations</small>
-												</td>
-												<td class='explore_stats_species'>
-													
-													<big>233</big>
-													<small>Species</small>
-												</td>
-												<td class='explore_stats_animals'>
-													
-													<big>25,064</big>
-													<small>Animals</small>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								<table class='station_topInfo_table'>
-									<tbody>
-										<tr>
-											<td class='explore_filters'>
-												Explore by: 
-											</td>
-											<td class='explore_filters'>
-												
-													<div class='toggleButton explore selected'>Stations</div>
-													
-													<br/>
-													
-													<div class='toggleButton explore'>Species</div>
-											<!--/td>
-												
-										</tr>
-										<tr>
-										
-											<td class='explore_filters' colspan='3'-->
-										<td class='explore_filters'>
-											
-												<span style='margin:0 20px;'> Map by: </span>
-										</td>
-										<td class='explore_filters'>
-													
-												<div class='toggleButton mapStations selected explore_type explore_type_stations '>Points</div>
-													
-												<div class='toggleButton mapSpecies selected explore_type explore_type_species'>Regions</div>
-											<br/>
-												<div class='toggleButton mapStations explore_type explore_type_stations'>Regions</div>
-												
-												<div class='toggleButton mapSpecies explore_type explore_type_species'>Points</div>
-												
-											</td>
-											<td class='explore_filters' style='display:none !important;'>
-												Map view:
-											</td>
-											
-											<td class='explore_filters' style='display:none !important;'>
-											
-												<div class='toggleButton explore-choropleth-mapType explore-choropleth-options explore-choropleth-naturalEarth'>Flat</div>
-												
-												<br/>
-												
-												<div class='toggleButton explore-choropleth-mapType selected explore-choropleth-options explore-choropleth-sphere'>Sphere</div>
-											
-											</td>
-											<td class='explore_filters' style='display:none !important;'>
-											
-												<input type='button' value='Reset map view' id='explore-choropleth-resetMap' class='button' />
-											</td>
-										</tr>
-										<tr>
-											<td class='explore_filters'>
-											
-												<span style='margin:0 20px;'> Filter by: </span>
-												
-											</td>
-											<td class='explore_filters' colspan=2>
-											
-													<label for='explore_filters_region'>
-													Region: 
-													</label>
-													<select id='explore_filters_region'>
-														<option>Select a region</option>
-														<option>-------------------------------</option>
-													</select>
-													
-													<br/>
-													
-													<label for='explore_filters_project'>
-													Project:
-													</label>
-													<select id='explore_filters_project'>
-														<option selected='selected' value='all'>Select a project</option>]
-													</select>
-											</td>
-											<td class='explore_filters' colspan=2>
-											
-													<label for='explore_filters_species'>
-													Species: 
-													</label>
-													<select id='explore_filters_species'>
-														<option selected='selected' value='all'>Select a species</option>
-													</select>
-													
-													<br/>
-													
-													<label for='explore_filters_station'>
-													Station:
-													</label>
-													<select id='explore_filters_station'>
-														<option>Select a station</option>
-														<option>-------------------------------</option>
-													</select>
-											</td>
-											<td class='explore_filters' colspan=2>
-											
-													<label for='explore_filters_frequency'>
-														Frequency: 
-													</label>
-													<select id='explore_filters_frequency'>
-														<option value='1' selected='selected'>166.380 MHz</option>
-														<option value='2'>433 MHz</option>
-														<option value='3'>150.1 MHz</option>
-														<option value='4'>151.5 MHz</option>
-													</select>
-													
-											</td>
-											
-										</tr>
-										<tr id='explore_filter_metrics'>
-											<td>
-												<div>
-													Showing <span class='stations'></span> of <span class='stations'></span> <b>stations</b> from <span class='projects'></span> of <span class='projects'></span> <b>projects</b>.
-												</div>
-												<div class='species'>
-													<b>Species</b>: showing <span></span> of <span></span>
-												</div>
-												<div class='animals'>
-													<b>Animals</b>: showing <span></span> of <span></span>
-												</div>
-												<div class='detections'>
-													<b>Detections</b>: showing <span></span> of <span></span>
-												</div>
-											<td>
-										</tr>
-									</tbody>
-								</table>
-								<div class='station_activityTimeline explore_metrics visible'>
-									<div class='header'>Detection timeline
-										<div class='metric_controls'>
-											<img src='https://www.flaticon.com/svg/static/icons/svg/724/724933.svg' alt='Download chart data' class='tips download'/>
-											<img src='https://www.flaticon.com/svg/static/icons/svg/570/570953.svg' alt='Expand view' class='tips expand'/>
-											<img src='https://www.flaticon.com/svg/static/icons/svg/157/157933.svg' alt='About these data' class='tips about'/>
-										</div>
-										<div class='metric_legend' style='float:right;'>
-											<div style='display:inline-block;background-color:#888;width:15px;height:15px;margin:2.5px;border:solid 1px #000;padding:5px;'>
-											</div>
-											<div style='display:inline-block;vertical-align:top;font-size:10pt;margin-right:20px;'>Tag detection</div>
-										</div>
-									</div>
-									<div class='slider visible'>
-										<div id="custom-handle-1" class="ui-slider-handle">
-											<div class="ui-slider-handle-text"></div>
-										</div>
-										<!--div id="custom-handle-2" class="ui-slider-handle">
-											<div class="ui-slider-handle-text"></div>
+			<div class='content-wrapper' id='exploreContent'>
+			
+				<div class='header'>
+					
+					<div class='header-logos'><img src='images/motus-logo.png' alt='Home' class='motus-logo tips' /><img src='images/birds-canada-logo.png' alt='Visit Birds Canada\'s Website' class='birds-canada-logo tips' /></div>
+					<div class='header-menu-wrapper'>
+						<div class='header-menu'><div>Home</div><div>About</div><div>Resources</div><div>Explore Data</div><div>Manage Data</div></div>
+					</div>
+				
+				</div>
+			
+			
+				<div id='species_title' class='title-wrapper'>
+					
+					<div class="title-header">
+					
+						Explore Species
+						
+					</div>
+				</div>
+				
+				<div class='explore_main'>
+				
+					
+					<table class="content_table">
+						<tbody>
+							<tr>
+								<td>
+									<div class='explore_stats explore_card visible'>
+										<!--div class='header'>
+											Explore stats:
 										</div-->
+										<!--table>
+											<tbody>
+												<tr>
+													<td class='explore_stats_projects'>
+														<big>348</big>
+														<small>Projects</small>
+													</td>
+													<td class='explore_stats_collaborators'>
+														
+														<big>888</big>
+														<small>Collaborators</small>
+													</td>
+													<td class='explore_stats_institutions'>
+														<big>76</big>
+														<small>Institutions</small>
+													</td>
+													<td class='explore_stats_publications'>
+														
+														<big>116</big>
+														<small>Publications</small>
+													</td>
+													<td class='explore_stats_stations'>
+														
+														<big>985</big>
+														<small>Stations</small>
+													</td>
+													<td class='explore_stats_species'>
+														
+														<big>233</big>
+														<small>Species</small>
+													</td>
+													<td class='explore_stats_animals'>
+														
+														<big>25,064</big>
+														<small>Animals</small>
+													</td>
+												</tr>
+											</tbody>
+										</table-->
 									</div>
-									<img class='timeline visible' src='https://i.postimg.cc/13ScwwVZ/Screenshot-2020-12-10-135353.png' alt='Click to enlarge' class='tips enlarge'/>
-								</div>
+									<!--div id='explore_controls'>
+										
+										<div>
+											
+											<span style='margin:0 20px;'>Filters</span>
+													
+									
+											
+											
+											<label for='explore_filters_regions'>
+											Region: 
+											</label>
+											<select id='explore_filters_regions'>
+												<option>Select a region</option>
+												<option>-------------------------------</option>
+											</select>
+											
+											
+											<label for='explore_filters_projects'>
+											Project:
+											</label>
+											<select id='explore_filters_projects'>
+												<option selected='selected' value='all'>Select a project</option>]
+											</select>
 
-									<div class="explore_map_container explore_metrics visible">
-										<div class='header'>
-											<div class='metric_controls'>
-												<img src='https://www.flaticon.com/svg/static/icons/svg/27/27223.svg' alt='Play animation' class='tips animate' />
-												<img src='https://www.flaticon.com/svg/static/icons/svg/724/724933.svg' alt='Download chart data' class='tips download' />
-												<img src='https://www.flaticon.com/svg/static/icons/svg/570/570953.svg' alt='Expand view' class='tips expand' />
-												<img src='https://www.flaticon.com/svg/static/icons/svg/157/157933.svg' alt='About these data' class='tips about' />
-											</div>
+											
+											
+											<label for='explore_filters_species'>
+											Species: 
+											</label>
+											<select id='explore_filters_species'>
+												<option selected='selected' value='all'>Select a species</option>
+											</select>
+											
+											<br/>
+											
+											
+											
+											
+									
+										</div-->
+										<div id='explore_controls'>
+											
+											
 										</div>
 										
-										<!--img class="explore_map explore_type_species mapSpecies_type_tracks" src="https://i.postimg.cc/NFh702RL/Screenshot-2020-12-11-113730.png">
-										<img class="explore_map explore_type_stations mapStations_type_points" src="https://i.postimg.cc/wBtMMfqT/Screenshot-2020-12-11-110650.png"-->
-										<!--img class="explore_map explore_type_stations mapStations_type_regions" src="https://i.postimg.cc/3wwD9cfh/Screenshot-2020-12-11-085808.png">
-										<img class="explore_map explore_type_species mapSpecies_type_regions" src="https://i.postimg.cc/3wwD9cfh/Screenshot-2020-12-11-085808.png"-->
-										<!--svg id="explore_map_regions" class="explore_map explore_type_stations explore_type_species mapStations_type_points mapSpecies_type_tracks explore-choropleth visible"> </svg-->
-										<!--svg id="explore_mapSpecies_regions" class="explore_map explore_type_species mapSpecies_type_regions explore-choropleth"> </svg-->
-								
 									</div>
-									<div class='explore_metrics'>
-										<div class='explore_species explore_type_stations'>
-											<div class='header'>Stations
-												<div class='metric_controls'>
-													<img src='https://www.flaticon.com/svg/static/icons/svg/724/724933.svg' alt='Download chart data' class='tips download'/>
-													<img src='https://www.flaticon.com/svg/static/icons/svg/570/570953.svg' alt='Expand view' class='tips expand'/>
-													<img src='https://www.flaticon.com/svg/static/icons/svg/157/157933.svg' alt='About these data' class='tips about'/>
+
+										<div id="explore_map_container">
+											<div class='header'>
+											
+											
+												<div class='filterButton toggleButton no-default'>
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-funnel" viewBox="0 0 16 16">
+														<path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z"/>
+													</svg>
+												</div><div class='toggleButton exploreBy selected no-default'>
+													<div class='mainstat'>
+														<b class='station_count'>922</b>
+														<span>stations</span>
+													</div><div class='toggleButton exploreTables exploreStationsTables show-selected'>
+														<b class='project_count'>331</b>
+														projects
+													</div>
+												</div><div class='toggleButton exploreBy no-default'>
+													<div class='mainstat'>
+														<b class='animal_count'>331</b>
+														<span>animals</span>
+													</div><div class='toggleButton exploreTables exploreSpeciesTables show-selected'>
+														<b class='species_count'>922</b>
+														species
+													</div><div class='toggleButton exploreTables exploreSpeciesTables show-selected'>
+														<b class='project_count'>331</b>
+														projects
+													</div><div class='toggleButton exploreTables exploreSpeciesTables show-selected'>
+														<b class='detection_count'>331</b>
+														detections
+													</div>
+												</div><div class='toggleButton animate_timeline'>
+													<div><img src='https://www.flaticon.com/svg/static/icons/svg/27/27223.svg' alt='Play animation' class='tips play' /></div><div class="show-selected">
+														<img src='https://www.flaticon.com/svg/static/icons/svg/151/151859.svg' alt='Pause animation' class='tips pause' />
+													</div><div class="show-selected">
+														<img src='https://www.flaticon.com/svg/static/icons/svg/727/727260.svg' alt='Stop animation' class='tips stop' />
+													</div>
 												</div>
 											</div>
-											<table class="table visible compact" id='explore_stations_table'>
-												<thead>
-													<tr>
-														<td></td>
-														<td>Project</td>
-														<!--td>Tag ID</td-->
-														<td>Station name</td>
-														<td>Location</td>
-														<td>Deployed since</td>
-														<td># Animals detected</td>
-														<td>Latest data</td>
-														<td></td>
-													</tr>
-												</thead>
-												<tbody>
-													<tr class='tips' alt='Click to view'>
-														<td>
-															<div class='legend_color' style='background-color:#F00'> </div>
-														</td>
-														<!--td>41 : 10324</td-->
-														<td>Atlantic Canada Shorebirds</td>
-														<td>Allison's</td>
-														<td>(46.1483, -64.0773)</td>
-														<td>July 26, 2020</td>
-														<td>12</td>
-														<td>Oct 25, 2020</td>
-														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
-													</tr>
-													<tr class='tips' alt='Click to view'>
-														<td>
-															<div class='legend_color' style='background-color:#FF0'> </div>
-														</td>
-														<td>Atlantic Canada Shorebirds</td>
-														<td>Salutation Cove</td>
-														<td>(46.3381, -63.785)</td>
-														<td>July 28, 2020</td>
-														<td>3</td>
-														<td>Oct 25, 2020</td>
-														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
-													</tr>
-													<tr class='tips' alt='Click to view'>
-														<td>
-															<div class='legend_color' style='background-color:#0F0'> </div>
-														</td>
-														<td>Atlantic Canada Shorebirds</td>
-														<td>Baie Verte</td>
-														<td>(46.0188, -64.1008)</td>
-														<td>July 24, 2020</td>
-														<td>38</td>
-														<td>Oct 26, 2020</td>
-														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
-													</tr>
-													<tr class='tips' alt='Click to view'>
-														<td>
-															<div class='legend_color' style='background-color:#0FF'> </div>
-														</td>
-														<td>Atlantic Canada Shorebirds</td>
-														<td>Linden</td>
-														<td>(45.8892, -63.8218)</td>
-														<td>July 22, 2020</td>
-														<td>26</td>
-														<td>Nov 05, 2020</td>
-														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
-													</tr>
-													<tr class='tips' alt='Click to view'>
-														<td>
-															<div class='legend_color' style='background-color:#00F'> </div>
-														</td>
-														<td>Atlantic Canada Shorebirds</td>
-														<td>Brule Point</td>
-														<td>(45.7551, -63.2108)</td>
-														<td>July 22, 2020</td>
-														<td>1st Year</td>
-														<td>Nov 18, 2020</td>
-														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
-													</tr>
-													<tr class='tips' alt='Click to view'>
-														<td>
-															<div class='legend_color' style='background-color:#F0F'> </div>
-														</td>
-														<td>Atlantic Canada Shorebirds</td>
-														<td>Pugwash</td>
-														<td>(45.8617, -63.7129)</td>
-														<td>July 21, 2020</td>
-														<td>Adult</td>
-														<td>Oct 18, 2020</td>
-														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
-													</tr>
-													<tr class='tips' alt='Click to view'>
-														<td>
-															<div class='legend_color' style='background-color:#000'> </div>
-														</td>
-														<td>Atlantic Canada Shorebirds</td>
-														<td>Big Island</td>
-														<td>(45.6495, -62.4565)</td>
-														<td>July 16, 2020</td>
-														<td>1st Year</td>
-														<td>Oct 18, 2020</td>
-														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
-													</tr>
-													<tr class='tips' alt='Click to view'>
-														<td>
-															<div class='legend_color' style='background-color:#FFF'> </div>
-														</td>
-														<td>Atlantic Canada Shorebirds</td>
-														<td>Hopewell</td>
-														<td>(45.8164, -64.5831)</td>
-														<td>July 10, 2020</td>
-														<td>1st Year</td>
-														<td>Nov 04, 2020</td>
-														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>
-									<div class='explore_metrics'>
-										<div class='explore_species explore_type_species'>
-											<div class='header'>Animals tagged
-												<div class='metric_controls'>
-													<img src='https://www.flaticon.com/svg/static/icons/svg/724/724933.svg' alt='Download chart data' class='tips download'/>
-													<img src='https://www.flaticon.com/svg/static/icons/svg/570/570953.svg' alt='Expand view' class='tips expand'/>
-													<img src='https://www.flaticon.com/svg/static/icons/svg/157/157933.svg' alt='About these data' class='tips about'/>
+											
+											<div id='filter_summary'>
+												<b>Showing stations from: </b>
+												<div class='explore_dates visible'>Dates: <span>all</span>;</div>
+												<div class='explore_stations'>Station: <span>all</span>;</div>
+												<div class='explore_projects'>Project: <span>all</span>;</div>
+												<div class='explore_regions'>Region: <span>all</span>;</div>
+												<div class='explore_species'>Species: <span>all</span>;</div>
+												<div class='explore_frequencies'>Frequency: <span>all</span>;</div>
+												<div class='clear_filters visible'><span>Clear all</span></div>
+											</div>
+											<div id='explore_filters'>
+												<div>
+													Filter: 
+													<div>
+														<select class='explore_stations' multiple='multiple' data-placeholder='All stations'>
+															<option value='all' ></option>
+														</select>
+													</div>
+													<div>
+														<select class='explore_projects' multiple='multiple' data-placeholder='All projects'>
+															<option value='all'></option>]
+														</select>
+													</div>
+													<div class='mapType_regions hidden'>
+														<select class='explore_regions' multiple='multiple' data-placeholder='All regions'>
+															<option value='all'></option>
+														</select>
+													</div>
+													<div class='dataType_species hidden'>
+														<select class='explore_species' multiple='multiple' data-placeholder='All species'>
+															<option value='all'></option>
+														</select>
+													</div>
+													<div>
+														<select class='explore_frequencies' multiple='multiple' style='width:170px;' data-placeholder='All frequencies'>
+															<option value='all'></option>
+															<!--option value='166.38'>166.380 MHz</option>
+															<option value='150.1'>150.1 MHz</option>
+															<option value='151.5'>151.5 MHz</option>
+															<option value='434'>434 MHz</option-->
+														</select>
+													</div>
+													<div>
+														Colour by: 
+														<select class='colourType_selector' style='width:170px;'>
+															<option value='nAnimals' selected='selected'>Number of animals</option>
+															<option value='status'>Status</option>
+															<option value='projID'>Project</option>
+															<option value='frequency'>Frequency</option>
+															<option value='species'>Species</option>
+															<option value='lastData'>Days since last data</option>
+														</select>
+													</div>
+												</div>
+												<div id='station_activityTimeline'>
+													<div class='slider visible'>
+														<div id="custom-handle-1" class="ui-slider-handle">
+															<!--div class="ui-slider-handle-text"></div-->
+														</div>
+														<div id="custom-handle-2" class="ui-slider-handle">
+															<!--div class="ui-slider-handle-text"></div-->
+														</div>
+													</div>
+													<!--img class='timeline visible' src='https://i.postimg.cc/13ScwwVZ/Screenshot-2020-12-10-135353.png' alt='Click to enlarge' class='tips enlarge'/-->
 												</div>
 											</div>
-											<table class="table visible compact" id='explore_species_table'>
-												<thead>
-													<tr>
-														<td></td>
-														<td>Project</td>
-														<!--td>Tag ID</td-->
-														<td>Species</td>
-														<td>Band Number</td>
-														<td>Deployment date</td>
-														<td>Age</td>
-														<td>Sex</td>
-														<td></td>
-													</tr>
-												</thead>
-												<tbody>
-													<tr class='tips' alt='Click to view'>
-														<td>
-															<div class='legend_color' style='background-color:#F00'> </div>
-														</td>
-														<!--td>41 : 10324</td-->
-														<td>Atlantic Canada Shorebirds</td>
-														<td>Semipalmated Sandpiper</td>
-														<td>1861-23452</td>
-														<td>August 3, 2019</td>
-														<td>Adult</td>
-														<td>?</td>
-														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
-													</tr>
-													<tr class='tips' alt='Click to view'>
-														<td>
-															<div class='legend_color' style='background-color:#FF0'> </div>
-														</td>
-														<td>Atlantic Canada Shorebirds</td>
-														<td>Semipalmated Sandpiper</td>
-														<td>1861-23454</td>
-														<td>August 3, 2019</td>
-														<td>1st Year</td>
-														<td>?</td>
-														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
-													</tr>
-													<tr class='tips' alt='Click to view'>
-														<td>
-															<div class='legend_color' style='background-color:#0F0'> </div>
-														</td>
-														<td>Atlantic Canada Shorebirds</td>
-														<td>Semipalmated Sandpiper</td>
-														<td>1861-23461</td>
-														<td>August 3, 2019</td>
-														<td>Adult</td>
-														<td>?</td>
-														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
-													</tr>
-													<tr class='tips' alt='Click to view'>
-														<td>
-															<div class='legend_color' style='background-color:#0FF'> </div>
-														</td>
-														<td>Atlantic Canada Shorebirds</td>
-														<td>Semipalmated Sandpiper</td>
-														<td>1861-23462</td>
-														<td>August 4, 2019</td>
-														<td>1st Year</td>
-														<td>?</td>
-														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
-													</tr>
-													<tr class='tips' alt='Click to view'>
-														<td>
-															<div class='legend_color' style='background-color:#00F'> </div>
-														</td>
-														<td>Atlantic Canada Shorebirds</td>
-														<td>Semipalmated Sandpiper</td>
-														<td>1861-23466</td>
-														<td>August 4, 2019</td>
-														<td>1st Year</td>
-														<td>?</td>
-														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
-													</tr>
-													<tr class='tips' alt='Click to view'>
-														<td>
-															<div class='legend_color' style='background-color:#F0F'> </div>
-														</td>
-														<td>Atlantic Canada Shorebirds</td>
-														<td>Semipalmated Sandpiper</td>
-														<td>1861-23468</td>
-														<td>August 4, 2019</td>
-														<td>Adult</td>
-														<td>?</td>
-														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
-													</tr>
-													<tr class='tips' alt='Click to view'>
-														<td>
-															<div class='legend_color' style='background-color:#000'> </div>
-														</td>
-														<td>Atlantic Canada Shorebirds</td>
-														<td>Semipalmated Sandpiper</td>
-														<td>1861-23490</td>
-														<td>August 5, 2019</td>
-														<td>1st Year</td>
-														<td>?</td>
-														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
-													</tr>
-													<tr class='tips' alt='Click to view'>
-														<td>
-															<div class='legend_color' style='background-color:#FFF'> </div>
-														</td>
-														<td>Atlantic Canada Shorebirds</td>
-														<td>Semipalmated Sandpiper</td>
-														<td>1861-23511</td>
-														<td>August 18, 2019</td>
-														<td>1st Year</td>
-														<td>?</td>
-														<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
-													</tr>
-												</tbody>
-											</table>
+											<!--img class="explore_map explore_type_species mapSpecies_type_tracks" src="https://i.postimg.cc/NFh702RL/Screenshot-2020-12-11-113730.png">
+											<img class="explore_map explore_type_stations mapStations_type_points" src="https://i.postimg.cc/wBtMMfqT/Screenshot-2020-12-11-110650.png"-->
+											<!--img class="explore_map explore_type_stations mapStations_type_regions" src="https://i.postimg.cc/3wwD9cfh/Screenshot-2020-12-11-085808.png">
+											<img class="explore_map explore_type_species mapSpecies_type_regions" src="https://i.postimg.cc/3wwD9cfh/Screenshot-2020-12-11-085808.png"-->
+											<!--svg id="explore_map_regions" class="explore_map explore_type_stations explore_type_species mapStations_type_points mapSpecies_type_tracks explore-choropleth visible"> </svg-->
+											<!--svg id="explore_mapSpecies_regions" class="explore_map explore_type_species mapSpecies_type_regions explore-choropleth"> </svg-->
+											<div class='mapType_table hidden'>
+												<div class='mapBy-controls'>
+													<div class='toggleButton mapBy dataType_stations selected'>Points</div>
+													<div class='toggleButton mapBy dataType_stations'>Regions</div>
+													<div class='toggleButton mapBy dataType_species'>Deployments</div>
+													<div class='toggleButton mapBy dataType_species'>Tracks</div>
+													<div class='toggleButton mapBy'>Table</div>
+												</div>
+												<table id='exploreTable'></table>
+											</div>
 										</div>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+										<div class='explore_metrics'>
+											<div class='explore_species explore_type_stations'>
+												<div class='header'>Stations
+													<div class='metric_controls'>
+														<img src='https://www.flaticon.com/svg/static/icons/svg/724/724933.svg' alt='Download chart data' class='tips download'/>
+														<img src='https://www.flaticon.com/svg/static/icons/svg/570/570953.svg' alt='Expand view' class='tips expand'/>
+														<img src='https://www.flaticon.com/svg/static/icons/svg/157/157933.svg' alt='About these data' class='tips about'/>
+													</div>
+												</div>
+												<table class="table visible compact" id='explore_stations_table'>
+													<thead>
+														<tr>
+															<td></td>
+															<td>Project</td>
+															<!--td>Tag ID</td-->
+															<td>Station name</td>
+															<td>Location</td>
+															<td>Deployed since</td>
+															<td># Animals detected</td>
+															<td>Latest data</td>
+															<td></td>
+														</tr>
+													</thead>
+													<tbody>
+														<tr class='tips' alt='Click to view'>
+															<td>
+																<div class='legend_color' style='background-color:#F00'> </div>
+															</td>
+															<!--td>41 : 10324</td-->
+															<td>Atlantic Canada Shorebirds</td>
+															<td>Allison's</td>
+															<td>(46.1483, -64.0773)</td>
+															<td>July 26, 2020</td>
+															<td>12</td>
+															<td>Oct 25, 2020</td>
+															<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+														</tr>
+														<tr class='tips' alt='Click to view'>
+															<td>
+																<div class='legend_color' style='background-color:#FF0'> </div>
+															</td>
+															<td>Atlantic Canada Shorebirds</td>
+															<td>Salutation Cove</td>
+															<td>(46.3381, -63.785)</td>
+															<td>July 28, 2020</td>
+															<td>3</td>
+															<td>Oct 25, 2020</td>
+															<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+														</tr>
+														<tr class='tips' alt='Click to view'>
+															<td>
+																<div class='legend_color' style='background-color:#0F0'> </div>
+															</td>
+															<td>Atlantic Canada Shorebirds</td>
+															<td>Baie Verte</td>
+															<td>(46.0188, -64.1008)</td>
+															<td>July 24, 2020</td>
+															<td>38</td>
+															<td>Oct 26, 2020</td>
+															<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+														</tr>
+														<tr class='tips' alt='Click to view'>
+															<td>
+																<div class='legend_color' style='background-color:#0FF'> </div>
+															</td>
+															<td>Atlantic Canada Shorebirds</td>
+															<td>Linden</td>
+															<td>(45.8892, -63.8218)</td>
+															<td>July 22, 2020</td>
+															<td>26</td>
+															<td>Nov 05, 2020</td>
+															<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+														</tr>
+														<tr class='tips' alt='Click to view'>
+															<td>
+																<div class='legend_color' style='background-color:#00F'> </div>
+															</td>
+															<td>Atlantic Canada Shorebirds</td>
+															<td>Brule Point</td>
+															<td>(45.7551, -63.2108)</td>
+															<td>July 22, 2020</td>
+															<td>1st Year</td>
+															<td>Nov 18, 2020</td>
+															<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+														</tr>
+														<tr class='tips' alt='Click to view'>
+															<td>
+																<div class='legend_color' style='background-color:#F0F'> </div>
+															</td>
+															<td>Atlantic Canada Shorebirds</td>
+															<td>Pugwash</td>
+															<td>(45.8617, -63.7129)</td>
+															<td>July 21, 2020</td>
+															<td>Adult</td>
+															<td>Oct 18, 2020</td>
+															<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+														</tr>
+														<tr class='tips' alt='Click to view'>
+															<td>
+																<div class='legend_color' style='background-color:#000'> </div>
+															</td>
+															<td>Atlantic Canada Shorebirds</td>
+															<td>Big Island</td>
+															<td>(45.6495, -62.4565)</td>
+															<td>July 16, 2020</td>
+															<td>1st Year</td>
+															<td>Oct 18, 2020</td>
+															<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+														</tr>
+														<tr class='tips' alt='Click to view'>
+															<td>
+																<div class='legend_color' style='background-color:#FFF'> </div>
+															</td>
+															<td>Atlantic Canada Shorebirds</td>
+															<td>Hopewell</td>
+															<td>(45.8164, -64.5831)</td>
+															<td>July 10, 2020</td>
+															<td>1st Year</td>
+															<td>Nov 04, 2020</td>
+															<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<div class='explore_metrics'>
+											<div class='explore_species explore_type_species'>
+												<div class='header'>Animals tagged
+													<div class='metric_controls'>
+														<img src='https://www.flaticon.com/svg/static/icons/svg/724/724933.svg' alt='Download chart data' class='tips download'/>
+														<img src='https://www.flaticon.com/svg/static/icons/svg/570/570953.svg' alt='Expand view' class='tips expand'/>
+														<img src='https://www.flaticon.com/svg/static/icons/svg/157/157933.svg' alt='About these data' class='tips about'/>
+													</div>
+												</div>
+												<table class="table visible compact" id='explore_species_table'>
+													<thead>
+														<tr>
+															<td></td>
+															<td>Project</td>
+															<!--td>Tag ID</td-->
+															<td>Species</td>
+															<td>Band Number</td>
+															<td>Deployment date</td>
+															<td>Age</td>
+															<td>Sex</td>
+															<td></td>
+														</tr>
+													</thead>
+													<tbody>
+														<tr class='tips' alt='Click to view'>
+															<td>
+																<div class='legend_color' style='background-color:#F00'> </div>
+															</td>
+															<!--td>41 : 10324</td-->
+															<td>Atlantic Canada Shorebirds</td>
+															<td>Semipalmated Sandpiper</td>
+															<td>1861-23452</td>
+															<td>August 3, 2019</td>
+															<td>Adult</td>
+															<td>?</td>
+															<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+														</tr>
+														<tr class='tips' alt='Click to view'>
+															<td>
+																<div class='legend_color' style='background-color:#FF0'> </div>
+															</td>
+															<td>Atlantic Canada Shorebirds</td>
+															<td>Semipalmated Sandpiper</td>
+															<td>1861-23454</td>
+															<td>August 3, 2019</td>
+															<td>1st Year</td>
+															<td>?</td>
+															<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+														</tr>
+														<tr class='tips' alt='Click to view'>
+															<td>
+																<div class='legend_color' style='background-color:#0F0'> </div>
+															</td>
+															<td>Atlantic Canada Shorebirds</td>
+															<td>Semipalmated Sandpiper</td>
+															<td>1861-23461</td>
+															<td>August 3, 2019</td>
+															<td>Adult</td>
+															<td>?</td>
+															<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+														</tr>
+														<tr class='tips' alt='Click to view'>
+															<td>
+																<div class='legend_color' style='background-color:#0FF'> </div>
+															</td>
+															<td>Atlantic Canada Shorebirds</td>
+															<td>Semipalmated Sandpiper</td>
+															<td>1861-23462</td>
+															<td>August 4, 2019</td>
+															<td>1st Year</td>
+															<td>?</td>
+															<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+														</tr>
+														<tr class='tips' alt='Click to view'>
+															<td>
+																<div class='legend_color' style='background-color:#00F'> </div>
+															</td>
+															<td>Atlantic Canada Shorebirds</td>
+															<td>Semipalmated Sandpiper</td>
+															<td>1861-23466</td>
+															<td>August 4, 2019</td>
+															<td>1st Year</td>
+															<td>?</td>
+															<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+														</tr>
+														<tr class='tips' alt='Click to view'>
+															<td>
+																<div class='legend_color' style='background-color:#F0F'> </div>
+															</td>
+															<td>Atlantic Canada Shorebirds</td>
+															<td>Semipalmated Sandpiper</td>
+															<td>1861-23468</td>
+															<td>August 4, 2019</td>
+															<td>Adult</td>
+															<td>?</td>
+															<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+														</tr>
+														<tr class='tips' alt='Click to view'>
+															<td>
+																<div class='legend_color' style='background-color:#000'> </div>
+															</td>
+															<td>Atlantic Canada Shorebirds</td>
+															<td>Semipalmated Sandpiper</td>
+															<td>1861-23490</td>
+															<td>August 5, 2019</td>
+															<td>1st Year</td>
+															<td>?</td>
+															<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+														</tr>
+														<tr class='tips' alt='Click to view'>
+															<td>
+																<div class='legend_color' style='background-color:#FFF'> </div>
+															</td>
+															<td>Atlantic Canada Shorebirds</td>
+															<td>Semipalmated Sandpiper</td>
+															<td>1861-23511</td>
+															<td>August 18, 2019</td>
+															<td>1st Year</td>
+															<td>?</td>
+															<td><img class="icon tips" src="https://www.flaticon.com/svg/static/icons/svg/61/61456.svg" width="20", alt="Manage this tag"></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						</div>
 					</div>
 					
 					<script type='text/javascript' src='leafletMap.js'></script>
