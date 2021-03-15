@@ -64,6 +64,7 @@
 3062,"Montagu's Harrier","Busard cendré","Circus pygargus",NA,"BIRDS",4541
 3330,"Swainson's Hawk","Buse de Swainson","Buteo swainsoni",NA,"BIRDS",4724
 7680,"Northern Saw-whet Owl","Petite Nyctale","Aegolius acadicus",NA,"BIRDS",5135
+33430,"Laughing Kookaburra","Martin-chasseur géant","Dacelo novaeguineae",NA,"BIRDS",5477
 10220,"Yellow-bellied Sapsucker","Pic maculé","Sphyrapicus varius",NA,"BIRDS",6055
 10030,"Lewis's Woodpecker","Pic de Lewis","Melanerpes lewis",NA,"BIRDS",6070
 10370,"Black-backed Woodpecker","Pic à dos noir","Picoides arcticus",NA,"BIRDS",6111
@@ -86,6 +87,7 @@
 14280,"Black-capped Chickadee","Mésange à tête noire","Poecile atricapillus",NA,"BIRDS",11181
 14320,"Boreal Chickadee","Mésange à tête brune","Poecile hudsonicus",NA,"BIRDS",11191
 14040,"Horned Lark","Alouette hausse-col","Eremophila alpestris",NA,"BIRDS",11359
+14030,"Eurasian Skylark","Alouette des champs","Alauda arvensis",NA,"BIRDS",11416
 36307,"Eastern Olivaceous Warbler","Hypolaïs pâle","Iduna pallida",NA,"BIRDS",11723
 36308,"Western Olivaceous Warbler","Hypolaïs obscure","Iduna opaca",NA,"BIRDS",11724
 36311,"Melodious Warbler","Hypolaïs polyglotte","Hippolais polyglotta",NA,"BIRDS",11731
@@ -97,6 +99,7 @@
 14250,"Barn Swallow","Hirondelle rustique","Hirundo rustica",NA,"BIRDS",11995
 14230,"Cliff Swallow","Hirondelle à front blanc","Petrochelidon pyrrhonota",NA,"BIRDS",12044
 15050,"Yellow-browed Warbler","Pouillot à grands sourcils","Phylloscopus inornatus",NA,"BIRDS",12334
+36377,"Common Chiffchaff","Pouillot véloce","Phylloscopus collybita",NA,"BIRDS",12364
 36466,"Eurasian Blackcap","Fauvette à tête noire","Sylvia atricapilla",NA,"BIRDS",12557
 36467,"Garden Warbler","Fauvette des jardins","Sylvia borin",NA,"BIRDS",12558
 36475,"Greater Whitethroat","Fauvette grisette","Sylvia communis",NA,"BIRDS",12601
@@ -124,12 +127,16 @@
 38790,"Long-tailed Finch","Diamant à longue queue","Poephila acuticauda",NA,"BIRDS",15267
 38804,"Gouldian Finch","Diamant de Gould","Erythrura gouldiae",NA,"BIRDS",15287
 35912,"Dunnock","Accenteur mouchet","Prunella modularis",NA,"BIRDS",15381
+20910,"House Sparrow","Moineau domestique","Passer domesticus",NA,"BIRDS",15387
 16250,"Tree Pipit","Pipit des arbres","Anthus trivialis",NA,"BIRDS",15544
 16290,"American Pipit","Pipit d'Amérique","Anthus rubescens",NA,"BIRDS",15561
 20110,"Brambling","Pinson du Nord","Fringilla montifringilla",NA,"BIRDS",15610
 20570,"Evening Grosbeak","Gros-bec errant","Coccothraustes vespertinus",NA,"BIRDS",15660
 20310,"Pine Grosbeak","Durbec des sapins","Pinicola enucleator",NA,"BIRDS",15756
+20300,"Brown-capped Rosy-Finch","Roselin à tête brune","Leucosticte australis",NA,"BIRDS",15795
 20420,"Pine Siskin","Tarin des pins","Spinus pinus",NA,"BIRDS",15940
+19160,"Chestnut-collared Longspur","Plectrophane à ventre noir","Calcarius ornatus",NA,"BIRDS",15975
+19130,"McCown's Longspur","Plectrophane de McCown","Rhynchophanes mccownii",NA,"BIRDS",15977
 19250,"Snow Bunting","Plectrophane des neiges","Plectrophenax nivalis",NA,"BIRDS",15979
 45947,"Reed Bunting","Bruant des roseaux","Emberiza schoeniclus",NA,"BIRDS",16033
 18900,"Grasshopper Sparrow","Bruant sauterelle","Ammodramus savannarum",NA,"BIRDS",16094
@@ -216,6 +223,7 @@
 124190,"California Myotis Bat","","Myotis californicus",NA,"MAMMALS",124190
 124240,"Pond Bat","","Myotis dasycneme",NA,"MAMMALS",124240
 124290,"Long-eared Myotis Bat","","Myotis evotis",NA,"MAMMALS",124290
+124422,"Northern Long-eared Myotis","vespertilion nordique","Myotis septentrionalis",NA,"MAMMALS",124422
 124430,"Small-footed Myotis","chauve-souris pygmée","Myotis leibii",NA,"MAMMALS",124430
 124470,"Little Brown Bat (Myotis)","petite chauve-souris brune","Myotis lucifugus",NA,"MAMMALS",124470
 124960,"Noctule Bat","","Nyctalus noctula",NA,"MAMMALS",124960

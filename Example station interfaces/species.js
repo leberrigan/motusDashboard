@@ -46,16 +46,18 @@ var filters = {
 var motusFilter = {
 	dtStart: new Date('2014-02-05'),
 	dtEnd: new Date('2021-04-20'),
-	species: "all",
-	regions: "all",
-	projects: "all",
-	stations: "all",
-	frequencies: "all",
+	species: ["all"],
+	regions: ["all"],
+	projects: ["all"],
+	stations: ["all"],
+	frequencies: ["all"],
 	colour: ''
 };
 var URLdataType = null,
 	URLmapType = null;
 	
+var isMobile = false;
+
 function updateURL() {
 	
 	var stateToPush = '?'+
@@ -67,6 +69,7 @@ function updateURL() {
 		'&regions=' + encodeURIComponent(motusFilter.regions.filter(onlyUnique)) + 
 		'&projects=' + encodeURIComponent(motusFilter.projects.filter(onlyUnique)) + 
 		'&stations=' + encodeURIComponent(motusFilter.stations.filter(onlyUnique)) + 
+		'&status=' + encodeURIComponent(motusFilter.status.filter(onlyUnique)) + 
 		'&frequencies=' + encodeURIComponent(motusFilter.frequencies.filter(onlyUnique)) + 
 		'&colour=' + encodeURIComponent(motusFilter.colour);
 	
@@ -77,6 +80,8 @@ function updateURL() {
 
 $(document).ready(function(){
 	
+	isMobile = window.mobileCheck();
+	
 	var urlFilter = {
 		dtStart: getUrlParameter('dtStart'),
 		dtEnd: getUrlParameter('dtEnd'),
@@ -84,6 +89,7 @@ $(document).ready(function(){
 		regions: getUrlParameter('regions'),
 		projects: getUrlParameter('projects'),
 		stations: getUrlParameter('stations'),
+		status: getUrlParameter('status'),
 		frequencies: getUrlParameter('frequencies'),
 		colour: getUrlParameter('colour')
 	};
@@ -92,10 +98,11 @@ $(document).ready(function(){
 		dtStart: urlFilter.dtStart === undefined ? new Date(motusFilter.dtStart) : new Date(urlFilter.dtStart),
 		dtEnd: urlFilter.dtEnd === undefined ? new Date(motusFilter.dtEnd) : new Date(urlFilter.dtEnd),
 		species: urlFilter.species === undefined ? filters.selected.species : urlFilter.species.split(','),
-		regions: urlFilter.regions === undefined ? "all" : urlFilter.regions.split(','),
-		projects: urlFilter.projects === undefined ? "all" : urlFilter.projects.split(','),
-		stations: urlFilter.stations === undefined ? "all" : urlFilter.stations.split(','),
-		frequencies: urlFilter.frequencies === undefined ? "all" : urlFilter.frequencies.split(','),
+		regions: urlFilter.regions === undefined ? ["all"] : urlFilter.regions.split(','),
+		projects: urlFilter.projects === undefined ? ["all"] : urlFilter.projects.split(','),
+		stations: urlFilter.stations === undefined ? ["all"] : urlFilter.stations.split(','),
+		status: urlFilter.status === undefined ? ["all"] : urlFilter.status.split(','),
+		frequencies: urlFilter.frequencies === undefined ? ["all"] : urlFilter.frequencies.split(','),
 		colour: $("#explore_filters .colourType_selector option[value='" + urlFilter.colour + "']").length == 0 ? $("#explore_filters .colourType_selector").select2('val') : urlFilter.colour
 	};
 	
@@ -116,6 +123,8 @@ $(document).ready(function(){
 	}
 	
 	
+	//Promise.all([d3.csv("https://github.com/leberrigan/motusDashboard/raw/leaflet/Example%20station%20interfaces/data/projs.csv"), d3.csv("https://github.com/leberrigan/motusDashboard/raw/leaflet/Example%20station%20interfaces/data/recv-deps.csv"), d3.csv("https://github.com/leberrigan/motusDashboard/raw/leaflet/Example%20station%20interfaces/data/spp.csv"), d3.csv("https://raw.githubusercontent.com/leberrigan/motusDashboard/leaflet/Example%20station%20interfaces/data/tag-deps.csv")]).then(readData);
+
 	Promise.all([d3.csv("data/projs.csv"), d3.csv("data/recv-deps.csv"), d3.csv("data/spp.csv"), d3.csv("data/tag-deps.csv")]).then(readData);
 
 
@@ -406,7 +415,7 @@ function addExploreCard(card) {
 		}
 		
 		
-		if (typeof motusFilter[card.type] === 'string') {motusFilter[card.type] = [];}
+		if (typeof motusFilter[card.type][0] === 'all') {motusFilter[card.type] = [];}
 		
 		motusFilter[card.type].push(String(card.id));
 		
@@ -683,7 +692,7 @@ function setFilter(e) {
 		
 		var newFilter = $(e.target).val();
 		
-		newFilter = newFilter.length == 0 ? 'all' : newFilter;
+		newFilter = newFilter.length == 0 ? ['all'] : newFilter;
 		
 		motusFilter[filterName] = newFilter;
 		

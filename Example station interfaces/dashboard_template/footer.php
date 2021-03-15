@@ -1,4 +1,5 @@
 
-					<script src="<?php bloginfo('template_url'); ?>/mainInterface_svgMap.js"></script>
+					<script type='text/javascript' src='<?php bloginfo('template_url'); ?>/leafletMap.js'></script>
 				</body>
 			</html>
+			

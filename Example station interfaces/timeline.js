@@ -2,19 +2,22 @@
 var timeline = {};
 
 function exploreTimeline({
-	el = "station_activityTimeline",
+	el = "#dateSlider .slider",
 	timer_length = 3000,
-	min = new Date('2014-02-05').getTime() / 1000,
-	max = new Date('2021-04-20').getTime() / 1000,
+	min = moment('2014-02-05').unix(),
+	max = moment('2021-04-20').unix(),
 	range = 0,
 	step = 86400,
-	startVal = new Date('2014-02-05').getTime(),
+	startVal = moment('2014-02-05').unix(),
 	distance = 0,
 	svg = {},
 	position = [0,0],
+	width = 500,
+	height = 40,
 	status = 'off',
 	timerStartTime = 0,
-	timerElapsed = 0
+	timerElapsed = 0,
+	defaultValues = [ motusFilter.dtStart.unix(), motusFilter.dtEnd.unix() ]
 } = {}) {
 	timeline = {
 		el: el,
@@ -31,6 +34,7 @@ function exploreTimeline({
 		status: status,
 		timerStartTime: timerStartTime,
 		timerElapsed: timerElapsed,
+		defaultValues: defaultValues,
 		animate: function(e) {
 			// So we can pause and restart the animation
 			e += timeline.timerElapsed;
@@ -60,19 +64,34 @@ function exploreTimeline({
 			timeline.timer.stop();
 			timeline.setSlider(timeline.position);
 			
-			if (!$(".filterButton").hasClass('selected')) {$('#explore_filters > #station_activityTimeline').hide();}
+			if (!$(".filterButton").hasClass('selected')) {$(el).parent().hide();}
 			$('#explore_filters').css({marginBottom:"-" + $('#explore_filters').innerHeight() + "px"});
 			$(".animate_timeline").removeClass('selected');
 			timeline.status = 'stop';
 			map.setVisibility();
 		},
-		setSlider: function(position) {
-			$("#" + timeline.el).dragslider( 'values', position);
+		setSlider: function(position, fromPicker) {
+			
+			if (!fromPicker) {
+				position = [moment.unix( position[0] ), moment.unix( position[1] )];
+			} else {
+				$(el).dragslider( 'values', [position[0].unix(), position[1].unix()]);
+			}
+			
+//			console.log(position);
+		
 			// Set the Motus data filters
-			motusFilter.dtStart = new Date( position[0] * 1000 );
-			motusFilter.dtEnd = new Date( position[1] * 1000 );
+			motusFilter.dtStart = position[0];
+			motusFilter.dtEnd = position[1];
+			
 			// Set the text in the slider handles
-			$('#filter_summary .explore_dates > span').text((new Date( motusFilter.dtStart ).toISOString().substr(0,10)) + " - " + (new Date( motusFilter.dtEnd ).toISOString().substr(0,10)))
+		//	$('#filter_dates').text(( motusFilter.dtStart.toISOString().substr(0,10)) + " - " + ( motusFilter.dtEnd.toISOString().substr(0,10)));
+			
+			if ($('#filter_dates').length > 0 && !fromPicker) {
+				$('#filter_dates').data('daterangepicker').setStartDate(motusFilter.dtStart);
+				$('#filter_dates').data('daterangepicker').setEndDate(motusFilter.dtEnd);
+			}
+			//updateURL()
 		},
 		changeAnimationState: function(e) {
 	
@@ -81,7 +100,7 @@ function exploreTimeline({
 			if (timeline.status == 'play') {
 
 				if (!$(this).hasClass('selected')) {
-					$('#explore_filters > #station_activityTimeline:hidden').show();
+					$(el).parent().show();
 					$(this).addClass('selected');
 					$('#explore_filters').css({marginBottom:"-" + $('#explore_filters').innerHeight() + "px"});
 				}
@@ -96,12 +115,10 @@ function exploreTimeline({
 			
 		},
 		createLegend: function () {
-			
 			// timeline.min and *.max must be set prior to call
 		
 		
-			$().append("<svg id='activityTimeline' width='" + $("#explore_map_container").innerWidth() + "'></svg>");
-			
+			$(el).parent().append(`<svg id='activityTimeline' width='${width}' height='${height}'></svg>`);
 			var timeLineRange = [
 					{
 						label: "", 
@@ -120,17 +137,18 @@ function exploreTimeline({
 					tickTime: d3.timeDays, 
 					numTicks: 10, 
 					tickSize: 6})
-				.margin({left: 0, right: 0, top: 0, bottom: 0});
+				.margin({left: 0, right: 30, top: 0, bottom: 0});
 			
 			timeline.svg = d3.select("#activityTimeline")
 				.datum(timeLineRange).call(timeLineConstruct);
+				
 		}
 			
 
 	};
 	
 	
-	$("#station_activityTimeline .timeline").click(function(){
+	$(el+" .timeline").click(function(){
 	
 		if ($(this).hasClass('graph') & !$(this).closest(".explore_metrics").children(".visible").hasClass('graph')) {
 			$(this).closest(".explore_metrics").children(".visible").removeClass('visible').siblings('.graph').addClass('visible');	
@@ -183,28 +201,31 @@ function exploreTimeline({
 	
 	});
 	
-	$("#station_activityTimeline .slider").dragslider({
+	
+	$(el).dragslider({
 		range: true,
 		rangeDrag: true,
 		min: timeline.min,
 		max: timeline.max,
 		step: timeline.step,
-		values: [ motusFilter.dtStart.getTime() / 1000, motusFilter.dtEnd.getTime() / 1000 ],
+		values: defaultValues,
 		create: function(e, ui) {
-			timeline.position = $(this).dragslider("values")
-			timeline.setSlider(timeline.position);
+			timeline.position = $(this).dragslider("values");
+		//	timeline.setSlider(timeline.position);
 		//	updateURL();
 			$(".ui-slider .ui-slider-handle").focus(function(){$(this).blur();});
-			map.setVisibility();
+			if (motusMap.setVisibility) {motusMap.setVisibility();}
 		},
 		slide: function( event, ui ) {
+			
+			$("#explore_filters").parent(":not(.active)").addClass('active');
 			timeline.position = $(this).dragslider("values");
 			timeline.setSlider(timeline.position);
-			map.setVisibility();
+			motusMap.setVisibility();
 		},
 		stop: updateURL
 	});
-	timeline.range = $("#" + timeline.el).dragslider('option', 'max') - $("#" + timeline.el).dragslider('option', 'min');
+	timeline.range = $(el).dragslider('option', 'max') - $(el).dragslider('option', 'min');
 	
 }
 
@@ -216,7 +237,7 @@ function animateTimeline() {
 	
 	timeline.distance = (timeline.distance / timeline.range) > 0.99 ? timeline.range / 100 : timeline.distance;
 
-	$("#station_activityTimeline .slider").dragslider('values', [timeline.min, timeline.min + timeline.distance]);
+	$(el).find(".slider").dragslider('values', [timeline.min, timeline.min + timeline.distance]);
 
 	timeline.timer_length = 3000 - (3000 * timeline.distance / timeline.range);
 				

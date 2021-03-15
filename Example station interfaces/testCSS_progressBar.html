@@ -1,0 +1,26 @@
+<style>
+	.progress-ring__circle {
+		transition: 0.35s stroke-dashoffset;
+		// axis compensation
+		transform: rotate(-90deg);
+		transform-origin: 50% 50%;
+	}
+</style>
+
+
+
+<svg class="progress-ring" width="120" height="120">
+  <circle class="progress-ring__circle" stroke="red" stroke-width="4" fill="transparent" r="52" cx="60" cy="60"/>
+</svg>
+
+var circumference = radius * 2 * Math.PI;
+
+
+circle.style.strokeDasharray = `${circumference} ${circumference}`;
+circle.style.strokeDashoffset = `${circumference}`;
+
+
+function setProgress(percent) {
+  const offset = circumference - percent / 100 * circumference;
+  circle.style.strokeDashoffset = offset;
+}

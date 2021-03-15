@@ -40,7 +40,7 @@
 				timeIsRelative = false,
 				timeIsLinear = false,
 				fullLengthBackgrounds = false,
-				itemHeight = 20,
+				itemHeight = 10,
 				itemMargin = 5,
 				navMargin = 60,
 				showTimeAxis = true,
@@ -59,7 +59,6 @@
 				xScale = null,
 				xAxis = null
 			;
-
 		var appendTimeAxis = function(g, xAxis, yPosition) {
 
 			if(showAxisHeaderBackground){ appendAxisHeaderBackground(g, 0, 0); }
@@ -73,7 +72,7 @@
 
 			return axis;
 		};
-
+		
 		var appendTimeAxisCalendarYear = function (nav) {
 			var calendarLabel = beginning.getFullYear();
 
@@ -163,7 +162,7 @@
 			var rowsDown          = margin.top + (fullItemHeight/2) + fullItemHeight * (yAxisMapping[index] || 1);
 
 			gParent.append("text")
-				.attr("class", "timeline-label")
+				.attr("class", "timeline-label " + datum.class)
 				.attr("transform", "translate(" + labelMargin + "," + rowsDown + ")")
 				.text(hasLabel ? labelFunction(datum.label) : datum.id)
 				.on("click", function (d, i) {
@@ -195,7 +194,6 @@
 				maxTime = 0;
 
 			setWidth();
-
 			// check if the user wants relative time
 			// if so, substract the first timestamp from each subsequent timestamps
 			if(timeIsRelative){
@@ -216,7 +214,8 @@
 				});
 
 			}
-
+			
+		
 			// check how many stacks we're gonna need
 			// do this here so that we can draw the axis before the graph
 			if (stacked || ending === 0 || beginning === 0) {
@@ -237,6 +236,8 @@
 							if(ending === 0)
 								if (time.ending_time > maxTime)
 									maxTime = time.ending_time;
+								else if (typeof time.ending_time === "undefined" && time.starting_time > maxTime)
+									maxTime = time.starting_time;
 						});
 					});
 				});
@@ -250,7 +251,9 @@
 			}
 
 			var scaleFactor = (1/(ending - beginning)) * (width - margin.left - margin.right);
-
+			
+			
+			
 			function formatDays(d) {
 					var days = Math.floor(d / 86400),
 							hours = Math.floor((d - (days * 86400)) / 3600),
@@ -294,7 +297,6 @@
 						.tickFormat(tickFormat.format)
 						.tickSize(tickFormat.tickSize);
 			}
-
 			if (tickFormat.tickValues !== null) {
 				xAxis.tickValues(tickFormat.tickValues);
 			} else {
@@ -320,7 +322,7 @@
 					}
 
 					if (backgroundColor) { appendBackgroundBar(yAxisMapping, index, g, data, datum); }
-
+					
 					view.selectAll("svg")
 						.data(data).enter()
 						.append(function(d, i) {
@@ -367,7 +369,7 @@
 							click(d, index, datum, selectedLabel, selectedRect, xScale.invert(point[0]));
 						})
 						.attr("class", function (d, i) {
-							return datum.class ? "timelineeries_"+datum.class : "timelineeries_"+index;
+							return datum.class ? datum.class : "timelineeries_"+index;
 						})
 						.attr("id", function(d, i) {
 							// use deprecated id field
@@ -470,35 +472,54 @@
 			if (showTimeAxis) { gX = appendTimeAxis(g, xAxis, timeAxisYPosition); }
 			if (timeAxisTick) { appendTimeAxisTick(g, xAxis, maxStack); }
 
-			if (width > gParentSize.width) { // only if the scrolling should be allowed
-				var move = function() {
+			//if (width > gParentSize.width) { // only if the scrolling should be allowed
+				var move = function(event) {
+					console.log(event);
 					g.select(".view")
-					.attr("transform", "translate(" + event.transform.x + ",0)"
+					.attr("transform", "translate(" + event.transform.x + ", 0)"
 														 + "scale(" + event.transform.k + " 1)");
-
 					g.selectAll(".timeline-xAxis")
 						.attr("transform", function(d) {
 							 return "translate(" + event.transform.x + ", " + timeAxisYPosition + ")"
-										+ "scale(" + event.transform.k + " 1)";
+										+ "scale(" + event.transform.k + " " + event.transform.k + ")";
 						});
-
+/*
+						
+					g.selectAll(".timeline-yAxis")
+						.attr("transform", function(d) {
+							 return "translate(" + timeAxisXPosition + ", " + event.transform.y + ")"
+										+ "scale(" + event.transform.k + " " + event.transform.k + ")";
+						});*/
+					/*
 					var new_xScale = event.transform.rescaleX(xScale);
 					g.selectAll('.timeline-xAxis').call(function(d) { xAxis.scale(new_xScale); });
-
+					
+					var new_yScale = event.transform.rescaleY(yScale);
+					g.selectAll('.timeline-yAxis').call(function(d) { yAxis.scale(new_yScale); });
+					
 					var xpos = -event.transform.x;
 					scroll(xpos, xScale);
+					*/
 				};
-			};
+		//	};
 
 			if (! allowZoom) {
-				var zoom = d3z()
-					.scaleExtent([0, maxZoom]) // max zoom defaults to 5
-					.translateExtent([[0, 0], [width, 0]]) // [x0, y0], [x1, y1] don't allow translating y-axis
+					
+				var zoom = d3.zoom()
+				//	.scaleExtent([0, maxZoom]) // max zoom defaults to 5
+					.scaleExtent([1, 10]) // max zoom defaults to 5
+					.translateExtent([[0, 0], [width, height]]) // [x0, y0], [x1, y1] don't allow translating y-axis
 					.on("zoom", move);
-
+/*
+				gParent.append('rect')
+					.attr('width', width)
+					.attr('height', gParentSize.height)
+					.style('fill', 'none')
+					.style('pointer-events', 'all')*/
+				
 				gParent.classed("scrollable", true)
 					.call(zoom);
-				
+					
 				g.on("wheel", function() {
 					event.preventDefault();
 					event.stopImmediatePropagation();
