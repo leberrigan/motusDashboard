@@ -73,6 +73,40 @@ body {
 	cursor:pointer;
 }
 
+/*
+
+	Explore OVERLAY
+
+*/
+
+.pdf-output-wrapper {
+	position:fixed;
+	top:0px;
+	left:0px;
+	width:100vw;
+	height:calc(100vh - 50px);
+	display:none;
+	z-index:9998;
+	background: #DDD 50% 50% no-repeat url(images/loading.gif);
+}
+
+iframe#pdf_output {
+	position:fixed;
+	top:50px;
+	left:0px;
+	width:100vw;
+	height:calc(100vh - 50px);
+	z-index:9999;
+}
+
+
+
+
+/*
+
+	Explore OVERLAY
+
+*/
 #explore_overlay_bg {
 	background:#000;
 	opacity:0.5;
@@ -106,7 +140,7 @@ body {
     margin: 50px;
 	vertical-align: middle;
 	line-height: initial;
-	
+
 	pointer-events:initial;
 }
 #explore_overlay .explore-overlay-content > * {
@@ -126,26 +160,26 @@ body {
 	margin-bottom:5px;
 }
 #explore_overlay .explore-overlay-data {
-	
+
 	text-align:center;
-	
+
 }
 #explore_overlay .explore-overlay-group {
-	
+
 	border: solid 1px #000;
 	border-radius:10px;
 	text-align:center;
 	display:inline-block;
 	padding: 5px 10px;
 	margin: 10px auto;
-	
+
 }
 #explore_overlay .explore-overlay-text {
-	
+
 	padding:10px;
 	font-style:italic;
 	border:solid 1px #DDD;
-	
+
 }
 
 /*******************************************
@@ -161,7 +195,7 @@ body {
 	bottom:0;
 	right:0;
 	cursor:pointer;
-	display:none; 
+	display:none;
 	z-index:1098;
 	text-align: center;
 	white-space: nowrap;
@@ -176,7 +210,7 @@ body {
 	left:0;
 	bottom:0;
 	right:0;
-	display:none; 
+	display:none;
 	z-index:1098;
 	background:#555;
 	opacity:0.5;
@@ -370,7 +404,7 @@ body {
 	.footer > div {
 		font-size:3vw;
 	}
-	
+
 }
 
 @media (max-width: 428px) {
@@ -404,7 +438,7 @@ body {
 	border-top-right-radius: 30px;
 	border-bottom-right-radius: 30px;
 	font-size:25pt;
-}	
+}
 .explore-card-wrapper {
 	width:100%;
 	min-height: calc(100vh - 160px);
@@ -457,7 +491,7 @@ body {
 }
 #explore_controls.data-summary {
 	height:auto;
-	
+
 }
 #explore_controls .explore-control-wrapper {
 	display:block;
@@ -527,10 +561,10 @@ body {
 	display:none;
 }
 #explore_controls .explore-summary-selections {
-	
+
 	margin:5px 0px;
 	font-weight:bold;
-	
+
 }
 
 
@@ -727,7 +761,7 @@ input.filter_dates {
 #activityTimeline {
 	padding:5px 0;
 	height:32px;
-	
+
 }
 .ui-slider-horizontal .ui-slider-range::after {
 	content: " ";
@@ -752,7 +786,7 @@ input.filter_dates {
 	height:17px;
 	width:10px;
 }
-	
+
 
 
 /*----------------------------------
@@ -776,7 +810,7 @@ table.hover {cursor:pointer;}
 .explore-table-header-controls .select-info {
     font-weight: bold;
 	display:none;
-    margin-left: 10px;	
+    margin-left: 10px;
 }
 #explore_table tr,
 #explore_table th,
@@ -1060,7 +1094,7 @@ div.explore-card {
 	border:3px dashed #AAA;
 }
 
-.explore-card-wrapper .explore-card-add:hover, 
+.explore-card-wrapper .explore-card-add:hover,
 .explore-card-wrapper .explore-card-add.visible {
 	color:#000;
 	border-color:#000;
@@ -1112,10 +1146,10 @@ div.explore-card {
 
 #explore_card_profiles .explore-card-image {
     overflow: hidden;
-	float:left;	
+	float:left;
 	background-image:url('https://www.flaticon.com/svg/static/icons/svg/25/25333.svg');
 	background-repeat: no-repeat;
-	background-position: center; 
+	background-position: center;
 	background-size: cover;
 }
 #explore_card_profiles:not(.solo-card) .explore-card-image {
@@ -1254,7 +1288,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	.content-wrapper.profiles .explore-card-map {
 		float:none;
 	}
-	#explore_profiles_map { 
+	#explore_profiles_map {
 		width: calc(100vw - 17px);
 		margin: 0 -12px;
 		margin-top:20px;
@@ -1323,7 +1357,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	font-family:sans-serif;
 	font-weight:600;
 	background-repeat: no-repeat;
-	background-position: 5px 15px; 
+	background-position: 5px 15px;
 	background-size: auto 20px;
 	transition-duration:0.5s;
 	transition-property:background-color, fill, color;
@@ -1386,7 +1420,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	font-weight:600;
 	margin: 0px auto;
 	background-repeat: no-repeat;
-	background-position: center; 
+	background-position: center;
 	background-size: auto 20px;
 	transition-duration:0.5s;
 	transition-property:background-color;
@@ -1420,13 +1454,13 @@ svg.leaflet-image-layer.leaflet-interactive path {
 
 .status-icon-lastData:hover,.solo-card .status-icon-lastData {background-color:#0A0;}
 .status-icon-lastData {
-	font-size:8pt;	
+	font-size:8pt;
 }
 .status-icon-lastData, .status-icon.status-icon-species  {
 	padding:8px;
 	width:24px;
 	height:24px;
-	
+
 }
 .status-icon-tags:hover,.solo-card .status-icon-tags {
 	background-color:#0AA;

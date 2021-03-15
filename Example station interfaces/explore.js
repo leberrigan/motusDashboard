@@ -29,7 +29,7 @@ var icons = {
 /*	species: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clock-history" viewBox="-50 0 900 400"><path d="m 593.63776,191.06651 -159.1803,45.46998 3.019,6.13 46.529,68.677 -2.439,5.834 -81.503,31.964 -82.23705,-31.992 -2.434,-5.803 46.52405,-68.701 2.95,-5.975 L 208.32143,191.0665 -44.302404,223.18575 61.054237,124.39961 208.32143,79.074162 l 140.55903,6.86332 15.3948,-13.13068 11.5769,-34.43522 18.8475,-13.58332 3.30134,-24.82593528 2.17411,-2.36971272 2.07904,2.47033816 3.38371,24.70155984 18.5618,13.77773 10.0921,32.89878 17.2207,14.50546 142.1253,-6.87232 150.64264,45.325448 106.87955,99.12663 z"/></svg>',*/
 	species: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clock-history" viewBox="70 160 70 50"><path d="m 107.67084,195.05271 2.93997,-5.47902 5.47902,2.20496 10.95805,-1.87087 10.02261,-7.55037 2.73951,-7.61718 -2.87315,-7.34991 -16.50389,4.54358 -8.61944,0.40091 -1.33635,-0.60136 -2.40542,-7.48355 -1.73725,-1.36975 -1.06908,-2.27179 -1.03031,2.17155 -1.73725,1.36975 -2.40542,7.48355 -1.33635,0.60136 -8.61944,-0.40091 -16.50389,-4.54358 -2.87315,7.34991 2.73951,7.61718 10.02261,7.55037 10.95805,1.87088 5.47902,-2.20497 2.93997,5.47903 -0.40089,7.08264 -0.63476,4.57699 1.97111,2.37202 1.43117,-2.07132 1.46998,2.17157 1.97111,-2.37202 -0.63476,-4.57699 z" style="stroke-width:3px;"></path></svg>',
 	tags: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clock-history" viewBox="125 -10 250 500"><path d="m 307.38806,152.71231 v 163.57 c 0,8.284 -6.716,15 -15,15 -41.28149,-0.71533 -47.28327,1.62781 -80,0 -8.284,0 -15,-6.716 -15,-15 v -164.459 c -16.587,-15.09 -27,-36.85 -27,-61.041001 0,-45.563 36.937,-82.5 82.5,-82.5 45.563,0 82.5,36.937 82.5,82.5 0,24.672001 -10.834,46.811001 -28,61.930001 z" /><path d="M 251.05287,334.93644 V 488.58051"/></svg>',
-	pdf: '<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" id="svg8" version="1.1" viewBox="0 0 210 297" height="297mm" width="210mm"><g   id="layer1">  <text     transform="scale(0.92485882,1.0812461)"     id="text4530"     y="170.28175"     x="73.117455"     style="font-style:normal;font-weight:normal;font-size:44.45785141px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.11144626" xml:space="preserve"><tspan style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:44.45785141px;font-family:'Tw Cen MT Condensed';-inkscape-font-specification:'Tw Cen MT Condensed, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:1.11144626" y="170.28175" x="73.117455" id="tspan4528">PDF</tspan></text></g></svg>',
+	pdf: '<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 41.659309 29.902843"><g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(-70.25338,-154.21364)"> <text xml:space="preserve"  x="73.117455" y="170.28175" id="text4530" transform="scale(0.92485882,1.0812461)"><tspan sodipodi:role="line" id="tspan4528" x="73.117455" y="170.28175" style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:44.45785141px;font-family:\'Tw Cen MT Condensed\';-inkscape-font-specification:\'Tw Cen MT Condensed, Normal\';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:1.11144626">PDF</tspan></text>  </g></svg>',
 	search: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="explore-search-btn tips" alt="Search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>',
 	filters: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="explore-filter-btn tips" alt="Show filters" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z" /></svg>',
 	timeline: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="explore-timeline-btn tips" alt="Timeline" viewBox="0 0 16 16"><path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/><path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/><path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/></svg>',
@@ -680,9 +680,9 @@ function populateExploreControls() {
 			$('#explore_controls').addClass('data-summary');
 		}
 	} else if (dataType == 'stations') {
-		toAppend = ["filters", "timeline", "search", "view"];
+		toAppend = ["filters", "timeline", "search", "view", 'pdf'];
 	} else if (dataType == 'animals') {
-		toAppend = ["filters", "timeline", "animate", "search", "view"];
+		toAppend = ["filters", "timeline", "animate", "search", "view", 'pdf'];
 	}
 
 
@@ -699,6 +699,7 @@ function populateExploreControls() {
 
 					(hasIcon?'<div class="explore-control-hidden"'+(x=='filters'?' id="explore_filters"':'')+'>':"")+
 
+
 					(
 						x == 'view' ? (
 
@@ -706,45 +707,47 @@ function populateExploreControls() {
 
 							("<a href='javascript:void(0);' onclick='exploreControls(this);'>View " + (dataType == 'regions' ? "as table" : "deployments")  + "</a>")
 
-						) :
+						) : (
+						x == 'pdf' ? "<input type='button' onclick='exploreControls(this.parentElement.parentElement);' value='Agree and Download' />" :
 						(
-						x == 'timeline' ?  "<div id='dateSlider'><div class='slider visible'><div id='custom-handle-1' class='ui-slider-handle'></div><div id='custom-handle-2' class='ui-slider-handle'></div></div></div>"  : (
-								x == 'search' ? "<input type='text' /><input type='button' value='Search' />" :
-								(
-									x == 'type' ?
+							x == 'timeline' ?  "<div id='dateSlider'><div class='slider visible'><div id='custom-handle-1' class='ui-slider-handle'></div><div id='custom-handle-2' class='ui-slider-handle'></div></div></div>"  : (
+									x == 'search' ? "<input type='text' /><input type='button' value='Search' />" :
 									(
-										dataType == 'regions' ?
-											"<div class='explore-summary-control-tab-header'>Summarise by: </div>"+
-											"<div class='explore-summary-control-tab'>Region</div>"+
-											"<div class='explore-summary-control-tab'>Project</div>"+
-											"<div class='explore-summary-control-tab'>Species</div>"+
-											"<div class='explore-summary-selections'>"+
-												"<span></span> "+
-												"<input type='button' value='Select multiple' class='multiSelect_btn'> "+
-												"<input type='button' value='Summarise these data' class='submit_btn'> "+
-												"<input type='button' value='Clear selections' class='reset_btn'>"+
-											"</div>"+
-											"<div class='explore-summary-region-control-options explore-summary-control-options'>"+
-												"<label for='explore_control_regions_type'>Mapping regions by: </label><select id='explore_control_regions_type' style='width:150px'>"+
-												(["state/province", "country", "continent", "ecoregion", "BCR", "KBA", "Custom..."].map((x)=>"<option value='"+x+"'>"+firstToUpper(x)+"</option>"))+
-												"</select>"+
-												"<input type='button' onclick='exploreControls(this);' value='View as table' />"+
-											//	"<input type='text' /><input type='button' value='Search' />"+
-											"</div>"+
-											"<div class='explore-summary-regionTable-control-options explore-summary-control-options'>"+
-												"<label for='explore_control_regions_type'>List regions by: </label><select id='explore_control_regions_type' style='width:150px'>"+
-												(["state/province", "country", "continent", "ecoregion", "BCR", "KBA", "Custom..."].map((x)=>"<option value='"+x+"'>"+firstToUpper(x)+"</option>"))+
-												"</select>"+
-												"<input type='button' onclick='exploreControls(this);' value='View as map' />"+
-											//	"<input type='text' /><input type='button' value='Search' />"+
-											"</div>"+
-											"<div class='explore-summary-project-control-options explore-summary-control-options'></div>"+
-											"<div class='explore-summary-species-control-options explore-summary-control-options'></div>" :
-										//	"<label for='explore_control_regions_type'>Mapping regions by: </label><select id='explore_control_regions_type' style='width:150px'>"+
-										//		(["state/province", "country", "continent", "ecoregion", "BCR", "KBA", "Custom..."].map((x)=>"<option value='"+x+"'>"+firstToUpper(x)+"</option>"))+
-										//	"</select>" :
-											""
-									) : ""
+										x == 'type' ?
+										(
+											dataType == 'regions' ?
+												"<div class='explore-summary-control-tab-header'>Summarise by: </div>"+
+												"<div class='explore-summary-control-tab'>Region</div>"+
+												"<div class='explore-summary-control-tab'>Project</div>"+
+												"<div class='explore-summary-control-tab'>Species</div>"+
+												"<div class='explore-summary-selections'>"+
+													"<span></span> "+
+													"<input type='button' value='Select multiple' class='multiSelect_btn'> "+
+													"<input type='button' value='Summarise these data' class='submit_btn'> "+
+													"<input type='button' value='Clear selections' class='reset_btn'>"+
+												"</div>"+
+												"<div class='explore-summary-region-control-options explore-summary-control-options'>"+
+													"<label for='explore_control_regions_type'>Mapping regions by: </label><select id='explore_control_regions_type' style='width:150px'>"+
+													(["state/province", "country", "continent", "ecoregion", "BCR", "KBA", "Custom..."].map((x)=>"<option value='"+x+"'>"+firstToUpper(x)+"</option>"))+
+													"</select>"+
+													"<input type='button' onclick='exploreControls(this);' value='View as table' />"+
+												//	"<input type='text' /><input type='button' value='Search' />"+
+												"</div>"+
+												"<div class='explore-summary-regionTable-control-options explore-summary-control-options'>"+
+													"<label for='explore_control_regions_type'>List regions by: </label><select id='explore_control_regions_type' style='width:150px'>"+
+													(["state/province", "country", "continent", "ecoregion", "BCR", "KBA", "Custom..."].map((x)=>"<option value='"+x+"'>"+firstToUpper(x)+"</option>"))+
+													"</select>"+
+													"<input type='button' onclick='exploreControls(this);' value='View as map' />"+
+												//	"<input type='text' /><input type='button' value='Search' />"+
+												"</div>"+
+												"<div class='explore-summary-project-control-options explore-summary-control-options'></div>"+
+												"<div class='explore-summary-species-control-options explore-summary-control-options'></div>" :
+											//	"<label for='explore_control_regions_type'>Mapping regions by: </label><select id='explore_control_regions_type' style='width:150px'>"+
+											//		(["state/province", "country", "continent", "ecoregion", "BCR", "KBA", "Custom..."].map((x)=>"<option value='"+x+"'>"+firstToUpper(x)+"</option>"))+
+											//	"</select>" :
+												""
+										) : ""
+									)
 								)
 							)
 						)
@@ -806,6 +809,7 @@ function populateExploreControls() {
 function exploreControls(el) {
 	var opt = $(el).closest('div').attr('class').split(' ')[0].split('-').pop()
 
+
 	if (opt == 'view') {
 	//	console.log(el.value);
 		if (dataType == 'stations') {
@@ -817,6 +821,8 @@ function exploreControls(el) {
 	} else if (opt == 'options') {
 		var isTable = $(el).val().indexOf('table')!=-1;
 		exploreSummaryTabSelect('region'+(isTable?'Table':''));
+	} else if (opt == 'pdf') {
+		makePDF();
 	}
 }
 function afterMapLoads() {
