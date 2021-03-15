@@ -148,9 +148,9 @@ tagDeps.df %>% head
 
 
 tags.df <- read.csv(paste0(dir, 'tags.csv')) %>%
-  dplyr::select(tagID = id, 
+  dplyr::select(tagID, 
                 model, 
-                frequency = nom_freq,
+                frequency = nomFreq,
                 manufacturer)
 
 tagDeps2.df <- tagDeps.df %>%
@@ -174,7 +174,7 @@ tagDeps2.df %>%
 projs.df <- read.csv(paste0(dir, 'motus-projects.csv')) %>% 
   mutate(dtCreated = as.Date(createdDt, format = '%Y-%m-%d %H:%M'))
 
-projs.df %>% select(id = projectID,
+projs.df %>% dplyr::select(id = projectID,
                     dtCreated,
                     name = projectName,
                     shortName = projectCode,
