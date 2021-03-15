@@ -600,7 +600,7 @@ iframe#pdf_output {
 }
 
 .explore-card-wrapper input[type=text], .explore-card-wrapper input[type=button],
-#explore_controls input[type=text], input[type=button],
+#explore_controls input[type=text], input[type=button], button,
 #explore_controls button {
 	margin-left:10px;
 	border-radius: 3px;
@@ -613,20 +613,26 @@ button:not([disabled=disabled]):hover {
 	background-color:#DDD;
 	cursor:pointer;
 }
+button.submit_btn
 input[type=button].submit_btn {
 	background-color:#25628f;
 	color:#FFF;
 	font-weight:bold;
 }
+button.submit_btn:hover,
 input[type=button].submit_btn:hover {
 	background-color:#3387c4;
 }
+button.close_btn,
+button.reset_btn,
 input[type=button].close_btn,
 input[type=button].reset_btn {
 	background-color:#8f2525;
 	color:#FFF;
 	font-weight:bold;
 }
+button.close_btn:hover,
+button.reset_btn:hover,
 input[type=button].close_btn:hover,
 input[type=button].reset_btn:hover {
 	background-color:#c43333;

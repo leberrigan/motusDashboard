@@ -1,11 +1,11 @@
- 
+
 
 (function () {
 	d3.radialBarChart = function() {
-		
+
 		var colourScale = null;
 		var dateFormat = "MMM";
-		
+
 		function radialBarChart( gParent ) {
 			var data = gParent.data()[0];
 
@@ -14,18 +14,18 @@
 
 			console.log(gParent);
 		//	console.log(d3.max(data, d => d?d.total:d));
-			
+
 			var outerRadius = Math.min(gParentSize.width, gParentSize.height) / 2,
 				width = gParentSize.width,
 				height = gParentSize.height,
 				innerRadius = Math.min(gParentSize.width, gParentSize.height) / 4;
-				
+
 
 		//	var grp = gParent.append("g").attr("class", "container");
 
 		//	grp.each(function(data, i) {
-				
-			
+
+
 			var legend = g => g.append("g")
 					.selectAll("g")
 					.data(data.columns.slice(1).reverse())
@@ -45,20 +45,20 @@
 			var y = d3.scaleRadial()
 				.domain([0, d3.max(data, d => d.total)])
 				.range([innerRadius, outerRadius])
-			
+
 			var x = d3.scaleBand()
 				.domain(data.map(d => d[data.columns[0]]))
 				.range([0, 2 * Math.PI])
 				.align(0)
-				
+
 			//x.domain(x.domain())
-			
+
 			//console.log(data.map(d => d[data.columns[0]]).filter(d=>!(d%12)))
-			
+
 			var z = colourScale === null ? d3.scaleOrdinal()
 					.domain(data.columns.slice(1))
 					.range(customColourScale.jnnnnn.slice(0, data.columns.slice(1).length).reverse()) :	colourScale
-					
+
 			var yAxis = g => g
 				.attr("text-anchor", "middle")
 				.call(g => g.append("text")
@@ -111,13 +111,13 @@
 				.endAngle(d => x(d.data[data.columns[0]]) + x.bandwidth())
 				.padAngle(0.01)
 				.padRadius(innerRadius);
-				
+
 			gParentItem
-				.attr("viewBox", `${-width / 2} ${-height / 2} ${width} ${height}`)
+				.attr("viewBox", `${-width / 2} ${-10-height / 2} ${width} ${height}`)
 			//	.style("width", "calc(100% - 20px)")
 			//	.style("height", "calc(100% - 20px)")
 				.style("font", "10px sans-serif");
-		
+
 			gParentItem.append("g")
 				.selectAll("g")
 				.data(d3.stack().keys(data.columns.slice(1))(data))
@@ -139,7 +139,7 @@
 		//	});
 			return gParentItem.node();
 		};
-		
+
 		radialBarChart.colourScale = function (p) {
 			if (!arguments.length) return colourScale;
 			colourScale = p;
@@ -150,7 +150,7 @@
 			dateFormat = p;
 			return radialBarChart;
 		};
-		
+
 		return radialBarChart;
 	};
 

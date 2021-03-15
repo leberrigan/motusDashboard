@@ -822,7 +822,14 @@ function exploreControls(el) {
 		var isTable = $(el).val().indexOf('table')!=-1;
 		exploreSummaryTabSelect('region'+(isTable?'Table':''));
 	} else if (opt == 'pdf') {
-		makePDF();
+		var zoom = motusMap.map.getZoom();
+		motusMap.map.setZoom(1.5);
+		setTimeout(function(){
+			makePDF({ type: exploreType, selection: firstToUpper($("#explore_card_profiles .explore-card-header").text()) });
+			setTimeout(function(){
+				motusMap.map.setZoom(zoom);
+			}, 250);
+		}, 250);
 	}
 }
 function afterMapLoads() {
