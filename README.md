@@ -1,11 +1,11 @@
 # Motus dashboard
 
-## Done: not in *master*
+## Latest:
 * [x] Save page as PDF
+ * [x] Improve PDF output by adding more summary data and a table or two
 * [x] Generate summary to display prior to detailed profile page.
 
 ## In development
- * [ ] Improve PDF output by adding more summary data and a table or two
  * [ ] Tidy initial summary displayed prior to detailed profile page so there's lots of white space and it's extremely clear what's going on.
 
 ## Next
