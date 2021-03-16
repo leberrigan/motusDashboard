@@ -1241,8 +1241,14 @@ function addExploreCard(card) {
 
 			(exploreType == 'species' ? ['Map colour', 'Name', 'Animals', 'Projects', 'Stations', 'Conservation Status'] : (exploreType == 'regions' ? ['Map colour', 'Name', 'Animals', 'Species', 'Projects', 'Stations'] : (exploreType == 'projects' ? ['Map colour', 'Name', 'Animals', 'Species', 'Stations'] : ['Map colour', 'Name', 'Animals', 'Species', 'Last data', 'Status']))).forEach(function(x){profiles_header += "<th class='"+(x.toLowerCase().replace(' ','-'))+"'>"+x+"</th>";});
 
-
-			if ($("#explore_card_profiles").length == 0) {$("#exploreContent .explore-card-wrapper").append("<div class='explore-card' id='explore_card_profiles'><table><thead><tr class='explore-card-profiles-header'>"+profiles_header+"<th></th></tr></thead><tbody class='explore-card-profiles-wrapper'></tbody></table><div class='explore-card-add explore-card-"+exploreType+"' alt='Add a "+exploreType+"'><select class='explore-card-add-"+exploreType+"' data-placeholder='Select a "+exploreType+"' style='width:300px;'><option></option></select></div></div>");}
+			if ($("#explore_card_profiles").length == 0) {
+				$("#exploreContent .explore-card-wrapper").append("<div class='explore-card' id='explore_card_profiles'><div class='explore-card-profiles-name'>"+card.name+"</div><table><thead><tr class='explore-card-profiles-header'>"+profiles_header+"<th></th></tr></thead><tbody class='explore-card-profiles-wrapper'></tbody></table><div class='explore-card-add explore-card-"+exploreType+"' alt='Add a "+exploreType+"'><select class='explore-card-add-"+exploreType+"' data-placeholder='Select a "+exploreType+"' style='width:300px;'><option></option></select></div><div class='explore-card-profiles-controls'></div></div>");
+				$(".explore-card-profiles-controls").append("<button class='explore-card-more-details'>More details</button>"+
+																										"<button class='explore-card-profiles-download-pdf'>Download PDF report</button>"+
+																										"<button class='explore-card-profiles-download-pdf'>Download summary data</button>");
+				$(".explore-card-profiles-download-pdf").click(function(){$(".explore-map-"+dataType+"-pdf input[type=button]").trigger('click');});
+				$(".explore-card-more-details").click(function(){detailedView=true;exploreRegions(motusFilter.regions)});
+			}
 
 			var toAppend = "<tr class='explore-card-profile' id='explore_card_profile_" + card.id + "'>"+
 
@@ -1334,7 +1340,7 @@ function addExploreCard(card) {
 			motusFilter[exploreType] = motusFilter[exploreType].filter(onlyUnique);
 
 			//if (typeof motusMap.setVisibility !== 'undefined') {motusMap.setVisibility();}
-		/*
+
 			if ($("#exploreContent .explore-card-profile").length == 1) {
 				$("#explore_card_profiles").addClass('solo-card');
 				try { motusMap.setColour('id'); }
@@ -1343,7 +1349,7 @@ function addExploreCard(card) {
 				$("#explore_card_profiles").removeClass('solo-card');
 				try { motusMap.setColour('species'); }
 				catch(err) { console.log("motusMap not yet created"); }
-			}*/
+			}
 		} else {
 			$("#explore_card_profile_" + card.id).addClass('flash')
 			setTimeout('$("#explore_card_profile_' + card.id + '").removeClass("flash");',250);

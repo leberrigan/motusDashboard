@@ -443,8 +443,10 @@ iframe#pdf_output {
 	width:100%;
 	min-height: calc(100vh - 160px);
 }
-.profiles .explore-card-wrapper {
-	column-count:2;
+@media (min-width: 1000px) {
+	.profiles .explore-card-wrapper {
+		column-count:2;
+	}
 }
 
 .explore-home-link {
@@ -887,10 +889,12 @@ div.explore-card {
 .explore-card .tips {
 	cursor:pointer;
 }
-.explore-card:not(.explore-card-map):not(.explore-card-add):not(.solo-card):not(.explore-card-full-width) {
-	width: calc(50vw - 50px);
-	max-height: calc(100vh - 200px);
-	overflow-y: auto;
+@media (min-width: 1000px) {
+	.explore-card:not(.explore-card-map):not(.explore-card-add):not(.solo-card):not(.explore-card-full-width) {
+		width: calc(50vw - 50px);
+		max-height: calc(100vh - 200px);
+		overflow-y: auto;
+	}
 }
 .explore-card:not(.explore-card-map) {
 /*	float:left;*/
@@ -1040,7 +1044,7 @@ div.explore-card {
 #explore_card_profiles .explore-card-add {
 	display:block;
 	margin: 0px auto;
-	margin-top: 10px;
+	margin-top: 50px;
 	border: solid 1px;
 	padding: 3px 6px;
 	border-radius: 3px;
@@ -1293,15 +1297,25 @@ svg.leaflet-image-layer.leaflet-interactive path {
 @media (max-width: 1000px) {
 	.content-wrapper.profiles .explore-card-map {
 		float:none;
+		width: 100vw;
+		padding: 0;
+		margin: 0;
 	}
 	#explore_profiles_map {
 		width: calc(100vw - 17px);
 		margin: 0 -12px;
 		margin-top:20px;
 	}
+	#explore_card_profiles:not(.solo-card) {
+		--explore-card-padding: 0;
+	}
 	#explore_card_profiles {
 		float:none;
 		margin: 0 auto;
+		width:100vw;
+	}
+	.content-wrapper.profiles .explore-card {
+		width:100vw;
 	}
 }
 .explore-card-map > .explore_map {
@@ -1416,21 +1430,54 @@ svg.leaflet-image-layer.leaflet-interactive path {
 #explore_card_profiles:not(.solo-card) .status-icon-conservation {
 	margin: 5px auto;
 }
+
+.solo-card {
+	width: calc(50vw - 20px);
+}
+
+.solo-card .status-icon > svg {
+	position:absolute;
+	margin-left:-5px;
+	margin-top:10px;
+	width:40px;
+	height:40px;
+	margin-left:-20px;
+	margin-top:0px;
+	z-index:10;
+	color:#000;
+	display:none;
+}
+.solo-card .status-icon > div {
+	position:relative;
+	z-index:11;
+}
 .solo-card .status-icon, .status-icon-conservation {
 	color:#FFF;
 	border-radius:50%;
-	width:20px;
-	height:20px;
-	padding:10px;
+	width:100%;
+	height:30px;
+	padding:15px 0px;
+	font-size:20pt;
 	font-family:sans-serif;
 	font-weight:600;
-	margin: 0px auto;
+	margin: 0px 0px;
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: auto 20px;
 	transition-duration:0.5s;
 	transition-property:background-color;
 	cursor:pointer;
+	border-radius:0;
+	border-left:solid 2px #000;
+	font-variant: small-caps;
+	background:none;
+}
+.solo-card td:nth-child(1),.solo-card td:nth-child(2) {
+	display:none;
+}
+
+.solo-card td:nth-child(3) .status-icon {
+	border-left-width:0;
 }
 
 .status-icon-data-deficient:hover,.explore-card-wrapper .status-icon-data-deficient {background-color:#777;}
@@ -1452,36 +1499,111 @@ svg.leaflet-image-layer.leaflet-interactive path {
     line-height: 30px;
 }
 
+.solo-card table tr {
+	width:100%;
+}
+.solo-card table td {
+	width:25%;
+	text-align:center;
+}
+#explore_card_profiles > .explore-card-profiles-name {
+	display:none;
+}
+#explore_card_profiles.simple-card > .explore-card-add {
+	display:none;
+}
+
+#explore_card_profiles > .explore-card-profiles-controls {
+	display:none;
+}
+
+#explore_card_profiles.simple-card > .explore-card-profiles-controls {
+	display:block;
+	margin-bottom:10px;
+	margin-top:40px;
+	text-align:center;
+}
+
+#explore_card_profiles.solo-card > .explore-card-profiles-name {
+	display:block;
+	font-size:24pt;
+	font-weight:bold;
+	margin-bottom:20px;
+}
+
 .status-icon-status.status-icon-expired {background-color:#777;}
 .status-icon-status.status-icon-active {background-color:#0A0;}
 .status-icon-status.status-icon-inactive {background-color:#FA0;}
 .status-icon-status.status-icon-pending {background-color:#EF0;}
 .status-icon-status.status-icon-terminated {background-color:#FA0;}
 
+
+.solo-card .status-icon::after {
+	content: " ";
+	display:block;
+	color: #000;
+	font-size:12pt;
+	margin-left:-10px;
+	margin-top:20px;
+}
+
+.solo-card .status-icon-tags::after {
+	content: " animals";
+}
+
+.solo-card .status-icon-projects::after {
+	content: " projects";
+}
+
+.solo-card .status-icon-stations::after {
+	content: " stations";
+}
+
+.solo-card .status-icon-species::after {
+	content: " species";
+}
+
 .status-icon-lastData:hover,.solo-card .status-icon-lastData {background-color:#0A0;}
 .status-icon-lastData {
 	font-size:8pt;
 }
-.status-icon-lastData, .status-icon.status-icon-species  {
+.explore-card:not(.solo-card) .status-icon-lastData, .explore-card:not(.solo-card) .status-icon.status-icon-species  {
 	padding:8px;
 	width:24px;
 	height:24px;
-
 }
-.status-icon-tags:hover,.solo-card .status-icon-tags {
-	background-color:#0AA;
-}/*
-.status-icon-tags {
-	background-image:url('https://i.postimg.cc/vDFw83mj/Tag4.png');
-}*/
+/*
 .status-icon-projects:hover, .solo-card .status-icon-projects,.status-icon-projectID:hover, .solo-card .status-icon-projectID {
 	background-color:#55A;
 }
+.status-icon-tags:hover,.solo-card .status-icon-tags {
+	background-color:#0AA;
+}
+.status-icon-stations:hover, .solo-card .status-icon-stations {
+	background-color:#5A5;
+}
+.status-icon-species:hover, .solo-card .status-icon-species {
+	background-color:#A0A;
+}*/
+.status-icon-projects:hover, .solo-card .status-icon-projects,.status-icon-projectID:hover, .solo-card .status-icon-projectID {
+	color:#55A;
+}
+.status-icon-tags:hover,.solo-card .status-icon-tags {
+	color:#0AA;
+}
+.status-icon-stations:hover, .solo-card .status-icon-stations {
+	color:#5A5;
+}
+.status-icon-species:hover, .solo-card .status-icon-species {
+	color:#A0A;
+}
+
+/*
+.status-icon-tags {
+	background-image:url('https://i.postimg.cc/vDFw83mj/Tag4.png');
+}*/
 .status-icon-projects, .status-icon-projectID {
 	background-image:url('https://www.flaticon.com/svg/static/icons/svg/616/616946.svg');
-}
-.status-icon-stations:hover, .solo-card .status-icon-stations, .status-icon-species:hover, .solo-card .status-icon-species {
-	background-color:#A0A;
 }
 .status-icon-stations {
 	background-image:url('https://i.postimg.cc/kg1BLyVC/station3.png');
