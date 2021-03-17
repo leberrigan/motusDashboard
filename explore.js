@@ -844,14 +844,34 @@ function exploreControls(el) {
 					type: exploreType,
 					selection: firstToUpper($("#explore_card_profiles .explore-card-header").text()),
 					summaryTable: {vars: vars, vals: vals},
-					titleIcon: {svg: region_svg},
-					stations: {
+					titleIcon: {svg: region_svg}
+				};
+
+				if ($("#explore_card_stationHits table:visible").length > 0) {
+					opts.stations = {
 						// Remove the HTML from the first row!
 						data: $("#explore_card_stationHits table:visible").DataTable().rows().data().toArray().map(x => x.map((k,i) => i==0||i==2?$("<a>"+k+"</a>").text():k)),
 						cols: $("#explore_card_stationHits table:visible th").map(function(){return $.trim($(this).text());}).get(),
 						colWidths: [4,2,3,1,1]
 					}
-				};
+				}
+				if ($("#explore_card_tagHits table.explore-card-tagHits-table").length > 0) {
+					opts.animals = {
+						// Remove the HTML from the first row!
+						data: $("#explore_card_tagHits table.explore-card-tagHits-table").DataTable().rows().data().toArray().map(x => x.map((k,i) => i==0||i==2?$("<a>"+k+"</a>").text():k)),
+						cols: $("#explore_card_tagHits table.explore-card-tagHits-table th").map(function(){return $.trim($(this).text());}).get(),
+						colWidths: [4,2,3,1,1]
+					}
+				}
+				if ($("#explore_card_tagHits table.explore-card-tagHits-speciesTable").length > 0) {
+					opts.species = {
+						// Remove the HTML from the first row!
+						data: $("#explore_card_tagHits table.explore-card-tagHits-speciesTable").DataTable().rows().data().toArray().map(x => x.map((k,i) => i==0||i==2?$("<a>"+k+"</a>").text():k)),
+						cols: $("#explore_card_tagHits table.explore-card-tagHits-speciesTable th").map(function(){return $.trim($(this).text());}).get(),
+						colWidths: [4,2,3,1,1]
+					}
+				}
+
 			} else {
 				opts = {
 					type: exploreType,

@@ -7,19 +7,21 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 		$(".pdf-output-wrapper,.pdf-output-wrapper .close_btn").click(function(e){
 			if (e.target !== this) return;
 			$(".pdf-output-wrapper").fadeOut(250);
+      $("body").css("overflow-y", "");
 		});
 
 		$(".pdf-output-wrapper").fadeIn(250);
+    $("body").css("overflow-y", "hidden");
 
-		let blob;
+    let blob;
 
 		var files = {
 
 			motusLogo: {
-				url: "http://localhost/Motus/Dashboard/Example%20station%20interfaces/images/motus-logo-lg.png"
+				url: "http://localhost/Motus/Dashboard/images/motus-logo-lg.png"
 			},
 			bcLogo: {
-				url: "http://localhost/Motus/Dashboard/Example%20station%20interfaces/images/birds-canada-logo.png"
+				url: "http://localhost/Motus/Dashboard/images/birds-canada-logo.png"
 			}
 
 		}
@@ -125,6 +127,16 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 					table(opts.stations.data, cols = opts.stations.cols, colWidths = opts.stations.colWidths);
 
 			}
+			if (opts.species) {
+        if (!opts.stations) {
+  					doc.addPage();
+        }
+					console.log(opts.species)
+					console.log("Loading " + opts.species.data.length + " rows of animals");
+
+					table(opts.species.data, cols = opts.species.cols, colWidths = opts.species.colWidths);
+
+			}
 
 
 			doc.addPage();
@@ -138,6 +150,16 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 			doc.fontSize(17);
 			doc.fillColor("black").text("Tag detections by month", 0, 110,{align:"center"});
 			doc.addSVG($(".explore-card-tagHits-timeline svg").get(0), 25, 150, {height:0.5 * (doc.page.height - 100)});
+
+    	if (opts.animals) {
+					doc.addPage();
+					console.log(opts.animals)
+					console.log("Loading " + opts.animals.data.length + " rows of animals");
+
+					table(opts.animals.data, cols = opts.animals.cols, colWidths = opts.animals.colWidths);
+			}
+
+      console.log('Finish');
 
 		  doc.end();
 		}
@@ -203,10 +225,22 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 		headerRow();
 		doc.fontSize(12);
 		doc.font('Helvetica');
+		doc.strokeColor("#AAAAAA");
+
+    var pages = 0;
+    var rows_per_page = Math.floor( ( doc.page.height - (y + 20) ) / (row_height+2) ) - 1;
+
+    console.log(rows_per_page);
 
 		data.forEach( function(d, row_index) {
 
-			row(d, row_index);
+      if (row_index - (pages * rows_per_page) > rows_per_page) {
+        doc.addPage();
+        pages++;
+        headerRow();
+     }
+
+			row(d, row_index - (pages * rows_per_page) - (pages>0));
 
 		});
 
@@ -222,11 +256,13 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 
 				var x_pos = x + ((col_index==0?col_index:colWidths.slice(0, col_index).reduce( (a,c) => a += c )) * width / n);
 
-				console.log(x_pos);
-
-				doc.text(d, x_pos, y + my, {width: colWidths[ col_index ] * width / n, align: "center"});
+				doc.text(d, x_pos, y + my - (doc.heightOfString(d, {width:colWidths[ col_index ] * width / n}) - 14.5), {width: colWidths[ col_index ] * width / n, align: "center"});
 
 			});
+
+			doc.moveTo(x, y + row_height)
+				.lineTo(width, y + row_height)
+				.stroke();
 
 		}
 
@@ -238,13 +274,19 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 
 				var x_pos = x + ((col_index==0?col_index:colWidths.slice(0, col_index).reduce( (a,c) => a += c )) * width / n);
 
-				doc.lineJoin('miter')
+	/*			doc.lineJoin('miter')
 					.rect(x_pos, y + ( ( 1 + row_index ) * row_height ), colWidths[ col_index ] * width / n, row_height)
 					.stroke();
+*/
 
 				doc.text(d, x_pos + mx, y + ( ( 1 + row_index ) * row_height ) + my, {width: (colWidths[ col_index ] * width / n) - mx, align: col_index == 0 ? "left" : "center"});
 
-			})
+			});
+
+			doc.moveTo(x, y + ( ( 1 + row_index ) * row_height ) + row_height)
+				.lineTo(width, y + ( ( 1 + row_index ) * row_height ) + row_height)
+				.stroke();
+
 		}
 	}
 }
