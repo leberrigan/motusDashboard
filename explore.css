@@ -1257,10 +1257,64 @@ css({height:"600px",maxHeight:"100vh", width: "calc(100vw - 300px)", minWidth: "
 
 
 .explore-map-controls {
-	position:relative;
+	position:absolute;
+	left:0;
+	right:0;
 	z-index:1010;
 	line-height:30px;
+	pointer-events: none;
+	text-align:center;
 }
+.explore-map-legend {
+	display:inline-block;
+	background-color:#EEE;
+	border:solid 1px #000;
+	border-top-width: 0;
+	pointer-events: all;
+	padding: 10px;
+}
+
+.explore-map-legend.hidden  {
+	padding: 5px 10px;
+}
+.explore-map-legend.hidden svg {
+	display:none;
+}
+
+.explore-map-legend .explore-map-legend-header .showHide::after {
+	content: "(hide)";
+	margin-left:10px;
+	font-size:10pt;
+	vertical-align:middle;
+	color: #00F;
+	cursor:pointer;
+}
+.explore-map-legend.hidden .explore-map-legend-header .showHide::after {
+	content: "(show)"
+}
+
+.explore-map-legend .explore-map-legend-header .showHide:hover {text-decoration:underline;}
+
+.explore-map-legend svg:last-child::after {
+  content:"Click on an item to toggle visibility";
+	display:block;
+	font-size:10pt;
+	margin:-7px 0;
+}
+
+
+.explore-map-legend svg g.selected {
+	stroke:#000;
+}
+.explore-map-legend svg g:not(.selected):not(:hover) {
+	fill:#777;
+}
+.explore-map-legend svg g:hover {
+	cursor:pointer;
+	fill:#FFF;
+	stroke:#FFF;
+}
+
 
 .content-wrapper.profiles .explore-card-map {
 /*	width:calc(50vw - 50px);*/
@@ -1662,4 +1716,14 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .exploreTable-wrapper {
 	overflow-x:auto;
 	width:calc(100% - 30px);
+}
+
+.get-text-size {
+
+    position: absolute;
+    visibility: hidden;
+    height: auto;
+    width: auto;
+    white-space: nowrap; /* Thanks to Herb Caudill comment */
+
 }

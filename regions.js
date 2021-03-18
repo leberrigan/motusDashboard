@@ -6,7 +6,15 @@ var regionStations;
 var timeRange = {};
 function exploreRegions(region) {
 
-	var mapLegend = d3.create('div');
+
+	var mapLegend = d3.create('div').attr("class", "explore-map-legend")
+																	.attr("id", "explore_map_legend");
+	mapLegend.append('div')
+						.text('Map legend')
+						.attr("class", "explore-map-legend-header")
+							.append('span')
+							.attr('class', 'showHide')
+							.on('click', function(){$(this).closest('.explore-map-legend').toggleClass('hidden');});
 
 	selectedPolygons = motusData.polygons.features.filter(x => motusFilter.regions.includes(x.properties.adm0_a3));
 
@@ -260,13 +268,15 @@ function exploreRegions(region) {
 			.attr("d", motusMap.path.pointRadius(3))
 			.style('stroke', '#000')
 			.style('fill', '#FF0')
-			.attr('class', 'explore-map-stations explore-map-r2 leaflet-zoom-hide')
+			.attr('class', 'explore-map-stations explore-map-r2 leaflet-zoom-hide explore-map-stations-other')
 			//.style('fill', d => regionStations.includes(d.id) ? "#F00" : "#000")
 			.style('stroke-width', '1px')
 			.style('pointer-events', 'auto')
 			.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
 			.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'station'))
 			.on('click', (e,d) => motusMap.dataClick(e, d, 'station'));
+
+		var yesterday = moment().subtract(1, 'days');
 
 		motusMap.g.selectAll('stations')
 			.data(motusData.recvDepsLink.filter(d => regionStations.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)))
@@ -276,8 +286,8 @@ function exploreRegions(region) {
 			.attr("d", motusMap.path.pointRadius(6))
 		//	.attr("d", "")
 			.style('stroke', '#000')
-			.style('fill', (d) => d.dtEnd > moment().subtract(1, 'days') ? '#0F0' : '#F00')
-			.attr('class', 'explore-map-stations leaflet-zoom-hide')
+			.style('fill', (d) => d.dtEnd > yesterday ? '#0F0' : '#F00')
+			.attr('class', d => 'explore-map-stations leaflet-zoom-hide explore-map-stations-' + (d.dtEnd > yesterday ? 'active' : 'inactive') )
 	//		.style('fill', d => regionStations.includes(d.id) ? "#F00" : "#000")
 			.style('stroke-width', '1px')
 			.style('pointer-events', 'auto')
@@ -285,47 +295,85 @@ function exploreRegions(region) {
 			.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'station'))
 			.on('click', (e,d) => motusMap.dataClick(e, d, 'station'));
 
-		mapLegend.append("svg")
-			.append("path")
-			.attr("d", "M0,0 L30,0")
+		var stations_legend = mapLegend.append('svg')
+				.attr('class', 'map-legend-stations')
+				.attr('viewBox', `0 0 150 60`)
+				.attr('width', '150')
+				.attr('height', `60`);
+
+		var g = stations_legend.append("g")
+												   .attr('class', 'map-legend-stations-active selected')
+													 .on('click', motusMap_legendClick);
+
+
+		g.append("circle")
+			.attr("cx", "10")
+			.attr("cy", "15")
+			.attr("r", 6)
 			.style('stroke', '#000')
-			.style('stroke-width', '3px')
+			.style('fill', '#0F0')
+			.style('stroke-width', '1px')
 			.style('pointer-events', 'auto');
 
-		mapLegend.append("svg")
-				.attr('viewBox', '0 0 10 10')
-				.attr('width', '30')
-				.attr('height', '30')
-				.append("path")
-				.attr("d", "M10,10 L10,10")
-				.style('stroke', '#000')
-				.style('fill', '#FF0')
-				.style('stroke-width', '1px')
-				.style('pointer-events', 'auto');
+		g.append("path")
+			.attr('marker-end','url(#station_path)')
+			.attr("d", "M10,21 L10,20")
+			.style('stroke', '#000')
+			.style('fill', '#F00')
+			.style('stroke-width', '1px')
+			.style('pointer-events', 'auto');
 
-		mapLegend.append("svg")
-				.attr('viewBox', '0 0 30 40')
-				.attr('width', '30')
-				.attr('height', '40')
-				.append("path")
-				.attr('marker-end','url(#station_path)')
-				.attr("d", "M15,20 L15,20")
+		g.append("text")
+				.attr("x", "20")
+				.attr("y", "20")
+				.text("Active station");
+
+
+		var g = stations_legend.append("g")
+												   .attr('class', 'map-legend-stations-inactive selected')
+													 .on('click', motusMap_legendClick);
+
+		g.append("circle")
+				.attr("cx", "10")
+				.attr("cy", "35")
+				.attr("r", 6)
 				.style('stroke', '#000')
 				.style('fill', '#F00')
 				.style('stroke-width', '1px')
 				.style('pointer-events', 'auto');
 
-		mapLegend.append("svg")
-				.attr('viewBox', '0 0 30 40')
-				.attr('width', '30')
-				.attr('height', '40')
-				.append("path")
+		g.append("path")
 				.attr('marker-end','url(#station_path)')
-				.attr("d", "M15,20 L15,20")
+				.attr("d", "M10,41 L10,40")
 				.style('stroke', '#000')
 				.style('fill', '#0F0')
 				.style('stroke-width', '1px')
 				.style('pointer-events', 'auto');
+
+		g.append("text")
+				.attr("x", "20")
+				.attr("y", "40")
+				.text("Inactive station");
+
+
+		var g = stations_legend.append("g")
+												   .attr('class', 'map-legend-stations-other selected')
+													 .on('click', motusMap_legendClick);
+
+		g.append("circle")
+				.attr("cx", "10")
+				.attr("cy", "55")
+				.attr("r", 3)
+				.style('stroke', '#000')
+				.style('fill', '#FF0')
+				.style('stroke-width', '1px')
+				.style('pointer-events', 'auto');
+
+		g.append("text")
+				.attr("x", "20")
+				.attr("y", "60")
+				.text("Other station");
+
 
 		motusMap.stationPaths = motusMap.g.selectAll('.explore-map-stations')
 
@@ -343,7 +391,7 @@ function exploreRegions(region) {
 			.data(Array.from(motusData.trackDataByRoute.values()).filter(d => selectedTracks.includes(d.route)))
 		//	.data(Array.from(motusData.trackDataByRoute.values()).filter(d => (regionStations.includes(d.recv1) || regionStations.includes(d.recv2))))
 			.enter().append("path")
-			.attr('class', (d) => "explore-map-tracks explore-map-species leaflet-zoom-hide explore-map-tracks-" + ( d.origin == "Foreign" ? "foreign" : "local" ))
+			.attr('class', (d) => "explore-map-tracks explore-map-species leaflet-zoom-hide explore-map-tracks-" + ( d.origin.toLowerCase() ))
 			.attr("id", (d) => "track" + d.id)
 			.style('stroke', (d) => regionColourScale(d.origin))
 	//		.style('stroke', (d) => (d.origin == 'local' ? colourScale.range()[1] :  colourScale.range()[0] ))
@@ -354,7 +402,49 @@ function exploreRegions(region) {
 			.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'track'))
 			.on('click', (e,d) => motusMap.dataClick(e, d, 'track'));
 
+		var h = 20;
+
+		var tracks_svg = mapLegend.append("svg")
+			.attr('class','map-legend-tracks');
+
+		var max_length = 0;
+
+		regionColourScale.range().forEach(function(x, i) {
+
+			var g = tracks_svg.append("g");
+
+			g.append("path")
+				.attr("d", `M0,${10 + (i * h)} L30,${10 + (i * h)}`)
+				.style('stroke', x )
+				.style('stroke-width', '3px')
+				.style('pointer-events', 'auto');
+
+			var regionCode = regionColourScale.domain()[i];
+			var regionName = regionCode == "Foreign" ? regionCode : regionNames.get( regionColourScale.domain()[i] );
+
+			g.append("text")
+				.attr("x", 40)
+				.attr("y", h * ( i + 0.75 ) )
+				.text( regionName )
+				.style('pointer-events', 'auto');
+
+			var len = $("<div class='get-text-size'></div>").appendTo("body").css('font-size', '14pt').text(regionName).width();
+
+			max_length = max_length < len ? len : max_length;
+
+			g.attr("class","map-legend-tracks-" + regionCode + " selected")
+				.style('pointer-events', 'auto')
+				.on('click', motusMap_legendClick);
+
+		});
+
+		tracks_svg.attr('viewBox', `0 0 ${50 + max_length} ${regionColourScale.range().length * h}`)
+			.attr('width', 50 + max_length)
+			.attr('height', regionColourScale.range().length * h);
+
+
 		motusMap.map.on("zoomend", motusMap.reset);
+
 
 		// Reposition the SVG to cover the features.
 		motusMap.reset();
@@ -419,7 +509,7 @@ function exploreRegions(region) {
 
 		$('#explore_map').parent().before($('#explore_card_profiles'));
 
-		$('#explore_map').before("<div class='explore-map-controls'>Map legend </div>")
+		$('#explore_map').before("<div class='explore-map-controls'></div>")
 		//$('#explore_map').before("<div class='explore-map-controls'>Map legend <input type='button' value='Hide tracks-local'><input type='button' value='Hide tracks-foreign'><input type='button' value='Hide stations'><input type='button' value='Hide regions'></div>")
 		console.log(mapLegend);
 		d3.select(".explore-map-controls").append(()=>mapLegend.node());
@@ -438,6 +528,20 @@ function exploreRegions(region) {
 
 	exploreProfile_hasLoaded = true;
 
+	function motusMap_legendClick() {
+
+		var toggleEls = [
+			(this.classList.contains('selected') ? "hide" : "show"),
+			 (this.classList[0].split('-')[2] + "-" + this.classList[0].split('-')[3]).toLowerCase()
+		 ];
+
+		console.log(toggleEls);
+
+		motusMap.setVisibility(false, toggleEls);
+
+		$(this).toggleClass( 'selected', !this.classList.contains('selected') );
+
+	}
 
 			/*
 
