@@ -149,10 +149,17 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 			doc.addSVG(map_clone.get(0), 10, 150);
 		//	doc.addSVG($(".explore-timeline-btn").get(0), 10, 150, { width:100 });
 
-			doc.addPage();
-			doc.fontSize(17);
-			doc.fillColor("black").text("Tag detections by month", 0, 110,{align:"center"});
-			doc.addSVG($(".explore-card-tagHits-timeline svg").get(0), 25, 150, {height:0.5 * (doc.page.height - 100)});
+      if ($(".explore-card-tagHits-timeline svg").length > 0) {
+  			doc.addPage();
+  			doc.fontSize(17);
+  			doc.fillColor("black").text("Tag detections by month", 0, 110,{align:"center"});
+  			doc.addSVG($(".explore-card-tagHits-timeline svg").get(0), 25, 150, {height:0.5 * (doc.page.height - 100)});
+      } else if ( $(".explore-card-tagHits svg").length > 0 ) {
+    			doc.addPage();
+    			doc.fontSize(17);
+    			doc.fillColor("black").text("Tag detections by month", 0, 110,{align:"center"});
+    			doc.addSVG( $(".explore-card-tagHits svg").get(0), 25, 150, {height:0.5 * (doc.page.height - 100)});
+      }
 
     	if (opts.animals) {
 					doc.addPage();
