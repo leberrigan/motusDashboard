@@ -3,7 +3,10 @@ var exploreProfile_hasLoaded = false;
 
 var selectedPolygons;
 var regionStations;
+var timeRange = {};
 function exploreRegions(region) {
+
+	var mapLegend = d3.create('div');
 
 	selectedPolygons = motusData.polygons.features.filter(x => motusFilter.regions.includes(x.properties.adm0_a3));
 
@@ -75,7 +78,6 @@ function exploreRegions(region) {
 	var ts = [moment()];
 
 	// Create an empty object to hold max and min timestamps for any working dataset.
-	var timeRange = {};
 
 
 	// Make a array of animal IDs for all local using 'animalsByCountry'
@@ -222,6 +224,24 @@ function exploreRegions(region) {
 	console.log("motusMap.regionPaths: " + moment().diff(ts[0]) + "@" + moment().diff(ts[ts.length-1]));ts.push(moment());
 
 	if (!exploreProfile_hasLoaded) {
+
+
+
+		motusMap.svg.append("svg:defs").append("svg:marker")
+			.attr("id", "station_path")
+			.attr("refX", 25)
+			.attr("refY", 10)
+			.attr("markerWidth", 60)
+			.attr("markerHeight", 80)
+			.attr("viewBox", "0 0 40 30")
+			.attr("markerUnits","userSpaceOnUse")
+			.attr("orient", "auto")
+			.append("path")
+			.attr("d", icon_paths.stations)
+			.style('pointer-events', 'auto')
+			.style("stroke", "#000")
+			.attr("transform", "rotate(90,15,20)");
+
 		motusMap.regionPaths = motusMap.g.selectAll("regions")
 		//	.data(selectedPolygons)
 			.data(motusData.polygons.features)
@@ -252,16 +272,60 @@ function exploreRegions(region) {
 			.data(motusData.recvDepsLink.filter(d => regionStations.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)))
 			//.data(motusData.recvDepsLink)
 			.enter().append("path")
-			.attr("d", motusMap.path.pointRadius(5))
+			.attr('marker-end','url(#station_path)')
+			.attr("d", motusMap.path.pointRadius(6))
+		//	.attr("d", "")
 			.style('stroke', '#000')
 			.style('fill', (d) => d.dtEnd > moment().subtract(1, 'days') ? '#0F0' : '#F00')
 			.attr('class', 'explore-map-stations leaflet-zoom-hide')
-			//.style('fill', d => regionStations.includes(d.id) ? "#F00" : "#000")
+	//		.style('fill', d => regionStations.includes(d.id) ? "#F00" : "#000")
 			.style('stroke-width', '1px')
 			.style('pointer-events', 'auto')
 			.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
 			.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'station'))
 			.on('click', (e,d) => motusMap.dataClick(e, d, 'station'));
+
+		mapLegend.append("svg")
+			.append("path")
+			.attr("d", "M0,0 L30,0")
+			.style('stroke', '#000')
+			.style('stroke-width', '3px')
+			.style('pointer-events', 'auto');
+
+		mapLegend.append("svg")
+				.attr('viewBox', '0 0 10 10')
+				.attr('width', '30')
+				.attr('height', '30')
+				.append("path")
+				.attr("d", "M10,10 L10,10")
+				.style('stroke', '#000')
+				.style('fill', '#FF0')
+				.style('stroke-width', '1px')
+				.style('pointer-events', 'auto');
+
+		mapLegend.append("svg")
+				.attr('viewBox', '0 0 30 40')
+				.attr('width', '30')
+				.attr('height', '40')
+				.append("path")
+				.attr('marker-end','url(#station_path)')
+				.attr("d", "M15,20 L15,20")
+				.style('stroke', '#000')
+				.style('fill', '#F00')
+				.style('stroke-width', '1px')
+				.style('pointer-events', 'auto');
+
+		mapLegend.append("svg")
+				.attr('viewBox', '0 0 30 40')
+				.attr('width', '30')
+				.attr('height', '40')
+				.append("path")
+				.attr('marker-end','url(#station_path)')
+				.attr("d", "M15,20 L15,20")
+				.style('stroke', '#000')
+				.style('fill', '#0F0')
+				.style('stroke-width', '1px')
+				.style('pointer-events', 'auto');
 
 		motusMap.stationPaths = motusMap.g.selectAll('.explore-map-stations')
 
@@ -279,7 +343,7 @@ function exploreRegions(region) {
 			.data(Array.from(motusData.trackDataByRoute.values()).filter(d => selectedTracks.includes(d.route)))
 		//	.data(Array.from(motusData.trackDataByRoute.values()).filter(d => (regionStations.includes(d.recv1) || regionStations.includes(d.recv2))))
 			.enter().append("path")
-			.attr('class', (d) => "explore-map-tracks explore-map-species leaflet-zoom-hide explore-map-tracks-" + d.origin)
+			.attr('class', (d) => "explore-map-tracks explore-map-species leaflet-zoom-hide explore-map-tracks-" + ( d.origin == "Foreign" ? "foreign" : "local" ))
 			.attr("id", (d) => "track" + d.id)
 			.style('stroke', (d) => regionColourScale(d.origin))
 	//		.style('stroke', (d) => (d.origin == 'local' ? colourScale.range()[1] :  colourScale.range()[0] ))
@@ -355,16 +419,24 @@ function exploreRegions(region) {
 
 		$('#explore_map').parent().before($('#explore_card_profiles'));
 
-		$('#explore_map').parent().append("<div class='explore-map-controls'>Map controls <input type='button' value='Hide tracks-local'><input type='button' value='Hide tracks-foreign'><input type='button' value='Hide stations'><input type='button' value='Hide regions'></div>")
+		$('#explore_map').before("<div class='explore-map-controls'>Map legend </div>")
+		//$('#explore_map').before("<div class='explore-map-controls'>Map legend <input type='button' value='Hide tracks-local'><input type='button' value='Hide tracks-foreign'><input type='button' value='Hide stations'><input type='button' value='Hide regions'></div>")
+		console.log(mapLegend);
+		d3.select(".explore-map-controls").append(()=>mapLegend.node());
 
-		$(".explore-map-controls input[type=button]").click(function(){var toggleEls = this.value.toLowerCase().split(' ');motusMap.setVisibility(false, toggleEls);this.value = (toggleEls[0] == 'hide' ? 'Show' : 'Hide') + " " + toggleEls[1];});
+		$(".explore-map-controls input[type=button]").click(function(){
+			var toggleEls = this.value.toLowerCase().split(' ');
+			motusMap.setVisibility(false, toggleEls);
+			this.value = (toggleEls[0] == 'hide' ? 'Show' : 'Hide') + " " + toggleEls[1];
+		});
+
+
+
 	}
 
 	$("#explore_card_profiles").toggleClass('simple-card', !detailedView);
 
 	exploreProfile_hasLoaded = true;
-
-	if (detailedView) {
 
 
 			/*
@@ -381,56 +453,58 @@ function exploreRegions(region) {
 			addExploreCard({
 					data:'tabs',
 					type:'stationHits',
-					header: '',
+					header: 'Stations',
 					tabs: {
 						"Stations in this region": stationTable,
 						"Station detection timelines": stationTimeline
 					},
 					defaultTab: "Stations in this region",
 					attachEl:".explore-card-map",
-					attachMethod:"before"
+					attachMethod:"after"
 				});
 
 			setProgress(70);
 
-
-
-
-			/*
-
-
-				Animals
-
-
-			*/
-
+			/**********************************************
+												Animals
+			**********************************************/
 
 			console.log("Animals: " + moment().diff(ts[0]) + "@" + moment().diff(ts[ts.length-1]));ts.push(moment());
 
 			//	Add the card dom element to contain the chart
 		//	addExploreCard({data:'chart', type:'tagHits'});
-		addExploreCard({
-				data:'tabs',
-				type:'tagHits',
-				header: '',
-				tabs: {
-					"Animals in this region": animalTable,
-					"Species in this region": speciesTable,
-					"Animal detection timeline": animalTimeline
-				},
-				defaultTab: "Animal detection timeline",
-				attachEl: ".explore-card-map",
-				attachMethod: "after"
-			});
 
 
 		if (allAnimals.length > 0) {
 
+			addExploreCard({
+					data:'tabs',
+					type:'tagHits',
+					header: 'Animals',
+					tabs: {
+						"Animals in this region": animalTable,
+						"Animal detection timeline": animalTimeline
+					},
+					defaultTab: "Animals in this region",
+					attachEl: ".explore-card-map",
+					attachMethod: "after"
+				});
+
+			addExploreCard({
+					data:'tabs',
+					type:'speciesHits',
+					header: 'Species',
+					tabs: {
+						"Species in this region": speciesTable
+					},
+					defaultTab: "Species in this region",
+					attachEl: ".explore-card-map",
+					attachMethod: "after"
+				});
 			//	Add the timeline
 		//	animalTimeline()
 
 		}
-	}
 	/*
 
 		Finish up
@@ -444,9 +518,6 @@ function exploreRegions(region) {
 					"<input type='button' value='Table of projects' />";
 
 	//addExploreCard({data:'custom',type:'options',html:toAppend,attachEl:".explore-card-map",attachMethod:"after"});
-
-	console.log(regionColourScale("COL"));
-	console.log(regionColourScale("BHS"));
 
 	setCardColours( regionColourScale )
 
@@ -807,14 +878,14 @@ function exploreRegions(region) {
 	}
 
 
-	function animalTimeline() {
+	function animalTimeline( cardID ) {
 
-		$("#explore_card_tagHits > div:not(.explore-card-header)").hide();
+		$("#explore_card_" + cardID + " > div:not(.explore-card-header)").hide();
 
-		if ($('.explore-card-tagHits-timeline').length == 0) {
+		if ($(".explore-card-" + cardID + "-timeline").length == 0) {
 
-			$("#explore_card_tagHits")
-				.append( $("<div class='explore-card-chart-wrapper'><div class='explore-card-tagHits-timeline'><svg></svg></div></div>") )
+			$("#explore_card_" + cardID + "")
+				.append( $("<div class='explore-card-chart-wrapper'><div class='explore-card-" + cardID + "-timeline'><svg></svg></div></div>") )
 
 			timelineAxisVals = [];
 
@@ -886,35 +957,35 @@ function exploreRegions(region) {
 
 			var radialChartConstruct = d3.radialBarChart().colourScale( regionNameColourScale );
 
-			var radialChart = d3.select(".explore-card-tagHits-timeline svg")
+			var radialChart = d3.select(".explore-card-" + cardID + "-timeline svg")
 				.datum(animalsByDayOfYear).call(radialChartConstruct);
 
 		}
 
-		$("#explore_card_tagHits .explore-card-tagHits-timeline").parent().show();
+		$("#explore_card_" + cardID + " .explore-card-" + cardID + "-timeline").parent().show();
 	}
 
 
-	function animalTable() {
+	function animalTable(cardID) {
 
-		$("#explore_card_tagHits > div:not(.explore-card-header)").hide();
+		$("#explore_card_" + cardID + " > div:not(.explore-card-header)").hide();
 
-		if ($('.explore-card-tagHits-table').length == 0) {
+		if ($(".explore-card-" + cardID + "-table").length == 0) {
 
 			//$("#explore_card_stationHits .explore-card-header").text("Stations in th" + ( motusFilter.regions.length > 1 ? "ese" : "is") + " region" + ( motusFilter.regions.length > 1 ? "s" : ""));
 
 			var headers = ["Species", "Release Date", "Status", "Stations Visited", "Days detected"];
 
-			$("#explore_card_tagHits")
+			$("#explore_card_" + cardID)
 				.append( $("<table></table>")
-					.attr('class', 'explore-card-tagHits-table')
+					.attr("class", "explore-card-" + cardID + "-table")
 					.append( $('<thead></thead>')
 						.append( $('<tr></tr>')	)
 					)
 					.append( $('<tbody></tbody>') )
 				)
 
-			headers.forEach( x => $("#explore_card_tagHits .explore-card-tagHits-table thead tr").append( $('<th></th>').text(x) ) );
+			headers.forEach( x => $("#explore_card_" + cardID + " .explore-card-" + cardID + "-table thead tr").append( $('<th></th>').text(x) ) );
 
 
 			console.log(motusData.animals);
@@ -954,46 +1025,46 @@ function exploreRegions(region) {
 
 				tr.append( $('<td></td>').text( d.nDays ) );
 
-				$("#explore_card_tagHits .explore-card-tagHits-table tbody").append( tr );
+				$("#explore_card_" + cardID + " .explore-card-" + cardID + "-table tbody").append( tr );
 
 
 			});
 
-			var tableDom = $("#explore_card_tagHits .explore-card-tagHits-table tbody tr").length > 10 ? "itp" : "t";
+			var tableDom = $("#explore_card_" + cardID + " .explore-card-" + cardID + "-table tbody tr").length > 10 ? "itp" : "t";
 
-			$("#explore_card_tagHits .explore-card-tagHits-table").DataTable({dom: tableDom });
+			$("#explore_card_" + cardID + " .explore-card-" + cardID + "-table").DataTable({dom: tableDom });
 
 		} else {
 
-			$("#explore_card_tagHits .explore-card-tagHits-table").parent().show();
+			$("#explore_card_" + cardID + " .explore-card-" + cardID + "-table").parent().show();
 
 		}
 	}
 
 
-	function speciesTable() {
+	function speciesTable( cardID ) {
 
-		$("#explore_card_tagHits > div:not(.explore-card-header)").hide();
+		console.log("Species table: " + cardID);
 
-		if ($('.explore-card-tagHits-speciesTable').length == 0) {
+		$("#explore_card_" + cardID + " > div:not(.explore-card-header)").hide();
+
+		if ($('.explore-card-' + cardID + '-speciesTable').length == 0) {
 
 			//$("#explore_card_stationHits .explore-card-header").text("Stations in th" + ( motusFilter.regions.length > 1 ? "ese" : "is") + " region" + ( motusFilter.regions.length > 1 ? "s" : ""));
 
 			var headers = ["Species", "Release Date", "Status", "Number of animals", "Stations Visited"];
 
-			$("#explore_card_tagHits")
+			$("#explore_card_" + cardID)
 				.append( $("<table></table>")
-					.attr('class', 'explore-card-tagHits-speciesTable')
+					.attr("class", "explore-card-" + cardID + "-speciesTable")
 					.append( $('<thead></thead>')
 						.append( $('<tr></tr>')	)
 					)
 					.append( $('<tbody></tbody>') )
 				)
 
-			headers.forEach( x => $("#explore_card_tagHits .explore-card-tagHits-speciesTable thead tr").append( $('<th></th>').text(x) ) );
+			headers.forEach( x => $("#explore_card_" + cardID + " .explore-card-" + cardID + "-speciesTable thead tr").append( $('<th></th>').text(x) ) );
 
-
-			console.log(motusData.animals);
 			if (typeof motusData.selectedAnimals === 'undefined') {
 				motusData.selectedAnimals = Array.from(motusData.animals.filter(
 													x => allAnimals.includes( x.deployID )
@@ -1049,18 +1120,18 @@ function exploreRegions(region) {
 
 				tr.append( $('<td></td>').text( d.nStations ) );
 
-				$("#explore_card_tagHits .explore-card-tagHits-speciesTable tbody").append( tr );
+				$("#explore_card_" + cardID + " .explore-card-" + cardID + "-speciesTable tbody").append( tr );
 
 
 			});
 
-			var tableDom = $("#explore_card_tagHits .explore-card-tagHits-speciesTable tbody tr").length > 10 ? "itp" : "t";
+			var tableDom = $("#explore_card_" + cardID + " .explore-card-" + cardID + "-speciesTable tbody tr").length > 10 ? "itp" : "t";
 
-			$("#explore_card_tagHits .explore-card-tagHits-speciesTable").DataTable({dom: tableDom });
+			$("#explore_card_" + cardID + " .explore-card-" + cardID + "-speciesTable").DataTable({dom: tableDom });
 
 		} else {
 
-			$("#explore_card_tagHits .explore-card-tagHits-speciesTable").parent().show();
+			$("#explore_card_" + cardID + " .explore-card-" + cardID + "-speciesTable").parent().show();
 
 		}
 	}

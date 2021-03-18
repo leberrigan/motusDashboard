@@ -443,7 +443,7 @@ iframe#pdf_output {
 	width:100%;
 	min-height: calc(100vh - 160px);
 }
-@media (min-width: 1000px) {
+@media (min-width: 2000px) {
 	.profiles .explore-card-wrapper {
 		column-count:2;
 	}
@@ -884,12 +884,12 @@ div.explore-card {
 	/*height:calc( var(--explore-card-height) - ( var(--explore-card-padding ) * 2 ) );*/
 }
 .content-wrapper.profiles .explore-card {
-	display:inline-block;
+	display:block;
 }
 .explore-card .tips {
 	cursor:pointer;
 }
-@media (min-width: 1000px) {
+@media (min-width: 2000px) {
 	.explore-card:not(.explore-card-map):not(.explore-card-add):not(.solo-card):not(.explore-card-full-width) {
 		width: calc(50vw - 50px);
 		max-height: calc(100vh - 200px);
@@ -977,8 +977,7 @@ div.explore-card {
 	height:100%;
 }
 .content-wrapper.profiles .explore-card-chart-wrapper {
-	height:100%;
-	max-height:400px;
+	height:calc(100% - 22px);
 	overflow-y:auto !important;
 }
 .content-wrapper.profiles > .explore-card-wrapper > .explore-card-chart {
@@ -993,8 +992,8 @@ div.explore-card {
 }
 .content-wrapper.profiles > .explore-card-wrapper > #explore_card_tagHits .explore-card-tagHits-timeline svg {
 	display:block;
-	height:400px;
-	width:400px;
+	height:calc(100vh - 350px);
+	width:calc(100vw - 50px);
 }
 .explore-card-chart svg rect:hover {
 	cursor: pointer;
@@ -1002,9 +1001,12 @@ div.explore-card {
     stroke-width: 2px;
     opacity: 0.75;
 }
-.explore-card-header {
+.explore-card > .explore-card-header {
 	font-size:20pt;
 	font-weight:bold;
+	display:block;
+	max-width: 400px;
+	margin: 0 auto;
 }
 
 .explore-card-header .select2 {
@@ -1030,6 +1032,7 @@ div.explore-card {
     border: solid 7px #3957ff;
     float: left;
     margin-top: 2px;
+    margin-right: 10px;
 }
 
 
@@ -1258,10 +1261,11 @@ css({height:"600px",maxHeight:"100vh", width: "calc(100vw - 300px)", minWidth: "
 	z-index:1010;
 	line-height:30px;
 }
+
 .content-wrapper.profiles .explore-card-map {
-	width:calc(50vw - 50px);
+/*	width:calc(50vw - 50px);*/
 	margin:10px;
-	height:400px;
+	height:calc(100vh - 415px);
 }
 .content-wrapper.profiles .explore-card-map #explore_map {
 	border:solid 1px;
@@ -1294,12 +1298,13 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	display:none;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 2000px) {
 	.content-wrapper.profiles .explore-card-map {
 		float:none;
 		width: 100vw;
 		padding: 0;
 		margin: 0;
+		margin-top:10px;
 	}
 	#explore_profiles_map {
 		width: calc(100vw - 17px);
@@ -1316,6 +1321,9 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	}
 	.content-wrapper.profiles .explore-card {
 		width:100vw;
+	}
+	.explore-card-header {
+		display:block;
 	}
 }
 .explore-card-map > .explore_map {
@@ -1506,6 +1514,15 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	width:25%;
 	text-align:center;
 }
+.explore-card:not(#explore_card_profiles) {
+	background-color:#DDD;
+	border-top:solid 1px #999;
+	height: calc(100vh - 350px);
+	width: 100vw;
+}
+.explore-card:not(#explore_card_profiles):not(#explore_card_map) {
+	display:none;
+}
 #explore_card_profiles > .explore-card-profiles-name {
 	display:none;
 }
@@ -1513,12 +1530,44 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	display:none;
 }
 
+#explore_card_profiles > .explore-card-profiles-tabs > div > svg {
+	vertical-align:middle;
+	height:30px;
+	margin-right:5px;
+}
+#explore_card_profiles > .explore-card-profiles-tabs > div {
+	display: inline-block;
+	padding: 10px;
+	border: solid 1px #AAA;
+	background: #EEE;
+	border-bottom:0px;
+	border-left-width:0px;
+	vertical-align:middle;
+	line-height:30px;
+	height:30px;
+}
+#explore_card_profiles > .explore-card-profiles-tabs > div:first-child {
+	border-left-width:1px;
+}
+#explore_card_profiles > .explore-card-profiles-tabs > div.selected {
+		cursor:default;
+}
+#explore_card_profiles > .explore-card-profiles-tabs > div.selected,
+#explore_card_profiles > .explore-card-profiles-tabs > div:hover {
+	cursor:pointer;
+	background:#FFF;
+}
+#explore_card_profiles > .explore-card-profiles-tabs {
+	text-align:center;
+	margin-bottom: -20px;
+	margin-top: 50px;
+}
 #explore_card_profiles > .explore-card-profiles-controls {
-	display:none;
+	display: none;
 }
 
 #explore_card_profiles.simple-card > .explore-card-profiles-controls {
-	display:block;
+	display: block;
 	margin-bottom:10px;
 	margin-top:40px;
 	text-align:center;

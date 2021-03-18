@@ -113,7 +113,7 @@ function exploreMap({
 				//	console.log("Total: " + $("#explore_map svg path").length + " - Hidden: " + $("#explore_map svg path.hidden").length);
 				//	motusMap.svg.selectAll(".explore-map-" + mapType + ".explore-map-" + dataType)
 
-					motusMap.svg.selectAll("path").classed('hidden', d => motusMap.isVisible(d));
+					motusMap.g.selectAll("path").classed('hidden', d => motusMap.isVisible(d));
 
 					if (exploreType == 'main') {
 						if (dataType == 'animals') {
@@ -517,7 +517,7 @@ function exploreMap({
 
 			//if (typeof tagDeps_el !== 'undefined') { tagDeps_el.attr("d", path); }
 			if (typeof motusMap.stationPaths !== 'undefined') {
-				motusMap.stationPaths.attr("d", motusMap.path.pointRadius(5));
+				motusMap.stationPaths.attr("d", motusMap.path.pointRadius(6));
 				motusMap.g.selectAll('.explore-map-r2').attr("d", motusMap.path.pointRadius(2));
 			}
 			if (typeof motusMap.trackPaths !== 'undefined') { motusMap.trackPaths.attr("d", motusMap.path); }
