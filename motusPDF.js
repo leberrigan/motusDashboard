@@ -7,19 +7,21 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 		$(".pdf-output-wrapper,.pdf-output-wrapper .close_btn").click(function(e){
 			if (e.target !== this) return;
 			$(".pdf-output-wrapper").fadeOut(250);
+      $("body").css("overflow-y", "");
 		});
 
 		$(".pdf-output-wrapper").fadeIn(250);
+    $("body").css("overflow-y", "hidden");
 
-		let blob;
+    let blob;
 
 		var files = {
 
 			motusLogo: {
-				url: "http://localhost/Motus/Dashboard/Example%20station%20interfaces/images/motus-logo-lg.png"
+				url: "http://localhost/Motus/Dashboard/images/motus-logo-lg.png"
 			},
 			bcLogo: {
-				url: "http://localhost/Motus/Dashboard/Example%20station%20interfaces/images/birds-canada-logo.png"
+				url: "http://localhost/Motus/Dashboard/images/birds-canada-logo.png"
 			}
 
 		}
@@ -86,9 +88,12 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 					  doc.fillColor("black").text(page + ".", 0, 75, { width: doc.page.width - 15, align:'right' });
 
 			});
-
+      // HEADER
 			doc.image(files.motusLogo.data, 0.5 * (doc.page.width - 225) , 25, { height: 150 });
+      // FOOTER
 			doc.image(files.bcLogo.data, 0.5 * (doc.page.width - 150) , doc.page.height - 85, { height: 75 });
+      doc.fontSize(15).font('Helvetica-Bold').fillColor("black").text("Motus is a program by:", 0, doc.page.height - 105, {align: "center", width: doc.page.width});
+  		doc.font('Helvetica');
 
 			if (opts.titleIcon) {
 
@@ -116,13 +121,23 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 					.stroke();
 
 			fancySummaryTable(opts.summaryTable.vars, opts.summaryTable.vals, (0.5 * doc.page.height) + 100);
-
+      var y_start = 0;
 			if (opts.stations) {
 					doc.addPage();
 					console.log(opts.stations)
 					console.log("Loading " + opts.stations.data.length + " rows of stations");
 
-					table(opts.stations.data, cols = opts.stations.cols, colWidths = opts.stations.colWidths);
+					y_start = table(opts.stations.data, cols = opts.stations.cols, colWidths = opts.stations.colWidths);
+
+			}
+			if (opts.species) {
+        if (!opts.stations) {
+  					doc.addPage();
+            var y_start = 0;
+        }
+					console.log("Loading " + opts.species.data.length + " rows of animals");
+
+					table(opts.species.data, opts.species.cols, opts.species.colWidths, y_start);
 
 			}
 
@@ -138,6 +153,16 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 			doc.fontSize(17);
 			doc.fillColor("black").text("Tag detections by month", 0, 110,{align:"center"});
 			doc.addSVG($(".explore-card-tagHits-timeline svg").get(0), 25, 150, {height:0.5 * (doc.page.height - 100)});
+
+    	if (opts.animals) {
+					doc.addPage();
+					console.log(opts.animals)
+					console.log("Loading " + opts.animals.data.length + " rows of animals");
+
+					table(opts.animals.data, cols = opts.animals.cols, colWidths = opts.animals.colWidths);
+			}
+
+      console.log('Finish');
 
 		  doc.end();
 		}
@@ -187,10 +212,13 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 
 	}
 
-	function table(data, cols, colWidths, x = 10, y = 100, width = doc.page.width - 20, row_height = 20) {
+	function table(data, cols, colWidths, y_start = 0, x = 10, y = 100, width = doc.page.width - 20, row_height = 20) {
 
 		var my = 5;
 		var mx = 10;
+    var y_pos = 0;
+    y = y + y_start;
+    console.log("y = " + y + " - y_start = " + y_start)
 
 		if (!colWidths) {
 
@@ -201,13 +229,35 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 		}
 
 		headerRow();
-		doc.fontSize(12);
 		doc.font('Helvetica');
+		doc.fontSize(12);
+		doc.strokeColor("#AAAAAA");
+
+    var pages = 0;
+    var rows_per_page = Math.floor( ( doc.page.height - ( y + row_height + 72 ) ) / ( row_height ) ) - 1;
+
+    console.log("rows_per_page: " + rows_per_page);
+    console.log("Bottom row baseline: " + (y + row_height + (rows_per_page*row_height)));
+    var page_index = 0;
 
 		data.forEach( function(d, row_index) {
 
-			row(d, row_index);
+      if (page_index > rows_per_page) {
+        doc.addPage();
+        pages++;
+        page_index = 0;
+        if (pages == 1 && y_start > 0) {
+          y = 100;
+          rows_per_page = Math.floor( ( doc.page.height - ( y + row_height + 72 ) ) / ( row_height ) ) - 1;
+          console.log("rows_per_page: " + rows_per_page);
+          console.log("Bottom row baseline: " + (y + row_height + (rows_per_page*row_height)));
+        }
+        headerRow();
+    		doc.font('Helvetica');
+     }
 
+			row(d, page_index);
+      page_index++;
 		});
 
 		function headerRow() {
@@ -222,11 +272,13 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 
 				var x_pos = x + ((col_index==0?col_index:colWidths.slice(0, col_index).reduce( (a,c) => a += c )) * width / n);
 
-				console.log(x_pos);
-
-				doc.text(d, x_pos, y + my, {width: colWidths[ col_index ] * width / n, align: "center"});
+				doc.text(d, x_pos, y + my - (doc.heightOfString(d, {width:colWidths[ col_index ] * width / n}) - 14.5), {width: colWidths[ col_index ] * width / n, align: "center"});
 
 			});
+
+			doc.moveTo(x, y + row_height)
+				.lineTo(width, y + row_height)
+				.stroke();
 
 		}
 
@@ -234,17 +286,27 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 
 			var n = colWidths.reduce( (a,c) => a += c );
 
+      y_pos = y + ( ( 1 + row_index ) * row_height );
+
 			cells.forEach( function(d, col_index) {
 
 				var x_pos = x + ((col_index==0?col_index:colWidths.slice(0, col_index).reduce( (a,c) => a += c )) * width / n);
 
-				doc.lineJoin('miter')
+	/*			doc.lineJoin('miter')
 					.rect(x_pos, y + ( ( 1 + row_index ) * row_height ), colWidths[ col_index ] * width / n, row_height)
 					.stroke();
+*/
 
-				doc.text(d, x_pos + mx, y + ( ( 1 + row_index ) * row_height ) + my, {width: (colWidths[ col_index ] * width / n) - mx, align: col_index == 0 ? "left" : "center"});
+				doc.text(d, x_pos + mx, y_pos + my, {width: (colWidths[ col_index ] * width / n) - mx, align: col_index == 0 ? "left" : "center"});
 
-			})
+			});
+
+			doc.moveTo(x, y + ( ( 1 + row_index ) * row_height ) + row_height)
+				.lineTo(width, y_pos + row_height)
+				.stroke();
+
 		}
+
+    return y_pos + row_height;
 	}
 }

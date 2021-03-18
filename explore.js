@@ -28,13 +28,21 @@ var icons = {
 	lastData: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clock-history" viewBox="0 0 16 16"><path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/><path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/><path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/></svg>',
 /*	species: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clock-history" viewBox="-50 0 900 400"><path d="m 593.63776,191.06651 -159.1803,45.46998 3.019,6.13 46.529,68.677 -2.439,5.834 -81.503,31.964 -82.23705,-31.992 -2.434,-5.803 46.52405,-68.701 2.95,-5.975 L 208.32143,191.0665 -44.302404,223.18575 61.054237,124.39961 208.32143,79.074162 l 140.55903,6.86332 15.3948,-13.13068 11.5769,-34.43522 18.8475,-13.58332 3.30134,-24.82593528 2.17411,-2.36971272 2.07904,2.47033816 3.38371,24.70155984 18.5618,13.77773 10.0921,32.89878 17.2207,14.50546 142.1253,-6.87232 150.64264,45.325448 106.87955,99.12663 z"/></svg>',*/
 	species: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clock-history" viewBox="70 160 70 50"><path d="m 107.67084,195.05271 2.93997,-5.47902 5.47902,2.20496 10.95805,-1.87087 10.02261,-7.55037 2.73951,-7.61718 -2.87315,-7.34991 -16.50389,4.54358 -8.61944,0.40091 -1.33635,-0.60136 -2.40542,-7.48355 -1.73725,-1.36975 -1.06908,-2.27179 -1.03031,2.17155 -1.73725,1.36975 -2.40542,7.48355 -1.33635,0.60136 -8.61944,-0.40091 -16.50389,-4.54358 -2.87315,7.34991 2.73951,7.61718 10.02261,7.55037 10.95805,1.87088 5.47902,-2.20497 2.93997,5.47903 -0.40089,7.08264 -0.63476,4.57699 1.97111,2.37202 1.43117,-2.07132 1.46998,2.17157 1.97111,-2.37202 -0.63476,-4.57699 z" style="stroke-width:3px;"></path></svg>',
-	tags: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clock-history" viewBox="125 -10 250 500"><path d="m 307.38806,152.71231 v 163.57 c 0,8.284 -6.716,15 -15,15 -41.28149,-0.71533 -47.28327,1.62781 -80,0 -8.284,0 -15,-6.716 -15,-15 v -164.459 c -16.587,-15.09 -27,-36.85 -27,-61.041001 0,-45.563 36.937,-82.5 82.5,-82.5 45.563,0 82.5,36.937 82.5,82.5 0,24.672001 -10.834,46.811001 -28,61.930001 z" /><path d="M 251.05287,334.93644 V 488.58051"/></svg>',
+	animals: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFFFFF" stroke="#000000" stroke-width="20" class="bi bi-clock-history" viewBox="125 -10 250 500"><path d="m 307.38806,152.71231 v 163.57 c 0,8.284 -6.716,15 -15,15 -41.28149,-0.71533 -47.28327,1.62781 -80,0 -8.284,0 -15,-6.716 -15,-15 v -164.459 c -16.587,-15.09 -27,-36.85 -27,-61.041001 0,-45.563 36.937,-82.5 82.5,-82.5 45.563,0 82.5,36.937 82.5,82.5 0,24.672001 -10.834,46.811001 -28,61.930001 z" /><path d="M 251.05287,334.93644 V 488.58051"/></svg>',
+	tags: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFFFFF" stroke="#000000" stroke-width="20" class="bi bi-clock-history" viewBox="125 -10 250 500"><path d="m 307.38806,152.71231 v 163.57 c 0,8.284 -6.716,15 -15,15 -41.28149,-0.71533 -47.28327,1.62781 -80,0 -8.284,0 -15,-6.716 -15,-15 v -164.459 c -16.587,-15.09 -27,-36.85 -27,-61.041001 0,-45.563 36.937,-82.5 82.5,-82.5 45.563,0 82.5,36.937 82.5,82.5 0,24.672001 -10.834,46.811001 -28,61.930001 z" /><path d="M 251.05287,334.93644 V 488.58051"/></svg>',
 	pdf: '<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 41.659309 29.902843"><g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(-70.25338,-154.21364)"> <text xml:space="preserve"  x="73.117455" y="170.28175" id="text4530" transform="scale(0.92485882,1.0812461)"><tspan sodipodi:role="line" id="tspan4528" x="73.117455" y="170.28175" style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:44.45785141px;font-family:\'Tw Cen MT Condensed\';-inkscape-font-specification:\'Tw Cen MT Condensed, Normal\';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:1.11144626">PDF</tspan></text>  </g></svg>',
 	search: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="explore-search-btn tips" alt="Search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>',
 	filters: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="explore-filter-btn tips" alt="Show filters" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z" /></svg>',
 	timeline: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="explore-timeline-btn tips" alt="Timeline" viewBox="0 0 16 16"><path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/><path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/><path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/></svg>',
 	animate: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="explore-animate-btn tips" alt="Animate tracks" viewBox="0 0 16 16"><path d="M 13.206 7.5 L 4.5 2.4495 v 10.101 L 13.206 7.5 z m 1.188 -1.044 a 1.203 1.203 90 0 1 0 2.088 l -9.5445 5.538 C 4.0695 14.535 3 14.0175 3 13.038 V 1.962 c 0 -0.9795 1.0695 -1.497 1.8495 -1.044 l 9.5445 5.538 z"/></svg>',
+	stations: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="18" height="23" viewBox="0 0 389.923 481.915">  <defs> <style>.cls-1 {        stroke: #000;        stroke-linecap: round;        stroke-linejoin: round;        stroke-width: 20px;        fill: none;        fill-rule: evenodd;      }    </style>  </defs>  <path d="M358.000,145.000 L358.000,88.000 L280.000,88.000 L280.000,127.000 L270.000,127.000 L270.000,88.000 L197.000,88.000 L197.000,210.720 L280.003,455.303 L275.586,459.008 L232.000,330.572 L232.000,338.000 L197.000,338.000 L197.000,404.988 L187.000,404.988 L187.000,338.000 L150.007,338.000 L108.464,460.008 L103.997,456.274 L187.000,212.504 L187.000,88.000 L114.000,88.000 L114.000,127.000 L104.000,127.000 L104.000,88.000 L30.000,88.000 L30.000,152.000 L20.000,152.000 L20.000,20.000 L30.000,20.000 L30.000,78.000 L104.000,78.000 L104.000,40.000 L114.000,40.000 L114.000,78.000 L187.000,78.000 L187.000,57.012 L197.000,57.012 L197.000,78.000 L270.000,78.000 L270.000,40.000 L280.000,40.000 L280.000,78.000 L358.000,78.000 L358.000,20.000 L368.000,20.000 L368.000,78.000 L368.000,88.000 L368.000,145.000 L358.000,145.000 ZM197.000,328.000 L231.127,328.000 L197.000,227.438 L197.000,328.000 ZM187.000,229.355 L153.412,328.000 L187.000,328.000 L187.000,229.355 Z" transform="translate(10.96 10.96)" class="cls-1"/></svg>',
 	station: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="18" height="23" viewBox="0 0 389.923 481.915">  <defs> <style>.cls-1 {        stroke: #000;        stroke-linecap: round;        stroke-linejoin: round;        stroke-width: 20px;        fill: none;        fill-rule: evenodd;      }    </style>  </defs>  <path d="M358.000,145.000 L358.000,88.000 L280.000,88.000 L280.000,127.000 L270.000,127.000 L270.000,88.000 L197.000,88.000 L197.000,210.720 L280.003,455.303 L275.586,459.008 L232.000,330.572 L232.000,338.000 L197.000,338.000 L197.000,404.988 L187.000,404.988 L187.000,338.000 L150.007,338.000 L108.464,460.008 L103.997,456.274 L187.000,212.504 L187.000,88.000 L114.000,88.000 L114.000,127.000 L104.000,127.000 L104.000,88.000 L30.000,88.000 L30.000,152.000 L20.000,152.000 L20.000,20.000 L30.000,20.000 L30.000,78.000 L104.000,78.000 L104.000,40.000 L114.000,40.000 L114.000,78.000 L187.000,78.000 L187.000,57.012 L197.000,57.012 L197.000,78.000 L270.000,78.000 L270.000,40.000 L280.000,40.000 L280.000,78.000 L358.000,78.000 L358.000,20.000 L368.000,20.000 L368.000,78.000 L368.000,88.000 L368.000,145.000 L358.000,145.000 ZM197.000,328.000 L231.127,328.000 L197.000,227.438 L197.000,328.000 ZM187.000,229.355 L153.412,328.000 L187.000,328.000 L187.000,229.355 Z" transform="translate(10.96 10.96)" class="cls-1"/></svg>'
+}
+
+var icon_paths = {
+
+	stations:"M 8.95 3.625 L 8.95 2.2 L 7 2.2 L 7 3.175 L 6.75 3.175 L 6.75 2.2 L 4.925 2.2 L 4.925 5.268 L 7.0001 11.3826 L 6.8897 11.4752 L 5.8 8.2643 L 5.8 8.45 L 4.925 8.45 L 4.925 10.1247 L 4.675 10.1247 L 4.675 8.45 L 3.7502 8.45 L 2.7116 11.5002 L 2.5999 11.4068 L 4.675 5.3126 L 4.675 2.2 L 2.85 2.2 L 2.85 3.175 L 2.6 3.175 L 2.6 2.2 L 0.75 2.2 L 0.75 3.8 L 0.5 3.8 L 0.5 0.5 L 0.75 0.5 L 0.75 1.95 L 2.6 1.95 L 2.6 1 L 2.85 1 L 2.85 1.95 L 4.675 1.95 L 4.675 1.4253 L 4.925 1.4253 L 4.925 1.95 L 6.75 1.95 L 6.75 1 L 7 1 L 7 1.95 L 8.95 1.95 L 8.95 0.5 L 9.2 0.5 L 9.2 1.95 L 9.2 2.2 L 9.2 3.625 L 8.95 3.625 Z M 4.925 8.2 L 5.7782 8.2 L 4.925 5.686 L 4.925 8.2 Z M 4.675 5.7339 L 3.8353 8.2 L 4.675 8.2 L 4.675 5.7339 Z"
+
 }
 
 var motusData = {};
@@ -201,7 +209,7 @@ $(document).ready(function(){
 						(
 							["animals","stations","regions","projects"].includes(dataType) ? (
 
-								(exploreType != 'main' || dataType == 'regions' ? "<div class='explore-card explore-card-map'>" : "") +
+								(exploreType != 'main' || dataType == 'regions' ? "<div id='explore_card_map' class='explore-card explore-card-map'>" : "") +
 								"<div id='explore_map'></div>" +
 								(exploreType != 'main' || dataType == 'regions' ? "</div>" : "")
 								) :	""
@@ -645,7 +653,9 @@ function populateExploreControls() {
 
 	var toAppend = [];
 
-	if (dataType == 'regions') {
+	if (exploreType != 'main') {
+		toAppend = ["filters", "timeline", "animate", "search", 'pdf'];
+	} else if (dataType == 'regions') {
 		toAppend = ["type"];
 		if (exploreType == 'main') {
 			$('#explore_controls').addClass('data-summary');
@@ -810,7 +820,22 @@ function exploreControls(el) {
 			if (exploreType == 'regions') {
 				var region_svg = d3.create('svg');
 				console.log(selectedPolygons);
-				var path = d3.geoPath().projection(d3.geoMercator().fitSize([500,100],selectedPolygons[0]))
+				var path = d3.geoPath().projection(d3.geoMercator().fitSize([500,100],selectedPolygons[0]));
+
+				region_svg.append("svg:defs").append("svg:marker")
+					.attr("id", "station_path")
+					.attr("refX", 5)
+					.attr("refY", 10)
+					.attr("markerWidth", 60)
+					.attr("markerHeight", 80)
+					.attr("viewBox", "0 0 30 40")
+					.attr("markerUnits","userSpaceOnUse")
+					.attr("orient", "auto")
+					.append("path")
+					.attr("d", icon_paths.stations)
+					.style('pointer-events', 'auto')
+					.style("stroke", "#000");
+
 
 				var g = region_svg.attr('width',500)
 						.attr('height',100)
@@ -831,12 +856,13 @@ function exploreControls(el) {
 						.data(motusData.recvDepsLink.filter(d => regionStations.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)))
 						//.data(motusData.recvDepsLink)
 						.enter().append("path")
-						.attr("d", path.pointRadius(5))
-						.style('stroke', '#000')
+						.attr('marker-end','url(#station_path)')
+						.attr("d", path.pointRadius(6))
+	//					.style('stroke', '#000')
 						.style('fill', (d) => d.dtEnd > moment().subtract(1, 'days') ? '#0F0' : '#F00')
 						.attr('class', 'explore-map-stations leaflet-zoom-hide')
 						//.style('fill', d => regionStations.includes(d.id) ? "#F00" : "#000")
-						.style('stroke-width', '1px')
+				//		.style('stroke-width', '1px')
 
 				d3.geoPath().bounds({features:selectedPolygons, type: "FeatureCollection"});
 
@@ -844,14 +870,34 @@ function exploreControls(el) {
 					type: exploreType,
 					selection: firstToUpper($("#explore_card_profiles .explore-card-header").text()),
 					summaryTable: {vars: vars, vals: vals},
-					titleIcon: {svg: region_svg},
-					stations: {
+					titleIcon: {svg: region_svg}
+				};
+
+				if ($("#explore_card_stationHits table.explore-card-stationHits-table").length > 0) {
+					opts.stations = {
 						// Remove the HTML from the first row!
-						data: $("#explore_card_stationHits table:visible").DataTable().rows().data().toArray().map(x => x.map((k,i) => i==0||i==2?$("<a>"+k+"</a>").text():k)),
-						cols: $("#explore_card_stationHits table:visible th").map(function(){return $.trim($(this).text());}).get(),
+						data: $("#explore_card_stationHits table.explore-card-stationHits-table").DataTable().rows().data().toArray().map(x => x.map((k,i) => i==0||i==2?$("<a>"+k+"</a>").text():k)),
+						cols: $("#explore_card_stationHits table.explore-card-stationHits-table th").map(function(){return $.trim($(this).text());}).get(),
 						colWidths: [4,2,3,1,1]
 					}
-				};
+				}
+				if ($("#explore_card_tagHits table.explore-card-tagHits-table").length > 0) {
+					opts.animals = {
+						// Remove the HTML from the first row!
+						data: $("#explore_card_tagHits table.explore-card-tagHits-table").DataTable().rows().data().toArray().map(x => x.map((k,i) => i==0||i==2?$("<a>"+k+"</a>").text():k)),
+						cols: $("#explore_card_tagHits table.explore-card-tagHits-table th").map(function(){return $.trim($(this).text());}).get(),
+						colWidths: [4,2,3,1,1]
+					}
+				}
+				if ($("#explore_card_speciesHits table.explore-card-speciesHits-speciesTable").length > 0) {
+					opts.species = {
+						// Remove the HTML from the first row!
+						data: $("#explore_card_speciesHits table.explore-card-speciesHits-speciesTable").DataTable().rows().data().toArray().map(x => x.map((k,i) => i==0||i==2?$("<a>"+k+"</a>").text():k)),
+						cols: $("#explore_card_speciesHits table.explore-card-speciesHits-speciesTable th").map(function(){return $.trim($(this).text());}).get(),
+						colWidths: [4,2,3,1,1]
+					}
+				}
+
 			} else {
 				opts = {
 					type: exploreType,
@@ -1297,12 +1343,15 @@ function addExploreCard(card) {
 			(exploreType == 'species' ? ['Map colour', 'Name', 'Animals', 'Projects', 'Stations', 'Conservation Status'] : (exploreType == 'regions' ? ['Map colour', 'Name', 'Animals', 'Species', 'Projects', 'Stations'] : (exploreType == 'projects' ? ['Map colour', 'Name', 'Animals', 'Species', 'Stations'] : ['Map colour', 'Name', 'Animals', 'Species', 'Last data', 'Status']))).forEach(function(x){profiles_header += "<th class='"+(x.toLowerCase().replace(' ','-'))+"'>"+x+"</th>";});
 
 			if ($("#explore_card_profiles").length == 0) {
-				$("#exploreContent .explore-card-wrapper").append("<div class='explore-card' id='explore_card_profiles'><div class='explore-card-profiles-name'>"+card.name+"</div><table><thead><tr class='explore-card-profiles-header'>"+profiles_header+"<th></th></tr></thead><tbody class='explore-card-profiles-wrapper'></tbody></table><div class='explore-card-add explore-card-"+exploreType+"' alt='Add a "+exploreType+"'><select class='explore-card-add-"+exploreType+"' data-placeholder='Select a "+exploreType+"' style='width:300px;'><option></option></select></div><div class='explore-card-profiles-controls'></div></div>");
-				$(".explore-card-profiles-controls").append("<button class='explore-card-more-details'>More details</button>"+
+				$("#exploreContent .explore-card-wrapper").append("<div class='explore-card' id='explore_card_profiles'><div class='explore-card-profiles-name'>"+card.name+"</div><table><thead><tr class='explore-card-profiles-header'>"+profiles_header+"<th></th></tr></thead><tbody class='explore-card-profiles-wrapper'></tbody></table><div class='explore-card-add explore-card-"+exploreType+"' alt='Add a "+exploreType+"'><select class='explore-card-add-"+exploreType+"' data-placeholder='Select a "+exploreType+"' style='width:300px;'><option></option></select></div><div class='explore-card-profiles-tabs'></div></div>");
+				/*$(".explore-card-profiles-controls").append("<button class='explore-card-more-details'>More details</button>"+
 																										"<button class='explore-card-profiles-download-pdf'>Download PDF report</button>"+
-																										"<button class='explore-card-profiles-download-pdf'>Download summary data</button>");
+																										"<button class='explore-card-profiles-download-csv'>Download summary data</button>");
 				$(".explore-card-profiles-download-pdf").click(function(){$(".explore-map-"+dataType+"-pdf input[type=button]").trigger('click');});
 				$(".explore-card-more-details").click(function(){detailedView=true;exploreRegions(motusFilter.regions)});
+				*/
+				addExploreTab('explore-card-map', 'Map');
+				addExploreTab('explore-card-profiles-download-pdf', 'Download PDF report', {click:function(){$(".explore-map-"+dataType+"-pdf input[type=button]").trigger('click');}, noToggle:true});
 			}
 
 			var toAppend = "<tr class='explore-card-profile' id='explore_card_profile_" + card.id + "'>"+
@@ -1426,11 +1475,15 @@ function addExploreCard(card) {
 		// Make the header with a select input instead of plain text
 		var exploreCardHeader = $("<div class='explore-card-header'><select style='width:100%;'></select></div>");
 
-		// Add an option for each tab
-		for (t in card.tabs) {
-			exploreCardHeader.find('select').append( $("<option></option>").val(t).text(card.header + ' ' + t).attr('selected', (selectedTab == t ? 'selected' : false) ) );
+		if (Object.keys(card.tabs).length > 1) {
+			// Add an option for each tab
+			for (t in card.tabs) {
+				exploreCardHeader.find('select').append( $("<option></option>").val(t).text(t).attr('selected', (selectedTab == t ? 'selected' : false) ) );
+			}
+		} else {
+			exploreCardHeader.find('select').after(`${t}`);
+			exploreCardHeader.find('select').remove();
 		}
-
 		// Make the explore card and append the header to it
 		var exploreCard = $("<div></div>")
 			.addClass("explore-card explore-card-" + card.data)
@@ -1455,6 +1508,8 @@ function addExploreCard(card) {
 		function switchTabs() {card.tabs[this.options[this.selectedIndex].value](card.type);}
 
 		card.tabs[ selectedTab ]( card.type );
+
+		addExploreTab('explore_card_' + card.type, card.header, {icon: icons[card.header.toLowerCase().split(' ')[0]], insertAfter: 'explore-card-map-tab'});
 
 	}
 	else if (card.data == 'chart') {
@@ -1550,7 +1605,35 @@ function addExploreCard(card) {
 	updateURL();
 
 }
+function addExploreTab(el, header, opts = {}) {
 
+	var tab = $(`<div class='${el.replace(/_/g,'-')}-tab'>${header}</div>`);
+	if (!opts.click) {
+		tab.click(function(){
+			if ($(`#${this.className.replace(/-/g,'_').replace(new RegExp("_tab$"),'')}`).is(":hidden")) {
+				console.log(`#${this.className.replace(/-/g,'_').replace(new RegExp("_tab$"),'')}`);
+				$(".explore-card:not(#explore_card_profiles):visible").hide();
+				$(`#${this.className.replace(/-/g,'_').replace(new RegExp("_tab$"),'')}`).show();
+				if ($(`#${this.className.replace(/-/g,'_').replace(new RegExp("_tab$"),'')} table`).length > 0) {
+					$(`#${this.className.replace(/-/g,'_').replace(new RegExp("_tab$"),'')} table`).DataTable().columns.adjust().draw();
+				}
+			}
+		});
+	} else {
+		tab.click(opts.click);
+	}
+	if (opts.icon) {
+		tab.prepend(opts.icon);
+	}
+	if (!opts.noToggle) {
+		tab.click(function(){$(this).toggleClass('selected',true);$(this).siblings().removeClass('selected');})
+	}
+	if (opts.insertAfter) {
+		$("#explore_card_profiles .explore-card-profiles-tabs ." + opts.insertAfter).after(tab);
+	} else {
+		$("#explore_card_profiles .explore-card-profiles-tabs").append(tab);
+	}
+}
 function removeExploreCard(el, filterType) {
 
 	var cardID = $(el).closest('.explore-card-profile').attr('id').replace('explore_card_profile_', '');
