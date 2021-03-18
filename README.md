@@ -56,26 +56,6 @@ To be released 2021. An upgrade for Motus Explore Data tool.
         |---> STATION PROFILE                        (stations visited in group)
 ```
 
- * EXPLORE DATA
-  * **[DEFAULT]** STATIONS (point or bubble map)
-    * STATION PROFILE (deployment location)
-  * ANIMALS (track map)
-    * ANIMAL PROFILE (deployment location or track of animal)
-  * DATA SUMMARIES (polygon map or table)
-    * REGIONAL PROFILE (map, figures, and tables)
-      * ANIMAL PROFILE (animals tagged in region)
-      * ANIMAL PROFILE (animals detected in region)
-      * STATION PROFILE (stations in region)
-    * PROJECT PROFILE (map, figures, and tables)
-      * ANIMAL PROFILE (tagged animals in project)
-      * STATION PROFILE (stations in project)
-    * SPECIES PROFILE (map, figures, and tables)
-      * ANIMAL PROFILE (tagged animals of species)
-      * STATION PROFILE (stations visited by species)
-      * STATION PROFILE (stations in project)
-    * GROUP PROFILE (map, figures, and tables)
-      * ANIMAL PROFILE (tagged animals in group)
-      * STATION PROFILE (stations visited in group)
 ---
 
 ## Data structure
