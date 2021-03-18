@@ -995,7 +995,7 @@ function exploreRegions(region) {
 
 			motusData.tagHits = {};
 
-			timeRange = {};
+			//timeRange = {};
 
 			var animalsByDayOfYear = [];
 
