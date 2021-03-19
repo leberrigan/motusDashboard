@@ -517,7 +517,7 @@ function exploreRegions(region) {
 
 	if (!exploreProfile_hasLoaded) {
 		addExploreCard({data:"add"});
-		$(".explore-card-profiles-tabs").before(explore_legend);
+		//$(".explore-card-profiles-tabs").before(explore_legend);
 		$('#explore_map').parent().before($('#explore_card_profiles'));
 
 		$('#explore_map').before("<div class='explore-map-controls'></div>")
@@ -1244,7 +1244,8 @@ function exploreRegions(region) {
 				],
 				dom: tableDom,
 				autoWidth: false
-			}).on('draw.dt', function(){
+			});
+
 
 				$(`#explore_card_${cardID} .explore-card-${cardID}-speciesTable tbody`).on('click', `td.explore-table-expandRow`, function(){
 					var tr = $(this).closest('tr');
@@ -1267,9 +1268,6 @@ function exploreRegions(region) {
 					}
 
 				});
-			});
-
-
 
 
 		} else {

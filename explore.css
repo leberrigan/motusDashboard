@@ -317,6 +317,41 @@ iframe#pdf_output {
 	.header .header-menu > div.expand-menu-btn {
 		display:inline-block;
 	}
+	div.explore-card:not(#explore_card_profiles):not(.explore-card-map) {
+		height:auto;
+
+	}
+
+
+}
+
+#explore_card_profiles > .explore-card-profiles-tabs > div.expand-menu-btn {
+	display:none;
+}
+@media (max-width: 600px) {
+
+	#explore_card_profiles > .explore-card-profiles-tabs > div.selected {
+		border-right-width:1px;
+	}
+	#explore_card_profiles > .explore-card-profiles-tabs > div:not(.selected):not(.expand-menu-btn) {
+		display:none;
+	}
+	#explore_card_profiles > .explore-card-profiles-tabs > div.expand-menu-btn {
+		display:inline-block;
+	}
+	#explore_card_profiles > .explore-card-profiles-tabs.expanded > div:not(.expand-menu-btn) {
+		display:block;
+		border-width: 0 1px;
+	}
+	#explore_card_profiles > .explore-card-profiles-tabs.expanded {
+	    position: relative;
+	    z-index: 9999;
+	    margin-bottom: -271px;
+	}
+	#explore_card_profiles > .explore-card-profiles-tabs.expanded > div:not(.expand-menu-btn):last-child {
+		border-bottom-width:1px;
+	}
+
 }
 
 /*******************************************
@@ -868,10 +903,8 @@ table.dataTable tr.selected th.select-checkbox:after {
 
 -----------------------------------*/
 .explore-card-wrapper:not(.solo-card) .explore-card {
-	margin:10px;/*
-	border-radius:30px;
-	border:solid 3px #000;
-*/}
+	margin-top:10px;
+}
 div.explore-card {
 	--explore-card-height: calc(100vh - 100px);
 	--explore-card-padding: 10px;
@@ -895,6 +928,9 @@ div.explore-card {
 		max-height: calc(100vh - 200px);
 		overflow-y: auto;
 	}
+}
+.explore-card:not(#explore_card_profiles):not(.explore-card-map) {
+	overflow: auto;
 }
 .explore-card:not(.explore-card-map) {
 /*	float:left;*/
@@ -1414,7 +1450,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	#explore_card_profiles {
 		float:none;
 		margin: 0 auto;
-		width:100vw;
+		width:calc(100vw - 20px);
 	}
 	.content-wrapper.profiles .explore-card {
 		width:100vw;
@@ -1638,13 +1674,13 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	border: solid 1px #AAA;
 	background: #EEE;
 	border-bottom:0px;
-	border-left-width:0px;
+	border-right-width:0px;
 	vertical-align:middle;
 	line-height:30px;
 	height:30px;
 }
-#explore_card_profiles > .explore-card-profiles-tabs > div:first-child {
-	border-left-width:1px;
+#explore_card_profiles > .explore-card-profiles-tabs > div:last-child {
+	border-right-width:1px;
 }
 #explore_card_profiles > .explore-card-profiles-tabs > div.selected {
 		cursor:default;

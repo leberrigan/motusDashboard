@@ -2,14 +2,16 @@
 
 To be released 2021. An upgrade for Motus Explore Data tool.
 
+### **[DEMO](explore.html)**
 - [Updates](#updates)
 - [Site map](#site-map)
 - [Data structure](#data-structure)
-- [DEMO](explore.html)
+- [Repository](https://github.com/leberrigan/motusDashboard)
 
 ## Updates
 
 ### Latest
+* [x] [2021-03-19] Fix formatting for mobile (small screens).
 * [x] [2021-03-19] Add tooltip to station timelines, showing date and data if data exist.
 * [x] [2021-03-19] Combine station tables and try to fit them under timeline for each row. Accordion-style so it can be hidden.
 * [x] [2021-03-19] On summary pages, combine species and animals into a single table. Accordion-style: clicking on a species shows animals below it.
