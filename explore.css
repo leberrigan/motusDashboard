@@ -1025,7 +1025,7 @@ div.explore-card {
 	color:#F00;
 }
 
-.explore-card-table-legend-icon {
+.explore-card-table-legend-icon, .explore-legend-icon {
 	display: inline-block;
     border-color: ;
     border-radius: 50%;
@@ -1281,6 +1281,39 @@ css({height:"600px",maxHeight:"100vh", width: "calc(100vw - 300px)", minWidth: "
 	display:none;
 }
 
+
+td.explore-table-expandRow::after {
+  content: "+";
+	background:#0C0;
+	border-radius:50%;
+  display:block;
+	width: 20px;
+	height: 20px;
+	vertical-align:middle;
+	font-weight:bold;
+	color:#FFF;
+}
+td.explore-table-expandRow:hover::after {
+	background:#0A0;
+	cursor:pointer;
+}
+tr.shown > td.explore-table-expandRow:hover::after {
+	background:#A00;
+}
+
+tr.shown > td.explore-table-expandRow::after {
+  content: "-";
+	background:#C00;
+	font-size:20pt;
+	line-height:17px;
+}
+
+div.explore-species-table-animals {
+	max-height:300px;
+	overflow-y: auto;
+	border-bottom:solid 2px;
+}
+
 .explore-map-legend .explore-map-legend-header .showHide::after {
 	content: "(hide)";
 	margin-left:10px;
@@ -1302,6 +1335,16 @@ css({height:"600px",maxHeight:"100vh", width: "calc(100vw - 300px)", minWidth: "
 	margin:-7px 0;
 }
 
+table.dataTable tbody tr.even {
+	background-color:#FAFAFA;
+}
+
+table.dataTable tbody tr.odd:not(:first-child) td, table.dataTable tbody tr.even td {
+	border-top:solid 1px #AAA;
+}
+table.dataTable tbody tr.odd {
+	background-color:#F0F0F0;
+}
 
 .explore-map-legend svg g.selected {
 	stroke:#000;

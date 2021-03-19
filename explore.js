@@ -171,7 +171,7 @@ $(document).ready(function(){
 
 	//exploreType = 'stations'; // TESTING
 
-	if (exploreType == 'main' && window.location.hostname != 'localhost') {window.location.href="dashboard/#exploreType=main&dataType="+dataType;}
+	if (exploreType == 'main' && window.location.hostname != 'localhost' && window.location.hostname != 'github') {window.location.href="dashboard/#exploreType=main&dataType="+dataType;}
 
 /*	if (exploreType == 'main' && dataType != 'animals') {
 		default_startDate = moment();
@@ -1481,7 +1481,7 @@ function addExploreCard(card) {
 				exploreCardHeader.find('select').append( $("<option></option>").val(t).text(t).attr('selected', (selectedTab == t ? 'selected' : false) ) );
 			}
 		} else {
-			exploreCardHeader.find('select').after(`${t}`);
+			exploreCardHeader.find('select').after(`${Object.keys(card.tabs)[0]}`);
 			exploreCardHeader.find('select').remove();
 		}
 		// Make the explore card and append the header to it
@@ -1508,7 +1508,8 @@ function addExploreCard(card) {
 		function switchTabs() {card.tabs[this.options[this.selectedIndex].value](card.type);}
 
 		card.tabs[ selectedTab ]( card.type );
-
+		console.log("card");
+		console.log(card);
 		addExploreTab('explore_card_' + card.type, card.header, {icon: icons[card.header.toLowerCase().split(' ')[0]], insertAfter: 'explore-card-map-tab'});
 
 	}
@@ -1615,6 +1616,7 @@ function addExploreTab(el, header, opts = {}) {
 				$(".explore-card:not(#explore_card_profiles):visible").hide();
 				$(`#${this.className.replace(/-/g,'_').replace(new RegExp("_tab$"),'')}`).show();
 				if ($(`#${this.className.replace(/-/g,'_').replace(new RegExp("_tab$"),'')} table`).length > 0) {
+					console.log('Redrawing table')
 					$(`#${this.className.replace(/-/g,'_').replace(new RegExp("_tab$"),'')} table`).DataTable().columns.adjust().draw();
 				}
 			}
