@@ -1001,7 +1001,7 @@ function exploreRegions(region) {
 
 
 	function animalTimeline( cardID ) {
-
+		console.log('make timeline')
 		$("#explore_card_" + cardID + " > div:not(.explore-card-header)").hide();
 
 		if ($(".explore-card-" + cardID + "-timeline").length == 0) {
