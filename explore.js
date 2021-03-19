@@ -171,7 +171,7 @@ $(document).ready(function(){
 
 	//exploreType = 'stations'; // TESTING
 console.log(window.location.hostname);
-	//if (exploreType == 'main' && window.location.hostname != 'localhost' && window.location.hostname != 'github') {window.location.href="dashboard/#exploreType=main&dataType="+dataType;}
+	if (exploreType == 'main' && window.location.hostname != 'localhost' && window.location.hostname != 'leberrigan.github.io') {window.location.href="dashboard/#exploreType=main&dataType="+dataType;}
 
 /*	if (exploreType == 'main' && dataType != 'animals') {
 		default_startDate = moment();
@@ -267,7 +267,8 @@ function setProgress(percent) {
 
 function loadMotusData(fileList, callback) {
 
-	var filePrefix = window.location.hostname == 'localhost' || window.location.hostname == 'github' ? 'data/' : window.location.hostname == 'www.motus.org' ? "https://" + window.location.hostname + "/wp-content/uploads/2021/01/" : "https://" + window.location.hostname + "/wp-content/uploads/";
+	var filePrefix = window.location.hostname == 'localhost' ? 'data/' : window.location.hostname == 'www.motus.org' ? "https://" + window.location.hostname + "/wp-content/uploads/2021/01/" : "https://" + window.location.hostname + "/wp-content/uploads/";
+
 
 	var mapFiles = {
 		stations: filePrefix + "recv-deps.csv",
