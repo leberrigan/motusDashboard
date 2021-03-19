@@ -171,7 +171,7 @@ $(document).ready(function(){
 
 	//exploreType = 'stations'; // TESTING
 
-	if (exploreType == 'main' && window.location.hostname != 'localhost') {window.location.href="dashboard/#exploreType=main&dataType="+dataType;}
+	if (exploreType == 'main' && window.location.hostname != 'localhost' && window.location.hostname != 'github') {window.location.href="dashboard/#exploreType=main&dataType="+dataType;}
 
 /*	if (exploreType == 'main' && dataType != 'animals') {
 		default_startDate = moment();
