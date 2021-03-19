@@ -9,28 +9,35 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ## Updates
 
 ### Latest
-* [x] Make a legend
-* [x] Save page as PDF
- * [x] Improve PDF output by adding more summary data and a table or two
-* [x] Tidy initial summary displayed prior to detailed profile page so there's lots of white space and it's clear what's going on.
-* [x] Generate summary to display prior to detailed profile page.
-* [x] Reorganize directories and removed unecessary files.
+* [x] [2021-03-19] Add tooltip to station timelines, showing date and data if data exist.
+* [x] [2021-03-19] Combine station tables and try to fit them under timeline for each row. Accordion-style so it can be hidden.
+* [x] [2021-03-19] On summary pages, combine species and animals into a single table. Accordion-style: clicking on a species shows animals below it.
+* [x] [2021-03-18] Reorganize directories and removed unecessary files.
+* [x] [2021-03-18] Make a legend
+* [x] [2021-03-18] Tidy initial summary displayed prior to detailed profile page so there's lots of white space and it's clear what's going on.
+* [x] [2021-03-17] Generate summary to display prior to detailed profile page.
+* [x] [2021-03-17] Improve PDF output by adding more summary data and a table or two
+* [x] [2021-03-16] Save page as PDF
 
 ### In development
-* [ ] On summary pages, combine species and animals into a single table. Accordion-style: clicking on a species shows animals below it.
+
+* [ ] **Profiles:** Move map legend for selections to top of page (under filters)
+* [ ] **Profiles:** Improve map control interface
 
 ### Next
+ * [ ] **Profiles:** Fix calculation of summary statistics
  * [ ] **Profiles:** Develop species profiles
  * [ ] **Profiles:** Develop animal profiles
  * [ ] **Profiles:** Develop station profiles
- * [ ] **Profiles:** Move map legend for selections to top of page (under filters)
- * [ ] **Explore:** Move data summaries to top of hierarchy
+ * [ ] **Profiles:** Update radial plot with filters
  * [ ] **Profiles:** Add a new tab for projects.
- * [ ] **Profiles:** Combine station tables and try to fit them under timeline for each row. Accordion-style so it can be hidden.
  * [ ] **Profiles:** Highlight regions where stations/tagDeps exist in all profile pages
- * [ ] **Profiles:** Improve map control interface
+ * [ ] **Explore:** Move data summaries to top of hierarchy
  * [ ] **Explore:** Introduce custom selections
+ * [ ] **ALL:** Work on animation controls
  * [ ] **ALL:** Pare down code so fewer scripts are required
+
+ ### Further down the road...
  * [ ] **Profiles:** Think about adding a [streamgraph](https://bl.ocks.org/HarryStevens/c893c7b441298b36f4568bc09df71a1e) for species timelines and antenna activity.
 
 ---
@@ -115,7 +122,7 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 - `animals in region`
 - `stations in region`
 
-##### Project
+##### PROJECTS
 - `animals in project`
 
 ##### SPECIES
