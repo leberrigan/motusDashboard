@@ -1011,6 +1011,7 @@ div.explore-card {
 .content-wrapper.profiles .explore-card-chart-wrapper > div {
 	overflow:visible;
 	height:100%;
+	width:100%;
 }
 .content-wrapper.profiles .explore-card-chart-wrapper {
 	height:calc(100% - 22px);
@@ -1654,7 +1655,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	width: 100vw;
 }
 .explore-card:not(#explore_card_profiles):not(#explore_card_map) {
-	display:none;
+/*	display:none;*/
 }
 #explore_card_profiles > .explore-card-profiles-name {
 	display:none;

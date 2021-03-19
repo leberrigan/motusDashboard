@@ -135,3 +135,9 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ##### GROUPS
 - `animals in group`
 - `stations in group`
+
+## Quick stats
+
+### Number of hits: 4,338,50
+### Number of runs: 37,684,367
+55931235 - 18246868

@@ -20,7 +20,7 @@
 				height = gParentSize.height,
 				innerRadius = Math.min(gParentSize.width, gParentSize.height) / 4;
 
-
+				console.log(width + ", " + height)
 		//	var grp = gParent.append("g").attr("class", "container");
 
 		//	grp.each(function(data, i) {

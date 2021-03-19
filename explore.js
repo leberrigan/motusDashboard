@@ -878,9 +878,10 @@ function exploreControls(el) {
 				};
 
 				if ($("#explore_card_stationHits table.explore-card-stationHits-table").length > 0) {
+					console.log($("#explore_card_stationHits table.explore-card-stationHits-table").DataTable().rows().data().toArray());
 					opts.stations = {
 						// Remove the HTML from the first row!
-						data: $("#explore_card_stationHits table.explore-card-stationHits-table").DataTable().rows().data().toArray().map(x => x.map((k,i) => i==0||i==2?$("<a>"+k+"</a>").text():k)),
+						data: $("#explore_card_stationHits table.explore-card-stationHits-table").DataTable().rows().data().toArray().map(x => Object.values(x).map((k,i) => i==0||i==2?$("<a>"+k+"</a>").text():k)),
 						cols: $("#explore_card_stationHits table.explore-card-stationHits-table th").map(function(){return $.trim($(this).text());}).get(),
 						colWidths: [4,2,3,1,1]
 					}
@@ -896,7 +897,7 @@ function exploreControls(el) {
 				if ($("#explore_card_speciesHits table.explore-card-speciesHits-speciesTable").length > 0) {
 					opts.species = {
 						// Remove the HTML from the first row!
-						data: $("#explore_card_speciesHits table.explore-card-speciesHits-speciesTable").DataTable().rows().data().toArray().map(x => x.map((k,i) => i==0||i==2?$("<a>"+k+"</a>").text():k)),
+						data: $("#explore_card_speciesHits table.explore-card-speciesHits-speciesTable").DataTable().rows().data().toArray().map(x => Object.values(x).map((k,i) => i==0||i==2?$("<a>"+k+"</a>").text():k)),
 						cols: $("#explore_card_speciesHits table.explore-card-speciesHits-speciesTable th").map(function(){return $.trim($(this).text());}).get(),
 						colWidths: [4,2,3,1,1]
 					}
@@ -1514,10 +1515,14 @@ function addExploreCard(card) {
 
 		function switchTabs() {card.tabs[this.options[this.selectedIndex].value](card.type);}
 
-		card.tabs[ selectedTab ]( card.type );
 		console.log("card");
 		console.log(card);
+
 		addExploreTab('explore_card_' + card.type, card.header, {icon: icons[card.header.toLowerCase().split(' ')[0]], insertAfter: 'explore-card-map-tab'});
+
+		card.tabs[ selectedTab ]( card.type );
+
+		exploreCard.hide();
 
 	}
 	else if (card.data == 'chart') {
