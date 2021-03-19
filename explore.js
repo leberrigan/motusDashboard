@@ -267,7 +267,7 @@ function setProgress(percent) {
 
 function loadMotusData(fileList, callback) {
 
-	var filePrefix = window.location.hostname == 'localhost' ? 'data/' : window.location.hostname == 'www.motus.org' ? "https://" + window.location.hostname + "/wp-content/uploads/2021/01/" : "https://" + window.location.hostname + "/wp-content/uploads/";
+	var filePrefix = window.location.hostname == 'localhost' || window.location.hostname == 'leberrigan.github.io' ? 'data/' : window.location.hostname == 'www.motus.org' ? "https://" + window.location.hostname + "/wp-content/uploads/2021/01/" : "https://" + window.location.hostname + "/wp-content/uploads/";
 
 
 	var mapFiles = {
