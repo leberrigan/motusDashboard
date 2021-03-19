@@ -5,6 +5,7 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 - [Updates](#updates)
 - [Site map](#site-map)
 - [Data structure](#data-structure)
+- [DEMO](explore.html)
 
 ## Updates
 
