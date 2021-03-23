@@ -478,11 +478,6 @@ iframe#pdf_output {
 	width:100%;
 	min-height: calc(100vh - 160px);
 }
-@media (min-width: 2000px) {
-	.profiles .explore-card-wrapper {
-		column-count:2;
-	}
-}
 
 .explore-home-link {
 	font-size:14pt;
@@ -521,7 +516,7 @@ iframe#pdf_output {
 
 
 #explore_controls {
-    height: 40px;
+    min-height: 40px;
     margin-top: 0px;
 	border-bottom:solid 1px #555;
 	column-span: all;
@@ -637,12 +632,11 @@ iframe#pdf_output {
 }
 
 .explore-card-wrapper input[type=text], .explore-card-wrapper input[type=button],
-#explore_controls input[type=text], input[type=button], button,
-#explore_controls button {
+input[type=text], input[type=button], button {
 	margin-left:10px;
 	border-radius: 3px;
-    border: solid 1px #999;
-    padding: 5px;
+  border: solid 1px #999;
+  padding: 5px;
 }
 .explore-card-wrapper input[type=button]:hover,
 input[type=button]:hover,
@@ -650,13 +644,15 @@ button:not([disabled=disabled]):hover {
 	background-color:#DDD;
 	cursor:pointer;
 }
-button.submit_btn
+button.submit_btn,
+button.multiSelect_btn,
 input[type=button].submit_btn {
 	background-color:#25628f;
 	color:#FFF;
 	font-weight:bold;
 }
 button.submit_btn:hover,
+button.multiSelect_btn:hover,
 input[type=button].submit_btn:hover {
 	background-color:#3387c4;
 }
@@ -1573,9 +1569,6 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	margin: 5px auto;
 }
 
-.solo-card {
-	width: calc(50vw - 20px);
-}
 
 .solo-card .status-icon > svg {
 	position:absolute;
@@ -1652,7 +1645,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	background-color:#DDD;
 	border-top:solid 1px #999;
 	height: calc(100vh - 350px);
-	width: 100vw;
+	width: 100%;
 }
 .explore-card:not(#explore_card_profiles):not(#explore_card_map) {
 /*	display:none;*/

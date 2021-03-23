@@ -95,8 +95,8 @@ var exploreType,
 function updateURL(reload) {
 
 	var stateToPush = '#'+
-		'exploreType=' + encodeURIComponent(exploreType) +
-		'&dataType=' + encodeURIComponent(dataType),
+		'e=' + encodeURIComponent(exploreType) +
+		'&d=' + encodeURIComponent(dataType),
 		toEncode;
 
 	for (f in motusFilter) {
@@ -136,7 +136,7 @@ function detectNavigation() {
 	motusFilter = {
 		dtStart: url_params.dtStart === undefined ? motusFilter.dtStart : moment(url_params.dtStart),
 		dtEnd: url_params.dtEnd === undefined ? motusFilter.dtEnd : moment(url_params.dtEnd),
-		species: url_params.species === undefined || url_params.species.length == 0 ? filters.selected.species : url_params.species.split(','),
+		species: url_params.species === undefined || url_params.species.length == 0 ? motusFilter.species : url_params.species.split(','),
 		regions: url_params.regions === undefined ? ["all"] : url_params.regions.split(','),
 		projects: url_params.projects === undefined ? ["all"] : url_params.projects.split(','),
 		stations: url_params.stations === undefined ? ["all"] : url_params.stations.split(','),
@@ -149,7 +149,10 @@ function detectNavigation() {
 	}
 }
 
+var filePrefix;
+
 $(document).ready(function(){
+
 
 	$('.explore-card-wrapper').css({'opacity':0});
 
@@ -157,12 +160,14 @@ $(document).ready(function(){
 
 	var url_params = getSearchParameters();
 
+	filePrefix = window.location.hostname == 'localhost' || window.location.hostname == 'leberrigan.github.io' ? 'data/' : window.location.hostname == 'www.motus.org' ? "https://" + window.location.hostname + "/wp-content/uploads/2021/01/" : "https://" + window.location.hostname + "/wp-content/uploads/";
+
 	//console.log(url_params);
 	//  exploreType defaults to "main" if not present in expected set of values
-	exploreType = url_params.exploreType === undefined ? "main" : ["regions", "animals", "species", "stations", "projects"].includes(url_params.exploreType) ? url_params.exploreType : "main";
+	exploreType = url_params.e === undefined ? "main" : ["regions", "animals", "species", "stations", "projects"].includes(url_params.e) ? url_params.e : "main";
 
 	//  dataType defaults to null if not present in expected set of values
-	dataType = url_params.dataType !== undefined && dataTypes.includes(firstToUpper(url_params.dataType)) ? url_params.dataType : 'stations';
+	dataType = url_params.d !== undefined && dataTypes.includes(firstToUpper(url_params.d)) ? url_params.d : 'stations';
 
 	if (exploreType == 'projects') {dataType = 'regions';}
 
@@ -185,7 +190,7 @@ console.log(window.location.hostname);
 	motusFilter = {
 		dtStart: url_params.dtStart === undefined ? motusFilter.dtStart : moment(url_params.dtStart),
 		dtEnd: url_params.dtEnd === undefined ? motusFilter.dtEnd : moment(url_params.dtEnd),
-		species: url_params.species === undefined || url_params.species.length == 0 ? filters.selected.species : url_params.species.split(','),
+		species: url_params.species === undefined || url_params.species.length == 0 ? motusFilter.species : url_params.species.split(','),
 		regions: url_params.regions === undefined ? ["all"] : url_params.regions.split(','),
 		projects: url_params.projects === undefined ? ["all"] : url_params.projects.split(','),
 		stations: url_params.stations === undefined ? ["all"] : url_params.stations.split(','),
@@ -198,116 +203,105 @@ console.log(window.location.hostname);
 	var HTML_dom = "<div class='title-wrapper'>"+
 						//(exploreType == 'main' ? "<div class='title-header'>Explore "+firstToUpper(dataType)+"</div>" : "<div class='title-header'>Explore [NAME]</div>")+
 						"<div id='explore_menu'>"+
-							(dataTypes.map(x=>"<div class='explore-menu-item"+(x==firstToUpper((exploreType == 'main' ? dataType : exploreType))?" selected":"")+"' __data='"+(x.toLowerCase())+"'>"+(x=='Regions'?'Data Summaries':(x=='Animals'?'Tracks':x))+"</div>").join(""))+
+							(dataTypes.map(x=>"<div class='explore-menu-item"+(x==firstToUpper((exploreType == 'main' ? dataType : exploreType))?" selected":"")+"' __data='"+(x.toLowerCase())+"'>"+(x=='Animals'?'Tracks':x)+"</div>").join(""))+
 						"</div>"+
 					"</div>"+
 					"<div class='explore-card-wrapper' style='opacity:0;'>"+
 						"<div class='explore-controls' id='explore_controls'>"+
-							"<div class='explore-control-wrapper'>"+
-							//	(dataTypes.map(x=>"<div class='explore-control-tab"+(x==firstToUpper(dataType)?" selected":"")+"'>"+x+"</div>").join(""))+
-							"</div>"+
+							"<div class='explore-control-wrapper'></div>"+
 						"</div>"+
 						(
-							["animals","stations","regions","projects"].includes(dataType) ? (
+							["animals","stations","regions","projects","species"].includes(dataType) ? (
 
-								(exploreType != 'main' || dataType == 'regions' ? "<div id='explore_card_map' class='explore-card explore-card-map'>" : "") +
-								"<div id='explore_map'></div>" +
-								(exploreType != 'main' || dataType == 'regions' ? "</div>" : "")
+									(exploreType != 'main' || dataType == 'regions' ? "<div id='explore_card_map' class='explore-card explore-card-map'>" : "") +
+										"<div id='explore_map'></div>" +
+									(exploreType != 'main' || dataType == 'regions' ? "</div>" : "")
+
 								) :	""
 						)+
 						(
-							["projects","species","regions","projects"].includes(dataType) ? "<div class='explore-table-wrapper'><table class='hover' id='explore_table' style='width:100%;'></table></div>" : ""
+						/*	["projects","species","regions"].includes(dataType) ?*/ "<div class='explore-table-wrapper'><table class='hover' id='explore_table' style='width:100%;'></table></div>" //: ""
 						)
 					"</div>";
 
-	$("#exploreContent").after('<svg class="progress-ring" width="150" height="150"><circle class="progress-ring__circle" stroke="red" stroke-width="20" fill="transparent" r="50" cx="60" cy="60"/><text class="progress-ring__text" x="60" y="75" text-anchor="middle" font-size="36pt">0%</text></svg>');
 
 
-	var circumference = $(".progress-ring__circle").attr('r') * 2 * Math.PI;
-
-	$(".progress-ring__circle").css({strokeDasharray:`${circumference} ${circumference}`});
-	$(".progress-ring__circle").css({strokeDashoffset: `${circumference}`});
-
-	setProgress(0);
-
-
-	$("#exploreContent").append(HTML_dom).toggleClass('profiles', exploreType != 'main').toggleClass('data-summary', exploreType == 'main' && dataType == 'regions');
+	$("#exploreContent").append(HTML_dom).toggleClass('profiles', exploreType != 'main');//.toggleClass('data-summary', exploreType == 'main' && dataType == 'regions');
 
 	$("#explore_menu .explore-menu-item").click(function(){
+
+		var dataType_old = dataType;
 
 		dataType = $(this).attr('__data');
 
 		dataType = dataType == 'data summaries' ? 'regions' : dataType;
 
+		var exploreType_old = exploreType;
+
 		exploreType = 'main';
+
+		var refresh = exploreType_old != exploreType || (dataType_old != dataType && !( ['regions','projects','species'].includes(dataType_old) && ['regions','projects','species'].includes(dataType) ) );
 
 		motusFilter={};
 
-		updateURL(true);
+		updateURL( refresh );
+
+		if (!refresh) {
+
+			$("#explore_menu .explore-menu-item.selected").removeClass("selected");
+			$(this).addClass("selected");
+			exploreSummaryTabSelect(dataType);
+
+		}
 
 	});
-	// This is probably unecessary
-	for (f in filters.selected) {
-		filters.selected[f] = motusFilter[f];
-	}
 
 
+	//	Now that we know what content to load, read in the required datasets
+	loadMotusData();
 
-//	loadMotusData('all', afterMapLoads);
-	loadMotusData(dataType, afterMapLoads);
 });
 
 
 function setProgress(percent) {
-	//alert(percent);
-	var circumference = $(".progress-ring__circle").attr('r') * 2 * Math.PI;
-	const offset = circumference - percent / 100 * circumference;
-	$(".progress-ring__circle").css({strokeDashoffset: `${offset}`});
-	$(".progress-ring__text").text(percent + "%");
-	//alert(1);
-	if(true||percent==100){$(".progress-ring").hide();}
 }
 
-function loadMotusData(fileList, callback) {
+function loadMotusData() {
 
-	var filePrefix = window.location.hostname == 'localhost' || window.location.hostname == 'leberrigan.github.io' ? 'data/' : window.location.hostname == 'www.motus.org' ? "https://" + window.location.hostname + "/wp-content/uploads/2021/01/" : "https://" + window.location.hostname + "/wp-content/uploads/";
-
-
-	var mapFiles = {
-		stations: filePrefix + "recv-deps.csv",
-		animals: filePrefix + "tag-deps.csv",
-		tracks: filePrefix + "siteTrans_real2" + (window.location.hostname.indexOf('beta') != -1 ? '-2' : '') + ".csv",
-		regions: filePrefix + "country-stats.csv",
-		polygons: filePrefix + "ne_50m_admin_0_countries.geojson",
-	//	polygons: filePrefix + "BCR_Terrestrial_master.json",
-		species: filePrefix + "spp.csv",
-		projects: filePrefix + "projs.csv"
+// List required files
+	var allFiles = {
+		stations: filePrefix + "recv-deps.csv",	// All receiver deployments, including deployment country
+		regions: filePrefix + "country-stats.csv", // Number of projects, stations, and tag deployments in each country
+		polygons: filePrefix + "ne_50m_admin_0_countries.geojson", // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
+		animals: filePrefix + "tag-deps.csv", // All tag deployments, including deployment country
+		tracks: filePrefix + "siteTrans_real2" + (window.location.hostname.indexOf('beta') != -1 ? '-2' : '') + ".csv", // All site transitions
+		species: filePrefix + "spp.csv", // List of all species and various names/codes
+		projects: filePrefix + "projs.csv" // All projects, their codes, and descriptions
 	};
 
-	if (typeof fileList === 'string') {fileList = fileList == 'all' ? Object.keys(mapFiles) : [fileList];}
+	var fileList = [];
 
-	if (!fileList.includes("tracks") && fileList.includes('animals')) {fileList=["tracks"];}
-	if (!fileList.includes("polygons") && fileList.includes('tracks')) {fileList = ["polygons", "tracks"];}
-	if (!fileList.includes("stations") && fileList.includes('tracks')) {fileList=["stations", "tracks"];}
-	if (!fileList.includes("polygons") && fileList.includes('regions')) {fileList = ["stations", "regions", "polygons"];}
+	if (exploreType == 'main') {
 
-	if (exploreType == 'regions' || exploreType == 'projects' || exploreType == 'stations') {
-		dataType = 'animals';
-		fileList = ["stations", "regions", "polygons", "tracks", "animals", "species", "projects"];
+		if (dataType == 'animals') {
+				fileList = ["stations", "tracks"];
+		} else if (dataType == 'stations') {
+				fileList = ["stations"];
+		} else {
+				fileList = ["stations", "polygons", "regions",  "projects", "species", "animals"];
+		}
+
+	} else {
+		fileList = Object.keys(allFiles);
 	}
-
-
-	if (!fileList.includes("animals") && fileList.includes("regions")) {fileList.push("animals");}
-	if (!fileList.includes("species")) {fileList.push("species");}
-	if (!fileList.includes("projects")) {fileList.push("projects");}
 
 
 	var promises = [];
 
 	fileList.forEach(function(f){
 
-		if (typeof mapFiles[f] !== 'undefined') {
-			var url = mapFiles[f];
+		if (typeof allFiles[f] !== 'undefined') {
+			var url = allFiles[f];
 			url.substr(url.lastIndexOf('.') + 1, url.length) == 'csv' ? promises.push(d3.csv(url)) : promises.push(d3.json(url));
 		}
 
@@ -347,7 +341,7 @@ function loadMotusData(fileList, callback) {
 		}
 		console.log("Loaded " + Object.keys(motusData).length + " data set" + (Object.keys(motusData).length == 1 ? "" : "s"));
 
-		readData(callback);
+		readData();
 
 	});
 }
@@ -389,12 +383,15 @@ function makeTimelineSVG() {
 
 }
 
-function readData(callback) {
+function readData() {
 
 	populateExploreControls();
 
 
-	if (dataType == 'regions' && exploreType == 'main') {
+	if ( ["regions", "projects", "species"].includes(dataType) && exploreType == 'main' ) {
+		//console.log(dataType);
+			//		exploreSummaryTabSelect(dataType);
+				/*
 		$("#explore_controls .explore-summary-control-tab").click(function(){
 
 			$("#explore_controls .explore-summary-selections input").hide();
@@ -407,7 +404,7 @@ function readData(callback) {
 
 			exploreSummaryTabSelect(selectedTab);
 
-		});
+		});*/
 	}
 	if (dataType == 'animals' || dataType == 'stations') {
 
@@ -426,9 +423,9 @@ function readData(callback) {
 //	dataType = 'species';
 //	mapType = 'tracks';
 
-	if (["stations","animals","regions"].includes(dataType)) {
+	if (["stations","animals","regions", "species", "projects"].includes(dataType)) {
 		exploreMap({containerID: 'explore_map'});
-		setTimeout(function(){loadMapObjects(callback);},1)
+		setTimeout(function(){loadMapObjects();},1)
 	} else {
 		exploreTable({containerID: 'explore_table', name: dataType, data: motusData[dataType]});
 	}
@@ -441,12 +438,11 @@ function readData(callback) {
 
 }
 function exploreSummaryTabSelect(selectedTab) {
-	var selectedTabText = selectedTab == 'regionTable' ? 'region' : selectedTab;
 
-	$("#explore_controls .explore-summary-selections span").text("Select one or more "+(selectedTab=='species'?selectedTabText:(selectedTabText+"s"))+" below");
+	$("#explore_controls .explore-summary-selections span").text(`Select one or more ${selectedTab} below`);
 
-		if (selectedTab == 'region') {
-			$("#explore_controls .explore-summary-selections input.multiSelect_btn:visible").hide();
+		if (selectedTab == 'regions') {
+			$("#explore_controls .explore-summary-selections button.multiSelect_btn:visible").hide();
 			$("#explore_table:visible").hide();
 			if ($.fn.DataTable.isDataTable("#explore_table")) {
 				$("#explore_table").DataTable().clear().destroy();
@@ -455,30 +451,32 @@ function exploreSummaryTabSelect(selectedTab) {
 			$(".explore-card-map:hidden").show();
 			$("#explore_map:hidden").show();
 		} else {
+			$("#explore_controls .explore-summary-selections button:not(.multiSelect_btn):visible").hide();
 			$(".explore-card-map:visible").hide();
 			$("#explore_map:visible").hide();
-			var tbl = selectedTab == 'project' ? 'projects' : (selectedTab == 'regionTable' ? 'regions' : selectedTab);
 
-			if (tbl == 'regions') {
+			if (selectedTab == 'regionTable') {
 
-				tbl = [tbl,motusData.regions.filter(x=>x.both != 0)];
+				var tbl = [dataType,motusData.regions.filter(x=>x.both != 0)];
 
-			} else if (tbl == 'projects') {
-	console.log(motusData);
+			} else if (selectedTab == 'projects') {
 
-				tbl = [tbl,Array.from(motusData.projects.map(function(d) {
-						var stations = motusData.stationsByProject.get(`${d.id}`);
-						var animals = motusData.animalsByProject.get(`${d.id}`);
+				var tbl = [selectedTab,Array.from(motusData.projects.map(function(d) {
 
-						return { id: d.id,
+					var stations = motusData.stationsByProject.get(`${d.id}`);
+					var animals = motusData.animalsByProject.get(`${d.id}`);
+
+					return {
+						id: d.id,
 						project_name: d.project_name,
 						fee_id: d.fee_id,
 						stations: typeof stations !== 'undefined' ? stations.length : 0,
-						animals: typeof animals !== 'undefined' ? animals.size : 0 }
-					}).values())];
+						animals: typeof animals !== 'undefined' ? animals.size : 0
+					};
+
+				}).values())];
 
 			}
-			console.log(tbl);
 
 			function loadTable(multi) {
 
@@ -490,7 +488,7 @@ function exploreSummaryTabSelect(selectedTab) {
 						dom: '<"explore-table-header-controls"fi>lpti'
 
 					};
-				var cols = selectedTab == 'project' ? ['id', 'project_name', 'fee_id', 'stations', 'animals'] : (selectedTab == 'regionTable' ? ['country', 'stations', 'animals'] : ['english', 'scientific', 'group', 'code', 'sort']);
+				var cols = selectedTab == 'projects' ? ['id', 'project_name', 'fee_id', 'stations', 'animals'] : (selectedTab == 'regionTable' ? ['country', 'stations', 'animals'] : ['english', 'scientific', 'group', 'code', 'sort']);
 
 				if (multi) {
 
@@ -505,10 +503,9 @@ function exploreSummaryTabSelect(selectedTab) {
 
 					cols = [''].concat(cols);
 
-					$("#explore_controls .explore-summary-selections input.multiSelect_btn:visible").hide();
+					$("#explore_controls .explore-summary-selections button.multiSelect_btn:visible").hide();
 
 				}
-
 				loadDataTable(
 					tbl,
 					cols,
@@ -517,18 +514,26 @@ function exploreSummaryTabSelect(selectedTab) {
 					{event: 'deselect', fun: onSelect}]
 				);
 			}
+
 			loadTable(false);
-			$("#explore_controls .explore-summary-selections input.multiSelect_btn").show();
-			$("#explore_controls .explore-summary-selections input.multiSelect_btn").click(function(){
+
+			$("#explore_controls .explore-summary-selections button.multiSelect_btn").show();
+
+			$("#explore_controls .explore-summary-selections button.multiSelect_btn").click(function(){
+
 				loadTable(true);
 				$("#explore_table th.select-checkbox").on('click', selectAll);
 				$(".explore-summary-control-options .explore-table-header-controls").remove();
 				$(".explore-summary-" + selectedTab + "-control-options").append($(".explore-table-header-controls"));
+
 			});
+
 			$("#explore_table:hidden").show();
 
 			$("#explore_table th.select-checkbox").on('click', selectAll);
+
 			function selectAll() {
+
 				$(this).closest("tr").toggleClass("selected");
 				var table = $("#explore_table").DataTable();
 				if( $(this).closest("tr").hasClass("selected")){
@@ -537,6 +542,7 @@ function exploreSummaryTabSelect(selectedTab) {
 				else {
 					table.rows({page: 'current'}).deselect();
 				}
+
 			}
 
 			$(".explore-summary-selections .submit_btn").click(function(){
@@ -569,9 +575,7 @@ function exploreSummaryTabSelect(selectedTab) {
 
 			        var data = dt.rows( {selected: true} ).data();
 
-					var profileName = $("#explore_controls .explore-summary-control-tab.selected").text().toLowerCase();
-					profileName = profileName == 'species' ? profileName : (profileName + "s");
-					var dataVar = profileName != 'species' ? profileName != 'projects' ? 'ADM0_A3' : 'id' : 'id';
+					var dataVar = dataType != 'species' ? dataType != 'projects' ? 'ADM0_A3' : 'id' : 'id';
 
 					var selection = data[0][dataVar];
 
@@ -580,19 +584,19 @@ function exploreSummaryTabSelect(selectedTab) {
 
 				//	viewProfile(profileName, selection);
 
-					loadOverlayPane( profileName, dataVar, selection );
+					loadOverlayPane( dataType, dataVar, selection );
 
 
 				} else if (nSelected > 0) {
-					$("#explore_controls .explore-summary-selections span").text(nSelected + " "+(selectedTab=='species'?selectedTabText:(selectedTabText+(nSelected == 1 ? "":"s")))+" selected");
-					$("#explore_controls .explore-summary-selections input:not(.multiSelect_btn)").show();
-				//	$("#explore_controls .explore-summary-selections input.multiSelect_btn:visible").hide();
+					$("#explore_controls .explore-summary-selections span").text(`${nSelected} ${(selectedTab=='species'?selectedTab:(nSelected == 1 ? selectedTab.slice(0,-1):selectedTab))} selected`);
+					$("#explore_controls .explore-summary-selections button:not(.multiSelect_btn)").show();
+				//	$("#explore_controls .explore-summary-selections button.multiSelect_btn:visible").hide();
 				} else {
-					$("#explore_controls .explore-summary-selections input:not(.multiSelect_btn)").hide();
+					$("#explore_controls .explore-summary-selections button:not(.multiSelect_btn)").hide();
 				//	if (!$("#explore_table td.select-checkbox").length > 0) {
-				//		$("#explore_controls .explore-summary-selections input.multiSelect_btn").show();
+				//		$("#explore_controls .explore-summary-selections button.multiSelect_btn").show();
 				//	}
-					$("#explore_controls .explore-summary-selections span").text("Select one or more "+(selectedTab == 'project' ? 'projects' : selectedTabText)+" in the table below");
+					$("#explore_controls .explore-summary-selections span").text(`Select one or more ${selectedTab} in the table below`);
 				}
 			}
 		}
@@ -600,6 +604,9 @@ function exploreSummaryTabSelect(selectedTab) {
 		$("#explore_controls .explore-summary-" + selectedTab + "-control-options").show();
 
 }
+
+
+
 function loadOverlayPane( profileName, dataVar, selection ) {
 
 	$('#explore_overlay').remove();
@@ -609,7 +616,7 @@ function loadOverlayPane( profileName, dataVar, selection ) {
 	if ($("#explore_overlay_bg").length == 0) {
 		$('body').append('<div id="explore_overlay_bg"></div>');
 		$("#explore_overlay_bg").click(closeExploreOverlay);
-		console.log("#explore_overlay");
+		console.log( profileName );
 	}
 	$("#explore_overlay_bg").fadeIn(100);
 
@@ -632,7 +639,9 @@ function loadOverlayPane( profileName, dataVar, selection ) {
 	}
 
 	var vals = {};
-		console.log(cols);
+
+	console.log(cols);
+
 	Object.entries(cols).forEach(function(d){
 
 		if (d[1] == 'stat') {selected_row[d[0]] = `${firstToUpper(d[0])}: ${selected_row[d[0]]}`;}
@@ -645,10 +654,11 @@ function loadOverlayPane( profileName, dataVar, selection ) {
 	$('#explore_overlay .explore-overlay-content').append("<div class='button_wrapper'><input type='button'  class='submit_btn' value='View summary' /><input type='button' class='close_btn' value='Close' /></div>");
 
 	$("#explore_overlay .explore-overlay-content .submit_btn").click(viewExploreProfile);
+
 	function viewExploreProfile() {	viewProfile(profileName, selection); }
 
-
 	$("#explore_overlay .explore-overlay-content .close_btn").click(closeExploreOverlay);
+
 	function closeExploreOverlay() { $("#explore_overlay_bg").fadeOut(100);$("#explore_overlay").remove(); }
 
 
@@ -659,10 +669,10 @@ function populateExploreControls() {
 
 	if (exploreType != 'main') {
 		toAppend = ["filters", "timeline", "animate", "search", 'pdf'];
-	} else if (dataType == 'regions') {
+	} else if ( ['regions', 'projects','species'].includes(dataType) ) {
 		toAppend = ["type"];
 		if (exploreType == 'main') {
-			$('#explore_controls').addClass('data-summary');
+//			$('#explore_controls').addClass('data-summary');
 		}
 	} else if (dataType == 'stations') {
 		toAppend = ["filters", "timeline", "search", "view", 'pdf'];
@@ -675,7 +685,7 @@ function populateExploreControls() {
 
 		toAppend.forEach(function(x){
 
-			var hasIcon = dataType != 'regions' & x != 'view';
+			var hasIcon = ( ! ( ['regions', 'projects','species'].includes(dataType) && exploreType == 'main' ) ) && x != 'view';
 
 			$("#explore_controls > div").append(
 				"<div class='explore-map-" + dataType + "-" + x + (hasIcon ? " toggleDisplay" : "") + "'>"+
@@ -700,37 +710,27 @@ function populateExploreControls() {
 									(
 										x == 'type' ?
 										(
-											dataType == 'regions' ?
-												"<div class='explore-summary-control-tab-header'>Summarise by: </div>"+
-												"<div class='explore-summary-control-tab'>Region</div>"+
-												"<div class='explore-summary-control-tab'>Project</div>"+
-												"<div class='explore-summary-control-tab'>Species</div>"+
+											['regions', 'projects','species'].includes(dataType) ?
 												"<div class='explore-summary-selections'>"+
 													"<span></span> "+
-													"<input type='button' value='Select multiple' class='multiSelect_btn'> "+
-													"<input type='button' value='Summarise these data' class='submit_btn'> "+
-													"<input type='button' value='Clear selections' class='reset_btn'>"+
+													"<button class='multiSelect_btn'>Select multiple</button> "+
+													"<button class='submit_btn'>Summarise these data</button>"+
+													"<button class='reset_btn'>Clear selections</button>"+
 												"</div>"+
-												"<div class='explore-summary-region-control-options explore-summary-control-options'>"+
+												"<div class='explore-summary-regions-control-options explore-summary-control-options'>"+
 													"<label for='explore_control_regions_type'>Mapping regions by: </label><select id='explore_control_regions_type' style='width:150px'>"+
 													(["state/province", "country", "continent", "ecoregion", "BCR", "KBA", "Custom..."].map((x)=>"<option value='"+x+"'>"+firstToUpper(x)+"</option>"))+
 													"</select>"+
 													"<input type='button' onclick='exploreControls(this);' value='View as table' />"+
-												//	"<input type='text' /><input type='button' value='Search' />"+
 												"</div>"+
 												"<div class='explore-summary-regionTable-control-options explore-summary-control-options'>"+
 													"<label for='explore_control_regions_type'>List regions by: </label><select id='explore_control_regions_type' style='width:150px'>"+
 													(["state/province", "country", "continent", "ecoregion", "BCR", "KBA", "Custom..."].map((x)=>"<option value='"+x+"'>"+firstToUpper(x)+"</option>"))+
 													"</select>"+
 													"<input type='button' onclick='exploreControls(this);' value='View as map' />"+
-												//	"<input type='text' /><input type='button' value='Search' />"+
 												"</div>"+
-												"<div class='explore-summary-project-control-options explore-summary-control-options'></div>"+
-												"<div class='explore-summary-species-control-options explore-summary-control-options'></div>" :
-											//	"<label for='explore_control_regions_type'>Mapping regions by: </label><select id='explore_control_regions_type' style='width:150px'>"+
-											//		(["state/province", "country", "continent", "ecoregion", "BCR", "KBA", "Custom..."].map((x)=>"<option value='"+x+"'>"+firstToUpper(x)+"</option>"))+
-											//	"</select>" :
-												""
+												"<div class='explore-summary-projects-control-options explore-summary-control-options'></div>"+
+												"<div class='explore-summary-species-control-options explore-summary-control-options'></div>" : ""
 										) : ""
 									)
 								)
@@ -805,16 +805,16 @@ function exploreControls(el) {
 		}
 	} else if (opt == 'options') {
 		var isTable = $(el).val().indexOf('table')!=-1;
-		exploreSummaryTabSelect('region'+(isTable?'Table':''));
+		exploreSummaryTabSelect('region'+(isTable?'Table':'s'));
 	} else if (opt == 'pdf') {
 		var zoom = motusMap.map.getZoom();
 		motusMap.map.setZoom(1.5);
 		setTimeout(function(){
 			var vars = [];
 			var vals = [];
-			console.log($("#explore_card_profiles table td .status-icon").length)
+
 			$("#explore_card_profiles table td .status-icon").each(function(i){
-				console.log(this);
+
 				vals.push( $(this).children("div").text() );
 				vars.push( firstToUpper( this.classList[1].replace("status-icon-", "") ) );
 			});
@@ -823,7 +823,7 @@ function exploreControls(el) {
 
 			if (exploreType == 'regions') {
 				var region_svg = d3.create('svg');
-				console.log(selectedPolygons);
+
 				var path = d3.geoPath().projection(d3.geoMercator().fitSize([500,100],selectedPolygons[0]));
 
 				region_svg.append("svg:defs").append("svg:marker")
@@ -878,7 +878,7 @@ function exploreControls(el) {
 				};
 
 				if ($("#explore_card_stationHits table.explore-card-stationHits-table").length > 0) {
-					console.log($("#explore_card_stationHits table.explore-card-stationHits-table").DataTable().rows().data().toArray());
+
 					opts.stations = {
 						// Remove the HTML from the first row!
 						data: $("#explore_card_stationHits table.explore-card-stationHits-table").DataTable().rows().data().toArray().map(x => Object.values(x).map((k,i) => i==0||i==2?$("<a>"+k+"</a>").text():k)),
@@ -920,7 +920,7 @@ function exploreControls(el) {
 	}
 }
 function afterMapLoads() {
-	console.log(exploreType + ' - ' + dataType);
+
 	if (exploreType == 'main') {
 
 		$("#explore_controls .explore-control-tab").click(function(){
@@ -930,11 +930,16 @@ function afterMapLoads() {
 
 		});
 
+		if ( ["regions", "projects", "species"].includes(dataType) ) {
+			console.log(dataType);
+						exploreSummaryTabSelect(dataType);
+		}
+/*
 		if (dataType == 'regions') {
 
 			$("#explore_map").hide();
 			$("#explore_controls .explore-summary-control-options").hide();
-		}
+		}*/
 
 	} else {
 
@@ -1183,6 +1188,9 @@ function loadDataTable(tbl, columns, options, onEvent) {
 
 	*/
 
+	if (typeof tbl === 'undefined') {
+		tbl = dataType;
+	}
 
 	if (typeof tbl !== 'string') {
 		var dataset = tbl[1];
@@ -1230,6 +1238,7 @@ function loadDataTable(tbl, columns, options, onEvent) {
 		};
 	}
 	console.log(options);
+
 	var table = $("#explore_table").DataTable(options);
 
 	if (typeof onEvent !== 'undefined') {

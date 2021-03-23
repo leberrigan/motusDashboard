@@ -425,7 +425,7 @@ function exploreRegions(region) {
 			g.append("text")
 				.attr("x", 40)
 				.attr("y", h * ( i + 0.75 ) )
-				.text( regionName )
+				.text( regionName + " deployments" )
 				.style('pointer-events', 'auto');
 
 			var len = $("<div class='get-text-size'></div>").appendTo("body").css('font-size', '14pt').text(regionName).width();
@@ -1222,7 +1222,7 @@ function exploreRegions(region) {
 			console.log(motusData.selectedSpecies);
 
 
-			var tableDom = $("#explore_card_" + cardID + " .explore-card-" + cardID + "-speciesTable tbody tr").length > 10 ? "itp" : "t";
+			var tableDom = motusData.selectedSpecies.length > 10 ? "itp" : "t";
 
 			$("#explore_card_" + cardID + " .explore-card-" + cardID + "-speciesTable").DataTable({
 				data: motusData.selectedSpecies,
