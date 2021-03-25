@@ -299,7 +299,7 @@ iframe#pdf_output {
 }
 
 .header .header-menu > div:not(.selected) {
-	cursor:pointer;
+	cursor:not-allowed;
 }
 .header .header-menu > div.selected,
 .header .header-menu > div:hover {

@@ -924,8 +924,8 @@ function loadMapObjects(callback) {
 				"Antarctica":"none"
 			}
 			console.log(motusData.stations)
-			motusData.stationsByCountry = d3.group(motusData.stations, d => d.country);
-			motusData.stationsByProject = d3.group(motusData.stations, d => d.projID);
+			motusData.stationsByRegions = d3.group(motusData.stations, d => d.country);
+			motusData.stationsByProjects = d3.group(motusData.stations, d => d.projID);
 
 
 
@@ -984,8 +984,8 @@ function loadMapObjects(callback) {
 						dtStart: startDate,
 						dtEnd: endDate,
 						lastData: moment().diff(endDate, 'days'),
-						nAnimals: Math.ceil(Math.random() * (startDate.diff(endDate,'days') ) ),
-						nSpp: Math.ceil(Math.random() * (10))
+						nAnimals: v.map(x => x.animals.split(';')).flat().filter(onlyUnique).length,
+						nSpp: v.map(x => x.species.split(';')).flat().filter(onlyUnique).length
 					}
 
 			}, x => x.name).values());
@@ -1045,8 +1045,8 @@ function loadMapObjects(callback) {
 				TAG DEPLOYMENT DATA
 		*/
 
-			motusData.animalsByCountry = d3.group(motusData.animals, d => d.country, d => d.deployID);
-			motusData.animalsByProject = d3.group(motusData.animals, d => d.projID, d => d.deployID);
+			motusData.animalsByRegions = d3.group(motusData.animals, d => d.country, d => d.deployID);
+			motusData.animalsByProjects = d3.group(motusData.animals, d => d.projID, d => d.deployID);
 
 		} else if (dataset == 'tracks') {
 

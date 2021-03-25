@@ -309,7 +309,6 @@ function loadMotusData() {
 
 	Promise.all(promises).then(function(response){
 
-		setProgress(10);
 		fileList.forEach(function(f, i){
 
 			motusData[f] = response[i];
@@ -326,6 +325,11 @@ function loadMotusData() {
 
 		if (typeof motusData.stations !== 'undefined') {
 			motusData.stations = motusData.stations.filter(d => (!isNaN(+d.lat) && !isNaN(+d.lon) && d.frequency != 'NA'));
+			$.each( motusData.stations, function() {
+				if ( this.dtEnd == "NA" ) {
+					this.dtEnd = moment().toISOString().substr(0,10);
+				}
+			} );
 			motusData.stationsByName = d3.group(motusData.stations, d => d.name);
 		}
 
@@ -463,8 +467,8 @@ function exploreSummaryTabSelect(selectedTab) {
 
 				var tbl = [selectedTab,Array.from(motusData.projects.map(function(d) {
 
-					var stations = motusData.stationsByProject.get(`${d.id}`);
-					var animals = motusData.animalsByProject.get(`${d.id}`);
+					var stations = motusData.stationsByProjects.get(`${d.id}`);
+					var animals = motusData.animalsByProjects.get(`${d.id}`);
 
 					return {
 						id: d.id,
@@ -946,13 +950,15 @@ function afterMapLoads() {
 		if (exploreType == 'regions') {
 
 
-
-			exploreRegions(motusFilter.regions);
+			exploreSummary({summaryType: "regions"});
+	//		exploreRegions(motusFilter.regions);
 
 
 		}
 		else if (exploreType == 'projects') {
-			exploreProjects(motusFilter.projects);
+
+			exploreSummary({summaryType: "projects"});
+//			exploreProjects(motusFilter.projects);
 		}
 		else if (exploreType == 'stations') {
 			exploreStations(motusFilter.stations);
@@ -1049,8 +1055,8 @@ function populateSelectOptions() {
 	}
 	if (typeof motusData.tracks !== 'undefined') {
 	//	filters.options.models = motusData.tracks.map(d => d.model).filter(onlyUnique).filter(d => d.length > 0);
-		filters.options.frequencies = {};
-		(Array.from(motusData.tracks.map(d => d.frequency).values())).filter(onlyUnique).filter(d => d.length > 0 && d!="NA" && d.split(',').length == 1).forEach(d => filters.options.frequencies[`${d}`] = d + " MHz");
+	//	filters.options.frequencies = {};
+	//	(Array.from(motusData.tracks.map(d => d.frequency).values())).filter(onlyUnique).filter(d => d.length > 0 && d!="NA" && d.split(',').length == 1).forEach(d => filters.options.frequencies[`${d}`] = d + " MHz");
 	}
 
 	var toAppend = (["projects","stations","species","regions","frequencies","dates"].map(function(x){

@@ -1,11 +1,18 @@
 var detailedView = false;
 var exploreProfile_hasLoaded = false;
 
-var selectedPolygons;
-var regionStations;
-var timeRange = {};
-function exploreRegions(region) {
 
+var timeRange = {};
+function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // {summaryType: String, summaryID: Integer or String, summaryData: Object}
+
+	if (summaryType) {
+		dataType = summaryType;
+	}
+	/*
+	if (!summaryID) {
+		alert("No summary selected!");
+		window.location.href = "explore.html#e=main&d=" + dataType;
+	}*/
 
 	var mapLegend = d3.create('div').attr("class", "explore-map-legend")
 																	.attr("id", "explore_map_legend");
@@ -14,219 +21,297 @@ function exploreRegions(region) {
 						.attr("class", "explore-map-legend-header")
 							.append('span')
 							.attr('class', 'showHide')
-							.on('click', function(){$(this).closest('.explore-map-legend').toggleClass('hidden');});
+							.on('click', function(){	$(this).closest('.explore-map-legend').toggleClass('hidden');	});
 
-	selectedPolygons = motusData.polygons.features.filter(x => motusFilter.regions.includes(x.properties.adm0_a3));
+	if (typeof selectedRegions === "undefined") {
+		motusData.selectedRegions = motusData.polygons.features.filter(x => motusFilter.regions.includes(x.properties[regionBin])).map(x => ({geometry:x.geometry, properties: x.properties, id: x.properties.adm0_a3, name: x.properties.name}));
+		motusData.selectedRegions = motusData.selectedRegions.length > 0 ? motusData.selectedRegions : false;
+	} else {
+		motusData.selectedRegions = selectedRegions;
+	}
 
-	motusFilter.regions = motusFilter.regions.filter(d => Array.from(motusData.stationsByRegions.keys()).includes(d));
+	if (typeof selectedStations === "undefined") {
+		motusFilter.stations = motusFilter[dataType].map(x => (motusData[ "stationsBy" + firstToUpper(dataType) ].get(x).map(v => v.deployID))).flat();
+		motusData.selectedStations = motusData.stations.filter(x => motusFilter.stations.includes(x.deployID) );
+	} else {
+		motusFilter.stations = selectedStations;
+		motusData.selectedStations = motusData.stations.filter(x => motusFilter.stations.includes(x.deployID) );
+	}
 
-	regionStations = motusFilter.regions.map(x => (motusData.stationsByRegions.get(x).map(s => s.deployID))).flat();
+	if (typeof selectedAnimals === "undefined") {
+		if (typeof motusFilter.animals === 'undefined' || motusFilter.animals.length == 0) {
+			motusFilter.animals = motusFilter[dataType]
+				.filter(x => (typeof motusData[ "animalsBy" + firstToUpper(dataType) ].get(x) !== 'undefined'))
+				.map(x => Array.from(motusData[ "animalsBy" + firstToUpper(dataType) ].get(x).keys())).flat().filter(onlyUnique);
+		}
+		motusData.selectedAnimals = motusData.animals.filter(x => motusFilter.animals.includes(x.deployID) );
+	} else {
+		motusFilter.animals = selectedAnimals;
+		motusData.selectedAnimals = motusData.animals.filter(x => motusFilter.animals.includes(x.deployID) );
+	}
 
+	if (typeof selectedProjects === "undefined") {
+		motusFilter.projects = motusData.selectedStations.map( x => x.projID ).flat().concat( motusData.selectedAnimals.map( x => x.projID ).flat() ).filter(onlyUnique);
+		motusData.selectedProjects = motusData.projects.filter(x => motusFilter.projects.includes(x.id) );
+	} else {
+		motusFilter.projects = selectedStations;
+		motusData.selectedProjects = motusData.projects.filter(x => motusFilter.projects.includes(x.id) );
+	}
 
-	/*
-	addExploreCard({data:'chart', type:'regionProfile'});
-
-
-	$("#explore_card_regionProfile .explore-card-header").text(selectedPolygons.map(x => x.properties.name).join(', '));
-
-	$("#explore_card_regionProfile").css({width:"calc(50% - 42px)", height: "400px"});
-
-	var svg = d3.select("#explore_card_regionProfile svg");
-
-
-	var g = svg.append("g");//.attr("class", "leaflet-zoom-hide");
-
-	var dims = [+$("#explore_card_regionProfile").width(), +$("#explore_card_regionProfile").height()];
-
-	var path = d3.geoPath().projection(d3.geoMercator().fitSize(dims, {features:selectedPolygons, type: "FeatureCollection"}));
-
-
-
-	*/
-
+//	motusFilter.stations = motusFilter.regions.map(x => (motusData[ "stationsBy" + firstToUpper(dataType) ].get(x).map(s => s.deployID))).flat();
 
 	// Get a list of region names from selected polygons
-	var regionNames = d3.rollup(selectedPolygons, v => v[0].properties.name, k => k.properties.adm0_a3);
+	if (typeof selectionNames === "undefined") {
+		motusData.selectionNames = Object.fromEntries( motusData["selected" + firstToUpper(dataType)].map( x => [x.id, x.name] ) );
+	} else {
+		motusData.selectionNames = selectionNames;
+	}
 
-	// Get codes for all regions
-	var regionCodes = Array.from(regionNames.keys());
+	if (typeof selectedAnimals === "undefined") {
+	//	motusFilter.animals = [];
 
-	// ***
+		if ( !['animals', 'species'].includes(dataType) ) {
+
+			if (typeof localAnimals === "undefined") {
+
+				// Make a array of animal IDs for all local using 'animalsByRegions'
+			  motusFilter.localAnimals = [];
+
+				motusFilter[dataType]
+					.forEach(function(x){
+						if (motusData[ "animalsBy" + firstToUpper(dataType) ].get( x )) {
+							 motusFilter.localAnimals = motusFilter.localAnimals.concat(Array.from(motusData["animalsBy" + firstToUpper(dataType)].get( x ).keys()));
+						}
+					})
+
+			} else {
+
+				motusFilter.localAnimals = localAnimals;
+
+			}
+
+			if (typeof foreignAnimals === "undefined") {
+
+				// Search for non-local animals in tracks to or from a local station
+				motusFilter.foreignAnimals = [];
+/*
+				motusData.tracks
+					.filter( d => motusFilter.stations.includes(d.recv1) || motusFilter.stations.includes(d.recv2) )
+					.forEach(function(d) {
+						motusFilter.foreignAnimals += ","+d.animal;
+					});
+
+				motusFilter.foreignAnimals = motusFilter.foreignAnimals.split(',').filter(onlyUnique).filter( x => !motusFilter.localAnimals.includes(x) );*/
+
+			} else {
+				motusFilter.foreignAnimals = foreignAnimals;
+			}
+
+			// List which regions have local animals. This is to avoid error when trying to display detection data.
+			motusFilter.selectionsWithAnimals = [];
+			motusFilter[dataType].forEach(function(x){ if ( motusData["animalsBy" + firstToUpper(dataType)].get( x ) ) { motusFilter.selectionsWithAnimals.push(x) }; });
+
+			//motusFilter.animals = motusFilter.localAnimals;
+
+		} else if (dataType == 'species') {
+			motusFilter[dataType]
+				.forEach(function(x){
+					if (motusData[ "animalsBy" + firstToUpper(dataType) ].get( x )) {
+						 motusFilter.animals = motusFilter.animals.concat(Array.from(motusData["animalsBy" + firstToUpper(dataType)].get( x ).keys()));
+					}
+				})
+		} else {
+			alert("ERROR: animal filters not set!");
+		}
+
+	} else {
+		motusFilter.animals = selectedAnimals;
+	}
+
+
 	// All possible combinations of region codes (for colouring tracks)** should be removed
-	var regionCombos = [];
+	var selectionCombos = [];
 
-	for (var i = 0; i < regionCodes.length - 1; i++) {
+	for (var i = 0; i < motusFilter[dataType].length - 1; i++) {
 	  // This is where you'll capture that last value
-	  for (var j = i + 1; j < regionCodes.length; j++) {
-		regionCombos.push(regionCodes[i]+","+regionCodes[j]);
+	  for (var j = i + 1; j < motusFilter[dataType].length; j++) {
+			selectionCombos.push( motusFilter[dataType][i] + "," + motusFilter[dataType][j ]);
 	  }
 	}
 
 	// Add singles to region combos
-	regionCombos = regionCodes.concat(regionCombos);
+	selectionCombos = motusFilter[dataType].concat(selectionCombos);
 
 	// *** Above should be removed to '***'
 
 	// Set colour scale based on number of colour combos
-	var regionColourScale = d3.scaleOrdinal().domain(['Foreign'].concat(regionCodes)).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, regionCodes.length)));
+	var colourScale = d3.scaleOrdinal().domain(['Foreign'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length)));
 
 
-//	var regionColourScale = colourScale;
+//	var colourScale = colourScale;
 
 
-	// Create some empty data objects to be populated
-	motusData.tracksByAnimal = {};
-	motusData.tracksByStation = {};
-	motusData.stationHits = {};
-	motusData.animalsByDayOfYear = {};
-
-	console.log("motusData.trackDataByRoute: "+ 0);
 
 	// For measuring processing time
 	var ts = [moment()];
 
-	// Create an empty object to hold max and min timestamps for any working dataset.
 
 
-	// Make a array of animal IDs for all local using 'animalsByRegions'
-	var allLocalAnimals = [];
+	/*
 
-	for (i=0; i<regionCodes.length; i++) {
-		if (motusData.animalsByRegions.get(regionCodes[i])) {
-			 allLocalAnimals = allLocalAnimals.concat(Array.from(motusData.animalsByRegions.get(regionCodes[i]).keys()));
-		}
+		Need to add toggle buttons:
+			- Detections by stations in this [region, project] only
+			- Detections of animals from this [region, project] only
+
+	*/
+
+	/*
+
+		Load the tracks -- this takes a while
+
+		We could potentially speed things up if we push things to the server
+
+	  How it works:
+
+		1) Table with all tracks is filtered for animals selected with the motusFilter
+			- The table has tracks grouped by 'route' so that the animal column must first be split into an array
+
+
+	*/
+	// Create some empty data objects to be populated
+	motusData.tracksByAnimal = {};
+	motusData.tracksBySpecies = {};
+	motusData.tracksByStation = {};
+	motusData.stationHits = {};
+	motusData.animalsByDayOfYear = [...Array(366).fill(0).map(x => ({local: [], foreign: [], visitor: []}))];
+	motusData.animalsByHourOfDay = [...Array(24).fill(0).map(x => ({local: [], foreign: [], visitor: []}))];
+
+	motusData.allTimes = [];
+
+	motusData.selectedTracks = {}
+
+	if (typeof selectedTracks === "undefined") {
+
+		motusData.tracks.filter( d => motusFilter.stations.includes(d.recv1) || motusFilter.stations.includes(d.recv2) || d.animal.split(',').some( x => motusFilter.animals.includes(x) ) ).forEach(function(v) {
+
+			var dtStart = v.dtStart.split(',');
+			var dtEnd = v.dtEnd.split(',');
+			var allTimes = [];
+			var animals = [];
+			var species = v.species.split(',');
+
+			var origin = "Foreign";
+
+			var selectedRecv1 = motusFilter.stations.includes(v.recv1);
+			var selectedRecv2 = motusFilter.stations.includes(v.recv2);
+
+			if (selectedRecv1 || selectedRecv2) {
+
+				if (!motusData.tracksByStation[v.recv1]) {
+					motusData.tracksByStation[v.recv1] = [v.route];
+				} else {
+					motusData.tracksByStation[v.recv1].push(v.route);
+				}
+				if (!motusData.tracksByStation[v.recv2]) {
+					motusData.tracksByStation[v.recv2] = [v.route];
+				} else {
+					motusData.tracksByStation[v.recv2].push(v.route);
+				}
+
+				motusData.nTracks += v.animal.split(',').length;
+
+			}
+
+			if ( !['animals', 'species'].includes(dataType) ) {
+				motusFilter[dataType].forEach(function(c) {
+					if ( typeof motusData["animalsBy" + firstToUpper(dataType)].get( c ) !== 'undefined' &&
+					 		 Array.from( motusData["animalsBy" + firstToUpper(dataType)].get( c ).keys() ).some(x => v.animal.split(',').includes(x))	) {
+						origin = c;
+					}
+				});
+
+			}
+
+			v.animal.split(',').forEach(function(x, i){
+
+				if (motusFilter.localAnimals.includes( x )) {
+				  allTimes.push(dtStart[i]);
+					allTimes.push(dtEnd[i]);
+					if (selectedRecv1 || selectedRecv2) {
+						motusData.animalsByDayOfYear[moment(dtStart[i]).dayOfYear()].local.push(x);
+						motusData.animalsByDayOfYear[moment(dtEnd[i]).dayOfYear()].local.push(x);
+					} else {
+						motusData.animalsByDayOfYear[moment(dtStart[i]).dayOfYear()].foreign.push(x);
+						motusData.animalsByDayOfYear[moment(dtEnd[i]).dayOfYear()].foreign.push(x);
+					}
+				} else {
+					motusFilter.foreignAnimals.push(x);
+					if (selectedRecv1) {
+						allTimes.push(dtStart[i]);
+						motusData.animalsByDayOfYear[moment(dtStart[i]).dayOfYear()].visitor.push(x);
+					}
+					if (selectedRecv2) {
+						allTimes.push(dtEnd[i]);
+						motusData.animalsByDayOfYear[moment(dtEnd[i]).dayOfYear()].visitor.push(x);
+					}
+				}
+
+				if (motusData.tracksByAnimal[x]) {
+					motusData.tracksByAnimal[x].push(v.route);
+					motusData.tracksBySpecies[ species[ i ] ].push(v.route);
+				} else {
+					motusData.tracksByAnimal[x] = [v.route];
+
+					if (motusData.tracksBySpecies[ species[ i ] ]) {
+						motusData.tracksBySpecies[ species[ i ] ].push(v.route);
+					} else {
+						motusData.tracksBySpecies[ species[ i ] ] = [v.route];
+					}
+				}
+
+		//		animals.push( x );
+
+			});
+
+			motusData.allTimes = motusData.allTimes.concat(allTimes);
+
+			motusData.selectedTracks[v.route] = {
+				animals: v.animal,
+				species: v.species,
+				type: v.type,
+				recv1: v.recv1,
+				recv2: v.recv2,
+				projID: v.project,
+				route: v.route,
+				dtStart: d3.min(allTimes),
+				dtEnd: d3.max(allTimes),
+				dtStartList: v.dtStart,
+				dtEndList: v.dtEnd,
+				origin: origin,
+				frequency: v.frequency,
+				coordinates: [ [v.lon1, v.lat1], [v.lon2, v.lat2]]
+			};
+		});
+	} else {
+		motusData.selectedTracks = selectedTracks;
 	}
 
-	// Get other animals that have visited the station, but were not released in that region
-	var allForeignAnimals = [];
 
-	motusData.tracks
-		.filter( d => regionStations.includes(d.recv1) || regionStations.includes(d.recv2) )
-		.forEach(function(d) {
-			allForeignAnimals = allForeignAnimals.concat(d.animal.split(',').filter(x=>!allLocalAnimals.includes(x)))
-		});
+	motusFilter.foreignAnimals = 	motusFilter.foreignAnimals.filter(onlyUnique);
+	motusFilter.animals = motusFilter.animals.concat(motusFilter.foreignAnimals);
 
-	// Remove duplicates
-	allForeignAnimals = allForeignAnimals.filter(onlyUnique);
+	console.log("motusData: ", motusData);
+	console.log("motusFilter: ", motusFilter);
 
-	// Combine foreign and local animal arrays
-	var allAnimals = allForeignAnimals.concat(allLocalAnimals);
+	timeRange.min = moment(d3.min(motusData.allTimes));
+	timeRange.max = moment(d3.max(motusData.allTimes));
 
-	// List which regions have local animals. This is to avoid error when trying to display detection data.
-	var regionsWithAnimals = [];
-	regionCodes.forEach(function(x){ if ( motusData.animalsByRegions.get( x ) ) { regionsWithAnimals.push(x) }; });
+	if (dtLims.min > moment(d3.min(motusData.allTimes))) {dtLims.min = moment(d3.min(motusData.allTimes));}
+	if (dtLims.max < moment(d3.max(motusData.allTimes))) {dtLims.max = moment(d3.max(motusData.allTimes));}
 
-	// Empty animals filter
-	var regionAnimals = allAnimals;
-
-	console.log("motusFilter.trackDataByRoute[0]: " + moment().diff(ts[0]));ts.push(moment());
-
-	motusData.trackDataByRoute = [];
-
-	motusData.tracks.filter( d => d.animal.split(',').some( x => allAnimals.includes(x) ) ).forEach(function(v) {
-
-
-		var origin = "Foreign";
-		if (dtLims.min > dtStart) {dtLims.min = dtStart;}
-		if (dtLims.max < dtEnd) {dtLims.max = dtEnd;}
-
-		var selectedRecv1 = regionStations.includes(v.recv1);
-		var selectedRecv2 = regionStations.includes(v.recv2);
-
-		// Are one of the stations in the selection?
-
-		if (selectedRecv1 || selectedRecv2) {
-
-	//		regionAnimals +="," + v.animal
-
-			if (selectedRecv1) {
-
-				var dtStart = moment(d3.min(v.dtStart.split(',')));
-
-				if (!timeRange.min || timeRange.min > dtStart)
-					timeRange.min = dtStart;
-				if (!timeRange.max || timeRange.max < dtStart)
-					timeRange.max = dtStart;
-
-				v.dtStart.split(',').forEach(function(x,i){
-					var doy = moment(x).dayOfYear();
-					motusData.animalsByDayOfYear[ doy ] = motusData.animalsByDayOfYear[ doy ] ? motusData.animalsByDayOfYear[ doy ] + "," + v.animal.split(',')[i] : v.animal.split(',')[i];
-				});
-			}
-
-			if (selectedRecv2) {
-
-				var dtEnd = moment(d3.max(v.dtEnd.split(',')));
-
-				if (!timeRange.min || timeRange.min > dtEnd)
-					timeRange.min = dtEnd;
-				if (!timeRange.max || timeRange.max < dtEnd)
-					timeRange.max = dtEnd;
-
-				v.dtEnd.split(',').forEach(function(x,i){
-					var doy = moment(x).dayOfYear();
-					motusData.animalsByDayOfYear[ doy ] = motusData.animalsByDayOfYear[ doy ] ? motusData.animalsByDayOfYear[ doy ] + "," + v.animal.split(',')[i] : v.animal.split(',')[i];
-				});
-
-			}
-
-
-			if (!motusData.tracksByStation[v.recv1]) {
-				motusData.tracksByStation[v.recv1] = [v.route];
-			} else {
-				motusData.tracksByStation[v.recv1].push(v.route);
-			}
-			if (!motusData.tracksByStation[v.recv2]) {
-				motusData.tracksByStation[v.recv2] = [v.route];
-			} else {
-				motusData.tracksByStation[v.recv2].push(v.route);
-			}
-
-		}
-
-		if (!selectedRecv1) {
-
-
-
-		}
-
-		regionCodes.forEach(function(c) {
-			if (
-				Array.from( motusData.animalsByRegions.get( c ).keys() )
-					.some(x => v.animal.split(',').includes(x))
-				) {
-				origin = c;
-			}
-		});
-
-		motusData.nTracks += v.animal.split(',').length;
-		v.animal.split(',').forEach(function(x){
-			if (motusData.tracksByAnimal[x]) {
-				motusData.tracksByAnimal[x].push(v.route);
-			} else {
-				motusData.tracksByAnimal[x] = [v.route];
-			}
-		});
-		motusData.trackDataByRoute.push( {
-			animals: v.animal,
-			species: v.species,
-			type: v.type,
-			recv1: v.recv1,
-			recv2: v.recv2,
-			projID: v.project,
-			route: v.route,
-			dtStart: dtStart,
-			dtEnd: dtEnd,
-			dtStartList: v.dtStart,
-			dtEndList: v.dtEnd,
-			origin: origin,
-			frequency: v.frequency,
-			coordinates: [ [v.lon1, v.lat1], [v.lon2, v.lat2]]
-		});
-	});
 
 //	console.log(motusData.stationHits);
-	/*Array.from(motusData.trackDataByRoute.values()).filter(d => (regionStations.includes(d.recv1) || regionStations.includes(d.recv2))).forEach(function(d){
+	/*Array.from(motusData.selectedTracks.values()).filter(d => (motusFilter.stations.includes(d.recv1) || motusFilter.stations.includes(d.recv2))).forEach(function(d){
 		regionAnimals += ","+d.animals;
 	});*/
 	console.log("regionAnimals: " + moment().diff(ts[0]) + "@" + moment().diff(ts[ts.length-1]));ts.push(moment());
@@ -234,7 +319,7 @@ function exploreRegions(region) {
 
 	console.log("selectedTracks: " + moment().diff(ts[0]) + "@" + moment().diff(ts[ts.length-1]));ts.push(moment());
 
-	var selectedTracks = Array.from(regionAnimals.map(x => motusData.tracksByAnimal[x]).values()).flat();//.filter(onlyUnique);
+	//.filter(onlyUnique);
 
 	console.log("motusMap.setVisibility(): " + moment().diff(ts[0]) + "@" + moment().diff(ts[ts.length-1]));ts.push(moment());
 	//console.log(regionAnimals);
@@ -243,8 +328,8 @@ function exploreRegions(region) {
 
 	motusMap.setVisibility();
 
-	//console.log(motusData.recvDepsLink.filter(d => regionStations.includes(d.id)));
-//	console.log("Stations: " + regionStations.length + " - Animals: " +regionAnimals.length);
+	//console.log(motusData.recvDepsLink.filter(d => motusFilter.stations.includes(d.id)));
+//	console.log("Stations: " + motusFilter.stations.length + " - Animals: " +regionAnimals.length);
 
 				//  g.attr("transform", "translate(" + -topLeft[0] + "," + -topLeft[1] + ")");
 
@@ -270,7 +355,7 @@ function exploreRegions(region) {
 			.attr("transform", "rotate(90,15,20)");
 
 		motusMap.regionPaths = motusMap.g.selectAll("regions")
-		//	.data(selectedPolygons)
+		//	.data(motusData.selectedRegions)
 			.data(motusData.polygons.features)
 			.enter().append("path")
 			.attr("d", motusMap.path)
@@ -281,14 +366,14 @@ function exploreRegions(region) {
 			.style('stroke-width', '1px');
 
 		motusMap.g.selectAll('stations')
-			.data(motusData.recvDepsLink.filter(d => !regionStations.includes(d.id)))
+			.data(motusData.recvDepsLink.filter(d => !motusFilter.stations.includes(d.id)))
 			//.data(motusData.recvDepsLink)
 			.enter().append("path")
 			.attr("d", motusMap.path.pointRadius(3))
 			.style('stroke', '#000')
 			.style('fill', '#FF0')
 			.attr('class', 'explore-map-stations explore-map-r2 leaflet-zoom-hide explore-map-stations-other')
-			//.style('fill', d => regionStations.includes(d.id) ? "#F00" : "#000")
+			//.style('fill', d => motusFilter.stations.includes(d.id) ? "#F00" : "#000")
 			.style('stroke-width', '1px')
 			.style('pointer-events', 'auto')
 			.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
@@ -298,7 +383,7 @@ function exploreRegions(region) {
 		var yesterday = moment().subtract(1, 'days');
 
 		motusMap.g.selectAll('stations')
-			.data(motusData.recvDepsLink.filter(d => regionStations.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)))
+			.data(motusData.recvDepsLink.filter(d => motusFilter.stations.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)))
 			//.data(motusData.recvDepsLink)
 			.enter().append("path")
 			.attr('marker-end','url(#station_path)')
@@ -307,7 +392,7 @@ function exploreRegions(region) {
 			.style('stroke', '#000')
 			.style('fill', (d) => d.dtEnd > yesterday ? '#0F0' : '#F00')
 			.attr('class', d => 'explore-map-stations leaflet-zoom-hide explore-map-stations-' + (d.dtEnd > yesterday ? 'active' : 'inactive') )
-	//		.style('fill', d => regionStations.includes(d.id) ? "#F00" : "#000")
+	//		.style('fill', d => motusFilter.stations.includes(d.id) ? "#F00" : "#000")
 			.style('stroke-width', '1px')
 			.style('pointer-events', 'auto')
 			.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
@@ -396,23 +481,25 @@ function exploreRegions(region) {
 
 		motusMap.stationPaths = motusMap.g.selectAll('.explore-map-stations')
 
-		motusMap.regionBounds = d3.geoPath().bounds({features:selectedPolygons, type: "FeatureCollection"});
+		if (motusData.selectedRegions) {
 
-		motusMap.map.fitBounds( [ [motusMap.regionBounds[0][1], motusMap.regionBounds[0][0]], [motusMap.regionBounds[1][1], motusMap.regionBounds[1][0]]]);
-	//	alert(1);
+			motusMap.regionBounds = d3.geoPath().bounds({features:motusData.selectedRegions, type: "FeatureCollection"});
+
+			motusMap.map.fitBounds( [ [motusMap.regionBounds[0][1], motusMap.regionBounds[0][0]], [motusMap.regionBounds[1][1], motusMap.regionBounds[1][0]]]);
+		}
+		//	alert(1);
 		//console.log(regionCombos);
-		console.log(Array.from(motusData.trackDataByRoute.values()).filter(d => selectedTracks.includes(d.route)));
 
 		setProgress(75);
 		console.log("motusMap.trackPaths: " + moment().diff(ts[0]) + "@" + moment().diff(ts[ts.length-1]));ts.push(moment());
 		motusMap.trackPaths = motusMap.g.selectAll("tracks")
 		//	.data(trackDataLink)
-			.data(Array.from(motusData.trackDataByRoute.values()).filter(d => selectedTracks.includes(d.route)))
-		//	.data(Array.from(motusData.trackDataByRoute.values()).filter(d => (regionStations.includes(d.recv1) || regionStations.includes(d.recv2))))
+			.data(Object.values(motusData.selectedTracks))
+		//	.data(Array.from(motusData.selectedTracks.values()).filter(d => (motusFilter.stations.includes(d.recv1) || motusFilter.stations.includes(d.recv2))))
 			.enter().append("path")
 			.attr('class', (d) => "explore-map-tracks explore-map-species leaflet-zoom-hide explore-map-tracks-" + ( d.origin.toLowerCase() ))
 			.attr("id", (d) => "track" + d.id)
-			.style('stroke', (d) => regionColourScale(d.origin))
+			.style('stroke', (d) => colourScale(d.origin))
 	//		.style('stroke', (d) => (d.origin == 'local' ? colourScale.range()[1] :  colourScale.range()[0] ))
 			.style('pointer-events', 'auto')
 			.style('stroke-width', '3px')
@@ -428,7 +515,7 @@ function exploreRegions(region) {
 
 		var max_length = 0;
 
-		regionColourScale.range().forEach(function(x, i) {
+		colourScale.range().forEach(function(x, i) {
 
 			var g = tracks_svg.append("g");
 
@@ -438,8 +525,8 @@ function exploreRegions(region) {
 				.style('stroke-width', '3px')
 				.style('pointer-events', 'auto');
 
-			var regionCode = regionColourScale.domain()[i];
-			var regionName = regionCode == "Foreign" ? regionCode : regionNames.get( regionColourScale.domain()[i] );
+			var regionCode = colourScale.domain()[i];
+			var regionName = regionCode == "Foreign" ? regionCode : motusData.selectionNames[ colourScale.domain()[i] ];
 
 			g.append("text")
 				.attr("x", 40)
@@ -457,9 +544,9 @@ function exploreRegions(region) {
 
 		});
 
-		tracks_svg.attr('viewBox', `0 0 ${50 + max_length} ${regionColourScale.range().length * h}`)
+		tracks_svg.attr('viewBox', `0 0 ${50 + max_length} ${colourScale.range().length * h}`)
 			.attr('width', 50 + max_length)
-			.attr('height', regionColourScale.range().length * h);
+			.attr('height', colourScale.range().length * h);
 
 
 		motusMap.map.on("zoomend", motusMap.reset);
@@ -474,17 +561,20 @@ function exploreRegions(region) {
 
 	console.log("regionNames.forEach[0]: " + moment().diff(ts[0]) + "@" + moment().diff(ts[ts.length-1]));ts.push(moment());
 
-	regionNames.forEach(function(v, k) {
+	Object.entries(motusData.selectionNames).forEach(function(a) {
 
-		var stations = motusData.stationsByRegions.get(k);
+		var k = a[0];
+		var v = a[1];
+
+		var stations = motusData[ "stationsBy" + firstToUpper(dataType) ].get(k);
 
 		var routes = Array.from(stations.map(x => x.deployID).values()).map(x => motusData.tracksByStation[x]).flat().filter(x=>typeof x !== 'undefined');
 
-		if (motusData.animalsByRegions.get(k)) {
+		if (motusData[ "animalsBy" + firstToUpper(dataType) ].get(k)) {
 
-			var animals = allAnimals.filter((x) => motusData.animalsByRegions.get(k).get(x));
+			var animals = motusFilter.animals.filter((x) => motusData[ "animalsBy" + firstToUpper(dataType) ].get(k).get(x));
 
-			var species = Array.from( animals.map( (x) => motusData.animalsByRegions.get(k).get(x)[0].species).values() ).filter( onlyUnique );
+			var species = Array.from( animals.map( (x) => motusData[ "animalsBy" + firstToUpper(dataType) ].get(k).get(x)[0].species).values() ).filter( onlyUnique );
 
 		} else {
 
@@ -493,7 +583,7 @@ function exploreRegions(region) {
 
 		}
 
-	//	console.log(Array.from( animals.map( (x) => motusData.animalsByRegions.get(k).get(x)[0].).values() ));
+	//	console.log(Array.from( animals.map( (x) => motusData[ "animalsBy" + firstToUpper(dataType) ].get(k).get(x)[0].).values() ));
 		routes.forEach(function(x) {
 			if (((typeof countryByTrack[x] === 'undefined') || (countryByTrack[x] === k))) {
 				countryByTrack[x] = k;
@@ -524,11 +614,11 @@ function exploreRegions(region) {
 
 	var explore_legend = $("<div class='explore-legend' id='explore_legend'></div>");
 
-	regionColourScale.domain().forEach(function(x){
+	colourScale.domain().forEach(function(x){
 
 		var div = explore_legend.append( "<div></div>" );
-		div.append( `<div class='explore-legend-icon' style='border-color:${regionColourScale(x)}'></div>` );
-		div.append( `${x=='Foreign'?x:regionNames.get(x)}` );
+		div.append( `<div class='explore-legend-icon' style='border-color:${colourScale(x)}'></div>` );
+		div.append( `${x=='Foreign'?x:motusData.selectionNames[x]}` );
 
 	});
 
@@ -609,7 +699,7 @@ function exploreRegions(region) {
 		//	addExploreCard({data:'chart', type:'tagHits'});
 
 
-		if (allAnimals.length > 0) {
+		if (motusFilter.animals.length > 0) {
 
 			addExploreCard({
 					data:'tabs',
@@ -649,7 +739,7 @@ function exploreRegions(region) {
 
 	//addExploreCard({data:'custom',type:'options',html:toAppend,attachEl:".explore-card-map",attachMethod:"after"});
 
-	setCardColours( regionColourScale )
+	setCardColours( colourScale )
 
 	motusFilter.animals = ['all'];
 	motusFilter.stations = ['all'];
@@ -696,10 +786,11 @@ function exploreRegions(region) {
 
 		var stationHits = {};
 
+
 		d.forEach(function(v) {
 
-			var w = width * (v.dtEnd - v.dtStart) / timeRange.range;
-			var x = width * (v.dtStart - timeRange.min) / timeRange.range;
+			var w = width * ((moment(v.dtEnd).valueOf()) - (moment(v.dtStart).valueOf())) / timeRange.range;
+			var x = width * ((moment(v.dtStart).valueOf()) - timeRange.min) / timeRange.range;
 
 			svg
 				.append('rect')
@@ -716,17 +807,15 @@ function exploreRegions(region) {
 
 
 
-
 			if (typeof motusData.tracksByStation[v.deployID] !== 'undefined') {
 
 				hasData = true;
-
 
 				motusData.tracksByStation[v.deployID].forEach(function(x){
 
 					var datePos = ( x.split('.')[0] == v.deployID ? 'dtStart' : 'dtEnd' ) + 'List';
 
-					var trackData = motusData.trackDataByRoute.get(+x);
+					var trackData = motusData.selectedTracks[x];
 
 					if (typeof trackData[datePos] !== 'undefined') {
 
@@ -930,16 +1019,14 @@ function exploreRegions(region) {
 			timeRange = {min: timeRange.min.valueOf(), max: timeRange.max.valueOf()}
 			timeRange.range = timeRange.max - timeRange.min;
 
-			motusData.selectedStations = Array.from(
+			var stationTableData = Array.from(
 											d3.rollup(
-												motusData.stations.filter(
-													x => regionStations.includes( x.deployID )
-												),
+												motusData.selectedStations,
 												v => ({
 													id: ( Array.from( v.map( d => d.deployID ).values() ) ).join(','),
 													name: v[0].name,
-													dtStart: d3.min(v, d => d.dtStart),
-													dtEnd: d3.max(v, d => d.dtEnd),
+													dtStart: moment(d3.min(v, d => d.dtStart)),
+													dtEnd: moment(d3.max(v, d => d.dtEnd)),
 													nAnimals: v.map(x => x.animals.split(';')).flat().filter(onlyUnique).length,
 													nSpp: v.map(x => x.species.split(';')).flat().filter(onlyUnique).length,
 													country: v[0].country
@@ -950,37 +1037,33 @@ function exploreRegions(region) {
 
 
 			motusData.selectedStationDeployments = d3.group(
-				motusData.stations.filter(
-					x => regionStations.includes( x.deployID )
-				),
+				motusData.selectedStations,
 				d => d.name
 			);
 
-			console.log(motusData.stations.filter(
-													x => regionStations.includes( x.deployID )
-												));
+			console.log(stationTableData);
 
-			var totalAnimals = d3.max(motusData.selectedStations, v => v.nAnimals);
+			var totalAnimals = d3.max(stationTableData, v => v.nAnimals);
 
 			console.log(totalAnimals);
 
-			var tableDom = motusData.selectedStations.length > 10 ? "ipt" : "t";
+			var tableDom = stationTableData.length > 10 ? "ipt" : "t";
 
 			$(`#explore_card_${cardID} .explore-card-${cardID}-table`).DataTable({
-				data: motusData.selectedStations,
+				data: stationTableData,
 				columns: [
 					{className: "explore-table-expandRow", data: null, orderable: false, defaultContent: ""},
 					{data: "name", title: "Station", "createdCell": function(td, cdata, rdata){
 						$(td).html(
-								`<div class='explore-card-table-legend-icon' style='border-color:${regionColourScale(rdata.country)}'></div>`+
-								`<a href='javascript:void(0);' onclick='viewProfile("stations", ${rdata.deployID});'>${rdata.name}</a>`
+								`<div class='explore-card-table-legend-icon' style='border-color:${colourScale(rdata.country)}'></div>`+
+								`<a href='javascript:void(0);' onclick='viewProfile("stations", ${rdata.id});'>${rdata.name}</a>`
 						);
 					}},
-					{data: "dtStart", title: "Station", "createdCell": function(td, cdata, rdata){
+					{data: "dtStart", title: "Start date", "createdCell": function(td, cdata, rdata){
 						$(td).html( cdata );
 					}},
-					{data: "dtEnd", title: "Station", "createdCell": function(td, cdata, rdata){
-						$(td).html( `${(moment().diff(moment(cdata), 'day') < 1 ? "Active" : "Ended on:<br/>" + cdata )}` );
+					{data: "dtEnd", title: "Status", "createdCell": function(td, cdata, rdata){
+						$(td).html( `${(moment().diff(cdata, 'day') < 1 ? "Active" : "Ended on:<br/>" + cdata.toISOString().substr(0,10) )}` );
 					}},
 					{data: "nAnimals", title: "Number of Animals"},
 					{data: "nSpp", title: "Number of Species"}
@@ -989,6 +1072,7 @@ function exploreRegions(region) {
 				autoWidth: false
 			}).on('draw.dt', function(){
 				$(`#explore_card_${cardID} .explore-card-${cardID}-table`).DataTable().rows().every(function(){
+
 					this.child( stationTimeline( motusData.selectedStationDeployments.get( this.data().name ), { width: $(this.node() ).width() - 20 }  ) ).show();
 					this.nodes().to$().addClass('shown');
 				});
@@ -1020,7 +1104,16 @@ function exploreRegions(region) {
 
 
 	function animalTimeline( cardID ) {
-		console.log('make timeline')
+
+
+		/*
+
+		I need to create a toggle, or decide on one of the following:
+		  1. Show unique animals per month/hour
+			2. Show unique species per month/hour
+
+		*/
+
 		$("#explore_card_" + cardID + " > div:not(.explore-card-header)").hide();
 
 		if ($(".explore-card-" + cardID + "-timeline").length == 0) {
@@ -1044,46 +1137,48 @@ function exploreRegions(region) {
 
 			for (var i=1; i<=gSize; i++) {
 				day = moment().month(i).dayOfYear();
-				animalsByDayOfYear[ day ] = { "Julian date": day, local: 0, Foreign: 0, total: [] };
+				animalsByDayOfYear[ day ] = { "Julian date": day, visitor: [], local: [], foreign: [], total: [] };
+
+				Object.values(motusData.selectionNames).forEach(function(d) {animalsByDayOfYear[ day ][ d ] = [];});
 			}
 
-			for (d in motusData.animalsByDayOfYear) {
+			console.log(animalsByDayOfYear);
+			motusData.animalsByDayOfYear.forEach( function(d, i) {
 
-				const animalsToday = motusData.animalsByDayOfYear[d].split(',').filter(onlyUnique);
+				if (d.local.length > 0 || d.foreign.length > 0 || d.visitor.length > 0) {
 
-						if (group_by != 'day') {
-							day = moment()[group_by](moment().dayOfYear(d)[group_by]()).dayOfYear();
-						} else {
-							day = Math.floor(Math.floor(d/gSize)*gSize);
+					const animalsToday = d.local.concat(d.foreign).concat(d.visitor);
+
+					if (group_by != 'day') {
+						day = moment()[group_by](moment().dayOfYear(i)[group_by]()).dayOfYear();
+					} else {
+						day = Math.floor( Math.floor( i / gSize ) * gSize );
+					}
+
+
+					motusFilter[ dataType ].forEach(function(k) {
+						if (typeof motusData["animalsBy"+firstToUpper(dataType)].get( k ) !== 'undefined') {
+							animalsByDayOfYear[ day ][ motusData.selectionNames[ k ] ] = animalsByDayOfYear[ day ][ motusData.selectionNames[ k ] ].concat(d.local.filter( x => motusData["animalsBy"+firstToUpper(dataType)].get( k ).get( x ).length > 0 ));
 						}
+					});
+					animalsByDayOfYear[day].local = animalsByDayOfYear[day].local.concat(d.local);
 
-						animalsByDayOfYear[day].total = animalsByDayOfYear[day].total.concat(animalsToday);
+					animalsByDayOfYear[day].foreign = animalsByDayOfYear[day].foreign.concat(d.foreign);
+					animalsByDayOfYear[day].visitor = animalsByDayOfYear[day].visitor.concat(d.visitor);
+					animalsByDayOfYear[day].total = animalsByDayOfYear[day].total.concat(animalsToday);
 
-			}
+				}
+			});
 
 			animalsByDayOfYear = animalsByDayOfYear.map(function(d){
 
-				if (d.total.length > 0) {
+				var toReturn;
 
-					var localAnimals = {all: []};
+				for (k in d) {
 
-					d.total = d.total.filter(onlyUnique);
+					if (k != "Julian date") d[k] = d[k].filter(onlyUnique).length;
 
-					d.local = 0;
-
-						for (var i = 0; i < regionCodes.length; i++ ) {
-
-							d[ motusData.regionByCode.get( regionCodes[i] )[0].country ] = d.total.filter(x => Array.from(motusData.animalsByRegions.get( regionCodes[i] ).keys()).includes(x) ).length;
-
-							d.local += d[ motusData.regionByCode.get( regionCodes[i] )[0].country ];
-
-						}
-
-					d.total = d.total.length;
-
-					d.Foreign = d.total - d.local;
-
-				} else {d.total = 0;}
+				}
 
 				return d;
 			});
@@ -1094,9 +1189,12 @@ function exploreRegions(region) {
 			animalsByDayOfYear.columns.splice( animalsByDayOfYear.columns.indexOf('total'), 1 );
 			animalsByDayOfYear.columns.splice( animalsByDayOfYear.columns.indexOf('local'), 1 );
 
-			var regionNameColourScale = d3.scaleOrdinal().domain( ['Foreign'].concat( regionCodes.map(x => motusData.regionByCode.get( x )[0].country) ) ).range( ["#000000"].concat( customColourScale.jnnnnn.slice(0, regionCodes.length) ) );
 
-			var radialChartConstruct = d3.radialBarChart().colourScale( regionNameColourScale );
+			var radialColourScale = d3.scaleOrdinal().domain( ['visitor', 'foreign'].concat( motusFilter[dataType].map(x => motusData.selectionNames[ x ] ) ) ).range( ["#000000"].concat( customColourScale.jnnnnn.slice(0, motusFilter[dataType].length + 1) ) );
+
+			console.log(animalsByDayOfYear);
+
+			var radialChartConstruct = d3.radialBarChart().colourScale( radialColourScale );
 
 			var radialChart = d3.select(".explore-card-" + cardID + "-timeline svg")
 				.datum(animalsByDayOfYear).call(radialChartConstruct);
@@ -1108,7 +1206,7 @@ function exploreRegions(region) {
 
 	if (motusData.animals.length > 0) {
 		motusData.selectedAnimals = Array.from(motusData.animals.filter(
-											x => allAnimals.includes( x.deployID )
+											x => motusFilter.animals.includes( x.deployID )
 										).map(d => ({
 											id: d.deployID,
 											species: d.species,
@@ -1132,11 +1230,11 @@ function exploreRegions(region) {
 
 			toReturn += "</tr></thead><tbody>";
 
-			motusData.selectedAnimals.filter( d => d.species == speciesID ).forEach(function(d){
+			motusData.animalsTableData.filter( d => d.species == speciesID ).forEach(function(d){
 
 				toReturn += "<tr>"+
 											"<td>"+
-												`<div class='explore-card-table-legend-icon' style='border-color:${regionColourScale(d.country)}'></div>`+
+												`<div class='explore-card-table-legend-icon' style='border-color:${colourScale(d.country)}'></div>`+
 												`<a href='javascript:void(0);' onclick='viewProfile(\"animals\", ${d.id});'>${d.name}</a>`+
 											"</td>"+
 											`<td>${d.dtStart.toISOString().substr(0,10)}</td>`+
@@ -1176,10 +1274,7 @@ function exploreRegions(region) {
 
 			headers.forEach( x => $("#explore_card_" + cardID + " .explore-card-" + cardID + "-speciesTable thead tr").append( $('<th></th>').text(x) ) );
 
-			if (typeof motusData.selectedAnimals === 'undefined') {
-				motusData.selectedAnimals = Array.from(motusData.animals.filter(
-													x => allAnimals.includes( x.deployID )
-												).map(d => ({
+			motusData.animalsTableData = Array.from(motusData.selectedAnimals.map(d => ({
 													id: d.deployID,
 													species: d.species,
 													name: motusData.speciesByID.get(d.species)?motusData.speciesByID.get(d.species)[0].english:"Undefined",
@@ -1187,13 +1282,13 @@ function exploreRegions(region) {
 													dtEnd: moment(d.dtEnd),
 													frequency: d.frequency,
 													country: d.country,
-													nStations: motusData.tracksByAnimal[d.deployID]?Array.from(motusData.tracksByAnimal[d.deployID].map(v=>v.split('.')).values()).flat().filter(onlyUnique):[],
+													nStations: (motusData.tracksByAnimal[d.deployID]?Array.from(motusData.tracksByAnimal[d.deployID].map(v=>v.split('.')).values()).flat().filter(onlyUnique):[]),
 													nDays: motusData.tracksByAnimal[d.deployID]?motusData.tracksByAnimal[d.deployID].length * 2:0
 												})).values());
-			}
+
 			motusData.selectedSpecies = Array.from(
 											d3.rollup(
-												motusData.selectedAnimals,
+												motusData.animalsTableData,
 												v => ({
 													id: ( Array.from( v.map( d => d.id ).values() ) ).join(','),
 													species: v[0].species,
@@ -1201,9 +1296,9 @@ function exploreRegions(region) {
 													dtStart: d3.min(v, d => d.dtStart),
 													dtEnd: d3.max(v, d => d.dtEnd),
 													nAnimals: v.length,
-													nStations: d3.sum(v, d => d.nStations),
+													nStations: (motusData.tracksBySpecies[v[0].species]?Array.from(motusData.tracksBySpecies[v[0].species].map(x=>x.split('.')).values()).flat().filter(onlyUnique):[]).length,
 													country: v.reduce( function(a, c) { a.push( c.country ); return a; }, [ ]).filter(onlyUnique),
-													colourCode: v.reduce( function(a, c) { a.push( regionColourScale( c.country ) ); return a; }, [ ]).filter(onlyUnique)
+													colourCode: v.reduce( function(a, c) { a.push( colourScale( c.country ) ); return a; }, [ ]).filter(onlyUnique)
 												}),
 												d => d.name
 											).values()
@@ -1220,7 +1315,7 @@ function exploreRegions(region) {
 
 				tr.append(
 							$('<td></td>')
-								.append("<div class='explore-card-table-legend-icon' style='border-color:" + regionColourScale(d.country)+"'></div>")
+								.append("<div class='explore-card-table-legend-icon' style='border-color:" + colourScale(d.country)+"'></div>")
 								.append( $("<a href='javascript:void(0);' onclick='viewProfile(\"animals\", "+d.id+");'></a>").text( d.name ) )
 						);
 //				tr.append( $('<td></td>').text( d.dtStart.toISOString().substr(0,10) ) );
@@ -1252,7 +1347,7 @@ function exploreRegions(region) {
 							rdata.colourCode.reduce(function(a, c) {
 								return c!="NA"?a+`<div class='explore-card-table-legend-icon' style='border-color:${c}'></div>`:a;
 							}, (
-									""//rdata.country[0] != "NA" ? `<div class='explore-card-table-legend-icon' style='border-color:${regionColourScale( rdata.country[0] )}'></div>` : ""
+									""//rdata.country[0] != "NA" ? `<div class='explore-card-table-legend-icon' style='border-color:${colourScale( rdata.country[0] )}'></div>` : ""
 								)
 							)+
 							`<a href='javascript:void(0);' onclick='viewProfile("animals", ${rdata.id});'>${rdata.name}</a>`
