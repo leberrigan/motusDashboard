@@ -1642,7 +1642,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	text-align:center;
 }
 .explore-card:not(#explore_card_profiles) {
-	background-color:#DDD;
+	background-color:#FAFAFA;
 	border-top:solid 1px #999;
 	height: calc(100vh - 350px);
 	width: 100%;

@@ -11,6 +11,9 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ## Updates
 
 ### Latest
+* [x] [2021-03-25] Add a third category of detections for foreign detections of local birds.
+* [x] [2021-03-24] Combine `regions.js` and `projects.js` into `summary.js` and generalise so it can be used for other summaries.
+* [x] [2021-03-23] Move data summaries to top of hierarchy
 * [x] [2021-03-19] Fix formatting for mobile (small screens).
 * [x] [2021-03-19] Add tooltip to station timelines, showing date and data if data exist.
 * [x] [2021-03-19] Combine station tables and try to fit them under timeline for each row. Accordion-style so it can be hidden.
@@ -35,7 +38,6 @@ To be released 2021. An upgrade for Motus Explore Data tool.
  * [ ] **Profiles:** Update radial plot with filters
  * [ ] **Profiles:** Add a new tab for projects.
  * [ ] **Profiles:** Highlight regions where stations/tagDeps exist in all profile pages
- * [ ] **Explore:** Move data summaries to top of hierarchy
  * [ ] **Explore:** Introduce custom selections
  * [ ] **ALL:** Work on animation controls
  * [ ] **ALL:** Pare down code so fewer scripts are required
