@@ -284,7 +284,7 @@ function loadMotusData() {
 	if (exploreType == 'main') {
 
 		if (dataType == 'animals') {
-				fileList = ["stations", "tracks"];
+				fileList = ["stations", "tracks", "species"];
 		} else if (dataType == 'stations') {
 				fileList = ["stations"];
 		} else {
@@ -316,7 +316,10 @@ function loadMotusData() {
 		});
 
 		if (typeof motusData.projects !== 'undefined') {
-			motusData.projects.forEach((x,i) => motusData.projects[i].fee_id = getProjectType(x.fee_id))
+			motusData.projects.forEach(function(x) {
+				x.fee_id = getProjectType(x.fee_id);
+				x.name = x.project_name;
+			});
 			function getProjectType(fee_id) {
 				return (fee_id > 1 ? fee_id > 2 ? fee_id > 3 ? fee_id > 8 ? 'Birds Canada' : 'Wind development' : 'Environment Canada' : 'US Dept. of the Interior' : '')
 			}
@@ -1058,6 +1061,7 @@ function populateSelectOptions() {
 	//	filters.options.frequencies = {};
 	//	(Array.from(motusData.tracks.map(d => d.frequency).values())).filter(onlyUnique).filter(d => d.length > 0 && d!="NA" && d.split(',').length == 1).forEach(d => filters.options.frequencies[`${d}`] = d + " MHz");
 	}
+	console.log(motusData);
 
 	var toAppend = (["projects","stations","species","regions","frequencies","dates"].map(function(x){
 

@@ -183,8 +183,8 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 	motusData.tracksBySpecies = {};
 	motusData.tracksByStation = {};
 	motusData.stationHits = {};
-	motusData.animalsByDayOfYear = [...Array(366).fill(0).map(x => ({local: [], foreign: [], visitor: []}))];
-	motusData.animalsByHourOfDay = [...Array(24).fill(0).map(x => ({local: [], foreign: [], visitor: []}))];
+	motusData.animalsByDayOfYear = [...Array(366).fill(0).map(x => ({local: [], foreign: [], visiting: []}))];
+	motusData.animalsByHourOfDay = [...Array(24).fill(0).map(x => ({local: [], foreign: [], visiting: []}))];
 
 	motusData.allTimes = [];
 
@@ -248,11 +248,11 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 					motusFilter.foreignAnimals.push(x);
 					if (selectedRecv1) {
 						allTimes.push(dtStart[i]);
-						motusData.animalsByDayOfYear[moment(dtStart[i]).dayOfYear()].visitor.push(x);
+						motusData.animalsByDayOfYear[moment(dtStart[i]).dayOfYear()].visiting.push(x);
 					}
 					if (selectedRecv2) {
 						allTimes.push(dtEnd[i]);
-						motusData.animalsByDayOfYear[moment(dtEnd[i]).dayOfYear()].visitor.push(x);
+						motusData.animalsByDayOfYear[moment(dtEnd[i]).dayOfYear()].visiting.push(x);
 					}
 				}
 
@@ -1137,7 +1137,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 			for (var i=1; i<=gSize; i++) {
 				day = moment().month(i).dayOfYear();
-				animalsByDayOfYear[ day ] = { "Julian date": day, visitor: [], local: [], foreign: [], total: [] };
+				animalsByDayOfYear[ day ] = { "Julian date": day, visiting: [], local: [], foreign: [], total: [] };
 
 				Object.values(motusData.selectionNames).forEach(function(d) {animalsByDayOfYear[ day ][ d ] = [];});
 			}
@@ -1145,9 +1145,9 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 			console.log(animalsByDayOfYear);
 			motusData.animalsByDayOfYear.forEach( function(d, i) {
 
-				if (d.local.length > 0 || d.foreign.length > 0 || d.visitor.length > 0) {
+				if (d.local.length > 0 || d.foreign.length > 0 || d.visiting.length > 0) {
 
-					const animalsToday = d.local.concat(d.foreign).concat(d.visitor);
+					const animalsToday = d.local.concat(d.foreign).concat(d.visiting);
 
 					if (group_by != 'day') {
 						day = moment()[group_by](moment().dayOfYear(i)[group_by]()).dayOfYear();
@@ -1164,7 +1164,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 					animalsByDayOfYear[day].local = animalsByDayOfYear[day].local.concat(d.local);
 
 					animalsByDayOfYear[day].foreign = animalsByDayOfYear[day].foreign.concat(d.foreign);
-					animalsByDayOfYear[day].visitor = animalsByDayOfYear[day].visitor.concat(d.visitor);
+					animalsByDayOfYear[day].visiting = animalsByDayOfYear[day].visiting.concat(d.visiting);
 					animalsByDayOfYear[day].total = animalsByDayOfYear[day].total.concat(animalsToday);
 
 				}
@@ -1190,7 +1190,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 			animalsByDayOfYear.columns.splice( animalsByDayOfYear.columns.indexOf('local'), 1 );
 
 
-			var radialColourScale = d3.scaleOrdinal().domain( ['visitor', 'foreign'].concat( motusFilter[dataType].map(x => motusData.selectionNames[ x ] ) ) ).range( ["#000000"].concat( customColourScale.jnnnnn.slice(0, motusFilter[dataType].length + 1) ) );
+			var radialColourScale = d3.scaleOrdinal().domain( ['visiting', 'foreign'].concat( motusFilter[dataType].map(x => motusData.selectionNames[ x ] ) ) ).range( ["#000000"].concat( customColourScale.jnnnnn.slice(0, motusFilter[dataType].length + 1) ) );
 
 			console.log(animalsByDayOfYear);
 
