@@ -1,11 +1,43 @@
+
 library(tidyverse)
 library(motus)
 library(lubridate)
 
 dir <- 'E:/Data/'
 
-dashboard.dir <- "C:/wamp64/www/Motus/Dashboard/Example station interfaces/data/"
+dashboard.dir <- "C:/wamp64/www/Motus/Dashboard/data/"
 
+recvDeps.df <- dir %>% paste0("recv-deps.csv") %>% read.csv
+
+siteTrans.df <- dashboard.dir %>% paste0("siteTrans_real2.csv") %>% read.csv
+
+recv1.df <- siteTrans.df %>% 
+  group_by(recv1) %>%
+  summarise(animals = paste(unique(animal), collapse=',', sep = ','),
+            species = paste(unique(species), collapse=',', sep = ',')) %>%
+  rename(recv = recv1)
+
+recv2.df <- siteTrans.df %>% 
+  group_by(recv2) %>%
+  summarise(animals = paste(unique(animal), collapse=',', sep = ','),
+            species = paste(unique(species), collapse=',', sep = ',')) %>%
+  rename(recv = recv2)
+
+
+
+recvSummary.df <- recv1.df %>%
+  bind_rows(recv2.df) %>%
+  group_by(recv) %>%
+  summarise(animals = paste(unique(animals %>% str_split(',') %>% unlist), collapse=';', sep = ';'),
+            species = paste(unique(species %>% str_split(',') %>% unlist), collapse=';', sep = ';')) %>% 
+  rename(deployID = recv) 
+  
+recvDeps.df <- dashboard.dir %>% paste0("recv-deps.csv") %>% read.csv %>% 
+  left_join(recvSummary.df)
+
+recvDeps.df %>% write.csv(dashboard.dir %>% paste0("recv-deps.csv"), row.names = F)
+
+##### Before March 24, 2021
 proj <- 109
 
 motus.sql <- tagme(proj, T, F, dir, forceMeta = T)

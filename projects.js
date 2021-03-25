@@ -43,7 +43,7 @@ function exploreProjects(project) {
 
 	console.log(motusData.projects.filter(x => motusFilter.projects.includes( x.id ) ));
 
-	console.log(motusData.animalsByProject);
+	console.log(motusData.animalsByProjects);
 //	var projectColourScale = colourScale;
 
 
@@ -62,12 +62,12 @@ function exploreProjects(project) {
 	var timeRange = {};
 
 
-	// Make a array of animal IDs for all local using 'animalsByProject'
+	// Make a array of animal IDs for all local using 'animalsByProjects'
 	var allLocalAnimals = [];
 
 	for (i=0; i<motusFilter.projects.length; i++) {
-		if (motusData.animalsByProject.get(motusFilter.projects[i])) {
-			 allLocalAnimals = allLocalAnimals.concat(Array.from(motusData.animalsByProject.get(motusFilter.projects[i]).keys()));
+		if (motusData.animalsByProjects.get(motusFilter.projects[i])) {
+			 allLocalAnimals = allLocalAnimals.concat(Array.from(motusData.animalsByProjects.get(motusFilter.projects[i]).keys()));
 		}
 	}
 
@@ -88,7 +88,7 @@ function exploreProjects(project) {
 
 	// List which regions have local animals. This is to avoid error when trying to display detection data.
 	var projectsWithAnimals = [];
-	motusFilter.projects.forEach(function(x){ if ( motusData.animalsByProject.get( x ) ) { projectsWithAnimals.push(x) }; });
+	motusFilter.projects.forEach(function(x){ if ( motusData.animalsByProjects.get( x ) ) { projectsWithAnimals.push(x) }; });
 
 	// Empty animals filter
 	var projectAnimals = allAnimals;
@@ -145,8 +145,8 @@ function exploreProjects(project) {
 		}
 
 		motusFilter.projects.forEach(function(c) {
-			if ( typeof motusData.animalsByProject.get( c ) !== 'undefined' &&
-				Array.from( motusData.animalsByProject.get( c ).keys() )
+			if ( typeof motusData.animalsByProjects.get( c ) !== 'undefined' &&
+				Array.from( motusData.animalsByProjects.get( c ).keys() )
 					.some(x => v[0].animal.split(',').includes(x))
 				) {
 				origin = c;
@@ -433,15 +433,15 @@ function exploreProjects(project) {
 
 	motusFilter.projects.forEach(function(v, k) {
 
-		var stations = motusData.stationsByProject.get(v);
+		var stations = motusData.stationsByProjects.get(v);
 
 		stations = (typeof stations !== 'undefined') ? stations : [];
 
-		if (motusData.animalsByProject.get(v)) {
+		if (motusData.animalsByProjects.get(v)) {
 
-			var animals = allAnimals.filter((x) => motusData.animalsByProject.get(v).get(x));
+			var animals = allAnimals.filter((x) => motusData.animalsByProjects.get(v).get(x));
 
-			var species = Array.from( animals.map( (x) => motusData.animalsByProject.get(v).get(x)[0].species).values() ).filter( onlyUnique );
+			var species = Array.from( animals.map( (x) => motusData.animalsByProjects.get(v).get(x)[0].species).values() ).filter( onlyUnique );
 
 		} else {
 
@@ -1031,9 +1031,9 @@ function exploreProjects(project) {
 
 						for (var i = 0; i < motusFilter.projects.length; i++ ) {
 
-							if ( typeof motusData.animalsByProject.get( motusFilter.projects[i] ) !== 'undefined' ) {
+							if ( typeof motusData.animalsByProjects.get( motusFilter.projects[i] ) !== 'undefined' ) {
 
-								d[ projectNames[i] ] = d.total.filter(x => Array.from( motusData.animalsByProject.get( motusFilter.projects[i] ).keys()).includes(x) ).length;
+								d[ projectNames[i] ] = d.total.filter(x => Array.from( motusData.animalsByProjects.get( motusFilter.projects[i] ).keys()).includes(x) ).length;
 
 								d.local += d[ projectNames[i] ];
 							}
