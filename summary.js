@@ -30,24 +30,36 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 		motusData.selectedRegions = selectedRegions;
 	}
 
-	if (typeof selectedStations === "undefined") {
-		motusFilter.stations = motusFilter[dataType].map(x => (motusData[ "stationsBy" + firstToUpper(dataType) ].get(x).map(v => v.deployID))).flat();
-		motusData.selectedStations = motusData.stations.filter(x => motusFilter.stations.includes(x.deployID) );
-	} else {
+
+	if (dataType != 'stations' && typeof selectedStations === "undefined" ) {
+		motusFilter.stations = motusFilter[dataType].map(x => (motusData[ "stationDepsBy" + firstToUpper(dataType) ].get(x).map(v => v.id))).flat();
+		motusData.selectedStations = motusData.stationDeps.filter(x => motusFilter.stations.includes(x.id) );
+	} else if (typeof selectedStations !== "undefined") {
 		motusFilter.stations = selectedStations;
-		motusData.selectedStations = motusData.stations.filter(x => motusFilter.stations.includes(x.deployID) );
+		motusData.selectedStations = motusData.stationDeps.filter(x => motusFilter.stations.includes(x.id) );
+	} else {
+		motusData.selectedStations = motusData.stationDeps.filter(x => motusFilter.stations.includes(x.id) );
 	}
 
-	if (typeof selectedAnimals === "undefined") {
+	if ( !['stations','species'].includes(dataType) && typeof selectedAnimals === "undefined" ) {
 		if (typeof motusFilter.animals === 'undefined' || motusFilter.animals.length == 0) {
 			motusFilter.animals = motusFilter[dataType]
 				.filter(x => (typeof motusData[ "animalsBy" + firstToUpper(dataType) ].get(x) !== 'undefined'))
 				.map(x => Array.from(motusData[ "animalsBy" + firstToUpper(dataType) ].get(x).keys())).flat().filter(onlyUnique);
 		}
-		motusData.selectedAnimals = motusData.animals.filter(x => motusFilter.animals.includes(x.deployID) );
-	} else {
+		motusData.selectedAnimals = motusData.animals.filter(x => motusFilter.animals.includes(x.id) );
+	} else if ( typeof selectedAnimals !== "undefined" ) {
 		motusFilter.animals = selectedAnimals;
-		motusData.selectedAnimals = motusData.animals.filter(x => motusFilter.animals.includes(x.deployID) );
+		motusData.selectedAnimals = motusData.animals.filter(x => motusFilter.animals.includes(x.id) );
+	} else if (dataType == 'stations') {
+	//	motusData.tracksByStation = motusData.tracks
+	//													.filter(d => motusFilter[dataType].includes(d.recv1) || motusFilter[dataType].includes(d.recv2));
+
+		motusFilter.animals = motusData.selectedStations
+														.map(d => d.animals.split(';')).flat().filter(onlyUnique);
+
+		motusData.selectedAnimals = motusData.animals.filter(x => motusFilter.animals.includes(x.id) );
+														console.log(motusFilter.animals);
 	}
 
 	if (typeof selectedProjects === "undefined") {
@@ -58,7 +70,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 		motusData.selectedProjects = motusData.projects.filter(x => motusFilter.projects.includes(x.id) );
 	}
 
-//	motusFilter.stations = motusFilter.regions.map(x => (motusData[ "stationsBy" + firstToUpper(dataType) ].get(x).map(s => s.deployID))).flat();
+//	motusFilter.stations = motusFilter.regions.map(x => (motusData[ "stationDepsBy" + firstToUpper(dataType) ].get(x).map(s => s.id))).flat();
 
 	// Get a list of region names from selected polygons
 	if (typeof selectionNames === "undefined") {
@@ -77,40 +89,49 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 				// Make a array of animal IDs for all local using 'animalsByRegions'
 			  motusFilter.localAnimals = [];
 
-				motusFilter[dataType]
-					.forEach(function(x){
-						if (motusData[ "animalsBy" + firstToUpper(dataType) ].get( x )) {
-							 motusFilter.localAnimals = motusFilter.localAnimals.concat(Array.from(motusData["animalsBy" + firstToUpper(dataType)].get( x ).keys()));
-						}
-					})
+				if (dataType != 'stations') {
 
+					motusFilter[dataType]
+						.forEach(function(x){
+							if (motusData[ "animalsBy" + firstToUpper(dataType) ].get( x )) {
+								 motusFilter.localAnimals = motusFilter.localAnimals.concat(Array.from(motusData["animalsBy" + firstToUpper(dataType)].get( x ).keys()));
+							}
+						})
+				} else {
+
+					motusFilter.localAnimals = motusData.selectedStations.map(d => d.localAnimals.split(',')).flat()
+
+				}
 			} else {
 
 				motusFilter.localAnimals = localAnimals;
 
 			}
 
-			if (typeof foreignAnimals === "undefined") {
+			if (typeof remoteAnimals === "undefined") {
 
 				// Search for non-local animals in tracks to or from a local station
-				motusFilter.foreignAnimals = [];
+				motusFilter.remoteAnimals = [];
 /*
 				motusData.tracks
 					.filter( d => motusFilter.stations.includes(d.recv1) || motusFilter.stations.includes(d.recv2) )
 					.forEach(function(d) {
-						motusFilter.foreignAnimals += ","+d.animal;
+						motusFilter.remoteAnimals += ","+d.animal;
 					});
 
-				motusFilter.foreignAnimals = motusFilter.foreignAnimals.split(',').filter(onlyUnique).filter( x => !motusFilter.localAnimals.includes(x) );*/
+				motusFilter.remoteAnimals = motusFilter.remoteAnimals.split(',').filter(onlyUnique).filter( x => !motusFilter.localAnimals.includes(x) );*/
 
 			} else {
-				motusFilter.foreignAnimals = foreignAnimals;
+				motusFilter.remoteAnimals = remoteAnimals;
 			}
 
 			// List which regions have local animals. This is to avoid error when trying to display detection data.
 			motusFilter.selectionsWithAnimals = [];
-			motusFilter[dataType].forEach(function(x){ if ( motusData["animalsBy" + firstToUpper(dataType)].get( x ) ) { motusFilter.selectionsWithAnimals.push(x) }; });
-
+			if (dataType != 'stations') {
+				motusFilter[dataType].forEach(function(x){ if ( motusData["animalsBy" + firstToUpper(dataType)].get( x ) ) { motusFilter.selectionsWithAnimals.push(x) }; });
+			} else {
+				motusFilter.selectionsWithAnimals = motusData.stationDeps.filter(d => d.localAnimals.length > 0).map(d => d.id).flat();
+			}
 			//motusFilter.animals = motusFilter.localAnimals;
 
 		} else if (dataType == 'species') {
@@ -145,7 +166,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 	// *** Above should be removed to '***'
 
 	// Set colour scale based on number of colour combos
-	var colourScale = d3.scaleOrdinal().domain(['Foreign'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length)));
+	var colourScale = d3.scaleOrdinal().domain(['visiting', 'remote'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length + 1)));
 
 
 //	var colourScale = colourScale;
@@ -183,8 +204,8 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 	motusData.tracksBySpecies = {};
 	motusData.tracksByStation = {};
 	motusData.stationHits = {};
-	motusData.animalsByDayOfYear = [...Array(366).fill(0).map(x => ({local: [], foreign: [], visiting: []}))];
-	motusData.animalsByHourOfDay = [...Array(24).fill(0).map(x => ({local: [], foreign: [], visiting: []}))];
+	motusData.animalsByDayOfYear = [...Array(366).fill(0).map(x => ({local: [], remote: [], visiting: []}))];
+	motusData.animalsByHourOfDay = [...Array(24).fill(0).map(x => ({local: [], remote: [], visiting: []}))];
 
 	motusData.allTimes = [];
 
@@ -200,7 +221,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 			var animals = [];
 			var species = v.species.split(',');
 
-			var origin = "Foreign";
+			var origin = "visiting";
 
 			var selectedRecv1 = motusFilter.stations.includes(v.recv1);
 			var selectedRecv2 = motusFilter.stations.includes(v.recv2);
@@ -222,7 +243,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 			}
 
-			if ( !['animals', 'species'].includes(dataType) ) {
+			if ( !['animals', 'species', 'stations'].includes(dataType) ) {
 				motusFilter[dataType].forEach(function(c) {
 					if ( typeof motusData["animalsBy" + firstToUpper(dataType)].get( c ) !== 'undefined' &&
 					 		 Array.from( motusData["animalsBy" + firstToUpper(dataType)].get( c ).keys() ).some(x => v.animal.split(',').includes(x))	) {
@@ -241,11 +262,11 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 						motusData.animalsByDayOfYear[moment(dtStart[i]).dayOfYear()].local.push(x);
 						motusData.animalsByDayOfYear[moment(dtEnd[i]).dayOfYear()].local.push(x);
 					} else {
-						motusData.animalsByDayOfYear[moment(dtStart[i]).dayOfYear()].foreign.push(x);
-						motusData.animalsByDayOfYear[moment(dtEnd[i]).dayOfYear()].foreign.push(x);
+						motusData.animalsByDayOfYear[moment(dtStart[i]).dayOfYear()].remote.push(x);
+						motusData.animalsByDayOfYear[moment(dtEnd[i]).dayOfYear()].remote.push(x);
 					}
 				} else {
-					motusFilter.foreignAnimals.push(x);
+					motusFilter.remoteAnimals.push(x);
 					if (selectedRecv1) {
 						allTimes.push(dtStart[i]);
 						motusData.animalsByDayOfYear[moment(dtStart[i]).dayOfYear()].visiting.push(x);
@@ -297,8 +318,8 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 	}
 
 
-	motusFilter.foreignAnimals = 	motusFilter.foreignAnimals.filter(onlyUnique);
-	motusFilter.animals = motusFilter.animals.concat(motusFilter.foreignAnimals);
+	motusFilter.remoteAnimals = 	motusFilter.remoteAnimals.filter(onlyUnique);
+	motusFilter.animals = motusFilter.animals.concat(motusFilter.remoteAnimals);
 
 	console.log("motusData: ", motusData);
 	console.log("motusFilter: ", motusFilter);
@@ -328,7 +349,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 	motusMap.setVisibility();
 
-	//console.log(motusData.recvDepsLink.filter(d => motusFilter.stations.includes(d.id)));
+	//console.log(motusData.stations.filter(d => motusFilter.stations.includes(d.id)));
 //	console.log("Stations: " + motusFilter.stations.length + " - Animals: " +regionAnimals.length);
 
 				//  g.attr("transform", "translate(" + -topLeft[0] + "," + -topLeft[1] + ")");
@@ -336,8 +357,6 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 	console.log("motusMap.regionPaths: " + moment().diff(ts[0]) + "@" + moment().diff(ts[ts.length-1]));ts.push(moment());
 
 	if (!exploreProfile_hasLoaded) {
-
-
 
 		motusMap.svg.append("svg:defs").append("svg:marker")
 			.attr("id", "station_path")
@@ -355,19 +374,18 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 			.attr("transform", "rotate(90,15,20)");
 
 		motusMap.regionPaths = motusMap.g.selectAll("regions")
-		//	.data(motusData.selectedRegions)
 			.data(motusData.polygons.features)
 			.enter().append("path")
 			.attr("d", motusMap.path)
 			.attr('class', 'explore-map-regions leaflet-zoom-hide')
 			.style('stroke', '#000')
-		//	.style('fill', '#FFF')
 			.style('fill', d => motusFilter.regions.includes(d.properties.adm0_a3) ? "#FFF" : "#CCC" )
 			.style('stroke-width', '1px');
 
+
 		motusMap.g.selectAll('stations')
-			.data(motusData.recvDepsLink.filter(d => !motusFilter.stations.includes(d.id)))
-			//.data(motusData.recvDepsLink)
+			.data(motusData.stations.filter(d => !motusFilter.stations.includes(d.id)))
+			//.data(motusData.stations)
 			.enter().append("path")
 			.attr("d", motusMap.path.pointRadius(3))
 			.style('stroke', '#000')
@@ -382,9 +400,10 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 		var yesterday = moment().subtract(1, 'days');
 
+		console.log(motusData.stations.filter(d => motusFilter.stations.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)));
 		motusMap.g.selectAll('stations')
-			.data(motusData.recvDepsLink.filter(d => motusFilter.stations.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)))
-			//.data(motusData.recvDepsLink)
+			.data(motusData.stations.filter(d => motusFilter.stations.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)))
+			//.data(motusData.stations)
 			.enter().append("path")
 			.attr('marker-end','url(#station_path)')
 			.attr("d", motusMap.path.pointRadius(6))
@@ -526,7 +545,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 				.style('pointer-events', 'auto');
 
 			var regionCode = colourScale.domain()[i];
-			var regionName = regionCode == "Foreign" ? regionCode : motusData.selectionNames[ colourScale.domain()[i] ];
+			var regionName = regionCode == "remote" ? regionCode : motusData.selectionNames[ colourScale.domain()[i] ];
 
 			g.append("text")
 				.attr("x", 40)
@@ -566,15 +585,24 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 		var k = a[0];
 		var v = a[1];
 
-		var stations = motusData[ "stationsBy" + firstToUpper(dataType) ].get(k);
+		if (dataType != 'stations') {
+			var stations = motusData[ "stationDepsBy" + firstToUpper(dataType) ].get(k);
+		} else {
+			var stations = motusData.selectedStations;
+		}
+		var routes = Array.from(stations.map(x => x.id).values()).map(x => motusData.tracksByStation[x]).flat().filter(x=>typeof x !== 'undefined');
 
-		var routes = Array.from(stations.map(x => x.deployID).values()).map(x => motusData.tracksByStation[x]).flat().filter(x=>typeof x !== 'undefined');
-
-		if (motusData[ "animalsBy" + firstToUpper(dataType) ].get(k)) {
+		if (motusData[ "animalsBy" + firstToUpper(dataType) ] && motusData[ "animalsBy" + firstToUpper(dataType) ].get(k)) {
 
 			var animals = motusFilter.animals.filter((x) => motusData[ "animalsBy" + firstToUpper(dataType) ].get(k).get(x));
 
 			var species = Array.from( animals.map( (x) => motusData[ "animalsBy" + firstToUpper(dataType) ].get(k).get(x)[0].species).values() ).filter( onlyUnique );
+
+		} else if (dataType == 'stations') {
+
+			var animals = motusData.selectedStations.map(d => d.animals.split(',')).flat();
+
+			var species = motusData.selectedStations.map(d => d.species.split(',')).flat();
 
 		} else {
 
@@ -592,15 +620,20 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 			}
 		});
 
-		var status = {
-			tags: [ animals.length ],
-			species: [species.length],
-			projects: [Array.from(stations.map(x => x.projID).values()).filter(onlyUnique).length],
-			stations: [stations.length]
-		//	lastData: [Math.round( subset[subset.length-1].lastData )],
-		}
+		var status = dataType == 'regions' ? {
+				tags: [ animals.length ],
+				species: [species.length],
+				projects: [Array.from(stations.map(x => x.projID).values()).concat(Array.from(animals.map(x => x.projID).values())).filter(onlyUnique).length],
+				stations: [stations.length]
+				//	lastData: [Math.round( subset[subset.length-1].lastData )],
+			} : {
+				tags: [ animals.length ],
+				species: [species.length],
+				countries: [Array.from(stations.map(x => x.country).values()).concat(Array.from(animals.map(x => x.country).values())).filter(onlyUnique).length],
+				stations: [stations.length]
+			};
 		if (!exploreProfile_hasLoaded) {
-			//console.log(status);
+			console.log(status);
 			addExploreCard({
 				data: {},
 				id: k,
@@ -618,7 +651,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 		var div = explore_legend.append( "<div></div>" );
 		div.append( `<div class='explore-legend-icon' style='border-color:${colourScale(x)}'></div>` );
-		div.append( `${x=='Foreign'?x:motusData.selectionNames[x]}` );
+		div.append( `${x=='remote'?x:motusData.selectionNames[x]}` );
 
 	});
 
@@ -630,7 +663,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 		$('#explore_map').parent().before($('#explore_card_profiles'));
 
 		$('#explore_map').before("<div class='explore-map-controls'></div>")
-		//$('#explore_map').before("<div class='explore-map-controls'>Map legend <input type='button' value='Hide tracks-local'><input type='button' value='Hide tracks-foreign'><input type='button' value='Hide stations'><input type='button' value='Hide regions'></div>")
+		//$('#explore_map').before("<div class='explore-map-controls'>Map legend <input type='button' value='Hide tracks-local'><input type='button' value='Hide tracks-remote'><input type='button' value='Hide stations'><input type='button' value='Hide regions'></div>")
 		console.log(mapLegend);
 		d3.select(".explore-map-controls").append(()=>mapLegend.node());
 
@@ -670,7 +703,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 
 			*/
-
+		if (dataType != 'stations') {
 			console.log("Stations: " + moment().diff(ts[0]) + "@" + moment().diff(ts[ts.length-1]));ts.push(moment());
 
 			//	Add the card dom element to contain the chart
@@ -688,7 +721,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 				});
 
 			setProgress(70);
-
+		}
 			/**********************************************
 												Animals
 			**********************************************/
@@ -743,7 +776,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 	motusFilter.animals = ['all'];
 	motusFilter.stations = ['all'];
-	updateURL();
+//	updateURL();
 
 	motusMap.setVisibility();
 	console.log("End: " + moment().diff(ts[0]) + "@" + moment().diff(ts[ts.length-1]));ts.push(moment());
@@ -781,8 +814,8 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 		var hasData = false;
 
 		var svg = d3.select( timelineSVG[0] )
-								.on("touchmove mousemove", dataHover)
-								.on("toucheleave mouseleave", function(e) {dataHover(e, "out");});
+								.on("touchstart touchmove mousemove", dataHover)
+								.on("touchend mouseleave", function(e) {dataHover(e, "out");});
 
 		var stationHits = {};
 
@@ -807,13 +840,13 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 
 
-			if (typeof motusData.tracksByStation[v.deployID] !== 'undefined') {
+			if (typeof motusData.tracksByStation[v.id] !== 'undefined') {
 
 				hasData = true;
 
-				motusData.tracksByStation[v.deployID].forEach(function(x){
+				motusData.tracksByStation[v.id].forEach(function(x){
 
-					var datePos = ( x.split('.')[0] == v.deployID ? 'dtStart' : 'dtEnd' ) + 'List';
+					var datePos = ( x.split('.')[0] == v.id ? 'dtStart' : 'dtEnd' ) + 'List';
 
 					var trackData = motusData.selectedTracks[x];
 
@@ -1023,7 +1056,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 											d3.rollup(
 												motusData.selectedStations,
 												v => ({
-													id: ( Array.from( v.map( d => d.deployID ).values() ) ).join(','),
+													id: ( Array.from( v.map( d => d.id ).values() ) ).join(','),
 													name: v[0].name,
 													dtStart: moment(d3.min(v, d => d.dtStart)),
 													dtEnd: moment(d3.max(v, d => d.dtEnd)),
@@ -1112,6 +1145,12 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 		  1. Show unique animals per month/hour
 			2. Show unique species per month/hour
 
+
+		This plot displays three categories of detections:
+			1. Local detections: Animals tagged AND detected in the same region
+			2. Remote detections: Animals tagged in the region and detected elsewhere
+			3. Visitor detections: Animals tagged elsewhere and detected within the region
+
 		*/
 
 		$("#explore_card_" + cardID + " > div:not(.explore-card-header)").hide();
@@ -1137,7 +1176,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 			for (var i=1; i<=gSize; i++) {
 				day = moment().month(i).dayOfYear();
-				animalsByDayOfYear[ day ] = { "Julian date": day, visiting: [], local: [], foreign: [], total: [] };
+				animalsByDayOfYear[ day ] = { "Julian date": day, visiting: [], local: [], remote: [], total: [] };
 
 				Object.values(motusData.selectionNames).forEach(function(d) {animalsByDayOfYear[ day ][ d ] = [];});
 			}
@@ -1145,9 +1184,9 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 			console.log(animalsByDayOfYear);
 			motusData.animalsByDayOfYear.forEach( function(d, i) {
 
-				if (d.local.length > 0 || d.foreign.length > 0 || d.visiting.length > 0) {
+				if (d.local.length > 0 || d.remote.length > 0 || d.visiting.length > 0) {
 
-					const animalsToday = d.local.concat(d.foreign).concat(d.visiting);
+					const animalsToday = d.local.concat(d.remote).concat(d.visiting);
 
 					if (group_by != 'day') {
 						day = moment()[group_by](moment().dayOfYear(i)[group_by]()).dayOfYear();
@@ -1157,13 +1196,21 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 
 					motusFilter[ dataType ].forEach(function(k) {
-						if (typeof motusData["animalsBy"+firstToUpper(dataType)].get( k ) !== 'undefined') {
-							animalsByDayOfYear[ day ][ motusData.selectionNames[ k ] ] = animalsByDayOfYear[ day ][ motusData.selectionNames[ k ] ].concat(d.local.filter( x => motusData["animalsBy"+firstToUpper(dataType)].get( k ).get( x ).length > 0 ));
+						if (motusData["animalsBy"+firstToUpper(dataType)] && typeof motusData["animalsBy"+firstToUpper(dataType)].get( k ) !== 'undefined') {
+							animalsByDayOfYear[ day ][ motusData.selectionNames[ k ] ] = animalsByDayOfYear[ day ][ motusData.selectionNames[ k ] ].concat(
+								d.local.filter( x => typeof motusData["animalsBy"+firstToUpper(dataType)].get( k ).get( x ) !== 'undefined' && motusData["animalsBy"+firstToUpper(dataType)].get( k ).get( x ).length > 0 )
+							);
+						} else if (dataType == 'stations') {
+							animalsByDayOfYear[ day ][ motusData.selectionNames[ k ] ] = animalsByDayOfYear[ day ][ motusData.selectionNames[ k ] ].concat(
+								d.local
+							);
 						}
+
+
 					});
 					animalsByDayOfYear[day].local = animalsByDayOfYear[day].local.concat(d.local);
 
-					animalsByDayOfYear[day].foreign = animalsByDayOfYear[day].foreign.concat(d.foreign);
+					animalsByDayOfYear[day].remote = animalsByDayOfYear[day].remote.concat(d.remote);
 					animalsByDayOfYear[day].visiting = animalsByDayOfYear[day].visiting.concat(d.visiting);
 					animalsByDayOfYear[day].total = animalsByDayOfYear[day].total.concat(animalsToday);
 
@@ -1190,7 +1237,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 			animalsByDayOfYear.columns.splice( animalsByDayOfYear.columns.indexOf('local'), 1 );
 
 
-			var radialColourScale = d3.scaleOrdinal().domain( ['visiting', 'foreign'].concat( motusFilter[dataType].map(x => motusData.selectionNames[ x ] ) ) ).range( ["#000000"].concat( customColourScale.jnnnnn.slice(0, motusFilter[dataType].length + 1) ) );
+			var radialColourScale = d3.scaleOrdinal().domain( ['visiting', 'remote'].concat( motusFilter[dataType].map(x => motusData.selectionNames[ x ] ) ) ).range( ["#000000"].concat( customColourScale.jnnnnn.slice(0, motusFilter[dataType].length + 1) ) );
 
 			console.log(animalsByDayOfYear);
 
@@ -1206,17 +1253,17 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 	if (motusData.animals.length > 0) {
 		motusData.selectedAnimals = Array.from(motusData.animals.filter(
-											x => motusFilter.animals.includes( x.deployID )
+											x => motusFilter.animals.includes( x.id )
 										).map(d => ({
-											id: d.deployID,
+											id: d.id,
 											species: d.species,
 											name: motusData.speciesByID.get(d.species)?motusData.speciesByID.get(d.species)[0].english:"Undefined",
 											dtStart: moment(d.dtStart),
 											dtEnd: moment(d.dtEnd),
 											frequency: d.frequency,
 											country: d.country,
-											nStations: motusData.tracksByAnimal[d.deployID]?Array.from(motusData.tracksByAnimal[d.deployID].map(v=>v.split('.')).values()).flat().filter(onlyUnique):[],
-											nDays: motusData.tracksByAnimal[d.deployID]?motusData.tracksByAnimal[d.deployID].length * 2:0
+											nStations: motusData.tracksByAnimal[d.id]?Array.from(motusData.tracksByAnimal[d.id].map(v=>v.split('.')).values()).flat().filter(onlyUnique):[],
+											nDays: motusData.tracksByAnimal[d.id]?motusData.tracksByAnimal[d.id].length * 2:0
 										})).values());
 	}
 
@@ -1275,15 +1322,15 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 			headers.forEach( x => $("#explore_card_" + cardID + " .explore-card-" + cardID + "-speciesTable thead tr").append( $('<th></th>').text(x) ) );
 
 			motusData.animalsTableData = Array.from(motusData.selectedAnimals.map(d => ({
-													id: d.deployID,
+													id: d.id,
 													species: d.species,
 													name: motusData.speciesByID.get(d.species)?motusData.speciesByID.get(d.species)[0].english:"Undefined",
 													dtStart: moment(d.dtStart),
 													dtEnd: moment(d.dtEnd),
 													frequency: d.frequency,
 													country: d.country,
-													nStations: (motusData.tracksByAnimal[d.deployID]?Array.from(motusData.tracksByAnimal[d.deployID].map(v=>v.split('.')).values()).flat().filter(onlyUnique):[]),
-													nDays: motusData.tracksByAnimal[d.deployID]?motusData.tracksByAnimal[d.deployID].length * 2:0
+													nStations: (motusData.tracksByAnimal[d.id]?Array.from(motusData.tracksByAnimal[d.id].map(v=>v.split('.')).values()).flat().filter(onlyUnique):[]),
+													nDays: motusData.tracksByAnimal[d.id]?motusData.tracksByAnimal[d.id].length * 2:0
 												})).values());
 
 			motusData.selectedSpecies = Array.from(

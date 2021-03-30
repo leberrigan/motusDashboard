@@ -10,7 +10,7 @@ function exploreProjects(project) {
 							.attr('class', 'showHide')
 							.on('click', function(){$(this).closest('.explore-map-legend').toggleClass('hidden');});
 
-	var selectedStations = Array.from(motusData.stations.filter(x => motusFilter.projects.some(v => v === x.projID)).map(x => x.deployID).values());
+	var selectedStations = Array.from(motusData.stationDeps.filter(x => motusFilter.projects.some(v => v === x.projID)).map(x => x.deployID).values());
 
 	/*
 	addExploreCard({data:'chart', type:'regionProfile'});
@@ -198,7 +198,7 @@ function exploreProjects(project) {
 
 	motusMap.setVisibility();
 
-	//console.log(motusData.recvDepsLink.filter(d => selectedStations.includes(d.id)));
+	//console.log(motusData.stations.filter(d => selectedStations.includes(d.id)));
 //	console.log("Stations: " + selectedStations.length + " - Animals: " +regionAnimals.length);
 
 				//  g.attr("transform", "translate(" + -topLeft[0] + "," + -topLeft[1] + ")");
@@ -233,8 +233,8 @@ function exploreProjects(project) {
 		.style('stroke-width', '1px');
 
 	motusMap.g.selectAll('stations')
-		.data(motusData.recvDepsLink.filter(d => !selectedStations.includes(d.id)))
-		//.data(motusData.recvDepsLink)
+		.data(motusData.stations.filter(d => !selectedStations.includes(d.id)))
+		//.data(motusData.stations)
 		.enter().append("path")
 		.attr("d", motusMap.path.pointRadius(3))
 		.style('stroke', '#000')
@@ -250,8 +250,8 @@ function exploreProjects(project) {
 	var yesterday = moment().subtract(1, 'days');
 
 	motusMap.g.selectAll('stations')
-		.data(motusData.recvDepsLink.filter(d => selectedStations.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)))
-		//.data(motusData.recvDepsLink)
+		.data(motusData.stations.filter(d => selectedStations.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)))
+		//.data(motusData.stations)
 		.enter().append("path")
 		.attr('marker-end','url(#station_path)')
 		.attr("d", motusMap.path.pointRadius(6))
@@ -433,7 +433,7 @@ function exploreProjects(project) {
 
 	motusFilter.projects.forEach(function(v, k) {
 
-		var stations = motusData.stationsByProjects.get(v);
+		var stations = motusData.stationDepsByProjects.get(v);
 
 		stations = (typeof stations !== 'undefined') ? stations : [];
 
@@ -677,7 +677,7 @@ function exploreProjects(project) {
 
 			motusData.selectedStations = Array.from(
 											d3.group(
-												motusData.stations.filter(
+												motusData.stationDeps.filter(
 													x => selectedStations.includes( x.id )
 												),
 												d => d.name
@@ -900,7 +900,7 @@ function exploreProjects(project) {
 
 			motusData.selectedStations = Array.from(
 											d3.rollup(
-												motusData.stations.filter(
+												motusData.stationDeps.filter(
 													x => selectedStations.includes( x.id )
 												),
 												v => ({
@@ -916,7 +916,7 @@ function exploreProjects(project) {
 											).values()
 										);
 
-			console.log(motusData.stations.filter(
+			console.log(motusData.stationDeps.filter(
 													x => selectedStations.includes( x.id )
 												));
 

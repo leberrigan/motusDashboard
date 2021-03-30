@@ -11,7 +11,7 @@ $.widget("ui.dragslider", $.ui.slider, {
       this._rangeCapture = false;
     },
 
-    _mouseCapture: function( event ) { 
+    _mouseCapture: function( event ) {
       var o = this.options;
 
       if ( o.disabled ) return false;
@@ -26,8 +26,8 @@ $.widget("ui.dragslider", $.ui.slider, {
 
       $.ui.slider.prototype._mouseCapture.apply(this,arguments);
 
-      if(this._rangeCapture == true) {  
-          this.handles.removeClass("ui-state-active").blur();   
+      if(this._rangeCapture == true) {
+          this.handles.removeClass("ui-state-active").blur();
       }
 
       return true;
@@ -39,7 +39,7 @@ $.widget("ui.dragslider", $.ui.slider, {
     },
 
     _slide: function( event, index, newVal ) {
-      if(!this._rangeCapture) { 
+      if(!this._rangeCapture) {
         return $.ui.slider.prototype._slide.apply(this,arguments);
       }
 
@@ -162,12 +162,12 @@ function explore_profile(exploreType, profile_id){
 function initiateTooltip(el) {
 	if (!isMobile) {
 		var $els = $( typeof el === 'undefined' ? '.tips' : el );
-		
+
 		if (!$els.hasClass('tips')) {$els = $els.find('.tips')}
-		
+
 		$els.mousemove(function(e){
 			$('.tooltip').text($(this).attr('alt'));
-			
+
 			if (e.pageX + 15 + $('.tooltip').outerWidth() > $(window).width()) {
 				$('.tooltip').css({top:e.pageY - 10, left:e.pageX - $('.tooltip').outerWidth() - 15});
 			} else {
@@ -180,18 +180,19 @@ function initiateTooltip(el) {
 function initiatePopup() {
 }
 function viewProfile(profileType, dataID) {
-	
+
 	exploreType = profileType;
-					
+	dataType = profileType;
+
 	motusFilter={};
-	
+
 	if (typeof dataID === 'object') {
 		motusFilter[profileType] = dataID
 	} else {
 		motusFilter[profileType] = [dataID]
 	}
 	updateURL(true);
-	
+
 }
 function initiateLightbox(el) {
 	if (typeof el === 'undefined') {
@@ -200,7 +201,7 @@ function initiateLightbox(el) {
 		$('.enlarge').click(initiateLightbox);
 
 	} else {
-		
+
 		if (el.tagName != 'IMG') {
 			var img_url = $(el).css('background-image');
 			img_url = /^url\((['"]?)(.*)\1\)$/.exec(img_url);
@@ -208,13 +209,13 @@ function initiateLightbox(el) {
 		} else {
 			var img_url = el.src;
 		}
-		
-		
+
+
 		$("#lightbox_bg").fadeIn(250);
 		$("#lightbox img").attr('src', img_url).parent().fadeIn(250);
 	}
-	
-	
+
+
 }
 function countInstances(arr) {
   var a = [],
@@ -278,7 +279,7 @@ var dataColNames = {
 		english: "English",
 		french: "Français",
 		spanish: "Español",
-		scientific: "Scientific"		
+		scientific: "Scientific"
 	},
 	regions: {
 		country: "Country",

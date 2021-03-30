@@ -18,9 +18,9 @@ function exploreRegions(region) {
 
 	selectedPolygons = motusData.polygons.features.filter(x => motusFilter.regions.includes(x.properties.adm0_a3));
 
-	motusFilter.regions = motusFilter.regions.filter(d => Array.from(motusData.stationsByRegions.keys()).includes(d));
+	motusFilter.regions = motusFilter.regions.filter(d => Array.from(motusData.stationDepsByRegions.keys()).includes(d));
 
-	regionStations = motusFilter.regions.map(x => (motusData.stationsByRegions.get(x).map(s => s.deployID))).flat();
+	regionStations = motusFilter.regions.map(x => (motusData.stationDepsByRegions.get(x).map(s => s.deployID))).flat();
 
 
 	/*
@@ -243,7 +243,7 @@ function exploreRegions(region) {
 
 	motusMap.setVisibility();
 
-	//console.log(motusData.recvDepsLink.filter(d => regionStations.includes(d.id)));
+	//console.log(motusData.stations.filter(d => regionStations.includes(d.id)));
 //	console.log("Stations: " + regionStations.length + " - Animals: " +regionAnimals.length);
 
 				//  g.attr("transform", "translate(" + -topLeft[0] + "," + -topLeft[1] + ")");
@@ -281,8 +281,8 @@ function exploreRegions(region) {
 			.style('stroke-width', '1px');
 
 		motusMap.g.selectAll('stations')
-			.data(motusData.recvDepsLink.filter(d => !regionStations.includes(d.id)))
-			//.data(motusData.recvDepsLink)
+			.data(motusData.stations.filter(d => !regionStations.includes(d.id)))
+			//.data(motusData.stations)
 			.enter().append("path")
 			.attr("d", motusMap.path.pointRadius(3))
 			.style('stroke', '#000')
@@ -298,8 +298,8 @@ function exploreRegions(region) {
 		var yesterday = moment().subtract(1, 'days');
 
 		motusMap.g.selectAll('stations')
-			.data(motusData.recvDepsLink.filter(d => regionStations.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)))
-			//.data(motusData.recvDepsLink)
+			.data(motusData.stations.filter(d => regionStations.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)))
+			//.data(motusData.stations)
 			.enter().append("path")
 			.attr('marker-end','url(#station_path)')
 			.attr("d", motusMap.path.pointRadius(6))
@@ -476,7 +476,7 @@ function exploreRegions(region) {
 
 	regionNames.forEach(function(v, k) {
 
-		var stations = motusData.stationsByRegions.get(k);
+		var stations = motusData.stationDepsByRegions.get(k);
 
 		var routes = Array.from(stations.map(x => x.deployID).values()).map(x => motusData.tracksByStation[x]).flat().filter(x=>typeof x !== 'undefined');
 
@@ -932,7 +932,7 @@ function exploreRegions(region) {
 
 			motusData.selectedStations = Array.from(
 											d3.rollup(
-												motusData.stations.filter(
+												motusData.stationDeps.filter(
 													x => regionStations.includes( x.deployID )
 												),
 												v => ({
@@ -950,13 +950,13 @@ function exploreRegions(region) {
 
 
 			motusData.selectedStationDeployments = d3.group(
-				motusData.stations.filter(
+				motusData.stationDeps.filter(
 					x => regionStations.includes( x.deployID )
 				),
 				d => d.name
 			);
 
-			console.log(motusData.stations.filter(
+			console.log(motusData.stationDeps.filter(
 													x => regionStations.includes( x.deployID )
 												));
 

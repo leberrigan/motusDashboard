@@ -2,7 +2,7 @@
 
 To be released 2021. An upgrade for Motus Explore Data tool.
 
-### **[DEMO](explore.html)**
+### **[DEMO](leberrigan.github.io/motusDashboard/explore.html)**
 - [Updates](#updates)
 - [Site map](#site-map)
 - [Data structure](#data-structure)
@@ -26,21 +26,24 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 * [x] [2021-03-16] Save page as PDF
 
 ### In development
-
-* [ ] **Profiles:** Move map legend for selections to top of page (under filters)
-* [ ] **Profiles:** Improve map control interface
+* [ ] **Profiles** Tweak `summary.js` so it works for station summaries.
 
 ### Next
- * [ ] **Profiles:** Fix calculation of summary statistics
- * [ ] **Profiles:** Develop species profiles
- * [ ] **Profiles:** Develop animal profiles
- * [ ] **Profiles:** Develop station profiles
- * [ ] **Profiles:** Update radial plot with filters
- * [ ] **Profiles:** Add a new tab for projects.
- * [ ] **Profiles:** Highlight regions where stations/tagDeps exist in all profile pages
- * [ ] **Explore:** Introduce custom selections
- * [ ] **ALL:** Work on animation controls
- * [ ] **ALL:** Pare down code so fewer scripts are required
+* [ ] **Profiles** Tweak `summary.js` so it works for project 'group' summaries.
+* [ ] **Profiles** Tweak `summary.js` so it works for species summaries.
+* [ ] **Profiles** Tweak `summary.js` so it works for animal summaries.
+* [ ] **Profiles:** Move map legend for selections to top of page (under filters)
+* [ ] **Profiles:** Improve map control interface
+* [ ] **Profiles:** Fix calculation of summary statistics
+* [ ] **Profiles:** Develop species profiles
+* [ ] **Profiles:** Develop animal profiles
+* [ ] **Profiles:** Develop station profiles
+* [ ] **Profiles:** Update radial plot with filters
+* [ ] **Profiles:** Add a new tab for projects.
+* [ ] **Profiles:** Highlight regions where stations/tagDeps exist in all profile pages
+* [ ] **Explore:** Introduce custom selections
+* [ ] **ALL:** Work on animation controls
+* [ ] **ALL:** Pare down code so fewer scripts are required
 
  ### Further down the road...
  * [ ] **Profiles:** Think about adding a [streamgraph](https://bl.ocks.org/HarryStevens/c893c7b441298b36f4568bc09df71a1e) for species timelines and antenna activity.

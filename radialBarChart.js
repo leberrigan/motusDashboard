@@ -4,7 +4,6 @@
 	d3.radialBarChart = function() {
 
 		var colourScale = null;
-		var dateFormat = "MMM";
 
 		function radialBarChart( gParent ) {
 			var data = gParent.data()[0];
@@ -39,7 +38,7 @@
 							.attr("x", 24)
 							.attr("y", 9)
 							.attr("dy", "0.35em")
-							.text(d => d))
+							.text(d => firstToUpper(d)))
 
 
 			var y = d3.scaleRadial()
@@ -110,7 +109,7 @@
 				.startAngle(d => x(d.data[data.columns[0]]))
 				.endAngle(d => x(d.data[data.columns[0]]) + x.bandwidth())
 				.padAngle(0.01)
-				.padRadius(innerRadius);
+				.padRadius(innerRadius)
 
 			gParentItem
 				.attr("viewBox", `${-width / 2} ${-10-height / 2} ${width} ${height}`)
@@ -123,10 +122,15 @@
 				.data(d3.stack().keys(data.columns.slice(1))(data))
 				.join("g")
 				.attr("fill", d => z(d.key))
+				.attr("class", d => `animal-timeline-arcs-${d.key}`)
 				.selectAll("path")
 				.data(d => d)
 				.join("path")
-				.attr("d", arc);
+				.attr("d", arc)
+				.style('pointer-events', 'auto')
+				.on('touchstart mouseover', (e,d) => dataHover(e, d, 'in'))
+				.on('touchend mouseout', (e,d) => dataHover(e, d, 'out'))
+				.on('click', (e,d) => dataClick(e, d));
 
 			gParentItem.append("g")
 				.call(xAxis);
@@ -139,6 +143,45 @@
 		//	});
 			return gParentItem.node();
 		};
+
+		function dataHover(e, data, dir) {
+				//							from: https://observablehq.com/@d3/line-chart-with-tooltip
+				if (dir == 'in') {
+
+					const key = e.target.parentElement.classList[0].split('-')[3];
+					const dateFun = dateFormat == "H" ? (d=>moment( d ).format( dateFormat )) : (d=> moment().dayOfYear( d ).format( dateFormat == "MMM" ? "MMMM" : dateFormat ) );
+
+//					console.log(data.data["Julian date"])
+
+					const date =  dateFun(data.data["Julian date"]);
+					const hits = data[1] - data[0];
+
+					$('.tooltip').html(
+						"<div style='text-align:center;'><big>"+
+							firstToUpper(key)+
+						"</big><br />"+
+							date+
+							"<br/>"+
+							hits+ " animals detected"+
+						"</div>"
+					);
+
+					if (e.pageX + 15 + $('.tooltip').outerWidth() > $(window).width()) {
+						$('.tooltip').css({top:e.pageY - 10, left:e.pageX - $('.tooltip').outerWidth() - 15});
+					} else {
+						$('.tooltip').css({top:e.pageY - 10, left:e.pageX + 15});
+					}
+
+					$('.tooltip:hidden').show();
+				} else {
+					$('.tooltip').hide();
+				}
+
+		}
+
+		function dataClick(e, data) {
+				console.log(data.key)
+		}
 
 		radialBarChart.colourScale = function (p) {
 			if (!arguments.length) return colourScale;
@@ -153,5 +196,5 @@
 
 		return radialBarChart;
 	};
-
+var dateFormat = "MMM";
 })();
