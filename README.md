@@ -2,7 +2,7 @@
 
 To be released 2021. An upgrade for Motus Explore Data tool.
 
-### **[DEMO](explore.html)**
+### **[DEMO](leberrigan.github.io/motusDashboard/explore.html)**
 - [Updates](#updates)
 - [Site map](#site-map)
 - [Data structure](#data-structure)
@@ -11,6 +11,13 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ## Updates
 
 ### Latest
+* [x] [2021-04-05] Fix animal selections in profiles, therefore summary totals as well.
+* [x] [2021-04-05] Fix 'clear filters' button.
+* [x] [2021-04-05] Revert string compression and omit irrelevant filters from URL.
+* [x] [2021-04-05] Make animation controls work.
+* [x] [2021-04-01] Add URL string compression.
+* [x] [2021-04-01] Fix summary data to include animals detected and stations visited.
+* [x] [2021-04-01] Fix `summary.js` receiver timelines so only visible ones are rendered.
 * [x] [2021-03-25] Add a third category of detections for foreign detections of local birds.
 * [x] [2021-03-24] Combine `regions.js` and `projects.js` into `summary.js` and generalise so it can be used for other summaries.
 * [x] [2021-03-23] Move data summaries to top of hierarchy
@@ -26,21 +33,25 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 * [x] [2021-03-16] Save page as PDF
 
 ### In development
-
-* [ ] **Profiles:** Move map legend for selections to top of page (under filters)
-* [ ] **Profiles:** Improve map control interface
+* [ ] **Profiles** Tweak `summary.js` so it works for station summaries.
+* [ ] **Profiles:** Move selections legend to toggle buttons.
+* [ ] **ALL:** Work on animation controls
 
 ### Next
- * [ ] **Profiles:** Fix calculation of summary statistics
- * [ ] **Profiles:** Develop species profiles
- * [ ] **Profiles:** Develop animal profiles
- * [ ] **Profiles:** Develop station profiles
- * [ ] **Profiles:** Update radial plot with filters
- * [ ] **Profiles:** Add a new tab for projects.
- * [ ] **Profiles:** Highlight regions where stations/tagDeps exist in all profile pages
- * [ ] **Explore:** Introduce custom selections
- * [ ] **ALL:** Work on animation controls
- * [ ] **ALL:** Pare down code so fewer scripts are required
+* [ ] **Profiles** Tweak `summary.js` so it works for project 'group' summaries.
+* [ ] **Profiles** Tweak `summary.js` so it works for species summaries.
+* [ ] **Profiles** Tweak `summary.js` so it works for animal summaries.
+* [ ] **Profiles:** Improve map control interface
+* [ ] **Profiles:** Fix calculation of summary statistics
+* [ ] **Profiles:** Develop species profiles
+* [ ] **Profiles:** Develop animal profiles
+* [ ] **Profiles:** Develop station profiles
+* [ ] **Profiles:** Update radial plot with filters
+* [ ] **Profiles:** Add a new tab for projects.
+* [ ] **Profiles:** Highlight regions where stations/tagDeps exist in all profile pages
+* [ ] **Explore:** Introduce custom selections
+* [ ] **ALL:** Fix URL string compression so it is efficient.
+* [ ] **ALL:** Pare down code so fewer scripts are required
 
  ### Further down the road...
  * [ ] **Profiles:** Think about adding a [streamgraph](https://bl.ocks.org/HarryStevens/c893c7b441298b36f4568bc09df71a1e) for species timelines and antenna activity.
@@ -119,8 +130,6 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 - `affiliations`
 - `groups` - *i.e.; custom groupings*
 
-##### Projects
-
 ### Calculated
 
 ##### REGIONS
@@ -142,4 +151,34 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 
 ### Number of hits: 4,338,50
 ### Number of runs: 37,684,367
-55931235 - 18246868
+
+## Summary Views
+
+### PROJECTS
+- YES: Animals tagged in this project
+- YES: Animals detected by this project's stations
+
+- YES: Stations deployed in this project
+- NO: Stations visited by animals tagged in this project.
+
+### STATIONS
+- MAYBE: Animals tagged near this station
+- YES: Animals detected by this station
+
+- NO: Stations visited by animals tagged near this station.
+
+### REGIONS
+- YES: Animals tagged in this region
+- YES: Animals detected by this region's stations
+
+- YES: Stations deployed in this region
+- NO: Stations visited by animals tagged in this region.
+
+### SPECIES
+- YES: Animals tagged of this species
+
+- YES: Stations visited by this species.
+
+### ANIMALS
+
+- YES: Stations visited by this animal.

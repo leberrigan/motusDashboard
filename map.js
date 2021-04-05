@@ -344,7 +344,7 @@ function exploreMap({
 					//motusMap.rect = L.rectangle(d.bounds, {color: 'blue', weight: 1}).addTo(motusMap.map);
 				*/	motusMap.map.fitBounds(d.bounds, {padding:[0,0], maxZoom: 200});
 				} else {
-
+					console.log(d)
 					viewProfile('stations', d.id);
 				}
 
@@ -381,8 +381,8 @@ function exploreMap({
 
 					if (exploreType == 'main') {
 						var recvs = route.split('.');
-						var recv1 = motusData.stationsBySubset[recvs[0]],
-							recv2 = motusData.stationsBySubset[recvs[1]];
+						var recv1 = motusData.stationDepsBySubset[recvs[0]],
+							recv2 = motusData.stationDepsBySubset[recvs[1]];
 						recv1 = recv1 ? recv1 : recvs[0];
 						recv2 = recv2 ? recv2 : recvs[1];
 
@@ -403,7 +403,7 @@ function exploreMap({
 					$("#leaflet-track-route-" + recvs ).removeClass('hidden');
 
 				});
-			//	console.log(motusData.stationsBySubset);
+			//	console.log(motusData.stationDepsBySubset);
 				// Make a table of species and their count and display a popup
 
 				var spp = d.species.split(',');
@@ -557,7 +557,7 @@ function exploreMap({
 			var counter = 0;
 			var tmp = 0;
 			var grid_f = 1; // grid size multiplication factor
-			motusData.stationsBySubset = {};
+			motusData.stationDepsBySubset = {};
 
 			quadtree.visit(function (node, x1, y1, x2, y2) {
 				var p = node.data;
@@ -613,7 +613,7 @@ function exploreMap({
 
 							if (subPts.length == 1) {subPts[0].lats = [];subPts[0].lons = [];subPts[0].projID = [];}
 
-							motusData.stationsBySubset[p.id] = subPts[0].id;
+							motusData.stationDepsBySubset[p.id] = subPts[0].id;
 
 							subPts[0].lats.push(p.geometry.coordinates[1])
 							subPts[0].lons.push(p.geometry.coordinates[0])
@@ -684,7 +684,7 @@ function exploreMap({
 			var bottomRight = bounds[1];
 
 			//console.log({ type: "FeatureCollection", features: subset });
-			//console.log(motusData.stationsBySubset);
+			//console.log(motusData.stationDepsBySubset);
 			//console.log(d3.extent(subset, x => x.geometry.coordinates[1]));
 
 			motusMap.svg.attr("width", bottomRight[0] - topLeft[0] + 100)
@@ -783,8 +783,8 @@ function exploreMap({
 						coordinates: v[0][1].coordinates
 					}
 				}, function(x){
-					var recv1 = motusData.stationsBySubset[x[1].recv1],
-						recv2 = motusData.stationsBySubset[x[1].recv2];
+					var recv1 = motusData.stationDepsBySubset[x[1].recv1],
+						recv2 = motusData.stationDepsBySubset[x[1].recv2];
 					recv1 = recv1 ? recv1 : x[1].recv1;
 					recv2 = recv2 ? recv2 : x[1].recv2;
 					return recv1 < recv2 ? recv1+"."+recv2 : recv2+"."+recv1;
@@ -901,7 +901,7 @@ function loadMapObjects(callback) {
 
 			motusData.regionByCode = d3.group(motusData.regions,  d => d.ADM0_A3);
 
-			var stationsRemaining = motusData.recvDepsLink;
+			var stationsRemaining = motusData.stations;
 
 			//motusMap.colourScales.regions.stations = d3.scaleSequential(d3.interpolateYlGnBu).domain([-100,1000])
 			motusMap.colourScales.regions.stations = d3.scaleOrdinal().domain(["166.380 MHz", "151.50 MHz", "150.10 MHz", "none"]).range(["#66c2a5","#fc8d62","#8da0cb","#999999"]);
@@ -923,9 +923,9 @@ function loadMapObjects(callback) {
 				"Africa":"150.10 MHz",
 				"Antarctica":"none"
 			}
-			console.log(motusData.stations)
-			motusData.stationsByRegions = d3.group(motusData.stations, d => d.country);
-			motusData.stationsByProjects = d3.group(motusData.stations, d => d.projID);
+			console.log(motusData.stationDeps)
+			motusData.stationDepsByRegions = d3.group(motusData.stationDeps, d => d.country);
+			motusData.stationDepsByProjects = d3.group(motusData.stationDeps, d => d.projID);
 
 
 
@@ -957,19 +957,22 @@ function loadMapObjects(callback) {
 				reset();
 			}
 
-		} else if (dataset == 'stations') {
+		} else if (dataset == 'stationDeps') {
+
+//			motusData.stationDeps = motusData.stations;
 
 			var station_freqs = [];
-			motusData.recvDepsLink = Array.from(d3.rollup(motusData.stations, function(v){
+			motusData.stations = Array.from(d3.rollup(motusData.stationDeps, function(v){
 
 					var startDate = moment(d3.min(v, d => d.dtStart));
-					var endDate = moment(d3.max(v, d => d.dtEnd == "NA" ? moment().valueOf() : d.dtEnd));
-					if (dtLims.min > startDate) {dtLims.min = startDate;}
-					if (dtLims.max < endDate) {dtLims.max = endDate;}
+					var endDate = moment(d3.max(v, d => d.dtEnd == "NA" ? new Date().toISOString().substr(0, 10) : d.dtEnd));
+
+					if (dtLims.min > startDate.toDate()) {dtLims.min = startDate.toDate();}
+					if (dtLims.max < endDate.toDate()) {dtLims.max = endDate.toDate();}
 
 					if (!station_freqs.includes(v[0].frequency)) {station_freqs.push(v[0].frequency);}
 					//recvDepsLink.push([+row.lon, +row.lat, +row.id]);
-
+					if (!(isNaN(+v[0].lon) || isNaN(+v[0].lon))) {
 					return {
 						id: v[0].id,
 						type: 'Feature',
@@ -987,19 +990,19 @@ function loadMapObjects(callback) {
 						nAnimals: v.map(x => x.animals.split(';')).flat().filter(onlyUnique).length,
 						nSpp: v.map(x => x.species.split(';')).flat().filter(onlyUnique).length
 					}
-
-			}, x => x.name).values());
-			//motusData.stations = motusData.recvDepsLink;
+				} else { console.log("Warning: NAs found", v); }
+			}, x => x.name).values()).filter(x => typeof x !== "undefined");
+			//motusData.stationDeps = motusData.stations;
 /*
-			motusData.stations.forEach(function(row){
+			motusData.stationDeps.forEach(function(row){
 
 				var startDate = moment(row.dtStart);
 				var endDate = row.dtEnd == "NA" ? moment() : moment(row.dtEnd);
 				if (dtLims.min > startDate) {dtLims.min = startDate;}
 				if (dtLims.max < endDate) {dtLims.max = endDate;}
-				row.id = row.deployID;
+				row.id = row.id;
 
-				motusData.recvDepsLink.push({
+				motusData.stations.push({
 					id: row.id,
 					type: 'Feature',
 					geometry: {
@@ -1035,7 +1038,7 @@ function loadMapObjects(callback) {
 
 				motusMap.colourScale = motusMap.colourScales.stations.frequency;
 
-				motusMap.setQuadtree(motusData.recvDepsLink);
+				motusMap.setQuadtree(motusData.stations);
 
 			}
 
@@ -1045,8 +1048,8 @@ function loadMapObjects(callback) {
 				TAG DEPLOYMENT DATA
 		*/
 
-			motusData.animalsByRegions = d3.group(motusData.animals, d => d.country, d => d.deployID);
-			motusData.animalsByProjects = d3.group(motusData.animals, d => d.projID, d => d.deployID);
+			motusData.animalsByRegions = d3.group(motusData.animals, d => d.country, d => d.id);
+			motusData.animalsByProjects = d3.group(motusData.animals, d => d.projID, d => d.id);
 
 		} else if (dataset == 'tracks') {
 
@@ -1057,15 +1060,15 @@ function loadMapObjects(callback) {
 				var animal_freqs = [];
 
 				motusData.tracks.forEach(function(row, i){
-					if (row.deployID.length > 0) {
+					if (row.id.length > 0) {
 						source = [+row.lon1, +row.lat1];
 						target = [+row.lon2, +row.lat2];
 						topush = {
 								type: "LineString",
 								coordinates: [source, target],
-								id: row.deployID,
-								recv1: row.recvDeployID1,
-								recv2: row.recvDeployID2,
+								id: row.id,
+								recv1: row.recvid1,
+								recv2: row.recvid2,
 								dist: row.dist,
 								dtStart: moment( d3.min(row.dtStart.split(',')) ),
 								dtEnd: moment( d3.max(row.dtEnd.split(',')) ),
@@ -1108,8 +1111,8 @@ function loadMapObjects(callback) {
 				motusData.trackDataByRoute = d3.rollup(motusData.tracks, function(v) {
 					var dtStart = moment(d3.min(v[0].dtStart.split(',')));
 					var dtEnd = moment(d3.min(v[0].dtEnd.split(',')));
-					if (dtLims.min > dtStart) {dtLims.min = dtStart;}
-					if (dtLims.max < dtEnd) {dtLims.max = dtEnd;}
+					if (dtLims.min > dtStart.toDate()) {dtLims.min = dtStart.toDate();}
+					if (dtLims.max < dtEnd.toDate()) {dtLims.max = dtEnd.toDate();}
 					motusData.nTracks += v[0].animal.split(',').length;
 					v[0].animal.split(',').forEach(function(x){
 						if (motusData.tracksByAnimal[x]) {
@@ -1168,16 +1171,18 @@ function loadMapObjects(callback) {
 
 	if (timeline != undefined && timeline.el != undefined) {
 
-		var dateLimits = motusData.stations.map(function(d){
+		var dateLimits = motusData.stationDeps.map(function(d){
 			return {
 				start: d.dtStart,
 				end: d.dtEnd
 			}
 		});
-		timeline.min = d3.min(dateLimits.map(d=>+d.start)) / 1000;
-		timeline.max = d3.max(dateLimits.map(d=>+d.end)) / 1000;
-		dtLims.min = timeline.min;
-		dtLims.max = timeline.max;
+		timeline.min = d3.min(dateLimits.map(d => new Date(d.start).getTime())) / 1000;
+		timeline.max = d3.max(dateLimits.map(d => new Date(d.start).getTime())) / 1000;
+
+		dtLims.min = new Date( timeline.min );
+		dtLims.max = new Date( timeline.max );
+
 		$(timeline.el).dragslider("option", { "min": timeline.min, "max": timeline.max});
 	//	console.log($('#explore_filters input.filter_dates').data('daterangepicker'));
 
@@ -1210,8 +1215,8 @@ function loadMapObjects(callback) {
 
 	$(".toggleButton.explore_type:visible.selected").click();
 
-//	console.log(d3.extent(motusData.stations, d=>d.coordinates[0]));
-//	console.log(d3.extent(motusData.stations, d=>d.coordinates[1]));
+//	console.log(d3.extent(motusData.stationDeps, d=>d.coordinates[0]));
+//	console.log(d3.extent(motusData.stationDeps, d=>d.coordinates[1]));
 
 
 

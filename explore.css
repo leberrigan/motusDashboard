@@ -646,6 +646,7 @@ button:not([disabled=disabled]):hover {
 }
 button.submit_btn,
 button.multiSelect_btn,
+button.toggleButton.selected,
 input[type=button].submit_btn {
 	background-color:#25628f;
 	color:#FFF;
@@ -653,6 +654,7 @@ input[type=button].submit_btn {
 }
 button.submit_btn:hover,
 button.multiSelect_btn:hover,
+button.toggleButton.selected:hover,
 input[type=button].submit_btn:hover {
 	background-color:#3387c4;
 }
@@ -671,6 +673,21 @@ input[type=button].reset_btn:hover {
 	background-color:#c43333;
 }
 
+button.toggleButton::before {
+	content: "";
+	display:inline-block;
+	border:solid 1px #999;
+	background-color:#FFF;
+	width: 10px;
+	height: 10px;
+	margin-right: 7px;
+	margin-left: 3px;
+}
+button.toggleButton.selected::before {
+  content: "✓";
+  line-height: 9px;
+  color: #000;
+}
 
 .explore-map-stations-view {
 	padding:0px;
@@ -1025,7 +1042,7 @@ div.explore-card {
 }
 .content-wrapper.profiles > .explore-card-wrapper > #explore_card_tagHits .explore-card-tagHits-timeline svg {
 	display:block;
-	height:calc(100vh - 350px);
+	height:calc(100vh - 400px);
 	width:calc(100vw - 50px);
 }
 .explore-card-chart svg rect:hover {
@@ -1652,10 +1669,10 @@ svg.leaflet-image-layer.leaflet-interactive path {
 }
 #explore_card_profiles > .explore-card-profiles-name {
 	display:none;
-}
+}/*
 #explore_card_profiles.simple-card > .explore-card-add {
 	display:none;
-}
+}*/
 
 #explore_card_profiles > .explore-card-profiles-tabs > div > svg {
 	vertical-align:middle;
@@ -1687,7 +1704,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 #explore_card_profiles > .explore-card-profiles-tabs {
 	text-align:center;
 	margin-bottom: -20px;
-	margin-top: 50px;
+	margin-top: 20px;
 }
 #explore_card_profiles > .explore-card-profiles-controls {
 	display: none;
@@ -1731,6 +1748,10 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	content: " projects";
 }
 
+.solo-card .status-icon-countries::after {
+	content: " countries";
+}
+
 .solo-card .status-icon-stations::after {
 	content: " stations";
 }
@@ -1761,7 +1782,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .status-icon-species:hover, .solo-card .status-icon-species {
 	background-color:#A0A;
 }*/
-.status-icon-projects:hover, .solo-card .status-icon-projects,.status-icon-projectID:hover, .solo-card .status-icon-projectID {
+.status-icon-projects:hover, .solo-card .status-icon-projects,.status-icon-countries:hover, .solo-card .status-icon-countries,.status-icon-projectID:hover, .solo-card .status-icon-projectID {
 	color:#55A;
 }
 .status-icon-tags:hover,.solo-card .status-icon-tags {
@@ -1784,7 +1805,10 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .status-icon-stations {
 	background-image:url('https://i.postimg.cc/kg1BLyVC/station3.png');
 }
-
+#explore_card_profiles > .explore-card-profiles-toggles {
+	margin:10px auto;
+	display:block;
+}
 
 .exploreTable-wrapper {
 	overflow-x:auto;

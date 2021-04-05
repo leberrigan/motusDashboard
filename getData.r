@@ -35,7 +35,61 @@ recvSummary.df <- recv1.df %>%
 recvDeps.df <- dashboard.dir %>% paste0("recv-deps.csv") %>% read.csv %>% 
   left_join(recvSummary.df)
 
-recvDeps.df %>% write.csv(dashboard.dir %>% paste0("recv-deps.csv"), row.names = F)
+#recvDeps.df %>% write.csv(dashboard.dir %>% paste0("recv-deps.csv"), row.names = F)
+
+#### Get local tags for each station
+
+library(geosphere)
+library(parallel)
+
+dir <- 'E:/Data/'
+
+dashboard.dir <- "C:/wamp64/www/Motus/Dashboard/data/"
+
+recvDeps.df <- dir %>% paste0("recv-deps.csv") %>% read.csv %>% 
+  filter(!is.na(lat) & !is.na(lon))
+
+tagDeps.df <- dir %>% paste0("tag-deps.csv") %>% read.csv %>% 
+  filter(!is.na(lat) & !is.na(lon))
+
+time1 <- system.time(dists.df <- lapply(recvDeps.df$deployID, function(x) {
+  dists <- distHaversine(recvDeps.df %>% filter(deployID == x) %>% select(lon, lat), tagDeps.df %>% select(lon, lat))
+  tibble(recvDeployID = rep(x, length(dists)), tagDeployID = tagDeps.df$deployID, dist = dists) %>% filter(dist < 10000)
+}) %>% bind_rows)
+
+getTagDists <- function(x) {
+  dists <- distHaversine(recvDeps.df %>% filter(deployID == x) %>% select(lon, lat), tagDeps.df %>% select(lon, lat))
+  tibble(recvDeployID = rep(x, length(dists)), tagDeployID = tagDeps.df$deployID, dist = dists) %>% filter(dist < 10000)
+}
+
+
+numCores <- detectCores() - 1
+
+cl <- makeCluster(numCores, type = 'PSOCK')
+
+clusterEvalQ(cl,  library(tidyverse))
+clusterEvalQ(cl,  library(geosphere))
+clusterExport(cl, 'tagDeps.df')
+clusterExport(cl, 'recvDeps.df')
+
+time2 <- system.time(dists.df <- parLapply(cl, recvDeps.df$deployID, getTagDists) %>% bind_rows)
+
+invisible(stopCluster(cl))
+
+#dists.df %>% write.csv(dashboard.dir %>% paste0('proximal.tags.csv'), row.names = F)
+dists.df <- read.csv(dashboard.dir %>% paste0('proximal.tags.csv'))
+
+
+recvDists.df <- dists.df %>%
+  group_by(recvDeployID) %>%
+  summarise(localAnimals = paste(tagDeployID, sep = ';', collapse = ';')) %>%
+  rename(id = recvDeployID)
+
+recvDeps2.df <- dashboard.dir %>% paste0("recv-deps.csv") %>% read.csv %>% select(-localAnimals) %>%
+  left_join(recvDists.df)
+
+recvDeps2.df %>% write.csv(dashboard.dir %>% paste0("recv-deps.csv"), row.names = F)
+
 
 ##### Before March 24, 2021
 proj <- 109
