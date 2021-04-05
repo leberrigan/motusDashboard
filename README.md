@@ -11,6 +11,9 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ## Updates
 
 ### Latest
+* [x] [2021-04-01] Add URL string compression.
+* [x] [2021-04-01] Fix summary data to include animals detected and stations visited.
+* [x] [2021-04-01] Fix `summary.js` receiver timelines so only visible ones are rendered.
 * [x] [2021-03-25] Add a third category of detections for foreign detections of local birds.
 * [x] [2021-03-24] Combine `regions.js` and `projects.js` into `summary.js` and generalise so it can be used for other summaries.
 * [x] [2021-03-23] Move data summaries to top of hierarchy
@@ -27,12 +30,12 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 
 ### In development
 * [ ] **Profiles** Tweak `summary.js` so it works for station summaries.
+* [ ] **Profiles:** Move selections legend to toggle buttons.
 
 ### Next
 * [ ] **Profiles** Tweak `summary.js` so it works for project 'group' summaries.
 * [ ] **Profiles** Tweak `summary.js` so it works for species summaries.
 * [ ] **Profiles** Tweak `summary.js` so it works for animal summaries.
-* [ ] **Profiles:** Move map legend for selections to top of page (under filters)
 * [ ] **Profiles:** Improve map control interface
 * [ ] **Profiles:** Fix calculation of summary statistics
 * [ ] **Profiles:** Develop species profiles
@@ -42,6 +45,7 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 * [ ] **Profiles:** Add a new tab for projects.
 * [ ] **Profiles:** Highlight regions where stations/tagDeps exist in all profile pages
 * [ ] **Explore:** Introduce custom selections
+* [ ] **ALL:** Fix URL string compression so it is efficient.
 * [ ] **ALL:** Work on animation controls
 * [ ] **ALL:** Pare down code so fewer scripts are required
 

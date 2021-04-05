@@ -41,6 +41,12 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 		motusData.selectedStations = motusData.stationDeps.filter(x => motusFilter.stations.includes(x.id) );
 	}
 
+	motusData.selectedStationDeployments = d3.group(
+		motusData.selectedStations,
+		d => d.name
+	);
+
+
 	if ( !['stations','species'].includes(dataType) && typeof selectedAnimals === "undefined" ) {
 		if (typeof motusFilter.animals === 'undefined' || motusFilter.animals.length == 0) {
 			motusFilter.animals = motusFilter[dataType]
@@ -586,19 +592,19 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 		var v = a[1];
 
 		if (dataType != 'stations') {
-			var stations = motusData[ "stationDepsBy" + firstToUpper(dataType) ].get(k);
+			var stations = motusData.selectedStations;//motusData[ "stationDepsBy" + firstToUpper(dataType) ].get(k);
 		} else {
 			var stations = motusData.selectedStations;
 		}
 		var routes = Array.from(stations.map(x => x.id).values()).map(x => motusData.tracksByStation[x]).flat().filter(x=>typeof x !== 'undefined');
 
-		if (motusData[ "animalsBy" + firstToUpper(dataType) ] && motusData[ "animalsBy" + firstToUpper(dataType) ].get(k)) {
+//		if (motusData[ "animalsBy" + firstToUpper(dataType) ] && motusData[ "animalsBy" + firstToUpper(dataType) ].get(k)) {
 
-			var animals = motusFilter.animals.filter((x) => motusData[ "animalsBy" + firstToUpper(dataType) ].get(k).get(x));
+			var animals = motusFilter.animals;//.filter((x) => motusData[ "animalsBy" + firstToUpper(dataType) ].get(k).get(x));
 
-			var species = Array.from( animals.map( (x) => motusData[ "animalsBy" + firstToUpper(dataType) ].get(k).get(x)[0].species).values() ).filter( onlyUnique );
+			var species = motusData.animals.filter( (x) => motusFilter.animals.includes( x.id ) ).map( (x) => x.species ).filter( onlyUnique );
 
-		} else if (dataType == 'stations') {
+	/*	} else if (dataType == 'stations') {
 
 			var animals = motusData.selectedStations.map(d => d.animals.split(',')).flat();
 
@@ -610,7 +616,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 				species = [];
 
 		}
-
+*/
 	//	console.log(Array.from( animals.map( (x) => motusData[ "animalsBy" + firstToUpper(dataType) ].get(k).get(x)[0].).values() ));
 		routes.forEach(function(x) {
 			if (((typeof countryByTrack[x] === 'undefined') || (countryByTrack[x] === k))) {
@@ -624,13 +630,28 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 				tags: [ animals.length ],
 				species: [species.length],
 				projects: [Array.from(stations.map(x => x.projID).values()).concat(Array.from(animals.map(x => x.projID).values())).filter(onlyUnique).length],
-				stations: [stations.length]
+				stations: [motusData.selectedStationDeployments.size]
 				//	lastData: [Math.round( subset[subset.length-1].lastData )],
-			} : {
+			} : dataType == 'projects' ? {
 				tags: [ animals.length ],
 				species: [species.length],
-				countries: [Array.from(stations.map(x => x.country).values()).concat(Array.from(animals.map(x => x.country).values())).filter(onlyUnique).length],
-				stations: [stations.length]
+				stations: [motusData.selectedStationDeployments.size],
+				countries: [Array.from(stations.map(x => x.country).values()).concat(Array.from(animals.map(x => x.country).values())).filter(onlyUnique).length]
+			} : dataType == 'stations' ? {
+				tags: [ animals.length ],
+				species: [species.length],
+				projects: [Array.from(stations.map(x => x.projID).values()).concat(Array.from(animals.map(x => x.projID).values())).filter(onlyUnique).length],
+				countries: [Array.from(stations.map(x => x.country).values()).concat(Array.from(animals.map(x => x.country).values())).filter(onlyUnique).length]
+			} : dataType == 'species' ? {
+				tags: [ animals.length ],
+				stations: [motusData.selectedStationDeployments.size],
+				projects: [Array.from(stations.map(x => x.projID).values()).concat(Array.from(animals.map(x => x.projID).values())).filter(onlyUnique).length],
+				countries: [Array.from(stations.map(x => x.country).values()).concat(Array.from(animals.map(x => x.country).values())).filter(onlyUnique).length]
+			} : { // dataType == 'animals' ?
+				species: [species.length],
+				stations: [motusData.selectedStationDeployments.size],
+				projects: [Array.from(stations.map(x => x.projID).values()).concat(Array.from(animals.map(x => x.projID).values())).filter(onlyUnique).length],
+				countries: [Array.from(stations.map(x => x.country).values()).concat(Array.from(animals.map(x => x.country).values())).filter(onlyUnique).length]
 			};
 		if (!exploreProfile_hasLoaded) {
 			console.log(status);
@@ -798,229 +819,204 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 																timelineSVG = $("<svg width='"+width+"' height='"+height+"' style='margin:-8px 0;cursor:pointer;'></svg>")
 															} = {} ) {
 
-		dayWidth = dayWidth < 1 ? 1 : dayWidth;
+		if (width > 0) {
+			dayWidth = dayWidth < 1 ? 1 : dayWidth;
 
-		var timeFormat = ( timeRange.range / (1000 * 60 * 60 * 24 * 365) ) * ( 300 / width ) > 2 ? "%Y" :
-							( ( timeRange.range / (1000 * 60 * 60 * 24 * 365) ) * ( 300 / width ) > 1 ? "%b %Y" : "%Y-%m-%d" );
+			var timeFormat = ( timeRange.range / (1000 * 60 * 60 * 24 * 365) ) * ( 300 / width ) > 2 ? "%Y" :
+								( ( timeRange.range / (1000 * 60 * 60 * 24 * 365) ) * ( 300 / width ) > 1 ? "%b %Y" : "%Y-%m-%d" );
 
-		var x_scale = d3.scaleTime()
-									.domain( [ new Date(timeRange.min), new Date(timeRange.max) ] )
-									.range( [0, width] );
+			var x_scale = d3.scaleTime()
+										.domain( [ new Date(timeRange.min), new Date(timeRange.max) ] )
+										.range( [0, width] );
 
-		var axis_x = d3.axisTop( x_scale )
-										.tickFormat( d3.timeFormat( timeFormat ) )
-										.ticks( Math.round( width / 75 ) );
+										console.log(width);
 
-		var hasData = false;
+			var axis_x = d3.axisTop( x_scale )
+											.tickFormat( d3.timeFormat( timeFormat ) )
+											.ticks( Math.round( width /  75 ) );
 
-		var svg = d3.select( timelineSVG[0] )
-								.on("touchstart touchmove mousemove", dataHover)
-								.on("touchend mouseleave", function(e) {dataHover(e, "out");});
+			var hasData = false;
 
-		var stationHits = {};
+			var svg = d3.select( timelineSVG[0] )
+									.on("touchstart touchmove mousemove", dataHover)
+									.on("touchend mouseleave", function(e) {dataHover(e, "out");});
+
+			var stationHits = {};
 
 
-		d.forEach(function(v) {
+			d.forEach(function(v) {
 
-			var w = width * ((moment(v.dtEnd).valueOf()) - (moment(v.dtStart).valueOf())) / timeRange.range;
-			var x = width * ((moment(v.dtStart).valueOf()) - timeRange.min) / timeRange.range;
+				var w = width * ((moment(v.dtEnd).valueOf()) - (moment(v.dtStart).valueOf())) / timeRange.range;
+				var x = width * ((moment(v.dtStart).valueOf()) - timeRange.min) / timeRange.range;
 
-			svg
-				.append('rect')
-				.attr('width', w)
-				.attr('height', height)
-				.attr('x', x)
-				.style('fill', '#CCCCCC');
+				svg
+					.append('rect')
+					.attr('width', w)
+					.attr('height', height)
+					.attr('x', x)
+					.style('fill', '#CCCCCC');
 
+
+				var g = d3.select( timelineSVG[0] )
+					.append('g');
+
+				w = width * ( 24 * 60 * 60 * 3000 ) / timeRange.range;
+
+
+
+				if (typeof motusData.tracksByStation[v.id] !== 'undefined') {
+
+					hasData = true;
+
+					motusData.tracksByStation[v.id].forEach(function(x){
+
+						var datePos = ( x.split('.')[0] == v.id ? 'dtStart' : 'dtEnd' ) + 'List';
+
+						var trackData = motusData.selectedTracks[x];
+
+						if (typeof trackData[datePos] !== 'undefined') {
+
+							var dates = trackData[datePos].split(',');
+
+							var data = countInstances( dates.map(k => moment(k).valueOf()) );
+
+							var spp = {};
+
+							trackData.species.split(',').forEach(function(k, i){
+
+					//			if ( spp.length != 0 && typeof data[2] !== 'undefined' && data[2][data[2].length - 1] == dates[i]) {
+
+								if ( typeof data[2] !== 'undefined' && data[0][data[2].length - 1] == dates[i]) {
+
+									data[2][i].push(k);
+
+								} else if ( typeof data[2] !== 'undefined' ) {
+
+									data[2].push([k]);
+
+								} else {
+
+									data[2] = [[k]];
+
+								}
+
+							});
+							var date_str;
+
+							for (var i = 0; i < data[0].length; i++) {
+								date_str = new Date( data[0][i] ).toISOString().substr(0, 10);
+								if ( typeof stationHits[ date_str ] !== 'undefined' ) {
+									stationHits[ date_str ].count += data[1][i];
+									stationHits[ date_str ].species = stationHits[ date_str ].species.concat(data[2][i]).filter(onlyUnique);
+								} else {
+									stationHits[ date_str ] = {date: data[0][i], count: data[1][i], species: data[2][i].filter(onlyUnique)};
+								}
+							}
+						}
+
+					});
+
+				} else {
+					// no data
+				}
+
+			});
+
+			var maxCount = d3.max(Object.values(stationHits), x => x.count);
+
+			var maxSpp = d3.max(Object.values(stationHits), x => x.species.length);
 
 			var g = d3.select( timelineSVG[0] )
 				.append('g');
 
-			w = width * ( 24 * 60 * 60 * 3000 ) / timeRange.range;
+			g.selectAll('rect')
+				.data(Object.values(stationHits))
+				.enter()
+					.append('rect')
+						//.attr('width', 3 ) // Three days
+						.attr('width', dayWidth ) // one day
+						.attr('height', dataHeight )
+						.attr('x', (x) => timelineScale(x.date) )
+						.attr('fill', (x) => colourScale(x.species.length) )
+						.attr('transform', translate);
+	//							.attr('class', 'hover-data')
+	//							.on('mouseover', (e,d) => dataHover(e, d, 'in'))
+	//							.on('mouseout', (e,d) => dataHover(e, d, 'out'));
 
+			var tooltip_data_bar = d3.select( timelineSVG[0] )
+																.append('g')
+																	.style('display', 'none');
+			tooltip_data_bar.append('rect')
+											.attr('width', dayWidth)
+											.attr('height', height)
+											.attr('fill', '#000')
+											.attr('x', 0)
+											.attr('y', 0);
 
+			function bisect(mx) {
+				const bisect = d3.bisector( d => d.date ).left;
 
-			if (typeof motusData.tracksByStation[v.id] !== 'undefined') {
+				const date = x_scale.invert(mx);
+			  const index = bisect(Object.values(stationHits), date, 1);
+			  const a = Object.values(stationHits)[index - 1];
+			  const b = Object.values(stationHits)[index];
+			  return b && (date - a.date > b.date - date) ? b : a;
+			}
 
-				hasData = true;
+			function dataHover(e, dir = 'in') {
+				//							from: https://observablehq.com/@d3/line-chart-with-tooltip
+				if (dir == 'in') {
+					const x_pos = d3.pointer(e, this)[0];
+					const date =  x_scale.invert( x_pos ).toISOString().substr(0, 10);
+					const d = stationHits[ date ];
 
-				motusData.tracksByStation[v.id].forEach(function(x){
+					$('.tooltip').html(
+						"<big>"+
+							( date )+
+						"</big>"+
+						(d ? 	`</br>${d.count} animals</br> ${d.species.length} species`: "") +
+						"</div>"
+					);
 
-					var datePos = ( x.split('.')[0] == v.id ? 'dtStart' : 'dtEnd' ) + 'List';
-
-					var trackData = motusData.selectedTracks[x];
-
-					if (typeof trackData[datePos] !== 'undefined') {
-
-						var dates = trackData[datePos].split(',');
-
-						var data = countInstances( dates.map(k => moment(k).valueOf()) );
-
-						var spp = {};
-
-						trackData.species.split(',').forEach(function(k, i){
-
-				//			if ( spp.length != 0 && typeof data[2] !== 'undefined' && data[2][data[2].length - 1] == dates[i]) {
-
-							if ( typeof data[2] !== 'undefined' && data[0][data[2].length - 1] == dates[i]) {
-
-								data[2][i].push(k);
-
-							} else if ( typeof data[2] !== 'undefined' ) {
-
-								data[2].push([k]);
-
-							} else {
-
-								data[2] = [[k]];
-
-							}
-
-						});
-						var date_str;
-
-						for (var i = 0; i < data[0].length; i++) {
-							date_str = new Date( data[0][i] ).toISOString().substr(0, 10);
-							if ( typeof stationHits[ date_str ] !== 'undefined' ) {
-								stationHits[ date_str ].count += data[1][i];
-								stationHits[ date_str ].species = stationHits[ date_str ].species.concat(data[2][i]).filter(onlyUnique);
-							} else {
-								stationHits[ date_str ] = {date: data[0][i], count: data[1][i], species: data[2][i].filter(onlyUnique)};
-							}
-						}
+					if (e.pageX + 15 + $('.tooltip').outerWidth() > $(window).width()) {
+						$('.tooltip').css({top:e.pageY - 10, left:e.pageX - $('.tooltip').outerWidth() - 15});
+					} else {
+						$('.tooltip').css({top:e.pageY - 10, left:e.pageX + 15});
 					}
-
-				});
-
-			} else {
-				// no data
-			}
-
-		});
-
-		var maxCount = d3.max(Object.values(stationHits), x => x.count);
-
-		var maxSpp = d3.max(Object.values(stationHits), x => x.species.length);
-
-		var g = d3.select( timelineSVG[0] )
-			.append('g');
-
-		g.selectAll('rect')
-			.data(Object.values(stationHits))
-			.enter()
-				.append('rect')
-					//.attr('width', 3 ) // Three days
-					.attr('width', dayWidth ) // one day
-					.attr('height', dataHeight )
-					.attr('x', (x) => timelineScale(x.date) )
-					.attr('fill', (x) => colourScale(x.species.length) )
-					.attr('transform', translate);
-//							.attr('class', 'hover-data')
-//							.on('mouseover', (e,d) => dataHover(e, d, 'in'))
-//							.on('mouseout', (e,d) => dataHover(e, d, 'out'));
-
-		var tooltip_data_bar = d3.select( timelineSVG[0] )
-															.append('g')
-																.style('display', 'none');
-		tooltip_data_bar.append('rect')
-										.attr('width', dayWidth)
-										.attr('height', height)
-										.attr('fill', '#000')
-										.attr('x', 0)
-										.attr('y', 0);
-
-		function bisect(mx) {
-			const bisect = d3.bisector( d => d.date ).left;
-
-			const date = x_scale.invert(mx);
-		  const index = bisect(Object.values(stationHits), date, 1);
-		  const a = Object.values(stationHits)[index - 1];
-		  const b = Object.values(stationHits)[index];
-		  return b && (date - a.date > b.date - date) ? b : a;
-		}
-
-		function dataHover(e, dir = 'in') {
-			//							from: https://observablehq.com/@d3/line-chart-with-tooltip
-			if (dir == 'in') {
-				const x_pos = d3.pointer(e, this)[0];
-				const date =  x_scale.invert( x_pos ).toISOString().substr(0, 10);
-				const d = stationHits[ date ];
-
-				$('.tooltip').html(
-					"<big>"+
-						( date )+
-					"</big>"+
-					(d ? 	`</br>${d.count} animals</br> ${d.species.length} species`: "") +
-					"</div>"
-				);
-
-				if (e.pageX + 15 + $('.tooltip').outerWidth() > $(window).width()) {
-					$('.tooltip').css({top:e.pageY - 10, left:e.pageX - $('.tooltip').outerWidth() - 15});
+					tooltip_data_bar.attr('transform', `translate(${x_pos},0)`).style('display', null)
+					$('.tooltip:hidden').show();
 				} else {
-					$('.tooltip').css({top:e.pageY - 10, left:e.pageX + 15});
+					$('.tooltip').hide();
+					tooltip_data_bar.style('display', 'none');
 				}
-				tooltip_data_bar.attr('transform', `translate(${x_pos},0)`).style('display', null)
-				$('.tooltip:hidden').show();
-			} else {
-				$('.tooltip').hide();
-				tooltip_data_bar.style('display', 'none');
+			}
+			function dataHeight(x) {
+				return 2 + ( ( height - 25 ) * x.count / maxCount);
 			}
 
-			/*
-
-			if (dir == 'in') {
-
-			$('.tooltip').html(
-				"<big>"+
-					(moment(d.date).toISOString().substr(0,10))+
-				"</big></br>"+
-					d.count+
-				" animals</br>"+
-					d.species.length+
-				" species"+
-
-				"</div>"
-			);
-
-			if (e.pageX + 15 + $('.tooltip').outerWidth() > $(window).width()) {
-				$('.tooltip').css({top:e.pageY - 10, left:e.pageX - $('.tooltip').outerWidth() - 15});
-			} else {
-				$('.tooltip').css({top:e.pageY - 10, left:e.pageX + 15});
+			function translate(x) {
+				return "translate(0, " + (((height - 25) - dataHeight(x))/2) + ")";
 			}
 
-			$('.tooltip:hidden').show();
+			if (!hasData) {
 
-			} else if (dir == 'out') {
-				$('.tooltip').hide();
+				d3.select( timelineSVG[0] )
+					.append('text')
+					.attr('dy', '.3em')
+					.attr('text-anchor', 'middle')
+					.attr('x', (width / 2) )
+					.attr('y', (height / 2) )
+					.style('font-weight', '600')
+					.text("NO DETECTIONS");
+
 			}
 
-		*/}
-		function dataHeight(x) {
-			return 2 + ( ( height - 25 ) * x.count / maxCount);
-		}
-
-		function translate(x) {
-			return "translate(0, " + (((height - 25) - dataHeight(x))/2) + ")";
-		}
-
-		if (!hasData) {
 
 			d3.select( timelineSVG[0] )
-				.append('text')
-				.attr('dy', '.3em')
-				.attr('text-anchor', 'middle')
-				.attr('x', (width / 2) )
-				.attr('y', (height / 2) )
-				.style('font-weight', '600')
-				.text("NO DETECTIONS");
-
+				.append( 'g' )
+				.attr('transform', 'translate(0 60)')
+				.call(axis_x);
 		}
-
-
-		d3.select( timelineSVG[0] )
-			.append( 'g' )
-			.attr('transform', 'translate(0 60)')
-			.call(axis_x);
 
 
 		return timelineSVG[0];
@@ -1068,11 +1064,6 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 											).values()
 										);
 
-
-			motusData.selectedStationDeployments = d3.group(
-				motusData.selectedStations,
-				d => d.name
-			);
 
 			console.log(stationTableData);
 

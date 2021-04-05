@@ -94,9 +94,8 @@ var exploreType,
 
 function updateURL(reload) {
 
-	var stateToPush = '#'+
-		'e=' + encodeURIComponent(exploreType) +
-		'&d=' + encodeURIComponent(dataType),
+	var stateToPush = 'e=' + (exploreType) +
+		'&d=' + (dataType),
 		toEncode;
 
 	for (f in motusFilter) {
@@ -107,12 +106,19 @@ function updateURL(reload) {
 				if (['dtStart','dtEnd'].includes(f)) {
 					toEncode = moment( motusFilter[f] ).toISOString().substr(0,10);
 				} else  {
-					toEncode = (!['dtStart','dtEnd','colour'].includes(f)) ? motusFilter[f].filter(onlyUnique) : motusFilter[f];
+					toEncode = ( (!['dtStart','dtEnd','colour'].includes(f)) ? motusFilter[f].filter(onlyUnique) : motusFilter[f] );
 				}
-			stateToPush+='&'+f+'='+encodeURIComponent(toEncode);
+			stateToPush+='&'+f+'='+toEncode ;
 		}
 
 	}
+	console.log("URL length: ", stateToPush.length);
+	stateToPush = (compressString(stateToPush));
+	console.log("URL length: ", stateToPush.length);
+	stateToPush = encodeURIComponent((stateToPush));
+	console.log("URL length: ", stateToPush.length);
+
+	stateToPush = "#" + stateToPush;
 
 	if (reload === true) {
 		window.location.href = stateToPush;
@@ -129,7 +135,7 @@ function updateURL(reload) {
 	window.onhashchange = detectNavigation;
 function detectNavigation() {
 	console.log(window.location.hash);
-	var url_params = getSearchParameters();
+	var url_params = getSearchParameters( decompressString(decodeURIComponent( window.location.hash.substr(1) )) );
 
 	if ( (typeof url_params.exploreType !== 'undefined' && url_params.exploreType !== exploreType) || (typeof url_params.dataType !== 'undefined' && url_params.dataType !== dataType ) ) {window.location.reload();}
 
@@ -158,7 +164,7 @@ $(document).ready(function(){
 
 	isMobile = window.mobileCheck();
 
-	var url_params = getSearchParameters();
+	var url_params = getSearchParameters( decompressString(decodeURIComponent( window.location.hash.substr(1) )) );
 
 	filePrefix = window.location.hostname == 'localhost' || window.location.hostname == 'leberrigan.github.io' ? 'data/' : window.location.hostname == 'www.motus.org' ? "https://" + window.location.hostname + "/wp-content/uploads/2021/01/" : "https://" + window.location.hostname + "/wp-content/uploads/";
 
@@ -1389,9 +1395,10 @@ function addExploreCard(card) {
 				addExploreTab('explore-card-profiles-download-pdf', 'Download PDF report', {click:function(){$(".explore-map-"+dataType+"-pdf input[type=button]").trigger('click');}, noToggle:true});
 
 				$("#exploreContent .explore-card-profiles-toggles").append(`<button class='toggleButton'>Stations in this ${dataType.slice(0,-1)} only</button><button class='toggleButton'>Animals from this ${dataType.slice(0,-1)} only</button>`);
+
 				$("#exploreContent .explore-card-profiles-tabs .expand-menu-btn").click(function(){$(this).parent().toggleClass('expanded');});
 
-				$("#exploreContent .explore-card-profiles-toggles .toggleButton").click(function(){$(this).toggleClass('selected');});
+				$("#exploreContent .explore-card-profiles-toggles .toggleButton").click(function(e){$(this).toggleClass('selected');setFilter.call(this, e);});
 
 			}
 
@@ -1770,6 +1777,27 @@ function setFilter(e) {
 
 		}
 
+	} else if ( $(this).parent().hasClass('explore-card-profiles-toggles') ) {
+
+		var toggle_type = this.textContent.toLowerCase().includes('stations') ? "stationDeps" : "animals";
+		var is_selected = $(this).hasClass('selected');
+
+		if (is_selected) {
+			if ( ['regions', 'projects'].includes(dataType) ) {
+				if (toggle_type == 'stationDeps') {
+					motusFilter.stations = motusFilter[ dataType ].map(x => (motusData[ toggle_type + "By" + firstToUpper(dataType) ].get(x).map(v => v.id))).flat();
+				} else {
+					motusFilter[ toggle_type ] = motusFilter[ dataType ]
+						.filter(x => (typeof motusData[ toggle_type + "By" + firstToUpper(dataType) ].get(x) !== 'undefined'))
+						.map(x => Array.from(motusData[ toggle_type + "By" + firstToUpper(dataType) ].get(x).keys())).flat().filter(onlyUnique);
+				}
+			}
+		} else {
+
+			motusFilter[ toggle_type == 'stationDeps' ? "stations" : toggle_type ] = ["all"];
+
+		}
+		motusMap.setVisibility();
 	} else {
 
 		var filterName = e.target.id.replace("filter_", "");
