@@ -1042,7 +1042,7 @@ div.explore-card {
 }
 .content-wrapper.profiles > .explore-card-wrapper > #explore_card_tagHits .explore-card-tagHits-timeline svg {
 	display:block;
-	height:calc(100vh - 350px);
+	height:calc(100vh - 400px);
 	width:calc(100vw - 50px);
 }
 .explore-card-chart svg rect:hover {

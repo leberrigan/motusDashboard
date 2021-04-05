@@ -76,15 +76,16 @@ time2 <- system.time(dists.df <- parLapply(cl, recvDeps.df$deployID, getTagDists
 
 invisible(stopCluster(cl))
 
-dists.df %>% write.csv(dashboard.dir %>% paste0('proximal.tags.csv'), row.names = F)
+#dists.df %>% write.csv(dashboard.dir %>% paste0('proximal.tags.csv'), row.names = F)
+dists.df <- read.csv(dashboard.dir %>% paste0('proximal.tags.csv'))
 
 
 recvDists.df <- dists.df %>%
   group_by(recvDeployID) %>%
-  summarise(localAnimals = paste(tagDeployID, sep = ',', collapse = ',')) %>%
-  rename(deployID = recvDeployID)
+  summarise(localAnimals = paste(tagDeployID, sep = ';', collapse = ';')) %>%
+  rename(id = recvDeployID)
 
-recvDeps2.df <- dashboard.dir %>% paste0("recv-deps.csv") %>% read.csv %>% 
+recvDeps2.df <- dashboard.dir %>% paste0("recv-deps.csv") %>% read.csv %>% select(-localAnimals) %>%
   left_join(recvDists.df)
 
 recvDeps2.df %>% write.csv(dashboard.dir %>% paste0("recv-deps.csv"), row.names = F)

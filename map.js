@@ -965,9 +965,10 @@ function loadMapObjects(callback) {
 			motusData.stations = Array.from(d3.rollup(motusData.stationDeps, function(v){
 
 					var startDate = moment(d3.min(v, d => d.dtStart));
-					var endDate = moment(d3.max(v, d => d.dtEnd == "NA" ? moment().toISOString().substr(0, 10) : d.dtEnd));
-					if (dtLims.min > startDate) {dtLims.min = startDate;}
-					if (dtLims.max < endDate) {dtLims.max = endDate;}
+					var endDate = moment(d3.max(v, d => d.dtEnd == "NA" ? new Date().toISOString().substr(0, 10) : d.dtEnd));
+
+					if (dtLims.min > startDate.toDate()) {dtLims.min = startDate.toDate();}
+					if (dtLims.max < endDate.toDate()) {dtLims.max = endDate.toDate();}
 
 					if (!station_freqs.includes(v[0].frequency)) {station_freqs.push(v[0].frequency);}
 					//recvDepsLink.push([+row.lon, +row.lat, +row.id]);
@@ -1110,8 +1111,8 @@ function loadMapObjects(callback) {
 				motusData.trackDataByRoute = d3.rollup(motusData.tracks, function(v) {
 					var dtStart = moment(d3.min(v[0].dtStart.split(',')));
 					var dtEnd = moment(d3.min(v[0].dtEnd.split(',')));
-					if (dtLims.min > dtStart) {dtLims.min = dtStart;}
-					if (dtLims.max < dtEnd) {dtLims.max = dtEnd;}
+					if (dtLims.min > dtStart.toDate()) {dtLims.min = dtStart.toDate();}
+					if (dtLims.max < dtEnd.toDate()) {dtLims.max = dtEnd.toDate();}
 					motusData.nTracks += v[0].animal.split(',').length;
 					v[0].animal.split(',').forEach(function(x){
 						if (motusData.tracksByAnimal[x]) {
@@ -1176,10 +1177,12 @@ function loadMapObjects(callback) {
 				end: d.dtEnd
 			}
 		});
-		timeline.min = d3.min(dateLimits.map(d=>+d.start)) / 1000;
-		timeline.max = d3.max(dateLimits.map(d=>+d.end)) / 1000;
-		dtLims.min = timeline.min;
-		dtLims.max = timeline.max;
+		timeline.min = d3.min(dateLimits.map(d => new Date(d.start).getTime())) / 1000;
+		timeline.max = d3.max(dateLimits.map(d => new Date(d.start).getTime())) / 1000;
+
+		dtLims.min = new Date( timeline.min );
+		dtLims.max = new Date( timeline.max );
+
 		$(timeline.el).dragslider("option", { "min": timeline.min, "max": timeline.max});
 	//	console.log($('#explore_filters input.filter_dates').data('daterangepicker'));
 

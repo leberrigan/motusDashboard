@@ -11,6 +11,10 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ## Updates
 
 ### Latest
+* [x] [2021-04-05] Fix animal selections in profiles, therefore summary totals as well.
+* [x] [2021-04-05] Fix 'clear filters' button.
+* [x] [2021-04-05] Revert string compression and omit irrelevant filters from URL.
+* [x] [2021-04-05] Make animation controls work.
 * [x] [2021-04-01] Add URL string compression.
 * [x] [2021-04-01] Fix summary data to include animals detected and stations visited.
 * [x] [2021-04-01] Fix `summary.js` receiver timelines so only visible ones are rendered.
@@ -31,6 +35,7 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ### In development
 * [ ] **Profiles** Tweak `summary.js` so it works for station summaries.
 * [ ] **Profiles:** Move selections legend to toggle buttons.
+* [ ] **ALL:** Work on animation controls
 
 ### Next
 * [ ] **Profiles** Tweak `summary.js` so it works for project 'group' summaries.
@@ -46,7 +51,6 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 * [ ] **Profiles:** Highlight regions where stations/tagDeps exist in all profile pages
 * [ ] **Explore:** Introduce custom selections
 * [ ] **ALL:** Fix URL string compression so it is efficient.
-* [ ] **ALL:** Work on animation controls
 * [ ] **ALL:** Pare down code so fewer scripts are required
 
  ### Further down the road...
@@ -126,8 +130,6 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 - `affiliations`
 - `groups` - *i.e.; custom groupings*
 
-##### Projects
-
 ### Calculated
 
 ##### REGIONS
@@ -149,4 +151,34 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 
 ### Number of hits: 4,338,50
 ### Number of runs: 37,684,367
-55931235 - 18246868
+
+## Summary Views
+
+### PROJECTS
+- YES: Animals tagged in this project
+- YES: Animals detected by this project's stations
+
+- YES: Stations deployed in this project
+- NO: Stations visited by animals tagged in this project.
+
+### STATIONS
+- MAYBE: Animals tagged near this station
+- YES: Animals detected by this station
+
+- NO: Stations visited by animals tagged near this station.
+
+### REGIONS
+- YES: Animals tagged in this region
+- YES: Animals detected by this region's stations
+
+- YES: Stations deployed in this region
+- NO: Stations visited by animals tagged in this region.
+
+### SPECIES
+- YES: Animals tagged of this species
+
+- YES: Stations visited by this species.
+
+### ANIMALS
+
+- YES: Stations visited by this animal.
