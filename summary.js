@@ -31,14 +31,17 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 	}
 
 
-	if (dataType != 'stations' && typeof selectedStations === "undefined" ) {
+		if ( !['stations','species'].includes(dataType) && typeof selectedAnimals === "undefined" ) {
 		motusFilter.stations = motusFilter[dataType].map(x => (motusData[ "stationDepsBy" + firstToUpper(dataType) ].get(x).map(v => v.id))).flat();
 		motusData.selectedStations = motusData.stationDeps.filter(x => motusFilter.stations.includes(x.id) );
 	} else if (typeof selectedStations !== "undefined") {
 		motusFilter.stations = selectedStations;
 		motusData.selectedStations = motusData.stationDeps.filter(x => motusFilter.stations.includes(x.id) );
-	} else {
+	} else if (dataType == 'stations') {
 		motusData.selectedStations = motusData.stationDeps.filter(x => motusFilter.stations.includes(x.id) );
+	} else if (dataType == 'species') {
+		motusData.selectedStations = [];
+		motusData.stations = [];
 	}
 
 	motusData.selectedStationDeployments = d3.group(
@@ -72,6 +75,16 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 		motusData.selectedAnimals = motusData.animals.filter(x => motusFilter.animals.includes(x.id) );
 														console.log(motusFilter.animals);
+	} else if (dataType == 'species') {
+		motusData.animalsBySpecies = d3.group(motusData.animals, d => d.species, d => d.id);
+
+		motusData.selectedAnimals = motusFilter[dataType].map(x => (Array.from(motusData[ "animalsBy" + firstToUpper(dataType) ].get(x).values()).flat())).flat();
+
+		motusFilter.animals = motusData.selectedAnimals.map(x => x.id).flat();
+
+		motusData.selectedSpecies = motusData.species.filter(x => motusFilter[dataType].includes(x.id)).map(function(x){return {name: x.english, id: x.id};});
+
+
 	}
 
 
@@ -145,7 +158,9 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 					if (motusData[ "animalsBy" + firstToUpper(dataType) ].get( x )) {
 						 motusFilter.animals = motusFilter.animals.concat(Array.from(motusData["animalsBy" + firstToUpper(dataType)].get( x ).keys()));
 					}
-				})
+				});
+			motusFilter.localAnimals = motusFilter.animals;
+			motusFilter.remoteAnimals = [];
 		} else {
 			alert("ERROR: animal filters not set!");
 		}
@@ -220,7 +235,13 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 		console.log(motusFilter.stations)
 
-		motusData.tracks.filter( d => motusFilter.stations.includes(d.recv1) || motusFilter.stations.includes(d.recv2) || d.animal.split(',').some( x => motusFilter.localAnimals.includes(x) ) ).forEach(function(v) {
+		if (!['animals', 'species'].includes(dataType)) {
+			var selectedTracks = motusData.tracks.filter( d => motusFilter.stations.includes(d.recv1) || motusFilter.stations.includes(d.recv2) || d.animal.split(',').some( x => motusFilter.localAnimals.includes(x) ) );
+		} else {
+			var selectedTracks = motusData.tracks.filter( d => d.animal.split(',').some( x => motusFilter.animals.includes(x) ) );
+		}
+
+		selectedTracks.forEach(function(v) {
 
 			var dtStart = v.dtStart.split(',');
 			var dtEnd = v.dtEnd.split(',');
@@ -1198,7 +1219,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 				if (d.local.length > 0 || d.remote.length > 0 || d.visiting.length > 0) {
 
-					const animalsToday = d.local.concat(d.remote).concat(d.visiting);
+					const animalsToday = d.local/*.concat(d.remote)*/.concat(d.visiting);
 
 					if (group_by != 'day') {
 						day = moment()[group_by](moment().dayOfYear(i)[group_by]()).dayOfYear();
@@ -1247,9 +1268,10 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 			animalsByDayOfYear.columns = Object.keys(animalsByDayOfYear[0])
 			animalsByDayOfYear.columns.splice( animalsByDayOfYear.columns.indexOf('total'), 1 );
 			animalsByDayOfYear.columns.splice( animalsByDayOfYear.columns.indexOf('local'), 1 );
+			animalsByDayOfYear.columns.splice( animalsByDayOfYear.columns.indexOf('remote'), 1 );
 
 
-			var radialColourScale = d3.scaleOrdinal().domain( ['visiting', 'remote'].concat( motusFilter[dataType].map(x => motusData.selectionNames[ x ] ) ) ).range( ["#000000"].concat( customColourScale.jnnnnn.slice(0, motusFilter[dataType].length + 1) ) );
+			var radialColourScale = d3.scaleOrdinal().domain( ['visiting'].concat( motusFilter[dataType].map(x => motusData.selectionNames[ x ] ) ) ).range( ["#000000"].concat( customColourScale.jnnnnn.slice(0, motusFilter[dataType].length + 1) ) );
 
 			console.log(animalsByDayOfYear);
 
@@ -1409,7 +1431,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 									""//rdata.country[0] != "NA" ? `<div class='explore-card-table-legend-icon' style='border-color:${colourScale( rdata.country[0] )}'></div>` : ""
 								)
 							)+
-							`<a href='javascript:void(0);' onclick='viewProfile("animals", ${rdata.id});'>${rdata.name}</a>`
+							`<a href='javascript:void(0);' onclick='viewProfile("species", [${rdata.species}]);'>${rdata.name}</a>`
 						);
 					}},
 					{data: "nAnimals", title: "Animals detected"},

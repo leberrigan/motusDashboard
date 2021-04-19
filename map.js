@@ -1048,6 +1048,7 @@ function loadMapObjects(callback) {
 				TAG DEPLOYMENT DATA
 		*/
 
+			
 			motusData.animalsByRegions = d3.group(motusData.animals, d => d.country, d => d.id);
 			motusData.animalsByProjects = d3.group(motusData.animals, d => d.projID, d => d.id);
 
