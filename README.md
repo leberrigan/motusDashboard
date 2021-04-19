@@ -2,7 +2,7 @@
 
 To be released 2021. An upgrade for Motus Explore Data tool.
 
-### **[DEMO](leberrigan.github.io/motusDashboard/explore.html)**
+### **[DEMO](https://leberrigan.github.io/motusDashboard/explore.html)**
 - [Updates](#updates)
 - [Site map](#site-map)
 - [Data structure](#data-structure)
@@ -13,6 +13,7 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ### Latest
 * [x] [2021-04-05] Fix animal selections in profiles, therefore summary totals as well.
 * [x] [2021-04-05] Fix 'clear filters' button.
+* [x] [2021-04-05] Fix timeline.
 * [x] [2021-04-05] Revert string compression and omit irrelevant filters from URL.
 * [x] [2021-04-05] Make animation controls work.
 * [x] [2021-04-01] Add URL string compression.

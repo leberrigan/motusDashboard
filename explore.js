@@ -182,7 +182,7 @@ $(document).ready(function(){
 
 	document.title = "Motus - Explore " + (exploreType == 'main' ? "Data" : firstToUpper(exploreType));
 
-//	window.onhashchange = detectNavigation();
+	window.onhashchange = detectNavigation();
 
 	//exploreType = 'stations'; // TESTING
 console.log(window.location.hostname);
@@ -200,6 +200,7 @@ console.log(window.location.hostname);
 		dtStart: url_params.dtStart === undefined ? motusFilter.dtStart : moment(url_params.dtStart),
 		dtEnd: url_params.dtEnd === undefined ? motusFilter.dtEnd : moment(url_params.dtEnd),
 		species: url_params.species === undefined || url_params.species.length == 0 ? motusFilter.species : url_params.species.split(','),
+		animals: url_params.animals === undefined || url_params.animals.length == 0 ? motusFilter.animals : url_params.animals.split(','),
 		regions: url_params.regions === undefined ? ["all"] : url_params.regions.split(','),
 		projects: url_params.projects === undefined ? ["all"] : url_params.projects.split(','),
 		stations: url_params.stations === undefined ? ["all"] : url_params.stations.split(','),

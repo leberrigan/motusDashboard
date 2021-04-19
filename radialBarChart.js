@@ -139,6 +139,17 @@
 				.call(yAxis);
 
 			gParentItem.append("g")
+				.append('g')
+				.append('g')
+				.attr("transform", `translate(-40,${(-1 - (data.columns.length - 1) / 2) * 20})`)
+				.call(g => g.append("text")
+							.attr("x", 24)
+							.attr("y", 9)
+							.attr("dy", "0.35em")
+							.attr("font-weight", "bold")
+							.text('Origin'));
+
+			gParentItem.append("g")
 				.call(legend);
 		//	});
 			return gParentItem.node();
