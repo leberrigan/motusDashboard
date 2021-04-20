@@ -31,7 +31,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 	}
 
 
-		if ( !['stations','species'].includes(dataType) && typeof selectedAnimals === "undefined" ) {
+		if ( !['stations','species','animals'].includes(dataType) && typeof selectedAnimals === "undefined" ) {
 		motusFilter.stations = motusFilter[dataType].map(x => (motusData[ "stationDepsBy" + firstToUpper(dataType) ].get(x).map(v => v.id))).flat();
 		motusData.selectedStations = motusData.stationDeps.filter(x => motusFilter.stations.includes(x.id) );
 	} else if (typeof selectedStations !== "undefined") {
@@ -39,18 +39,14 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 		motusData.selectedStations = motusData.stationDeps.filter(x => motusFilter.stations.includes(x.id) );
 	} else if (dataType == 'stations') {
 		motusData.selectedStations = motusData.stationDeps.filter(x => motusFilter.stations.includes(x.id) );
-	} else if (dataType == 'species') {
+	} else if ( ['species','animals'].includes(dataType) ) {
 		motusData.selectedStations = [];
-		motusData.stations = [];
+		motusFilter.stations = [];
 	}
 
-	motusData.selectedStationDeployments = d3.group(
-		motusData.selectedStations,
-		d => d.name
-	);
 
 
-	if ( !['stations','species'].includes(dataType) && typeof selectedAnimals === "undefined" ) {
+	if ( !['stations','species','animals'].includes(dataType) && typeof selectedAnimals === "undefined" ) {
 		if (typeof motusFilter.animals === 'undefined' || motusFilter.animals.length == 0) {
 			motusFilter.animals = motusFilter[dataType]
 				.filter(x => (typeof motusData[ "animalsBy" + firstToUpper(dataType) ].get(x) !== 'undefined'))
@@ -85,8 +81,13 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 		motusData.selectedSpecies = motusData.species.filter(x => motusFilter[dataType].includes(x.id)).map(function(x){return {name: x.english, id: x.id};});
 
 
-	}
+	} else if (dataType == 'animals') {
 
+			motusData.selectedAnimals = motusData.animals.filter(x => motusFilter.animals.includes(x.id));
+
+			selectionNames = Object.fromEntries( motusData.selectedAnimals.map(x => [x.id,motusData.speciesByID.get(x.species)[0].english]) );
+
+	}
 
 //	motusFilter.stations = motusFilter.regions.map(x => (motusData[ "stationDepsBy" + firstToUpper(dataType) ].get(x).map(s => s.id))).flat();
 
@@ -153,12 +154,9 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 			//motusFilter.animals = motusFilter.localAnimals;
 
 		} else if (dataType == 'species') {
-			motusFilter[dataType]
-				.forEach(function(x){
-					if (motusData[ "animalsBy" + firstToUpper(dataType) ].get( x )) {
-						 motusFilter.animals = motusFilter.animals.concat(Array.from(motusData["animalsBy" + firstToUpper(dataType)].get( x ).keys()));
-					}
-				});
+			motusFilter.localAnimals = motusFilter.animals;
+			motusFilter.remoteAnimals = [];
+		}  else if (dataType == 'animals') {
 			motusFilter.localAnimals = motusFilter.animals;
 			motusFilter.remoteAnimals = [];
 		} else {
@@ -224,7 +222,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 	motusData.tracksBySpecies = {};
 	motusData.tracksByStation = {};
 	motusData.stationHits = {};
-	motusData.animalsByDayOfYear = [...Array(366).fill(0).map(x => ({local: [], remote: [], visiting: []}))];
+	motusData.animalsByDayOfYear = [...Array(367).fill(0).map(x => ({local: [], remote: [], visiting: []}))];
 	motusData.animalsByHourOfDay = [...Array(24).fill(0).map(x => ({local: [], remote: [], visiting: []}))];
 
 	motusData.allTimes = [];
@@ -240,6 +238,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 		} else {
 			var selectedTracks = motusData.tracks.filter( d => d.animal.split(',').some( x => motusFilter.animals.includes(x) ) );
 		}
+		console.log(selectedTracks);
 
 		selectedTracks.forEach(function(v) {
 
@@ -251,9 +250,16 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 			var origin = "visiting";
 
-			var selectedRecv1 = motusFilter.stations.includes(v.recv1);
-			var selectedRecv2 = motusFilter.stations.includes(v.recv2);
+			if (['species', 'animals'].includes(dataType)) {
 
+				motusFilter.stations.push(v.recv1);
+				motusFilter.stations.push(v.recv2);
+				var selectedRecv1 = true;
+				var selectedRecv2 = true;
+			} else {
+				var selectedRecv1 = motusFilter.stations.includes(v.recv1);
+				var selectedRecv2 = motusFilter.stations.includes(v.recv2);
+			}
 			if (selectedRecv1 || selectedRecv2) {
 
 				if (!motusData.tracksByStation[v.recv1]) {
@@ -345,12 +351,23 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 		motusData.selectedTracks = selectedTracks;
 	}
 
+	if (['species', 'animals'].includes(dataType)) {
+		motusFilter.stations = motusFilter.stations.filter(onlyUnique);
+		motusData.selectedStations = motusData.stationDeps.filter(x => motusFilter.stations.includes(x.id) );
+	} else {
+		motusFilter.remoteAnimals = 	motusFilter.remoteAnimals.filter(onlyUnique);
+		motusFilter.animals = motusFilter.animals.concat(motusFilter.remoteAnimals).filter(onlyUnique);
+	}
 
-	motusFilter.remoteAnimals = 	motusFilter.remoteAnimals.filter(onlyUnique);
-	motusFilter.animals = motusFilter.animals.concat(motusFilter.remoteAnimals).filter(onlyUnique);
 
-	console.log("motusData: ", motusData);
-	console.log("motusFilter: ", motusFilter);
+	motusData.selectedStationDeployments = d3.group(
+		motusData.selectedStations,
+		d => d.name
+	);
+
+
+		console.log("motusData: ", motusData);
+		console.log("motusFilter: ", motusFilter);
 
 	timeRange.min = moment(d3.min(motusData.allTimes));
 	timeRange.max = moment(d3.max(motusData.allTimes));
@@ -813,7 +830,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 			addExploreCard({
 					data:'tabs',
 					type:'speciesHits',
-					header: 'Species',
+					header: 'Animals',
 					tabs: {
 						"Species in this region": speciesTable
 					},
