@@ -1427,9 +1427,13 @@ table.dataTable tbody tr.odd {
 	stroke-width:1px;
 }
 #explore_map svg path.hover,
-#explore_map svg path:hover {
+#explore_map svg path:not(.explore-map-station-line):hover {
 	cursor:pointer;
 	fill:#F00 !important;
+}
+#explore_map svg path.explore-map-station-line:hover {
+	cursor:pointer;
+	stroke:#F00 !important;
 }
 .leaflet-pane > svg path.leaflet-interactive,
 svg.leaflet-image-layer.leaflet-interactive path {
