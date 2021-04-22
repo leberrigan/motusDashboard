@@ -424,7 +424,10 @@ function exploreMap({
 										(species.get(sp).split(',').length)+
 									"</td>"+
 									"<td>"+
-										"<a href='#e=animals&d=animals&animals="+(species.get(sp))+"'>Animal profile</a>"+
+										((species.get(sp).split(',').length) > 3 ?
+											"<a href='#e=species&d=species&species="+sp+"&animals="+(species.get(sp))+"'>Animal profile</a>" : 
+											"<a href='#e=animals&d=animals&animals="+(species.get(sp))+"'>Animal profile</a>")+
+
 									"</td>"+
 									"<td>"+
 										"<a href='#e=species&d=species&species="+sp+"'>Species profile</a>"+

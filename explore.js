@@ -138,12 +138,11 @@ function updateURL(reload) {
 
 }
 
-	window.onhashchange = detectNavigation;
 function detectNavigation() {
 	console.log(window.location.hash);
 	var url_params = getSearchParameters( window.location.hash.substr(1) );
 
-	if ( (typeof url_params.exploreType !== 'undefined' && url_params.exploreType !== exploreType) || (typeof url_params.dataType !== 'undefined' && url_params.dataType !== dataType ) ) {window.location.reload();}
+	if ( (typeof url_params.e !== 'undefined' && url_params.e !== exploreType) || (typeof url_params.d !== 'undefined' && url_params.d !== dataType ) ) {window.location.reload();}
 
 	motusFilter = {
 		dtStart: url_params.dtStart === undefined ? motusFilter.dtStart : moment(url_params.dtStart),
@@ -185,7 +184,7 @@ $(document).ready(function(){
 
 	document.title = "Motus - Explore " + (exploreType == 'main' ? "Data" : firstToUpper(exploreType));
 
-	window.onhashchange = detectNavigation();
+	window.onhashchange = detectNavigation;
 
 	//exploreType = 'stations'; // TESTING
 console.log(window.location.hostname);
