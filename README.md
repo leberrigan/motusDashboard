@@ -11,6 +11,14 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ## Updates
 
 ### Latest
+<<<<<<< HEAD
+* [x] [2021-04-22] Fix some links to profiles
+* [x] [2021-04-22] Update filters or reload page when url hash key changes.
+=======
+>>>>>>> 98f97159ef0e1509004c05db734d4fb1b13c0f08
+* [x] [2021-04-22] Upgrade table sorting, add links to some views,
+* [x] [2021-04-22] Add option to view prospective stations.
+* [x] [2021-04-22] Add icons to summary tabs.
 * [x] [2021-04-20] Tweak `summary.js` so it works for species summaries.
 * [x] [2021-04-20] Tweak `summary.js` so it works for animal summaries.
 * [x] [2021-04-20] Tweak `summary.js` so it works for station summaries.
@@ -37,6 +45,7 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 * [x] [2021-03-16] Save page as PDF
 
 ### In development
+* [ ] **Management** Station planning map
 * [ ] **Profiles:** Move selections legend to toggle buttons.
 * [ ] **Profiles:** Improve map control interface
 * [ ] **ALL:** Work on animation controls
