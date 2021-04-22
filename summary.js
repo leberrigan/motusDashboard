@@ -78,7 +78,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 		motusFilter.animals = motusData.selectedAnimals.map(x => x.id).flat();
 
-		motusData.selectedSpecies = motusData.species.filter(x => motusFilter[dataType].includes(x.id)).map(function(x){return {name: x.english, id: x.id};});
+		motusData.selectedSpecies = motusData.species.filter(x => motusFilter[dataType].includes(x.id)).map(function(x){return {name: x.english, id: x.id, sort: x.sort};});
 
 
 	} else if (dataType == 'animals') {
@@ -831,6 +831,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 					data:'tabs',
 					type:'speciesHits',
 					header: 'Animals',
+					icon: icons.species,
 					tabs: {
 						"Species in this region": speciesTable
 					},
@@ -1152,7 +1153,12 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 					{data: "nSpp", title: "Number of Species"}
 				],
 				dom: tableDom,
-				autoWidth: false
+				autoWidth: false,
+				columnDefs: [ {
+					"targets": 0,
+					"orderable": false
+				}],
+				order: [[1, 'asc']]
 			}).on('draw.dt', function(){
 				$(`#explore_card_${cardID} .explore-card-${cardID}-table`).DataTable().rows().every(function(){
 
@@ -1387,17 +1393,22 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 			motusData.selectedSpecies = Array.from(
 											d3.rollup(
 												motusData.animalsTableData,
-												v => ({
-													id: ( Array.from( v.map( d => d.id ).values() ) ).join(','),
-													species: v[0].species,
-													name: v[0].name,
-													dtStart: d3.min(v, d => d.dtStart),
-													dtEnd: d3.max(v, d => d.dtEnd),
-													nAnimals: v.length,
-													nStations: (motusData.tracksBySpecies[v[0].species]?Array.from(motusData.tracksBySpecies[v[0].species].map(x=>x.split('.')).values()).flat().filter(onlyUnique):[]).length,
-													country: v.reduce( function(a, c) { a.push( c.country ); return a; }, [ ]).filter(onlyUnique),
-													colourCode: v.reduce( function(a, c) { a.push( colourScale( c.country ) ); return a; }, [ ]).filter(onlyUnique)
-												}),
+												function(v) {
+													var speciesMeta = motusData.speciesByID.get(v[0].species);
+													return {
+														id: ( Array.from( v.map( d => d.id ).values() ) ).join(','),
+														species: v[0].species,
+														name: v[0].name,
+														dtStart: d3.min(v, d => d.dtStart),
+														dtEnd: d3.max(v, d => d.dtEnd),
+														nAnimals: v.length,
+														nStations: (motusData.tracksBySpecies[v[0].species]?Array.from(motusData.tracksBySpecies[v[0].species].map(x=>x.split('.')).values()).flat().filter(onlyUnique):[]).length,
+														country: v.reduce( function(a, c) { a.push( c.country ); return a; }, [ ]).filter(onlyUnique),
+														colourCode: v.reduce( function(a, c) { a.push( colourScale( c.country ) ); return a; }, [ ]).filter(onlyUnique),
+														sort: speciesMeta?speciesMeta[0].sort:999999,
+														group: speciesMeta?speciesMeta[0].group:"Unknown"
+													}
+												},
 												d => d.name
 											).values()
 										);
@@ -1452,10 +1463,16 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 						);
 					}},
 					{data: "nAnimals", title: "Animals detected"},
-					{data: "nStations", title: "Stations visited"}
+					{data: "nStations", title: "Stations visited"},
+					{data: "sort", visible: false, orderable: true}
 				],
 				dom: tableDom,
-				autoWidth: false
+				autoWidth: false,
+				columnDefs: [ {
+					"targets": 0,
+					"orderable": false
+				}],
+				order: [[4, 'asc']]
 			});
 
 
