@@ -718,10 +718,12 @@ function populateExploreControls() {
 					(
 						x == 'view' ? (
 
-							//dataType == 'stations_NULL' ? ("<select style='width:150px'><option>Active stations</option><option>Prospective stations</option><option>Rectangles</option><option>Circles</option></select>") :
-							dataType == 'stations' ? ("<select style='width:200px'><option>Active stations</option><option>Prospective stations</option><option>Regional coordination\n groups</option></select>") :
+							//dataType == 'stations_NULL' ? ("<select style='width:150px'><option>Active stations</option><option>Available stations</option><option>Rectangles</option><option>Circles</option></select>") :
+							dataType == 'stations' ? ("<select style='width:200px' multiple='multiple'>"+
+																						"<option selected='selected'>Active stations</option><option>Available stations</option><option>Regional coordination\n groups</option>"+
+																				"</select>") :
 
-							("<a href='javascript:void(0);' onclick='exploreControls(this);'>View " + (dataType == 'stations' ? "prospective stations" : "deployments")  + "</a>")
+							("<a href='javascript:void(0);' onclick='exploreControls(this);'>View " + (dataType == 'stations' ? "available stations" : "deployments")  + "</a>")
 
 						) : (
 						x == 'pdf' ? "<input type='button' onclick='exploreControls(this.parentElement.parentElement);' value='Agree and Download' />" :
@@ -831,10 +833,22 @@ function exploreControls(el) {
 			);
 			motusMap.map.fire('moveend');
 			*/
-			if ($(el).val() == "Prospective stations") {
-				viewProspectiveStations();
+			if ($(el).val() == "Available stations" || ( typeof $(el).val() == 'object' && $(el).val().includes("Available stations") ) ) {
+				viewAvailableStations();
 			} else {
-				motusMap.g.selectAll('.explore-map-station-prospective').classed('hidden', true);
+				motusMap.g.selectAll('.explore-map-available-stations').classed('hidden', true);
+			}
+
+			if ($(el).val() == "Regional coordination groups" || ( typeof $(el).val() == 'object' && $(el).val().includes("Regional coordination groups") ) ) {
+				viewRegionalCoordinationGroups();
+			} else {
+				motusMap.g.selectAll('.explore-map-regional-groups').classed('hidden', true);
+			}
+
+			if ($(el).val() == "Active stations" || ( typeof $(el).val() == 'object' && $(el).val().includes("Active stations") ) ) {
+				motusMap.setVisibility();
+			} else {
+				motusMap.g.selectAll('.explore-map-station').classed('hidden', true);
 			}
 		}
 	} else if (opt == 'animate') {
@@ -1899,39 +1913,74 @@ function updateData() {
 
 }
 
-function viewProspectiveStations() {
+function viewAvailableStations() {
 
-	if (typeof motusData.prospectiveStations !== "undefined") {
+	if (typeof motusData.availableStations !== "undefined") {
 
-		motusMap.g.selectAll('.explore-map-station-prospective.hidden').classed('hidden', false);
-
-		$("#explore_controls .explore-map-stations-view a").text("Hide prospective stations");
+		motusMap.g.selectAll('.explore-map-available-stations.hidden').classed('hidden', false);
 
 	} else {
 
-		var load = Promise.all( [d3.json( filePrefix + "prospective_stations.geojson" )] ).then(function(response){
+		var load = Promise.all( [d3.json( filePrefix + "available_stations.geojson" )] ).then(function(response){
 
-			motusData.prospectiveStations = response[0];
+			motusData.availableStations = response[0];
 
-			motusMap.g.selectAll('.explore-map-station-prospective')
-				.data(motusData.prospectiveStations.features)
-				/*
-				.enter().append(d => document.createElementNS(d3.namespaces.svg, d.geometry.type == 'Point' ? "path" : "line"))
-				.attr("d", (d) => d.geometry.type == 'Point' ? motusMap.path.pointRadius(4)(d) : motusMap.path(d))
-				.style('stroke', '#000')
-				.style('fill', '#FF0')
-				.attr('class', 'explore-map-station leaflet-zoom-hide explore-map-station-prospective')
-				.style('stroke-width', '1px')
-				*/
+			motusMap.g.selectAll('.explore-map-available-stations')
+				.data(motusData.availableStations.features)
 				.enter().append("path")
 				.attr("d", (d) => d.geometry.type == 'Point' ? motusMap.path.pointRadius(4)(d) : motusMap.path(d))
-			//	.style('stroke', d => d.geometry.type == 'Point' ? '#000' : '#FF0')
 				.style('stroke', '#000')
 				.style('fill', d => d.geometry.type == 'Point' ? '#FF0' : "none")
-				.attr('class', d => 'explore-map-station leaflet-zoom-hide explore-map-station-prospective' + (d.geometry.type == 'Point' ? "" : " explore-map-station-line"))
-				//.style('fill', d => motusFilter.stations.includes(d.id) ? "#F00" : "#000")
+				.attr('class', d => 'explore-map-station leaflet-zoom-hide explore-map-available-station disable-filter' + (d.geometry.type == 'Point' ? "" : " explore-map-station-line"))
 				.style('stroke-width', d => d.geometry.type == 'Point' ? '1px' : '10px')
-				.style('pointer-events', 'auto');
+				.style('pointer-events', 'auto')
+				.on('touchstart', (e) => e.preventDefault())
+				.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'available-stations'))
+				.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'available-stations'))
+				.on('click', (e,d) => motusMap.dataClick(e, d, 'available-stations'));
+
+			motusMap.map.fire('zoomend');
+
+		});
+	}
+
+
+}
+
+
+function viewRegionalCoordinationGroups() {
+
+	if (typeof motusData.regionalGroups !== "undefined") {
+
+		motusMap.g.selectAll('.explore-map-regional-groups.hidden').classed('hidden', false);
+
+		$("#explore_controls .explore-map-stations-view a").text("Hide available stations");
+
+	} else {
+
+
+		var load = Promise.all( [d3.json( filePrefix + "motus-regional-collaboratives.geojson" )] ).then(function(response){
+
+			motusData.regionalGroups = response[0];
+
+			var regionalColourScale = d3.scaleOrdinal().domain(motusData.regionalGroups.features.map(x => x.id)).range(customColourScale.jnnnnn.slice(0, motusData.regionalGroups.features.length));
+
+			motusMap.g.selectAll('.explore-map-regional-groups')
+				.data(motusData.regionalGroups.features)
+				.enter().append("path")
+				.attr("d", d => motusMap.path(d))
+				.style('stroke', '#000')
+				.style('opacity', '0.5')
+				.style('fill', d => regionalColourScale(d.id))
+				.attr('class', 'leaflet-zoom-hide explore-map-region explore-map-regional-groups disable-filter')
+				.style('stroke-width', '1 px')
+				.style('pointer-events', 'auto')
+				.on('touchstart', (e) => e.preventDefault())
+				.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'regional-group'))
+				.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'regional-group'))
+				.on('click', (e,d) => motusMap.dataClick(e, d, 'regional-group'));
+
+			motusMap.map.fire('zoomend');
 
 		});
 	}

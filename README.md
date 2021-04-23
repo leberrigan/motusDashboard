@@ -11,6 +11,7 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ## Updates
 
 ### Latest
+* [x] [2021-04-23] Add in collaborative regions
 * [x] [2021-04-22] Fix some links to profiles
 * [x] [2021-04-22] Update filters or reload page when url hash key changes.
 * [x] [2021-04-22] Upgrade table sorting, add links to some views,
@@ -43,6 +44,8 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 
 ### In development
 * [ ] **Management** Station planning map
+ * [ ] Add in collaborative regions
+ * [ ] Add in table of 'inactive' and 'available' stations
 * [ ] **Profiles:** Move selections legend to toggle buttons.
 * [ ] **Profiles:** Improve map control interface
 * [ ] **ALL:** Work on animation controls
@@ -56,8 +59,8 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 * [ ] **ALL:** Fix URL string compression so it is efficient.
 * [ ] **ALL:** Pare down code so fewer scripts are required
 
- ### Further down the road...
- * [ ] **Profiles:** Think about adding a [streamgraph](https://bl.ocks.org/HarryStevens/c893c7b441298b36f4568bc09df71a1e) for species timelines and antenna activity.
+### Further down the road...
+* [ ] **Profiles:** Think about adding a [streamgraph](https://bl.ocks.org/HarryStevens/c893c7b441298b36f4568bc09df71a1e) for species timelines and antenna activity.
 
 ---
 
@@ -156,30 +159,47 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ## Summary Views
 
 ### PROJECTS
-- YES: Animals tagged in this project
-- YES: Animals detected by this project's stations
-
-- YES: Stations deployed in this project
-- NO: Stations visited by animals tagged in this project.
+- Animals tagged in this project
+- Animals detected by this project's stations
+- Species tagged in this project
+- Species detected by this project's stations
+- Stations deployed in this project
+- Stations visited by animals tagged in this project.
+- Projects which this project has contributed data to.
+- Projects which have contributed to this project.
+- Regions where this project has deployments.
 
 ### STATIONS
-- MAYBE: Animals tagged near this station
-- YES: Animals detected by this station
-
-- NO: Stations visited by animals tagged near this station.
+- Animals tagged near this station
+- Animals detected by this station
+- Species tagged near this stations
+- Species detected near this station
+- Projects which this station has contributed to (tag projects).
+- Number of regions from which detected tags originate.
 
 ### REGIONS
-- YES: Animals tagged in this region
-- YES: Animals detected by this region's stations
-
-- YES: Stations deployed in this region
-- NO: Stations visited by animals tagged in this region.
+- Animals tagged in this region
+- Animals detected by this region's stations
+- Species tagged in this region
+- Species detected in this region
+- Stations deployed in this region
+- Projects with tags deployed in this region
+- Projects with stations deployed in this region
+- Foreign projects with tag detections in this region.
+- Number of regions from which foreign tags originate.
 
 ### SPECIES
-- YES: Animals tagged of this species
-
-- YES: Stations visited by this species.
+- Animals tagged of this species
+- Stations which have detected this species.
+- Projects that have tagged this species.
+- Regions that have detected this species.
+- Regions where this species has been tagged.
 
 ### ANIMALS
+- Stations visited by this animal.
+- Projects that have contributed data (station projects).
+- Regions where this animal has been detected.
 
-- YES: Stations visited by this animal.
+
+- Number of other animals this animal was detected with.
+- Number of different species this animal was detected with.
