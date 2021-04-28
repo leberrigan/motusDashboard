@@ -50,39 +50,49 @@ function exploreMap({
 		//	if (tmpvar < 1) {tmpvar++;console.log(d);}
 
 			const visibility = (
-						!(
-							motusFilter.dtEnd < d.dtStart || motusFilter.dtStart > d.dtEnd
+						(
+							motusFilter.dtEnd > d.dtStart && motusFilter.dtStart < d.dtEnd
 						) && (
-							typeof d.projID == "undefined" ||
-							motusFilter.projects.includes('all') ||
-							d.projID.split(',').some(r => motusFilter.projects.includes(r))
-						) && (
-							typeof d.status == "undefined" ||
-							motusFilter.status.includes('all') ||
-							d.status.split(',').some(r => motusFilter.status.includes(r))
-						) && (
-							typeof d.frequency == "undefined" ||
-							motusFilter.frequencies.includes('all') ||
-							motusFilter.frequencies.every(r => d.frequency.split(',').includes(r)) ||
-							d.frequency === motusFilter.frequencies[0]
-						) && (
-							typeof d.species == "undefined" ||
-							exploreType == 'stations' ||
-							motusFilter.species.includes('all') ||
-							d.species.split(',').some(r => motusFilter.species.includes(r))
-						) && (
-							typeof d.name == "undefined" ||
-							exploreType == 'species' ||
-							exploreType == 'regions' ||
-							motusFilter.stations.includes('all') ||
-							d.id.split(',').some(r => motusFilter.stations.includes(r))
-						) && (
-							typeof d.animals == "undefined" ||
-							typeof motusFilter.animals == "undefined" ||
-							motusFilter.animals.includes('all') ||
-							d.animals.split(',').some(r => motusFilter.animals.includes(r))
+							(
+								exploreType != 'main' &&
+								typeof d.name != "undefined" &&
+								!d.stationDeps.split(',').some(r => motusFilter.stations.includes(r))
+							) || (
+							(
+								typeof d.projID == "undefined" ||
+								motusFilter.projects.includes('all') ||
+								d.projID.split(',').some(r => motusFilter.projects.includes(r))
+							) && (
+								typeof d.status == "undefined" ||
+								motusFilter.status.includes('all') ||
+								d.status.split(',').some(r => motusFilter.status.includes(r))
+							) && (
+								typeof d.frequency == "undefined" ||
+								motusFilter.frequencies.includes('all') ||
+								motusFilter.frequencies.every(r => d.frequency.split(',').includes(r)) ||
+								d.frequency === motusFilter.frequencies[0]
+							) && (
+								typeof d.species == "undefined" ||
+								exploreType == 'stations' ||
+								motusFilter.species.includes('all') ||
+								d.species.split(',').some(r => motusFilter.species.includes(r))
+							) && (
+								typeof d.name == "undefined" ||
+								exploreType == 'species' ||
+								exploreType == 'regions' ||
+								motusFilter.stations.includes('all') ||
+								d.stationDeps.split(',').some(r => motusFilter.stations.includes(r))
+							) && (
+								typeof d.animals == "undefined" ||
+								typeof motusFilter.animals == "undefined" ||
+								motusFilter.animals.includes('all') ||
+								d.animals.split(',').some(r => motusFilter.animals.includes(r))
+							)
 						)
-					);
+					)
+				);
+
+			if (d.colourVal == "other") { console.log("End date: ", d.dtEnd.toISOString().substr(0,10)  );  console.log("Start date: ", d.dtStart.toISOString().substr(0,10) ); }
 
 			return !visibility;
 
@@ -112,8 +122,8 @@ function exploreMap({
 				//	tmpvar = 0;
 				//	console.log("Total: " + $("#explore_map svg path").length + " - Hidden: " + $("#explore_map svg path.hidden").length);
 				//	motusMap.svg.selectAll(".explore-map-" + mapType + ".explore-map-" + dataType)
-
 					motusMap.g.selectAll("path:not(.disable-filter)").classed('hidden', d => motusMap.isVisible(d));
+
 
 					if (exploreType == 'main') {
 						if (dataType == 'animals') {
@@ -281,7 +291,7 @@ function exploreMap({
 						"</br>(Click to view)"
 					);
 
-				} else if (t == 'available-stations') {
+				} else if (t == 'prospective-stations') {
 						$('.tooltip').html(
 							"<center><h3>"+
 								d.properties.name+
@@ -365,7 +375,7 @@ function exploreMap({
 					viewProfile('stations', d.id);
 				}
 
-			} else if (t == 'available-stations') {
+			} else if (t == 'prospective-stations') {
 				$(".popup").remove();
 				$("body").append("<div class='popup'><div class='popup-topbar'><div class='popup-topbar-close'>X</div></div><div class='popup-content'></div></div>");
 				$(".popup").draggable({handle: ".popup-topbar"});
@@ -1054,17 +1064,22 @@ function loadMapObjects(callback) {
 			var station_freqs = [];
 			motusData.stations = Array.from(d3.rollup(motusData.stationDeps, function(v){
 
-					var startDate = moment(d3.min(v, d => d.dtStart));
-					var endDate = moment(d3.max(v, d => d.dtEnd == "NA" ? new Date().toISOString().substr(0, 10) : d.dtEnd));
+					var startDate = new Date(d3.min(v, d => d.dtStart));
+					var endDate = new Date(d3.max(v, d => d.dtEnd == "NA" ? new Date().toISOString().substr(0, 10) : d.dtEnd));
 
-					if (dtLims.min > startDate.toDate()) {dtLims.min = startDate.toDate();}
-					if (dtLims.max < endDate.toDate()) {dtLims.max = endDate.toDate();}
+					if (dtLims.min > startDate) {dtLims.min = startDate;}
+					if (dtLims.max < endDate) {dtLims.max = endDate;}
+
+					var animals = v.map(x => x.animals.split(';')).flat().filter(onlyUnique);
+					var localAnimals = v.map(x => x.localAnimals.split(';')).flat().filter(onlyUnique);
+					var species = v.map(x => x.species.split(';')).flat().filter(onlyUnique);
 
 					if (!station_freqs.includes(v[0].frequency)) {station_freqs.push(v[0].frequency);}
 					//recvDepsLink.push([+row.lon, +row.lat, +row.id]);
 					if (!(isNaN(+v[0].lon) || isNaN(+v[0].lon))) {
 					return {
 						id: v[0].id,
+						stationDeps: v.map( d => d.id).join(','),
 						type: 'Feature',
 						geometry: {
 							type: "Point",
@@ -1076,12 +1091,16 @@ function loadMapObjects(callback) {
 						projID: Array.from(v.map( d => d.projID ).values()).filter(onlyUnique).join(','),
 						dtStart: startDate,
 						dtEnd: endDate,
-						lastData: moment().diff(endDate, 'days'),
-						nAnimals: v.map(x => x.animals.split(';')).flat().filter(onlyUnique).length,
-						nSpp: v.map(x => x.species.split(';')).flat().filter(onlyUnique).length
+						lastData: moment().diff(moment(endDate), 'days'),
+						animals: animals.join(';'),
+						localAnimals: localAnimals.join(';'),
+						species: species.join(';'),
+						nAnimals: animals.length,
+						nSpp: species.length
 					}
 				} else { console.log("Warning: NAs found", v); }
 			}, x => x.name).values()).filter(x => typeof x !== "undefined");
+
 			//motusData.stationDeps = motusData.stations;
 /*
 			motusData.stationDeps.forEach(function(row){

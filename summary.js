@@ -14,7 +14,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 		window.location.href = "explore.html#e=main&d=" + dataType;
 	}*/
 
-	var mapLegend = d3.create('div').attr("class", "explore-map-legend")
+	var mapLegend = d3.create('div').attr("class", "explore-map-legend hidden")
 																	.attr("id", "explore_map_legend");
 	mapLegend.append('div')
 						.text('Map legend')
@@ -31,19 +31,47 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 	}
 
 
-		if ( !['stations','species','animals'].includes(dataType) && typeof selectedAnimals === "undefined" ) {
+	if (typeof selectedProjects === "undefined") {
+		motusData.selectedProjects = motusData.projects.filter(x => motusFilter.projects.includes(x.id));
+		motusData.selectedProjects = motusData.selectedProjects.length > 0 ? motusData.selectedProjects : false;
+	} else {
+		motusData.selectedProjects = selectedProjects;
+	}
+
+	if ( !['stations','species','animals'].includes(dataType) && typeof selectedAnimals === "undefined" ) {
 		motusFilter.stations = motusFilter[dataType].map(x => (motusData[ "stationDepsBy" + firstToUpper(dataType) ].get(x).map(v => v.id))).flat();
-		motusData.selectedStations = motusData.stationDeps.filter(x => motusFilter.stations.includes(x.id) );
+
+		motusData.selectedStations = motusData.stations.filter(x => motusFilter.stations.some(d => x.stationDeps.split(',').includes(d)) );
+
+		motusFilter.stations = motusData.selectedStations.map( x => x.id );
+
 	} else if (typeof selectedStations !== "undefined") {
 		motusFilter.stations = selectedStations;
-		motusData.selectedStations = motusData.stationDeps.filter(x => motusFilter.stations.includes(x.id) );
+
+		motusData.selectedStations = motusData.stations.filter(x => motusFilter.stations.some(d => x.stationDeps.split(',').includes(d)) );
+
+		motusFilter.stations = motusData.selectedStations.map( x => x.id );
+
 	} else if (dataType == 'stations') {
-		motusData.selectedStations = motusData.stationDeps.filter(x => motusFilter.stations.includes(x.id) );
+
+
+		motusData.selectedStations = motusData.stations.filter(x => motusFilter.stations.some(d => x.stationDeps.split(',').includes(d)) );
+
+		motusFilter.stations = motusData.selectedStations.map( x => x.id );
+	//	motusData.selectedStationDeps = motusData.stationDeps.filter(x => motusFilter.stations.includes(x.id) );
+
+
 	} else if ( ['species','animals'].includes(dataType) ) {
 		motusData.selectedStations = [];
 		motusFilter.stations = [];
 	}
 
+	motusData.selectedStationDeps = [];
+	motusData.stationDeps.filter(x => motusFilter.stations.includes(x.id) ).forEach(function (x) {
+		motusData.selectedStationDeps = motusData.selectedStationDeps.concat( motusData.stationDepsByName.get(x.name) );
+	})
+
+	motusFilter.stationDeps = motusData.selectedStationDeps.map(x => x.id);
 
 
 	if ( !['stations','species','animals'].includes(dataType) && typeof selectedAnimals === "undefined" ) {
@@ -184,8 +212,13 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 	// *** Above should be removed to '***'
 
 	// Set colour scale based on number of colour combos
-	var colourScale = d3.scaleOrdinal().domain(['visiting', 'remote'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length + 1)));
-
+	if (dataType == 'regions') {
+		var colourScale = d3.scaleOrdinal().domain(['visiting', 'remote'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length + 1)));
+	} else if (dataType == 'stations') {
+		var colourScale = d3.scaleOrdinal().domain(['other'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length)));
+	} else {
+		var colourScale = d3.scaleOrdinal().domain(['other'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length)));
+	}
 
 //	var colourScale = colourScale;
 
@@ -234,7 +267,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 		console.log(motusFilter.stations)
 
 		if (!['animals', 'species'].includes(dataType)) {
-			var selectedTracks = motusData.tracks.filter( d => motusFilter.stations.includes(d.recv1) || motusFilter.stations.includes(d.recv2) || d.animal.split(',').some( x => motusFilter.localAnimals.includes(x) ) );
+			var selectedTracks = motusData.tracks.filter( d => motusFilter.stationDeps.includes(d.recv1) || motusFilter.stationDeps.includes(d.recv2) || d.animal.split(',').some( x => motusFilter.animals.includes(x) ) || d.animal.split(',').some( x => motusFilter.localAnimals.includes(x) ) );
 		} else {
 			var selectedTracks = motusData.tracks.filter( d => d.animal.split(',').some( x => motusFilter.animals.includes(x) ) );
 		}
@@ -245,7 +278,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 			var dtStart = v.dtStart.split(',');
 			var dtEnd = v.dtEnd.split(',');
 			var allTimes = [];
-			var animals = [];
+			var animals = v.animal.split(',');
 			var species = v.species.split(',');
 
 			var origin = "visiting";
@@ -257,9 +290,29 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 				var selectedRecv1 = true;
 				var selectedRecv2 = true;
 			} else {
+				if ( motusFilter.stationDeps.includes(v.recv1) && !motusFilter.stations.includes(v.recv1) ) {
+					console.log("recv1 (1): ",v.recv1);
+					v.recv1 = motusData.selectedStations.filter( x => x.stationDeps.split(',').includes(v.recv1) )[0].id;
+					console.log("recv1 (2): ",v.recv1);
+				}
+				if ( motusFilter.stationDeps.includes(v.recv2) && !motusFilter.stations.includes(v.recv2) ) {
+					console.log("recv2 (1): ",v.recv2);
+					v.recv2 = motusData.selectedStations.filter( x => x.stationDeps.split(',').includes(v.recv2) )[0].id;
+					console.log("recv2 (2): ",v.recv2);
+				}
 				var selectedRecv1 = motusFilter.stations.includes(v.recv1);
 				var selectedRecv2 = motusFilter.stations.includes(v.recv2);
 			}
+
+			if (dataType == 'stations') {
+				var selectedIndices = animals.map( (x,i) => motusFilter.animals.includes(x) ? i : -1 ).filter(x => x != -1);
+				dtStart = dtStart.filter((x,i) => selectedIndices.includes(i));
+				dtEnd = dtEnd.filter((x,i) => selectedIndices.includes(i));
+				animals = animals.filter((x,i) => selectedIndices.includes(i));
+				species = species.filter((x,i) => selectedIndices.includes(i));
+				allTimes = dtStart.concat(dtEnd);
+			}
+
 			if (selectedRecv1 || selectedRecv2) {
 
 				if (!motusData.tracksByStation[v.recv1]) {
@@ -273,7 +326,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 					motusData.tracksByStation[v.recv2].push(v.route);
 				}
 
-				motusData.nTracks += v.animal.split(',').length;
+				motusData.nTracks += animals.length;
 
 			}
 
@@ -287,7 +340,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 			}
 
-			v.animal.split(',').forEach(function(x, i){
+			animals.forEach(function(x, i){
 
 				if (motusFilter.localAnimals.includes( x )) {
 				  allTimes.push(dtStart[i]);
@@ -330,8 +383,10 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 			motusData.allTimes = motusData.allTimes.concat(allTimes);
 
+			var colourVal = dataType == 'projects' ? v.project : dataType == 'regions' ? origin : dataType == 'stations' ? ( selectedRecv1 ? v.recv1 : selectedRecv2 ? v.recv2 : "other" ) : dataType == 'species' ? v.species.split(',').filter(x=>motusFilter.species.includes(x)).filter(onlyUnique).join(',') : v.animal.split(',').filter(x=>motusFilter.animals.includes(x)).join(',')
+
 			motusData.selectedTracks[v.route] = {
-				animals: v.animal,
+				animals: animals.join(','),
 				species: v.species,
 				type: v.type,
 				recv1: v.recv1,
@@ -343,6 +398,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 				dtStartList: v.dtStart,
 				dtEndList: v.dtEnd,
 				origin: origin,
+				colourVal: colourVal,
 				frequency: v.frequency,
 				coordinates: [ [v.lon1, v.lat1], [v.lon2, v.lat2]]
 			};
@@ -369,11 +425,12 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 		console.log("motusData: ", motusData);
 		console.log("motusFilter: ", motusFilter);
 
-	timeRange.min = moment(d3.min(motusData.allTimes));
-	timeRange.max = moment(d3.max(motusData.allTimes));
+	timeRange.min = new Date(d3.min(motusData.allTimes));
+	timeRange.max = new Date(d3.max(motusData.allTimes));
 
 	if (dtLims.min > new Date(d3.min(motusData.allTimes))) {dtLims.min = new Date(d3.min(motusData.allTimes));}
 	if (dtLims.max < new Date(d3.max(motusData.allTimes))) {dtLims.max = new Date(d3.max(motusData.allTimes));}
+
 
 /*
 
@@ -449,7 +506,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 
 		motusMap.g.selectAll('stations')
-			.data(motusData.stations.filter(d => !motusFilter.stations.includes(d.id)))
+			.data(motusData.stations.filter(d => !motusFilter.stationDeps.includes(d.id)))
 			//.data(motusData.stations)
 			.enter().append("path")
 			.attr("d", motusMap.path.pointRadius(3))
@@ -465,9 +522,8 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 		var yesterday = moment().subtract(1, 'days');
 
-		console.log(motusData.stations.filter(d => motusFilter.stations.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)));
 		motusMap.g.selectAll('stations')
-			.data(motusData.stations.filter(d => motusFilter.stations.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)))
+			.data(motusData.stations.filter(d => motusFilter.stationDeps.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)))
 			//.data(motusData.stations)
 			.enter().append("path")
 			.attr('marker-end','url(#station_path)')
@@ -575,15 +631,18 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 		//console.log(regionCombos);
 
 		setProgress(75);
+
+		var colourBy = dataType == 'stations' ? 'recv1' : dataType == 'species' ? 'species' : "origin"
+
 		console.log("motusMap.trackPaths: " + moment().diff(ts[0]) + "@" + moment().diff(ts[ts.length-1]));ts.push(moment());
 		motusMap.trackPaths = motusMap.g.selectAll("tracks")
 		//	.data(trackDataLink)
 			.data(Object.values(motusData.selectedTracks))
 		//	.data(Array.from(motusData.selectedTracks.values()).filter(d => (motusFilter.stations.includes(d.recv1) || motusFilter.stations.includes(d.recv2))))
 			.enter().append("path")
-			.attr('class', (d) => "explore-map-tracks explore-map-species leaflet-zoom-hide explore-map-tracks-" + ( d.origin.toLowerCase() ))
+			.attr('class', (d) => "explore-map-tracks explore-map-species leaflet-zoom-hide " + d.colourVal.split(',').map( x => "explore-map-tracks-" + ( x.toLowerCase() ) ).join(" ") )
 			.attr("id", (d) => "track" + d.id)
-			.style('stroke', (d) => colourScale(d.origin))
+			.style('stroke', (d) => colourScale(d.colourVal))
 	//		.style('stroke', (d) => (d.origin == 'local' ? colourScale.range()[1] :  colourScale.range()[0] ))
 			.style('pointer-events', 'auto')
 			.style('stroke-width', '3px')
@@ -609,20 +668,20 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 				.style('stroke-width', '3px')
 				.style('pointer-events', 'auto');
 
-			var regionCode = colourScale.domain()[i];
-			var regionName = regionCode == "remote" ? regionCode : motusData.selectionNames[ colourScale.domain()[i] ];
+			var selectionCode = colourScale.domain()[i];
+			var selectionName = selectionCode == "remote" || selectionCode == 'other' ? firstToUpper(selectionCode) : motusData.selectionNames[ selectionCode ];
 
 			g.append("text")
 				.attr("x", 40)
 				.attr("y", h * ( i + 0.75 ) )
-				.text( regionName + " deployments" )
+				.text( selectionName )
 				.style('pointer-events', 'auto');
 
-			var len = $("<div class='get-text-size'></div>").appendTo("body").css('font-size', '14pt').text(regionName).width();
+			var len = $("<div class='get-text-size'></div>").appendTo("body").css('font-size', '14pt').text( selectionName ).width();
 
 			max_length = max_length < len ? len : max_length;
 
-			g.attr("class","map-legend-tracks-" + regionCode + " selected")
+			g.attr("class","map-legend-tracks-" + selectionCode + " selected")
 				.style('pointer-events', 'auto')
 				.on('click', motusMap_legendClick);
 
@@ -714,12 +773,14 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 			};
 		if (!exploreProfile_hasLoaded) {
 			console.log(status);
+			var photo = dataType == 'species' || dataType == 'animals' ? "photos/species/" + (speciesPhotos[Math.round(Math.random()*(speciesPhotos.length-1))]) : dataType == 'stations' ? "photos/stations/" + (stationPhotos[Math.round(Math.random()*(stationPhotos.length-1))]) : "";
+
 			addExploreCard({
 				data: {},
 				id: k,
 				name: v,
 				status: status,
-				photo: ''
+				photo: photo
 			});
 		}
 	});
@@ -852,6 +913,8 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 	console.log("Finish up: " + moment().diff(ts[0]) + "@" + moment().diff(ts[ts.length-1]));ts.push(moment());
 
 	//addExploreCard({data:'custom',type:'options',html:toAppend,attachEl:".explore-card-map",attachMethod:"after"});
+
+	motusFilter.default = motusFilter;
 
 	setCardColours( colourScale )
 

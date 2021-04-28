@@ -586,7 +586,11 @@ iframe#pdf_output {
 #explore_controls .explore-control-wrapper > div.toggleDisplay.selected .explore-control-hidden {
 	display:inline-block;
 	vertical-align:top;
-	line-height:40px;
+	line-height:36px;
+	padding:0 5px;
+}
+#explore_controls .explore-control-wrapper > div.toggleDisplay.selected .explore-control-hidden > * {
+	line-height:initial;
 }
 
 #explore_controls .explore-summary-selections input[type=button]{
@@ -1197,8 +1201,8 @@ div.explore-card {
 	font-weight:600;
 	font-size:12pt;
 }
-#explore_card_profiles:not(.solo-card) div.explore-card-header {
-	line-height: normal;
+#explore_card_profiles:not(.solo-card) .explore-card-header {
+line-height: 60px;
 	width:270px;
 	vertical-align: middle;
 }
@@ -1206,14 +1210,17 @@ div.explore-card {
 	font-size:20pt;
 	margin-bottom:15px;
 }
+.explore-card.solo-card td .explore-card-name {
+	display:none;
+}
 
 #explore_card_profiles .explore-card-image {
-    overflow: hidden;
-	float:left;
+  overflow: hidden;
 	background-image:url('https://www.flaticon.com/svg/static/icons/svg/25/25333.svg');
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
+	margin:0 auto;
 }
 #explore_card_profiles:not(.solo-card) .explore-card-image {
     border-radius: 50%;
@@ -1222,9 +1229,10 @@ div.explore-card {
 	border-top-right-radius:0px;
 	border-bottom-right-radius:0px;*/
 	width: 0;
-    height: 0;
+  height: 0;
 	margin: 8px 30px;
 	padding: 0;
+	float:left;
 }
 #explore_card_profiles.solo-card .explore-card-image {
     border-radius: 50%;
@@ -1473,9 +1481,11 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	.content-wrapper.profiles .explore-card {
 		width:100vw;
 	}
-	.explore-card-header {
+	/*
+	.solo-card .explore-card-header {
 		display:block;
 	}
+	*/
 }
 .explore-card-map > .explore_map {
 	height:100%;
@@ -1628,11 +1638,11 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	font-variant: small-caps;
 	background:none;
 }
-.solo-card td:nth-child(1),.solo-card td:nth-child(2) {
+/*.solo-card td:nth-child(1),.solo-card td:nth-child(2) {
 	display:none;
-}
+}*/
 
-.solo-card td:nth-child(3) .status-icon {
+.solo-card td:nth-child(2) .status-icon {
 	border-left-width:0;
 }
 
@@ -1657,9 +1667,11 @@ svg.leaflet-image-layer.leaflet-interactive path {
 
 .solo-card table tr {
 	width:100%;
+	display:inline-block;
 }
 .solo-card table td {
-	width:25%;
+	width:calc(20% - 2px);
+	display:inline-block;
 	text-align:center;
 }
 .explore-card:not(#explore_card_profiles) {
