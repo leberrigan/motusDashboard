@@ -346,12 +346,23 @@ iframe#pdf_output {
 	#explore_card_profiles > .explore-card-profiles-tabs.expanded {
 	    position: relative;
 	    z-index: 9999;
-	    margin-bottom: -271px;
+	    margin-bottom: -220px;
 	}
-	#explore_card_profiles > .explore-card-profiles-tabs.expanded > div:not(.expand-menu-btn):last-child {
-		border-bottom-width:1px;
+	#explore_card_profiles > .explore-card-profiles-tabs.expanded > div:nth-child(2) {
+		border-top: solid 1px #999;
+	}
+	#explore_card_profiles > .explore-card-profiles-tabs.expanded > div:last-child {
+		border-bottom: solid 1px #999;
 	}
 
+	.solo-card table td:not(.explore-card-header) {
+		width:calc(25% - 2px) !important;
+	}
+
+	.explore-card.solo-card .explore-card-profile:not(.no-photo) .explore-card-header {
+		display:block !important;
+		width:100% !important;
+	}
 }
 
 /*******************************************
@@ -449,7 +460,6 @@ iframe#pdf_output {
 	}
 	.footer {
 		height:40px;
-		margin-top:40px;
 		text-align:center;
 	}
 	.footer > div {
