@@ -1172,6 +1172,8 @@ function populateSelectOptions() {
 
 		$("#filter_summary").removeClass('visible');
 
+		$("#explore_filters").parent(".active").removeClass('active');
+
 		updateURL();
 
 		motusMap.setVisibility();
@@ -1522,17 +1524,19 @@ function addExploreCard(card) {
 				$("#explore_card_profiles table").DataTable().clear().destroy();
 			}*/
 
-			console.log(card);
-			$("#explore_card_profile_" + card.id + " .explore-card-image")
-				.css("background-image", "url(" + card.photo + ")")
-				.click(function(){
-					if ($("#explore_card_profiles").hasClass('solo-card')) {
-						initiateLightbox(this);
-					}	else {
-						viewSolo(card.id);
-					}
+			if (card.photo == "") {
+				$("#explore_card_profile_" + card.id).addClass("no-photo");
+			} else {
+				$("#explore_card_profile_" + card.id + " .explore-card-image")
+					.css("background-image", "url(" + card.photo + ")")
+					.click(function(){
+						if ($("#explore_card_profiles").hasClass('solo-card')) {
+							initiateLightbox(this);
+						}	else {
+							viewSolo(card.id);
+						}
 				});
-
+			}
 
 			$("#explore_card_profile_" + card.id + " .explore-card-remove").click(function(){removeExploreCard(this, exploreType)});
 
