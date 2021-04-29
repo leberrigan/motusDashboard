@@ -213,7 +213,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 	// Set colour scale based on number of colour combos
 	if (dataType == 'regions') {
-		var colourScale = d3.scaleOrdinal().domain(['visiting', 'remote'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length + 1)));
+		var colourScale = d3.scaleOrdinal().domain(['visiting'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length + 1)));
 	} else if (dataType == 'stations') {
 		var colourScale = d3.scaleOrdinal().domain(['other'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length)));
 	} else {
@@ -773,7 +773,11 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 			};
 		if (!exploreProfile_hasLoaded) {
 			console.log(status);
-			var photo = dataType == 'species' || dataType == 'animals' ? "photos/species/" + (speciesPhotos[Math.round(Math.random()*(speciesPhotos.length-1))]) : dataType == 'stations' ? "photos/stations/" + (stationPhotos[Math.round(Math.random()*(stationPhotos.length-1))]) : "";
+			var photo = dataType == 'species' || dataType == 'animals' ?
+										"photos/species/" + (speciesPhotos[Math.round(Math.random()*(speciesPhotos.length-1))]) :
+									dataType == 'stations' ?
+										"photos/stations/" + (stationPhotos[Math.round(Math.random()*(stationPhotos.length-1))]) :
+									"";
 
 			addExploreCard({
 				data: {},
