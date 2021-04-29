@@ -11,6 +11,10 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ## Updates
 
 ### Latest
+* [x] [2021-04-28] Add in photos for stations, animals, and species
+* [x] [2021-04-28] Fix default visibility and date filters.
+* [x] [2021-04-28] Fix map colours.
+* [x] [2021-04-28] Better separation of 'stations' v. 'stationDeps'.
 * [x] [2021-04-23] Add in collaborative regions
 * [x] [2021-04-22] Fix some links to profiles
 * [x] [2021-04-22] Update filters or reload page when url hash key changes.
@@ -43,12 +47,12 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 * [x] [2021-03-16] Save page as PDF
 
 ### In development
+* [ ] **Profiles** Tweak animal, species, and station profiles to give it more flare.
 * [ ] **Management** Station planning map
- * [ ] Add in collaborative regions
- * [ ] Add in table of 'inactive' and 'available' stations
+  * [ ] Add in collaborative regions
+  * [ ] Add in table of 'inactive' and 'available' stations
 * [ ] **Profiles:** Move selections legend to toggle buttons.
 * [ ] **Profiles:** Improve map control interface
-* [ ] **ALL:** Work on animation controls
 
 ### Next
 * [ ] **Profiles** Tweak `summary.js` so it works for project 'group' summaries.

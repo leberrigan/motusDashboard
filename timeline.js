@@ -4,11 +4,11 @@ var timeline = {};
 function exploreTimeline({
 	el = "#dateSlider .slider",
 	timer_length = 3000,
-	min = moment('2014-02-05').unix(),
-	max = moment('2021-04-20').unix(),
+	min = new Date('2014-02-05').valueOf() / 1000,
+	max = new Date('2021-04-20').valueOf() / 1000,
 	range = 0,
 	step = 86400,
-	startVal = moment('2014-02-05').unix(),
+	startVal = new Date('2014-02-05').valueOf() / 1000,
 	distance = 0,
 	svg = {},
 	position = [0,0],
@@ -17,7 +17,7 @@ function exploreTimeline({
 	status = 'off',
 	timerStartTime = 0,
 	timerElapsed = 0,
-	defaultValues = [ motusFilter.dtStart.valueOf(), motusFilter.dtEnd.valueOf() ]
+	defaultValues = [ motusFilter.dtStart.valueOf() / 1000, motusFilter.dtEnd.valueOf() / 1000 ]
 } = {}) {
 	timeline = {
 		el: el,
@@ -35,6 +35,7 @@ function exploreTimeline({
 		timerStartTime: timerStartTime,
 		timerElapsed: timerElapsed,
 		defaultValues: defaultValues,
+		animationStartVals: defaultValues,
 		animate: function(e) {
 			// So we can pause and restart the animation
 			e += timeline.timerElapsed;
@@ -60,9 +61,10 @@ function exploreTimeline({
 			}
 		},
 		animationEnd: function() {
+			
 			timeline.timerElapsed = 0;
 			timeline.timer.stop();
-			timeline.setSlider(timeline.position);
+			timeline.setSlider(timeline.animationStartVals);
 
 		//	if (!$(".filterButton").hasClass('selected')) {$(el).parent().hide();}
 	//		$('#explore_filters').css({marginBottom:"-" + $('#explore_filters').innerHeight() + "px"});
@@ -74,13 +76,12 @@ function exploreTimeline({
 
 			$(el).dragslider( 'values', position);
 
-			position = [moment.unix( position[0] ), moment.unix( position[1] )];
+			position = [new Date( position[0] * 1000 ), new Date( position[1] * 1000 )];
 
 
 			// Set the Motus data filters
 			motusFilter.dtStart = position[0];
 			motusFilter.dtEnd = position[1];
-
 			// Set the text in the slider handles
 		//	$('#filter_dates').text(( motusFilter.dtStart.toISOString().substr(0,10)) + " - " + ( motusFilter.dtEnd.toISOString().substr(0,10)));
 
@@ -207,6 +208,7 @@ function exploreTimeline({
 		step: timeline.step,
 		values: defaultValues,
 		create: function(e, ui) {
+
 			timeline.position = $(this).dragslider("values");
 		//	timeline.setSlider(timeline.position);
 		//	updateURL();
@@ -229,6 +231,8 @@ function exploreTimeline({
 
 
 function animateTimeline(el) {
+
+	timeline.animationStartVals = timeline.position;
 
 	timeline.distance = timeline.position[1] - timeline.position[0];
 
