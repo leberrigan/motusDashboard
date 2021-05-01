@@ -37,48 +37,47 @@ function exploreMapEditor() {
 
 function exploreMapAddStation(e) {
 
-  if (e) {
+  if (e && e.latlng) {
     console.log(e.latlng);
   }
 
   if ($(".explore-map-editor-wrapper").hasClass("add-station-view")) {
-    var newStation = {geometry: {
-                        type: 'Point',
-                        coordinates: [e.latlng.lng, e.latlng.lat]
-                      },
-                      type: "Feature"
-                    };
-    if (typeof motusData.addedStations == 'undefined') {
-      motusData.addedStations = [newStation];
-    } else {
-      motusData.addedStations.push(newStation);
-    }
+    if (e.latlng) {
+      var newStation = {geometry: {
+                          type: 'Point',
+                          coordinates: [e.latlng.lng, e.latlng.lat]
+                        },
+                        type: "Feature"
+                      };
+      if (typeof motusData.addedStations == 'undefined') {
+        motusData.addedStations = [newStation];
+      } else {
+        motusData.addedStations.push(newStation);
+      }
 
 
 
-    motusMap.addedStations = motusMap.g.selectAll('.explore-map-station-added')
-			.data(motusData.addedStations)
-			.enter().append("path")
-			.attr("d", motusMap.path.pointRadius(6))
-      .attr('class', d => 'explore-map-station leaflet-zoom-hide explore-map-station-added disable-filter')
-			.style('stroke', '#000')
-			.style('fill', '#FF0')
-      .style('stroke-width', d => d.geometry.type == 'Point' ? '1px' : '10px');
+      motusMap.addedStations = motusMap.g.selectAll('.explore-map-station-added')
+  			.data(motusData.addedStations)
+  			.enter().append("path")
+  			.attr("d", motusMap.path.pointRadius(6))
+        .attr('class', d => 'explore-map-station leaflet-zoom-hide explore-map-station-added disable-filter')
+  			.style('stroke', '#000')
+  			.style('fill', '#FF0')
+        .style('stroke-width', d => d.geometry.type == 'Point' ? '1px' : '10px');
 
-    console.log(motusMap.addedStations);
-
+      console.log(motusMap.addedStations);
+  }
     $(".explore-map-editor-wrapper").removeClass("add-station-view");
     $('#cursor_icon').remove();
     motusMap.map.off('click', exploreMapAddStation);
     motusMap.map.off('zoom', resizeStationRanges);
-    motusMap.svg.style('pointer-events', 'auto');
 
 
   } else {
     $(".explore-map-editor-wrapper").addClass("add-station-view");
     motusMap.map.on('click', exploreMapAddStation);
     motusMap.map.on('zoom', resizeStationRanges);
-    motusMap.map.style('pointer-events', 'none');
 
     editorStationRange = getPixelMetersByZoomLevel( $(".explore-map-editor-wrapper .add-station-range").slider("value") * 1000 );
 
