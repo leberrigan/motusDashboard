@@ -40,6 +40,7 @@ var icons = {
 	  '<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>'+
 	  '<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>'+
 	'</svg>',
+	share: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/></svg>',
 	map: '<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 27 27"><g transform="translate(0,-270.54167)"> <path d="m 1.3229166,294.35417 7.9375,-2.64583 7.9374994,2.64583 7.9375,-2.64583 V 273.1875 l -7.9375,2.64584 -7.9374994,-2.64584 -7.9375,2.64584 z" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> <path d="m 9.2604166,273.1875 v 18.52084" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> <path d="M 17.197916,294.35417 V 275.83334" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> </g></svg>',
 	pdf: '<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 41.659309 29.902843"><g inkscape:label="Layer 1" inkscape:groupmode="layer" transform="translate(-70.25338,-154.21364)"> <text xml:space="preserve" x="73.117455" y="170.28175" transform="scale(0.92485882,1.0812461)"><tspan sodipodi:role="line" x="73.117455" y="170.28175" style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:44.45785141px;font-family:\'Tw Cen MT Condensed\';-inkscape-font-specification:\'Tw Cen MT Condensed, Normal\';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:1.11144626">PDF</tspan></text> </g></svg>',
 	search: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="explore-search-btn tips" alt="Search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>',
@@ -698,16 +699,16 @@ function populateExploreControls() {
 	var toAppend = [];
 
 	if (exploreType != 'main') {
-		toAppend = ["filters", "timeline", "animate", "search", 'pdf'];
+		toAppend = ["filters", "timeline", "animate", "search", 'pdf', 'share'];
 	} else if ( ['regions', 'projects','species'].includes(dataType) ) {
 		toAppend = ["type"];
 		if (exploreType == 'main') {
 //			$('#explore_controls').addClass('data-summary');
 		}
 	} else if (dataType == 'stations') {
-		toAppend = ["filters", "timeline", "search", "edit", 'pdf'];
+		toAppend = ["filters", "timeline", "search", "edit", 'pdf', 'share'];
 	} else if (dataType == 'animals') {
-		toAppend = ["filters", "timeline", "animate", "search", "view", 'pdf'];
+		toAppend = ["filters", "timeline", "animate", "search", "view", 'pdf', 'share'];
 	}
 
 
@@ -739,7 +740,8 @@ function populateExploreControls() {
 						x == 'edit' ? "<label for='explore_controls_plan_layer_select'>Layers: </label><select id='explore_controls_plan_layer_select' style='width:200px' multiple='multiple'>"+
 															"<option selected='selected'>Active stations</option><option>Prospective stations</option><option>Regional coordination\n groups</option>"+
 													"</select>"+
-													"<button onclick='$(this).siblings(\"select\").select2(\"open\");'>Add layer</button>" :
+													"<button onclick='$(this).siblings(\"select\").select2(\"open\");'>Add layer</button>"+
+													"<button onclick='exploreMapAddStation()' class='submit_btn'>Add a prospective station</button>" :
 						(
 						x == 'pdf' ? "<input type='button' onclick='exploreControls(this.parentElement.parentElement);' value='Agree and Download' />" :
 						(
@@ -774,6 +776,11 @@ function populateExploreControls() {
 											`<button class='animate-play tips' alt='Play'>${icons.play}</button>`+
 											`<button class='animate-pause tips' alt='Pause'>${icons.pause}</button>`+
 											`<button class='animate-stop tips' alt='Stop'>${icons.stop}</button>`
+										) : x == 'share' ?
+										(
+											`<div class="fb-share-button"
+											data-href="${window.location.href}"
+											data-layout="button"></div>`
 										) : ""
 									)
 								)
@@ -832,6 +839,10 @@ function populateExploreControls() {
 	$("#explore_controls .toggleDisplay svg").click(function(){
 
 		$(this).parent().toggleClass('selected').siblings('.toggleDisplay.selected').toggleClass('selected');
+
+		if ($(this).parent().hasClass(`explore-map-${dataType}-edit`)) {
+			exploreMapEditor();
+		}
 
 	});
 
@@ -1933,81 +1944,5 @@ function updateData() {
 	motusMap.setVisibility();
 
 	updateURL();
-
-}
-
-function viewProspectiveStations() {
-	console.log('test')
-	if (typeof motusData.prospectiveStations !== "undefined") {
-
-		motusMap.g.selectAll('.explore-map-prospective-station.hidden').classed('hidden', false);
-
-	} else {
-
-		var load = Promise.all( [d3.json( filePrefix + "prospective_stations.geojson" )] ).then(function(response){
-
-				console.log('test')
-			motusData.prospectiveStations = response[0];
-
-			motusMap.g.selectAll('.explore-map-prospective-station')
-				.data(motusData.prospectiveStations.features)
-				.enter().append("path")
-				.attr("d", (d) => d.geometry.type == 'Point' ? motusMap.path.pointRadius(4)(d) : motusMap.path(d))
-				.style('stroke', '#000')
-				.style('fill', d => d.geometry.type == 'Point' ? '#FF0' : "none")
-				.attr('class', d => 'explore-map-station leaflet-zoom-hide explore-map-prospective-station disable-filter' + (d.geometry.type == 'Point' ? "" : " explore-map-station-line"))
-				.style('stroke-width', d => d.geometry.type == 'Point' ? '1px' : '10px')
-				.style('pointer-events', 'auto')
-				.on('touchstart', (e) => e.preventDefault())
-				.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'prospective-stations'))
-				.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'prospective-stations'))
-				.on('click', (e,d) => motusMap.dataClick(e, d, 'prospective-stations'));
-
-			motusMap.map.fire('zoomend');
-
-		});
-	}
-
-
-}
-
-
-function viewRegionalCoordinationGroups() {
-
-	if (typeof motusData.regionalGroups !== "undefined") {
-
-		motusMap.g.selectAll('.explore-map-regional-groups.hidden').classed('hidden', false);
-
-		$("#explore_controls .explore-map-stations-view a").text("Hide prospective stations");
-
-	} else {
-
-
-		var load = Promise.all( [d3.json( filePrefix + "motus-regional-collaboratives.geojson" )] ).then(function(response){
-
-			motusData.regionalGroups = response[0];
-
-			var regionalColourScale = d3.scaleOrdinal().domain(motusData.regionalGroups.features.map(x => x.id)).range(customColourScale.jnnnnn.slice(0, motusData.regionalGroups.features.length));
-
-			motusMap.g.selectAll('.explore-map-regional-groups')
-				.data(motusData.regionalGroups.features)
-				.enter().append("path")
-				.attr("d", d => motusMap.path(d))
-				.style('stroke', '#000')
-				.style('opacity', '0.5')
-				.style('fill', d => regionalColourScale(d.id))
-				.attr('class', 'leaflet-zoom-hide explore-map-region explore-map-regional-groups disable-filter')
-				.style('stroke-width', '1 px')
-				.style('pointer-events', 'auto')
-				.on('touchstart', (e) => e.preventDefault())
-				.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'regional-group'))
-				.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'regional-group'))
-				.on('click', (e,d) => motusMap.dataClick(e, d, 'regional-group'));
-
-			motusMap.map.fire('zoomend');
-
-		});
-	}
-
 
 }

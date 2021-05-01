@@ -1857,3 +1857,53 @@ svg.leaflet-image-layer.leaflet-interactive path {
     white-space: nowrap; /* Thanks to Herb Caudill comment */
 
 }
+
+
+/*
+
+	Motus editor
+
+*/
+
+.explore-map-editor-wrapper {
+	display:none;
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	line-height:125px;
+	background:#EEE;
+	z-index:4000;
+	text-align:center;
+}
+.explore-map-editor-wrapper.add-station-view {
+	background:#EFE;
+}
+#explore_map_editor {
+	display:inline-block;
+	vertical-align: bottom;
+  line-height: 30px;
+	padding-bottom:5px;
+}
+#explore_map_editor .explore-control-hidden {
+	display:inline-block;
+}
+.explore-map-editor-wrapper.add-station-view #explore_map_editor {
+	display:none;
+}
+.explore-map-editor-wrapper .add-station-info {
+	display:none;
+}
+.explore-map-editor-wrapper.add-station-view .add-station-info {
+	display:inline-block;
+	vertical-align: bottom;
+  line-height: 30px;
+	padding-bottom:5px;
+}
+
+#cursor_icon {
+	position:absolute;
+	z-index:9999;
+	cursor:crosshair;
+	pointer-events:none;
+}

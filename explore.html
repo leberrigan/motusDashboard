@@ -6,6 +6,15 @@
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 
 			<title>Explore Data</title>
+			<!-- You can use Open Graph tags to customize link previews.
+			Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
+			<meta property="og:url"           content="https://leberrigan.github.io/motusDashboard/explore.html" />
+			<meta property="og:type"          content="website" />
+			<meta property="og:title"         content="Motus Wildlife Tracking System - Explore Data" />
+			<meta property="og:description"   content="Explore the tracks of all the animals in our database using this tool." />
+			<meta property="og:image"         content="images/motus-logo-lg.png" />
+
+
  			<link rel='shortcut icon' href='favicon.ico'>
 			<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
 			<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"/>
@@ -49,10 +58,8 @@
 			<script src="timeline.js"></script>
 			<script src="map.js"></script>
 			<script src="explore.js"></script>
-			<script src="regions.js"></script>
-			<script src="stations.js"></script>
-			<script src="projects.js"></script>
 			<script src="summary.js"></script>
+			<script src="editor.js"></script>
 		</head>
 		<body>
 			<!-- Start your code here -->
@@ -101,7 +108,15 @@
 				<img src='images/birds-canada-logo-invert.png' alt="Visit Birds Canada" class='birds-canada-logo tips' />
 
 			</div>
-
+			<!-- Load Facebook SDK for JavaScript -->
+				<div id="fb-root"></div>
+				<script>(function(d, s, id) {
+				var js, fjs = d.getElementsByTagName(s)[0];
+				if (d.getElementById(id)) return;
+				js = d.createElement(s); js.id = id;
+				js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+				fjs.parentNode.insertBefore(js, fjs);
+				}(document, 'script', 'facebook-jssdk'));</script>
 			<!-- End your code here -->
 		</body>
 	</html>

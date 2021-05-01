@@ -92,7 +92,7 @@ function exploreMap({
 					)
 				);
 
-			if (d.colourVal == "other") { console.log("End date: ", d.dtEnd.toISOString().substr(0,10)  );  console.log("Start date: ", d.dtStart.toISOString().substr(0,10) ); }
+		//	if (d.colourVal == "other") { console.log("End date: ", d.dtEnd.toISOString().substr(0,10)  );  console.log("Start date: ", d.dtStart.toISOString().substr(0,10) ); }
 
 			return !visibility;
 
