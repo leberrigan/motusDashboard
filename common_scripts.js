@@ -134,7 +134,12 @@ window.mobileCheck = function() {
 function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
 }
-
+jQuery.fn.d3Click = function () {
+  this.each(function (i, e) {
+    var evt = new MouseEvent("click");
+    e.dispatchEvent(evt);
+  });
+};
 jQuery.fn.cleanWhitespace = function() {
 	this.contents().filter(
 		function() { return (this.nodeType == 3 && !/\S/.test(this.nodeValue)); })

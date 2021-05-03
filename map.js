@@ -359,6 +359,28 @@ function exploreMap({
 				$('.tooltip').hide();
 			}
 		},
+		popup: function(location, content, remove) {
+
+		//	if (remove) {
+				$(".popup").remove();
+		//	}
+
+			$("body").append("<div class='popup'><div class='popup-topbar'><div class='popup-topbar-close'>X</div></div><div class='popup-content'></div></div>");
+			$(".popup").draggable({handle: ".popup-topbar"});
+			$(".popup .popup-topbar .popup-topbar-close").click(function(){$(".popup").remove();});
+
+			$('.popup .popup-content').html(content);
+
+			initiateTooltip($('.popup .popup-content .tips'));
+
+			if (location.left + $('.popup').outerWidth() > $(window).width()) {
+				location.left = location.left - $('.popup').outerWidth() - 30;
+			}
+
+			$('.popup').css(location);
+
+			$('.popup:hidden').show();
+		},
 		dataClick: function(e, d, t) {
 			if (t == 'station') {
 
@@ -372,37 +394,52 @@ function exploreMap({
 				*/	motusMap.map.fitBounds(d.bounds, {padding:[0,0], maxZoom: 200});
 				} else {
 					console.log(d)
-					viewProfile('stations', d.id);
+					var content = "<center><h3>"+
+													d.name+
+												"</h3></center>"+
+												`<a class='question tips' alt='Active stations are currently collecting data. Terminated stations are not.'>`+
+													`Status: ${d.status}`+
+												"</a>"+
+												"<br/>"+
+											  `Deployed on: ${d.dtStart.toISOString().substr(0,10)}`+
+												"<br/>"+
+												`${d.nAnimals} animals of ${d.nSpp} species detected`+
+												"<br/>"+
+												"<br/>"+
+												`<center><button class='view_btn submit_btn' onclick='viewProfile(\"stations\", ${d.id})'>View station profile</button>`+
+												"<button class='close_btn' onclick='$(this).closest(\".popup\").find(\".popup-topbar-close\").click()'>Close popup</button></center>"
+
+					var location = {top:e.pageY - 10, left:e.pageX + 15};
+
+					motusMap.popup(location, content);
+
 				}
 
 			} else if (t == 'prospective-stations') {
-				$(".popup").remove();
-				$("body").append("<div class='popup'><div class='popup-topbar'><div class='popup-topbar-close'>X</div></div><div class='popup-content'></div></div>");
-				$(".popup").draggable({handle: ".popup-topbar"});
-				$(".popup .popup-topbar .popup-topbar-close").click(function(){$(".popup").remove();});
-				$('.popup .popup-content').html(
-					"<center><h3>"+
-						d.properties.name+
-					"</h3></center>"+
-						`<a class='question tips' alt='${(d.properties.status?"":"Prospective stations indicate desired locations for new stations but no plans exist for an installation.")}'>`+
-							`Status: ${(d.properties.status?d.properties["contact.name"]:"Prospective</a>")}`+
-						"</a>"+
-						"<br/>"+
-						"<br/>"+
-						"<center><button class='submit_btn'>Edit</button>"+
-						"<button class='close_btn'>Remove</button></center>"
-					);
+				console.log('test');
+				var content =	"<div class='popup-content-main'><center><h3>"+
+												d.properties.name+
+											"</h3></center>"+
+												`<a class='question tips' alt='${(d.properties.status?"":"Prospective stations indicate desired locations for new stations but no plans exist for an installation.")}'>`+
+													`Status: ${(d.properties.status?d.properties["contact.name"]:"Prospective</a>")}`+
+												"</a>"+
+												"<br/>"+
+												"<br/>"+
+												"<center><button class='edit_btn submit_btn' onclick='editStationMeta($(this).closest(\".popup\").get(0))'>Edit</button>"+
+												"<button class='close_btn'>Remove</button></center></div>"+
+												`<div class='popup-content-editor'>`+
+													`<center><h3>Station properties</h3></center>`+
+		                      `Name: <input type='text' value='${d.properties.name}'><br/>`+
+		                      `Status: <select><option selected='selected'>Prospective</option><option>Planned</option><option>Retired</option></select><br/>`+
+		                      `Contact name: <input type='text' value='${d.properties["contact.name"]}'><br/>`+
+		                      `Contact email: <input type='text' value='${d.properties.email}'>`+
+													"<center><button class='save_btn submit_btn' onclick='editStationMeta($(this).closest(\".popup\").get(0), true)'>Save</button>"+
+													"<button class='cancel_btn close_btn' onclick='editStationMeta($(this).closest(\".popup\").get(0), false)'>Cancel</button></center>"+
+		                    `</div>`;
 
-				initiateTooltip($('.popup .popup-content .tips'));
+				var location = {top:e.pageY - 10, left:e.pageX + 15};
 
-				if (e.pageX + 15 + $('.popup').outerWidth() > $(window).width()) {
-					$('.popup').css({top:e.pageY - 10, left:e.pageX - $('.popup').outerWidth() - 15});
-				} else {
-					$('.popup').css({top:e.pageY - 10, left:e.pageX + 15});
-				}
-
-				$('.popup:hidden').show();
-
+				motusMap.popup(location, content);
 
 			} else if (t == 'regional-group') {
 				$(".popup").remove();

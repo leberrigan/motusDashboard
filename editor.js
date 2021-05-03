@@ -37,15 +37,17 @@ function exploreMapEditor() {
 
 function exploreMapAddStation(e) {
 
-  if (e && e.latlng) {
-    console.log(e.latlng);
-  }
-
   if ($(".explore-map-editor-wrapper").hasClass("add-station-view")) {
     if (e.latlng) {
       var newStation = {geometry: {
                           type: 'Point',
                           coordinates: [e.latlng.lng, e.latlng.lat]
+                        },
+                        properties: {
+                          status: 'new',
+                          name: '',
+                          "contact.name": '',
+                          notes: ''
                         },
                         type: "Feature"
                       };
@@ -55,8 +57,6 @@ function exploreMapAddStation(e) {
         motusData.addedStations.push(newStation);
       }
 
-
-
       motusMap.addedStations = motusMap.g.selectAll('.explore-map-station-added')
   			.data(motusData.addedStations)
   			.enter().append("path")
@@ -64,10 +64,17 @@ function exploreMapAddStation(e) {
         .attr('class', d => 'explore-map-station leaflet-zoom-hide explore-map-station-added disable-filter')
   			.style('stroke', '#000')
   			.style('fill', '#FF0')
-        .style('stroke-width', d => d.geometry.type == 'Point' ? '1px' : '10px');
+  			.style('pointer-events', 'auto')
+        .style('stroke-width', d => d.geometry.type == 'Point' ? '1px' : '10px')
+        .on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'prospective-stations'))
+        .on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'prospective-stations'))
+        .on('click', (e,d) => motusMap.dataClick(e, d, 'prospective-stations'));
 
-      console.log(motusMap.addedStations);
-  }
+      motusMap.dataClick(e.originalEvent, newStation, 'prospective-stations');
+
+      $('.popup .edit_btn').last().click();
+
+    }
     $(".explore-map-editor-wrapper").removeClass("add-station-view");
     $('#cursor_icon').remove();
     motusMap.map.off('click', exploreMapAddStation);
@@ -85,7 +92,7 @@ function exploreMapAddStation(e) {
 
     resizeStationRanges();
 
-		$(`#${motusMap.el}`).mousemove(moveCursorIcon);
+  	$(`#${motusMap.el}`).mousemove(moveCursorIcon);
 
   }
 
@@ -93,6 +100,17 @@ function exploreMapAddStation(e) {
     $('#cursor_icon').css({top:e.pageY - (editorStationRange*2), left:e.pageX - (editorStationRange*2)});
   }
 
+
+}
+function editStationMeta(popup, save) {
+
+  $(popup).toggleClass('edit-mode');
+
+  if (save) {
+
+    
+
+  }
 
 }
 
@@ -106,6 +124,8 @@ function resizeStationRanges(){
                             `<circle r='5' cx='${svgSize*2}' cy='${svgSize*2}' stroke='#000000' stroke-width='1px' fill='#FF0' />`+
                             `<circle r='${editorStationRange}' cx='${svgSize*2}' cy='${svgSize*2}' stroke='#000000' stroke-width='1px' fill='#999' fill-opacity='0.25' />`+
                          `</svg>`);
+
+	$(`#${motusMap.el}`).trigger("mousemove");
 
 }
 function getPixelMetersByZoomLevel( meters, pixels ) {
