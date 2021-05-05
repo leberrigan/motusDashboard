@@ -283,7 +283,9 @@ var dataColNames = {
 		english: "English",
 		french: "Français",
 		spanish: "Español",
-		scientific: "Scientific"
+		scientific: "Scientific",
+		animals: "Animals",
+		projects: "Projects"
 	},
 	regions: {
 		country: "Country",

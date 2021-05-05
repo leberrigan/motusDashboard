@@ -40,6 +40,11 @@ var icons = {
 	  '<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>'+
 	  '<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>'+
 	'</svg>',
+	regions: "",
+	projects: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" class="explore-map-edit-btn tips" alt="Open station planner">'+
+	  '<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>'+
+	  '<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>'+
+	'</svg>',
 	share: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/></svg>',
 	map: '<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 27 27"><g transform="translate(0,-270.54167)"> <path d="m 1.3229166,294.35417 7.9375,-2.64583 7.9374994,2.64583 7.9375,-2.64583 V 273.1875 l -7.9375,2.64584 -7.9374994,-2.64584 -7.9375,2.64584 z" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> <path d="m 9.2604166,273.1875 v 18.52084" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> <path d="M 17.197916,294.35417 V 275.83334" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> </g></svg>',
 	pdf: '<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 41.659309 29.902843"><g inkscape:label="Layer 1" inkscape:groupmode="layer" transform="translate(-70.25338,-154.21364)"> <text xml:space="preserve" x="73.117455" y="170.28175" transform="scale(0.92485882,1.0812461)"><tspan sodipodi:role="line" x="73.117455" y="170.28175" style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:44.45785141px;font-family:\'Tw Cen MT Condensed\';-inkscape-font-specification:\'Tw Cen MT Condensed, Normal\';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:1.11144626">PDF</tspan></text> </g></svg>',
@@ -521,20 +526,47 @@ function exploreSummaryTabSelect(selectedTab) {
 						select: {
 							style: multi?"multi+shift":"single"
 						},
-						order: [[ multi?1:0, 'asc' ]],
+						order: [[ multi ? 1 : 0, 'asc' ]],
 						dom: '<"explore-table-header-controls"fi>lpti'
 
 					};
-				var cols = selectedTab == 'projects' ? ['id', 'project_name', 'fee_id', 'stations', 'animals'] : (selectedTab == 'regionTable' ? ['country', 'stations', 'animals'] : ['english', 'scientific', 'group', 'code', 'sort']);
+				var cols = selectedTab == 'projects' ? ['id', 'project_name', 'fee_id', 'stations', 'animals'] : (selectedTab == 'regionTable' ? ['country', 'stations', 'animals'] : ['english', 'scientific', 'animals', 'projects', 'group', 'code', 'sort']);
+				opts.columnDefs = [];
+
+				if (selectedTab == 'species') {
+
+
+					opts.order = [[6, 'asc']];
+
+					opts.columns = [];
+					for (var i in cols) {
+						opts.columns.push({
+							data: cols[i],
+							title: dataColNames[selectedTab][cols[i]],
+							createdCell: cols[i] == 'animals' ? function(td, cdata, rdata){
+								$(td).html(`<a href='javascript:void(0);' class='tips' alt='View list of animals'>${rdata.animals.split(',').length}</a>`).css('text-align', 'center');
+								} : cols[i] == 'projects' ? function(td, cdata, rdata){
+								$(td).html(`<a href='javascript:void(0);' class='tips' alt='View list of projects'>${rdata.projects.split(',').length}</a>`).css('text-align', 'center');
+							} : null,
+							className: "",
+				      searchable: i != 6,
+	      			visible: !(i == 4 || i == 5 || i == 6),
+							orderable: !(i == 4 || i == 5),
+							orderData: i == 1 ? [6, 1] : i
+						});
+					}
+
+					console.log(opts.columns);
+				}
 
 				if (multi) {
 
-					opts.columnDefs = [{
+					opts.columnDefs.push({
 							targets: 0,
 							data: null,
 							defaultContent: '',
 							orderable: false,
-							className: 'select-checkbox' }];
+							className: 'select-checkbox' });
 
 				//	opts.select.selector = 'td:first-child';
 
@@ -1042,7 +1074,7 @@ function afterMapLoads() {
 
 		if ( ["regions", "projects", "species"].includes(dataType) ) {
 			console.log(dataType);
-						exploreSummaryTabSelect(dataType);
+			exploreSummaryTabSelect(dataType);
 		}
 /*
 		if (dataType == 'regions') {
@@ -1336,18 +1368,20 @@ function loadDataTable(tbl, columns, options, onEvent) {
 	}
 
 	console.log(columns);
-	var columnNames = columns.filter(x=>x==="").concat(Object.keys(dataset[0]).filter(x => typeof columns === 'undefined' || columns.includes(x)));
+	if (typeof options.columns === "undefined") {
+		var columnNames = columns.filter(x=>x==="").concat(Object.keys(dataset[0]).filter(x => typeof columns === 'undefined' || columns.includes(x)));
 
-	var columns = [];
-	console.log(tbl);
-	console.log(columnNames);
+		var columns = [];
+		console.log(tbl);
+		console.log(columnNames);
 
-	for (var i in columnNames) {
-		columns.push({
-			data: columnNames[i],
-			title: dataColNames[tbl][columnNames[i]],
-			className: ""
-		});
+		for (var i in columnNames) {
+			columns.push({
+				data: columnNames[i],
+				title: dataColNames[tbl][columnNames[i]],
+				className: ""
+			});
+		}
 	}
 	if ($.fn.DataTable.isDataTable("#explore_table")) {
 		$("#explore_table").DataTable().clear().destroy();
@@ -1355,6 +1389,14 @@ function loadDataTable(tbl, columns, options, onEvent) {
 
 	$("#explore_table").html("");
 	console.log(options);
+	if (typeof options.columns !== 'undefined') {
+		options = {
+			...{
+				data: dataset
+			},
+			...options
+		};
+	}
 	if (typeof options !== 'undefined') {
 		options = {
 			...{
@@ -1495,7 +1537,7 @@ function addExploreCard(card) {
 			headers.forEach(function(x){profiles_header += "<th class='"+(x.toLowerCase().replace(' ','-'))+"'>"+x+"</th>";});
 
 			if ($("#explore_card_profiles").length == 0) {
-				$("#exploreContent .explore-card-wrapper").append("<div class='explore-card' id='explore_card_profiles'><div class='explore-card-profiles-name'>"+card.name+"</div><table><thead><tr class='explore-card-profiles-header'>"+profiles_header+"<th></th></tr></thead><tbody class='explore-card-profiles-wrapper'></tbody></table><div class='explore-card-add explore-card-"+exploreType+"' alt='Add a "+exploreType+"'><select class='explore-card-add-"+exploreType+"' data-placeholder='Select a "+exploreType+"' style='width:300px;'><option></option></select></div><div class='explore-card-profiles-toggles'></div><div class='explore-card-profiles-tabs'><div class='expand-menu-btn'>"+icons.expand+"</div></div></div>");
+				$("#exploreContent .explore-card-wrapper").append("<div class='explore-card' id='explore_card_profiles'><div class='explore-card-profiles-name'>"+icons[exploreType]+"&nbsp;&nbsp;&nbsp;"+card.name+"</div><table><thead><tr class='explore-card-profiles-header'>"+profiles_header+"<th></th></tr></thead><tbody class='explore-card-profiles-wrapper'></tbody></table><div class='explore-card-add explore-card-"+exploreType+"' alt='Add a "+exploreType+"'><select class='explore-card-add-"+exploreType+"' data-placeholder='Select a "+exploreType+"' style='width:300px;'><option></option></select></div><div class='explore-card-profiles-toggles'></div><div class='explore-card-profiles-tabs'><div class='expand-menu-btn'>"+icons.expand+"</div></div></div>");
 			//	$("#exploreContent .explore-card-wrapper").append("<div class='explore-card' id='explore_card_profiles'><div class='explore-card-profiles-name'>"+card.name+"</div><div class='explore-card-profiles-header'>"+profiles_header+"<th></th></tr></thead><tbody class='explore-card-profiles-wrapper'></tbody></table>"+
 		//		"<div class='explore-card-add explore-card-"+exploreType+"' alt='Add a "+exploreType+"'><select class='explore-card-add-"+exploreType+"' data-placeholder='Select a "+exploreType+"' style='width:300px;'><option></option></select></div><div class='explore-card-profiles-toggles'></div><div class='explore-card-profiles-tabs'><div class='expand-menu-btn'>"+icons.expand+"</div></div></div>");
 				/*$(".explore-card-profiles-controls").append("<button class='explore-card-more-details'>More details</button>"+

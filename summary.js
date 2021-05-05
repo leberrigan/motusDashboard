@@ -1185,7 +1185,9 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 													dtEnd: moment(d3.max(v, d => d.dtEnd)),
 													nAnimals: v.map(x => x.animals.split(';')).flat().filter(onlyUnique).length,
 													nSpp: v.map(x => x.species.split(';')).flat().filter(onlyUnique).length,
-													country: v[0].country
+													country: v[0].country,
+													projID: v[0].projID.split(',')[0],
+													projName: motusData.projects.filter(x => x.id == v[0].projID.split(',')[0])[0].project_name
 												}),
 												d => d.name
 											).values()
@@ -1217,7 +1219,12 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 						$(td).html( `${(moment().diff(cdata, 'day') < 1 ? "Active" : "Ended on:<br/>" + cdata.toISOString().substr(0,10) )}` );
 					}},
 					{data: "nAnimals", title: "Number of Animals"},
-					{data: "nSpp", title: "Number of Species"}
+					{data: "nSpp", title: "Number of Species"},
+					{data: "projName", title: "Project", "createdCell": function(td, cdata, rdata){
+						$(td).html(
+							`<a href='javascript:void(0);' onclick='viewProfile("projects", [${rdata.projID}]);'>${rdata.projName}</a>`
+						);
+					}}
 				],
 				dom: tableDom,
 				autoWidth: false,
@@ -1498,7 +1505,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 									""//rdata.country[0] != "NA" ? `<div class='explore-card-table-legend-icon' style='border-color:${colourScale( rdata.country[0] )}'></div>` : ""
 								)
 							)+
-							`<a href='javascript:void(0);' onclick='viewProfile("species", [${rdata.species}]);'>${rdata.name}</a>`
+							`<a href='javascript:void(0);' class='tips' alt='View species profile' onclick='viewProfile("species", [${rdata.species}]);'>${rdata.name}</a>`
 						);
 					}},
 					{data: "nAnimals", title: "Animals detected"},
@@ -1514,6 +1521,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 				order: [[4, 'asc']]
 			});
 
+			initiateTooltip("#explore_card_" + cardID + " .explore-card-" + cardID + "-speciesTable");
 
 				$(`#explore_card_${cardID} .explore-card-${cardID}-speciesTable tbody`).on('click', `td.explore-table-expandRow`, function(){
 					var tr = $(this).closest('tr');
@@ -1537,10 +1545,10 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 					row.child().find('.explore-species-table-animals table').DataTable({
 							data: motusData.animalsTableData.filter( d => d.species == row.data().species ),
 							columns: [
-								{data: "name", title: "Species", "createdCell": function(td, cdata, rdata){
+								{data: "name", title: "Animal", "createdCell": function(td, cdata, rdata){
 									$(td).html(
 															`<div class='explore-card-table-legend-icon' style='border-color:${colourScale(rdata.country)}'></div>`+
-															`<a href='javascript:void(0);' onclick='viewProfile("species", [${rdata.species}]);'>${rdata.name}</a>`
+															`<a href='javascript:void(0);' class='tips' alt='View animal profile' onclick='viewProfile("animals", [${rdata.id}]);'>${rdata.name} #${rdata.id}</a>`
 														);
 								}},
 								{data: "dtStart", title: "Release date"},
@@ -1549,13 +1557,15 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 								{data: "nDays", title: "Days detected"},
 								{data: "projName", title: "Project", "createdCell": function(td, cdata, rdata){
 									$(td).html(
-										`<a href='javascript:void(0);' onclick='viewProfile("project", [${rdata.projID}]);'>${rdata.projName}</a>`
+										`<a href='javascript:void(0);' onclick='viewProfile("projects", [${rdata.projID}]);'>${rdata.projName}</a>`
 									);
 								}}
 							],
 							dom: tableDom,
 							autoWidth: false
 						});
+
+						initiateTooltip(row.child());
 
 						tr.addClass('shown');
 					}

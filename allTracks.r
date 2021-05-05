@@ -85,10 +85,10 @@ allTracks.df <- allTracks.df.raw %>%
             dtStart = paste(as.Date(as.POSIXct(ts1, origin = '1970-01-01')), collapse=','),
       #      dtStart = (as.Date(as.POSIXct(min(ts1, na.rm = T), origin = '1970-01-01'))),
       #      dtEnd = (as.Date(as.POSIXct(max(ts2, na.rm = T), origin = '1970-01-01'))))
-            dtEnd = paste(as.Date(as.POSIXct(ts2, origin = '1970-01-01')), collapse=','),
-            dist = distHaversine(c(lon1, lat1), c(lon2, lat2)),
-            dir = paste(dir, collapse=','),
-            time_elapsed = hours(paste(difftime(as.POSIXct(ts1, origin = '1970-01-01'), as.POSIXct(ts2, origin = '1970-01-01')), collapse=',')))
+            dtEnd = paste(as.Date(as.POSIXct(ts2, origin = '1970-01-01')), collapse=','))#,
+         #   dist = distHaversine(c(lon1, lat1), c(lon2, lat2)),
+        #    dir = paste(dir, collapse=','),
+        #    time_elapsed = paste(as.integer(round(difftime(as.POSIXct(ts1, origin = '1970-01-01'), as.POSIXct(ts2, origin = '1970-01-01'), units = 'hours'), collapse=','))))
 
 allTracks.df %>%  write.csv(paste0(dashboard.dir,'siteTrans_real2.csv'), row.names = F)
   

@@ -224,7 +224,7 @@ recvDeps.df %>%
   group_by
 ggplot(aes())
 
-tagDeps.df <- read.csv(paste0(dir, 'tag-deployments.csv')) %>%
+tagDeps.df <- read.csv(paste0(data.dir, 'tag-deployments.csv')) %>%
   mutate(dtStart = as.Date(dtStart),
          dtEnd = as.Date(dtEnd, format = '%Y-%m-%d %H:%M'),
          dtEnd = as.Date(ifelse(is.na(dtEnd), dtStart + days(lifespan), dtEnd), origin = '1970-01-01'),
@@ -233,7 +233,7 @@ tagDeps.df <- read.csv(paste0(dir, 'tag-deployments.csv')) %>%
 tagDeps.df %>% head
 
 
-tags.df <- read.csv(paste0(dir, 'tags.csv')) %>%
+tags.df <- read.csv(paste0(data.dir, 'tags.csv')) %>%
   dplyr::select(tagID, 
                 model, 
                 frequency = nomFreq,
@@ -257,7 +257,7 @@ tagDeps2.df <- tagDeps.df %>%
 tagDeps2.df %>%
   write.csv(paste0(dashboard.dir, 'tag-deps.csv'), row.names = F)
 
-projs.df <- read.csv(paste0(dir, 'motus-projects.csv')) %>% 
+projs.df <- read.csv(paste0(data.dir, 'motus-projects.csv')) %>% 
   mutate(dtCreated = as.Date(createdDt, format = '%Y-%m-%d %H:%M'))
 
 projs.df %>% dplyr::select(id = projectID,
@@ -268,9 +268,17 @@ projs.df %>% dplyr::select(id = projectID,
                     shortDescription = descriptionShort) %>%
   write.csv(paste0(dashboard.dir, 'projs.csv'), row.names = F)
 
-species.df <- read.csv(paste0(dir, 'species.csv')) %>% 
+species.stats.df <- tagDeps2.df %>%
+  filter(!is.na(species)) %>%
+  group_by(species) %>%
+  summarise(animals = paste(deployID, collapse = ','),
+            projects = paste(projID, collapse = ','))
+
+species.df <- read.csv(paste0(data.dir, 'species.csv')) %>% 
+  left_join(species.stats.df, by = c('id' = 'species')) %>%
   filter(id %in% unique(tagDeps.df$speciesID)) %>%
   arrange(sort)
+
 
 species.df %>% head
 

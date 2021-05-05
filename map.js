@@ -317,14 +317,17 @@ function exploreMap({
 						);
 				} else if (t == 'region') {
 
-					$('.tooltip').html(
-						"<big>"+
-							d.properties.name+
-						"</big>"+
-							(motusData.regionByCode.get(d.properties.adm0_a3)[0].stations>0?("</br>" + icons.station + motusData.regionByCode.get(d.properties.adm0_a3)[0].stations + " Stations"):"")+
-							(motusData.regionByCode.get(d.properties.adm0_a3)[0].animals>0?("</br>" + icons.species + motusData.regionByCode.get(d.properties.adm0_a3)[0].animals + " Animals"):"")+
-						"</br>(Click to view)"
-					);
+					var region = motusData.regionByCode.get(d.properties.adm0_a3)[0];
+
+					$('.tooltip').html("<center><h3>"+
+												d.properties.name+
+											"</h3></center>"+
+											`<table style="width:100%;text-align:center;font-size:14pt;"><tbody>`+
+												`<tr><td>${region.animals} ${icons.animals}</td><td style="padding-left: 10px;">${region.stations} ${icons.station}</td></tr>`+
+												`<tr><td><b>Animal${region.animals==1?"":"s"}</b></td><td style="padding-left: 10px;"><b>Station${region.stations==1?"":"s"}</b></td></tr>`+
+											`</tbody></table>`+
+											"<br/>"+
+											"<center>Click to view profile</center>");
 
 				} else if (t == 'station') {
 					$('.tooltip').html(
@@ -333,9 +336,36 @@ function exploreMap({
 						"</big>"+
 						"<br/>"+
 						`<em><b>${d.nAnimals} animal${d.nAnimals==1?"":"s"}</b></em> of <em><b>${d.nSpp} species</b></em> detected`+
-						"</br>(Click to view details)"
+						"</br>Click to view profile"
 					);
 
+					if (d.group > 1) {
+						$('.tooltip').html(
+							"<big>"+
+								d.group + " Stations"+
+							"</big>"+
+							"<br/>"+
+							`<em><b>${d.nAnimals} animal${d.nAnimals==1?"":"s"}</b></em> of <em><b>${d.nSpp} species</b></em> detected`+
+							"</br>Click to zoom"
+						);
+					} else {
+						$('.tooltip').html("<center><h3>"+
+													icons.station + "&nbsp;&nbsp;&nbsp;" + d.name +
+												"</h3></center>"+
+											  `<b>Deployed on: </b>${d.dtStart.toISOString().substr(0,10)}`+
+												"<br/>"+
+												`<a class='question tips' alt='Active stations are currently collecting data. Terminated stations are not.'>`+
+													`<b>Current status: </b>${d.status}`+
+												"</a>"+
+												"<br/>"+
+												"<br/>"+
+												`<table style="width:100%;text-align:center;font-size:14pt;"><tbody>`+
+													`<tr><td>${d.nAnimals} ${icons.animals}</td><td style="padding-left: 10px;">${d.nSpp} ${icons.species}</td></tr>`+
+													`<tr><td><b>Animal${d.nAnimals==1?"":"s"}</b></td><td style="padding-left: 10px;"><b>Species</b></td></tr>`+
+												`</tbody></table>`+
+												"<br/>"+
+												"<center>Click to view profile</center>");
+					}
 				} else {
 
 					var filterName = motusFilter.colour;
@@ -400,8 +430,11 @@ function exploreMap({
 
 					motusMap.rect = L.polyline(line, {className: 'no-hover'}).addTo(motusMap.map);
 					//motusMap.rect = L.rectangle(d.bounds, {color: 'blue', weight: 1}).addTo(motusMap.map);
-				*/	motusMap.map.fitBounds(d.bounds, {padding:[0,0], maxZoom: 200});
+				*/
+					motusMap.map.fitBounds(d.bounds, {padding:[0,0], maxZoom: 200});
 				} else {
+					viewProfile("stations", d.id)
+					/*
 					console.log(d)
 					var content = "<center><h3>"+
 													d.name+
@@ -420,7 +453,7 @@ function exploreMap({
 
 					var location = {top:e.pageY - 10, left:e.pageX + 15};
 
-					motusMap.popup(location, content);
+					motusMap.popup(location, content);*/
 
 				}
 
@@ -1131,6 +1164,8 @@ function loadMapObjects(callback) {
 					var localAnimals = v.map(x => x.localAnimals.split(';')).flat().filter(onlyUnique);
 					var species = v.map(x => x.species.split(';')).flat().filter(onlyUnique);
 
+					var currentDate = moment().toISOString().substr(0,10);
+
 					if (!station_freqs.includes(v[0].frequency)) {station_freqs.push(v[0].frequency);}
 					//recvDepsLink.push([+row.lon, +row.lat, +row.id]);
 					if (!(isNaN(+v[0].lon) || isNaN(+v[0].lon))) {
@@ -1142,7 +1177,7 @@ function loadMapObjects(callback) {
 							type: "Point",
 							coordinates: [+v[0].lon, +v[0].lat]
 						},
-						status: (Array.from(v.map( d => d.dtEnd ).values()).includes('NA') ? 'active' : 'expired'),
+						status: (Array.from(v.map( d => d.dtEnd ).values()).some( d => ['NA', currentDate].includes(d) ) ? 'active' : 'expired'),
 						frequency: v[0].frequency,
 						name: v[0].name,
 						projID: Array.from(v.map( d => d.projID ).values()).filter(onlyUnique).join(','),
