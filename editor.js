@@ -37,15 +37,25 @@ function exploreMapEditor() {
 
 function exploreMapAddStation(e) {
 
-  if (e && e.latlng) {
-    console.log(e.latlng);
-  }
-
   if ($(".explore-map-editor-wrapper").hasClass("add-station-view")) {
+
+    // Hide station antenna ranges
+    if (!$("#explore_map_editor #explore_controls_plan_layer_select").val().includes("Antenna ranges")) {
+    	motusMap.g.selectAll('.explore-map-antenna-range').classed('hidden', true);
+    }
+
+
+    // Add the station to the map
     if (e.latlng) {
       var newStation = {geometry: {
                           type: 'Point',
                           coordinates: [e.latlng.lng, e.latlng.lat]
+                        },
+                        properties: {
+                          status: 'new',
+                          name: '',
+                          "contact.name": '',
+                          notes: ''
                         },
                         type: "Feature"
                       };
@@ -55,8 +65,6 @@ function exploreMapAddStation(e) {
         motusData.addedStations.push(newStation);
       }
 
-
-
       motusMap.addedStations = motusMap.g.selectAll('.explore-map-station-added')
   			.data(motusData.addedStations)
   			.enter().append("path")
@@ -64,10 +72,21 @@ function exploreMapAddStation(e) {
         .attr('class', d => 'explore-map-station leaflet-zoom-hide explore-map-station-added disable-filter')
   			.style('stroke', '#000')
   			.style('fill', '#FF0')
-        .style('stroke-width', d => d.geometry.type == 'Point' ? '1px' : '10px');
+  			.style('pointer-events', 'auto')
+        .style('stroke-width', d => d.geometry.type == 'Point' ? '1px' : '10px')
+        .on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'prospective-stations'))
+        .on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'prospective-stations'))
+        .on('click', (e,d) => motusMap.dataClick(e, d, 'prospective-stations'));
 
-      console.log(motusMap.addedStations);
-  }
+      motusMap.dataClick(e.originalEvent, newStation, 'prospective-stations');
+
+      $('.popup .edit_btn').last().click();
+
+    }
+
+    // Reset the editor view
+
+
     $(".explore-map-editor-wrapper").removeClass("add-station-view");
     $('#cursor_icon').remove();
     motusMap.map.off('click', exploreMapAddStation);
@@ -75,6 +94,14 @@ function exploreMapAddStation(e) {
 
 
   } else {
+
+    // Show the station antenna ranges
+    if (!$("#explore_map_editor #explore_controls_plan_layer_select").val().includes("Antenna ranges")) {
+      viewAntennaRanges();
+    }
+
+    // Change the editor view
+
     $(".explore-map-editor-wrapper").addClass("add-station-view");
     motusMap.map.on('click', exploreMapAddStation);
     motusMap.map.on('zoom', resizeStationRanges);
@@ -85,7 +112,7 @@ function exploreMapAddStation(e) {
 
     resizeStationRanges();
 
-		$(`#${motusMap.el}`).mousemove(moveCursorIcon);
+  	$(`#${motusMap.el}`).mousemove(moveCursorIcon);
 
   }
 
@@ -93,6 +120,17 @@ function exploreMapAddStation(e) {
     $('#cursor_icon').css({top:e.pageY - (editorStationRange*2), left:e.pageX - (editorStationRange*2)});
   }
 
+
+}
+function editStationMeta(popup, save) {
+
+  $(popup).toggleClass('edit-mode');
+
+  if (save) {
+
+
+
+  }
 
 }
 
@@ -106,6 +144,8 @@ function resizeStationRanges(){
                             `<circle r='5' cx='${svgSize*2}' cy='${svgSize*2}' stroke='#000000' stroke-width='1px' fill='#FF0' />`+
                             `<circle r='${editorStationRange}' cx='${svgSize*2}' cy='${svgSize*2}' stroke='#000000' stroke-width='1px' fill='#999' fill-opacity='0.25' />`+
                          `</svg>`);
+
+	$(`#${motusMap.el}`).trigger("mousemove");
 
 }
 function getPixelMetersByZoomLevel( meters, pixels ) {
@@ -158,8 +198,6 @@ function viewRegionalCoordinationGroups() {
 
 		motusMap.g.selectAll('.explore-map-regional-groups.hidden').classed('hidden', false);
 
-		$("#explore_controls .explore-map-stations-view a").text("Hide prospective stations");
-
 	} else {
 
 
@@ -183,6 +221,77 @@ function viewRegionalCoordinationGroups() {
 				.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'regional-group'))
 				.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'regional-group'))
 				.on('click', (e,d) => motusMap.dataClick(e, d, 'regional-group'));
+
+			motusMap.map.fire('zoomend');
+
+		});
+	}
+
+
+}
+
+function viewAntennaRanges() {
+
+	if (typeof motusData.antennas !== "undefined") {
+
+		motusMap.g.selectAll('.explore-map-antenna-range.hidden').classed('hidden', false);
+
+	} else {
+
+		var load = Promise.all( [d3.csv( filePrefix + "antenna-deployments.csv" )] ).then(function(response){
+
+			motusData.antennas = {type: "FeatureCollection", features:
+        response[0].filter( d => d.deploymentStatus != 'terminated' ).map(function(d){
+
+          var station = motusData.stationDeps.filter( v => v.id == d.recvDeployID );
+
+          if (station.length != 0 && station[0].lat && station[0].lon && +station[0].lat != 0 && +station[0].lon != 0 ) {
+
+            var coordinates = getAntennaShape({lat: +station[0].lat, lon: +station[0].lon, type: d.antennaType, bearing: d.bearing});
+
+            // If it's a polygon, close the path
+            if (coordinates.length > 1) {coordinates.push(coordinates[coordinates.length - 1])}
+
+          }  else {
+
+            var coordinates = [];
+
+          }
+          return {
+            id: d.recvDeployID,
+            type: "Feature",
+            properties: {
+              type: d.antennaType,
+              bearing: d.bearing,
+              port: d.port,
+              height: d.heightMeters,
+              dongle: d.dongle_type,
+              freq: d.frequency,
+              status: d.deploymentStatus
+            },
+            geometry: {
+              type: coordinates.length == 1 ? "Point" : "LineString",
+              coordinates: coordinates.length == 1 ? coordinates[0] : coordinates
+            }
+          };
+
+        }).filter( d => d.geometry.coordinates.length > 0)
+      };
+
+			var antennaColourScale = d3.scaleOrdinal().domain(motusData.antennas.features.map(x => x.properties.type)).range(customColourScale.jnnnnn.slice(0, motusData.antennas.features.length));
+
+			motusMap.g.selectAll('.explore-map-antenna-range')
+				.data(motusData.antennas.features)
+				.enter().append("path")
+				.attr("d", d => motusMap.path(d))
+				.style('stroke', '#000')
+				.style('opacity', '0.5')
+				.style('fill', d => antennaColourScale(d.properties.type))
+				.attr('class', 'leaflet-zoom-hide explore-map-antenna explore-map-antenna-range disable-filter')
+				.style('stroke-width', '1 px')
+				.style('pointer-events', 'auto')
+				.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'antenna'))
+				.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'antenna'));
 
 			motusMap.map.fire('zoomend');
 

@@ -40,6 +40,11 @@ var icons = {
 	  '<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>'+
 	  '<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>'+
 	'</svg>',
+	regions: "",
+	projects: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" class="explore-map-edit-btn tips" alt="Open station planner">'+
+	  '<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>'+
+	  '<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>'+
+	'</svg>',
 	share: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/></svg>',
 	map: '<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 27 27"><g transform="translate(0,-270.54167)"> <path d="m 1.3229166,294.35417 7.9375,-2.64583 7.9374994,2.64583 7.9375,-2.64583 V 273.1875 l -7.9375,2.64584 -7.9374994,-2.64584 -7.9375,2.64584 z" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> <path d="m 9.2604166,273.1875 v 18.52084" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> <path d="M 17.197916,294.35417 V 275.83334" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> </g></svg>',
 	pdf: '<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 41.659309 29.902843"><g inkscape:label="Layer 1" inkscape:groupmode="layer" transform="translate(-70.25338,-154.21364)"> <text xml:space="preserve" x="73.117455" y="170.28175" transform="scale(0.92485882,1.0812461)"><tspan sodipodi:role="line" x="73.117455" y="170.28175" style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:44.45785141px;font-family:\'Tw Cen MT Condensed\';-inkscape-font-specification:\'Tw Cen MT Condensed, Normal\';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:1.11144626">PDF</tspan></text> </g></svg>',
@@ -191,7 +196,7 @@ $(document).ready(function(){
 	//  dataType defaults to null if not present in expected set of values
 	dataType = url_params.d !== undefined && dataTypes.includes(firstToUpper(url_params.d)) ? url_params.d : 'stations';
 
-	if (exploreType == 'projects') {dataType = 'regions';}
+//	if (exploreType == 'projects') {dataType = 'regions';}
 
 	document.title = "Motus - Explore " + (exploreType == 'main' ? "Data" : firstToUpper(exploreType));
 
@@ -338,6 +343,12 @@ function loadMotusData() {
 
 		});
 
+		if (typeof motusData.animals !== 'undefined') {
+			motusData.animals.forEach(function(x){
+				x.dtEnd = x.dtEnd == "NA" ? moment().toISOString().substr(0, 10) : x.dtEnd;
+			});
+
+		}
 		if (typeof motusData.projects !== 'undefined') {
 			motusData.projects.forEach(function(x) {
 				x.fee_id = getProjectType(x.fee_id);
@@ -515,20 +526,47 @@ function exploreSummaryTabSelect(selectedTab) {
 						select: {
 							style: multi?"multi+shift":"single"
 						},
-						order: [[ multi?1:0, 'asc' ]],
+						order: [[ multi ? 1 : 0, 'asc' ]],
 						dom: '<"explore-table-header-controls"fi>lpti'
 
 					};
-				var cols = selectedTab == 'projects' ? ['id', 'project_name', 'fee_id', 'stations', 'animals'] : (selectedTab == 'regionTable' ? ['country', 'stations', 'animals'] : ['english', 'scientific', 'group', 'code', 'sort']);
+				var cols = selectedTab == 'projects' ? ['id', 'project_name', 'fee_id', 'stations', 'animals'] : (selectedTab == 'regionTable' ? ['country', 'stations', 'animals'] : ['english', 'scientific', 'animals', 'projects', 'group', 'code', 'sort']);
+				opts.columnDefs = [];
+
+				if (selectedTab == 'species') {
+
+
+					opts.order = [[6, 'asc']];
+
+					opts.columns = [];
+					for (var i in cols) {
+						opts.columns.push({
+							data: cols[i],
+							title: dataColNames[selectedTab][cols[i]],
+							createdCell: cols[i] == 'animals' ? function(td, cdata, rdata){
+								$(td).html(`<a href='javascript:void(0);' class='tips' alt='View list of animals'>${rdata.animals.split(',').length}</a>`).css('text-align', 'center');
+								} : cols[i] == 'projects' ? function(td, cdata, rdata){
+								$(td).html(`<a href='javascript:void(0);' class='tips' alt='View list of projects'>${rdata.projects.split(',').length}</a>`).css('text-align', 'center');
+							} : null,
+							className: "",
+				      searchable: i != 6,
+	      			visible: !(i == 4 || i == 5 || i == 6),
+							orderable: !(i == 4 || i == 5),
+							orderData: i == 1 ? [6, 1] : i
+						});
+					}
+
+					console.log(opts.columns);
+				}
 
 				if (multi) {
 
-					opts.columnDefs = [{
+					opts.columnDefs.push({
 							targets: 0,
 							data: null,
 							defaultContent: '',
 							orderable: false,
-							className: 'select-checkbox' }];
+							className: 'select-checkbox' });
 
 				//	opts.select.selector = 'td:first-child';
 
@@ -738,7 +776,7 @@ function populateExploreControls() {
 
 						) : (
 						x == 'edit' ? "<label for='explore_controls_plan_layer_select'>Layers: </label><select id='explore_controls_plan_layer_select' style='width:200px' multiple='multiple'>"+
-															"<option selected='selected'>Active stations</option><option>Prospective stations</option><option>Regional coordination\n groups</option>"+
+															"<option selected='selected'>Active stations</option><option>Prospective stations</option><option>Coordination regions</option><option>Antenna ranges</option>"+
 													"</select>"+
 													"<button onclick='$(this).siblings(\"select\").select2(\"open\");'>Add layer</button>"+
 													"<button onclick='exploreMapAddStation()' class='submit_btn'>Add a prospective station</button>" :
@@ -860,15 +898,20 @@ function exploreControls(el) {
 			);
 			motusMap.map.fire('moveend');
 			*/
-			console.log('test')
-			console.log($(el).val());
+
 			if ($(el).val() == "Prospective stations" || ( typeof $(el).val() == 'object' && $(el).val().includes("Prospective stations") ) ) {
 				viewProspectiveStations();
 			} else {
 				motusMap.g.selectAll('.explore-map-prospective-station').classed('hidden', true);
 			}
 
-			if ($(el).val() == "Regional coordination groups" || ( typeof $(el).val() == 'object' && $(el).val().includes("Regional coordination groups") ) ) {
+			if ($(el).val() == "Antenna ranges" || ( typeof $(el).val() == 'object' && $(el).val().includes("Antenna ranges") ) ) {
+				viewAntennaRanges();
+			} else {
+				motusMap.g.selectAll('.explore-map-antenna-range').classed('hidden', true);
+			}
+
+			if ($(el).val() == "Coordination regions" || ( typeof $(el).val() == 'object' && $(el).val().includes("Coordination regions") ) ) {
 				viewRegionalCoordinationGroups();
 			} else {
 				motusMap.g.selectAll('.explore-map-regional-groups').classed('hidden', true);
@@ -886,116 +929,136 @@ function exploreControls(el) {
 		var isTable = $(el).val().indexOf('table')!=-1;
 		exploreSummaryTabSelect('region'+(isTable?'Table':'s'));
 	} else if (opt == 'pdf') {
-		var zoom = motusMap.map.getZoom();
-		motusMap.map.setZoom(1.5);
-		setTimeout(function(){
-			var vars = [];
-			var vals = [];
 
-			$("#explore_card_profiles table td .status-icon").each(function(i){
 
-				vals.push( $(this).children("div").text() );
-				vars.push( firstToUpper( this.classList[1].replace("status-icon-", "") ) );
+		if ($("iframe#pdf_output").length == 0) {
+			$("body").append('<div class="pdf-output-wrapper"><div style="text-align:center;margin-top:10px;"><a class="hidden_link" target="_blank"></a><button class="download_btn">Download</button><button class="close_btn">Close</button></div><iframe id="pdf_output"></iframe></div>').find('iframe').get(0);
+			$(".pdf-output-wrapper,.pdf-output-wrapper .close_btn").click(function(e){
+				if (e.target !== this) return;
+				$(".pdf-output-wrapper").fadeOut(250);
+				$("body").css("overflow-y", "");
 			});
 
-			var opts = {};
+			$(".pdf-output-wrapper").fadeIn(250);
+			$("body").css("overflow-y", "hidden");
 
-			if (exploreType == 'regions') {
-				var region_svg = d3.create('svg');
-
-				var path = d3.geoPath().projection(d3.geoMercator().fitSize([500,100],motusData.selectedRegions[0]));
-
-				region_svg.append("svg:defs").append("svg:marker")
-					.attr("id", "station_path")
-					.attr("refX", 5)
-					.attr("refY", 10)
-					.attr("markerWidth", 60)
-					.attr("markerHeight", 80)
-					.attr("viewBox", "0 0 30 40")
-					.attr("markerUnits","userSpaceOnUse")
-					.attr("orient", "auto")
-					.append("path")
-					.attr("d", icon_paths.stations)
-					.style('pointer-events', 'auto')
-					.style("stroke", "#000");
-
-
-				var g = region_svg.attr('width',500)
-						.attr('height',100)
-						.append('g');
-
-				g.selectAll("regions")
-						.data(motusData.selectedRegions)
-						.enter().append("path")
-						.attr("d", path)
-						.attr('class', 'explore-map-regions leaflet-zoom-hide')
-						.style('stroke', '#000')
-					//	.style('fill', '#FFF')
-						.style('fill', d => motusFilter.regions.includes(d.properties.adm0_a3) ? "#FFF" : "#CCC" )
-						.style('stroke-width', '1px');
-
-
-			  g.selectAll('stations')
-						.data(motusData.stations.filter(d => motusData.selectedStations.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)))
-						//.data(motusData.stations)
-						.enter().append("path")
-						.attr('marker-end','url(#station_path)')
-						.attr("d", path.pointRadius(6))
-	//					.style('stroke', '#000')
-						.style('fill', (d) => d.dtEnd > moment().subtract(1, 'days') ? '#0F0' : '#F00')
-						.attr('class', 'explore-map-stations leaflet-zoom-hide')
-						//.style('fill', d => regionStations.includes(d.id) ? "#F00" : "#000")
-				//		.style('stroke-width', '1px')
-
-				d3.geoPath().bounds({features:motusData.selectedRegions, type: "FeatureCollection"});
-
-				opts = {
-					type: exploreType,
-					selection: firstToUpper($("#explore_card_profiles .explore-card-header").text()),
-					summaryTable: {vars: vars, vals: vals},
-					titleIcon: {svg: region_svg}
-				};
-
-				if ($("#explore_card_stationHits table.explore-card-stationHits-table").length > 0) {
-
-					opts.stations = {
-						// Remove the HTML from the first row!
-						data: $("#explore_card_stationHits table.explore-card-stationHits-table").DataTable().rows().data().toArray().map(x => Object.values(x).map((k,i) => i==0||i==2?$("<a>"+k+"</a>").text():k)),
-						cols: $("#explore_card_stationHits table.explore-card-stationHits-table th").map(function(){return $.trim($(this).text());}).get(),
-						colWidths: [0, 4,2,3,1,1]
-					}
-				}
-				if ($("#explore_card_tagHits table.explore-card-tagHits-table").length > 10) {
-					opts.animals = {
-						// Remove the HTML from the first row!
-						data: $("#explore_card_tagHits table.explore-card-tagHits-table").DataTable().rows().data().toArray().map(x => x.map((k,i) => i==0||i==2?$("<a>"+k+"</a>").text():k)),
-						cols: $("#explore_card_tagHits table.explore-card-tagHits-table th").map(function(){return $.trim($(this).text());}).get(),
-						colWidths: [4,2,3,1,1]
-					}
-				}
-				if ($("#explore_card_speciesHits table.explore-card-speciesHits-speciesTable").length > 10) {
-					opts.species = {
-						// Remove the HTML from the first row!
-						data: $("#explore_card_speciesHits table.explore-card-speciesHits-speciesTable").DataTable().rows().data().toArray().map(x => Object.values(x).map((k,i) => i==0||i==2?$("<a>"+k+"</a>").text():k)),
-						cols: $("#explore_card_speciesHits table.explore-card-speciesHits-speciesTable th").map(function(){return $.trim($(this).text());}).get(),
-						colWidths: [4,2,3,1,1]
-					}
-				}
-
-			} else {
-				opts = {
-					type: exploreType,
-					selection: firstToUpper($("#explore_card_profiles .explore-card-header").text()),
-					summaryTable: {vars: vars, vals: vals}
-				};
-			}
-
-			makePDF(opts);
-
+			var zoom = motusMap.map.getZoom();
+			var tab = $("#explore_card_profiles .explore-card-profiles-tabs > .selected");
+			$("#explore_card_profiles .explore-card-map-tab").click();
+			motusMap.map.setZoom(2);
 			setTimeout(function(){
-				motusMap.map.setZoom(zoom);
+				var vars = [];
+				var vals = [];
+
+				$("#explore_card_profiles table td .status-icon").each(function(i){
+
+					vals.push( $(this).children("div").text() );
+					vars.push( firstToUpper( this.classList[1].replace("status-icon-", "") ) );
+				});
+
+				var opts = {};
+
+				if (exploreType == 'regions') {
+					var region_svg = d3.create('svg');
+
+					var path = d3.geoPath().projection(d3.geoMercator().fitSize([500,100],motusData.selectedRegions[0]));
+
+					region_svg.append("svg:defs").append("svg:marker")
+						.attr("id", "station_path")
+						.attr("refX", 5)
+						.attr("refY", 10)
+						.attr("markerWidth", 60)
+						.attr("markerHeight", 80)
+						.attr("viewBox", "0 0 30 40")
+						.attr("markerUnits","userSpaceOnUse")
+						.attr("orient", "auto")
+						.append("path")
+						.attr("d", icon_paths.stations)
+						.style('pointer-events', 'auto')
+						.style("stroke", "#000");
+
+
+					var g = region_svg.attr('width',500)
+							.attr('height',100)
+							.append('g');
+
+					g.selectAll("regions")
+							.data(motusData.selectedRegions)
+							.enter().append("path")
+							.attr("d", path)
+							.attr('class', 'explore-map-regions leaflet-zoom-hide')
+							.style('stroke', '#000')
+						//	.style('fill', '#FFF')
+							.style('fill', d => motusFilter.regions.includes(d.properties.adm0_a3) ? "#FFF" : "#CCC" )
+							.style('stroke-width', '1px');
+
+
+				  g.selectAll('stations')
+							.data(motusData.stations.filter(d => motusData.selectedStations.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)))
+							//.data(motusData.stations)
+							.enter().append("path")
+							.attr('marker-end','url(#station_path)')
+							.attr("d", path.pointRadius(6))
+		//					.style('stroke', '#000')
+							.style('fill', (d) => d.dtEnd > moment().subtract(1, 'days') ? '#0F0' : '#F00')
+							.attr('class', 'explore-map-stations leaflet-zoom-hide')
+							//.style('fill', d => regionStations.includes(d.id) ? "#F00" : "#000")
+					//		.style('stroke-width', '1px')
+
+					d3.geoPath().bounds({features:motusData.selectedRegions, type: "FeatureCollection"});
+
+					opts = {
+						type: exploreType,
+						selection: firstToUpper($("#explore_card_profiles .explore-card-header").text()),
+						summaryTable: {vars: vars, vals: vals},
+						titleIcon: {svg: region_svg}
+					};
+
+					if ($("#explore_card_stationHits table.explore-card-stationHits-table").length > 0) {
+
+						opts.stations = {
+							// Remove the HTML from the first row!
+							data: $("#explore_card_stationHits table.explore-card-stationHits-table").DataTable().rows().data().toArray().map(x => Object.values(x).map((k,i) => i==0||i==2?$("<a>"+k+"</a>").text():k)),
+							cols: $("#explore_card_stationHits table.explore-card-stationHits-table th").map(function(){return $.trim($(this).text());}).get(),
+							colWidths: [0, 4,2,3,1,1]
+						}
+					}
+					if ($("#explore_card_tagHits table.explore-card-tagHits-table").length > 10) {
+						opts.animals = {
+							// Remove the HTML from the first row!
+							data: $("#explore_card_tagHits table.explore-card-tagHits-table").DataTable().rows().data().toArray().map(x => x.map((k,i) => i==0||i==2?$("<a>"+k+"</a>").text():k)),
+							cols: $("#explore_card_tagHits table.explore-card-tagHits-table th").map(function(){return $.trim($(this).text());}).get(),
+							colWidths: [4,2,3,1,1]
+						}
+					}
+					if ($("#explore_card_speciesHits table.explore-card-speciesHits-speciesTable").length > 10) {
+						opts.species = {
+							// Remove the HTML from the first row!
+							data: $("#explore_card_speciesHits table.explore-card-speciesHits-speciesTable").DataTable().rows().data().toArray().map(x => Object.values(x).map((k,i) => i==0||i==2?$("<a>"+k+"</a>").text():k)),
+							cols: $("#explore_card_speciesHits table.explore-card-speciesHits-speciesTable th").map(function(){return $.trim($(this).text());}).get(),
+							colWidths: [4,2,3,1,1]
+						}
+					}
+
+				} else {
+					opts = {
+						type: exploreType,
+						selection: firstToUpper($("#explore_card_profiles .explore-card-header").text()),
+						summaryTable: {vars: vars, vals: vals}
+					};
+				}
+
+				makePDF(opts);
+
+				setTimeout(function(){
+					motusMap.map.setZoom(zoom);
+					tab.click();
+				}, 250);
 			}, 250);
-		}, 250);
+		} else {
+			$(".pdf-output-wrapper").fadeIn(250);
+			$("body").css("overflow-y", "hidden");
+		}
 	}
 }
 function afterMapLoads() {
@@ -1011,7 +1074,7 @@ function afterMapLoads() {
 
 		if ( ["regions", "projects", "species"].includes(dataType) ) {
 			console.log(dataType);
-						exploreSummaryTabSelect(dataType);
+			exploreSummaryTabSelect(dataType);
 		}
 /*
 		if (dataType == 'regions') {
@@ -1305,18 +1368,20 @@ function loadDataTable(tbl, columns, options, onEvent) {
 	}
 
 	console.log(columns);
-	var columnNames = columns.filter(x=>x==="").concat(Object.keys(dataset[0]).filter(x => typeof columns === 'undefined' || columns.includes(x)));
+	if (typeof options.columns === "undefined") {
+		var columnNames = columns.filter(x=>x==="").concat(Object.keys(dataset[0]).filter(x => typeof columns === 'undefined' || columns.includes(x)));
 
-	var columns = [];
-	console.log(tbl);
-	console.log(columnNames);
+		var columns = [];
+		console.log(tbl);
+		console.log(columnNames);
 
-	for (var i in columnNames) {
-		columns.push({
-			data: columnNames[i],
-			title: dataColNames[tbl][columnNames[i]],
-			className: ""
-		});
+		for (var i in columnNames) {
+			columns.push({
+				data: columnNames[i],
+				title: dataColNames[tbl][columnNames[i]],
+				className: ""
+			});
+		}
 	}
 	if ($.fn.DataTable.isDataTable("#explore_table")) {
 		$("#explore_table").DataTable().clear().destroy();
@@ -1324,6 +1389,14 @@ function loadDataTable(tbl, columns, options, onEvent) {
 
 	$("#explore_table").html("");
 	console.log(options);
+	if (typeof options.columns !== 'undefined') {
+		options = {
+			...{
+				data: dataset
+			},
+			...options
+		};
+	}
 	if (typeof options !== 'undefined') {
 		options = {
 			...{
@@ -1464,7 +1537,7 @@ function addExploreCard(card) {
 			headers.forEach(function(x){profiles_header += "<th class='"+(x.toLowerCase().replace(' ','-'))+"'>"+x+"</th>";});
 
 			if ($("#explore_card_profiles").length == 0) {
-				$("#exploreContent .explore-card-wrapper").append("<div class='explore-card' id='explore_card_profiles'><div class='explore-card-profiles-name'>"+card.name+"</div><table><thead><tr class='explore-card-profiles-header'>"+profiles_header+"<th></th></tr></thead><tbody class='explore-card-profiles-wrapper'></tbody></table><div class='explore-card-add explore-card-"+exploreType+"' alt='Add a "+exploreType+"'><select class='explore-card-add-"+exploreType+"' data-placeholder='Select a "+exploreType+"' style='width:300px;'><option></option></select></div><div class='explore-card-profiles-toggles'></div><div class='explore-card-profiles-tabs'><div class='expand-menu-btn'>"+icons.expand+"</div></div></div>");
+				$("#exploreContent .explore-card-wrapper").append("<div class='explore-card' id='explore_card_profiles'><div class='explore-card-profiles-name'>"+icons[exploreType]+"&nbsp;&nbsp;&nbsp;"+card.name+"</div><table><thead><tr class='explore-card-profiles-header'>"+profiles_header+"<th></th></tr></thead><tbody class='explore-card-profiles-wrapper'></tbody></table><div class='explore-card-add explore-card-"+exploreType+"' alt='Add a "+exploreType+"'><select class='explore-card-add-"+exploreType+"' data-placeholder='Select a "+exploreType+"' style='width:300px;'><option></option></select></div><div class='explore-card-profiles-toggles'></div><div class='explore-card-profiles-tabs'><div class='expand-menu-btn'>"+icons.expand+"</div></div></div>");
 			//	$("#exploreContent .explore-card-wrapper").append("<div class='explore-card' id='explore_card_profiles'><div class='explore-card-profiles-name'>"+card.name+"</div><div class='explore-card-profiles-header'>"+profiles_header+"<th></th></tr></thead><tbody class='explore-card-profiles-wrapper'></tbody></table>"+
 		//		"<div class='explore-card-add explore-card-"+exploreType+"' alt='Add a "+exploreType+"'><select class='explore-card-add-"+exploreType+"' data-placeholder='Select a "+exploreType+"' style='width:300px;'><option></option></select></div><div class='explore-card-profiles-toggles'></div><div class='explore-card-profiles-tabs'><div class='expand-menu-btn'>"+icons.expand+"</div></div></div>");
 				/*$(".explore-card-profiles-controls").append("<button class='explore-card-more-details'>More details</button>"+

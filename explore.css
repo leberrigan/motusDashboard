@@ -44,7 +44,6 @@ body {
 	border:solid 1px #DDD;
 	border-radius:5px;
 	padding:10px;
-	font-weight:bold;
 }
 .popup {
 	max-height:80vh;
@@ -67,6 +66,12 @@ body {
 }
 .popup .popup-topbar .popup-topbar-close:hover {
 	background-color:#AAA;
+}
+.popup:not(.edit-mode) .popup-content-editor {
+	display:none;
+}
+.popup.edit-mode .popup-content-main {
+	display:none;
 }
 
 .enlarge {
@@ -833,7 +838,7 @@ input.filter_dates {
 	height:32px;
 
 }
-.ui-slider-horizontal .ui-slider-range::after {
+#dateSlider .ui-slider-horizontal .ui-slider-range::after {
 	content: " ";
 	height: 3px;
 	width: 100%;
@@ -841,15 +846,14 @@ input.filter_dates {
 	display: block;
 	margin: 6px 0;
 }
-.ui-slider-horizontal .ui-slider-range  {
+#dateSlider .ui-slider-horizontal .ui-slider-range  {
 	height: 15px;
 	background: transparent;
 	margin-top: -4px;
 	cursor: ew-resize;
 }
-.ui-state-default, .ui-widget-content .ui-state-default,
-.ui-state-default, .ui-widget-content .ui-state-active,
-.ui-state-default, .ui-widget-content .ui-state-hover {
+#dateSlider .ui-state-default,#dateSlider .ui-widget-content .ui-state-default,
+#dateSlider .ui-widget-content .ui-state-active, #dateSlider .ui-widget-content .ui-state-hover {
 	background:#000;
 	border:0px;
 	cursor:pointer;
@@ -1903,7 +1907,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 
 #cursor_icon {
 	position:absolute;
-	z-index:9999;
+	z-index:999;
 	cursor:crosshair;
 	pointer-events:none;
 }

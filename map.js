@@ -291,6 +291,13 @@ function exploreMap({
 						"</br>(Click to view)"
 					);
 
+				} else if (t == 'antenna') {
+						$('.tooltip').html(
+							`<center><h3>${firstToUpper(d.properties.type)}</h3></center>`+
+							( (d.geometry.coordinates.length > 2) ? `<b>Bearing: </b>${d.properties.bearing}<br/>` : '' )+
+							`<b>Port: </b>${d.properties.port}<br/>`+
+							`<b>Height: </b>${d.properties.height} (m)`
+						);
 				} else if (t == 'prospective-stations') {
 						$('.tooltip').html(
 							"<center><h3>"+
@@ -310,23 +317,55 @@ function exploreMap({
 						);
 				} else if (t == 'region') {
 
-					$('.tooltip').html(
-						"<big>"+
-							d.properties.name+
-						"</big>"+
-							(motusData.regionByCode.get(d.properties.adm0_a3)[0].stations>0?("</br>" + icons.station + motusData.regionByCode.get(d.properties.adm0_a3)[0].stations + " Stations"):"")+
-							(motusData.regionByCode.get(d.properties.adm0_a3)[0].animals>0?("</br>" + icons.species + motusData.regionByCode.get(d.properties.adm0_a3)[0].animals + " Animals"):"")+
-						"</br>(Click to view)"
-					);
+					var region = motusData.regionByCode.get(d.properties.adm0_a3)[0];
+
+					$('.tooltip').html("<center><h3>"+
+												d.properties.name+
+											"</h3></center>"+
+											`<table style="width:100%;text-align:center;font-size:14pt;"><tbody>`+
+												`<tr><td>${region.animals} ${icons.animals}</td><td style="padding-left: 10px;">${region.stations} ${icons.station}</td></tr>`+
+												`<tr><td><b>Animal${region.animals==1?"":"s"}</b></td><td style="padding-left: 10px;"><b>Station${region.stations==1?"":"s"}</b></td></tr>`+
+											`</tbody></table>`+
+											"<br/>"+
+											"<center>Click to view profile</center>");
 
 				} else if (t == 'station') {
 					$('.tooltip').html(
 						"<big>"+
 							(d.group > 1 ? d.group + " Stations" : d.name)+
 						"</big>"+
-						"</br>(Click to view)"
+						"<br/>"+
+						`<em><b>${d.nAnimals} animal${d.nAnimals==1?"":"s"}</b></em> of <em><b>${d.nSpp} species</b></em> detected`+
+						"</br>Click to view profile"
 					);
 
+					if (d.group > 1) {
+						$('.tooltip').html(
+							"<big>"+
+								d.group + " Stations"+
+							"</big>"+
+							"<br/>"+
+							`<em><b>${d.nAnimals} animal${d.nAnimals==1?"":"s"}</b></em> of <em><b>${d.nSpp} species</b></em> detected`+
+							"</br>Click to zoom"
+						);
+					} else {
+						$('.tooltip').html("<center><h3>"+
+													icons.station + "&nbsp;&nbsp;&nbsp;" + d.name +
+												"</h3></center>"+
+											  `<b>Deployed on: </b>${d.dtStart.toISOString().substr(0,10)}`+
+												"<br/>"+
+												`<a class='question tips' alt='Active stations are currently collecting data. Terminated stations are not.'>`+
+													`<b>Current status: </b>${d.status}`+
+												"</a>"+
+												"<br/>"+
+												"<br/>"+
+												`<table style="width:100%;text-align:center;font-size:14pt;"><tbody>`+
+													`<tr><td>${d.nAnimals} ${icons.animals}</td><td style="padding-left: 10px;">${d.nSpp} ${icons.species}</td></tr>`+
+													`<tr><td><b>Animal${d.nAnimals==1?"":"s"}</b></td><td style="padding-left: 10px;"><b>Species</b></td></tr>`+
+												`</tbody></table>`+
+												"<br/>"+
+												"<center>Click to view profile</center>");
+					}
 				} else {
 
 					var filterName = motusFilter.colour;
@@ -359,6 +398,28 @@ function exploreMap({
 				$('.tooltip').hide();
 			}
 		},
+		popup: function(location, content, remove) {
+
+		//	if (remove) {
+				$(".popup").remove();
+		//	}
+
+			$("body").append("<div class='popup'><div class='popup-topbar'><div class='popup-topbar-close'>X</div></div><div class='popup-content'></div></div>");
+			$(".popup").draggable({handle: ".popup-topbar"});
+			$(".popup .popup-topbar .popup-topbar-close").click(function(){$(".popup").remove();});
+
+			$('.popup .popup-content').html(content);
+
+			initiateTooltip($('.popup .popup-content .tips'));
+
+			if (location.left + $('.popup').outerWidth() > $(window).width()) {
+				location.left = location.left - $('.popup').outerWidth() - 30;
+			}
+
+			$('.popup').css(location);
+
+			$('.popup:hidden').show();
+		},
 		dataClick: function(e, d, t) {
 			if (t == 'station') {
 
@@ -369,40 +430,58 @@ function exploreMap({
 
 					motusMap.rect = L.polyline(line, {className: 'no-hover'}).addTo(motusMap.map);
 					//motusMap.rect = L.rectangle(d.bounds, {color: 'blue', weight: 1}).addTo(motusMap.map);
-				*/	motusMap.map.fitBounds(d.bounds, {padding:[0,0], maxZoom: 200});
+				*/
+					motusMap.map.fitBounds(d.bounds, {padding:[0,0], maxZoom: 200});
 				} else {
+					viewProfile("stations", d.id)
+					/*
 					console.log(d)
-					viewProfile('stations', d.id);
+					var content = "<center><h3>"+
+													d.name+
+												"</h3></center>"+
+												`<a class='question tips' alt='Active stations are currently collecting data. Terminated stations are not.'>`+
+													`Status: ${d.status}`+
+												"</a>"+
+												"<br/>"+
+											  `Deployed on: ${d.dtStart.toISOString().substr(0,10)}`+
+												"<br/>"+
+												`<em><b>${d.nAnimals} animal${d.nAnimals==1?"":"s"}</b></em> of <em><b>${d.nSpp} species</b></em> detected`+
+												"<br/>"+
+												"<br/>"+
+												`<center><button class='view_btn submit_btn' onclick='viewProfile(\"stations\", ${d.id})'>View station profile</button>`+
+												"<button class='close_btn' onclick='$(this).closest(\".popup\").find(\".popup-topbar-close\").click()'>Close popup</button></center>"
+
+					var location = {top:e.pageY - 10, left:e.pageX + 15};
+
+					motusMap.popup(location, content);*/
+
 				}
 
 			} else if (t == 'prospective-stations') {
-				$(".popup").remove();
-				$("body").append("<div class='popup'><div class='popup-topbar'><div class='popup-topbar-close'>X</div></div><div class='popup-content'></div></div>");
-				$(".popup").draggable({handle: ".popup-topbar"});
-				$(".popup .popup-topbar .popup-topbar-close").click(function(){$(".popup").remove();});
-				$('.popup .popup-content').html(
-					"<center><h3>"+
-						d.properties.name+
-					"</h3></center>"+
-						`<a class='question tips' alt='${(d.properties.status?"":"Prospective stations indicate desired locations for new stations but no plans exist for an installation.")}'>`+
-							`Status: ${(d.properties.status?d.properties["contact.name"]:"Prospective</a>")}`+
-						"</a>"+
-						"<br/>"+
-						"<br/>"+
-						"<center><button class='submit_btn'>Edit</button>"+
-						"<button class='close_btn'>Remove</button></center>"
-					);
+				console.log('test');
+				var content =	"<div class='popup-content-main'><center><h3>"+
+												d.properties.name+
+											"</h3></center>"+
+												`<a class='question tips' alt='${(d.properties.status?"":"Prospective stations indicate desired locations for new stations but no plans exist for an installation.")}'>`+
+													`Status: ${(d.properties.status?d.properties["contact.name"]:"Prospective</a>")}`+
+												"</a>"+
+												"<br/>"+
+												"<br/>"+
+												"<center><button class='edit_btn submit_btn' onclick='editStationMeta($(this).closest(\".popup\").get(0))'>Edit</button>"+
+												"<button class='close_btn'>Remove</button></center></div>"+
+												`<div class='popup-content-editor'>`+
+													`<center><h3>Station properties</h3></center>`+
+		                      `Name: <input type='text' value='${d.properties.name}'><br/>`+
+		                      `Status: <select><option selected='selected'>Prospective</option><option>Planned</option><option>Retired</option></select><br/>`+
+		                      `Contact name: <input type='text' value='${d.properties["contact.name"]}'><br/>`+
+		                      `Contact email: <input type='text' value='${d.properties.email}'>`+
+													"<center><button class='save_btn submit_btn' onclick='editStationMeta($(this).closest(\".popup\").get(0), true)'>Save</button>"+
+													"<button class='cancel_btn close_btn' onclick='editStationMeta($(this).closest(\".popup\").get(0), false)'>Cancel</button></center>"+
+		                    `</div>`;
 
-				initiateTooltip($('.popup .popup-content .tips'));
+				var location = {top:e.pageY - 10, left:e.pageX + 15};
 
-				if (e.pageX + 15 + $('.popup').outerWidth() > $(window).width()) {
-					$('.popup').css({top:e.pageY - 10, left:e.pageX - $('.popup').outerWidth() - 15});
-				} else {
-					$('.popup').css({top:e.pageY - 10, left:e.pageX + 15});
-				}
-
-				$('.popup:hidden').show();
-
+				motusMap.popup(location, content);
 
 			} else if (t == 'regional-group') {
 				$(".popup").remove();
@@ -1036,25 +1115,36 @@ function loadMapObjects(callback) {
 
 				var propNames = ["adm0_a3", "region_un"]
 				//var propNames = ["COUNTRY", "REGION"]
+				if (dataType == 'regions') {
+					var regions_el = motusMap.g.selectAll("regions")
+						.data(motusData.polygons.features)
+						.enter().append("path")
+						.attr('class', (d) => "explore-map-region" + (motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? ' leaflet-hide-always' : ' leaflet-interactive'))
+						.style('fill', function(d){
+							return motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? "#DDDDDD" : motusMap.regionColours(regionFreqs[d.properties[propNames[1]]]);
+						})
+						.style('stroke-width', function(d){
+							return motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? 0 : 1;
+						})
+						.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'region'))
+						.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'region'))
+						.on('click', (e,d) => motusMap.dataClick(e, d, 'region'));
 
-				var regions_el = motusMap.g.selectAll("regions")
-					.data(motusData.polygons.features)
-					.enter().append("path")
-					.attr('class', (d) => "explore-map-region" + (motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? ' leaflet-hide-always' : ' leaflet-interactive'))
-					.style('fill', function(d){
-						return motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? "#DDDDDD" : motusMap.regionColours(regionFreqs[d.properties[propNames[1]]]);
-					})
-					.style('stroke-width', function(d){
-						return motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? 0 : 1;
-					})
-					.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'region'))
-					.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'region'))
-					.on('click', (e,d) => motusMap.dataClick(e, d, 'region'));
+					motusMap.map.on("zoomend", reset);
 
-				motusMap.map.on("zoomend", reset);
+					// Reposition the SVG to cover the features.
+					reset();
+				} else {
 
-				// Reposition the SVG to cover the features.
-				reset();
+						var regions_el = motusMap.g.selectAll("regions")
+							.data(motusData.polygons.features)
+							.enter().append("path")
+							.attr('class', (d) => "explore-map-region disable-filter")
+							.style('fill', '#DDDDDD')
+							.style('stroke-width', '0');
+
+				}
+
 			}
 
 		} else if (dataset == 'stationDeps') {
@@ -1074,6 +1164,8 @@ function loadMapObjects(callback) {
 					var localAnimals = v.map(x => x.localAnimals.split(';')).flat().filter(onlyUnique);
 					var species = v.map(x => x.species.split(';')).flat().filter(onlyUnique);
 
+					var currentDate = moment().toISOString().substr(0,10);
+
 					if (!station_freqs.includes(v[0].frequency)) {station_freqs.push(v[0].frequency);}
 					//recvDepsLink.push([+row.lon, +row.lat, +row.id]);
 					if (!(isNaN(+v[0].lon) || isNaN(+v[0].lon))) {
@@ -1085,7 +1177,7 @@ function loadMapObjects(callback) {
 							type: "Point",
 							coordinates: [+v[0].lon, +v[0].lat]
 						},
-						status: (Array.from(v.map( d => d.dtEnd ).values()).includes('NA') ? 'active' : 'expired'),
+						status: (Array.from(v.map( d => d.dtEnd ).values()).some( d => ['NA', currentDate].includes(d) ) ? 'active' : 'expired'),
 						frequency: v[0].frequency,
 						name: v[0].name,
 						projID: Array.from(v.map( d => d.projID ).values()).filter(onlyUnique).join(','),
@@ -1368,6 +1460,7 @@ function loadMapObjects(callback) {
 
 		motusMap.g.selectAll(".explore-map-station").attr("d", motusMap.path);
 		motusMap.g.selectAll(".explore-map-region").attr("d", motusMap.path);
+		motusMap.g.selectAll(".explore-map-antenna").attr("d", motusMap.path);
 
 		//if (typeof tagDeps_el !== 'undefined') { tagDeps_el.attr("d", path); }
 	//	if (typeof station_el !== 'undefined') {  }

@@ -291,14 +291,14 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 				var selectedRecv2 = true;
 			} else {
 				if ( motusFilter.stationDeps.includes(v.recv1) && !motusFilter.stations.includes(v.recv1) ) {
-					console.log("recv1 (1): ",v.recv1);
+//					console.log("recv1 (1): ",v.recv1);
 					v.recv1 = motusData.selectedStations.filter( x => x.stationDeps.split(',').includes(v.recv1) )[0].id;
-					console.log("recv1 (2): ",v.recv1);
+	//				console.log("recv1 (2): ",v.recv1);
 				}
 				if ( motusFilter.stationDeps.includes(v.recv2) && !motusFilter.stations.includes(v.recv2) ) {
-					console.log("recv2 (1): ",v.recv2);
+		//			console.log("recv2 (1): ",v.recv2);
 					v.recv2 = motusData.selectedStations.filter( x => x.stationDeps.split(',').includes(v.recv2) )[0].id;
-					console.log("recv2 (2): ",v.recv2);
+		//			console.log("recv2 (2): ",v.recv2);
 				}
 				var selectedRecv1 = motusFilter.stations.includes(v.recv1);
 				var selectedRecv2 = motusFilter.stations.includes(v.recv2);
@@ -1185,7 +1185,9 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 													dtEnd: moment(d3.max(v, d => d.dtEnd)),
 													nAnimals: v.map(x => x.animals.split(';')).flat().filter(onlyUnique).length,
 													nSpp: v.map(x => x.species.split(';')).flat().filter(onlyUnique).length,
-													country: v[0].country
+													country: v[0].country,
+													projID: v[0].projID.split(',')[0],
+													projName: motusData.projects.filter(x => x.id == v[0].projID.split(',')[0])[0].project_name
 												}),
 												d => d.name
 											).values()
@@ -1217,7 +1219,12 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 						$(td).html( `${(moment().diff(cdata, 'day') < 1 ? "Active" : "Ended on:<br/>" + cdata.toISOString().substr(0,10) )}` );
 					}},
 					{data: "nAnimals", title: "Number of Animals"},
-					{data: "nSpp", title: "Number of Species"}
+					{data: "nSpp", title: "Number of Species"},
+					{data: "projName", title: "Project", "createdCell": function(td, cdata, rdata){
+						$(td).html(
+							`<a href='javascript:void(0);' onclick='viewProfile("projects", [${rdata.projID}]);'>${rdata.projName}</a>`
+						);
+					}}
 				],
 				dom: tableDom,
 				autoWidth: false,
@@ -1393,7 +1400,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 	function animalTable( speciesID ) {
 
-			var headers = ["Species", "Release Date", "Status", "Stations Visited", "Days detected"];
+			var headers = ["Species", "Release Date", "Status", "Stations Visited", "Days detected", "Project"];
 
 			var toReturn = "<table><thead><tr>";
 
@@ -1412,6 +1419,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 											`<td>${(moment().diff(d.dtEnd, 'day') < 1 ? "Active" : "Ended on:<br/>" + d.dtEnd.toISOString().substr(0,10))}</td>`+
 											`<td>${d.nStations.length}</td>`+
 											`<td>${d.nDays}</td>`+
+											`<td><a href='javascript:void(0);' onclick='viewProfile(\"projects\", ${d.projID});'>${d.projName}</a></td>`+
 										"</tr>";
 			});
 
@@ -1449,12 +1457,14 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 													id: d.id,
 													species: d.species,
 													name: motusData.speciesByID.get(d.species)?motusData.speciesByID.get(d.species)[0].english:"Undefined",
-													dtStart: moment(d.dtStart),
-													dtEnd: moment(d.dtEnd),
+													dtStart: moment(d.dtStart).toISOString().substr(0,10),
+													dtEnd: (moment().diff(moment(d.dtEnd), 'day') < 1 ? "Active" : "Ended on:<br/>" + moment(d.dtEnd).toISOString().substr(0,10)),
 													frequency: d.frequency,
 													country: d.country,
-													nStations: (motusData.tracksByAnimal[d.id]?Array.from(motusData.tracksByAnimal[d.id].map(v=>v.split('.')).values()).flat().filter(onlyUnique):[]),
-													nDays: motusData.tracksByAnimal[d.id]?motusData.tracksByAnimal[d.id].length * 2:0
+													nStations: (motusData.tracksByAnimal[d.id]?Array.from(motusData.tracksByAnimal[d.id].map(v=>v.split('.')).values()).flat().filter(onlyUnique):[]).length,
+													nDays: motusData.tracksByAnimal[d.id]?motusData.tracksByAnimal[d.id].length * 2:0,
+													projID: d.projID,
+													projName: motusData.projects.filter(x => x.id == d.projID)[0].project_name
 												})).values());
 
 			motusData.selectedSpecies = Array.from(
@@ -1481,37 +1491,6 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 										);
 
 
-/*
-
-			motusData.selectedSpecies.forEach(function(d){
-
-				var tr = $('<tr></tr>');
-
-				tr.append( $('<td></td>').addClass(`explore-table-expandRow`) );
-
-				tr.append(
-							$('<td></td>')
-								.append("<div class='explore-card-table-legend-icon' style='border-color:" + colourScale(d.country)+"'></div>")
-								.append( $("<a href='javascript:void(0);' onclick='viewProfile(\"animals\", "+d.id+");'></a>").text( d.name ) )
-						);
-//				tr.append( $('<td></td>').text( d.dtStart.toISOString().substr(0,10) ) );
-
-//				var dtEnd = d.dtEnd.toISOString().substr(0,10);
-
-			//	tr.append( $('<td></td>').html( moment().diff(d.dtEnd, 'day') < 1 ? "Active" : "Ended on:<br/>" + dtEnd ) );
-
-				tr.append( $('<td></td>').text( d.nAnimals ) );
-
-				tr.append( $('<td></td>').text( d.nStations ) );
-
-				$(`#explore_card_${cardID} .explore-card-${cardID}-speciesTable > tbody`).append( tr );
-
-			});
-			*/
-
-			console.log(motusData.selectedSpecies);
-
-
 			var tableDom = motusData.selectedSpecies.length > 10 ? "itp" : "t";
 
 			$("#explore_card_" + cardID + " .explore-card-" + cardID + "-speciesTable").DataTable({
@@ -1526,7 +1505,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 									""//rdata.country[0] != "NA" ? `<div class='explore-card-table-legend-icon' style='border-color:${colourScale( rdata.country[0] )}'></div>` : ""
 								)
 							)+
-							`<a href='javascript:void(0);' onclick='viewProfile("species", [${rdata.species}]);'>${rdata.name}</a>`
+							`<a href='javascript:void(0);' class='tips' alt='View species profile' onclick='viewProfile("species", [${rdata.species}]);'>${rdata.name}</a>`
 						);
 					}},
 					{data: "nAnimals", title: "Animals detected"},
@@ -1542,6 +1521,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 				order: [[4, 'asc']]
 			});
 
+			initiateTooltip("#explore_card_" + cardID + " .explore-card-" + cardID + "-speciesTable");
 
 				$(`#explore_card_${cardID} .explore-card-${cardID}-speciesTable tbody`).on('click', `td.explore-table-expandRow`, function(){
 					var tr = $(this).closest('tr');
@@ -1559,7 +1539,34 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 						tr.addClass('shown');
 					} else {
 						// Create and open this row
-						row.child( `<div class='explore-species-table-animals'>${animalTable( row.data().species )}</div>` ).show();
+						var newRow = row.child( `<div class='explore-species-table-animals'><table><thead><tr></tr></thead><tbody></tbody></table></div>` ).show();
+
+
+					row.child().find('.explore-species-table-animals table').DataTable({
+							data: motusData.animalsTableData.filter( d => d.species == row.data().species ),
+							columns: [
+								{data: "name", title: "Animal", "createdCell": function(td, cdata, rdata){
+									$(td).html(
+															`<div class='explore-card-table-legend-icon' style='border-color:${colourScale(rdata.country)}'></div>`+
+															`<a href='javascript:void(0);' class='tips' alt='View animal profile' onclick='viewProfile("animals", [${rdata.id}]);'>${rdata.name} #${rdata.id}</a>`
+														);
+								}},
+								{data: "dtStart", title: "Release date"},
+								{data: "dtEnd", title: "Status"},
+								{data: "nStations", title: "Stations visited"},
+								{data: "nDays", title: "Days detected"},
+								{data: "projName", title: "Project", "createdCell": function(td, cdata, rdata){
+									$(td).html(
+										`<a href='javascript:void(0);' onclick='viewProfile("projects", [${rdata.projID}]);'>${rdata.projName}</a>`
+									);
+								}}
+							],
+							dom: tableDom,
+							autoWidth: false
+						});
+
+						initiateTooltip(row.child());
+
 						tr.addClass('shown');
 					}
 
