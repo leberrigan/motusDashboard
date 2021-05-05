@@ -2602,7 +2602,7 @@ const characters = `\
 .notdef       .notdef        .notdef        .notdef
 .notdef       .notdef        .notdef        .notdef
 .notdef       .notdef        .notdef        .notdef
-  
+
 space         exclam         quotedbl       numbersign
 dollar        percent        ampersand      quotesingle
 parenleft     parenright     asterisk       plus
@@ -2611,7 +2611,7 @@ zero          one            two            three
 four          five           six            seven
 eight         nine           colon          semicolon
 less          equal          greater        question
-  
+
 at            A              B              C
 D             E              F              G
 H             I              J              K
@@ -2620,7 +2620,7 @@ P             Q              R              S
 T             U              V              W
 X             Y              Z              bracketleft
 backslash     bracketright   asciicircum    underscore
-  
+
 grave         a              b              c
 d             e              f              g
 h             i              j              k
@@ -2629,7 +2629,7 @@ p             q              r              s
 t             u              v              w
 x             y              z              braceleft
 bar           braceright     asciitilde     .notdef
-  
+
 Euro          .notdef        quotesinglbase florin
 quotedblbase  ellipsis       dagger         daggerdbl
 circumflex    perthousand    Scaron         guilsinglleft
@@ -2638,7 +2638,7 @@ OE            .notdef        Zcaron         .notdef
 quotedblright bullet         endash         emdash
 tilde         trademark      scaron         guilsinglright
 oe            .notdef        zcaron         ydieresis
-  
+
 space         exclamdown     cent           sterling
 currency      yen            brokenbar      section
 dieresis      copyright      ordfeminine    guillemotleft
@@ -2647,7 +2647,7 @@ degree        plusminus      twosuperior    threesuperior
 acute         mu             paragraph      periodcentered
 cedilla       onesuperior    ordmasculine   guillemotright
 onequarter    onehalf        threequarters  questiondown
-  
+
 Agrave        Aacute         Acircumflex    Atilde
 Adieresis     Aring          AE             Ccedilla
 Egrave        Eacute         Ecircumflex    Edieresis
@@ -2656,7 +2656,7 @@ Eth           Ntilde         Ograve         Oacute
 Ocircumflex   Otilde         Odieresis      multiply
 Oslash        Ugrave         Uacute         Ucircumflex
 Udieresis     Yacute         Thorn          germandbls
-  
+
 agrave        aacute         acircumflex    atilde
 adieresis     aring          ae             ccedilla
 egrave        eacute         ecircumflex    edieresis
@@ -7110,7 +7110,7 @@ var kBitMask = new Uint32Array([
 function BrotliBitReader(input) {
   this.buf_ = new Uint8Array(BROTLI_IBUF_SIZE);
   this.input_ = input;    /* input callback */
-  
+
   this.reset();
 }
 
@@ -7124,13 +7124,13 @@ BrotliBitReader.prototype.reset = function() {
   this.bit_pos_ = 0;      /* current bit-reading position in val_ */
   this.bit_end_pos_ = 0;  /* bit-reading end position from LSB of val_ */
   this.eos_ = 0;          /* input stream is finished */
-  
+
   this.readMoreInput();
   for (var i = 0; i < 4; i++) {
     this.val_ |= this.buf_[this.pos_] << (8 * i);
     ++this.pos_;
   }
-  
+
   return this.bit_end_pos_ > 0;
 };
 
@@ -7158,14 +7158,14 @@ BrotliBitReader.prototype.readMoreInput = function() {
     if (bytes_read < 0) {
       throw new Error('Unexpected end of input');
     }
-    
+
     if (bytes_read < BROTLI_READ_SIZE) {
       this.eos_ = 1;
       /* Store 32 bytes of zero after the stream end. */
       for (var p = 0; p < 32; p++)
         this.buf_[dst + bytes_read + p] = 0;
     }
-    
+
     if (dst === 0) {
       /* Copy the head of the ringbuffer to the slack region. */
       for (var p = 0; p < 32; p++)
@@ -7175,13 +7175,13 @@ BrotliBitReader.prototype.readMoreInput = function() {
     } else {
       this.buf_ptr_ = 0;
     }
-    
+
     this.bit_end_pos_ += bytes_read << 3;
   }
 };
 
 /* Guarantees that there are at least 24 bits in the buffer. */
-BrotliBitReader.prototype.fillBitWindow = function() {    
+BrotliBitReader.prototype.fillBitWindow = function() {
   while (this.bit_pos_ >= 8) {
     this.val_ >>>= 8;
     this.val_ |= this.buf_[this.pos_ & BROTLI_IBUF_MASK] << 24;
@@ -7196,7 +7196,7 @@ BrotliBitReader.prototype.readBits = function(n_bits) {
   if (32 - this.bit_pos_ < n_bits) {
     this.fillBitWindow();
   }
-  
+
   var val = ((this.val_ >>> this.bit_pos_) & kBitMask[n_bits]);
   this.bit_pos_ += n_bits;
   return val;
@@ -7520,17 +7520,17 @@ function DecodeWindowBits(br) {
   if (br.readBits(1) === 0) {
     return 16;
   }
-  
+
   n = br.readBits(3);
   if (n > 0) {
     return 17 + n;
   }
-  
+
   n = br.readBits(3);
   if (n > 0) {
     return 8 + n;
   }
-  
+
   return 17;
 }
 
@@ -7555,32 +7555,32 @@ function MetaBlockLength() {
 }
 
 function DecodeMetaBlockLength(br) {
-  var out = new MetaBlockLength;  
+  var out = new MetaBlockLength;
   var size_nibbles;
   var size_bytes;
   var i;
-  
+
   out.input_end = br.readBits(1);
   if (out.input_end && br.readBits(1)) {
     return out;
   }
-  
+
   size_nibbles = br.readBits(2) + 4;
   if (size_nibbles === 7) {
     out.is_metadata = true;
-    
+
     if (br.readBits(1) !== 0)
       throw new Error('Invalid reserved bit');
-    
+
     size_bytes = br.readBits(2);
     if (size_bytes === 0)
       return out;
-    
+
     for (i = 0; i < size_bytes; i++) {
       var next_byte = br.readBits(8);
       if (i + 1 === size_bytes && size_bytes > 1 && next_byte === 0)
         throw new Error('Invalid size byte');
-      
+
       out.meta_block_length |= next_byte << (i * 8);
     }
   } else {
@@ -7588,24 +7588,24 @@ function DecodeMetaBlockLength(br) {
       var next_nibble = br.readBits(4);
       if (i + 1 === size_nibbles && size_nibbles > 4 && next_nibble === 0)
         throw new Error('Invalid size nibble');
-      
+
       out.meta_block_length |= next_nibble << (i * 4);
     }
   }
-  
+
   ++out.meta_block_length;
-  
+
   if (!out.input_end && !out.is_metadata) {
     out.is_uncompressed = br.readBits(1);
   }
-  
+
   return out;
 }
 
 /* Decodes the next Huffman code from bit-stream. */
 function ReadSymbol(table, index, br) {
   var start_index = index;
-  
+
   var nbits;
   br.fillBitWindow();
   index += (br.val_ >>> br.bit_pos_) & HUFFMAN_TABLE_MASK;
@@ -7625,17 +7625,17 @@ function ReadHuffmanCodeLengths(code_length_code_lengths, num_symbols, code_leng
   var repeat = 0;
   var repeat_code_len = 0;
   var space = 32768;
-  
+
   var table = [];
   for (var i = 0; i < 32; i++)
     table.push(new HuffmanCode(0, 0));
-  
+
   BrotliBuildHuffmanTable(table, 0, 5, code_length_code_lengths, CODE_LENGTH_CODES);
 
   while (symbol < num_symbols && space > 0) {
     var p = 0;
     var code_len;
-    
+
     br.readMoreInput();
     br.fillBitWindow();
     p += (br.val_ >>> br.bit_pos_) & 31;
@@ -7670,12 +7670,12 @@ function ReadHuffmanCodeLengths(code_length_code_lengths, num_symbols, code_leng
       if (symbol + repeat_delta > num_symbols) {
         throw new Error('[ReadHuffmanCodeLengths] symbol + repeat_delta > num_symbols');
       }
-      
+
       for (var x = 0; x < repeat_delta; x++)
         code_lengths[symbol + x] = repeat_code_len;
-      
+
       symbol += repeat_delta;
-      
+
       if (repeat_code_len !== 0) {
         space -= repeat_delta << (15 - repeat_code_len);
       }
@@ -7684,7 +7684,7 @@ function ReadHuffmanCodeLengths(code_length_code_lengths, num_symbols, code_leng
   if (space !== 0) {
     throw new Error("[ReadHuffmanCodeLengths] space = " + space);
   }
-  
+
   for (; symbol < num_symbols; symbol++)
     code_lengths[symbol] = 0;
 }
@@ -7693,9 +7693,9 @@ function ReadHuffmanCode(alphabet_size, tables, table, br) {
   var table_size = 0;
   var simple_code_or_skip;
   var code_lengths = new Uint8Array(alphabet_size);
-  
+
   br.readMoreInput();
-  
+
   /* simple_code_or_skip is used as follows:
      1 for simple code;
      0 for no skipping, 2 skips 2 code lengths, 3 skips 3 code lengths */
@@ -7731,7 +7731,7 @@ function ReadHuffmanCode(alphabet_size, tables, table, br) {
         if (symbols[0] === symbols[1]) {
           throw new Error('[ReadHuffmanCode] invalid symbols');
         }
-        
+
         code_lengths[symbols[1]] = 1;
         break;
       case 4:
@@ -7743,7 +7743,7 @@ function ReadHuffmanCode(alphabet_size, tables, table, br) {
             (symbols[2] === symbols[3])) {
           throw new Error('[ReadHuffmanCode] invalid symbols');
         }
-        
+
         if (br.readBits(1)) {
           code_lengths[symbols[2]] = 3;
           code_lengths[symbols[3]] = 3;
@@ -7759,9 +7759,9 @@ function ReadHuffmanCode(alphabet_size, tables, table, br) {
     var num_codes = 0;
     /* Static Huffman code for the code length code lengths */
     var huff = [
-      new HuffmanCode(2, 0), new HuffmanCode(2, 4), new HuffmanCode(2, 3), new HuffmanCode(3, 2), 
+      new HuffmanCode(2, 0), new HuffmanCode(2, 4), new HuffmanCode(2, 3), new HuffmanCode(3, 2),
       new HuffmanCode(2, 0), new HuffmanCode(2, 4), new HuffmanCode(2, 3), new HuffmanCode(4, 1),
-      new HuffmanCode(2, 0), new HuffmanCode(2, 4), new HuffmanCode(2, 3), new HuffmanCode(3, 2), 
+      new HuffmanCode(2, 0), new HuffmanCode(2, 4), new HuffmanCode(2, 3), new HuffmanCode(3, 2),
       new HuffmanCode(2, 0), new HuffmanCode(2, 4), new HuffmanCode(2, 3), new HuffmanCode(4, 5)
     ];
     for (i = simple_code_or_skip; i < CODE_LENGTH_CODES && space > 0; ++i) {
@@ -7778,19 +7778,19 @@ function ReadHuffmanCode(alphabet_size, tables, table, br) {
         ++num_codes;
       }
     }
-    
+
     if (!(num_codes === 1 || space === 0))
       throw new Error('[ReadHuffmanCode] invalid num_codes or space');
-    
+
     ReadHuffmanCodeLengths(code_length_code_lengths, alphabet_size, code_lengths, br);
   }
-  
+
   table_size = BrotliBuildHuffmanTable(tables, table, HUFFMAN_TABLE_BITS, code_lengths, alphabet_size);
-  
+
   if (table_size === 0) {
     throw new Error("[ReadHuffmanCode] BuildHuffmanTable failed: ");
   }
-  
+
   return table_size;
 }
 
@@ -7838,7 +7838,7 @@ function InverseMoveToFrontTransform(v, v_len) {
 function HuffmanTreeGroup(alphabet_size, num_htrees) {
   this.alphabet_size = alphabet_size;
   this.num_htrees = num_htrees;
-  this.codes = new Array(num_htrees + num_htrees * kMaxHuffmanTableSize[(alphabet_size + 31) >>> 5]);  
+  this.codes = new Array(num_htrees + num_htrees * kMaxHuffmanTableSize[(alphabet_size + 31) >>> 5]);
   this.htrees = new Uint32Array(num_htrees);
 }
 
@@ -7859,7 +7859,7 @@ function DecodeContextMap(context_map_size, br) {
   var max_run_length_prefix = 0;
   var table;
   var i;
-  
+
   br.readMoreInput();
   var num_htrees = out.num_htrees = DecodeVarLenUint8(br) + 1;
 
@@ -7872,14 +7872,14 @@ function DecodeContextMap(context_map_size, br) {
   if (use_rle_for_zeros) {
     max_run_length_prefix = br.readBits(4) + 1;
   }
-  
+
   table = [];
   for (i = 0; i < HUFFMAN_MAX_TABLE_SIZE; i++) {
     table[i] = new HuffmanCode(0, 0);
   }
-  
+
   ReadHuffmanCode(num_htrees + max_run_length_prefix, table, 0, br);
-  
+
   for (i = 0; i < context_map_size;) {
     var code;
 
@@ -7905,7 +7905,7 @@ function DecodeContextMap(context_map_size, br) {
   if (br.readBits(1)) {
     InverseMoveToFrontTransform(context_map, context_map_size);
   }
-  
+
   return out;
 }
 
@@ -7966,7 +7966,7 @@ function CopyUncompressedBlockToOutput(output, len, pos, ringbuffer, ringbuffer_
     var tail = BrotliBitReader.IBUF_MASK + 1 - br_pos;
     for (var x = 0; x < tail; x++)
       ringbuffer[rb_pos + x] = br.buf_[br_pos + x];
-    
+
     nbytes -= tail;
     rb_pos += tail;
     len -= tail;
@@ -7975,7 +7975,7 @@ function CopyUncompressedBlockToOutput(output, len, pos, ringbuffer, ringbuffer_
 
   for (var x = 0; x < nbytes; x++)
     ringbuffer[rb_pos + x] = br.buf_[br_pos + x];
-  
+
   rb_pos += nbytes;
   len -= nbytes;
 
@@ -7983,7 +7983,7 @@ function CopyUncompressedBlockToOutput(output, len, pos, ringbuffer, ringbuffer_
      ringbuffer to its beginning and flush the ringbuffer to the output. */
   if (rb_pos >= rb_size) {
     output.write(ringbuffer, rb_size);
-    rb_pos -= rb_size;    
+    rb_pos -= rb_size;
     for (var x = 0; x < rb_pos; x++)
       ringbuffer[x] = ringbuffer[rb_size + x];
   }
@@ -8031,20 +8031,20 @@ exports.BrotliDecompressedSize = BrotliDecompressedSize;
 
 function BrotliDecompressBuffer(buffer, output_size) {
   var input = new BrotliInput(buffer);
-  
+
   if (output_size == null) {
     output_size = BrotliDecompressedSize(buffer);
   }
-  
+
   var output_buffer = new Uint8Array(output_size);
   var output = new BrotliOutput(output_buffer);
-  
+
   BrotliDecompress(input, output);
-  
+
   if (output.pos < output.buffer.length) {
     output.buffer = output.buffer.subarray(0, output.pos);
   }
-  
+
   return output.buffer;
 }
 
@@ -8131,7 +8131,7 @@ function BrotliDecompress(input, output) {
     }
 
     br.readMoreInput();
-    
+
     var _out = DecodeMetaBlockLength(br);
     meta_block_remaining_len = _out.meta_block_length;
     if (pos + meta_block_remaining_len > output.buffer.length) {
@@ -8139,26 +8139,26 @@ function BrotliDecompress(input, output) {
       var tmp = new Uint8Array( pos + meta_block_remaining_len );
       tmp.set( output.buffer );
       output.buffer = tmp;
-    }    
+    }
     input_end = _out.input_end;
     is_uncompressed = _out.is_uncompressed;
-    
+
     if (_out.is_metadata) {
       JumpToByteBoundary(br);
-      
+
       for (; meta_block_remaining_len > 0; --meta_block_remaining_len) {
         br.readMoreInput();
         /* Read one byte and ignore it. */
         br.readBits(8);
       }
-      
+
       continue;
     }
-    
+
     if (meta_block_remaining_len === 0) {
       continue;
     }
-    
+
     if (is_uncompressed) {
       br.bit_pos_ = (br.bit_pos_ + 7) & ~7;
       CopyUncompressedBlockToOutput(output, meta_block_remaining_len, pos,
@@ -8166,7 +8166,7 @@ function BrotliDecompress(input, output) {
       pos += meta_block_remaining_len;
       continue;
     }
-    
+
     for (i = 0; i < 3; ++i) {
       num_block_types[i] = DecodeVarLenUint8(br) + 1;
       if (num_block_types[i] >= 2) {
@@ -8176,9 +8176,9 @@ function BrotliDecompress(input, output) {
         block_type_rb_index[i] = 1;
       }
     }
-    
+
     br.readMoreInput();
-    
+
     distance_postfix_bits = br.readBits(2);
     num_direct_distance_codes = NUM_DISTANCE_SHORT_CODES + (br.readBits(4) << distance_postfix_bits);
     distance_postfix_mask = (1 << distance_postfix_bits) - 1;
@@ -8189,15 +8189,15 @@ function BrotliDecompress(input, output) {
        br.readMoreInput();
        context_modes[i] = (br.readBits(2) << 1);
     }
-    
+
     var _o1 = DecodeContextMap(num_block_types[0] << kLiteralContextBits, br);
     num_literal_htrees = _o1.num_htrees;
     context_map = _o1.context_map;
-    
+
     var _o2 = DecodeContextMap(num_block_types[2] << kDistanceContextBits, br);
     num_dist_htrees = _o2.num_htrees;
     dist_context_map = _o2.context_map;
-    
+
     hgroup[0] = new HuffmanTreeGroup(kNumLiteralCodes, num_literal_htrees);
     hgroup[1] = new HuffmanTreeGroup(kNumInsertAndCopyCodes, num_block_types[1]);
     hgroup[2] = new HuffmanTreeGroup(num_distance_codes, num_dist_htrees);
@@ -8227,7 +8227,7 @@ function BrotliDecompress(input, output) {
       var copy_dst;
 
       br.readMoreInput();
-      
+
       if (block_length[1] === 0) {
         DecodeBlockType(num_block_types[1],
                         block_type_trees, 1, block_type, block_type_rb,
@@ -8283,7 +8283,7 @@ function BrotliDecompress(input, output) {
 
       if (distance_code < 0) {
         var context;
-        
+
         br.readMoreInput();
         if (block_length[2] === 0) {
           DecodeBlockType(num_block_types[2],
@@ -8345,7 +8345,7 @@ function BrotliDecompress(input, output) {
             meta_block_remaining_len -= len;
             if (copy_dst >= ringbuffer_end) {
               output.write(ringbuffer, ringbuffer_size);
-              
+
               for (var _x = 0; _x < (copy_dst - ringbuffer_end); _x++)
                 ringbuffer[_x] = ringbuffer[ringbuffer_end + _x];
             }
@@ -8401,10 +8401,10 @@ var base64 = require('base64-js');
 var fs = require('fs');
 
 /**
- * The normal dictionary-data.js is quite large, which makes it 
- * unsuitable for browser usage. In order to make it smaller, 
+ * The normal dictionary-data.js is quite large, which makes it
+ * unsuitable for browser usage. In order to make it smaller,
  * we read dictionary.bin, which is a compressed version of
- * the dictionary, and on initial load, Brotli decompresses 
+ * the dictionary, and on initial load, Brotli decompresses
  * it's own dictionary. 😜
  */
 exports.init = function() {
@@ -8532,7 +8532,7 @@ exports.BrotliBuildHuffmanTable = function(root_table, table, root_bits, code_le
       sorted[offset[code_lengths[symbol]]++] = symbol;
     }
   }
-  
+
   table_bits = root_bits;
   table_size = 1 << table_bits;
   total_size = table_size;
@@ -8542,7 +8542,7 @@ exports.BrotliBuildHuffmanTable = function(root_table, table, root_bits, code_le
     for (key = 0; key < total_size; ++key) {
       root_table[table + key] = new HuffmanCode(0, sorted[0] & 0xffff);
     }
-    
+
     return total_size;
   }
 
@@ -8575,7 +8575,7 @@ exports.BrotliBuildHuffmanTable = function(root_table, table, root_bits, code_le
       key = GetNextKey(key, len);
     }
   }
-  
+
   return total_size;
 }
 
@@ -8651,10 +8651,10 @@ BrotliInput.prototype.read = function(buf, i, count) {
   if (this.pos + count > this.buffer.length) {
     count = this.buffer.length - this.pos;
   }
-  
+
   for (var p = 0; p < count; p++)
     buf[i + p] = this.buffer[this.pos + p];
-  
+
   this.pos += count;
   return count;
 }
@@ -8669,7 +8669,7 @@ function BrotliOutput(buf) {
 BrotliOutput.prototype.write = function(buf, count) {
   if (this.pos + count > this.buffer.length)
     throw new Error('Output buffer is not large enough');
-  
+
   this.buffer.set(buf.subarray(0, count), this.pos);
   this.pos += count;
   return count;
@@ -8723,10 +8723,10 @@ function Transform(prefix, transform, suffix) {
   this.prefix = new Uint8Array(prefix.length);
   this.transform = transform;
   this.suffix = new Uint8Array(suffix.length);
-  
+
   for (var i = 0; i < prefix.length; i++)
     this.prefix[i] = prefix.charCodeAt(i);
-  
+
   for (var i = 0; i < suffix.length; i++)
     this.suffix[i] = suffix.charCodeAt(i);
 }
@@ -8865,13 +8865,13 @@ function ToUpperCase(p, i) {
     }
     return 1;
   }
-  
+
   /* An overly simplified uppercasing model for utf-8. */
   if (p[i] < 0xe0) {
     p[i + 1] ^= 32;
     return 2;
   }
-  
+
   /* An arbitrary transform for three byte characters. */
   p[i + 2] ^= 5;
   return 3;
@@ -8885,29 +8885,29 @@ exports.transformDictionaryWord = function(dst, idx, word, len, transform) {
   var i = 0;
   var start_idx = idx;
   var uppercase;
-  
+
   if (skip > len) {
     skip = len;
   }
-  
+
   var prefix_pos = 0;
   while (prefix_pos < prefix.length) {
     dst[idx++] = prefix[prefix_pos++];
   }
-  
+
   word += skip;
   len -= skip;
-  
+
   if (t <= kOmitLast9) {
     len -= t;
   }
-  
+
   for (i = 0; i < len; i++) {
     dst[idx++] = BrotliDictionary.dictionary[word + i];
   }
-  
+
   uppercase = idx - len;
-  
+
   if (t === kUppercaseFirst) {
     ToUpperCase(dst, uppercase);
   } else if (t === kUppercaseAll) {
@@ -8917,12 +8917,12 @@ exports.transformDictionaryWord = function(dst, idx, word, len, transform) {
       len -= step;
     }
   }
-  
+
   var suffix_pos = 0;
   while (suffix_pos < suffix.length) {
     dst[idx++] = suffix[suffix_pos++];
   }
-  
+
   return idx - start_idx;
 }
 
@@ -58784,7 +58784,7 @@ const mapClass = function(c) {
     default:            return c;
   }
 };
-    
+
 const mapFirst = function(c) {
   switch (c) {
     case LF: case NL: return BK;
@@ -58796,12 +58796,12 @@ const mapFirst = function(c) {
 
 class Break {
   constructor(position, required = false) {
-    this.position = position;    
+    this.position = position;
     this.required = required;
   }
 };
-  
-class LineBreaker {    
+
+class LineBreaker {
   constructor(string) {
     this.string = string;
     this.pos = 0;
@@ -58809,39 +58809,39 @@ class LineBreaker {
     this.curClass = null;
     this.nextClass = null;
   }
-  
+
   nextCodePoint() {
     const code = this.string.charCodeAt(this.pos++);
     const next = this.string.charCodeAt(this.pos);
-  
+
     // If a surrogate pair
     if ((0xd800 <= code && code <= 0xdbff) && (0xdc00 <= next && next <= 0xdfff)) {
       this.pos++;
       return ((code - 0xd800) * 0x400) + (next - 0xdc00) + 0x10000;
     }
-    
+
     return code;
   }
-      
+
   nextCharClass() {
     return mapClass(classTrie.get(this.nextCodePoint()));
   }
-  
-  nextBreak() {    
+
+  nextBreak() {
     // get the first char if we're at the beginning of the string
     if (this.curClass == null) { this.curClass = mapFirst(this.nextCharClass()); }
-  
+
     while (this.pos < this.string.length) {
       this.lastPos = this.pos;
       const lastClass = this.nextClass;
       this.nextClass = this.nextCharClass();
-    
+
       // explicit newline
       if ((this.curClass === BK) || ((this.curClass === CR) && (this.nextClass !== LF))) {
         this.curClass = mapFirst(mapClass(this.nextClass));
         return new Break(this.lastPos, true);
       }
-    
+
       // handle classes not handled by the pair table
       let cur
       switch (this.nextClass) {
@@ -58850,40 +58850,40 @@ class LineBreaker {
         case CR:         cur = CR; break;
         case CB:         cur = BA; break;
       }
-      
+
       if (cur != null) {
         this.curClass = cur;
         if (this.nextClass === CB) { return new Break(this.lastPos); }
         continue;
       }
-    
+
       // if not handled already, use the pair table
       let shouldBreak = false;
       switch (pairTable[this.curClass][this.nextClass]) {
         case DI_BRK: // Direct break
           shouldBreak = true;
           break;
-        
+
         case IN_BRK: // possible indirect break
           shouldBreak = lastClass === SP;
           break;
-          
+
         case CI_BRK:
           shouldBreak = lastClass === SP;
           if (!shouldBreak) { continue; }
           break;
-          
+
         case CP_BRK: // prohibited for combining marks
           if (lastClass !== SP) { continue; }
           break;
       }
-        
+
       this.curClass = this.nextClass;
       if (shouldBreak) {
         return new Break(this.lastPos);
       }
     }
-    
+
     if (this.pos >= this.string.length) {
       if (this.lastPos < this.string.length) {
         this.lastPos = this.string.length;
@@ -58894,7 +58894,7 @@ class LineBreaker {
     }
   }
 };
-          
+
 module.exports = LineBreaker;
 
 },{"./classes":230,"./pairs":232,"base64-js":228,"unicode-trie":229}],232:[function(require,module,exports){
@@ -58904,7 +58904,7 @@ exports.IN_BRK = (IN_BRK = 1); // Indirect break opportunity
 exports.CI_BRK = (CI_BRK = 2); // Indirect break opportunity for combining marks
 exports.CP_BRK = (CP_BRK = 3); // Prohibited break for combining marks
 exports.PR_BRK = (PR_BRK = 4); // Prohibited break
-      
+
 // table generated from http://www.unicode.org/reports/tr14/#Table2
 exports.pairTable = [
   [PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, CP_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK, PR_BRK],
@@ -64435,10 +64435,10 @@ function Data(source, dest) {
   this.sourceIndex = 0;
   this.tag = 0;
   this.bitcount = 0;
-  
+
   this.dest = dest;
   this.destLen = 0;
-  
+
   this.ltree = new Tree();  /* dynamic length/symbol tree */
   this.dtree = new Tree();  /* dynamic distance tree */
 }
@@ -64580,7 +64580,7 @@ function tinf_decode_symbol(d, t) {
     d.tag |= d.source[d.sourceIndex++] << d.bitcount;
     d.bitcount += 8;
   }
-  
+
   var sum = 0, cur = 0, len = 0;
   var tag = d.tag;
 
@@ -64593,7 +64593,7 @@ function tinf_decode_symbol(d, t) {
     sum += t.table[len];
     cur -= t.table[len];
   } while (cur >= 0);
-  
+
   d.tag = tag;
   d.bitcount -= len;
 
@@ -64704,7 +64704,7 @@ function tinf_inflate_block_data(d, lt, dt) {
 function tinf_inflate_uncompressed_block(d) {
   var length, invlength;
   var i;
-  
+
   /* unread from bitbuffer */
   while (d.bitcount > 8) {
     d.sourceIndex--;
@@ -64777,7 +64777,7 @@ function tinf_uncompress(source, dest) {
     else
       return d.dest.subarray(0, d.destLen);
   }
-  
+
   return d.dest;
 }
 

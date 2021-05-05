@@ -1,17 +1,12 @@
 PDFDocument.prototype.addSVG = function(svg, x, y, options) {
   return SVGtoPDF(this, svg, x, y, options), this;
 };
-function makePDF(opts = {"type": "Data", "selection": false}) {
-	if ($("iframe#pdf_output").length == 0) {
-		$("body").append('<div class="pdf-output-wrapper"><div style="text-align:center;margin-top:10px;"><a class="hidden_link" target="_blank"></a><button class="download_btn">Download</button><button class="close_btn">Close</button></div><iframe id="pdf_output"></iframe></div>').find('iframe').get(0);
-		$(".pdf-output-wrapper,.pdf-output-wrapper .close_btn").click(function(e){
-			if (e.target !== this) return;
-			$(".pdf-output-wrapper").fadeOut(250);
-      $("body").css("overflow-y", "");
-		});
 
-		$(".pdf-output-wrapper").fadeIn(250);
-    $("body").css("overflow-y", "hidden");
+var pdf_config = {page_size: 'letter', width: 612, height: 792};
+
+
+function makePDF(opts = {"type": "Data", "selection": false}) {
+
 
     let blob;
 
@@ -25,9 +20,48 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 			}
 
 		}
+
+    // Get the map dimensions
+    var map_dims = {
+                      w: $(`#${motusMap.el}`).width(),
+                      h: $(`#${motusMap.el}`).height(),
+                      x: $($(`#${motusMap.el} .leaflet-tile-container`)).css('transform').replace(/[matrix\(|\)]{2}/, '').split(',').map(x => parseInt(x))[4],
+                      y: $($(`#${motusMap.el} .leaflet-tile-container`)).css('transform').replace(/[matrix\(|\)]{2}/, '').split(',').map(x => parseInt(x))[5]
+                    };
+    // Get the map dimensions
+    var svg_dims = {
+                      w: $(`#${motusMap.el} .leaflet-overlay-pane svg`).width(),
+                      h: $(`#${motusMap.el} .leaflet-overlay-pane svg`).height(),
+                      x: $(`#${motusMap.el} .leaflet-overlay-pane svg`).offset().left - $(`#${motusMap.el}`).offset().left,
+                      y: $(`#${motusMap.el} .leaflet-overlay-pane svg`).offset().top - $(`#${motusMap.el}`).offset().top
+                    };
+
+    map_dims.w_r = (pdf_config.width * 1.15 ) / map_dims.w;
+    map_dims.h_r = 1;//pdf_config.height / map_dims.h;
+
+    // Load map tile images
+    $(`#${motusMap.el} .leaflet-tile-container > img`).each(addImageFiles);
+
+
+    function addImageFiles() {
+
+      var pos = $(this).css('transform').replace(/[matrix\(|\)]{2}/, '').split(',').map(x => parseInt(x));
+
+      var dims = {
+              w: Math.round(256 * map_dims.w_r),
+              h: Math.round(256 * map_dims.w_r),
+              x: Math.round( ( (pos[4] - svg_dims.x)) * map_dims.w_r) + 10 + (map_dims.x * map_dims.w_r),
+              y: Math.round( ( (pos[5] - svg_dims.y)) * map_dims.w_r) + 150 + (map_dims.y * map_dims.w_r)
+            }
+
+    //  if (dims.x > 0 && dims.y > 0 && dims.x + dims.w  < pdf_config.width && dims.y + dims.h  < pdf_config.height) {
+        files[Object.keys(files).length] = {type: 'map_tile', url: $(this).attr('src'), dims: dims };
+    //  }
+    }
+
 		var filesLoaded = 0;
 
-		var doc = new PDFDocument();
+		var doc = new PDFDocument({pdf_config});
 		var stream = doc.pipe(blobStream());
 
 
@@ -42,6 +76,12 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 		  files[file].xhr.open("GET", files[file].url);
 		  files[file].xhr.send(null);
 		}
+
+
+
+
+
+
 
 
 		var blobURL = null;
@@ -61,7 +101,7 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 		function loadFile(xhr) {
 
 			for (var file in files) {
-				if (files[file].url === xhr.responseURL) {
+				if (files[file].url.replace(/(http|https):\/\//, '') === xhr.responseURL.replace(/(http|https):\/\//, '') ) {
 					files[file].data = xhr.response;
 				}
 			}
@@ -141,12 +181,27 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 
 			}
 
+      // Add map to the second page
+      // This involves both an SVG and a series of tile images.
 
 			doc.addPage();
+
+
+      // Clone the SVG map
 			var map_clone = $(".leaflet-overlay-pane svg").clone();
 			map_clone.find('.hidden').remove();
 
-			doc.addSVG(map_clone.get(0), 10, 150);
+      // Add the image tiles first
+      for ( var f in files ) {
+        if (files[f].type == 'map_tile') {
+          if ( files[f].data ) {
+            doc.image( files[f].data , files[f].dims.x, files[f].dims.y, {width: files[f].dims.w});
+          }
+        }
+      }
+
+      // Add the map SVGs to the pdf
+			doc.addSVG(map_clone.get(0), 10, 150, {width: svg_dims.w * map_dims.w_r, height: svg_dims.h * map_dims.w_r, preserveAspectRatio: "xMinYMin"});
 		//	doc.addSVG($(".explore-timeline-btn").get(0), 10, 150, { width:100 });
 
       if ($(".explore-card-tagHits-timeline svg").length > 0) {
@@ -185,11 +240,7 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 				.click();
 		  window.URL.revokeObjectURL(blobURL);
 		}
-	} else {
 
-		$(".pdf-output-wrapper").fadeIn(250);
-
-	}
 
 	function fancySummaryTable(vars, vals, top) {
 		var colours = ["#5555AA", "#00AAAA", "#55AA55", "#AA00AA"];

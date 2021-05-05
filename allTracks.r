@@ -1,15 +1,17 @@
 library(tidyverse)
 library(lubridate)
 library(fuzzyjoin)
+library(geosphere)
 
-dashboard.dir <- "C:/wamp64/www/Motus/Dashboard/Example station interfaces/data/"
+dashboard.dir <- "C:/wamp64/www/Motus/Dashboard/data/"
 data.dir <- 'E:/Data/'
 
 tags <- read.csv(paste0(data.dir, 'tags.csv')) %>% 
-  select(projID = project_id, tagID = id, mfgID = mfg_id, bi = period, freq = nom_freq)
+  select(projID = tagProjectID, tagID, bi = period, freq = nomFreq)
+#  select(projID = project_id, tagID = id, mfgID = mfg_id, bi = period, freq = nom_freq)
 
 tagDeps <- read.csv(paste0(data.dir, 'tag-deployments.csv')) %>%
-  rename(projID = tagProjectID, tagID = tagID, deployID = tagDeployID, lat = latitude, lon = longitude) %>% #, dtStart, dtEnd) %>%
+  rename(projID = tagProjectID, deployID = tagDeployID, lat = latitude, lon = longitude) %>% #, dtStart, dtEnd) %>%
   mutate(lat.r = round(lat/10), lon.r  = round(lon/10),
          dtEnd = as.Date(as.POSIXct(tsEnd, origin = '1970-01-01')),
          dtStart = as.Date(dtStart),
@@ -56,7 +58,8 @@ allTracks.df <- allTracks.df.raw %>%
          recv2 = recvDeployID,
          ts1 = lag(end_s), 
          ts2 = begin_s,
-         route = ifelse(recv1 < recv2, paste(recv1, recv2, sep = '.'), paste(recv2, recv1, sep = '.'))
+         route = ifelse(recv1 < recv2, paste(recv1, recv2, sep = '.'), paste(recv2, recv1, sep = '.')),
+         dir = ifelse(recv1 < recv2, 1, -1)
       #   route = ifelse(lat1 < lat2, paste(lat1, lon1, lat2, lon2, sep = ','),  paste(lat2, lon2, lat1, lon1, sep = ','))
 #         route = as.integer(as.factor(route))
          ) %>%
@@ -82,7 +85,10 @@ allTracks.df <- allTracks.df.raw %>%
             dtStart = paste(as.Date(as.POSIXct(ts1, origin = '1970-01-01')), collapse=','),
       #      dtStart = (as.Date(as.POSIXct(min(ts1, na.rm = T), origin = '1970-01-01'))),
       #      dtEnd = (as.Date(as.POSIXct(max(ts2, na.rm = T), origin = '1970-01-01'))))
-            dtEnd = paste(as.Date(as.POSIXct(ts2, origin = '1970-01-01')), collapse=','))
+            dtEnd = paste(as.Date(as.POSIXct(ts2, origin = '1970-01-01')), collapse=','),
+            dist = distHaversine(c(lon1, lat1), c(lon2, lat2)),
+            dir = paste(dir, collapse=','),
+            time_elapsed = hours(paste(difftime(as.POSIXct(ts1, origin = '1970-01-01'), as.POSIXct(ts2, origin = '1970-01-01')), collapse=',')))
 
 allTracks.df %>%  write.csv(paste0(dashboard.dir,'siteTrans_real2.csv'), row.names = F)
   

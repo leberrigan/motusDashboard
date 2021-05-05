@@ -291,6 +291,13 @@ function exploreMap({
 						"</br>(Click to view)"
 					);
 
+				} else if (t == 'antenna') {
+						$('.tooltip').html(
+							`<center><h3>${firstToUpper(d.properties.type)}</h3></center>`+
+							( (d.geometry.coordinates.length > 2) ? `<b>Bearing: </b>${d.properties.bearing}<br/>` : '' )+
+							`<b>Port: </b>${d.properties.port}<br/>`+
+							`<b>Height: </b>${d.properties.height} (m)`
+						);
 				} else if (t == 'prospective-stations') {
 						$('.tooltip').html(
 							"<center><h3>"+
@@ -324,7 +331,9 @@ function exploreMap({
 						"<big>"+
 							(d.group > 1 ? d.group + " Stations" : d.name)+
 						"</big>"+
-						"</br>(Click to view)"
+						"<br/>"+
+						`<em><b>${d.nAnimals} animal${d.nAnimals==1?"":"s"}</b></em> of <em><b>${d.nSpp} species</b></em> detected`+
+						"</br>(Click to view details)"
 					);
 
 				} else {
@@ -403,7 +412,7 @@ function exploreMap({
 												"<br/>"+
 											  `Deployed on: ${d.dtStart.toISOString().substr(0,10)}`+
 												"<br/>"+
-												`${d.nAnimals} animals of ${d.nSpp} species detected`+
+												`<em><b>${d.nAnimals} animal${d.nAnimals==1?"":"s"}</b></em> of <em><b>${d.nSpp} species</b></em> detected`+
 												"<br/>"+
 												"<br/>"+
 												`<center><button class='view_btn submit_btn' onclick='viewProfile(\"stations\", ${d.id})'>View station profile</button>`+
@@ -1073,25 +1082,36 @@ function loadMapObjects(callback) {
 
 				var propNames = ["adm0_a3", "region_un"]
 				//var propNames = ["COUNTRY", "REGION"]
+				if (dataType == 'regions') {
+					var regions_el = motusMap.g.selectAll("regions")
+						.data(motusData.polygons.features)
+						.enter().append("path")
+						.attr('class', (d) => "explore-map-region" + (motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? ' leaflet-hide-always' : ' leaflet-interactive'))
+						.style('fill', function(d){
+							return motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? "#DDDDDD" : motusMap.regionColours(regionFreqs[d.properties[propNames[1]]]);
+						})
+						.style('stroke-width', function(d){
+							return motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? 0 : 1;
+						})
+						.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'region'))
+						.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'region'))
+						.on('click', (e,d) => motusMap.dataClick(e, d, 'region'));
 
-				var regions_el = motusMap.g.selectAll("regions")
-					.data(motusData.polygons.features)
-					.enter().append("path")
-					.attr('class', (d) => "explore-map-region" + (motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? ' leaflet-hide-always' : ' leaflet-interactive'))
-					.style('fill', function(d){
-						return motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? "#DDDDDD" : motusMap.regionColours(regionFreqs[d.properties[propNames[1]]]);
-					})
-					.style('stroke-width', function(d){
-						return motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? 0 : 1;
-					})
-					.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'region'))
-					.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'region'))
-					.on('click', (e,d) => motusMap.dataClick(e, d, 'region'));
+					motusMap.map.on("zoomend", reset);
 
-				motusMap.map.on("zoomend", reset);
+					// Reposition the SVG to cover the features.
+					reset();
+				} else {
 
-				// Reposition the SVG to cover the features.
-				reset();
+						var regions_el = motusMap.g.selectAll("regions")
+							.data(motusData.polygons.features)
+							.enter().append("path")
+							.attr('class', (d) => "explore-map-region disable-filter")
+							.style('fill', '#DDDDDD')
+							.style('stroke-width', '0');
+
+				}
+
 			}
 
 		} else if (dataset == 'stationDeps') {
@@ -1405,6 +1425,7 @@ function loadMapObjects(callback) {
 
 		motusMap.g.selectAll(".explore-map-station").attr("d", motusMap.path);
 		motusMap.g.selectAll(".explore-map-region").attr("d", motusMap.path);
+		motusMap.g.selectAll(".explore-map-antenna").attr("d", motusMap.path);
 
 		//if (typeof tagDeps_el !== 'undefined') { tagDeps_el.attr("d", path); }
 	//	if (typeof station_el !== 'undefined') {  }
