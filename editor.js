@@ -6,7 +6,7 @@ function exploreMapEditor() {
 
     $("body").append(`<div class="explore-map-editor-wrapper">`+
                         `<div id="explore_map_editor" class="explore-map-edit"><button class='close_btn'>Close</button></div>`+
-                        `<div class='add-station-info'><div class='add-station-range'></div>Click on the map to place a prospective station.<br/><button class='close_btn' >Cancel</button></div>`+
+                        `<div class='add-station-info'><span class='note'>Click on the map to place a prospective station.</span><div class='add-station-range'></div><button class='close_btn' >Cancel</button></div>`+
                       `</div>`);
 
     $(`.explore-map-${dataType}-edit .explore-control-hidden`).prependTo("#explore_map_editor");
@@ -24,7 +24,7 @@ function exploreMapEditor() {
         resizeStationRanges();
       },
       create: function(e, el) {
-        $(e.target).before('<label for="explore_map_editor_station_range">Antenna range (km): </label><input style="width:50px;" type="number" id="explore_map_editor_station_range" min="0" max="20" class="add-station-range-value" value="'+15+'">');
+        $(e.target).after('<label for="explore_map_editor_station_range">Antenna range (km): </label><input style="width:50px;" type="number" id="explore_map_editor_station_range" min="0" max="20" class="add-station-range-value" value="'+15+'">');
       }
     });
 
@@ -138,7 +138,14 @@ function resizeStationRanges(){
 
   editorStationRange = getPixelMetersByZoomLevel( $(".explore-map-editor-wrapper .add-station-range").slider("value") * 1000 );
 
+
   var svgSize = editorStationRange < 5 ? 5 : editorStationRange;
+
+  if (svgSize < 10) {
+    $(".explore-map-editor-wrapper .note").text("Zoom in to place a prospective station.");
+  } else {
+    $(".explore-map-editor-wrapper .note").text("Click on the map to place a prospective station.");
+  }
 
   $('#cursor_icon').html(`<svg width='${svgSize*4}' height='${svgSize*4}' viewbox='0 0 ${svgSize*4} ${svgSize*4}'>`+
                             `<circle r='5' cx='${svgSize*2}' cy='${svgSize*2}' stroke='#000000' stroke-width='1px' fill='#FF0' />`+
@@ -238,6 +245,11 @@ function viewAntennaRanges() {
 
 	} else {
 
+    // Load the antenna ranges
+
+    // Create an loading overlay
+    motusMap.loadingPane("Loading antenna ranges...");
+
 		var load = Promise.all( [d3.csv( filePrefix + "antenna-deployments.csv" )] ).then(function(response){
 
 			motusData.antennas = {type: "FeatureCollection", features:
@@ -294,6 +306,9 @@ function viewAntennaRanges() {
 				.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'antenna'));
 
 			motusMap.map.fire('zoomend');
+
+      // Hide the loading pane
+      motusMap.loadingPane();
 
 		});
 	}

@@ -256,6 +256,17 @@ function exploreMap({
 			}
 		},
 		*/
+		loadingPane: function(text){
+			console.log(text);
+			if (text) {
+				if ($(`#${motusMap.el} .leaflet-overlay-pane .leaflet-loading-pane`).length == 0) {
+					$(`#${motusMap.el} .leaflet-overlay-pane`).append(`<div class='leaflet-loading-pane'><div class='loading-text'></div></div>`);
+				}
+				$(`#${motusMap.el} .leaflet-overlay-pane .leaflet-loading-pane .loading-text`).text(text).parent().fadeIn(250);
+			} else {
+				$(`#${motusMap.el} .leaflet-overlay-pane .leaflet-loading-pane`).fadeOut(250);
+			}
+		},
 		dataHover: function(e, d, dir, t){
 			if (t == 'station') {
 				$('#explore-map-point-'+d.id).toggleClass('hover')
