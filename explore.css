@@ -565,6 +565,7 @@ iframe#pdf_output {
 #explore_controls .explore-control-wrapper > div > svg {
 	padding:10px;
 	cursor:pointer;
+	border-radius:5px;
 }
 #explore_controls .explore-control-wrapper > div.toggleDisplay.selected > svg,
 #explore_controls .explore-control-wrapper > div.toggleDisplay.active > svg,
@@ -1465,6 +1466,23 @@ svg.leaflet-image-layer.leaflet-interactive path {
     pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
     pointer-events: auto;
 }
+
+.leaflet-overlay-pane .leaflet-loading-pane {
+	width:100vw;
+	position:absolute;
+	z-index:201;
+	line-height:calc(100vh - 200px);
+	vertical-align:middle;
+	background-color: rgba(175,175,175,0.5);
+}
+.leaflet-overlay-pane .leaflet-loading-pane .loading-text {
+	text-align:center;
+	font-size: 20pt;
+	font-weight: 600;
+}
+
+
+
 .explore-card.solo-card .explore-card-map {
 	height:calc(var(--explore-card-height) + 40px);
 }

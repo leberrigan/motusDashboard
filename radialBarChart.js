@@ -173,7 +173,8 @@
 						"</big><br />"+
 							date+
 							"<br/>"+
-							hits+ " animals detected"+
+							icons.animals + "&nbsp;&nbsp;" +hits+
+							"<br/>animals"+
 						"</div>"
 					);
 

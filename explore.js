@@ -45,6 +45,10 @@ var icons = {
 	  '<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>'+
 	  '<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>'+
 	'</svg>',
+	help: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">'+
+	  '<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>'+
+	  '<path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>'+
+	'</svg>',
 	share: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/></svg>',
 	map: '<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 27 27"><g transform="translate(0,-270.54167)"> <path d="m 1.3229166,294.35417 7.9375,-2.64583 7.9374994,2.64583 7.9375,-2.64583 V 273.1875 l -7.9375,2.64584 -7.9374994,-2.64584 -7.9375,2.64584 z" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> <path d="m 9.2604166,273.1875 v 18.52084" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> <path d="M 17.197916,294.35417 V 275.83334" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> </g></svg>',
 	pdf: '<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 41.659309 29.902843"><g inkscape:label="Layer 1" inkscape:groupmode="layer" transform="translate(-70.25338,-154.21364)"> <text xml:space="preserve" x="73.117455" y="170.28175" transform="scale(0.92485882,1.0812461)"><tspan sodipodi:role="line" x="73.117455" y="170.28175" style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:44.45785141px;font-family:\'Tw Cen MT Condensed\';-inkscape-font-specification:\'Tw Cen MT Condensed, Normal\';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:1.11144626">PDF</tspan></text> </g></svg>',
@@ -748,7 +752,7 @@ function populateExploreControls() {
 	} else if (dataType == 'animals') {
 		toAppend = ["filters", "timeline", "animate", "search", "view", 'pdf', 'share'];
 	}
-
+	toAppend.push('help');
 
 	if (toAppend.length > 0) {
 
@@ -816,9 +820,7 @@ function populateExploreControls() {
 											`<button class='animate-stop tips' alt='Stop'>${icons.stop}</button>`
 										) : x == 'share' ?
 										(
-											`<div class="fb-share-button"
-											data-href="${window.location.href}"
-											data-layout="button"></div>`
+											`<div class="fb-share-button" data-href="${window.location.href}"	data-layout="button"></div>`
 										) : ""
 									)
 								)
@@ -888,8 +890,11 @@ function populateExploreControls() {
 function exploreControls(el) {
 	var opt = $(el).closest('div:not(.explore-control-hidden)').attr('class').split(' ')[0].split('-').pop()
 
+	if (opt == 'help') {
 
-	if (opt == 'edit') {
+			exploreHelp();
+
+	} else	if (opt == 'edit') {
 	//	console.log(el.value);
 		if (dataType == 'stations') {
 			/*  Change point type

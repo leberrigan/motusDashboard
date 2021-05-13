@@ -11,6 +11,7 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ## Updates
 
 ### Latest
+* [x] [2021-05-01] Add some tooltips and a few tweaks to map editor.
 * [x] [2021-05-01] Add map editor for station planning.
 * [x] [2021-04-28] Add in photos for stations, animals, and species
 * [x] [2021-04-28] Fix default visibility and date filters.

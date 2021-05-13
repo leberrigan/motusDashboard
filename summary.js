@@ -408,7 +408,9 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 	}
 
 	if (['species', 'animals'].includes(dataType)) {
-		motusFilter.stations = motusFilter.stations.filter(onlyUnique);
+		motusFilter.visitedStationDeps = motusFilter.stations.filter(onlyUnique);
+		var selectedStationNames = motusData.stationDeps.filter(x => motusFilter.stations.includes(x.id) ).map(x => x.name).flat();
+		motusFilter.stations = motusData.stations.filter(x => selectedStationNames.includes(x.name)).map(x => x.stationDeps.split(',')).flat();
 		motusData.selectedStations = motusData.stationDeps.filter(x => motusFilter.stations.includes(x.id) );
 	} else {
 		motusFilter.remoteAnimals = 	motusFilter.remoteAnimals.filter(onlyUnique);
@@ -1098,10 +1100,15 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 					const d = stationHits[ date ];
 
 					$('.tooltip').html(
-						"<big>"+
+						"<center><h3>"+
 							( date )+
-						"</big>"+
-						(d ? 	`</br>${d.count} animals</br> ${d.species.length} species`: "") +
+						"</h3></center>"+
+						(d ?
+							`<table style="width:100%;text-align:center;font-size:14pt;"><tbody>`+
+								`<tr><td>${d.count} ${icons.animals}</td><td style="padding-left: 10px;">${d.species.length} ${icons.species}</td></tr>`+
+								`<tr><td><b>Animal${d.count==1?"":"s"}</b></td><td style="padding-left: 10px;"><b>Species</b></td></tr>`+
+							`</tbody></table>`
+						: "") +
 						"</div>"
 					);
 
