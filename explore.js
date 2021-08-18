@@ -42,7 +42,7 @@ var icons = {
 	  '<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>'+
 	'</svg>',
 	regions: "",
-	projects: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" class="explore-map-edit-btn tips" alt="Open station planner">'+
+	projects: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">'+
 	  '<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>'+
 	  '<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>'+
 	'</svg>',
@@ -61,7 +61,8 @@ var icons = {
 	pause: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="explore-pause-btn" alt="Pause" viewBox="0 0 16 16"><path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/></svg>',
 	stop: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="explore-stop-btn" alt="Stop" viewBox="0 0 16 16"><path d="M5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 11V5A1.5 1.5 0 0 1 5 3.5z"/></svg>',
 	stations: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="18" height="23" viewBox="0 0 389.923 481.915"> <defs> <style>.cls-1 { stroke: #000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 20px; fill: none; fill-rule: evenodd; } </style> </defs> <path d="M358.000,145.000 L358.000,88.000 L280.000,88.000 L280.000,127.000 L270.000,127.000 L270.000,88.000 L197.000,88.000 L197.000,210.720 L280.003,455.303 L275.586,459.008 L232.000,330.572 L232.000,338.000 L197.000,338.000 L197.000,404.988 L187.000,404.988 L187.000,338.000 L150.007,338.000 L108.464,460.008 L103.997,456.274 L187.000,212.504 L187.000,88.000 L114.000,88.000 L114.000,127.000 L104.000,127.000 L104.000,88.000 L30.000,88.000 L30.000,152.000 L20.000,152.000 L20.000,20.000 L30.000,20.000 L30.000,78.000 L104.000,78.000 L104.000,40.000 L114.000,40.000 L114.000,78.000 L187.000,78.000 L187.000,57.012 L197.000,57.012 L197.000,78.000 L270.000,78.000 L270.000,40.000 L280.000,40.000 L280.000,78.000 L358.000,78.000 L358.000,20.000 L368.000,20.000 L368.000,78.000 L368.000,88.000 L368.000,145.000 L358.000,145.000 ZM197.000,328.000 L231.127,328.000 L197.000,227.438 L197.000,328.000 ZM187.000,229.355 L153.412,328.000 L187.000,328.000 L187.000,229.355 Z" transform="translate(10.96 10.96)" class="cls-1"/></svg>',
-	station: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="18" height="23" viewBox="0 0 389.923 481.915"> <defs> <style>.cls-1 { stroke: #000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 20px; fill: none; fill-rule: evenodd; } </style> </defs> <path d="M358.000,145.000 L358.000,88.000 L280.000,88.000 L280.000,127.000 L270.000,127.000 L270.000,88.000 L197.000,88.000 L197.000,210.720 L280.003,455.303 L275.586,459.008 L232.000,330.572 L232.000,338.000 L197.000,338.000 L197.000,404.988 L187.000,404.988 L187.000,338.000 L150.007,338.000 L108.464,460.008 L103.997,456.274 L187.000,212.504 L187.000,88.000 L114.000,88.000 L114.000,127.000 L104.000,127.000 L104.000,88.000 L30.000,88.000 L30.000,152.000 L20.000,152.000 L20.000,20.000 L30.000,20.000 L30.000,78.000 L104.000,78.000 L104.000,40.000 L114.000,40.000 L114.000,78.000 L187.000,78.000 L187.000,57.012 L197.000,57.012 L197.000,78.000 L270.000,78.000 L270.000,40.000 L280.000,40.000 L280.000,78.000 L358.000,78.000 L358.000,20.000 L368.000,20.000 L368.000,78.000 L368.000,88.000 L368.000,145.000 L358.000,145.000 ZM197.000,328.000 L231.127,328.000 L197.000,227.438 L197.000,328.000 ZM187.000,229.355 L153.412,328.000 L187.000,328.000 L187.000,229.355 Z" transform="translate(10.96 10.96)" class="cls-1"/></svg>'
+	station: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="18" height="23" viewBox="0 0 389.923 481.915"> <defs> <style>.cls-1 { stroke: #000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 20px; fill: none; fill-rule: evenodd; } </style> </defs> <path d="M358.000,145.000 L358.000,88.000 L280.000,88.000 L280.000,127.000 L270.000,127.000 L270.000,88.000 L197.000,88.000 L197.000,210.720 L280.003,455.303 L275.586,459.008 L232.000,330.572 L232.000,338.000 L197.000,338.000 L197.000,404.988 L187.000,404.988 L187.000,338.000 L150.007,338.000 L108.464,460.008 L103.997,456.274 L187.000,212.504 L187.000,88.000 L114.000,88.000 L114.000,127.000 L104.000,127.000 L104.000,88.000 L30.000,88.000 L30.000,152.000 L20.000,152.000 L20.000,20.000 L30.000,20.000 L30.000,78.000 L104.000,78.000 L104.000,40.000 L114.000,40.000 L114.000,78.000 L187.000,78.000 L187.000,57.012 L197.000,57.012 L197.000,78.000 L270.000,78.000 L270.000,40.000 L280.000,40.000 L280.000,78.000 L358.000,78.000 L358.000,20.000 L368.000,20.000 L368.000,78.000 L368.000,88.000 L368.000,145.000 L358.000,145.000 ZM197.000,328.000 L231.127,328.000 L197.000,227.438 L197.000,328.000 ZM187.000,229.355 L153.412,328.000 L187.000,328.000 L187.000,229.355 Z" transform="translate(10.96 10.96)" class="cls-1"/></svg>',
+	track: '<svg   xmlns:dc="http://purl.org/dc/elements/1.1/"   xmlns:cc="http://creativecommons.org/ns#"   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   version="1.1"   viewBox="0 0 23.052618 41.573452"   height="23"   width="18">  <defs     id="defs2">    <marker       style="overflow:visible"       id="marker1384"       refX="0"       refY="0"       orient="auto">      <path         transform="matrix(0.4,0,0,0.4,2.96,0.4)"         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"         id="path1382" />    </marker>    <marker       style="overflow:visible"       id="DotM"       refX="0"       refY="0"       orient="auto">      <path         transform="matrix(0.4,0,0,0.4,2.96,0.4)"         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"         id="path910" />    </marker>    <marker       style="overflow:visible"       id="DotL"       refX="0"       refY="0"       orient="auto">      <path         transform="matrix(0.8,0,0,0.8,5.92,0.8)"         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"         id="path907" />    </marker>  </defs>  <g     transform="translate(-32.112052,-59.290716)"     id="layer1">    <path       d="M 34.395833,98.5625 52.916666,61.520831"       style="fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:3.29999995;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#DotM);marker-end:url(#marker1384)" />  </g></svg>'
 }
 
 var icon_paths = {
@@ -1494,7 +1495,7 @@ function addProfile(profile_id, dataset) {
 		if (subset.length > 0) {
 
 			var status = ( exploreType == 'species' ? {
-														tags: [subset.length],
+														animals: [subset.length],
 														projects: [subset.map(x => x.projID).filter(onlyUnique).length],
 														stations: [96],
 														conservation: ['NT',"Near-threatened"]
@@ -1506,14 +1507,14 @@ function addProfile(profile_id, dataset) {
 														conservation: ['NT',"Near-threatened"]
 													}
 					   : ( exploreType == 'stations' ? {
-														tags: [d3.sum(subset, d => d.nAnimals)],
+														animals: [d3.sum(subset, d => d.nAnimals)],
 											//			projectID: [subset[0].projID],
 														species: [d3.sum(subset, d => d.nSpp)],
 														lastData: [Math.round( subset[subset.length-1].lastData )],
 														status: [subset[subset.length-1].status]
 													}
 					   : 							{
-														tags: [subset[0].nAnimals],
+														animals: [subset[0].nAnimals],
 														projectID: [subset[0].projID],
 														species: [subset[0].nSpp],
 														lastData: [Math.round( subset[0].lastData )]
@@ -1549,16 +1550,26 @@ function addExploreCardProfile(profile) {
 
 	// define the profile DOM structure
 	var struct = "grid";
+  var data = profile.data.filter(d => d.value > 0 || profile.data.length <= 4).map((d, i) => `<div class='explore-card-profile-data explore-card-data${i + 1}' onclick='showProfileData(${profile.id}, "${d.type}")'>${d.icon}${d.value}<div class='explore-card-data-label'>${d.label}</div></div>`);
 
-  var data = profile.data.map((d, i) => `<div class='explore-card-profile-data explore-card-data${i + 1}' id='explore-card-data-${d.type}'>${d.icon}${d.value}<div class='explore-card-data-label'>${d.label}</div></div>`);
-
+	console.log(profile.data)
+	console.log(data)
 	var toAppend = `<div class='explore-card-profile ${struct}-container' id='explore_card_profile_${profile.id}'>`+
 										`<div class='explore-card-image tips enlarge' alt='Click to expand'></div>`+
 										 data.join('')+
-										`<div class='explore-card-name'>${profile.label}</div>`+
+										`<div class='explore-card-name'><div style='font-size:${24 - (Math.floor(profile.label.length/15)*2)}pt;'>${profile.label}</div></div>`+
 									"</div>";
 
+
 	$("#explore_card_profiles").prepend(toAppend);
+
+}
+
+function showProfileData(profileID, varName) {
+
+	console.log("ProfileID: %s, varName: %s", profileID, varName);
+
+	$(`.explore-card-profiles-tabs .explore-card-${varName == 'animals' || varName == 'species'? 'speciesHits' : varName == 'stations' ? 'stationHits' : varName == 'countries' ? 'map' : varName == 'detections' ? 'tagHits' : varName }-tab`).click();
 
 }
 
@@ -1581,7 +1592,7 @@ function addExploreCard(card) {
 				headers.forEach(function(x){profiles_header += "<th class='"+(x.toLowerCase().replace(' ','-'))+"'>"+x+"</th>";});
 
 
-				$("#exploreContent .explore-card-wrapper").append("<div class='explore-card' id='explore_card_profiles'><div class='explore-card-add explore-card-"+exploreType+"' alt='Add a "+exploreType+"'><select class='explore-card-add-"+exploreType+"' data-placeholder='Select a "+exploreType+"' style='width:300px;'><option></option></select></div><div class='explore-card-profiles-toggles'></div></div><div class='explore-card-profiles-tabs'><div class='expand-menu-btn'>"+icons.expand+"</div></div>");
+				$("#exploreContent .explore-card-wrapper").append("<div class='explore-card' id='explore_card_profiles'><div class='explore-card-add explore-card-"+exploreType+"' alt='Add a "+exploreType+"'><select class='explore-card-add-"+exploreType+"' data-placeholder='Select a "+exploreType+"' style='width:300px;'><option></option></select></div></div><div class='explore-card-profiles-toggles'></div><div class='explore-card-profiles-tabs'><div class='expand-menu-btn'>"+icons.expand+"</div></div>");
 
 
 // OLD				$("#exploreContent .explore-card-wrapper").append("<div class='explore-card' id='explore_card_profiles'><div class='explore-card-profiles-name'>"+icons[exploreType]+"&nbsp;&nbsp;&nbsp;"+card.name+"</div><table><thead><tr class='explore-card-profiles-header'>"+profiles_header+"<th></th></tr></thead><tbody class='explore-card-profiles-wrapper'></tbody></table><div class='explore-card-add explore-card-"+exploreType+"' alt='Add a "+exploreType+"'><select class='explore-card-add-"+exploreType+"' data-placeholder='Select a "+exploreType+"' style='width:300px;'><option></option></select></div><div class='explore-card-profiles-toggles'></div><div class='explore-card-profiles-tabs'><div class='expand-menu-btn'>"+icons.expand+"</div></div></div>");
@@ -1625,17 +1636,18 @@ function addExploreCard(card) {
 						//		"<td class='explore-card-status'>";
 
 			for (s in card.status) {
+
+
 				var title = s == 'conservation' ? 'Conservation<br>status' :
 						   (s == 'lastData' ? 'Last Data' :
-						   (s.indexOf('ID') != -1 ? s.replace('ID', ' ID') : firstToUpper(s)));
+						   (s.indexOf('ID') != -1 ? s.replace('ID', ' ID') : firstToUpper(s.replace('Det', ' Det').replace('Tag', ' Tag').replace('Seg', ' Seg'))));
 
-				var icon = icons[s];
-
+				var icon = icons[ s.replace('Detected', '').replace('Tagged', '').replace('Segments', '') ];
 
 				var statusText = card.status[s][0];
 				statusText = s == 'status' ? (statusText != 'active' ? 'Inactive' : 'Active') : statusText;
 
-				profile.data.push( { type: s, label: title, icon: icon, value: statusText } );
+				profile.data.push( { type: s.replace('Detected', '').replace('Tagged', '').replace('Segments', ''), label: title, icon: icon, value: statusText } );
 
 				toAppend += "<td><div class='status-icon status-icon-" + s + (s == 'conservation' ? ' tips' : (s == 'status' ? ' status-icon-'+(statusText.toLowerCase()) : '')) + "'>"+ icon +"<div>"+ statusText + (s == 'lastData' ? '<div>days</div>' : '') + "</div></div></td>";
 			}
@@ -1662,7 +1674,15 @@ function addExploreCard(card) {
 			}*/
 
 			if (card.photo == "") {
-				$("#explore_card_profile_" + card.id).addClass("no-photo");
+				$("#explore_card_profile_" + card.id).addClass("no-photo").
+					click(function(){
+						if ($("#explore_card_profiles").hasClass('solo-card')) {
+							$("#exploreContent .explore-card-add").click();
+						} else {
+							viewSolo(card.id);
+						}
+				});
+			//	$("#explore_card_profile_" + card.id).addClass("no-photo");
 			} else {
 				$("#explore_card_profile_" + card.id + " .explore-card-image")
 					.css("background-image", "url(" + card.photo + ")")
@@ -1931,13 +1951,13 @@ function removeExploreCard(el, filterType) {
 }
 function setCardColours(colourFun) {
 
-	$("#explore_card_profiles  .explore-card-profile").each(function(){
+	$("#explore_card_profiles .explore-card-profile").each(function(){
 	//	if ($("#explore_card_profiles .explore-card-profile").length == 1) {
 	//		$(this).find('.explore-card-image').css('border-color', "#000000");
 	//	} else {
-			 var colour = exploreType == 'stations' ? colourFun($(this).find(".explore-card-header").text()) : exploreType == 'regions' ? colourFun( this.id.replace("explore_card_profile_", "") ) : colourFun(parseInt(this.id.replace("explore_card_profile_", "")));
+			 var colour = exploreType == 'stations' ? colourFun($(this).find(".explore-card-name").text()) : exploreType == 'regions' ? colourFun( this.id.replace("explore_card_profile_", "") ) : colourFun(parseInt(this.id.replace("explore_card_profile_", "")));
 
-			 $(this).find('.explore-card-image').css({'border-color':colour,'background-color':colour})
+			 $(this).find('.explore-card-image').css({'border-color':colour})
 		//}
 
 	});

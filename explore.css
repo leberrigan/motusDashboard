@@ -1234,24 +1234,22 @@ line-height: 60px;
 
 #explore_card_profiles .explore-card-image {
   overflow: hidden;
-	background-image:url('https://www.flaticon.com/svg/static/icons/svg/25/25333.svg');
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
 	margin:0 auto;
 }
+/*
 #explore_card_profiles:not(.solo-card) .explore-card-image {
     border-radius: 50%;
 	background-image:none !important;
-	border:solid 25px;/*
-	border-top-right-radius:0px;
-	border-bottom-right-radius:0px;*/
+	border:solid 25px;
 	width: 0;
   height: 0;
 	margin: 8px 30px;
 	padding: 0;
 	float:left;
-}
+}*/
 #explore_card_profiles.solo-card .explore-card-image {
     border-radius: 50%;
 	border:solid 5px #000;
@@ -1934,22 +1932,13 @@ svg.leaflet-image-layer.leaflet-interactive path {
 
 
 /* GRID */
-#explore_card_profiles .explore-card-profile.grid-container {
-	display: grid;
-}
-#explore_card_profiles .explore-card-add, #explore_card_profiles > .explore-card-profiles-toggles {
-    margin: 5px auto;
-		width:300px;
-}
-#explore_card_profiles .explore-card-profile.grid-container > * {
-	align-self: center;
-}
 
-/* SOLO-PROFILE */
+
+/* MAIN CONTENT */
 
 .content-wrapper.profiles .explore-card-wrapper {
 	display: grid;
-	grid-template-columns: 320px auto;
+	grid-template-columns: 290px auto;
 	grid-template-rows: 50px 50px auto;
 }
 
@@ -1961,8 +1950,12 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .content-wrapper.profiles .explore-card-wrapper #explore_card_profiles {
 	grid-row: 3/4;
 	grid-column: 1/2;
-	width: auto;
+	width: calc(100% - 40px);
 	padding:0;
+	height: calc(100vh - 257px);
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding-right: 20px;
 }
 .content-wrapper.profiles #explore_map {
 	height: 100%;
@@ -1974,31 +1967,88 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	align-self: end;
 }
 .content-wrapper.profiles .explore-card-wrapper .explore-card:not(#explore_card_profiles) {
-  grid-row: 3/4;
+  grid-row: 3/5;
   grid-column: 2/3;
 	margin-top:0px;
-	height: calc(100vh - 259px);
+	height: 100%;
 }
+
+
+@media (max-width: 950px) {
+
+	.content-wrapper.profiles .explore-card-wrapper {
+		display: grid;
+		grid-template-columns: auto;
+		grid-template-rows: 50px 50px auto 50px;
+	}
+
+	.content-wrapper.profiles .explore-card-wrapper #explore_controls {
+		grid-row: 1/2;
+		grid-column: 1/2;
+		justify-self: center;
+	}
+	.content-wrapper.profiles .explore-card-wrapper #explore_card_profiles {
+		grid-row: 2/4;
+		grid-column: 1/2;
+		width: auto;
+		padding:0;
+	}
+	.content-wrapper.profiles #explore_map {
+		height: 100%;
+	}
+	.content-wrapper.profiles .explore-card-wrapper .explore-card-profiles-tabs {
+	  grid-row: 2/3;
+	  grid-column: 1/2;
+		margin:0;
+		align-self: end;
+	}
+	.content-wrapper.profiles .explore-card-wrapper .explore-card:not(#explore_card_profiles) {
+	  grid-row: 3/4;
+	  grid-column: 1/2;
+		margin-top:0px;
+		height: calc(100vh - 259px);
+	}
+}
+
+/* PROFILES */
+
+#explore_card_profiles .explore-card-profile.grid-container {
+	display: grid;
+}
+#explore_card_profiles .explore-card-add {
+  margin: 5px auto;
+}
+#explore_card_profiles .explore-card-profile.grid-container > * {
+	align-self: center;
+}
+
+.content-wrapper.profiles .explore-card-wrapper .explore-card-profiles-toggles {
+	grid-row:4/5;
+	grid-column:1/2;
+}
+
+/* SOLO-PROFILE */
 
 .solo-card .explore-card-profile.grid-container {
-	grid-template-columns: 150px 150px;
-	grid-template-rows: 75px 150px 150px;
+	grid-template-columns: 125px 125px;
+	grid-template-rows: 75px repeat(auto-fill, 100px);
 }
 
 
-#explore_card_profiles.solo-card .explore-card-profile.grid-container .explore-card-image {
+#explore_card_profiles .explore-card-profile.grid-container .explore-card-image {
 	grid-column: 1 / 3;
 	grid-row: 1 / 2;
 	height:75px;
-	width:285px;
+	width: calc(100% - 15px);
+	border:solid #000;
 	border-width:0 0 0 15px;
 	border-radius: 10px 10px 0 0;
 	align-self: start;
-	transition: all 250ms;
+	transition: all 500ms;
 	z-index:1;
 }
 
-#explore_card_profiles.solo-card .explore-card-profile.grid-container .explore-card-image:hover {
+#explore_card_profiles .explore-card-profile.grid-container:not(.no-photo) .explore-card-image:focus {
 	height: 365px;
 	border-width:0 0 0 15px;
 	border-radius: 10px;
@@ -2008,10 +2058,10 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	font-size:24pt;
 	display: block;
 	width: 100%;
-	height: calc(100% - (50% - 18pt));
+	height: calc(100px - (50px - 18pt));
 	border: dashed 1px #000;
-	padding-top: calc(50% - 18pt);
-	transition: background,color 250ms;
+	padding-top: calc(50px - 18pt);
+	transition: all 250ms;
 	background-color:#FFF;
 	cursor:pointer;
 }
@@ -2020,7 +2070,10 @@ svg.leaflet-image-layer.leaflet-interactive path {
 }
 .solo-card .explore-card-profile.grid-container .explore-card-profile-data:hover {
 	color:#FFF;
-		fill: #FFF;
+}
+.solo-card .explore-card-profile.grid-container .explore-card-profile-data:hover svg {
+	filter:invert(180);
+	color:#000;
 }
 
 .solo-card .explore-card-profile.grid-container .explore-card-profile-data .explore-card-data-label {
@@ -2055,13 +2108,26 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .solo-card .explore-card-profile.grid-container .explore-card-data4:hover {
 	background-color:#A0A;
 }
+.solo-card .explore-card-profile.grid-container .explore-card-data5 {
+	grid-column: 1 / 2;
+	grid-row: 4 / 5;
+}
+.solo-card .explore-card-profile.grid-container .explore-card-data5:hover {
+	background-color:#AA0;
+}
+.solo-card .explore-card-profile.grid-container .explore-card-data6 {
+	grid-column: 2 / 3;
+	grid-row: 4 / 5;
+}
+.solo-card .explore-card-profile.grid-container .explore-card-data6:hover {
+	background-color:#A55;
+}
 
 
-.solo-card .explore-card-profile.grid-container .explore-card-name {
+.explore-card-profile.grid-container .explore-card-name {
 	grid-column: 1 / 3;
 	grid-row: 1 / 2;
-	height: calc(75px - (75px - 24pt) / 2);
-	padding-top: calc((75px - 24pt) / 2);
+	height: 75px;
 	font-size: 24pt;
 	font-weight: bold;
 	z-index:2;
@@ -2069,6 +2135,14 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	display: block;
 	margin-left: 15px;
 	background-color: rgba(255,255,255,0.5);
+	align-content: center;
+	display: grid;
+	width:235px;
+}
+.solo-card .explore-card-profile.grid-container .explore-card-name > div {
+	display:inline-block;
+	line-height:normal;
+	vertical-align:middle;
 }
 .solo-card .explore-card-profile.grid-container .explore-card-info {
 	grid-column: 3 / 4;
@@ -2079,36 +2153,65 @@ svg.leaflet-image-layer.leaflet-interactive path {
 /* MULTI-PROFILE */
 
 .explore-card-profile.grid-container {
-	grid-template-columns: 75px max-content 100px 100px 100px 100px 100px 100px;
-	grid-template-rows: 75px;
+	grid-template-columns: repeat(5, 50px);
+	grid-template-rows: repeat(auto-fit, 75px);
 }
 
-.explore-card-profile.grid-container .explore-card-image {
+#explore_card_profiles:not(.solo-card) .explore-card-profile.grid-container .explore-card-image {
+	background-image: none !important;
+	grid-column: 1 / 6;
+	grid-row: 1 / 2;
+}
+
+#explore_card_profiles:not(.solo-card) .explore-card-profile.grid-container .explore-card-profile-data {
+	line-height:25px;
+	vertical-align:middle;
+}
+#explore_card_profiles:not(.solo-card) .explore-card-profile.grid-container .explore-card-profile-data svg {
+	margin-right: 5px;
+	max-width: 15px;
+	max-height: 25px;
+	vertical-align: middle;
+}
+
+
+#explore_card_profiles:not(.solo-card) .explore-card-profile.grid-container .explore-card-data-label {
+	display:none;
+}
+
+#explore_card_profiles:not(.solo-card) .explore-card-profile.grid-container .explore-card-name {
+	grid-column: 1 / 6;
+	grid-row: 1 / 2;
+}
+
+#explore_card_profiles:not(.solo-card) .explore-card-profile.grid-container .explore-card-data1 {
 	grid-column: 1 / 2;
-	grid-row: 1 / 2;
+	grid-row: 2 / 3;
 }
-.explore-card-profile.grid-container .explore-card-name {
+#explore_card_profiles:not(.solo-card) .explore-card-profile.grid-container .explore-card-data2 {
 	grid-column: 2 / 3;
-	grid-row: 1 / 2;
+	grid-row: 2 / 3;
 }
-
-.explore-card-profile.grid-container .explore-card-data1 {
+#explore_card_profiles:not(.solo-card) .explore-card-profile.grid-container .explore-card-data3 {
 	grid-column: 3 / 4;
-	grid-row: 1 / 2;
+	grid-row: 2 / 3;
 }
-.explore-card-profile.grid-container .explore-card-data2 {
+#explore_card_profiles:not(.solo-card) .explore-card-profile.grid-container .explore-card-data4 {
 	grid-column: 4 / 5;
-	grid-row: 1 / 2;
+	grid-row: 2 / 3;
 }
-.explore-card-profile.grid-container .explore-card-data3 {
+#explore_card_profiles:not(.solo-card) .explore-card-profile.grid-container .explore-card-data5 {
 	grid-column: 5 / 6;
-	grid-row: 1 / 2;
+	grid-row: 2 / 3;
 }
-.explore-card-profile.grid-container .explore-card-data4 {
-	grid-column: 6 / 7;
-	grid-row: 1 / 2;
+#explore_card_profiles:not(.solo-card) .explore-card-profile.grid-container .explore-card-data6 {
+	grid-row: 3 / 4;
 }
-.explore-card-profile.grid-container .explore-card-info {
-	grid-column: 7 / 8;
-	grid-row: 1 / 2;
+#explore_card_profiles:not(.solo-card) .explore-card-profile.grid-container .explore-card-data7 {
+	grid-row: 3 / 4;
+}
+#explore_card_profiles:not(.solo-card) .explore-card-profile.grid-container .explore-card-data8 {
+	grid-row: 3 / 4;
+}
+#explore_card_profiles:not(.solo-card) .explore-card-profile.grid-container .explore-card-info {
 }
