@@ -56,7 +56,10 @@ function exploreMap({
 							(
 								exploreType != 'main' &&
 								typeof d.name != "undefined" &&
-								!d.stationDeps.split(',').some(r => motusFilter.stations.includes(r))
+								(
+									!d.stationDeps.split(',').some(r => motusFilter.stations.includes(r)) ||
+									motusFilter.stations.includes(d.id)
+								)
 							) || (
 							(
 								typeof d.projID == "undefined" ||

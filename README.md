@@ -66,6 +66,7 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 
 ### Further down the road...
 * [ ] **Profiles:** Think about adding a [streamgraph](https://bl.ocks.org/HarryStevens/c893c7b441298b36f4568bc09df71a1e) for species timelines and antenna activity.
+* [ ] **ALL:** Incorporate a WebGL/deckGL for displaying tracks.
 
 ---
 

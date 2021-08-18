@@ -39,8 +39,10 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 	}
 
 	if ( !['stations','species','animals'].includes(dataType) && typeof selectedAnimals === "undefined" ) {
-		motusFilter.stations = motusFilter[dataType].map(x => (motusData[ "stationDepsBy" + firstToUpper(dataType) ].get(x).map(v => v.id))).flat();
 
+		if (motusFilter[dataType].map(x => (motusData[ "stationDepsBy" + firstToUpper(dataType) ].get(x) !== undefined)).includes(true)) {
+			motusFilter.stations = motusFilter[dataType].filter(x => (motusData[ "stationDepsBy" + firstToUpper(dataType) ].get(x) != undefined)).map(x => (motusData[ "stationDepsBy" + firstToUpper(dataType) ].get(x).map(v => v.id))).flat();
+		} else { motusFilter.stations = [];}
 		motusData.selectedStations = motusData.stations.filter(x => motusFilter.stations.some(d => x.stationDeps.split(',').includes(d)) );
 
 		motusFilter.stations = motusData.selectedStations.map( x => x.id );
@@ -73,6 +75,8 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 	motusFilter.stationDeps = motusData.selectedStationDeps.map(x => x.id);
 
+
+//	Select Animals
 
 	if ( !['stations','species','animals'].includes(dataType) && typeof selectedAnimals === "undefined" ) {
 		if (typeof motusFilter.animals === 'undefined' || motusFilter.animals.length == 0) {
@@ -260,6 +264,8 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 	motusData.allTimes = [];
 
+	motusFilter.animalsDetected = [];
+
 	motusData.selectedTracks = {}
 
 	if (typeof selectedTracks === "undefined") {
@@ -343,6 +349,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 			animals.forEach(function(x, i){
 
 				if (motusFilter.localAnimals.includes( x )) {
+					if ( !motusFilter.animalsDetected.includes( x ) ) { motusFilter.animalsDetected.push( x ); }
 				  allTimes.push(dtStart[i]);
 					allTimes.push(dtEnd[i]);
 					if (selectedRecv1 || selectedRecv2) {
@@ -417,6 +424,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 		motusFilter.animals = motusFilter.animals.concat(motusFilter.remoteAnimals).filter(onlyUnique);
 	}
 
+	motusFilter.animalsDetected = motusFilter.animalsDetected.concat(motusFilter.remoteAnimals).filter(onlyUnique);
 
 	motusData.selectedStationDeployments = d3.group(
 		motusData.selectedStations,
@@ -481,7 +489,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 	console.log("motusMap.regionPaths: " + moment().diff(ts[0]) + "@" + moment().diff(ts[ts.length-1]));ts.push(moment());
 
 	if (!exploreProfile_hasLoaded) {
-
+/*
 		motusMap.svg.append("svg:defs").append("svg:marker")
 			.attr("id", "station_path")
 			.attr("refX", 25)
@@ -495,7 +503,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 			.attr("d", icon_paths.stations)
 			.style('pointer-events', 'auto')
 			.style("stroke", "#000")
-			.attr("transform", "rotate(90,15,20)");
+			.attr("transform", "rotate(90,15,20)");*/
 
 		motusMap.regionPaths = motusMap.g.selectAll("regions")
 			.data(motusData.polygons.features)
@@ -511,7 +519,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 			.data(motusData.stations.filter(d => !motusFilter.stationDeps.includes(d.id)))
 			//.data(motusData.stations)
 			.enter().append("path")
-			.attr("d", motusMap.path.pointRadius(3))
+			.attr("d", motusMap.path.pointRadius(4))
 			.style('stroke', '#000')
 			.style('fill', '#FF0')
 			.attr('class', 'explore-map-stations explore-map-r2 leaflet-zoom-hide explore-map-stations-other')
@@ -524,11 +532,13 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 		var yesterday = moment().subtract(1, 'days');
 
+console.log(motusData.stations.filter(d => motusFilter.stationDeps.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)));
+
 		motusMap.g.selectAll('stations')
 			.data(motusData.stations.filter(d => motusFilter.stationDeps.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)))
 			//.data(motusData.stations)
 			.enter().append("path")
-			.attr('marker-end','url(#station_path)')
+		//	.attr('marker-end','url(#station_path)')
 			.attr("d", motusMap.path.pointRadius(6))
 		//	.attr("d", "")
 			.style('stroke', '#000')
@@ -720,9 +730,13 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 //		if (motusData[ "animalsBy" + firstToUpper(dataType) ] && motusData[ "animalsBy" + firstToUpper(dataType) ].get(k)) {
 
-			var animals = motusFilter.animals;//.filter((x) => motusData[ "animalsBy" + firstToUpper(dataType) ].get(k).get(x));
+			var animalsTagged = motusFilter.localAnimals;//.filter((x) => motusData[ "animalsBy" + firstToUpper(dataType) ].get(k).get(x));
 
-			var species = motusData.animals.filter( (x) => motusFilter.animals.includes( x.id ) ).map( (x) => x.species ).filter( onlyUnique );
+			var speciesTagged = motusData.animals.filter( (x) => motusFilter.localAnimals.includes( x.id ) ).map( (x) => x.species ).filter( onlyUnique );
+
+			var animalsDetected = motusFilter.animalsDetected;//.filter((x) => motusData[ "animalsBy" + firstToUpper(dataType) ].get(k).get(x));
+
+			var speciesDetected = motusData.animals.filter( (x) => motusFilter.animalsDetected.includes( x.id ) ).map( (x) => x.species ).filter( onlyUnique );
 
 	/*	} else if (dataType == 'stations') {
 
@@ -746,32 +760,42 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 			}
 		});
 
+console.log();
+
 		var status = dataType == 'regions' ? {
-				tags: [ animals.length ],
-				species: [species.length],
+				animalsTagged: [ animalsTagged.length ],
+				speciesTagged: [ speciesTagged.length ],
+				animalsDetected: [ motusData.selectedStationDeployments.size > 0 ? animalsDetected.length : 0 ],
+				speciesDetected: [ motusData.selectedStationDeployments.size > 0 ? speciesDetected.length : 0 ],
 				projects: [Array.from(stations.map(x => x.projID).values()).concat(Array.from(animals.map(x => x.projID).values())).filter(onlyUnique).length],
-				stations: [motusData.selectedStationDeployments.size]
+				stations: [motusData.selectedStationDeployments.size],
+				detections: [ Object.keys(motusData.selectedTracks).length ]
 				//	lastData: [Math.round( subset[subset.length-1].lastData )],
 			} : dataType == 'projects' ? {
-				tags: [ animals.length ],
-				species: [species.length],
+				animalsTagged: [ animalsTagged.length ],
+				speciesTagged: [ speciesTagged.length ],
+				animalsDetected: [ motusData.selectedStationDeployments.size > 0 ? animalsDetected.length : 0 ],
+				speciesDetected: [ motusData.selectedStationDeployments.size > 0 ? speciesDetected.length : 0 ],
 				stations: [motusData.selectedStationDeployments.size],
-				countries: [Array.from(stations.map(x => x.country).values()).concat(Array.from(animals.map(x => x.country).values())).filter(onlyUnique).length]
+				countries: [Array.from(stations.map(x => x.country).values()).concat(Array.from(motusFilter.animals.map(x => x.country).values())).filter(onlyUnique).length],
+				detections: [ Object.keys(motusData.selectedTracks).length ]
 			} : dataType == 'stations' ? {
-				tags: [ animals.length ],
-				species: [species.length],
-				projects: [Array.from(stations.map(x => x.projID).values()).concat(Array.from(animals.map(x => x.projID).values())).filter(onlyUnique).length],
-				countries: [Array.from(stations.map(x => x.country).values()).concat(Array.from(animals.map(x => x.country).values())).filter(onlyUnique).length]
+				animalsDetected: [ animalsDetected.length ],
+				speciesDetected: [ speciesDetected.length ],
+				projects: [Array.from(stations.map(x => x.projID).values()).concat(Array.from(motusFilter.animals.map(x => x.projID).values())).filter(onlyUnique).length],
+				countries: [Array.from(stations.map(x => x.country).values()).concat(Array.from(motusFilter.animals.map(x => x.country).values())).filter(onlyUnique).length],
+				detections: [ Object.keys(motusData.selectedTracks).length ]
 			} : dataType == 'species' ? {
-				tags: [ animals.length ],
+				animalsTagged: [ animalsTagged.length ],
 				stations: [motusData.selectedStationDeployments.size],
-				projects: [Array.from(stations.map(x => x.projID).values()).concat(Array.from(animals.map(x => x.projID).values())).filter(onlyUnique).length],
-				countries: [Array.from(stations.map(x => x.country).values()).concat(Array.from(animals.map(x => x.country).values())).filter(onlyUnique).length]
+				projects: [Array.from(stations.map(x => x.projID).values()).concat(Array.from(motusFilter.animals.map(x => x.projID).values())).filter(onlyUnique).length],
+				countries: [Array.from(stations.map(x => x.country).values()).concat(Array.from(motusFilter.animals.map(x => x.country).values())).filter(onlyUnique).length],
+				detections: [ Object.keys(motusData.selectedTracks).length ]
 			} : { // dataType == 'animals' ?
-				species: [species.length],
 				stations: [motusData.selectedStationDeployments.size],
-				projects: [Array.from(stations.map(x => x.projID).values()).concat(Array.from(animals.map(x => x.projID).values())).filter(onlyUnique).length],
-				countries: [Array.from(stations.map(x => x.country).values()).concat(Array.from(animals.map(x => x.country).values())).filter(onlyUnique).length]
+				projects: [Array.from(stations.map(x => x.projID).values()).concat(Array.from(motusFilter.animals.map(x => x.projID).values())).filter(onlyUnique).length],
+				countries: [Array.from(stations.map(x => x.country).values()).concat(Array.from(motusFilter.animals.map(x => x.country).values())).filter(onlyUnique).length],
+				detections: [ Object.keys(motusData.selectedTracks).length ]
 			};
 		if (!exploreProfile_hasLoaded) {
 			console.log(status);
