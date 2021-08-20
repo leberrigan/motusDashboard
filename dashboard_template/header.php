@@ -4,43 +4,73 @@
  * This template will only display the content you entered in the page editor
  */
 ?>
+
 <!DOCTYPE html>
-<html <?php language_attributes(); ?>>
+<html lang="en">
 		<head>
 			<!-- Required meta tags -->
 			<meta charset="<?php bloginfo( 'charset' ); ?>">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 
 			<title>Explore Data</title>
-			<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
-			<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"/>
-			<link href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet"/>
-			<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-			<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-			<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+			<!-- You can use Open Graph tags to customize link previews.
+			Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
+			<meta property="og:url"           content="https://leberrigan.github.io/motusDashboard/explore.html" />
+			<meta property="og:type"          content="website" />
+			<meta property="og:title"         content="Motus Wildlife Tracking System - Explore Data" />
+			<meta property="og:description"   content="Explore the tracks of all the animals in our database using this tool." />
+			<meta property="og:image"         content="images/motus-logo-lg.png" />
+
+
+ 			<link rel='shortcut icon' href='favicon.ico'>
+
+
+			<link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/css/jquery-ui.css"/>
+			<link href="<?php bloginfo('template_url'); ?>/css/select2.min.css" rel="stylesheet"/>
+			<link href="<?php bloginfo('template_url'); ?>/css/jquery.dataTables.min.css" rel="stylesheet"/>
+			<link href="<?php bloginfo('template_url'); ?>/css/select.dataTables.min.css " rel="stylesheet"/>
+			<link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/css/daterangepicker.css" />
+			<link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/css/leaflet.css" />
+			<link href='<?php bloginfo('template_url'); ?>/css/leaflet.fullscreen.css' rel='stylesheet' />
+			<!--link rel='stylesheet' href='style.css'/-->
+			<link rel='stylesheet' href='<?php bloginfo('template_url'); ?>/css/explore.css'/>
 			<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
 			<!-- CSS only -->
 
 <!-- JavaScript Bundle with Popper -->
-			<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-			<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-			<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-			<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-			<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-			<script src="https://d3js.org/d3.v6.min.js"></script>
-			<script src="https://d3js.org/d3-scale-chromatic.v2	.min.js"></script>
-			<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-			<script src="https://d3js.org/topojson.v2.min.js"></script>
-			<script src="https://d3js.org/d3-time.v2.min.js"></script>
-			<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-			<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.4.2/tinycolor.min.js"></script>
-			
-			<script src="<?php bloginfo('template_url'); ?>/d3-colour-legend.js"></script>
-			<script src="<?php bloginfo('template_url'); ?>/d3-colour-legend-vertical.js"></script>
-			<script src="<?php bloginfo('template_url'); ?>/timelines.js"></script>
-			<script src="<?php bloginfo('template_url'); ?>/common_scripts.js"></script>
-			<script src="<?php bloginfo('template_url'); ?>/scripts.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/jquery-3.5.1.min.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/jquery-ui.min.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/select2.min.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/jquery.dataTables.min.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/dataTables.select.min.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/dataTables.buttons.min.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/moment.min.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/daterangepicker.min.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/d3.v6.min.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/d3-scale-chromatic.v2.min.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/d3-geo-projection.v2.min.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/topojson.v2.min.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/d3-time.v2.min.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/radialBarChart.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/timelines.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/lz-string.min.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/leaflet.js"></script>
+			<script src='<?php bloginfo('template_url'); ?>/js/Leaflet.fullscreen.min.js'></script>
+			<!--script src='pdfkit.standalone.js'></script-->
+			<script src="<?php bloginfo('template_url'); ?>/js/pdfkit.standalone.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/SVGtoPDF.js"></script>
+			<!--script src='https://unpkg.com/pdfkit@0.9.1/js/pdfkit.js'></script-->
+			<script src='<?php bloginfo('template_url'); ?>/js/motusPDF.js'></script>
+    	<script src="<?php bloginfo('template_url'); ?>/js/blob-stream.js"></script>
+
+			<script src="<?php bloginfo('template_url'); ?>/js/common_scripts.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/timeline.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/help.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/map.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/explore.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/summary.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/editor.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/antenna_shapes.js"></script>
+
 		</head>
 		<body>

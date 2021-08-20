@@ -212,7 +212,7 @@ $(document).ready(function(){
 
 	// For Development:
 	// get file prefix
-	filePrefix = window.location.hostname == 'localhost' || window.location.hostname == 'leberrigan.github.io' ? 'data/' : window.location.hostname == 'www.motus.org' ? "https://" + window.location.hostname + "/wp-content/uploads/2021/01/" : "https://" + window.location.hostname + "/wp-content/uploads/";
+	filePrefix = window.location.hostname == 'localhost' || window.location.hostname == 'leberrigan.github.io' ? 'data/' : window.location.hostname == 'motus.org' ? "https://" + window.location.hostname + "/wp-content/uploads/2021/08/" : "https://" + window.location.hostname + "/wp-content/uploads/";
 
 	// Change the document title based on the view and data type
 	document.title = "Motus - " + (exploreType == 'main' ? ( "Explore" + firstToUpper(dataType) ) : ( firstToUpper(exploreType) + " summary" ) );
@@ -522,7 +522,7 @@ function exploreSummaryTabSelect(selectedTab) {
 
 			if (selectedTab == 'regionTable') {
 
-				var tbl = [dataType,motusData.regions.filter(x=>x.both != 0)];
+				var tbl = [ dataType, motusData.regions.filter( x => x.both != 0 ) ];
 
 			} else if (selectedTab == 'projects') {
 
@@ -553,23 +553,27 @@ function exploreSummaryTabSelect(selectedTab) {
 						dom: '<"explore-table-header-controls"fi>lpti'
 
 					};
-				var cols = selectedTab == 'projects' ? ['id', 'project_name', 'fee_id', 'stations', 'animals'] : (selectedTab == 'regionTable' ? ['country', 'stations', 'animals'] : ['english', 'scientific', 'animals', 'projects', 'group', 'code', 'sort']);
+				var cols = selectedTab == 'projects' ? ['id', 'project_name', 'fee_id', 'stations', 'animals'] :
+									(selectedTab == 'regionTable' ? ['country', 'stations', 'animals'] :
+																									['english', 'scientific', 'animals', 'projects', 'group', 'code', 'sort']);
+
 				opts.columnDefs = [];
 
 				if (selectedTab == 'species') {
 
 
 					opts.order = [[6, 'asc']];
-
 					opts.columns = [];
+
 					for (var i in cols) {
+
 						opts.columns.push({
 							data: cols[i],
 							title: dataColNames[selectedTab][cols[i]],
 							createdCell: cols[i] == 'animals' ? function(td, cdata, rdata){
 								$(td).html(`<a href='javascript:void(0);' class='tips' alt='View list of animals'>${rdata.animals.split(',').length}</a>`).css('text-align', 'center');
 								} : cols[i] == 'projects' ? function(td, cdata, rdata){
-								$(td).html(`<a href='javascript:void(0);' class='tips' alt='View list of projects'>${rdata.projects.split(',').length}</a>`).css('text-align', 'center');
+								$(td).html(`<a href='javascript:void(0);' class='tips' alt='View list of projects'>${rdata.projects.split(',').filter(onlyUnique).length}</a>`).css('text-align', 'center');
 							} : null,
 							className: "",
 				      searchable: i != 6,
@@ -643,9 +647,7 @@ function exploreSummaryTabSelect(selectedTab) {
 				default_startDate = dtLims.min;
 				default_endDate = dtLims.max;
 
-				var profileName = $("#explore_controls .explore-summary-control-tab.selected").text().toLowerCase();
-				profileName = profileName == 'species' ? profileName : (profileName + "s");
-				var dataVar = profileName != 'species' ? profileName != 'projects' ? 'ADM0_A3' : 'id' : 'id';
+				var dataVar = dataType == 'regions' ? 'ADM0_A3' : 'id';
 
 				var selection = [];
 
@@ -653,7 +655,7 @@ function exploreSummaryTabSelect(selectedTab) {
 					selection.push(data[i][dataVar]);
 				}
 
-				viewProfile(profileName, selection);
+				viewProfile(dataType, selection);
 			});
 			$(".explore-summary-selections .reset_btn").click(function(){
 				$("#explore_table").DataTable().rows().deselect();
@@ -1754,7 +1756,7 @@ function addExploreCard(card) {
 	else if ( card.data == 'tabs' ) {
 
 		// If a default is set use that one, otherwise use the first
-		var selectedTab = ( typeof card.defaultTab !== 'undefined' ) ? card.defaultTab : Object.keys(card.tabs)[0];
+		var selectedTab = ( typeof card.defaultTab !== 'undefined' ) ?  Object.keys(card.tabs)[card.defaultTab] : Object.keys(card.tabs)[0];
 
 		// Make the header with a select input instead of plain text
 		var exploreCardHeader = $("<div class='explore-card-header'><select style='width:100%;'></select></div>");
@@ -2040,7 +2042,7 @@ function setFilter(e) {
 
 		var newFilter = $(e.target).val();
 		console.log(filterName + ": " + newFilter);
-		newFilter = newFilter.length == 0 ? ['all'] : (filterName == 'status' && newFilter == 'inactive' ? ['terminated','expired','pending'] : newFilter);
+		newFilter = newFilter.length == 0 ? ['all'] : (filterName == 'status' && newFilter == 'inactive' ? ['terminated','not active','pending'] : newFilter);
 
 		motusFilter[filterName] = newFilter;
 
@@ -2067,7 +2069,6 @@ function setFilter(e) {
 
 function viewSolo(profile_id) {
 	console.log("#explore_card_profile_"+profile_id);
-	$("#explore_card_profiles .explore-card-profile:not(#explore_card_profile_"+profile_id+")").hide();
 	$("#explore_card_profile_"+profile_id).show();
 	$("#explore_card_profiles").addClass('solo-card view-solo');
 }
