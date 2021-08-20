@@ -1191,7 +1191,7 @@ function loadMapObjects(callback) {
 							type: "Point",
 							coordinates: [+v[0].lon, +v[0].lat]
 						},
-						status: (Array.from(v.map( d => d.dtEnd ).values()).some( d => ['NA', currentDate].includes(d) ) ? 'active' : 'expired'),
+						status: (Array.from(v.map( d => d.dtEnd ).values()).some( d => ['NA', currentDate].includes(d) ) ? 'active' : 'not active'),
 						frequency: v[0].frequency,
 						name: v[0].name,
 						projID: Array.from(v.map( d => d.projID ).values()).filter(onlyUnique).join(','),

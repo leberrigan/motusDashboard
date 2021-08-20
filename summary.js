@@ -767,7 +767,7 @@ console.log();
 				speciesTagged: [ speciesTagged.length ],
 				animalsDetected: [ motusData.selectedStationDeployments.size > 0 ? animalsDetected.length : 0 ],
 				speciesDetected: [ motusData.selectedStationDeployments.size > 0 ? speciesDetected.length : 0 ],
-				projects: [Array.from(stations.map(x => x.projID).values()).concat(Array.from(animals.map(x => x.projID).values())).filter(onlyUnique).length],
+				projects: [Array.from(stations.map(x => x.projID).values()).concat(Array.from(animalsTagged.map(x => x.projID).values())).filter(onlyUnique).length],
 				stations: [motusData.selectedStationDeployments.size],
 				detections: [ Object.keys(motusData.selectedTracks).length ]
 				//	lastData: [Math.round( subset[subset.length-1].lastData )],
@@ -877,16 +877,22 @@ console.log();
 		if (dataType != 'stations') {
 			console.log("Stations: " + moment().diff(ts[0]) + "@" + moment().diff(ts[ts.length-1]));ts.push(moment());
 
+			var tabName = "Stations " +
+					(
+						dataType != 'species' && dataType != 'animals' ? 'in this ' + dataType.substring(0, dataType.length - 1) :
+						"visited by this " + (dataType != 'species' ? 'animal' : dataType)
+					);
+
 			//	Add the card dom element to contain the chart
 			addExploreCard({
 					data:'tabs',
 					type:'stationHits',
 					header: 'Stations',
 					tabs: {
-						"Stations in this region": stationTable
+						[`${tabName}`] : stationTable
 						//"Station detection timelines": stationTimeline
 					},
-					defaultTab: "Stations in this region",
+					defaultTab: 0,
 					attachEl:".explore-card-map",
 					attachMethod:"after"
 				});
@@ -913,10 +919,16 @@ console.log();
 					//	"Animals in this region": animalTable,
 						"Animal detection timeline": animalTimeline
 					},
-					defaultTab: "Animal detection timeline",
+					defaultTab: 0,
 					attachEl: ".explore-card-map",
 					attachMethod: "after"
 				});
+
+			var tabName = "Species " +
+				(
+					dataType == 'projects' || dataType == 'regions' ? 'in this ' + dataType.substring(0, dataType.length - 1) :
+					"detected by this " + (dataType != 'species' && dataType != 'animals' ? 'station' : firstToUpper(dataType))
+				)
 
 			addExploreCard({
 					data:'tabs',
@@ -924,9 +936,9 @@ console.log();
 					header: 'Animals',
 					icon: icons.species,
 					tabs: {
-						"Species in this region": speciesTable
+						[`${tabName}`] : speciesTable
 					},
-					defaultTab: "Species in this region",
+					defaultTab: 0,
 					attachEl: ".explore-card-map",
 					attachMethod: "after"
 				});
