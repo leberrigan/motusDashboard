@@ -918,7 +918,7 @@ function exploreMap({
 
 				motusMap.g.selectAll(".explore-map-station.explore-map-point")
 					.attr("d", motusMap.path)
-					.attr('id', (d) => 'explore-map-point-'+d.id)
+					.attr('id', (d) => 'explore-map-point-' + d.id)
 				//	.attr('class', 'leaflet-interactive explore-map-station explore-map-point')
 					.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
 					.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'station'))

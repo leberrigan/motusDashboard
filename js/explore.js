@@ -212,7 +212,7 @@ $(document).ready(function(){
 
 	// For Development:
 	// get file prefix
-	filePrefix = window.location.hostname == 'localhost' || window.location.hostname == 'leberrigan.github.io' ? 'data/' : window.location.hostname == 'www.motus.org' ? "https://" + window.location.hostname + "/wp-content/uploads/2021/01/" : "https://" + window.location.hostname + "/wp-content/uploads/";
+	filePrefix = window.location.hostname == 'localhost' || window.location.hostname == 'leberrigan.github.io' ? 'data/' : window.location.hostname == 'motus.org' ? "https://" + window.location.hostname + "/wp-content/uploads/2021/08/" : "https://" + window.location.hostname + "/wp-content/uploads/";
 
 	// Change the document title based on the view and data type
 	document.title = "Motus - " + (exploreType == 'main' ? ( "Explore" + firstToUpper(dataType) ) : ( firstToUpper(exploreType) + " summary" ) );
