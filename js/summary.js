@@ -1385,7 +1385,7 @@ console.log();
 
 
 					motusFilter[ dataType ].forEach(function(k) {
-						if  (dataType = 'animals') {
+						if  (dataType == 'animals') {
 							animalsByDayOfYear[ day ][ motusData.selectionNames[ k ] ] = animalsByDayOfYear[ day ][ motusData.selectionNames[ k ] ].concat(	d.local	);
 						} else if (motusData["animalsBy"+firstToUpper(dataType)] && typeof motusData["animalsBy"+firstToUpper(dataType)].get( k ) !== 'undefined') {
 							animalsByDayOfYear[ day ][ motusData.selectionNames[ k ] ] = animalsByDayOfYear[ day ][ motusData.selectionNames[ k ] ].concat(
@@ -1499,7 +1499,7 @@ console.log("Hourly");
 						const animalsToday = d.local/*.concat(d.remote)*/.concat(d.visiting);
 
 						motusFilter[ dataType ].forEach(function(k) {
-							if  (dataType = 'animals') {
+							if  (dataType == 'animals') {
 								animalsByHourOfDay[ i ][ motusData.selectionNames[ k ] ] = animalsByHourOfDay[ i ][ motusData.selectionNames[ k ] ].concat(	d.local	);
 							} else if (motusData["animalsBy"+firstToUpper(dataType)] && typeof motusData["animalsBy"+firstToUpper(dataType)].get( k ) !== 'undefined') {
 								animalsByHourOfDay[ i ][ motusData.selectionNames[ k ] ] = animalsByHourOfDay[ i ][ motusData.selectionNames[ k ] ].concat(
