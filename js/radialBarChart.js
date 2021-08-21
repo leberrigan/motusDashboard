@@ -11,7 +11,7 @@
 			var gParentSize = gParent.node().getBoundingClientRect(); // the svg size
 			var gParentItem = d3.select(gParent.node()); // the svg
 
-			console.log(gParent);
+			console.log(gParentSize);
 		//	console.log(d3.max(data, d => d?d.total:d));
 
 			var outerRadius = Math.min(gParentSize.width, gParentSize.height) / 2,
@@ -82,7 +82,7 @@
 						.attr("fill", "#000")
 						.attr("stroke", "none")))
 
-			var dateFun = dateFormat == "H" ? (d=>moment( d[data.columns[0]] ).format( dateFormat )) : (d=> moment().dayOfYear( d[data.columns[0]] ).format( dateFormat ) );
+			var dateFun = dateFormat == "H" ? ( d => d[data.columns[0]] ) : ( d => moment().dayOfYear( d[data.columns[0]] ).format( dateFormat ) );
 
 
 			var xAxis = g => g
@@ -112,7 +112,7 @@
 				.padRadius(innerRadius)
 
 			gParentItem
-				.attr("viewBox", `${-width / 2} ${-10-height / 2} ${width} ${height}`)
+				.attr("viewBox", `${-width / 2} ${-20-height / 2} ${width} ${height + 20}`)
 			//	.style("width", "calc(100% - 20px)")
 			//	.style("height", "calc(100% - 20px)")
 				.style("font", "10px sans-serif");

@@ -366,18 +366,18 @@ function exploreMap({
 						$('.tooltip').html("<center><h3>"+
 													icons.station + "&nbsp;&nbsp;&nbsp;" + d.name +
 												"</h3></center>"+
-											  `<b>Deployed on: </b>${d.dtStart.toISOString().substr(0,10)}`+
-												"<br/>"+
-												`<a class='question tips' alt='Active stations are currently collecting data. Terminated stations are not.'>`+
-													`<b>Current status: </b>${d.status}`+
-												"</a>"+
-												"<br/>"+
-												"<br/>"+
+
+
 												`<table style="width:100%;text-align:center;font-size:14pt;"><tbody>`+
 													`<tr><td>${d.nAnimals} ${icons.animals}</td><td style="padding-left: 10px;">${d.nSpp} ${icons.species}</td></tr>`+
 													`<tr><td><b>Animal${d.nAnimals==1?"":"s"}</b></td><td style="padding-left: 10px;"><b>Species</b></td></tr>`+
 												`</tbody></table>`+
 												"<br/>"+
+											  `<b>First installed: </b>${d.dtStart.toISOString().substr(0,10)}`+
+												"<br/>"+
+												`<a class='station-status station-status-${d.status.replace(' ','-')}'>`+
+													`${firstToUpper(d.status)}`+
+												"</a>"+
 												"<center>Click to view profile</center>");
 					}
 				} else {
