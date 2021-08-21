@@ -283,6 +283,8 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 			var dtStart = v.dtStart.split(',');
 			var dtEnd = v.dtEnd.split(',');
+			var tsStart = v.tsStart.split(',');
+			var tsEnd = v.tsEnd.split(',');
 			var allTimes = [];
 			var animals = v.animal.split(',');
 			var species = v.species.split(',');
@@ -314,6 +316,8 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 				var selectedIndices = animals.map( (x,i) => motusFilter.animals.includes(x) ? i : -1 ).filter(x => x != -1);
 				dtStart = dtStart.filter((x,i) => selectedIndices.includes(i));
 				dtEnd = dtEnd.filter((x,i) => selectedIndices.includes(i));
+				tsStart = tsStart.filter((x,i) => selectedIndices.includes(i));
+				tsEnd = tsEnd.filter((x,i) => selectedIndices.includes(i));
 				animals = animals.filter((x,i) => selectedIndices.includes(i));
 				species = species.filter((x,i) => selectedIndices.includes(i));
 				allTimes = dtStart.concat(dtEnd);
@@ -355,19 +359,25 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 					if (selectedRecv1 || selectedRecv2) {
 						motusData.animalsByDayOfYear[moment(dtStart[i]).dayOfYear()].local.push(x);
 						motusData.animalsByDayOfYear[moment(dtEnd[i]).dayOfYear()].local.push(x);
+						motusData.animalsByHourOfDay[moment(tsStart[i] * 1000).format("H")].local.push(x);
+						motusData.animalsByHourOfDay[moment(tsEnd[i] * 1000).format("H")].local.push(x);
 					} else {
 						motusData.animalsByDayOfYear[moment(dtStart[i]).dayOfYear()].remote.push(x);
 						motusData.animalsByDayOfYear[moment(dtEnd[i]).dayOfYear()].remote.push(x);
+						motusData.animalsByHourOfDay[moment(tsStart[i] * 1000).format("H")].remote.push(x);
+						motusData.animalsByHourOfDay[moment(tsEnd[i] * 1000).format("H")].remote.push(x);
 					}
 				} else {
 					if (selectedRecv1 || selectedRecv2) {motusFilter.remoteAnimals.push(x);}
 					if (selectedRecv1) {
 						allTimes.push(dtStart[i]);
 						motusData.animalsByDayOfYear[moment(dtStart[i]).dayOfYear()].visiting.push(x);
+						motusData.animalsByHourOfDay[moment(tsStart[i] * 1000).format("H")].visiting.push(x);
 					}
 					if (selectedRecv2) {
 						allTimes.push(dtEnd[i]);
 						motusData.animalsByDayOfYear[moment(dtEnd[i]).dayOfYear()].visiting.push(x);
+						motusData.animalsByHourOfDay[moment(tsEnd[i] * 1000).format("H")].visiting.push(x);
 					}
 				}
 
@@ -917,9 +927,10 @@ console.log();
 					header: 'Detections',
 					tabs: {
 					//	"Animals in this region": animalTable,
-						"Animal detection timeline": animalTimeline
+						"Detections by Month of Year": animalTimeline,
+						"Detections by Hour of Day": animalHourlyTimeline
 					},
-					defaultTab: 0,
+					defaultTab: 1,
 					attachEl: ".explore-card-map",
 					attachMethod: "after"
 				});
@@ -1328,10 +1339,15 @@ console.log();
 
 		$("#explore_card_" + cardID + " > div:not(.explore-card-header)").hide();
 
+
 		if ($(".explore-card-" + cardID + "-timeline").length == 0) {
 
 			$("#explore_card_" + cardID + "")
-				.append( $("<div class='explore-card-chart-wrapper'><div class='explore-card-" + cardID + "-timeline'><svg></svg></div></div>") )
+				.append( $("<div class='explore-card-chart-wrapper'><div class='explore-card-" + cardID + "-timeline'></div></div>") )
+		}
+		if ($(".explore-card-" + cardID + "-timeline svg.monthly-timeline").length == 0) {
+
+			$(".explore-card-" + cardID + "-timeline").append("<svg class='monthly-timeline'></svg>");
 
 			timelineAxisVals = [];
 
@@ -1354,7 +1370,7 @@ console.log();
 				Object.values(motusData.selectionNames).forEach(function(d) {animalsByDayOfYear[ day ][ d ] = [];});
 			}
 
-			console.log(animalsByDayOfYear);
+
 			motusData.animalsByDayOfYear.forEach( function(d, i) {
 
 				if (d.local.length > 0 || d.remote.length > 0 || d.visiting.length > 0) {
@@ -1369,7 +1385,9 @@ console.log();
 
 
 					motusFilter[ dataType ].forEach(function(k) {
-						if (motusData["animalsBy"+firstToUpper(dataType)] && typeof motusData["animalsBy"+firstToUpper(dataType)].get( k ) !== 'undefined') {
+						if  (dataType = 'animals') {
+							animalsByDayOfYear[ day ][ motusData.selectionNames[ k ] ] = animalsByDayOfYear[ day ][ motusData.selectionNames[ k ] ].concat(	d.local	);
+						} else if (motusData["animalsBy"+firstToUpper(dataType)] && typeof motusData["animalsBy"+firstToUpper(dataType)].get( k ) !== 'undefined') {
 							animalsByDayOfYear[ day ][ motusData.selectionNames[ k ] ] = animalsByDayOfYear[ day ][ motusData.selectionNames[ k ] ].concat(
 								d.local.filter( x => typeof motusData["animalsBy"+firstToUpper(dataType)].get( k ).get( x ) !== 'undefined' && motusData["animalsBy"+firstToUpper(dataType)].get( k ).get( x ).length > 0 )
 							);
@@ -1392,8 +1410,6 @@ console.log();
 
 			animalsByDayOfYear = animalsByDayOfYear.map(function(d){
 
-				var toReturn;
-
 				for (k in d) {
 
 					if (k != "Julian date") d[k] = d[k].filter(onlyUnique).length;
@@ -1413,18 +1429,135 @@ console.log();
 
 			var radialColourScale = d3.scaleOrdinal().domain( ['visiting'].concat( motusFilter[dataType].map(x => motusData.selectionNames[ x ] ) ) ).range( ["#000000"].concat( customColourScale.jnnnnn.slice(0, motusFilter[dataType].length + 1) ) );
 
+			var radialChartConstruct = d3.radialBarChart().colourScale( radialColourScale ).dateFormat('MMM');
+
+			$("#explore_card_" + cardID + " .explore-card-" + cardID + "-timeline svg.hourly-timeline").hide();
+					$("#explore_card_" + cardID + " .explore-card-" + cardID + "-timeline").parent().show();
+
 			console.log(animalsByDayOfYear);
 
-			var radialChartConstruct = d3.radialBarChart().colourScale( radialColourScale );
-
-			var radialChart = d3.select(".explore-card-" + cardID + "-timeline svg")
+			var radialChart = d3.select(".explore-card-" + cardID + "-timeline svg.monthly-timeline")
 				.datum(animalsByDayOfYear).call(radialChartConstruct);
 
 		}
+					$("#explore_card_" + cardID + " .explore-card-" + cardID + "-timeline svg.hourly-timeline").hide();
+							$("#explore_card_" + cardID + " .explore-card-" + cardID + "-timeline").parent().show();
 
-		$("#explore_card_" + cardID + " .explore-card-" + cardID + "-timeline").parent().show();
+		$("#explore_card_" + cardID + " .explore-card-" + cardID + "-timeline svg.monthly-timeline").show();
 	}
 
+		function animalHourlyTimeline( cardID ) {
+
+console.log("Hourly");
+			/*
+
+			I need to create a toggle, or decide on one of the following:
+			  1. Show unique animals per month/hour
+				2. Show unique species per month/hour
+
+
+			This plot displays three categories of detections:
+				1. Local detections: Animals tagged AND detected in the same region
+				2. Remote detections: Animals tagged in the region and detected elsewhere
+				3. Visitor detections: Animals tagged elsewhere and detected within the region
+
+			*/
+
+			$("#explore_card_" + cardID + " > div:not(.explore-card-header)").hide();
+
+			if ($(".explore-card-" + cardID + "-timeline").length == 0) {
+
+				$("#explore_card_" + cardID + "")
+					.append( $("<div class='explore-card-chart-wrapper'><div class='explore-card-" + cardID + "-timeline'></div></div>") )
+			}
+			if ($(".explore-card-" + cardID + "-timeline svg.hourly-timeline").length == 0) {
+
+				$(".explore-card-" + cardID + "-timeline").append("<svg class='hourly-timeline'></svg>");
+
+				timelineAxisVals = [];
+
+				motusData.tagHits = {};
+
+				//timeRange = {};
+
+				var animalsByHourOfDay = [];
+
+				const group_by = 'hour';
+				const gSize = 24;	// size of hour groups
+
+				for (var i=0; i < gSize; i++) {
+
+					animalsByHourOfDay[ i ] = { "Hour": i, visiting: [], local: [], remote: [], total: [] };
+
+					Object.values(motusData.selectionNames).forEach(function(d) {animalsByHourOfDay[ i ][ d ] = [];});
+				}
+
+				motusData.animalsByHourOfDay.forEach( function(d, i) {
+
+					if (d.local.length > 0 || d.remote.length > 0 || d.visiting.length > 0) {
+
+						const animalsToday = d.local/*.concat(d.remote)*/.concat(d.visiting);
+
+						motusFilter[ dataType ].forEach(function(k) {
+							if  (dataType = 'animals') {
+								animalsByHourOfDay[ i ][ motusData.selectionNames[ k ] ] = animalsByHourOfDay[ i ][ motusData.selectionNames[ k ] ].concat(	d.local	);
+							} else if (motusData["animalsBy"+firstToUpper(dataType)] && typeof motusData["animalsBy"+firstToUpper(dataType)].get( k ) !== 'undefined') {
+								animalsByHourOfDay[ i ][ motusData.selectionNames[ k ] ] = animalsByHourOfDay[ i ][ motusData.selectionNames[ k ] ].concat(
+									d.local.filter( x => typeof motusData["animalsBy"+firstToUpper(dataType)].get( k ).get( x ) !== 'undefined' && motusData["animalsBy"+firstToUpper(dataType)].get( k ).get( x ).length > 0 )
+								);
+							} else if (dataType == 'stations') {
+								animalsByHourOfDay[ i ][ motusData.selectionNames[ k ] ] = animalsByHourOfDay[ i ][ motusData.selectionNames[ k ] ].concat(
+									d.local
+								);
+							}
+
+
+						});
+						animalsByHourOfDay[i].local = animalsByHourOfDay[i].local.concat(d.local);
+
+						animalsByHourOfDay[i].remote = animalsByHourOfDay[i].remote.concat(d.remote);
+						animalsByHourOfDay[i].visiting = animalsByHourOfDay[i].visiting.concat(d.visiting);
+						animalsByHourOfDay[i].total = animalsByHourOfDay[i].total.concat(animalsToday);
+
+					}
+				});
+
+				animalsByHourOfDay = animalsByHourOfDay.map(function(d){
+
+					for (k in d) {
+
+						if (k != "Hour") d[k] = d[k].filter(onlyUnique).length;
+
+					}
+
+					return d;
+				});
+
+				animalsByHourOfDay = animalsByHourOfDay.flat();
+
+				animalsByHourOfDay.columns = Object.keys(animalsByHourOfDay[0])
+				animalsByHourOfDay.columns.splice( animalsByHourOfDay.columns.indexOf('total'), 1 );
+				animalsByHourOfDay.columns.splice( animalsByHourOfDay.columns.indexOf('local'), 1 );
+				animalsByHourOfDay.columns.splice( animalsByHourOfDay.columns.indexOf('remote'), 1 );
+
+				var radialColourScale = d3.scaleOrdinal().domain( ['visiting'].concat( motusFilter[dataType].map(x => motusData.selectionNames[ x ] ) ) ).range( ["#000000"].concat( customColourScale.jnnnnn.slice(0, motusFilter[dataType].length + 1) ) );
+
+				var radialChartConstruct = d3.radialBarChart().colourScale( radialColourScale ).dateFormat('H');
+
+				$("#explore_card_" + cardID + " .explore-card-" + cardID + "-timeline svg.monthly-timeline").hide();
+						$("#explore_card_" + cardID + " .explore-card-" + cardID + "-timeline").parent().show();
+
+				console.log(animalsByHourOfDay);
+
+				var radialChart = d3.select(".explore-card-" + cardID + "-timeline svg.hourly-timeline")
+					.datum(animalsByHourOfDay).call(radialChartConstruct);
+
+			}
+							$("#explore_card_" + cardID + " .explore-card-" + cardID + "-timeline svg.monthly-timeline").hide();
+
+			$("#explore_card_" + cardID + " .explore-card-" + cardID + "-timeline").parent().show();
+			$("#explore_card_" + cardID + " .explore-card-" + cardID + "-timeline svg.hourly-timeline").show();
+		}
 	if (motusFilter.animals.length > 0) {
 		motusData.selectedAnimals = Array.from(motusData.animals.filter(
 											x => motusFilter.animals.includes( x.id )

@@ -45,6 +45,24 @@ body {
 	border-radius:5px;
 	padding:10px;
 }
+
+.tooltip .station-status {
+	text-align:center;
+	margin:10px auto;
+	display:block;
+	padding: 3px 5px;
+	border: 0px;
+	font-weight:bold;
+	width:5em;
+}
+.tooltip .station-status.station-status-not-active {
+	color: #977;
+	background-color:#DCC;
+}
+.tooltip .station-status.station-status-active {
+	color: #0A0;
+	background-color:#DED;
+}
 .popup {
 	max-height:80vh;
 	overflow-y:auto;
@@ -1042,11 +1060,12 @@ div.explore-card {
 }
 .content-wrapper.profiles .explore-card-chart-wrapper > div {
 	overflow:visible;
-	height:100%;
+	height:calc(100% - 20px);
 	width:100%;
+	padding: 10px 0;
 }
 .content-wrapper.profiles .explore-card-chart-wrapper {
-	height:calc(100% - 22px);
+	height:calc(100% - 32px);
 	overflow-y:auto !important;
 }
 .content-wrapper.profiles > .explore-card-wrapper > .explore-card-chart {
@@ -1060,9 +1079,9 @@ div.explore-card {
 	}
 }
 .content-wrapper.profiles > .explore-card-wrapper > #explore_card_tagHits .explore-card-tagHits-timeline svg {
-	display:block;
-	height:calc(100vh - 400px);
-	width:calc(100vw - 50px);
+	display: block;
+	height: 100%;
+	width: 100%;
 }
 .explore-card-chart svg rect:hover {
 	cursor: pointer;
@@ -1971,6 +1990,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
   grid-column: 2/3;
 	margin-top:0px;
 	height: 100%;
+	padding: 0px;
 }
 
 
