@@ -332,7 +332,7 @@ function loadMotusData() {
 	if (exploreType == 'main') {
 
 		if (dataType == 'animals') {
-				fileList = ["stationDeps", "tracks", "species"];
+				fileList = ["stationDeps", "tracks", "species", "animals"];
 		} else if (dataType == 'stations') {
 				fileList = ["stationDeps"];
 		} else {
@@ -369,6 +369,7 @@ function loadMotusData() {
 		if (typeof motusData.animals !== 'undefined') {
 			motusData.animals.forEach(function(x){
 				x.dtEnd = x.dtEnd == "NA" ? moment().toISOString().substr(0, 10) : x.dtEnd;
+				x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
 			});
 
 		}
@@ -951,6 +952,12 @@ function exploreControls(el) {
 		}
 	} else if (opt == 'animate') {
 
+	} else if (opt == 'view') {
+		if (exploreType == 'main' && dataType == 'animals') {
+
+			drawMapObjects('tagDeps');
+
+		}
 	} else if (opt == 'options') {
 		var isTable = $(el).val().indexOf('table')!=-1;
 		exploreSummaryTabSelect('region'+(isTable?'Table':'s'));
@@ -1552,7 +1559,7 @@ function addExploreCardProfile(profile) {
 
 	// define the profile DOM structure
 	var struct = "grid";
-  var data = profile.data.filter(d => d.value > 0 || profile.data.length <= 4).map((d, i) => `<div class='explore-card-profile-data explore-card-data${i + 1}' onclick='showProfileData(${profile.id}, "${d.type}")'>${d.icon}${d.value}<div class='explore-card-data-label'>${d.label}</div></div>`);
+  var data = profile.data.filter(d => d.value > 0 || profile.data.length <= 4).map((d, i) => `<div class='explore-card-profile-data explore-card-data${i + 1}' onclick='showProfileData("${profile.id}", "${d.type}")'>${d.icon}${d.value}<div class='explore-card-data-label'>${d.label}</div></div>`);
 
 	console.log(profile.data)
 	console.log(data)
@@ -1571,7 +1578,7 @@ function showProfileData(profileID, varName) {
 
 	console.log("ProfileID: %s, varName: %s", profileID, varName);
 
-	$(`.explore-card-profiles-tabs .explore-card-${varName == 'animals' || varName == 'species'? 'speciesHits' : varName == 'stations' ? 'stationHits' : varName == 'countries' ? 'map' : varName == 'detections' ? 'tagHits' : varName }-tab`).click();
+	$(`.explore-card-profiles-tabs .explore-card-${varName == 'animals' || varName == 'species'? 'speciesHits' : varName == 'stations' ? 'stationHits' : varName == 'countries' ? 'map' : varName == 'detections' ? 'tagHits' : varName == 'projects' ? 'projectsTable' : varName }-tab`).click();
 
 }
 
@@ -1676,8 +1683,9 @@ function addExploreCard(card) {
 			}*/
 
 			if (card.photo == "") {
-				$("#explore_card_profile_" + card.id).addClass("no-photo").
-					click(function(){
+				$("#explore_card_profile_" + card.id).addClass("no-photo")
+				.find(".explore-card-image")
+				.click(function(){
 						if ($("#explore_card_profiles").hasClass('solo-card')) {
 							$("#exploreContent .explore-card-add").click();
 						} else {
@@ -1798,9 +1806,9 @@ function addExploreCard(card) {
 
 		card.icon = typeof card.icon === 'undefined' ? icons[card.header.toLowerCase().split(' ')[0]] : card.icon;
 
-		addExploreTab('explore_card_' + card.type, card.header, {icon: card.icon, insertAfter: 'explore-card-map-tab'});
+		addExploreTab('explore-card-' + card.type, card.header, {icon: card.icon, insertAfter: 'explore-card-map-tab', card: card, selectedTab: selectedTab});
 
-		card.tabs[ selectedTab ]( card.type );
+//		card.tabs[ selectedTab ]( card.type );
 
 		exploreCard.hide();
 
@@ -1898,18 +1906,37 @@ function addExploreCard(card) {
 	//updateURL();
 
 }
+
+
 function addExploreTab(el, header, opts = {}) {
 
-	var tab = $(`<div class='${el.replace(/_/g,'-')}-tab'>${header}</div>`);
+	var tab = $(`<div class='${el}-tab'>${header}</div>`);
+
 	if (!opts.click) {
-		tab.click(function(){
-			if ($(`#${this.className.replace(/-/g,'_').replace(new RegExp("_tab$"),'')}`).is(":hidden")) {
-				console.log(`#${this.className.replace(/-/g,'_').replace(new RegExp("_tab$"),'')}`);
+
+		if (typeof opts.card !== 'undefined') {
+			var data = {fnc: opts.card.tabs[ opts.selectedTab ], arg: opts.card.type};
+		}
+
+		tab.click(data, function(e) {
+
+			var elID = this.className.replace(/-/g,'_').replace(new RegExp("_tab$"),'');
+
+			if ($(`#${elID}`).is(":hidden")) {
+				console.log(`#${elID}`);
 				$(".explore-card:not(#explore_card_profiles):visible").hide();
-				$(`#${this.className.replace(/-/g,'_').replace(new RegExp("_tab$"),'')}`).show();
-				if ($(`#${this.className.replace(/-/g,'_').replace(new RegExp("_tab$"),'')} table`).length > 0) {
+
+				$(`#${elID}`).show();
+
+				// Create content on first click
+				if ($(`#${elID} div:not(.explore-card-header)`).length == 0 && $(`#${elID} table`).length == 0) {
+					e.data.fnc( e.data.arg );
+				}
+
+				// Redraw tables on subsequent clicks
+				if ($(`#${elID} table`).length > 0) {
 					console.log('Redrawing table')
-					$(`#${this.className.replace(/-/g,'_').replace(new RegExp("_tab$"),'')} table`).DataTable().columns.adjust().draw();
+					$(`#${elID} table`).DataTable().columns.adjust().draw();
 				}
 			}
 		});
@@ -1931,6 +1958,8 @@ function addExploreTab(el, header, opts = {}) {
 	}
 	if (opts.selected) {tab.trigger('click');}
 }
+
+
 function removeExploreCard(el, filterType) {
 
 	var cardID = $(el).closest('.explore-card-profile').attr('id').replace('explore_card_profile_', '');

@@ -11,6 +11,8 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ## Updates
 
 ### Latest
+* [x] [2021-08-20] Improve grid design for smaller screens.
+* [x] [2021-08-20] Add projects tab to profiles.
 * [x] [2021-08-20] Fix selection process from tables in main explore view.
 * [x] [2021-08-20] Profile summary on left. Graphics on right.
 * [x] [2021-08-20] Tidy up profiles to conserve space.
