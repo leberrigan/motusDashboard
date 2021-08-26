@@ -44,6 +44,7 @@ function exploreMap({
 		},
 		zoom: mapZoom,
 		tileLayer: tileLayer,
+		groups: {},
 		map:  {},
 		pointPath: d3.geoPath().pointRadius(1),// A path generator
 		isVisible: function(d) {
@@ -745,10 +746,9 @@ function exploreMap({
 			var pts = [];
 			var subPixel = false;
 			var subPts = [];
-			scale = scale ? scale : motusMap.getZoomScale();
+			scale = typeof scale === 'number' ? scale : motusMap.getZoomScale();
 		//	console.log(" scale: " + scale);
-			var counter = 0;
-			var tmp = 0;
+
 			var grid_f = 1; // grid size multiplication factor
 			motusData.stationDepsBySubset = {};
 
@@ -786,19 +786,23 @@ function exploreMap({
 							}
 
 							pts.push(subPts[0]); // add only one todo calculate intensity
-							counter += subPts.length - 1;
 							subPts = [];
 						}
 						subPixel = false;
 					}
 				}
-				if ((p)) {
+				if ( p ) {
 
-					if (p.oldCoords) {p.geometry.coordinates=p.oldCoords;delete(p.oldCoords);p.geometry.type = 'Point';}
-					if ((p) && (p.geometry.coordinates[0] >= xmin) &&
-							   (p.geometry.coordinates[0] < xmax) &&
-							   (p.geometry.coordinates[1] >= ymin) &&
-							   (p.geometry.coordinates[1] < ymax)) {
+					if (p.oldCoords) {
+						p.geometry.coordinates = p.oldCoords;
+						delete(p.oldCoords);
+						p.geometry.type = 'Point';
+					}
+
+					if ( (p.geometry.coordinates[0] >= xmin) &&
+						   (p.geometry.coordinates[0] < xmax) &&
+						   (p.geometry.coordinates[1] >= ymin) &&
+						   (p.geometry.coordinates[1] < ymax)) {
 
 						if (subPixel) {
 
@@ -872,20 +876,6 @@ function exploreMap({
 		redrawSubset: function(subset, scale) {
 			scale = scale ? scale : motusMap.getZoomScale();
 			//scale = scale < (5/2000) ? (5/2000) : (scale > (50/2000) ? (50/2000) : scale);
-			var bounds = motusMap.path.bounds({ type: "FeatureCollection", features: subset });
-			var topLeft = bounds[0];
-			var bottomRight = bounds[1];
-
-			//console.log({ type: "FeatureCollection", features: subset });
-			//console.log(motusData.stationDepsBySubset);
-			//console.log(d3.extent(subset, x => x.geometry.coordinates[1]));
-
-			motusMap.svg.attr("width", bottomRight[0] - topLeft[0] + 100)
-				.attr("height", bottomRight[1] - topLeft[1] + 100)
-				.style("left", (topLeft[0]-50) + "px")
-				.style("top", (topLeft[1]-50) + "px");
-
-			motusMap.g.attr("transform", "translate(" + (-topLeft[0]+50) + "," + (-topLeft[1]+50) + ")");
 			//motusMap.svg//.attr("width", bottomRight[0] - topLeft[0])
 			//  .attr("height", bottomRight[1] - topLeft[1])
 			  //.attr('class', "leaflet-zoom-hide")
@@ -1027,6 +1017,22 @@ function exploreMap({
 					.on('click', (e,d) => motusMap.dataClick(e, d, 'track'));
 
 			}
+			
+
+			var bounds = motusMap.path.bounds({ type: "FeatureCollection", features: dataType == 'animals' ? trackDataByRouteBundled.map(d => ({type: "Feature", geometry: d})) : subset });
+			var topLeft = bounds[0];
+			var bottomRight = bounds[1];
+
+			//console.log({ type: "FeatureCollection", features: subset });
+			//console.log(motusData.stationDepsBySubset);
+			//console.log(d3.extent(subset, x => x.geometry.coordinates[1]));
+
+			motusMap.svg.attr("width", bottomRight[0] - topLeft[0] + 100)
+				.attr("height", bottomRight[1] - topLeft[1] + 100)
+				.style("left", (topLeft[0]-50) + "px")
+				.style("top", (topLeft[1]-50) + "px");
+
+			motusMap.g.attr("transform", "translate(" + (-topLeft[0]+50) + "," + (-topLeft[1]+50) + ")");
 		//	console.log("updated in " + new Date().setTime(new Date().getTime() - start.getTime()) + " ms ");
 			motusMap.setVisibility();
 		},
@@ -1034,13 +1040,16 @@ function exploreMap({
 
 			var mapBounds = motusMap.map.getBounds();
 			var scale = motusMap.getZoomScale();
+
 			if (dataType == 'stations') {
 				var subset = motusMap.search(motusMap.qtree, mapBounds.getWest(), mapBounds.getSouth(), mapBounds.getEast(), mapBounds.getNorth(), scale);
 			}
 			else {
-				var subset = motusMap.search(motusMap.qtree, -180, -90, 180, 90);
+				var subset = motusMap.search(motusMap.qtree, mapBounds.getWest(), mapBounds.getSouth(), mapBounds.getEast(), mapBounds.getNorth(), scale);
 			}
-			console.log("Subset: ", subset)
+			console.log("Subset: ", subset);
+			console.log("Zoom scale: ", scale);
+			console.log("Map bounds: ", mapBounds);
 
 			motusMap.redrawSubset(subset, scale);
 		//	redrawSubset(subset);
@@ -1077,7 +1086,7 @@ function loadMapObjects(callback) {
 
 	motusMap.svg = d3.select(motusMap.map.getPanes().overlayPane).append("svg");
 
-	motusMap.g = motusMap.svg.append("g");//.attr("class", "leaflet-zoom-hide");
+	motusMap.g = motusMap.svg.append("g").attr('class', 'motusMap-tracks-container');//.attr("class", "leaflet-zoom-hide");
 
 	var transform = d3.geoTransform({point: motusMap.projectPoint});
 	motusMap.path = d3.geoPath().projection(transform);
@@ -1435,6 +1444,7 @@ function loadMapObjects(callback) {
 				end: d.dtEnd
 			}
 		});
+
 		timeline.min = d3.min(dateLimits.map(d => new Date(d.start).getTime())) / 1000;
 		timeline.max = d3.max(dateLimits.map(d => new Date(d.start).getTime())) / 1000;
 
@@ -1476,6 +1486,14 @@ function loadMapObjects(callback) {
 		motusMap.g.selectAll(".explore-map-region").attr("d", motusMap.path);
 		motusMap.g.selectAll(".explore-map-antenna").attr("d", motusMap.path);
 
+/*
+		for (g in motusMap.groups) {
+			console.log('test');
+			motusMap.groups[g]
+				.attr("transform", "translate(" + (margin-topLeft[0]) + "," + (margin-topLeft[1]) + ")")
+				.selectAll('path').attr('d', motusMap.path)
+		}*/
+
 		//if (typeof tagDeps_el !== 'undefined') { tagDeps_el.attr("d", path); }
 	//	if (typeof station_el !== 'undefined') {  }
 		if (typeof tracks_el !== 'undefined') { tracks_el.attr("d", motusMap.path); }
@@ -1493,5 +1511,50 @@ function loadMapObjects(callback) {
 	//motusMap.setVisibility(true);
 
 	afterMapLoads();
+
+}
+
+function drawMapObjects(group) {
+
+	motusMap.groups[group] = motusMap.svg.append("g").attr('class', `motusMap-${group}-container`);
+
+	if (group == 'tagDeps') {
+
+		var bounds = motusMap.path.bounds({ type: "FeatureCollection", features: motusData.animals.filter( d => !isNaN(d.geometry.coordinates[0])) });
+		var topLeft = bounds[0];
+		var bottomRight = bounds[1];
+
+		//console.log({ type: "FeatureCollection", features: subset });
+		//console.log(motusData.stationDepsBySubset);
+		//console.log(d3.extent(subset, x => x.geometry.coordinates[1]));
+
+		motusMap.svg.attr("width", bottomRight[0] - topLeft[0] + 100)
+			.attr("height", bottomRight[1] - topLeft[1] + 100)
+			.style("left", (topLeft[0]-50) + "px")
+			.style("top", (topLeft[1]-50) + "px");
+
+		motusMap.g.attr("transform", "translate(" + (-topLeft[0]+50) + "," + (-topLeft[1]+50) + ")");
+		//motusMap.svg//.attr("width", bottomRight[0] - topLeft[0])
+		//  .attr("height", bottomRight[1] - topLeft[1])
+		  //.attr('class', "leaflet-zoom-hide")
+		//  .style("left", topLeft[0] + "px")
+		//  .style("top", topLeft[1] + "px");
+
+
+		var stationsPaths = motusMap.groups[group].selectAll("tagDeps")
+					  .data( motusData.animals.filter( d => !isNaN(d.geometry.coordinates[0]) ) )
+						.enter().append("path")
+						.attr("d", motusMap.path.pointRadius(4))
+						.style('stroke', '#000')
+						.style("fill", d => motusMap.colourScale(d[motusMap.colourVar]))
+						.attr('class', 'leaflet-interactive explore-map-tagdep explore-map-point')
+						.attr('id', (d) => 'explore-map-tagdep-'+d.id)
+						.style('stroke-width', '1px')
+						.style('pointer-events', 'auto')
+						.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'tagdep'))
+						.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'tagdep'))
+						.on('click', (e,d) => motusMap.dataClick(e, d, 'tagdep'));
+
+	}
 
 }
