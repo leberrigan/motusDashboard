@@ -82,7 +82,8 @@ body {
 	border:solid 2px;
 	border-radius: 10px;
 	padding: 4px;
-	max-width: 150px;
+	max-width: 250px;
+	width: max-content;
 	background-color:#FFF;
 }
 .popup {
@@ -247,6 +248,7 @@ iframe#pdf_output {
 }
 #lightbox img {
 	max-height:80%;
+	max-width:100%;
 	vertical-align:middle;
 }
 #lightbox_bg {
@@ -392,6 +394,9 @@ iframe#pdf_output {
 	    position: relative;
 	    z-index: 9999;
 	    margin-bottom: -220px;
+	}
+	.explore-card-profiles-tabs.expanded > div:first-child {
+		border-right: solid 1px #999;
 	}
 	.explore-card-profiles-tabs.expanded > div:nth-child(2) {
 		border-top: solid 1px #999;
@@ -573,7 +578,6 @@ iframe#pdf_output {
 #explore_controls {
     min-height: 40px;
     margin-top: 0px;
-	border-bottom:solid 1px #555;
 	column-span: all;
 }
 #explore_controls.data-summary {
@@ -1137,15 +1141,36 @@ div.explore-card {
 
 .explore-card-table-legend-icon, .explore-legend-icon {
 	display: inline-block;
-    border-color: ;
-    border-radius: 50%;
-    border: solid 7px #3957ff;
-    float: left;
-    margin-top: 2px;
-    margin-right: 10px;
+  border-radius: 50%;
+  border: solid 7px #3957ff;
+  float: left;
+  margin-top: 2px;
+  margin-right: 10px;
+	box-shadow: 1px 1px 1px #BBB, -1px -1px 1px #BBB;
+	position:relative;
+	z-index:1;
 }
 
+.explore-card-table-legend-icon:not(:first-child), .explore-legend-icon:not(:first-child) {
+	margin-left: -17px;
+}
+.explore-card-table-legend-icon:hover {
+	z-index:2;
+	cursor:pointer;
+}
 
+.explore-card-table-legend-icon .tip_text {
+	display:none;
+}
+.explore-card-table-legend-icon:hover .tip_text {
+	display:block;
+	z-index:200;
+	position: absolute;
+	margin-left: 15px;
+	margin-top: -23px;
+	box-shadow: 1px 1px 5px #999;
+	background-color:#FFF;
+}
 
 @keyframes exploreCardProfile {
 	0% {background-color:#000}
@@ -1373,7 +1398,7 @@ css({height:"600px",maxHeight:"100vh", width: "calc(100vw - 300px)", minWidth: "
 
 .explore-map-controls {
 	position:absolute;
-	left:0;
+	margin-top:5%;
 	right:0;
 	z-index:1010;
 	line-height:30px;
@@ -1384,13 +1409,23 @@ css({height:"600px",maxHeight:"100vh", width: "calc(100vw - 300px)", minWidth: "
 	display:inline-block;
 	background-color:#EEE;
 	border:solid 1px #000;
-	border-top-width: 0;
+	border-right-width: 0;
 	pointer-events: all;
 	padding: 10px;
+}
+.explore-map-legend.hidden:hover {
+	background-color:#EEE;
+	color:#000;
 }
 
 .explore-map-legend.hidden  {
 	padding: 5px 10px;
+	background-color:#333;
+	color:#EEE;
+}
+.explore-map-legend svg {
+	display:block;
+	margin:5px 0;
 }
 .explore-map-legend.hidden svg {
 	display:none;
@@ -1428,19 +1463,21 @@ div.explore-species-table-animals {
 	overflow-y: auto;
 	border-bottom:solid 2px;
 }
-
-.explore-map-legend .explore-map-legend-header .showHide::after {
-	content: "(hide)";
-	margin-left:10px;
-	font-size:10pt;
+.explore-map-legend .explore-map-legend-header {
 	vertical-align:middle;
-	color: #00F;
 	cursor:pointer;
+	font-weight:bold;
+	margin: -10px;
+	padding: 10px;
 }
-.explore-map-legend.hidden .explore-map-legend-header .showHide::after {
-	content: "(show)"
+.explore-map-legend .explore-map-legend-header:hover {
+	background-color:#FAFAFA;
 }
-
+.explore-map-legend.hidden .explore-map-legend-header:hover {
+	margin: -5px -10px;
+	padding: 5px 10px;
+}
+.explore-map-legend.hidden .explore-map-legend-header .showHide
 .explore-map-legend .explore-map-legend-header .showHide:hover {text-decoration:underline;}
 
 .explore-map-legend svg:last-child::after {
@@ -2301,7 +2338,7 @@ cursor: pointer;
 	.content-wrapper.profiles .explore-card-wrapper #explore_card_profiles {
 		grid-row: 3/4;
 		grid-column: 1/2;
-		width: auto;
+		width: 100%;
 		padding:0;
 		height:auto;
 		overflow-y:auto;
@@ -2327,6 +2364,9 @@ cursor: pointer;
 	#explore_card_profiles.solo-card .explore-card-profile.grid-container {
     grid-template-columns: 100px 100px repeat(auto-fill, 75px);
     grid-template-rows: 65px;
+    display: flex;
+		flex-flow: row wrap;
+		justify-content: center;
 	}
 	#explore_card_profiles.solo-card .explore-card-profile.grid-container .explore-card-profile-data .explore-card-data-label {
 		font-size:10pt;
@@ -2336,6 +2376,20 @@ cursor: pointer;
 	}
 
 
+	#explore_card_profiles.solo-card .explore-card-profile.grid-container .explore-card-name {
+		width:calc(100% - 125px);
+		margin: 0;
+		max-width: 300px;
+	}
+	#explore_card_profiles.solo-card .explore-card-profile.grid-container.no-photo .explore-card-image {
+		width:0px;
+	}
+	#explore_card_profiles.solo-card .explore-card-profile.grid-container .explore-card-image,
+	#explore_card_profiles.solo-card .explore-card-profile.grid-container .explore-card-profile-data {
+		padding-top: calc(35px - 18pt);
+		max-width: 75px;
+		margin:0;
+	}
 	#explore_card_profiles.solo-card .explore-card-profile.grid-container .explore-card-profile-data {
 		height:calc(65px - (32px - 18pt));
 		font-size:14pt;

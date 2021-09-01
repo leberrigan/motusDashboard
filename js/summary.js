@@ -17,11 +17,11 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 	var mapLegend = d3.create('div').attr("class", "explore-map-legend hidden")
 																	.attr("id", "explore_map_legend");
 	mapLegend.append('div')
-						.text('Map legend')
 						.attr("class", "explore-map-legend-header")
+						.on('click', function(){	$(this).closest('.explore-map-legend').toggleClass('hidden');	})
 							.append('span')
-							.attr('class', 'showHide')
-							.on('click', function(){	$(this).closest('.explore-map-legend').toggleClass('hidden');	});
+							.text('Map legend')
+							.attr('class', 'showHide');
 
 	if (typeof selectedRegions === "undefined") {
 		motusData.selectedRegions = motusData.polygons.features.filter(x => motusFilter.regions.includes(x.properties[regionBin])).map(x => ({geometry:x.geometry, properties: x.properties, id: x.properties.adm0_a3, name: x.properties.name}));
@@ -217,6 +217,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 	// Set colour scale based on number of colour combos
 	if (dataType == 'regions') {
+//		var colourScale = d3.scaleOrdinal().domain(['visiting'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length + 1)));
 		var colourScale = d3.scaleOrdinal().domain(['visiting'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length + 1)));
 	} else if (dataType == 'stations') {
 		var colourScale = d3.scaleOrdinal().domain(['other'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length)));
@@ -1045,7 +1046,7 @@ console.log();
 			console.log(projectsTableData);
 
 			var tableDom = projectsTableData.length > 10 ? "ipt" : "t";
-			var color_dataType = 'country';
+			var color_dataType = 'regions' == dataType ? 'country' : 'project';
 
 			$(`#explore_card_${cardID} .explore-card-${cardID}-${tableType}-table`).DataTable({
 				data: projectsTableData,
@@ -1054,7 +1055,7 @@ console.log();
 					{data: "id", title: "Project #"},
 					{data: "name", title: "Project", "createdCell": function(td, cdata, rdata){
 						$(td).html(
-								`<div class='explore-card-table-legend-icon table_tips' style='border-color:${colourScale(rdata[color_dataType])}'><div class='tip_text'>${firstToUpper(color_dataType)}: ${rdata[color_dataType]}</div></div>`+
+								`<div class='explore-card-table-legend-icon table_tips' style='border-color:${colourScale(rdata[color_dataType])};background-color:${colourScale(rdata[color_dataType])}'><div class='tip_text'>${firstToUpper(color_dataType)}: ${rdata[color_dataType]}</div></div>`+
 								`<a href='javascript:void(0);' onclick='viewProfile("projects", ${rdata.id});'>${rdata.name}</a>`
 						);
 					}},
@@ -1371,8 +1372,9 @@ console.log();
 													nAnimals: v.map(x => x.animals.split(';')).flat().filter(onlyUnique).length,
 													nSpp: v.map(x => x.species.split(';')).flat().filter(onlyUnique).length,
 													country: v[0].country,
-													projID: v[0].projID.split(',')[0],
-													projName: motusData.projects.filter(x => x.id == v[0].projID.split(',')[0])[0].project_name
+													countryName: typeof motusData.regionByCode.get(v[0].country) !== 'undefined' ? motusData.regionByCode.get(v[0].country)[0].country : 'Not defined',
+													project: v[0].projID.split(',')[0],
+													projectName: motusData.projects.filter(x => x.id == v[0].projID.split(',')[0])[0].project_name,
 												}),
 												d => d.name
 											).values()
@@ -1386,14 +1388,18 @@ console.log();
 			console.log(totalAnimals);
 
 			var tableDom = stationTableData.length > 10 ? "ipt" : "t";
-			var color_dataType = 'country';
+
+			var color_dataType = 'regions' == dataType ? 'country' : 'project';
+
 			$(`#explore_card_${cardID} .explore-card-${cardID}-table`).DataTable({
 				data: stationTableData,
 				columns: [
 					{className: "explore-table-expandRow", data: null, orderable: false, defaultContent: ""},
 					{data: "name", title: "Station", "createdCell": function(td, cdata, rdata){
 						$(td).html(
-								`<div class='explore-card-table-legend-icon table_tips' style='border-color:${colourScale(rdata[color_dataType])}'><div class='tip_text'>${firstToUpper(color_dataType)}: ${rdata[color_dataType]}</div></div>`+
+								`<div class='explore-card-table-legend-icon table_tips' style='border-color:${colourScale(rdata[color_dataType])};background-color:${colourScale(rdata[color_dataType])}'>`+
+									`<div class='tip_text'>${firstToUpper(color_dataType)}: ${color_dataType == 'project' || color_dataType == 'country' ? rdata[color_dataType + "Name"] : rdata[color_dataType]}</div>`+
+								`</div>`+
 								`<a href='javascript:void(0);' onclick='viewProfile("stations", ${rdata.id});'>${rdata.name}</a>`
 						);
 					}},
@@ -1405,9 +1411,9 @@ console.log();
 					}},
 					{data: "nAnimals", title: "Number of Animals"},
 					{data: "nSpp", title: "Number of Species"},
-					{data: "projName", title: "Project", "createdCell": function(td, cdata, rdata){
+					{data: "projectName", title: "Project", "createdCell": function(td, cdata, rdata){
 						$(td).html(
-							`<a href='javascript:void(0);' onclick='viewProfile("projects", [${rdata.projID}]);'>${rdata.projName}</a>`
+							`<a href='javascript:void(0);' onclick='viewProfile("projects", [${rdata.project}]);'>${rdata.projectName}</a>`
 						);
 					}}
 				],
@@ -1716,7 +1722,7 @@ console.log("Hourly");
 											dtEnd: moment(d.dtEnd),
 											frequency: d.frequency,
 											country: d.country,
-											projID: d.projID,
+											project: d.projID,
 											nStations: motusData.tracksByAnimal[d.id]?Array.from(motusData.tracksByAnimal[d.id].map(v=>v.split('.')).values()).flat().filter(onlyUnique):[],
 											nDays: motusData.tracksByAnimal[d.id]?motusData.tracksByAnimal[d.id].length * 2:0
 										})).values());
@@ -1732,20 +1738,20 @@ console.log("Hourly");
 
 			toReturn += "</tr></thead><tbody>";
 
-			var color_dataType = 'country';
+			var color_dataType = 'regions' == dataType ? 'country' : 'project';
 
 			motusData.animalsTableData.filter( d => d.species == speciesID ).forEach(function(d){
 
 				toReturn += "<tr>"+
 											"<td>"+
-											`<div class='explore-card-table-legend-icon table_tips' style='border-color:${colourScale(rdata[color_dataType])}'><div class='tip_text'>${firstToUpper(color_dataType)}: ${rdata[color_dataType]}</div></div>`+
+											`<div class='explore-card-table-legend-icon table_tips' style='border-color:${colourScale(rdata[color_dataType])};background-color:${colourScale(rdata[color_dataType])}'><div class='tip_text'>${firstToUpper(color_dataType)}: ${rdata[color_dataType]}</div></div>`+
 												`<a href='javascript:void(0);' onclick='viewProfile(\"animals\", ${d.id});'>${d.name}</a>`+
 											"</td>"+
 											`<td>${d.dtStart.toISOString().substr(0,10)}</td>`+
 											`<td>${(moment().diff(d.dtEnd, 'day') < 1 ? "Active" : "Ended on:<br/>" + d.dtEnd.toISOString().substr(0,10))}</td>`+
 											`<td>${d.nStations.length}</td>`+
 											`<td>${d.nDays}</td>`+
-											`<td><a href='javascript:void(0);' onclick='viewProfile(\"projects\", ${d.projID});'>${d.projName}</a></td>`+
+											`<td><a href='javascript:void(0);' onclick='viewProfile(\"projects\", ${d.project});'>${d.projectName}</a></td>`+
 										"</tr>";
 			});
 
@@ -1779,6 +1785,9 @@ console.log("Hourly");
 
 			headers.forEach( x => $("#explore_card_" + cardID + " .explore-card-" + cardID + "-speciesTable thead tr").append( $('<th></th>').text(x) ) );
 
+
+			var color_dataType = 'regions' == dataType ? 'country' : 'project';
+
 			motusData.animalsTableData = Array.from(motusData.selectedAnimals.map(d => ({
 													id: d.id,
 													species: d.species,
@@ -1787,10 +1796,11 @@ console.log("Hourly");
 													dtEnd: (moment().diff(moment(d.dtEnd), 'day') < 1 ? "Active" : "Ended on:<br/>" + moment(d.dtEnd).toISOString().substr(0,10)),
 													frequency: d.frequency,
 													country: d.country,
+													countryName: typeof motusData.regionByCode.get(d.country) !== 'undefined' ? motusData.regionByCode.get(d.country)[0].country : 'Not defined',
 													nStations: (motusData.tracksByAnimal[d.id]?Array.from(motusData.tracksByAnimal[d.id].map(v=>v.split('.')).values()).flat().filter(onlyUnique):[]).length,
 													nDays: motusData.tracksByAnimal[d.id]?motusData.tracksByAnimal[d.id].length * 2:0,
-													projID: d.projID,
-													projName: motusData.projects.filter(x => x.id == d.projID)[0].project_name
+													project: d.project,
+													projectName: typeof motusData.projects.filter(x => x.id == d.project)[0] !== 'undefined' ? motusData.projects.filter(x => x.id == d.project)[0].project_name : 'Not defined'
 												})).values());
 
 			motusData.selectedSpecies = Array.from(
@@ -1798,6 +1808,8 @@ console.log("Hourly");
 												motusData.animalsTableData,
 												function(v) {
 													var speciesMeta = motusData.speciesByID.get(v[0].species);
+													var stations = (motusData.tracksBySpecies[v[0].species]?Array.from(motusData.tracksBySpecies[v[0].species].map(x=>x.split('.')).values()).flat().filter(onlyUnique):[]);
+													var project = v.reduce( function(a, c) { a.push( c.project ); return a; }, [ ]).filter(onlyUnique);
 													return {
 														id: ( Array.from( v.map( d => d.id ).values() ) ).join(','),
 														species: v[0].species,
@@ -1805,9 +1817,13 @@ console.log("Hourly");
 														dtStart: d3.min(v, d => d.dtStart),
 														dtEnd: d3.max(v, d => d.dtEnd),
 														nAnimals: v.length,
-														nStations: (motusData.tracksBySpecies[v[0].species]?Array.from(motusData.tracksBySpecies[v[0].species].map(x=>x.split('.')).values()).flat().filter(onlyUnique):[]).length,
+														animals: Array.from( v.map( d => d.id ).values() ),
+														stations: stations,
+														nStations: stations.length,
 														country: v.reduce( function(a, c) { a.push( c.country ); return a; }, [ ]).filter(onlyUnique),
-														colourCode: v.reduce( function(a, c) { a.push( colourScale( c.country ) ); return a; }, [ ]).filter(onlyUnique),
+														project: project,
+														colourName: ['project', 'country'].includes(color_dataType) ? v.reduce( function(a, c) { a.push( c[color_dataType + "Name"] ); return a; }, [ ]).filter(onlyUnique) : v.reduce( function(a, c) { a.push( c[color_dataType] ); return a; }, [ ]).filter(onlyUnique),
+														colourCode: v.reduce( function(a, c) { a.push( colourScale( c[color_dataType] ) ); return a; }, [ ]).filter(onlyUnique),
 														sort: speciesMeta?speciesMeta[0].sort:999999,
 														group: speciesMeta?speciesMeta[0].group:"Unknown"
 													}
@@ -1825,12 +1841,12 @@ console.log("Hourly");
 					{className: "explore-table-expandRow", data: null, orderable: false, defaultContent: ""},
 					{data: "name", title: "Species", "createdCell": function(td, cdata, rdata){
 						$(td).html(
-							rdata.colourCode.reduce(function(a, c) {
-								return c!="NA"?a+`<div class='explore-card-table-legend-icon' style='border-color:${c}'></div>`:a;
-							}, (
-									""//rdata.country[0] != "NA" ? `<div class='explore-card-table-legend-icon' style='border-color:${colourScale( rdata.country[0] )}'></div>` : ""
-								)
-							)+
+							rdata[color_dataType].map(
+								(d, i) =>
+									`<div class='explore-card-table-legend-icon table_tips' style='border-color:${colourScale( d )};background-color:${colourScale( d )}'>`+
+										`<div class='tip_text'>${firstToUpper(color_dataType)}: ${rdata.colourName[i]}</div>`+
+									`</div>`
+								).join('') +
 							`<a href='javascript:void(0);' class='tips' alt='View species profile' onclick='viewProfile("species", [${rdata.species}]);'>${rdata.name}</a>`
 						);
 					}},
@@ -1867,14 +1883,12 @@ console.log("Hourly");
 						// Create and open this row
 						var newRow = row.child( `<div class='explore-species-table-animals'><table><thead><tr></tr></thead><tbody></tbody></table></div>` ).show();
 
-					var color_dataType = 'country';
-
 					row.child().find('.explore-species-table-animals table').DataTable({
 							data: motusData.animalsTableData.filter( d => d.species == row.data().species ),
 							columns: [
 								{data: "name", title: "Animal", "createdCell": function(td, cdata, rdata){
 									$(td).html(
-															`<div class='explore-card-table-legend-icon table_tips' style='border-color:${colourScale(rdata.country)}'><div class='tip_text'>${firstToUpper(color_dataType)}: ${rdata[color_dataType]}</div></div>`+
+															`<div class='explore-card-table-legend-icon table_tips' style='border-color:${colourScale(rdata[color_dataType])};background-color:${colourScale(rdata[color_dataType])}'><div class='tip_text'>${firstToUpper(color_dataType)}: ${['project','country'].includes(color_dataType)?rdata[color_dataType + "Name"]:rdata[color_dataType]}</div></div>`+
 															`<a href='javascript:void(0);' class='tips' alt='View animal profile' onclick='viewProfile("animals", [${rdata.id}]);'>${rdata.name} #${rdata.id}</a>`
 														);
 								}},
@@ -1882,9 +1896,9 @@ console.log("Hourly");
 								{data: "dtEnd", title: "Status"},
 								{data: "nStations", title: "Stations visited"},
 								{data: "nDays", title: "Days detected"},
-								{data: "projName", title: "Project", "createdCell": function(td, cdata, rdata){
+								{data: "projectName", title: "Project", "createdCell": function(td, cdata, rdata){
 									$(td).html(
-										`<a href='javascript:void(0);' onclick='viewProfile("projects", [${rdata.projID}]);'>${rdata.projName}</a>`
+										`<a href='javascript:void(0);' onclick='viewProfile("projects", [${rdata.project}]);'>${rdata.projectName}</a>`
 									);
 								}}
 							],

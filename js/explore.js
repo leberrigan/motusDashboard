@@ -1599,8 +1599,8 @@ function addExploreCardProfile(profile) {
 	console.log(data)
 	var toAppend = `<div class='explore-card-profile ${struct}-container' id='explore_card_profile_${profile.id}'>`+
 										`<div class='explore-card-image tips enlarge' alt='Click to expand'></div>`+
+									 	`<div class='explore-card-name'><div style='font-size:${24 - (Math.floor(profile.label.length/15)*2)}pt;'>${profile.label}</div></div>`+
 										 data.join('')+
-										`<div class='explore-card-name'><div style='font-size:${24 - (Math.floor(profile.label.length/15)*2)}pt;'>${profile.label}</div></div>`+
 									"</div>";
 
 
@@ -1983,7 +1983,7 @@ function addExploreTab(el, header, opts = {}) {
 		tab.prepend(opts.icon);
 	}
 	if (!opts.noToggle) {
-		tab.click(function(){$(this).toggleClass('selected',true);$(this).siblings().removeClass('selected');if ($(this).siblings('.expand-menu-btn').is(":visible")) {$(this).siblings('.expand-menu-btn').trigger('click')}})
+		tab.click(function(){$(this).toggleClass('selected',true);$(this).siblings().removeClass('selected');if ($(this).siblings('.expand-menu-btn').is(":visible") && $(this).parent().is(".expanded")) {$(this).siblings('.expand-menu-btn').trigger('click')}})
 	}
 	if (opts.insertAfter) {
 		$(".explore-card-profiles-tabs ." + opts.insertAfter).after(tab);
