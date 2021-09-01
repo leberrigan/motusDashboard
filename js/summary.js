@@ -926,11 +926,11 @@ console.log();
 					type:'tagHits',
 					header: 'Detections',
 					tabs: {
-					//	"Animals in this region": animalTable,
-						"Detections by Month of Year": animalTimeline,
-						"Detections by Hour of Day": animalHourlyTimeline
+					//	"Animals in this region": animalTable,,
+						"Detections by Hour of Day": animalHourlyTimeline,
+						"Detections by Month of Year": animalTimeline
 					},
-					defaultTab: 1,
+					defaultTab: 0,
 					attachEl: ".explore-card-map",
 					attachMethod: "after"
 				});
@@ -1045,6 +1045,7 @@ console.log();
 			console.log(projectsTableData);
 
 			var tableDom = projectsTableData.length > 10 ? "ipt" : "t";
+			var color_dataType = 'country';
 
 			$(`#explore_card_${cardID} .explore-card-${cardID}-${tableType}-table`).DataTable({
 				data: projectsTableData,
@@ -1053,7 +1054,7 @@ console.log();
 					{data: "id", title: "Project #"},
 					{data: "name", title: "Project", "createdCell": function(td, cdata, rdata){
 						$(td).html(
-								`<div class='explore-card-table-legend-icon' style='border-color:${colourScale(rdata.country)}'></div>`+
+								`<div class='explore-card-table-legend-icon table_tips' style='border-color:${colourScale(rdata[color_dataType])}'><div class='tip_text'>${firstToUpper(color_dataType)}: ${rdata[color_dataType]}</div></div>`+
 								`<a href='javascript:void(0);' onclick='viewProfile("projects", ${rdata.id});'>${rdata.name}</a>`
 						);
 					}},
@@ -1343,7 +1344,7 @@ console.log();
 
 			//$("#explore_card_stationHits .explore-card-header").text("Stations in th" + ( motusFilter.regions.length > 1 ? "ese" : "is") + " region" + ( motusFilter.regions.length > 1 ? "s" : ""));
 
-			var headers = ["Station Name", "Start Date", "Status", "Animals", "Species"];
+			var headers = ["Station Name", "Start Date", "Status", "Animals", "Species", "Project"];
 
 			$(`#explore_card_${cardID}`)
 				.append( $("<table></table>")
@@ -1385,19 +1386,19 @@ console.log();
 			console.log(totalAnimals);
 
 			var tableDom = stationTableData.length > 10 ? "ipt" : "t";
-
+			var color_dataType = 'country';
 			$(`#explore_card_${cardID} .explore-card-${cardID}-table`).DataTable({
 				data: stationTableData,
 				columns: [
 					{className: "explore-table-expandRow", data: null, orderable: false, defaultContent: ""},
 					{data: "name", title: "Station", "createdCell": function(td, cdata, rdata){
 						$(td).html(
-								`<div class='explore-card-table-legend-icon' style='border-color:${colourScale(rdata.country)}'></div>`+
+								`<div class='explore-card-table-legend-icon table_tips' style='border-color:${colourScale(rdata[color_dataType])}'><div class='tip_text'>${firstToUpper(color_dataType)}: ${rdata[color_dataType]}</div></div>`+
 								`<a href='javascript:void(0);' onclick='viewProfile("stations", ${rdata.id});'>${rdata.name}</a>`
 						);
 					}},
 					{data: "dtStart", title: "Start date", "createdCell": function(td, cdata, rdata){
-						$(td).html( cdata );
+						$(td).html( cdata.toISOString().substr(0,10) );
 					}},
 					{data: "dtEnd", title: "Status", "createdCell": function(td, cdata, rdata){
 						$(td).html( `${(moment().diff(cdata, 'day') < 1 ? "Active" : "Ended on:<br/>" + cdata.toISOString().substr(0,10) )}` );
@@ -1731,11 +1732,13 @@ console.log("Hourly");
 
 			toReturn += "</tr></thead><tbody>";
 
+			var color_dataType = 'country';
+
 			motusData.animalsTableData.filter( d => d.species == speciesID ).forEach(function(d){
 
 				toReturn += "<tr>"+
 											"<td>"+
-												`<div class='explore-card-table-legend-icon' style='border-color:${colourScale(d.country)}'></div>`+
+											`<div class='explore-card-table-legend-icon table_tips' style='border-color:${colourScale(rdata[color_dataType])}'><div class='tip_text'>${firstToUpper(color_dataType)}: ${rdata[color_dataType]}</div></div>`+
 												`<a href='javascript:void(0);' onclick='viewProfile(\"animals\", ${d.id});'>${d.name}</a>`+
 											"</td>"+
 											`<td>${d.dtStart.toISOString().substr(0,10)}</td>`+
@@ -1864,13 +1867,14 @@ console.log("Hourly");
 						// Create and open this row
 						var newRow = row.child( `<div class='explore-species-table-animals'><table><thead><tr></tr></thead><tbody></tbody></table></div>` ).show();
 
+					var color_dataType = 'country';
 
 					row.child().find('.explore-species-table-animals table').DataTable({
 							data: motusData.animalsTableData.filter( d => d.species == row.data().species ),
 							columns: [
 								{data: "name", title: "Animal", "createdCell": function(td, cdata, rdata){
 									$(td).html(
-															`<div class='explore-card-table-legend-icon' style='border-color:${colourScale(rdata.country)}'></div>`+
+															`<div class='explore-card-table-legend-icon table_tips' style='border-color:${colourScale(rdata.country)}'><div class='tip_text'>${firstToUpper(color_dataType)}: ${rdata[color_dataType]}</div></div>`+
 															`<a href='javascript:void(0);' class='tips' alt='View animal profile' onclick='viewProfile("animals", [${rdata.id}]);'>${rdata.name} #${rdata.id}</a>`
 														);
 								}},

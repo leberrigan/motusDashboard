@@ -1245,7 +1245,7 @@ div.explore-card {
 }
 #explore_card_profiles div.explore-card-profile {
 	line-height:50px;
-	padding: 5px 0;
+	padding-bottom: 5px;
 }
 #explore_card_profiles:not(.solo-card) .explore-card-profile:nth-child(even) {
 	background-color:#EEE;
@@ -1996,7 +1996,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	height: calc(100vh - 257px);
 	overflow-y: auto;
 	overflow-x: hidden;
-	padding-right: 20px;
+	padding-right: 5px;
 }
 .content-wrapper.profiles #explore_map {
 	height: 100%;
@@ -2006,6 +2006,21 @@ svg.leaflet-image-layer.leaflet-interactive path {
   grid-column: 2/3;
 	margin:0;
 	align-self: end;
+}
+.content-wrapper.profiles .explore-card-wrapper .page-name {
+  grid-row: 2/3;
+  grid-column: 1/2;
+	text-align:left;
+	font-weight: bold;
+	color: #FFF;
+	font-size:14pt;
+	text-shadow: 1px 1px 2px #999, -1px -1px 2px #999;
+	padding-top: 6px;
+	padding-left: 13px;
+	margin: 0 18px;
+	margin-top: 20px;
+	background: #CCC;
+	border-radius: 5px 5px 0 0;
 }
 .content-wrapper.profiles .explore-card-wrapper .explore-card:not(#explore_card_profiles) {
   grid-row: 3/5;
@@ -2047,7 +2062,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	width: calc(100% - 15px);
 	border:solid #000;
 	border-width:0 0 0 15px;
-	border-radius: 10px 10px 0 0;
+	border-radius: 0;
 	align-self: start;
 	transition: all 500ms;
 	z-index:1;
@@ -2185,7 +2200,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 }
 
 #explore_card_profiles:not(.solo-card) .explore-card-profile.grid-container .explore-card-profile-data {
-	line-height:25px;
+	line-height: 25px;
 	vertical-align:middle;
 }
 #explore_card_profiles:not(.solo-card) .explore-card-profile.grid-container .explore-card-profile-data svg {
@@ -2209,12 +2224,11 @@ cursor: pointer;
 	background-color: #FFF;
 	padding: 3px;
 	border: solid 2px;
-	border-left: 0px;
-	border-radius: 0 10px 10px 0;
+	border-radius: 10px;
 	z-index: 1000;
 	margin-top: -30px;
 	margin-left: 60px;
-}
+}/*
 #explore_card_profiles:not(.solo-card) .explore-card-profile.grid-container .explore-card-profile-data:hover .explore-card-data-label::before {
   border: solid black;
   border-width: 0 2px 2px 0;
@@ -2225,7 +2239,7 @@ cursor: pointer;
 	content: " ";
 	position: absolute;
 	margin-left: -15px;
-}
+}*/
 #explore_card_profiles:not(.solo-card) .explore-card-profile.grid-container .explore-card-name {
 	grid-column: 1 / 6;
 	grid-row: 1 / 2;
@@ -2270,9 +2284,12 @@ cursor: pointer;
 	.content-wrapper.profiles .explore-card-wrapper {
 		display: grid;
 		grid-template-columns: auto;
-		grid-template-rows: 50px auto 50px auto 50px;
+		grid-template-rows: 50px 30px auto 50px auto 50px;
 	}
 
+	.content-wrapper.profiles .explore-card-wrapper .page-name {
+		margin-top: 0;
+	}
 	.content-wrapper.profiles .explore-card-wrapper #explore_controls {
 		grid-row: 1/2;
 		grid-column: 1/2;
@@ -2282,7 +2299,7 @@ cursor: pointer;
 		margin-top:15px;
 	}
 	.content-wrapper.profiles .explore-card-wrapper #explore_card_profiles {
-		grid-row: 2/3;
+		grid-row: 3/4;
 		grid-column: 1/2;
 		width: auto;
 		padding:0;
@@ -2290,13 +2307,13 @@ cursor: pointer;
 		overflow-y:auto;
 	}
 	.content-wrapper.profiles .explore-card-wrapper .explore-card-profiles-tabs {
-	  grid-row: 3/4;
+	  grid-row: 4/5;
 	  grid-column: 1/2;
 		margin:0;
 		align-self: end;
 	}
 	.content-wrapper.profiles .explore-card-wrapper .explore-card:not(#explore_card_profiles) {
-	  grid-row: 4/5;
+	  grid-row: 5/6;
 	  grid-column: 1/2;
 		margin-top:0px;
 		height: calc(100vh - 259px);
@@ -2307,51 +2324,52 @@ cursor: pointer;
 	#explore_card_profiles div.explore-card-profile {
 		padding:0;
 	}
-	#explore_card_profiles .explore-card-profile.grid-container {
+	#explore_card_profiles.solo-card .explore-card-profile.grid-container {
     grid-template-columns: 100px 100px repeat(auto-fill, 75px);
     grid-template-rows: 65px;
 	}
-	#explore_card_profiles .explore-card-profile.grid-container .explore-card-profile-data .explore-card-data-label {
+	#explore_card_profiles.solo-card .explore-card-profile.grid-container .explore-card-profile-data .explore-card-data-label {
 		font-size:10pt;
 	}
-	#explore_card_profiles .explore-card-profile.grid-container .explore-card-name > div {
+	#explore_card_profiles.solo-card .explore-card-profile.grid-container .explore-card-name > div {
 		font-size: 14pt !important;
 	}
-	#explore_card_profiles .explore-card-profile.grid-container .explore-card-profile-data {
+
+
+	#explore_card_profiles.solo-card .explore-card-profile.grid-container .explore-card-profile-data {
 		height:calc(65px - (32px - 18pt));
 		font-size:14pt;
 	}
 
-
-	#explore_card_profiles .explore-card-profile.grid-container .explore-card-data1 {
+	#explore_card_profiles.solo-card .explore-card-profile.grid-container .explore-card-data1 {
 		grid-column: 3 / 4;
 		grid-row: 1 / 2;
 	}
-	#explore_card_profiles .explore-card-profile.grid-container .explore-card-data2 {
+	#explore_card_profiles.solo-card .explore-card-profile.grid-container .explore-card-data2 {
 		grid-column: 4 / 5;
 		grid-row: 1 / 2;
 	}
-	#explore_card_profiles .explore-card-profile.grid-container .explore-card-data3 {
+	#explore_card_profiles.solo-card .explore-card-profile.grid-container .explore-card-data3 {
 		grid-column: 5 / 6;
 		grid-row: 1 / 2;
 	}
-	#explore_card_profiles .explore-card-profile.grid-container .explore-card-data4 {
+	#explore_card_profiles.solo-card .explore-card-profile.grid-container .explore-card-data4 {
 		grid-column: 6 / 7;
 		grid-row: 1 / 2;
 	}
-	#explore_card_profiles .explore-card-profile.grid-container .explore-card-data5 {
+	#explore_card_profiles.solo-card .explore-card-profile.grid-container .explore-card-data5 {
 		grid-column: 7 / 8;
 		grid-row: 1 / 2;
 	}
-	#explore_card_profiles .explore-card-profile.grid-container .explore-card-data6 {
+	#explore_card_profiles.solo-card .explore-card-profile.grid-container .explore-card-data6 {
 		grid-column: 8 / 9;
 		grid-row: 1 / 2;
 	}
-	#explore_card_profiles .explore-card-profile.grid-container .explore-card-data7 {
+	#explore_card_profiles.solo-card .explore-card-profile.grid-container .explore-card-data7 {
 		grid-column: 9 / 10;
 		grid-row: 1 / 2;
 	}
-	#explore_card_profiles .explore-card-profile.grid-container .explore-card-data8 {
+	#explore_card_profiles.solo-card .explore-card-profile.grid-container .explore-card-data8 {
 		grid-column: 10 / 11;
 		grid-row: 1 / 2;
 	}
