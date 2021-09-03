@@ -134,7 +134,10 @@ function updateURL(reload) {
 					} else  {
 						toEncode = motusFilter[f];
 					}
-				if ( ['dtStart','dtEnd'].includes(f) || f == dataType || !( motusFilter.default && motusFilter.default[f] && motusFilter.default[f].sort().join(',') == motusFilter[f].sort().join(',') ) ) {
+				if ( f == dataType ||
+						( motusFilter.default[f] != motusFilter[f] && ['dtStart','dtEnd', 'colour'].includes(f) ) ||
+						!( !['dtStart','dtEnd', 'colour'].includes(f) && motusFilter.default && motusFilter.default[f] && motusFilter.default[f].sort().join(',') == motusFilter[f].sort().join(',') )
+						) {
 					stateToPush+='&'+f+'='+encodeURIComponent(toEncode);
 				}
 			}
@@ -212,7 +215,7 @@ $(document).ready(function(){
 
 	// For Development:
 	// get file prefix
-	filePrefix = window.location.hostname == 'localhost' || window.location.hostname == 'leberrigan.github.io' ? 'data/' : window.location.hostname.includes('motus.org') ? "https://" + window.location.hostname + "/wp-content/uploads/2021/08/" : "https://" + window.location.hostname + "/wp-content/uploads/";
+	filePrefix = window.location.hostname == 'localhost' || window.location.hostname == 'leberrigan.github.io' ? 'data/' : window.location.hostname.includes('motus.org') ? "https://" + window.location.hostname + "/wp-content/uploads/2021/09/" : "https://" + window.location.hostname + "/wp-content/uploads/";
 
 	// Change the document title based on the view and data type
 	document.title = "Motus - " + (exploreType == 'main' ? ( "Explore" + firstToUpper(dataType) ) : ( firstToUpper(exploreType) + " summary" ) );
@@ -222,7 +225,7 @@ $(document).ready(function(){
 
 	// For Development:
 	// Fix Wordpress URL
-	if (exploreType == 'main' && window.location.hostname != 'localhost' && window.location.hostname != 'leberrigan.github.io') {window.location.href="dashboard/#e=main&d="+dataType;}
+	if (exploreType == 'main' && window.location.hostname != 'localhost' && window.location.hostname != 'leberrigan.github.io') {window.location.href="#e=main&d="+dataType;}
 
 	// Set the default start and end dates
 	default_startDate = dtLims.min;
@@ -302,7 +305,7 @@ $(document).ready(function(){
 
 	// Load the data
 	//	Now that we know what content to load and we have the dom to put it in, read in the required datasets
-	loadMotusData();
+	getMotusData();
 
 });
 
@@ -312,120 +315,6 @@ function setProgress(percent) {
 
 
 // Loads all the data needed based on the dataType and your exploreView
-function loadMotusData() {
-
-// List of all the files
-// This will have to change to include API calls
-	var allFiles = {
-		stationDeps: filePrefix + "recv-deps.csv",	// All receiver deployments, including deployment country
-		regions: filePrefix + "country-stats.csv", // Number of projects, stations, and tag deployments in each country
-		polygons: filePrefix + "ne_50m_admin_0_countries.geojson", // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
-		animals: filePrefix + "tag-deps.csv", // All tag deployments, including deployment country
-		tracks: filePrefix + "siteTrans_real2" + (window.location.hostname.indexOf('beta') != -1 ? '-2' : '') + ".csv", // All site transitions
-		species: filePrefix + "spp.csv", // List of all species and various names/codes
-		projects: filePrefix + "projs.csv" // All projects, their codes, and descriptions
-	};
-
-	if (window.location.hostname.includes('sandbox.motus.org')) {
-	// This will have to change to include API calls
-		var allFiles = {
-			stationDeps: "https://sandbox.motus.org/data/dashboard/stationDeployments?fmt=csv", // All station deployments, including photo url
-			recvDeps: filePrefix + "recv-deps.csv",	// All receiver deployments, including deployment country
-			antennaDeps: "https://sandbox.motus.org/data/dashboard/antennaDeployments?fmt=csv", // All antenna deployments, including deployment country
-			regions: filePrefix + "country-stats.csv", // Number of projects, stations, and tag deployments in each country
-			polygons: filePrefix + "ne_50m_admin_0_countries.geojson", // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
-			tracks: filePrefix + "siteTrans_real2" + (window.location.hostname.indexOf('beta') != -1 ? '-2' : '') + ".csv", // All site transitions
-			animals: "https://sandbox.motus.org/data/dashboard/tagDeployments?fmt=csv", // List of all species and various names/codes
-			species: "https://sandbox.motus.org/data/dashboard/species?fmt=csv", // List of all species and various names/codes
-			projects: "https://sandbox.motus.org/data/dashboard/projects?fmt=csv" // All projects, their codes, and descriptions
-		};
-	}
-
-// Create an empty file list to be populated based on the dataType/exploreView
-
-	var fileList = [];
-
-	if (exploreType == 'main') {
-
-		if (dataType == 'animals') {
-				fileList = ["stationDeps", "tracks", "species", "animals"];
-		} else if (dataType == 'stations') {
-				fileList = ["stationDeps"];
-		} else {
-				fileList = ["stationDeps", "polygons", "regions",  "projects", "species", "animals"];
-		}
-
-	} else {
-
-		// We use all the files in the profiles view, but in retrospect we probably don't need to do this?
-		// Perhaps we should just load all the files at once.
-		fileList = Object.keys(allFiles);
-	}
-
-
-	var promises = [];
-
-	fileList.forEach(function(f){
-
-		if (typeof allFiles[f] !== 'undefined') {
-			var url = allFiles[f];
-			url.substr(url.lastIndexOf('.') + 1, url.length) == 'csv' ? promises.push(d3.csv(url)) : promises.push(d3.json(url));
-		}
-
-	});
-
-	Promise.all(promises).then(function(response){
-
-		fileList.forEach(function(f, i){
-
-			motusData[f] = response[i];
-
-		});
-
-		if (typeof motusData.animals !== 'undefined') {
-			motusData.animals.forEach(function(x){
-				x.dtEnd = x.dtEnd == "NA" ? moment().toISOString().substr(0, 10) : x.dtEnd;
-				x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
-			});
-
-		}
-		if (typeof motusData.projects !== 'undefined') {
-			motusData.projects.forEach(function(x) {
-				x.fee_id = getProjectType(x.fee_id);
-				x.name = x.project_name;
-			});
-			function getProjectType(fee_id) {
-				return (fee_id > 1 ? fee_id > 2 ? fee_id > 3 ? fee_id > 8 ? 'Birds Canada' : 'Wind development' : 'Environment Canada' : 'US Dept. of the Interior' : '')
-			}
-		}
-
-
-		if (typeof motusData.stationDeps !== 'undefined') {
-			motusData.stationDeps = motusData.stationDeps.filter(d => (!isNaN(+d.lat) && !isNaN(+d.lon) && d.frequency != 'NA'));
-			$.each( motusData.stationDeps, function() {
-				if ( this.dtEnd == "NA" ) {
-					this.dtEnd = moment().toISOString().substr(0,10);
-				}
-			} );
-			motusData.stationDepsByName = d3.group(motusData.stationDeps, d => d.name);
-		}
-
-		if (typeof motusData.species !== 'undefined') {
-			motusData.speciesByID = d3.group(motusData.species, d => d.id);
-		}
-		if (typeof motusData.regions !== 'undefined') {
-			filters.options.regions = {};
-			motusData.regions.forEach(function(x) {
-				if (x.both > 0) {filters.options.regions[x.ADM0_A3] = x.country;}
-			});
-			console.log(filters.options.regions);
-		}
-		console.log("Loaded " + Object.keys(motusData).length + " data set" + (Object.keys(motusData).length == 1 ? "" : "s"));
-
-		readData();
-
-	});
-}
 /*
 function makeTimelineSVG() {
 
@@ -465,7 +354,8 @@ function makeTimelineSVG() {
 
 }
 */
-function readData() {
+
+function loadDashboardContent() {
 
 	populateExploreControls();
 
@@ -788,7 +678,7 @@ function populateExploreControls() {
 	} else if (dataType == 'stations') {
 		toAppend = ["filters", "timeline", "search", "edit", 'pdf', 'share'];
 	} else if (dataType == 'animals') {
-		toAppend = ["filters", "timeline", "animate", "search", "view", 'pdf', 'share'];
+		toAppend = ["filters", "timeline", "search", "view", 'pdf', 'share'];
 	}
 	toAppend.push('help');
 
@@ -877,8 +767,21 @@ function populateExploreControls() {
 		//console.log($("#explore_controls > div").html());
 	}
 
-	$("#explore_controls .animate-play").click(function(){animateTimeline($("#dateSlider").get(0));});
-
+//	$("#explore_controls .animate-play").click(function(){animateTimeline($("#dateSlider").get(0));});
+	$("#explore_controls .animate-play").click(function(){
+		if (["animals", "species", "regions", "projects"].includes(dataType)) {
+			animateTracks();
+		} else {
+			animateTimeline( $("#dateSlider").get(0) );
+		}
+	});
+	$("#explore_controls .animate-pause").click(function(){
+		motusMap.animation.pause = true;
+	});
+	$("#explore_controls .animate-stop").click(function(){
+		motusMap.animation.stop = true;
+		motusMap.animation.pause = false;
+	});
 	$("#explore_controls select").select2({
 		matcher: function(params, data) {
 			// If there are no search terms, return all of the data
@@ -1087,12 +990,12 @@ function exploreControls(el, opt) {
 						// Remove the HTML from the first row!
 						data: $("#explore_card_stationHits table.explore-card-stationHits-table").DataTable().rows().data().toArray()
 											.map(x => Object.values(x)
-												.filter((d,i) => [1,2,3,4,5,8].includes(i)) // Select which columns to use
+												.filter((d,i) => [1,2,3,4,5,9].includes(i)) // Select which columns to use
 												.map( (d, i) => i == 1 ? d.toISOString().substr(0,10) : (i == 2 ? `${(moment().diff(d, 'day') < 1 ? "Active" : "Ended on: " + d.toISOString().substr(0,10) )}` : d)
 												)
 											),
 						cols: $("#explore_card_stationHits table.explore-card-stationHits-table th").map(function(){return $.trim($(this).text());}).get().filter((d,i) => i > 0),
-						colWidths: [4,2,2,1,1,3]
+						colWidths: [4,2,3,1,1,3]
 					}
 				}
 				if ($("#explore_card_tagHits table.explore-card-tagHits-table").length > 0) {
@@ -1108,7 +1011,7 @@ function exploreControls(el, opt) {
 						// Remove the HTML from the first row!
 						data: $("#explore_card_speciesHits table.explore-card-speciesHits-speciesTable").DataTable().rows().data().toArray()
 											.map(x => Object.values(x)
-												.filter((d,i) => [2,5,6].includes(i)) // Select which columns to use
+												.filter((d,i) => [2,5,8].includes(i)) // Select which columns to use
 									//			.map( (d, i) => i == 2 ? `${d.replace('<br/>',' ')}` : d )
 											),
 						cols: $("#explore_card_speciesHits table.explore-card-speciesHits-speciesTable th").map(function(){return $.trim($(this).text());}).get().filter((d,i) => i > 0),
@@ -1499,33 +1402,38 @@ function loadDataTable(tbl, columns, options, onEvent) {
 
 function addProfile(profile_id, dataset) {
 
-		dataset = typeof dataset === 'undefined' ? (exploreType == 'species' ? 'tagDeps' : exploreType) : dataset;
+			motusFilter[exploreType].push(profile_id);
+
+					updateURL(true);
+
+					/*
+		dataset = typeof dataset === 'undefined' ? (exploreType == 'species' ? 'animals' : exploreType) : dataset;
 
 		var filterName = exploreType != 'species' && exploreType != 'regions' ? (exploreType != 'species' ? 'id' : 'id') : exploreType;
 
 
 		if (dataset == 'stations') {
-			/*
+
 			if (typeof filters.options.stations[profile_id] === 'undefined') {
 				profile_id = motusData.stationDepsByName.get(motusData.stationDeps.filter(x=>x.id==profile_id)[0].name)[0].id;
 				//console.log(profile_id);
-			}
+
 
 			var stationName = filters.options.stations[profile_id][0];
-			var subset = motusData.stationDepsByName.get(stationName);*/
-			motusFilter = { stations: motusFilter.stations.concat([profile_id]).filter(onlyUnique) };
+			var subset = motusData.stationDepsByName.get(stationName);
+			motusFilter.stations = motusFilter.stations.concat([profile_id]).filter(onlyUnique);
 
-			updateURL(true);
+		//	updateURL(true);
 
 		} else if (dataset == 'projects') {
 
-			motusFilter = { projects: motusFilter.projects.concat([profile_id]).filter(onlyUnique) };
-			updateURL(true);
+			motusFilter.projects: motusFilter.projects.concat([profile_id]).filter(onlyUnique);
+		//	updateURL(true);
 
 		} else if (dataset == 'regions') {
-			motusFilter = { regions: motusFilter.regions.concat([profile_id]).filter(onlyUnique) };
-			updateURL(true);
-			return;
+			motusFilter.regions. motusFilter.regions.concat([profile_id]).filter(onlyUnique);
+		//	updateURL(true);
+		//	return;
 		} else {
 			var stationName = filters.options[exploreType][profile_id];
 			var subset = motusData[dataset].filter(function(d){
@@ -1534,6 +1442,7 @@ function addProfile(profile_id, dataset) {
 
 			});
 		}
+
 
 		if (subset.length > 0) {
 
@@ -1584,6 +1493,7 @@ function addProfile(profile_id, dataset) {
 		}
 
 		$("body").trigger('click');
+		*/
 }
 
 
@@ -1830,8 +1740,9 @@ function addExploreCard(card) {
 		}
 
 		// Make select in header a select2 object
-		$('#explore_card_' + card.type + ' .explore-card-header select').select2()
-			.change(switchTabs);
+		$('#explore_card_' + card.type + ' .explore-card-header select').select2({
+			    minimumResultsForSearch: -1
+			}).change(switchTabs);
 
 		function switchTabs() {card.tabs[this.options[this.selectedIndex].value](card.type);}
 

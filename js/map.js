@@ -30,6 +30,7 @@ function exploreMap({
 
 	motusMap = {
 		el: map_el,
+		animation: {},
 		containerID: containerID,
 		mapButtons: mapButtons,
 		dims: {
@@ -473,7 +474,6 @@ function exploreMap({
 				}
 
 			} else if (t == 'prospective-stations') {
-				console.log('test');
 				var content =	"<div class='popup-content-main'><center><h3>"+
 												d.properties.name+
 											"</h3></center>"+
@@ -535,7 +535,7 @@ function exploreMap({
 				$(".popup").remove();
 				$("body").append("<div class='popup'><div class='popup-topbar'><div class='popup-topbar-close'>X</div></div><div class='popup-content'></div></div>");
 				$(".popup").draggable({handle: ".popup-topbar"});
-				$(".popup .popup-topbar .popup-topbar-close").click(function(){$(".popup").remove();$(".leaflet-track-route").removeClass('hidden');motusMap.group_f = 20;motusFilter.animals=[];});
+				$(".popup .popup-topbar .popup-topbar-close").click(function(){$(".popup").remove();$(".explore-map-track").removeClass('hidden');motusMap.group_f = 20;motusFilter.animals=[];});
 				var allTracks = [];
 
 				motusFilter.animals = d.animals.split(',');
@@ -548,7 +548,7 @@ function exploreMap({
 				});
 
 
-				$(".leaflet-track-route").addClass('hidden');
+				$(".explore-map-track").addClass('hidden');
 
 				allTracks.filter(onlyUnique).forEach(function(route){
 
@@ -560,11 +560,11 @@ function exploreMap({
 						recv2 = recv2 ? recv2 : recvs[1];
 
 						recvs = ( recvs[0] < recvs[1] ? recvs[0] + "-" + recvs[1] : recvs[1] + "-" + recvs[0] );
-						if ($("#leaflet-track-route-" + recvs ).length == 0) {
+						if ($("#explore-map-track-" + recvs ).length == 0) {
 							recvs = ( recv1 < recvs[1] ? recv1 + "-" + recvs[1] : recvs[1] + "-" + recv1 );
-							if ($("#leaflet-track-route-" + recvs ).length == 0) {
+							if ($("#explore-map-track-" + recvs ).length == 0) {
 								recvs = ( recvs[0] < recv2 ? recvs[0] + "-" + recv2 : recv2 + "-" + recvs[0] );
-								if ($("#leaflet-track-route-" + recvs ).length == 0) {
+								if ($("#explore-map-track-" + recvs ).length == 0) {
 									recvs = ( recv1 < recv2 ? recv1 + "-" + recv2 : recv2 + "-" + recv1 );
 								}
 							}
@@ -572,8 +572,8 @@ function exploreMap({
 					} else {
 						var recvs = route;
 					}
-					//$("#leaflet-track-route-" + ( recv1 < recv2 ? recv1 + "-" + recv2 : recv2 + "-" + recv1 ) ).removeClass('hidden');
-					$("#leaflet-track-route-" + recvs ).removeClass('hidden');
+					//$("#explore-map-track-" + ( recv1 < recv2 ? recv1 + "-" + recv2 : recv2 + "-" + recv1 ) ).removeClass('hidden');
+					$("#explore-map-track-" + recvs ).removeClass('hidden');
 
 				});
 			//	console.log(motusData.stationDepsBySubset);
@@ -714,8 +714,12 @@ function exploreMap({
 				motusMap.stationPaths.attr("d", motusMap.path.pointRadius(6));
 				motusMap.g.selectAll('.explore-map-r2').attr("d", motusMap.path.pointRadius(2));
 			}
+//			if (typeof motusMap.animalPaths !== 'undefined') { motusMap.animalPaths.attr("d", motusMap.path); }
 			if (typeof motusMap.trackPaths !== 'undefined') { motusMap.trackPaths.attr("d", motusMap.path); }
 			if (typeof motusMap.regionPaths !== 'undefined') { motusMap.regionPaths.attr("d", motusMap.path); }
+
+			motusMap.g.selectAll(".explore-map-animal.explore-map-point:not(.hidden)").attr("d", motusMap.path.pointRadius(4));
+
 		},
 		setQuadtree: function(dataset) {
 			motusMap.qtree = d3.quadtree()
@@ -993,7 +997,7 @@ function exploreMap({
 			//	console.log(trackDataByRouteBundled);
 			//	console.log(Array.from(trackDataByRouteBundled.values()).filter(x=>(!motusFilter.animals||motusFilter.animals.length == 0||motusFilter.animals.some((a) => x.animals.split(',').includes(a)))).length);
 
-				motusMap.g.selectAll("path").remove();
+				motusMap.g.selectAll("path:not(.explore-map-point)").remove();
 				//console.log("Scale: "+scale + " - (2/(1-Math.log(scale))): "+(2/(1-Math.log(scale))));
 				console.log("Showing " + (trackDataByRouteBundled.length) + " tracks");
 
@@ -1005,8 +1009,8 @@ function exploreMap({
 					.data(trackDataByRouteBundled);
 				tracks_el.exit().remove();
 				tracks_el.enter().append("path")
-					.attr('class', "leaflet-zoom-hide leaflet-track-route explore-map-track")
-					.attr('id', (d) => ("leaflet-track-route-"+(d.recv1 < d.recv2 ? d.recv1 + '-' + d.recv2 : d.recv2 + '-' + d.recv1)))
+					.attr('class', "leaflet-zoom-hide explore-map-track explore-map-track")
+					.attr('id', (d) => ("explore-map-track-"+(d.recv1 < d.recv2 ? d.recv1 + '-' + d.recv2 : d.recv2 + '-' + d.recv1)))
 					.style('stroke', (d) => motusMap.colourScale(d.frequency.split(',')[0]))
 					.style('stroke-width', (d) => 2+(Math.log(d.animals.split(',').length,3)))
 					.style('opacity', (d) => (2/(1-Math.log(scale)))*(1 + Math.log(d.animals.split(',').length)))
@@ -1017,7 +1021,7 @@ function exploreMap({
 					.on('click', (e,d) => motusMap.dataClick(e, d, 'track'));
 
 			}
-			
+
 
 			var bounds = motusMap.path.bounds({ type: "FeatureCollection", features: dataType == 'animals' ? trackDataByRouteBundled.map(d => ({type: "Feature", geometry: d})) : subset });
 			var topLeft = bounds[0];
@@ -1033,10 +1037,23 @@ function exploreMap({
 				.style("top", (topLeft[1]-50) + "px");
 
 			motusMap.g.attr("transform", "translate(" + (-topLeft[0]+50) + "," + (-topLeft[1]+50) + ")");
+			/*
+			if (typeof motusMap.animalPaths !== 'undefined') {
+				motusMap.animalPaths
+					.attr('cx', d => motusMap.path(d).split(',')[0].replace('M',''))
+					.attr('cy', d => motusMap.path(d).split(',')[1].replace('m0',''));
+			}*/
+console.log('test1')
+			motusMap.g.selectAll(".explore-map-animal.explore-map-point:not(.hidden)").attr("d", motusMap.path);
+/*
+			if (typeof motusMap.animalPaths !== 'undefined') {
+				motusMap.animalPaths.attr("transform", "translate(" + -topLeft[0] + "," + -topLeft[1] + ")");
+			}*/
 		//	console.log("updated in " + new Date().setTime(new Date().getTime() - start.getTime()) + " ms ");
 			motusMap.setVisibility();
 		},
-		mapmove: function(e) {
+			mapmove: function(e) {
+console.log('test0')
 
 			var mapBounds = motusMap.map.getBounds();
 			var scale = motusMap.getZoomScale();
@@ -1479,10 +1496,13 @@ function loadMapObjects(callback) {
 			.style("left", (topLeft[0] - margin) + "px")
 			.style("top", (topLeft[1] - margin) + "px");
 
+			console.log('test3')
 
 		motusMap.g.attr("transform", "translate(" + (margin-topLeft[0]) + "," + (margin-topLeft[1]) + ")");
 
 		motusMap.g.selectAll(".explore-map-station").attr("d", motusMap.path);
+		//motusMap.g.selectAll(".explore-map-animal").attr("d", motusMap.path);
+					motusMap.g.selectAll(".explore-map-animal.explore-map-point:not(.hidden)").attr("d", motusMap.path);
 		motusMap.g.selectAll(".explore-map-region").attr("d", motusMap.path);
 		motusMap.g.selectAll(".explore-map-antenna").attr("d", motusMap.path);
 
@@ -1557,4 +1577,201 @@ function drawMapObjects(group) {
 
 	}
 
+}
+// Start at deployment locations
+// Tween to first station
+// Tween to subsequent stations
+
+
+
+function animateTracks(duration) {
+
+	if (!motusMap.animation.pause) {
+		if (typeof duration === 'undefined') {motusMap.animation.duration = 5000;} else {motusMap.animation.duration = duration;}
+
+		if (typeof motusData.selectedAnimals === 'undefined') {
+			motusData.selectedAnimals = motusData.animals.filter( d => (typeof motusFilter.animals === 'undefined' || motusFilter.animals.includes('all') || motusFilter.animals.includes(d.id)) && (typeof motusFilter.species === 'undefined' || motusFilter.species.includes('all') || motusFilter.species.includes(d.species)) )
+		}
+	/*
+		motusData.selectedAnimals.forEach( function(d){
+			d.type = 'Feature';
+			d.dtStart = moment(d.dtStart);
+			d.dtEnd = moment(d.dtEnd);
+		});
+	*/
+		//
+
+		motusMap.animation.stepSize = 7
+
+		motusData.mappedAnimals = motusData.selectedAnimals.filter( d => !isNaN(d.lat) && !isNaN(d.lon));
+
+		motusData.mappedAnimals.forEach(function(d){d.dtStart = new Date(d.dtStart);d.dtEnd = new Date(d.dtEnd);})
+
+		motusMap.g.selectAll('.explore-map-animal.explore-map-point')
+			.data( motusData.mappedAnimals )
+			.enter().append("path")
+		//	.attr('r', 5)
+			.attr("d", motusMap.path.pointRadius(4))
+			.style('stroke', '#000')
+			.style("fill", d => motusMap.colourScale(d.colourVal))
+			.attr('class', 'leaflet-interactive explore-map-animal explore-map-point')
+			.attr('id', (d) => 'explore-map-animal-'+d.id)
+			.style('stroke-width', '1px')
+			.style('pointer-events', 'auto')
+			.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'tagdep'))
+			.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'tagdep'))
+			.on('click', (e,d) => motusMap.dataClick(e, d, 'tagdep'));
+		//	.attr('transform', d => "translate()")
+
+		motusMap.animalPaths = motusMap.g.selectAll('.explore-map-animal.explore-map-point');
+
+		timeline.duration = motusMap.animation.duration;
+
+	//	animateTimeline( $("#dateSlider").get(0) );
+	//	animateTrackStep(undefined, true);
+
+		motusMap.animation.startTime = moment();
+
+			animateTrackStep(motusFilter.dtStart.toISOString().substring(0,10), true);
+	} else {
+
+			motusMap.animation.pause = false;
+
+			var durationRatio = (new Date().addDays(1) - new Date())/(motusFilter.dtEnd - motusFilter.dtStart);
+			var stepDuration = Math.round(motusMap.animation.duration * durationRatio);
+
+			motusMap.animation.timer = setInterval(function(){animateTrackStep(motusMap.animation.date);}, stepDuration);
+
+	}
+
+}
+
+// The resolution is 1 day
+function animateTrackStep(date, start) {
+
+	if (typeof date === 'undefined') {date = motusFilter.dtStart.toISOString().substring(0,10);}
+	if (typeof date === 'object') {date = date.toISOString().substring(0,10);}
+// animateTracks();animateTrackStep(undefined, true);
+	if (start) {
+
+		console.log("Start");
+		motusMap.animation.i = 0;
+		// Get a subset of animal paths to start text based on the currently visible paths
+		motusMap.animation.paths = motusMap.g.selectAll(".explore-map-animal:not(.hidden)");
+		// Get the IDs of the animals
+		motusMap.animation.animals = motusMap.animation.paths.data().map( d => d.id );
+		// Select all the tracks that will be animated.
+		motusMap.animation.tracks = Object.keys(motusData.tracksByAnimal)
+																			.filter( d => motusMap.animation.animals.includes(d))
+																			.reduce((obj, key) => {
+																						    obj[key] = motusData.tracksByAnimal[key];
+																						    return obj;
+																						  }, {});
+
+		var routeList = Object.values(motusMap.animation.tracks).flat().filter(onlyUnique);
+
+		motusMap.animation.segments = motusData.tracks.filter( d => routeList.includes(d.route) );
+
+		motusMap.animation.segments.forEach(function(d) {
+			if (typeof d.animal === 'object') {
+				// Get the index of animal matches for nested data
+				var n_index = d.animal.reduce( (a, v, i) => {if (motusMap.animation.animals.includes(v)) {a.push(i);}return a}, [] );
+				// Select nested data based on index
+				d.animal = d.animal.filter( (x, i) => n_index.includes(i) );
+				d.dtStart = d.dtStart.filter( (x, i) => n_index.includes(i) );
+				d.dtEnd = d.dtEnd.filter( (x, i) => n_index.includes(i) );
+			} else {
+				// Get the index of animal matches for nested data
+				var n_index = d.animal.split(',').reduce( (a, v, i) => {if (motusMap.animation.animals.includes(v)) {a.push(i);}return a}, [] );
+				// Select nested data based on index
+				d.animal = d.animal.split(',').filter( (x, i) => n_index.includes(i) );
+				d.dtStart = d.dtStart.split(',').filter( (x, i) => n_index.includes(i) );
+				d.dtEnd = d.dtEnd.split(',').filter( (x, i) => n_index.includes(i) );
+			}
+
+		});
+
+
+
+		motusMap.g.selectAll('.explore-map-track')
+			.style('opacity', 0)
+			.style('pointer-events', 'none')
+//			.classed('hidden', true)
+			.classed('disable-filter', true);
+
+		//motusMap.setVisibility();
+		motusMap.animation.pause = false;
+		motusMap.animation.stop = false;
+
+		var durationRatio = (new Date().addDays(1) - new Date())/(motusFilter.dtEnd - motusFilter.dtStart);
+		var stepDuration = Math.round(motusMap.animation.duration * durationRatio);
+
+		motusMap.animation.timer = setInterval(function(){animateTrackStep(motusMap.animation.date);}, stepDuration);
+	} else {
+		if (motusMap.animation.pause || motusMap.animation.stop) {
+			clearInterval(motusMap.animation.timer);
+		}
+	}
+
+	// select segments to start animating
+	var newSegments = motusMap.animation.segments.filter( d => d.dtStart.includes(date) ).map( d => getArray({animal: d.animal, dtStart: d.dtStart, dtEnd: d.dtEnd, route: d.route}) ).flat();
+	var newAnimalIDs = newSegments.map( d => d.animal ).flat();
+
+
+
+	motusMap.animalPaths.filter( d => newAnimalIDs.includes(d.id) ).each(function(d, i){
+
+		var selectedSegment = newSegments.filter( x => x.animal == d.id )[0];
+
+		var durationRatio = (moment(selectedSegment.dtEnd) - moment(selectedSegment.dtStart)) / (motusFilter.dtEnd - motusFilter.dtStart);
+
+
+		if (durationRatio > 0 && d3.select(`#explore-map-track-${selectedSegment.route.replace('.','-')}`).size() > 0) {
+		//	console.log(selectedSegment);
+		//	console.log(durationRatio);
+		//	console.log(`#explore-map-track-${selectedSegment.route.replace('.','-')}: %o`, d3.select(`#explore-map-track-${selectedSegment.route.replace('.','-')}`).size());
+			transition(d3.select(this), d3.select(`#explore-map-track-${selectedSegment.route.replace('.','-')}`), motusMap.animation.duration * durationRatio);
+		}
+	});
+
+	if (new Date(date) < motusFilter.dtEnd) {
+
+		motusMap.animation.i++;
+
+		motusMap.animation.date = new Date(date).addDays(1).toISOString().substring(0,10);
+
+		if (motusMap.animation.date == date) {
+			motusMap.animation.date = new Date(date).addDays(2).toISOString().substring(0,10);
+		}
+
+		//console.log("Current date: %s - New date: %s - Timespan: %s days - Date: %s - i: %s", date, newDate, stepDuration, date, motusMap.animation.i);
+	//	console.log("Current date: %s", date);
+
+
+	} else {
+		motusMap.g.selectAll('.explore-map-track')
+			.style('opacity', 1)
+			.style('pointer-events', 'default')
+			.classed('disable-filter', true);
+
+		console.log("Finished animation after %s milliseconds", moment() - motusMap.animation.startTime);
+
+		clearInterval(motusMap.animation.timer);
+
+	}
+
+	function transition(circle, path, duration) {
+	  circle.transition()
+	      .duration(duration)
+	      .attrTween("d", translateAlong(path.node()));
+	}
+	function translateAlong(path) {
+	  var l = path.getTotalLength();
+	  return function(d, i, a) {
+	    return function(t) {
+	      var p = path.getPointAtLength(t * l);
+	      return "M" + p.x + "," + p.y + "m0,4a4,4 0 1,1 0,-8a4,4 0 1,1 0,8z";
+	    };
+	  };
+	}
 }

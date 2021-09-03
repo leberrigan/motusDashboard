@@ -3,7 +3,7 @@ var timeline = {};
 
 function exploreTimeline({
 	el = "#dateSlider .slider",
-	timer_length = 3000,
+	duration = 3000,
 	min = new Date('2014-02-05').valueOf() / 1000,
 	max = new Date('2021-04-20').valueOf() / 1000,
 	range = 0,
@@ -22,7 +22,7 @@ function exploreTimeline({
 	timeline = {
 		el: el,
 		timer: undefined,
-		timer_length: timer_length,
+		duration: duration,
 		min: min,
 		max: max,
 		range: range,
@@ -40,9 +40,9 @@ function exploreTimeline({
 			// So we can pause and restart the animation
 			e += timeline.timerElapsed;
 			// Sometimes it jumps past the max value
-			e = (e > timeline.timer_length ? timeline.timer_length : e);
+			e = (e > timeline.duration ? timeline.duration : e);
 			// Val to select on the dragslider input (right slider)
-			var selectedVal = timeline.min + ((timeline.range - timeline.distance) / (timeline.timer_length/e));
+			var selectedVal = timeline.min + ((timeline.range - timeline.distance) / (timeline.duration/e));
 			// Set slider position
 			timeline.setSlider([selectedVal, selectedVal + timeline.distance]);
 
@@ -56,12 +56,12 @@ function exploreTimeline({
 			}
 
 			// If timeline ends or is stopped, go through the process of resetting the handles
-			if (e == timeline.timer_length) {
+			if (e == timeline.duration) {
 				timeline.animationEnd();
 			}
 		},
 		animationEnd: function() {
-			
+
 			timeline.timerElapsed = 0;
 			timeline.timer.stop();
 			timeline.setSlider(timeline.animationStartVals);
@@ -240,9 +240,12 @@ function animateTimeline(el) {
 
 	$(el).find(".slider").dragslider('values', [timeline.min, timeline.min + timeline.distance]);
 
-	timeline.timer_length = 3000 - (3000 * timeline.distance / timeline.range);
+	if (typeof timeline.duration === 'undefined') {
+		timeline.duration = 3000 - (3000 * timeline.distance / timeline.range);
+	}
 
-	if (timeline.timer === undefined) {timeline.timer = d3.timer(timeline.animate);}
+	if (typeof timeline.timer === 'undefined') {timeline.timer = d3.timer(timeline.animate);}
+
 	else {timeline.timer.restart(timeline.animate)}
 
 	if (timeline.timer !== 'undefined') {timeline.timer.stop();}

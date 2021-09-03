@@ -390,6 +390,9 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 
 				var x_pos = x + ((col_index==0?col_index:colWidths.slice(0, col_index).reduce( (a,c) => a += c )) * width / n);
 
+        //  font size is large for first column only
+			  doc.fontSize(col_index > 0 ? 10 : 12);
+        
 				doc.text(d, x_pos, y + my - (doc.heightOfString(d, {width:colWidths[ col_index ] * width / n}) - 14.5), {width: colWidths[ col_index ] * width / n, align: "center"});
 
 			});
@@ -408,9 +411,15 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 
 			cells.forEach( function(d, col_index) {
         if (colWidths[ col_index ] > 0) {
+          // x position of the cell
   				var x_pos = x + ((col_index==0?col_index:colWidths.slice(0, col_index).reduce( (a,c) => a += c )) * width / n);
 
-  	/*			doc.lineJoin('miter')
+          //  font size is large for first column only
+  			  doc.fontSize(col_index > 0 ? 10 : 12);
+
+  	/*
+          //  Column lines
+          doc.lineJoin('miter')
   					.rect(x_pos, y + ( ( 1 + row_index ) * row_height ), colWidths[ col_index ] * width / n, row_height)
   					.stroke();
   */
@@ -418,7 +427,7 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
   				doc.text(d, x_pos + mx, y_pos + my, {width: (colWidths[ col_index ] * width / n) - mx, align: col_index < 2 ? "left" : "center"});
         }
 			});
-
+      //  Row lines
 			doc.moveTo(x, y + ( ( 1 + row_index ) * row_height ) + row_height)
 				.lineTo(width, y_pos + row_height)
 				.stroke();
