@@ -224,6 +224,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 	} else {
 		var colourScale = d3.scaleOrdinal().domain(['other'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length)));
 	}
+	motusMap.colourScale = colourScale;
 
 //	var colourScale = colourScale;
 
@@ -663,8 +664,8 @@ console.log(motusData.stations.filter(d => motusFilter.stationDeps.includes(d.id
 			.data(Object.values(motusData.selectedTracks))
 		//	.data(Array.from(motusData.selectedTracks.values()).filter(d => (motusFilter.stations.includes(d.recv1) || motusFilter.stations.includes(d.recv2))))
 			.enter().append("path")
-			.attr('class', (d) => "explore-map-tracks explore-map-species leaflet-zoom-hide " + d.colourVal.split(',').map( x => "explore-map-tracks-" + ( x.toLowerCase() ) ).join(" ") )
-			.attr("id", (d) => "track" + d.id)
+			.attr('class', (d) => "explore-map-track explore-map-species leaflet-zoom-hide " + d.colourVal.split(',').map( x => "explore-map-track-" + ( x.toLowerCase() ) ).join(" ") )
+			.attr("id", (d) => "explore-map-track-" + d.route.replace('.','-'))
 			.style('stroke', (d) => colourScale(d.colourVal))
 	//		.style('stroke', (d) => (d.origin == 'local' ? colourScale.range()[1] :  colourScale.range()[0] ))
 			.style('pointer-events', 'auto')
@@ -1711,7 +1712,7 @@ console.log("Hourly");
 			$("#explore_card_" + cardID + " .explore-card-" + cardID + "-timeline").parent().show();
 			$("#explore_card_" + cardID + " .explore-card-" + cardID + "-timeline svg.hourly-timeline").show();
 		}
-	if (motusFilter.animals.length > 0) {
+	if (motusFilter.animals.length > 0 && typeof motusData.selectedAnimals === 'undefined') {
 		motusData.selectedAnimals = Array.from(motusData.animals.filter(
 											x => motusFilter.animals.includes( x.id )
 										).map(d => ({

@@ -67,8 +67,9 @@
 			<script src="<?php bloginfo('template_url'); ?>/js/timeline.js"></script>
 			<script src="<?php bloginfo('template_url'); ?>/js/help.js"></script>
 			<script src="<?php bloginfo('template_url'); ?>/js/map.js"></script>
-			<script src="<?php bloginfo('template_url'); ?>/js/explore.js"></script>
-			<script src="<?php bloginfo('template_url'); ?>/js/summary.js"></script>
+			<script src="https://sandbox.motus.org/wp-content/themes/dashboard_template/js/motusData.js"></script>
+			<script src="https://sandbox.motus.org/wp-content/themes/dashboard_template/js/explore.js"></script>
+			<script src="https://sandbox.motus.org/wp-content/themes/dashboard_template/js/summary.js"></script>
 			<script src="<?php bloginfo('template_url'); ?>/js/editor.js"></script>
 			<script src="<?php bloginfo('template_url'); ?>/js/antenna_shapes.js"></script>
 
