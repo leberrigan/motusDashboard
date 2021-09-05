@@ -751,8 +751,8 @@ iframe#pdf_output {
 	font-size:18pt;
 	line-height:33px;
 	height:33px;
-	width:calc(100% - 62px);
-	margin-left:-3px;
+	width:calc(100% - 64px);
+	margin-left:-4px;
 	border-width: 0;
 	grid-row: 2 / 3;
 	grid-column: 1 / 5;
