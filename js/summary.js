@@ -733,36 +733,47 @@ console.log(motusData.stations.filter(d => motusFilter.stationDeps.includes(d.id
 		var k = a[0];
 		var v = a[1];
 
-		if (dataType != 'stations') {
+		if (dataType == 'stations') {
 			var stations = motusData.selectedStations;//motusData[ "stationDepsBy" + firstToUpper(dataType) ].get(k);
+			var detections = Object.keys(motusData.selectedTracks).length;
+		} else if (["regions", "projects"].includes(dataType)){
+			var stations = motusData[ "stationDepsBy" + firstToUpper(dataType) ].get(k);
+			var detections = Object.keys(motusData.selectedTracks).length;
 		} else {
-			var stations = motusData.selectedStations;
+			var stations = motusData.selectedStations.filter( (x) => x[dataType].split(';').includes(k) );
+			var detections = Object.values( motusData.selectedTracks ).filter( (x) => x[dataType].split(',').includes(k) ).length;
+
 		}
 		var routes = Array.from(stations.map(x => x.id).values()).map(x => motusData.tracksByStation[x]).flat().filter(x=>typeof x !== 'undefined');
 
-//		if (motusData[ "animalsBy" + firstToUpper(dataType) ] && motusData[ "animalsBy" + firstToUpper(dataType) ].get(k)) {
+		var animalsTagged = [],
+				animalsDetected = [],
+				speciesTagged = [],
+				speciesDetected = [];
 
-			var animalsTagged = motusFilter.localAnimals;//.filter((x) => motusData[ "animalsBy" + firstToUpper(dataType) ].get(k).get(x));
+		if (motusData[ "animalsBy" + firstToUpper(dataType) ] && motusData[ "animalsBy" + firstToUpper(dataType) ].get(k)) {
 
-			var speciesTagged = motusData.animals.filter( (x) => motusFilter.localAnimals.includes( x.id ) ).map( (x) => x.species ).filter( onlyUnique );
+			animalsTagged = motusFilter.localAnimals.filter((x) => motusData[ "animalsBy" + firstToUpper(dataType) ].get(k).get(x));
 
-			var animalsDetected = motusFilter.animalsDetected;//.filter((x) => motusData[ "animalsBy" + firstToUpper(dataType) ].get(k).get(x));
+			speciesTagged = motusData.animals.filter( (x) => motusFilter.localAnimals.includes( x.id ) ).map( (x) => x.species ).filter( onlyUnique );
 
-			var speciesDetected = motusData.animals.filter( (x) => motusFilter.animalsDetected.includes( x.id ) ).map( (x) => x.species ).filter( onlyUnique );
+			animalsDetected = motusFilter.animalsDetected;//.filter((x) => motusData[ "animalsBy" + firstToUpper(dataType) ].get(k).get(x));
 
-	/*	} else if (dataType == 'stations') {
+			speciesDetected = motusData.animals.filter( (x) => motusFilter.animalsDetected.includes( x.id ) ).map( (x) => x.species ).filter( onlyUnique );
 
-			var animals = motusData.selectedStations.map(d => d.animals.split(',')).flat();
+		} else if (dataType == 'stations') {
 
-			var species = motusData.selectedStations.map(d => d.species.split(',')).flat();
+			animalsDetected = motusData.selectedStations.map(d => d.animals.split(',')).flat();
+
+			speciesDetected = motusData.selectedStations.map(d => d.species.split(',')).flat();
 
 		} else {
 
-			var animals = [],
-				species = [];
+			var animals = motusFilter.animals;
+			var species = motusFilter.species;
 
 		}
-*/
+
 	//	console.log(Array.from( animals.map( (x) => motusData[ "animalsBy" + firstToUpper(dataType) ].get(k).get(x)[0].).values() ));
 		routes.forEach(function(x) {
 			if (((typeof countryByTrack[x] === 'undefined') || (countryByTrack[x] === k))) {
@@ -772,7 +783,8 @@ console.log(motusData.stations.filter(d => motusFilter.stationDeps.includes(d.id
 			}
 		});
 
-console.log();
+console.log(k + ": " + a + " - " + detections);
+console.log(stations);
 
 		var status = dataType == 'regions' ? {
 				animalsTagged: [ animalsTagged.length ],
@@ -780,34 +792,34 @@ console.log();
 				animalsDetected: [ motusData.selectedStationDeployments.size > 0 ? animalsDetected.length : 0 ],
 				speciesDetected: [ motusData.selectedStationDeployments.size > 0 ? speciesDetected.length : 0 ],
 				projects: [Array.from(stations.map(x => x.projID).values()).concat(Array.from(animalsTagged.map(x => x.projID).values())).filter(onlyUnique).length],
-				stations: [motusData.selectedStationDeployments.size],
-				detections: [ Object.keys(motusData.selectedTracks).length ]
+				stations: [ stations.length ],
+				detections: [ detections ]
 				//	lastData: [Math.round( subset[subset.length-1].lastData )],
 			} : dataType == 'projects' ? {
 				animalsTagged: [ animalsTagged.length ],
 				speciesTagged: [ speciesTagged.length ],
 				animalsDetected: [ motusData.selectedStationDeployments.size > 0 ? animalsDetected.length : 0 ],
 				speciesDetected: [ motusData.selectedStationDeployments.size > 0 ? speciesDetected.length : 0 ],
-				stations: [motusData.selectedStationDeployments.size],
+				stations: [ stations.length ],
 				countries: [Array.from(stations.map(x => x.country).values()).concat(Array.from(motusData.selectedAnimals.map(x => x.country).values())).filter(onlyUnique).length],
-				detections: [ Object.keys(motusData.selectedTracks).length ]
+				detections: [ detections ]
 			} : dataType == 'stations' ? {
 				animalsDetected: [ animalsDetected.length ],
 				speciesDetected: [ speciesDetected.length ],
 				projects: [Array.from(stations.map(x => x.projID).values()).concat(Array.from(motusData.selectedAnimals.map(x => x.projID).values())).filter(onlyUnique).length],
 				countries: [Array.from(stations.map(x => x.country).values()).concat(Array.from(motusData.selectedAnimals.map(x => x.country).values())).filter(onlyUnique).length],
-				detections: [ Object.keys(motusData.selectedTracks).length ]
+				detections: [ detections ]
 			} : dataType == 'species' ? {
 				animalsTagged: [ animalsTagged.length ],
-				stations: [motusData.selectedStationDeployments.size],
+				stations: [ stations.length ],
 				projects: [Array.from(stations.map(x => x.projID).values()).concat(Array.from(motusData.selectedAnimals.map(x => x.projID).values())).filter(onlyUnique).length],
 				countries: [Array.from(stations.map(x => x.country).values()).concat(Array.from(motusData.selectedAnimals.map(x => x.country).values())).filter(onlyUnique).length],
-				detections: [ Object.keys(motusData.selectedTracks).length ]
+				detections: [ detections ]
 			} : { // dataType == 'animals' ?
-				stations: [motusData.selectedStationDeployments.size],
+				stations: [ stations.length ],
 				projects: [Array.from(stations.map(x => x.projID).values()).concat(Array.from(motusData.selectedAnimals.map(x => x.projID).values())).filter(onlyUnique).length],
 				countries: [Array.from(stations.map(x => x.country).values()).concat(Array.from(motusData.selectedAnimals.map(x => x.country).values())).filter(onlyUnique).length],
-				detections: [ Object.keys(motusData.selectedTracks).length ]
+				detections: [ detections ]
 			};
 		if (!exploreProfile_hasLoaded) {
 			console.log(status);
@@ -1046,7 +1058,7 @@ console.log();
 
 			console.log(projectsTableData);
 
-			var tableDom = projectsTableData.length > 10 ? "ipt" : "t";
+			var tableDom = projectsTableData.length > 10 ? "Bipt" : "Bt";
 			var color_dataType = 'regions' == dataType ? 'country' : 'project';
 
 			$(`#explore_card_${cardID} .explore-card-${cardID}-${tableType}-table`).DataTable({
@@ -1086,6 +1098,12 @@ console.log();
 					}}
 				],
 				dom: tableDom,
+        buttons: [
+					'copyHtml5',
+					'excelHtml5',
+					'csvHtml5',
+					'pdfHtml5'
+        ],
 				autoWidth: false,
 				columnDefs: [ {
 					"targets": 0,
