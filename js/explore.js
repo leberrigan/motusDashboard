@@ -57,8 +57,8 @@ var icons = {
 	regions: "",
 	remove: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/></svg>',
 	species: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="70 160 70 50"><path d="m 107.67084,195.05271 2.93997,-5.47902 5.47902,2.20496 10.95805,-1.87087 10.02261,-7.55037 2.73951,-7.61718 -2.87315,-7.34991 -16.50389,4.54358 -8.61944,0.40091 -1.33635,-0.60136 -2.40542,-7.48355 -1.73725,-1.36975 -1.06908,-2.27179 -1.03031,2.17155 -1.73725,1.36975 -2.40542,7.48355 -1.33635,0.60136 -8.61944,-0.40091 -16.50389,-4.54358 -2.87315,7.34991 2.73951,7.61718 10.02261,7.55037 10.95805,1.87088 5.47902,-2.20497 2.93997,5.47903 -0.40089,7.08264 -0.63476,4.57699 1.97111,2.37202 1.43117,-2.07132 1.46998,2.17157 1.97111,-2.37202 -0.63476,-4.57699 z" style="stroke-width:3px;"></path></svg>',
-	stations: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="18" height="23" viewBox="0 0 389.923 481.915"> <defs> <style>.cls-1 { stroke: #000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 20px; fill: none; fill-rule: evenodd; } </style> </defs> <path d="M358.000,145.000 L358.000,88.000 L280.000,88.000 L280.000,127.000 L270.000,127.000 L270.000,88.000 L197.000,88.000 L197.000,210.720 L280.003,455.303 L275.586,459.008 L232.000,330.572 L232.000,338.000 L197.000,338.000 L197.000,404.988 L187.000,404.988 L187.000,338.000 L150.007,338.000 L108.464,460.008 L103.997,456.274 L187.000,212.504 L187.000,88.000 L114.000,88.000 L114.000,127.000 L104.000,127.000 L104.000,88.000 L30.000,88.000 L30.000,152.000 L20.000,152.000 L20.000,20.000 L30.000,20.000 L30.000,78.000 L104.000,78.000 L104.000,40.000 L114.000,40.000 L114.000,78.000 L187.000,78.000 L187.000,57.012 L197.000,57.012 L197.000,78.000 L270.000,78.000 L270.000,40.000 L280.000,40.000 L280.000,78.000 L358.000,78.000 L358.000,20.000 L368.000,20.000 L368.000,78.000 L368.000,88.000 L368.000,145.000 L358.000,145.000 ZM197.000,328.000 L231.127,328.000 L197.000,227.438 L197.000,328.000 ZM187.000,229.355 L153.412,328.000 L187.000,328.000 L187.000,229.355 Z" transform="translate(10.96 10.96)" class="cls-1"/></svg>',
-	station: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="18" height="23" viewBox="0 0 389.923 481.915"> <defs> <style>.cls-1 { stroke: #000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 20px; fill: none; fill-rule: evenodd; } </style> </defs> <path d="M358.000,145.000 L358.000,88.000 L280.000,88.000 L280.000,127.000 L270.000,127.000 L270.000,88.000 L197.000,88.000 L197.000,210.720 L280.003,455.303 L275.586,459.008 L232.000,330.572 L232.000,338.000 L197.000,338.000 L197.000,404.988 L187.000,404.988 L187.000,338.000 L150.007,338.000 L108.464,460.008 L103.997,456.274 L187.000,212.504 L187.000,88.000 L114.000,88.000 L114.000,127.000 L104.000,127.000 L104.000,88.000 L30.000,88.000 L30.000,152.000 L20.000,152.000 L20.000,20.000 L30.000,20.000 L30.000,78.000 L104.000,78.000 L104.000,40.000 L114.000,40.000 L114.000,78.000 L187.000,78.000 L187.000,57.012 L197.000,57.012 L197.000,78.000 L270.000,78.000 L270.000,40.000 L280.000,40.000 L280.000,78.000 L358.000,78.000 L358.000,20.000 L368.000,20.000 L368.000,78.000 L368.000,88.000 L368.000,145.000 L358.000,145.000 ZM197.000,328.000 L231.127,328.000 L197.000,227.438 L197.000,328.000 ZM187.000,229.355 L153.412,328.000 L187.000,328.000 L187.000,229.355 Z" transform="translate(10.96 10.96)" class="cls-1"/></svg>',
+	stations: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="18" height="20" viewBox="0 0 389.923 481.915"> <defs> <style>.cls-1 { stroke: #000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 20px; fill: none; fill-rule: evenodd; } </style> </defs> <path d="M358.000,145.000 L358.000,88.000 L280.000,88.000 L280.000,127.000 L270.000,127.000 L270.000,88.000 L197.000,88.000 L197.000,210.720 L280.003,455.303 L275.586,459.008 L232.000,330.572 L232.000,338.000 L197.000,338.000 L197.000,404.988 L187.000,404.988 L187.000,338.000 L150.007,338.000 L108.464,460.008 L103.997,456.274 L187.000,212.504 L187.000,88.000 L114.000,88.000 L114.000,127.000 L104.000,127.000 L104.000,88.000 L30.000,88.000 L30.000,152.000 L20.000,152.000 L20.000,20.000 L30.000,20.000 L30.000,78.000 L104.000,78.000 L104.000,40.000 L114.000,40.000 L114.000,78.000 L187.000,78.000 L187.000,57.012 L197.000,57.012 L197.000,78.000 L270.000,78.000 L270.000,40.000 L280.000,40.000 L280.000,78.000 L358.000,78.000 L358.000,20.000 L368.000,20.000 L368.000,78.000 L368.000,88.000 L368.000,145.000 L358.000,145.000 ZM197.000,328.000 L231.127,328.000 L197.000,227.438 L197.000,328.000 ZM187.000,229.355 L153.412,328.000 L187.000,328.000 L187.000,229.355 Z" transform="translate(10.96 10.96)" class="cls-1"/></svg>',
+	station: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="18" height="20" viewBox="0 0 389.923 481.915"> <defs> <style>.cls-1 { stroke: #000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 20px; fill: none; fill-rule: evenodd; } </style> </defs> <path d="M358.000,145.000 L358.000,88.000 L280.000,88.000 L280.000,127.000 L270.000,127.000 L270.000,88.000 L197.000,88.000 L197.000,210.720 L280.003,455.303 L275.586,459.008 L232.000,330.572 L232.000,338.000 L197.000,338.000 L197.000,404.988 L187.000,404.988 L187.000,338.000 L150.007,338.000 L108.464,460.008 L103.997,456.274 L187.000,212.504 L187.000,88.000 L114.000,88.000 L114.000,127.000 L104.000,127.000 L104.000,88.000 L30.000,88.000 L30.000,152.000 L20.000,152.000 L20.000,20.000 L30.000,20.000 L30.000,78.000 L104.000,78.000 L104.000,40.000 L114.000,40.000 L114.000,78.000 L187.000,78.000 L187.000,57.012 L197.000,57.012 L197.000,78.000 L270.000,78.000 L270.000,40.000 L280.000,40.000 L280.000,78.000 L358.000,78.000 L358.000,20.000 L368.000,20.000 L368.000,78.000 L368.000,88.000 L368.000,145.000 L358.000,145.000 ZM197.000,328.000 L231.127,328.000 L197.000,227.438 L197.000,328.000 ZM187.000,229.355 L153.412,328.000 L187.000,328.000 L187.000,229.355 Z" transform="translate(10.96 10.96)" class="cls-1"/></svg>',
 	stop: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="explore-stop-btn" alt="Stop" viewBox="0 0 16 16"><path d="M5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 11V5A1.5 1.5 0 0 1 5 3.5z"/></svg>',
 	share: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/></svg>',
 	search: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="explore-search-btn tips" alt="Search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>',
@@ -137,7 +137,7 @@ function updateURL(reload) {
 						toEncode = motusFilter[f];
 					}
 				if ( f == dataType ||
-						( motusFilter.default[f] != motusFilter[f] && ['dtStart','dtEnd', 'colour'].includes(f) ) ||
+						( motusFilter.default && motusFilter.default[f] != motusFilter[f] && ['dtStart','dtEnd', 'colour'].includes(f) ) ||
 						!( !['dtStart','dtEnd', 'colour'].includes(f) && motusFilter.default && motusFilter.default[f] && motusFilter.default[f].sort().join(',') == motusFilter[f].sort().join(',') )
 						) {
 					stateToPush+='&'+f+'='+encodeURIComponent(toEncode);
@@ -182,7 +182,7 @@ function detectNavigation() {
 		dataType = url_params.d !== undefined && dataTypes.includes(firstToUpper(url_params.d)) ? url_params.d : 'stations';
 	}
 
-	if ( (typeof url_params.e !== 'undefined' && url_params.e !== exploreType) || (typeof url_params.d !== 'undefined' && url_params.d !== dataType ) ) {window.location.reload();}
+	if ( (typeof url_params.e !== 'undefined' && url_params.e !== exploreType) || (typeof url_params.d !== 'undefined' && url_params.d !== dataType ) ) {window.location.href=`#e=${exploreType}&d=${dataType}`;}
 
 	motusFilter = {
 		dtStart: url_params.dtStart === undefined ? motusFilter.dtStart : moment(url_params.dtStart),
@@ -224,7 +224,6 @@ $(document).ready(function(){
 
 	// Capture any changes in URL
 	window.onhashchange = detectNavigation;
-
 	// For Development:
 	// Fix Wordpress URL
 	if (exploreType == 'main' && window.location.hostname != 'localhost' && window.location.hostname != 'leberrigan.github.io') {window.location.href="#e=main&d="+dataType;}
@@ -452,13 +451,19 @@ function exploreSummaryTabSelect(selectedTab) {
 
 					var stations = motusData.stationDepsByProjects.get(`${d.id}`);
 					var animals = motusData.animalsByProjects.get(`${d.id}`);
+					var species = typeof animals === 'undefined' ? [] : Array.from( animals.values() ).flat().map( d => d.species ).filter(onlyUnique);
+					stations = typeof stations === 'undefined' ? []  : Array.from( stations.values() ).flat().map( d => d.id ).filter(onlyUnique);
+					species = typeof species === 'undefined' ? [] : species;
+					animals = typeof animals === 'undefined' ? [] : Array.from( animals.values() ).flat().map( d => d.id ).filter(onlyUnique);
 
 					return {
 						id: d.id,
-						project_name: d.project_name,
+						name: d.project_name,
+						created_dt: moment(d.created_dt).toISOString().substring(0,10),
 						fee_id: d.fee_id,
-						stations: typeof stations !== 'undefined' ? stations.length : 0,
-						animals: typeof animals !== 'undefined' ? animals.size : 0
+						stations: {display:	stations.length > 0 ? `<a href='javascript:void(0);' onclick='viewTableStats('stations',["${stations.join('","')}"])'>${stations.length}</a>` : 0, order: stations.length},
+						animals: {display:	animals.length > 0 ? `<a href='javascript:void(0);' onclick='viewTableStats('animals',["${animals.join('","')}"])'>${animals.length}</a>` : 0, order: animals.length},
+						species: {display:	species.length > 0 ? `<a href='javascript:void(0);' onclick='viewTableStats('species',["${species.join('","')}"])'>${species.length}</a>` : 0, order: species.length}
 					};
 
 				}).values())];
@@ -1352,7 +1357,29 @@ function loadDataTable(tbl, columns, options, onEvent) {
 		$("#exploreContent").append('<div class="explore-table-wrapper"><table id="explore_table" style="width:100%"></table></div>');
 	}
 
-	console.log(columns);
+	if (dataType == 'projects') {
+		options.order = [[1, 'asc']]
+		options.columns = [
+			{className: "explore-table-expandRow", data: null, orderable: false, defaultContent: ""},
+			{className: 'dt-center', data: "id", title: "Project ID"},
+			{data: "name", title: "Project", "createdCell": function(td, cdata, rdata){
+				$(td).html(
+						`<a href='javascript:void(0);' onclick='viewProfile("projects", ${rdata.id});'>${rdata.name}</a>`
+				);
+			}},
+			{className: 'dt-center', data: "created_dt", title: "Start date"},
+			{className: "dt-center", data: "stations", title: "Stations deployed", "render": {_: "display", sort: "order"}},
+			{className: "dt-center", data: "animals", title: "Stations deployed", "render": {_: "display", sort: "order"}},
+			{className: "dt-center", data: "species", title: "Stations deployed", "render": {_: "display", sort: "order"}},
+			{data: "fee_id", title: "Project group", "createdCell": function(td, cdata, rdata){
+				$(td).html(
+					`<a href='javascript:void(0);' onclick='viewProfile("projectsGroup", ["${rdata.fee_id}"]);'>${rdata.fee_id}</a>`
+				);
+			}}
+		];
+
+	}
+
 	if (typeof options.columns === "undefined") {
 		var columnNames = columns.filter(x=>x==="").concat(Object.keys(dataset[0]).filter(x => typeof columns === 'undefined' || columns.includes(x)));
 
@@ -1565,7 +1592,7 @@ function addExploreCard(card) {
 				headers.forEach(function(x){profiles_header += "<th class='"+(x.toLowerCase().replace(' ','-'))+"'>"+x+"</th>";});
 
 
-				$("#exploreContent .explore-card-wrapper").append("<div class='explore-card' id='explore_card_profiles'><div class='explore-card-add explore-card-"+exploreType+"' alt='Add a "+exploreType+"'><select class='explore-card-add-"+exploreType+"' data-placeholder='Select a "+exploreType+"'><option></option></select></div><div class='explore-card-profiles-toggles'></div></div><div class='explore-card-profiles-tabs'><div class='section-header'>Summary results</div><div class='explore-card-tab expand-menu-btn'>"+icons.expand+"</div></div>");
+				$("#exploreContent .explore-card-wrapper").append("<div class='explore-card' id='explore_card_profiles'><div class='explore-card-add explore-card-"+exploreType+"' alt='Add a "+exploreType+"'><select class='explore-card-add-"+exploreType+"' data-placeholder='Select a "+exploreType+"'><option></option></select></div><div class='explore-card-profiles-toggles'></div></div><div class='explore-card-profiles-tabs'><div class='explore-card-tab expand-menu-btn'>"+icons.expand+"</div><div class='explore-profiles-tab-wrapper'></div></div>");
 
 
 // OLD				$("#exploreContent .explore-card-wrapper").append("<div class='explore-card' id='explore_card_profiles'><div class='explore-card-profiles-name'>"+icons[exploreType]+"&nbsp;&nbsp;&nbsp;"+card.name+"</div><table><thead><tr class='explore-card-profiles-header'>"+profiles_header+"<th></th></tr></thead><tbody class='explore-card-profiles-wrapper'></tbody></table><div class='explore-card-add explore-card-"+exploreType+"' alt='Add a "+exploreType+"'><select class='explore-card-add-"+exploreType+"' data-placeholder='Select a "+exploreType+"' style='width:300px;'><option></option></select></div><div class='explore-card-profiles-toggles'></div><div class='explore-card-profiles-tabs'><div class='expand-menu-btn'>"+icons.expand+"</div></div></div>");
@@ -1581,7 +1608,7 @@ function addExploreCard(card) {
 				$(".explore-card-more-details").click(function(){detailedView=true;exploreRegions(motusFilter.regions)});
 				*/
 				addExploreTab('explore-card-map', 'Map', {selected: true, icon: icons.map});
-				addExploreTab('explore-card-profiles-download-pdf', 'Download report', {click:function(){$(".explore-map-"+dataType+"-pdf input[type=button]").trigger('click');}, noToggle:true, icon: icons.download});
+			//	addExploreTab('explore-card-profiles-download-pdf', 'Download report', {click:function(){$(".explore-map-"+dataType+"-pdf input[type=button]").trigger('click');}, noToggle:true, icon: icons.download});
 
 				if (["stations","regions","projects"].includes(dataType)) {
 
@@ -1928,9 +1955,9 @@ function addExploreTab(el, header, opts = {}) {
 		tab.click(function(){$(this).toggleClass('selected',true);$(this).siblings().removeClass('selected');if ($(this).siblings('.expand-menu-btn').is(":visible") && $(this).parent().is(".expanded")) {$(this).siblings('.expand-menu-btn').trigger('click')}})
 	}
 	if (opts.insertAfter) {
-		$(".explore-card-profiles-tabs ." + opts.insertAfter).after(tab);
+		$(".explore-card-profiles-tabs  > .explore-profiles-tab-wrapper ." + opts.insertAfter).after(tab);
 	} else {
-		$(".explore-card-profiles-tabs").append(tab);
+		$(".explore-card-profiles-tabs > .explore-profiles-tab-wrapper").append(tab);
 	}
 	if (opts.selected) {tab.trigger('click');}
 }

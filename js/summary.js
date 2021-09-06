@@ -744,6 +744,9 @@ console.log(motusData.stations.filter(d => motusFilter.stationDeps.includes(d.id
 			var detections = Object.values( motusData.selectedTracks ).filter( (x) => x[dataType].split(',').includes(k) ).length;
 
 		}
+
+		stations = typeof stations === 'undefined' ? [] : stations;
+
 		var routes = Array.from(stations.map(x => x.id).values()).map(x => motusData.tracksByStation[x]).flat().filter(x=>typeof x !== 'undefined');
 
 		var animalsTagged = [],
@@ -1093,7 +1096,7 @@ console.log(stations);
 					}},
 					{data: "fee_id", title: "Groups", "createdCell": function(td, cdata, rdata){
 						$(td).html(
-							`<a href='javascript:void(0);' onclick='viewProfile("projects", [${rdata.fee_id}]);'>${rdata.fee_id}</a>`
+							`<a href='javascript:void(0);' onclick='viewProfile("projectsGroup", ["${rdata.fee_id}"]);'>${rdata.fee_id}</a>`
 						);
 					}}
 				],

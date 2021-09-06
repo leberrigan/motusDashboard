@@ -185,16 +185,26 @@ function initiatePopup() {
 }
 function viewProfile(profileType, dataID) {
 
+	var group = profileType.includes('Group');
+
+	profileType = profileType.replace('Group', '');
+
 	exploreType = profileType;
 	dataType = profileType;
 
-	motusFilter={};
+	dataID = typeof dataID === 'object' ? dataID : [dataID];
 
-	if (typeof dataID === 'object') {
-		motusFilter[profileType] = dataID
+
+	motusFilter={};
+	if (group) {
+		if (profileType == 'projects') {
+			dataID = motusData.projects.filter( d => dataID.includes(d.fee_id) ).map( d => d.id )
+		}
+		motusFilter[profileType] = dataID;
 	} else {
-		motusFilter[profileType] = [dataID]
+		motusFilter[profileType] = dataID;
 	}
+console.log(motusFilter[profileType] );
 	updateURL(true);
 
 }
