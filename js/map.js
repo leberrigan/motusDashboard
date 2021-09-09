@@ -983,6 +983,7 @@ function exploreMap({
 								) &&
 								( //	If the animal filter is not set or if the animal filter contains one of the animals in the track.
 									!motusFilter.animals ||
+									motusFilter.animals.includes('all') ||
 									motusFilter.animals.length == 0 ||
 									motusFilter.animals.some(
 										(a) => x.animals.split(',').includes(a)
@@ -1496,12 +1497,10 @@ function loadMapObjects(callback) {
 			.style("left", (topLeft[0] - margin) + "px")
 			.style("top", (topLeft[1] - margin) + "px");
 
-			console.log('test3')
-
 		motusMap.g.attr("transform", "translate(" + (margin-topLeft[0]) + "," + (margin-topLeft[1]) + ")");
 
 		motusMap.g.selectAll(".explore-map-station").attr("d", motusMap.path);
-		//motusMap.g.selectAll(".explore-map-animal").attr("d", motusMap.path);
+	//	motusMap.g.selectAll(".explore-map-animal").attr("d", motusMap.path);
 					motusMap.g.selectAll(".explore-map-animal.explore-map-point:not(.hidden)").attr("d", motusMap.path);
 		motusMap.g.selectAll(".explore-map-region").attr("d", motusMap.path);
 		motusMap.g.selectAll(".explore-map-antenna").attr("d", motusMap.path);
@@ -1587,7 +1586,11 @@ function drawMapObjects(group) {
 function animateTracks(duration) {
 
 	if (!motusMap.animation.pause) {
-		if (typeof duration === 'undefined') {motusMap.animation.duration = 5000;} else {motusMap.animation.duration = duration;}
+		if (typeof duration === 'undefined') {
+			motusMap.animation.duration = 5000;
+		} else {
+			motusMap.animation.duration = duration;
+		}
 
 		if (typeof motusData.selectedAnimals === 'undefined') {
 			motusData.selectedAnimals = motusData.animals.filter( d => (typeof motusFilter.animals === 'undefined' || motusFilter.animals.includes('all') || motusFilter.animals.includes(d.id)) && (typeof motusFilter.species === 'undefined' || motusFilter.species.includes('all') || motusFilter.species.includes(d.species)) )
@@ -1630,14 +1633,12 @@ function animateTracks(duration) {
 	//	animateTimeline( $("#dateSlider").get(0) );
 	//	animateTrackStep(undefined, true);
 
-		motusMap.animation.startTime = moment();
-
 			animateTrackStep(motusFilter.dtStart.toISOString().substring(0,10), true);
 	} else {
 
 			motusMap.animation.pause = false;
 
-			var durationRatio = (new Date().addDays(1) - new Date())/(motusFilter.dtEnd - motusFilter.dtStart);
+			var durationRatio = (new Date().addDays(1) - new Date())/(motusMap.animation.dtEnd - motusMap.animation.dtStart);
 			var stepDuration = Math.round(motusMap.animation.duration * durationRatio);
 
 			motusMap.animation.timer = setInterval(function(){animateTrackStep(motusMap.animation.date);}, stepDuration);
@@ -1648,13 +1649,20 @@ function animateTracks(duration) {
 
 // The resolution is 1 day
 function animateTrackStep(date, start) {
-
 	if (typeof date === 'undefined') {date = motusFilter.dtStart.toISOString().substring(0,10);}
 	if (typeof date === 'object') {date = date.toISOString().substring(0,10);}
 // animateTracks();animateTrackStep(undefined, true);
+
+		//$(timeline.el).dragslider('values', [new Date(date)/1000, new Date(date)/1000]);
+
 	if (start) {
 
 		console.log("Start");
+				motusMap.animation.startTime = moment();
+
+		motusMap.animation.dtStart = motusFilter.dtStart;
+		motusMap.animation.dtEnd = motusFilter.dtEnd;
+
 		motusMap.animation.i = 0;
 		// Get a subset of animal paths to start text based on the currently visible paths
 		motusMap.animation.paths = motusMap.g.selectAll(".explore-map-animal:not(.hidden)");
@@ -1702,39 +1710,62 @@ function animateTrackStep(date, start) {
 		//motusMap.setVisibility();
 		motusMap.animation.pause = false;
 		motusMap.animation.stop = false;
-
-		var durationRatio = (new Date().addDays(1) - new Date())/(motusFilter.dtEnd - motusFilter.dtStart);
+		var nSteps = (motusMap.animation.dtEnd - motusMap.animation.dtStart) / (1000 * 60 * 60 * 24);
+		var durationRatio = (new Date().addDays(1) - new Date())/(motusMap.animation.dtEnd - motusMap.animation.dtStart);
 		var stepDuration = Math.round(motusMap.animation.duration * durationRatio);
 
+		motusMap.animation.stepDuration = stepDuration;
+
 		motusMap.animation.timer = setInterval(function(){animateTrackStep(motusMap.animation.date);}, stepDuration);
-	} else {
-		if (motusMap.animation.pause || motusMap.animation.stop) {
+		//console.log("Date: %s, duration: %s, stepDuration: %s, nSteps: %s", date, motusMap.animation.duration, stepDuration, nSteps);
+		motusMap.animation.test = moment();
+//		motusMap.animation.lastTime = moment();
+//		motusMap.animation.lastDate = date;
+	} else if (motusMap.animation.pause || motusMap.animation.stop) {
+
 			clearInterval(motusMap.animation.timer);
+
+		if (motusMap.animation.stop) {
+	//		timeline.setSlider([motusMap.animation.dtStart/1000, motusMap.animation.dtEnd/1000], false, false, motusMap.setVisibility);
 		}
 	}
 
-	// select segments to start animating
+
+
+	// Since setInterval is asynchronous, we are going to set the date based on how much time has elapsed since the last interval.
+
+		/*
+	if (motusMap.animation.lastDate && dateDiff > 1) {
+			date = new Date(motusMap.animation.lastDate).addDays(dateDiff).toISOString().substring(0, 10);
+		}
+	}*/
+
+	// Select segments to start animating
 	var newSegments = motusMap.animation.segments.filter( d => d.dtStart.includes(date) ).map( d => getArray({animal: d.animal, dtStart: d.dtStart, dtEnd: d.dtEnd, route: d.route}) ).flat();
+	// Select the animals to be animated
 	var newAnimalIDs = newSegments.map( d => d.animal ).flat();
 
 
 
+	//	Loop through each animal path to animate it
 	motusMap.animalPaths.filter( d => newAnimalIDs.includes(d.id) ).each(function(d, i){
 
 		var selectedSegment = newSegments.filter( x => x.animal == d.id )[0];
 
-		var durationRatio = (moment(selectedSegment.dtEnd) - moment(selectedSegment.dtStart)) / (motusFilter.dtEnd - motusFilter.dtStart);
+		var durationRatio = (new Date(selectedSegment.dtEnd) - new Date(selectedSegment.dtStart)) / (motusMap.animation.dtEnd - motusMap.animation.dtStart);
 
 
 		if (durationRatio > 0 && d3.select(`#explore-map-track-${selectedSegment.route.replace('.','-')}`).size() > 0) {
+
+			var stepDuration = Math.round(motusMap.animation.duration * durationRatio);
 		//	console.log(selectedSegment);
 		//	console.log(durationRatio);
 		//	console.log(`#explore-map-track-${selectedSegment.route.replace('.','-')}: %o`, d3.select(`#explore-map-track-${selectedSegment.route.replace('.','-')}`).size());
-			transition(d3.select(this), d3.select(`#explore-map-track-${selectedSegment.route.replace('.','-')}`), motusMap.animation.duration * durationRatio);
+			transition(d3.select(this), d3.select(`#explore-map-track-${selectedSegment.route.replace('.','-')}`), stepDuration);
 		}
 	});
 
-	if (new Date(date) < motusFilter.dtEnd) {
+	if (new Date(date) < motusMap.animation.dtEnd && !motusMap.animation.stop) {
 
 		motusMap.animation.i++;
 
@@ -1747,8 +1778,9 @@ function animateTrackStep(date, start) {
 		//console.log("Current date: %s - New date: %s - Timespan: %s days - Date: %s - i: %s", date, newDate, stepDuration, date, motusMap.animation.i);
 	//	console.log("Current date: %s", date);
 
+		timeline.setSlider([new Date(date)/1000, new Date(date)/1000], false, false, motusMap.setVisibility);
 
-	} else {
+	} else {	 // End the animation
 		motusMap.g.selectAll('.explore-map-track')
 			.style('opacity', 1)
 			.style('pointer-events', 'default')
@@ -1756,9 +1788,15 @@ function animateTrackStep(date, start) {
 
 		console.log("Finished animation after %s milliseconds", moment() - motusMap.animation.startTime);
 
+		timeline.setSlider([motusMap.animation.dtStart/1000, motusMap.animation.dtEnd/1000], false, false, motusMap.setVisibility);
+
 		clearInterval(motusMap.animation.timer);
 
 	}
+//	if (motusMap.animation.i % 7 == 0)	{console.log("Date: %s, duration: %s", date, (moment() - motusMap.animation.lastTime)/7);}
+
+//	motusMap.animation.lastDate = date;
+//	motusMap.animation.lastTime = new Date();
 
 	function transition(circle, path, duration) {
 	  circle.transition()

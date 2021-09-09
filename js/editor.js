@@ -2,15 +2,14 @@ var editorStationRange;
 
 function exploreMapEditor() {
 
-  if ($("#explore_map_editor").length == 0) {
+  if (  $(".explore-map-editor-wrapper .add-station-range").children().length == 0) {
 
-    $("body").append(`<div class="explore-map-editor-wrapper">`+
+/*    $("body").append(`<div class="explore-map-editor-wrapper">`+
                         `<div id="explore_map_editor" class="explore-map-edit"><button class='close_btn'>Close</button></div>`+
                         `<div class='add-station-info'><span class='note'>Click on the map to place a prospective station.</span><div class='add-station-range'></div><button class='close_btn' >Cancel</button></div>`+
-                      `</div>`);
+                      `</div>`);*/
 
-    $(`.explore-map-${dataType}-edit .explore-control-hidden`).prependTo("#explore_map_editor");
-
+    //$(`.explore-map-${dataType}-edit .explore-control-hidden`).prependTo("#explore_map_editor");
     $("#explore_map_editor .close_btn").click(exploreMapEditor);
     $(".explore-map-editor-wrapper .add-station-info .close_btn").click(exploreMapAddStation);
     $(".explore-map-editor-wrapper .add-station-range").slider({
@@ -24,23 +23,24 @@ function exploreMapEditor() {
         resizeStationRanges();
       },
       create: function(e, el) {
-        $(e.target).after('<label for="explore_map_editor_station_range">Antenna range (km): </label><input style="width:50px;" type="number" id="explore_map_editor_station_range" min="0" max="20" class="add-station-range-value" value="'+15+'">');
+        $(e.target).after('<label for="explore_map_editor_station_range">Antenna range (km): </label>'+
+                          '<input style="width:50px;" type="number" id="explore_map_editor_station_range" min="0" max="20" class="add-station-range-value" value="'+15+'">');
       }
     });
 
   }
 
-  $(".explore-map-editor-wrapper").fadeToggle();
 
 
 }
 
 function exploreMapAddStation(e) {
 
+  $(".explore-map-editor-wrapper").toggle();
   if ($(".explore-map-editor-wrapper").hasClass("add-station-view")) {
 
     // Hide station antenna ranges
-    if (!$("#explore_map_editor #explore_controls_plan_layer_select").val().includes("Antenna ranges")) {
+    if (!$("#explore_controls_plan_layer_select").val().includes("Antenna ranges")) {
     	motusMap.g.selectAll('.explore-map-antenna-range').classed('hidden', true);
     }
 
@@ -96,7 +96,7 @@ function exploreMapAddStation(e) {
   } else {
 
     // Show the station antenna ranges
-    if (!$("#explore_map_editor #explore_controls_plan_layer_select").val().includes("Antenna ranges")) {
+    if (!$("#explore_controls_plan_layer_select").val().includes("Antenna ranges")) {
       viewAntennaRanges();
     }
 

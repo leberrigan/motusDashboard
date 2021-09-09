@@ -35,6 +35,8 @@
 				ending = 0,
 				margin = {left: 30, right:30, top: 30, bottom:30},
 				maxZoom = 5,
+				resize = false,
+				range = 0,
 				stacked = false,
 				rotateTicks = false,
 				timeIsRelative = false,
@@ -55,7 +57,7 @@
 				showAxisHeaderBackground = false,
 				showAxisNav = false,
 				showAxisCalendarYear = false,
-				xAxisClass = 'timeline-xAxis',			
+				xAxisClass = 'timeline-xAxis',
 				xScale = null,
 				xAxis = null
 			;
@@ -68,11 +70,11 @@
 			var axis = g.append("g")
 				.attr("class", xAxisClass)
 				.attr("transform", "translate(" + 0 + "," + yPosition + ")")
-				.call(xAxis);
+				.call(xAxis.ticks(tickFormat.numTicks || [tickFormat.tickTime, tickFormat.tickInterval]));
 
 			return axis;
 		};
-		
+
 		var appendTimeAxisCalendarYear = function (nav) {
 			var calendarLabel = beginning.getFullYear();
 
@@ -185,7 +187,8 @@
 		function timeline (gParent) {
 			var gParentSize = gParent.node().getBoundingClientRect(); // the svg size
 			var gParentItem = d3.select(gParent.node()); // the svg
-
+			gParent.selectAll('g').remove();
+			gParent.selectAll('text').remove();
 			var g = gParent.append("g").attr("class", "container");
 
 			var yAxisMapping = {},
@@ -214,8 +217,8 @@
 				});
 
 			}
-			
-		
+
+
 			// check how many stacks we're gonna need
 			// do this here so that we can draw the axis before the graph
 			if (stacked || ending === 0 || beginning === 0) {
@@ -251,9 +254,9 @@
 			}
 
 			var scaleFactor = (1/(ending - beginning)) * (width - margin.left - margin.right);
-			
-			
-			
+
+
+
 			function formatDays(d) {
 					var days = Math.floor(d / 86400),
 							hours = Math.floor((d - (days * 86400)) / 3600),
@@ -280,6 +283,7 @@
 			} else if (orient == "top") {
 				xAxis = d3.axisTop();
 			}
+
 			if (timeIsLinear) {
 				xScale = d3.scaleLinear()
 					.domain([beginning, ending])
@@ -297,7 +301,7 @@
 						.tickFormat(tickFormat.format)
 						.tickSize(tickFormat.tickSize);
 			}
-			if (tickFormat.tickValues !== null) {
+			if (tickFormat.tickValues !== null && typeof tickFormat.tickValues !== 'undefined') {
 				xAxis.tickValues(tickFormat.tickValues);
 			} else {
 				xAxis.tickArguments(tickFormat.numTicks || [tickFormat.tickTime, tickFormat.tickInterval]);
@@ -322,7 +326,7 @@
 					}
 
 					if (backgroundColor) { appendBackgroundBar(yAxisMapping, index, g, data, datum); }
-					
+
 					view.selectAll("svg")
 						.data(data).enter()
 						.append(function(d, i) {
@@ -484,7 +488,7 @@
 										+ "scale(" + event.transform.k + " " + event.transform.k + ")";
 						});
 /*
-						
+
 					g.selectAll(".timeline-yAxis")
 						.attr("transform", function(d) {
 							 return "translate(" + timeAxisXPosition + ", " + event.transform.y + ")"
@@ -493,10 +497,10 @@
 					/*
 					var new_xScale = event.transform.rescaleX(xScale);
 					g.selectAll('.timeline-xAxis').call(function(d) { xAxis.scale(new_xScale); });
-					
+
 					var new_yScale = event.transform.rescaleY(yScale);
 					g.selectAll('.timeline-yAxis').call(function(d) { yAxis.scale(new_yScale); });
-					
+
 					var xpos = -event.transform.x;
 					scroll(xpos, xScale);
 					*/
@@ -504,7 +508,7 @@
 		//	};
 
 			if (! allowZoom) {
-					
+
 				var zoom = d3.zoom()
 				//	.scaleExtent([0, maxZoom]) // max zoom defaults to 5
 					.scaleExtent([1, 10]) // max zoom defaults to 5
@@ -516,10 +520,10 @@
 					.attr('height', gParentSize.height)
 					.style('fill', 'none')
 					.style('pointer-events', 'all')*/
-				
+
 				gParent.classed("scrollable", true)
 					.call(zoom);
-					
+
 				g.on("wheel", function() {
 					event.preventDefault();
 					event.stopImmediatePropagation();
@@ -561,6 +565,42 @@
 				appendLine(todayLine, showTodayFormat);
 			}
 
+			if (resize) {
+      	window.addEventListener("resize", redrawXAxis);
+
+			}
+
+			function redrawXAxis() {
+				if ($(gParent._groups[0]).length > 0 && width != $(gParent._groups[0]).width()) {
+
+					var width_el = $(gParent._groups[0]);
+					var tmp_width = 0;
+
+					while(tmp_width == 0 && width_el.get(0).tagName != "BODY") {
+						tmp_width = width_el.width();
+						width_el = width_el.parent();
+					}
+
+					if (tmp_width != width) {
+						width = tmp_width;
+
+						var diffTime = range / (60 * 60 * 24);
+						var timeFormat = tickFormat.format = diffTime > 600 ? (diffTime > 2000 && width < 600 ? "%Y" : "%Y-%m") : "%Y-%m-%d";
+						tickFormat.format = d3.timeFormat(timeFormat);
+						tickFormat.tickWidth = (timeFormat.length * 5) + 20;	// Each character is approximately 5 pixels wide
+						tickFormat.numTicks = Math.ceil( width / tickFormat.tickWidth );
+						tickFormat.numTicks = tickFormat.numTicks > 40 ? 20 : tickFormat.numTicks > 10 ? 10 : tickFormat.numTicks;
+						console.log("width_el: %o, width: %s, diffTime: %s, timeFormat: %s, tickWidth: %s, numTicks: %s", width_el, width, diffTime, tickFormat.format, tickFormat.tickWidth, tickFormat.numTicks);
+
+						timeline.width(width);
+
+						gParent.attr('viewBox', `0 0 ${width+30} ${height-10}`);
+
+						timeline(gParent);
+					}
+				}
+			}
+
 			function getXPos(d, i) {
 				return margin.left + (d.starting_time - beginning) * scaleFactor;
 			}
@@ -596,12 +636,12 @@
 			}
 
 			function setHeight() {
-				if (!height && !gParentSize.height) {
+				if ((!height && !gParentSize.height)) {
 					if (itemHeight) {
 						// set height based off of item height
 						height = gSize.height + gSize.top - gParentSize.top;
 						// set bounding rectangle height
-						d3.select(gParent).node().attr("height", height);
+					//	d3.select(gParent).node().attr("height", height);
 						//select(view).node().attr("height", height);
 					} else {
 						throw "height of the timeline is not set";
@@ -610,7 +650,7 @@
 					if (!height) {
 						height = gParentSize.height;
 					} else {
-						gParentItem.node().attr("height", height);
+					//	gParentItem.attr("height", height);
 						//view.node().attr("height", height);
 					}
 				}
@@ -715,6 +755,18 @@
 		timeline.allowZoom = function (zoomSetting) {
 			if (!arguments.length) return allowZoom;
 			allowZoom = zoomSetting;
+			return timeline;
+		};
+
+		timeline.resize = function (resizeSetting) {
+			if (!arguments.length) {redrawXAxis(); return resize;}
+			resize = resizeSetting;
+			return timeline;
+		};
+
+		timeline.range = function (rangeSetting) {
+			if (!arguments.length) return range;
+			range = rangeSetting;
 			return timeline;
 		};
 
