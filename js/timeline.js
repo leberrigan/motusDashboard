@@ -12,7 +12,7 @@ function exploreTimeline({
 	distance = 0,
 	svg = {},
 	position = [0,0],
-	width = 500,
+	width = 270,
 	height = 40,
 	status = 'off',
 	timerStartTime = 0,
@@ -72,7 +72,7 @@ function exploreTimeline({
 			timeline.status = 'stop';
 			motusMap.setVisibility();
 		},
-		setSlider: function(position, moveSlider = false, setPicker = true) {
+		setSlider: function(position, moveSlider = false, setPicker = true, callback) {
 
 			$(el).dragslider( 'values', position);
 
@@ -89,6 +89,7 @@ function exploreTimeline({
 				$('#filter_dates').data('daterangepicker').setStartDate(motusFilter.dtStart);
 				$('#filter_dates').data('daterangepicker').setEndDate(motusFilter.dtEnd);
 			}
+			if (typeof callback !== 'undefined') {callback();}
 			//updateURL()
 		},
 		changeAnimationState: function(e) {
@@ -114,9 +115,15 @@ function exploreTimeline({
 		},
 		createLegend: function () {
 			// timeline.min and *.max must be set prior to call
+			var width_el = $(el).parent();
+			width = 0;
+			while(width == 0 && width_el.get(0).tagName != "BODY") {
+				width = width_el.width();
+				width_el = width_el.parent();
+			}
 
-
-			$(el).parent().append(`<svg id='activityTimeline' width='${width}' height='${height}'></svg>`);
+			if (width == 0) {$(el).parent().parent().width();}
+			$(el).parent().append(`<svg id='activityTimeline' viewbox='0 0 ${width + 30} ${height - 10}'></svg>`);
 			var timeLineRange = [
 					{
 						label: "",
@@ -129,13 +136,23 @@ function exploreTimeline({
 					}
 				];
 
+			var diffTime = timeline.range / (60 * 60 * 24);
+			var timeFormat = diffTime > 600 ? diffTime > 2000 && width < 600 ? "%Y" : "%Y-%m" : "%Y-%m-%d";
+			var tickWidth = (timeFormat.length * 5) + 20;	// Each character is approximately 5 pixels wide
+			var numTicks = Math.ceil( width / tickWidth );
+			numTicks = numTicks > 40 ? 20 : numTicks > 10 ? 10 : numTicks;
+
+			console.log("width: %s, diffTime: %s, timeFormat: %s, tickWidth: %s, numTicks: %s", width, diffTime, timeFormat, tickWidth, numTicks);
 			var timeLineConstruct = d3.timeline()
+				.width(width)
 				.tickFormat({
-					format: d3.timeFormat("%Y-%m-%d"),
+					format: d3.timeFormat(timeFormat),
 					tickTime: d3.timeDays,
-					numTicks: 10,
+					numTicks: numTicks,
 					tickSize: 6})
-				.margin({left: 0, right: 30, top: 0, bottom: 0});
+				.margin({left: 0, right: 0, top: 0, bottom: 0})
+				.resize(true)
+				.range(timeline.range);
 
 			timeline.svg = d3.select("#activityTimeline")
 				.datum(timeLineRange).call(timeLineConstruct);
