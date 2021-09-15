@@ -216,10 +216,12 @@ function initiateLightbox(el) {
 
 	} else {
 
-		if (el.tagName != 'IMG') {
+		if (el.tagName != 'IMG' && $(el).find('img').length == 0) {
 			var img_url = $(el).css('background-image');
 			img_url = /^url\((['"]?)(.*)\1\)$/.exec(img_url);
 			img_url = img_url ? img_url[2] : "";
+		} else if (el.tagName != 'IMG') {
+			var img_url = $(el).find('img').attr("src");
 		} else {
 			var img_url = el.src;
 		}
@@ -305,7 +307,14 @@ var dataColNames = {
 		adm0_a3: "Country Code"
 	}
 }
+function viewWebsite(url) {
+ $("#websitebox iframe").attr("src", url);
+ $("#websitebox_bg, #websitebox").fadeIn(250);
+ $("#websitebox_bg").click(function(){
+ 	$("#websitebox_bg, #websitebox").fadeOut(250);
+ });
 
+}
 /// String compression scripts from: https://stackoverflow.com/questions/4570333/string-compression-in-javascript
 
 function compressString(c){var x='charCodeAt',b,e={},f=c.split(""),d=[],a=f[0],g=256;for(b=1;b<f.length;b++)c=f[b],null!=e[a+c]?a+=c:(d.push(1<a.length?e[a]:a[x](0)),e[a+c]=g,g++,a=c);d.push(1<a.length?e[a]:a[x](0));for(b=0;b<d.length;b++)d[b]=String.fromCharCode(d[b]);return d.join("")}

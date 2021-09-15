@@ -237,7 +237,7 @@ function viewRegionalCoordinationGroups() {
 
 }
 
-function viewAntennaRanges() {
+function viewAntennaRanges(callback) {
 
 	if (typeof motusData.antennas !== "undefined") {
 
@@ -253,7 +253,7 @@ function viewAntennaRanges() {
 		var load = Promise.all( [d3.csv( filePrefix + "antenna-deployments.csv" )] ).then(function(response){
 
 			motusData.antennas = {type: "FeatureCollection", features:
-        response[0].filter( d => d.deploymentStatus != 'terminated' ).map(function(d){
+        response[0]/*.filter( d => d.deploymentStatus != 'terminated' )*/.map(function(d){
 
           var station = motusData.stationDeps.filter( v => v.id == d.recvDeployID );
 
@@ -299,7 +299,7 @@ function viewAntennaRanges() {
 				.style('stroke', '#000')
 				.style('opacity', '0.5')
 				.style('fill', d => antennaColourScale(d.properties.type))
-				.attr('class', 'leaflet-zoom-hide explore-map-antenna explore-map-antenna-range disable-filter')
+				.attr('class', 'leaflet-zoom-hide explore-map-antenna explore-map-antenna-range')
 				.style('stroke-width', '1 px')
 				.style('pointer-events', 'auto')
 				.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'antenna'))
@@ -309,6 +309,7 @@ function viewAntennaRanges() {
 
       // Hide the loading pane
       motusMap.loadingPane();
+      if (typeof callback !== 'undefined') {callback();}
 
 		});
 	}

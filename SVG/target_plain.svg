@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   width="58.208347mm"
+   height="58.20834mm"
+   viewBox="0 0 58.208347 58.20834"
+   version="1.1"
+   stroke="currentColor"
+   id="svg8">
+  <g
+     transform="translate(-2.645827,-3.3125006)">
+    <circle
+       style="fill:none;fill-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4518"
+       cx="32.178452"
+       cy="32.628746"
+       r="20.894449" />
+    <path
+       style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 31.75,21.833333 V 3.3125006"
+       id="path4522"/>
+  </g>
+  <g
+     transform="translate(-2.645827,-3.3125006)">
+    <path
+       style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 42.333333,32.416667 h 18.52084"
+       id="path4522-1" />
+    <path
+       style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 31.75,43 V 61.52084"
+       id="path4522-1-2"/>
+    <path
+       style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 2.645827,32.416667 h 18.52084"
+       id="path4522-1-5"/>
+  </g>
+</svg>

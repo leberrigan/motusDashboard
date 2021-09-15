@@ -74,9 +74,20 @@ function exploreTimeline({
 		},
 		setSlider: function(position, moveSlider = false, setPicker = true, callback) {
 
-			$(el).dragslider( 'values', position);
+			if (typeof position[0] === 'string') {
+				position = [new Date( position[0] ), new Date( position[1] )];
+			}
 
-			position = [new Date( position[0] * 1000 ), new Date( position[1] * 1000 )];
+			if (typeof position[0] === 'object') {
+				$(el).dragslider( 'values', [+position[0]/1000,+position[1]/1000]);
+			} else {
+				$(el).dragslider( 'values', position);
+			}
+
+
+			if (typeof position[0] === 'number') {
+				position = [new Date( position[0] * 1000 ), new Date( position[1] * 1000 )];
+			}
 
 
 			// Set the Motus data filters

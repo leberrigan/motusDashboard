@@ -590,7 +590,7 @@
 						tickFormat.tickWidth = (timeFormat.length * 5) + 20;	// Each character is approximately 5 pixels wide
 						tickFormat.numTicks = Math.ceil( width / tickFormat.tickWidth );
 						tickFormat.numTicks = tickFormat.numTicks > 40 ? 20 : tickFormat.numTicks > 10 ? 10 : tickFormat.numTicks;
-						console.log("width_el: %o, width: %s, diffTime: %s, timeFormat: %s, tickWidth: %s, numTicks: %s", width_el, width, diffTime, tickFormat.format, tickFormat.tickWidth, tickFormat.numTicks);
+				//		console.log("width_el: %o, width: %s, diffTime: %s, timeFormat: %s, tickWidth: %s, numTicks: %s", width_el, width, diffTime, tickFormat.format, tickFormat.tickWidth, tickFormat.numTicks);
 
 						timeline.width(width);
 
