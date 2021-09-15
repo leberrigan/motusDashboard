@@ -97,7 +97,7 @@ siteTrans %>%
 library(lubridate)
 library(tidyverse)
 
-dashboard.dir <- "C:/wamp64/www/Motus/Dashboard/Example station interfaces/data/"
+dashboard.dir <- "C:/wamp64/www/Motus/Dashboard/data/"
 
 dir <- 'E:/Data/'
 
@@ -148,9 +148,9 @@ tagDeps.df %>% head
 
 
 tags.df <- read.csv(paste0(dir, 'tags.csv')) %>%
-  dplyr::select(tagID = id, 
+  dplyr::select(tagID , 
          model, 
-         frequency = nom_freq,
+         frequency = nomFreq,
          manufacturer)
 
 tagDeps2.df <- tagDeps.df %>%
@@ -202,7 +202,7 @@ stations.df <- recvAntDeps.df %>%
             deployID = max(deployID, na.rm = T)) %>%
   filter(!is.na(lat), !is.na(lon))
 
-animals.df <- tagDeps2.df %>% head
+animals.df <- tagDeps2.df %>% 
   group_by(deployID) %>%
   summarise(lat = Mode(lat, na.rm = T),
             lon = Mode(lon, na.rm = T),

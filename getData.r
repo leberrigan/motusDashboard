@@ -83,12 +83,12 @@ dists.df <- read.csv(dashboard.dir %>% paste0('proximal.tags.csv'))
 recvDists.df <- dists.df %>%
   group_by(recvDeployID) %>%
   summarise(localAnimals = paste(tagDeployID, sep = ';', collapse = ';')) %>%
-  rename(id = recvDeployID)
+  rename(deployID = recvDeployID)
 
-recvDeps2.df <- dashboard.dir %>% paste0("recv-deps.csv") %>% read.csv %>% select(-localAnimals) %>%
+recvDeps2.df <- dashboard.dir %>% paste0("recv-deps.csv") %>% read.csv %>% dplyr::select(-localAnimals) %>%
   left_join(recvDists.df)
 
-recvDeps2.df %>% write.csv(dashboard.dir %>% paste0("recv-deps.csv"), row.names = F)
+recvDeps2.df %>% rename(id = deployID) %>% write.csv(dashboard.dir %>% paste0("recv-deps.csv"), row.names = F)
 
 
 ##### Before March 24, 2021

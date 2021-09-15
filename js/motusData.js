@@ -109,13 +109,16 @@ function getMotusData(datasetName) {
 
 	  	if (typeof motusData.animals !== 'undefined') {
 	  		motusData.animals.forEach(function(x){
-	  			x.dtEnd = x.dtEnd == "NA" ? moment().toISOString().substr(0, 10) : x.dtEnd;
 	  			x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
 
 					var colourVal = dataType == 'projects' ? x.projID : dataType == 'regions' ? x.country : dataType == 'stations' ? "other" : dataType == 'species' ? x.species : x.animal;
 
+	  			x.dtEnd = x.dtEnd.length == "NA" ? new Date().toISOString().substr(0, 10) : x.dtEnd;
+	  			x.status = new Date() - new Date(x.dtEnd) > (2 * 24 * 60 * 60 * 1000) ? 'inactive' : 'active';
+	  			x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
 					x.colourVal = colourVal;
 					x.type = "Feature";
+
 	  		});
 
 	  	}
@@ -162,8 +165,9 @@ function getMotusData(datasetName) {
 
 					var colourVal = dataType == 'projects' ? x.projID : dataType == 'regions' ? 'other' : dataType == 'stations' ? "other" : dataType == 'species' ? x.species : x.animal;
 
-	  			x.dtStart = moment(+x.tsStart * 1000).toISOString().substr(0, 10);
-	  			x.dtEnd = x.tsEnd.length == 0 ? moment().toISOString().substr(0, 10) : moment(+x.tsEnd * 1000).toISOString().substr(0, 10);
+	  			x.dtStart = new Date(+x.tsStart * 1000).toISOString().substr(0, 10);
+	  			x.dtEnd = x.tsEnd.length == 0 ? new Date().toISOString().substr(0, 10) : new Date(+x.tsEnd * 1000).toISOString().substr(0, 10);
+	  			x.status = new Date() - new Date(x.dtEnd) > (2 * 24 * 60 * 60 * 1000) ? 'inactive' : 'active';
 	  			x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
 					x.colourVal = colourVal;
 					x.type = "Feature";

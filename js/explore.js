@@ -24,17 +24,20 @@ Current order:
 //
 //	Global variables
 //
-var speciesPhotos = ["SESA.png", "SAND.jpg", "BCNH.jpg", "YBCU.jpg", "BLPW.jpg", "CHSP.jpg", "DICK.jpg", "MAWA.jpg", "TRES.jpg", "WCSP.jpg"];
-var stationPhotos = ["SABLE_WEST_SPIT.jpg", "PUGWASH.jpg", "PANAMA_SEWAGE.jpg", "PARACAS.jpg"];
+var speciesPhotos = ["red-necked phalarope.jpg", "snow bunting.jpg", "semipalmated plover.jpg", "lincoln's sparrow.jpg", "cape may warbler.jpg", "semipalmated sandpiper.jpg", "eastern phoebe.jpg", "sanderling.jpg", "black-crowned night-heron.jpg", "yellow-billed cuckoo.jpg", "blackpoll warbler.jpg", "chipping sparrow.jpg", "dickcissel.jpg", "magnolia warbler.jpg", "tree swallow.jpg", "white-crowned sparrow.jpg"];
+var stationPhotos = ["sable west spit.jpg", "pugwash.jpg", "panama sewage plant.jpg", "reserva nacional paracas.jpg", "nahant.jpg"];
+
+var devText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
 
 var icons = {
 	/*	species: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="-50 0 900 400"><path d="m 593.63776,191.06651 -159.1803,45.46998 3.019,6.13 46.529,68.677 -2.439,5.834 -81.503,31.964 -82.23705,-31.992 -2.434,-5.803 46.52405,-68.701 2.95,-5.975 L 208.32143,191.0665 -44.302404,223.18575 61.054237,124.39961 208.32143,79.074162 l 140.55903,6.86332 15.3948,-13.13068 11.5769,-34.43522 18.8475,-13.58332 3.30134,-24.82593528 2.17411,-2.36971272 2.07904,2.47033816 3.38371,24.70155984 18.5618,13.77773 10.0921,32.89878 17.2207,14.50546 142.1253,-6.87232 150.64264,45.325448 106.87955,99.12663 z"/></svg>',*/
-	animals: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFFFFF" stroke="#000000" stroke-width="20" viewBox="125 -10 250 500"><path d="m 307.38806,152.71231 v 163.57 c 0,8.284 -6.716,15 -15,15 -41.28149,-0.71533 -47.28327,1.62781 -80,0 -8.284,0 -15,-6.716 -15,-15 v -164.459 c -16.587,-15.09 -27,-36.85 -27,-61.041001 0,-45.563 36.937,-82.5 82.5,-82.5 45.563,0 82.5,36.937 82.5,82.5 0,24.672001 -10.834,46.811001 -28,61.930001 z" /><path d="M 251.05287,334.93644 V 488.58051"/></svg>',
+	animals: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFFFFF" stroke="currentColor" stroke-width="20" viewBox="125 -10 250 500"><path d="m 307.38806,152.71231 v 163.57 c 0,8.284 -6.716,15 -15,15 -41.28149,-0.71533 -47.28327,1.62781 -80,0 -8.284,0 -15,-6.716 -15,-15 v -164.459 c -16.587,-15.09 -27,-36.85 -27,-61.041001 0,-45.563 36.937,-82.5 82.5,-82.5 45.563,0 82.5,36.937 82.5,82.5 0,24.672001 -10.834,46.811001 -28,61.930001 z" /><path d="M 251.05287,334.93644 V 488.58051"/></svg>',
 	animate: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="explore-animate-btn tips" alt="Animate tracks" viewBox="0 0 16 16"><path d="M 13.206 7.5 L 4.5 2.4495 v 10.101 L 13.206 7.5 z m 1.188 -1.044 a 1.203 1.203 90 0 1 0 2.088 l -9.5445 5.538 C 4.0695 14.535 3 14.0175 3 13.038 V 1.962 c 0 -0.9795 1.0695 -1.497 1.8495 -1.044 l 9.5445 5.538 z"/></svg>',
 	camera: '<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" id="svg8" version="1.1" viewBox="0 0 59.208336 38.041672" height="38.041672mm" width="59.208336mm"> <defs id="defs2" /> <metadata id="metadata5"> <rdf:RDF> <cc:Work rdf:about=""> <dc:format>image/svg+xml</dc:format> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" /> <dc:title></dc:title> </cc:Work> </rdf:RDF> </metadata> <g transform="translate(-52.416666,-121.875)" id="layer1"> <path id="path4520" d="m 52.916667,156.77083 -10e-7,-23.8125 c 0.07609,-3.35273 1.582589,-5.35555 5.291667,-5.29166 H 71.4375 c 0.946943,-2.17074 0.246566,-4.80156 3.96875,-5.29167 h 13.229167 c 2.97845,0.037 3.387115,2.75455 3.96875,5.29167 h 13.229163 c 3.90069,-0.0631 5.18139,2.11388 5.29167,5.29166 v 23.8125 c -0.18623,1.7734 -1.22238,2.43252 -2.59859,2.64584 H 55.5625 c -1.892818,-0.18261 -2.402997,-1.32175 -2.645833,-2.64584 z" style="fill:none;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" /> <circle r="11.49465" cy="144.18936" cx="81.612877" id="path4524" style="fill:none;fill-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" /> <circle r="8.2983761" cy="144.20241" cx="81.675636" id="path4524-5" style="fill:none;fill-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" /> </g></svg>',
 	countries: '<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 27 27"><g transform="translate(0,-270.54167)"> <path d="m 1.3229166,294.35417 7.9375,-2.64583 7.9374994,2.64583 7.9375,-2.64583 V 273.1875 l -7.9375,2.64584 -7.9374994,-2.64584 -7.9375,2.64584 z" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> <path d="m 9.2604166,273.1875 v 18.52084" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> <path d="M 17.197916,294.35417 V 275.83334" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> </g></svg>',
 	download: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 100 100"><g transform="translate(0,-77.196699)"><path style="stroke-width:0.22810185" d="M 71.184445,127.20913 H 58.681499 v -22.92514 c 0,-0.60812 -0.196624,-1.10698 -0.586906,-1.49794 -0.388685,-0.38983 -0.888457,-0.58577 -1.495664,-0.58577 H 44.093702 c -0.607663,0 -1.107206,0.19594 -1.497945,0.58577 -0.390967,0.39119 -0.586222,0.88982 -0.586222,1.49794 v 22.92423 H 29.50522 c -0.954834,0 -1.606293,0.43454 -1.95392,1.30224 -0.347627,0.82596 -0.194799,1.58462 0.455976,2.2801 l 20.840068,20.83962 c 0.478101,0.39028 0.976961,0.58554 1.497945,0.58554 0.5203,0 1.019843,-0.19526 1.498402,-0.58554 l 20.774831,-20.77392 c 0.433849,-0.52076 0.650318,-1.0438 0.650318,-1.56296 0,-0.6072 -0.195027,-1.10697 -0.586906,-1.49862 -0.389826,-0.39052 -0.889369,-0.58555 -1.497489,-0.58555 z" /><path d="m 10.924903,167.89927 80.108917,0.42385" style="fill:none;stroke:#000000;stroke-width:9.12407398;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:1;stroke-dasharray:none;stroke-opacity:1" /></g></svg>',
-	detections: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFFFFF" stroke="#000000" stroke-width="20" viewBox="0 0 100 100"><defs> <clipPath id="clipPath4716" clipPathUnits="userSpaceOnUse"> <path d="M 376.06161,376.06303 V 1.8911244 H 363.86239 L 189.05379,176.69972 14.245251,1.8911244 H 1.8897865 V 376.06303 H 14.089005 L 189.05379,201.09819 364.01863,376.06303 Z" style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.99999994;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" /> </clipPath> </defs> <metadata > <rdf:RDF> <cc:Work rdf:about=""> <dc:format>image/svg+xml</dc:format> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" /> <dc:title></dc:title> </cc:Work> </rdf:RDF> </metadata> <g style="display:inline" /> <g style="display:inline" transform="translate(-49.999997,-147)"> <circle r="12.5" cy="197" cx="100" style="fill:#000000;fill-opacity:1;stroke-width:0.50107378;stroke-miterlimit:4;stroke-dasharray:none" /> <path clip-path="url(#clipPath4716)" id="path815-5" transform="matrix(0.26458333,0,0,0.26458333,49.999997,147)" d="M 188.97656,9.4570312 A 179.51911,179.5191 0 0 0 9.4570312,188.97656 179.51911,179.5191 0 0 0 188.97656,368.49609 179.51911,179.5191 0 0 0 368.49609,188.97656 179.51911,179.5191 0 0 0 188.97656,9.4570312 Z m 0,70.8574218 A 108.66142,108.66142 0 0 1 297.63867,188.97656 108.66142,108.66142 0 0 1 188.97656,297.63867 108.66142,108.66142 0 0 1 80.314453,188.97656 108.66142,108.66142 0 0 1 188.97656,80.314453 Z" style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:18.91456032;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" /> </g></svg>',
+	detections: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" stroke-width="20" stroke="currentColor" viewBox="0 0 100 100">  <defs> <clipPath id="clipPath4716" clipPathUnits="userSpaceOnUse"> <path d="M 376.06161,376.06303 V 1.8911244 H 363.86239 L 189.05379,176.69972 14.245251,1.8911244 H 1.8897865 V 376.06303 H 14.089005 L 189.05379,201.09819 364.01863,376.06303 Z" style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.99999994;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"></path> </clipPath> </defs><g style="display:inline"></g> <g style="display:inline" transform="translate(-49.999997,-147)"> <circle r="12.5" cy="197" cx="100" style="fill:;fill-opacity:1;stroke-width:0.50107378;stroke-miterlimit:4;stroke-dasharray:none"></circle> <path clip-path="url(#clipPath4716)" id="path815-5" transform="matrix(0.26458333,0,0,0.26458333,49.999997,147)" d="M 188.97656,9.4570312 A 179.51911,179.5191 0 0 0 9.4570312,188.97656 179.51911,179.5191 0 0 0 188.97656,368.49609 179.51911,179.5191 0 0 0 368.49609,188.97656 179.51911,179.5191 0 0 0 188.97656,9.4570312 Z m 0,70.8574218 A 108.66142,108.66142 0 0 1 297.63867,188.97656 108.66142,108.66142 0 0 1 188.97656,297.63867 108.66142,108.66142 0 0 1 80.314453,188.97656 108.66142,108.66142 0 0 1 188.97656,80.314453 Z" style="fill:none;fill-opacity:1;stroke-width:18.91456032;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"></path> </g></svg>',
 	expand:'<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16"><path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>',
 	edit: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" class="explore-map-edit-btn tips" alt="Open station planner">'+
 	  '<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>'+
@@ -46,26 +49,38 @@ var icons = {
 	  '<path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>'+
 	'</svg>',
 	lastData: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/><path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/><path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/></svg>',
-	map: '<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 27 27"><g transform="translate(0,-270.54167)"> <path d="m 1.3229166,294.35417 7.9375,-2.64583 7.9374994,2.64583 7.9375,-2.64583 V 273.1875 l -7.9375,2.64584 -7.9374994,-2.64584 -7.9375,2.64584 z" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> <path d="m 9.2604166,273.1875 v 18.52084" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> <path d="M 17.197916,294.35417 V 275.83334" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> </g></svg>',
-	menu: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFFFFF" stroke="#000000" stroke-width="20" viewBox="0 0 100 100"><defs id="defs4"> <style id="style2"> .cls-1 { fill: #000; fill-rule: evenodd; } </style> </defs> <path d="M 97.206704,100 H 2.7932961 C 1.2505587,100 0,98.77005 0,97.25275 V 81.86813 C 0,80.35082 1.2505587,79.12088 2.7932961,79.12088 H 97.206704 C 98.749441,79.12088 100,80.35082 100,81.86813 V 97.25275 C 100,98.77005 98.749441,100 97.206704,100 Z m 0,-39.56044 H 2.7932961 C 1.2505587,60.43956 0,59.20962 0,57.69231 V 42.30769 C 0,40.79038 1.2505587,39.56044 2.7932961,39.56044 H 97.206704 c 1.542737,0 2.793296,1.22994 2.793296,2.74725 v 15.38462 c 0,1.51731 -1.250559,2.74725 -2.793296,2.74725 z m 0,-39.56044 H 2.7932961 C 1.2505587,20.87912 0,19.64918 0,18.13187 V 2.74725 C 0,1.22995 1.2505587,0 2.7932961,0 H 97.206704 C 98.749441,0 100,1.22995 100,2.74725 v 15.38462 c 0,1.51731 -1.250559,2.74725 -2.793296,2.74725 z" class="cls-1" id="path6" inkscape:connector-curvature="0" style="fill:#000000;fill-rule:evenodd;stroke-width:0.27701786" /></svg>',
+	map: '<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" stroke="currentColor" viewBox="0 0 27 27"><g transform="translate(0,-270.54167)"> <path d="m 1.3229166,294.35417 7.9375,-2.64583 7.9374994,2.64583 7.9375,-2.64583 V 273.1875 l -7.9375,2.64584 -7.9374994,-2.64584 -7.9375,2.64584 z" style="fill:none;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> <path d="m 9.2604166,273.1875 v 18.52084" style="fill:none;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> <path d="M 17.197916,294.35417 V 275.83334" style="fill:none;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> </g></svg>',
+	menu: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 100 100"> <path d="M 97.206704,100 H 2.7932961 C 1.2505587,100 0,98.77005 0,97.25275 V 81.86813 C 0,80.35082 1.2505587,79.12088 2.7932961,79.12088 H 97.206704 C 98.749441,79.12088 100,80.35082 100,81.86813 V 97.25275 C 100,98.77005 98.749441,100 97.206704,100 Z m 0,-39.56044 H 2.7932961 C 1.2505587,60.43956 0,59.20962 0,57.69231 V 42.30769 C 0,40.79038 1.2505587,39.56044 2.7932961,39.56044 H 97.206704 c 1.542737,0 2.793296,1.22994 2.793296,2.74725 v 15.38462 c 0,1.51731 -1.250559,2.74725 -2.793296,2.74725 z m 0,-39.56044 H 2.7932961 C 1.2505587,20.87912 0,19.64918 0,18.13187 V 2.74725 C 0,1.22995 1.2505587,0 2.7932961,0 H 97.206704 C 98.749441,0 100,1.22995 100,2.74725 v 15.38462 c 0,1.51731 -1.250559,2.74725 -2.793296,2.74725 z" style="fill-rule:evenodd;stroke-width:0.27701786" /></svg>',
 	pause: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="explore-pause-btn" alt="Pause" viewBox="0 0 16 16"><path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/></svg>',
 	pdf: '<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 41.659309 29.902843"><g inkscape:label="Layer 1" inkscape:groupmode="layer" transform="translate(-70.25338,-154.21364)"> <text xml:space="preserve" x="73.117455" y="170.28175" transform="scale(0.92485882,1.0812461)"><tspan sodipodi:role="line" x="73.117455" y="170.28175" style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:44.45785141px;font-family:\'Tw Cen MT Condensed\';-inkscape-font-specification:\'Tw Cen MT Condensed, Normal\';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:1.11144626">PDF</tspan></text> </g></svg>',
 	play: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="explore-play-btn" alt="Play" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg>',
-	projects: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">'+
+	projects: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" stroke="currentColor" viewBox="0 0 16 16">'+
 	  '<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>'+
 	  '<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>'+
 	'</svg>',
 	regions: "",
 	remove: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/></svg>',
 	species: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="70 160 70 50"><path d="m 107.67084,195.05271 2.93997,-5.47902 5.47902,2.20496 10.95805,-1.87087 10.02261,-7.55037 2.73951,-7.61718 -2.87315,-7.34991 -16.50389,4.54358 -8.61944,0.40091 -1.33635,-0.60136 -2.40542,-7.48355 -1.73725,-1.36975 -1.06908,-2.27179 -1.03031,2.17155 -1.73725,1.36975 -2.40542,7.48355 -1.33635,0.60136 -8.61944,-0.40091 -16.50389,-4.54358 -2.87315,7.34991 2.73951,7.61718 10.02261,7.55037 10.95805,1.87088 5.47902,-2.20497 2.93997,5.47903 -0.40089,7.08264 -0.63476,4.57699 1.97111,2.37202 1.43117,-2.07132 1.46998,2.17157 1.97111,-2.37202 -0.63476,-4.57699 z" style="stroke-width:3px;"></path></svg>',
-	stations: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="18" height="20" viewBox="0 0 389.923 481.915"> <defs> <style>.cls-1 { stroke: #000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 20px; fill: none; fill-rule: evenodd; } </style> </defs> <path d="M358.000,145.000 L358.000,88.000 L280.000,88.000 L280.000,127.000 L270.000,127.000 L270.000,88.000 L197.000,88.000 L197.000,210.720 L280.003,455.303 L275.586,459.008 L232.000,330.572 L232.000,338.000 L197.000,338.000 L197.000,404.988 L187.000,404.988 L187.000,338.000 L150.007,338.000 L108.464,460.008 L103.997,456.274 L187.000,212.504 L187.000,88.000 L114.000,88.000 L114.000,127.000 L104.000,127.000 L104.000,88.000 L30.000,88.000 L30.000,152.000 L20.000,152.000 L20.000,20.000 L30.000,20.000 L30.000,78.000 L104.000,78.000 L104.000,40.000 L114.000,40.000 L114.000,78.000 L187.000,78.000 L187.000,57.012 L197.000,57.012 L197.000,78.000 L270.000,78.000 L270.000,40.000 L280.000,40.000 L280.000,78.000 L358.000,78.000 L358.000,20.000 L368.000,20.000 L368.000,78.000 L368.000,88.000 L368.000,145.000 L358.000,145.000 ZM197.000,328.000 L231.127,328.000 L197.000,227.438 L197.000,328.000 ZM187.000,229.355 L153.412,328.000 L187.000,328.000 L187.000,229.355 Z" transform="translate(10.96 10.96)" class="cls-1"/></svg>',
-	station: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="18" height="20" viewBox="0 0 389.923 481.915"> <defs> <style>.cls-1 { stroke: #000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 20px; fill: none; fill-rule: evenodd; } </style> </defs> <path d="M358.000,145.000 L358.000,88.000 L280.000,88.000 L280.000,127.000 L270.000,127.000 L270.000,88.000 L197.000,88.000 L197.000,210.720 L280.003,455.303 L275.586,459.008 L232.000,330.572 L232.000,338.000 L197.000,338.000 L197.000,404.988 L187.000,404.988 L187.000,338.000 L150.007,338.000 L108.464,460.008 L103.997,456.274 L187.000,212.504 L187.000,88.000 L114.000,88.000 L114.000,127.000 L104.000,127.000 L104.000,88.000 L30.000,88.000 L30.000,152.000 L20.000,152.000 L20.000,20.000 L30.000,20.000 L30.000,78.000 L104.000,78.000 L104.000,40.000 L114.000,40.000 L114.000,78.000 L187.000,78.000 L187.000,57.012 L197.000,57.012 L197.000,78.000 L270.000,78.000 L270.000,40.000 L280.000,40.000 L280.000,78.000 L358.000,78.000 L358.000,20.000 L368.000,20.000 L368.000,78.000 L368.000,88.000 L368.000,145.000 L358.000,145.000 ZM197.000,328.000 L231.127,328.000 L197.000,227.438 L197.000,328.000 ZM187.000,229.355 L153.412,328.000 L187.000,328.000 L187.000,229.355 Z" transform="translate(10.96 10.96)" class="cls-1"/></svg>',
+	stations: '<svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="18" height="20" viewBox="0 0 389.923 481.915">  <path d="M358.000,145.000 L358.000,88.000 L280.000,88.000 L280.000,127.000 L270.000,127.000 L270.000,88.000 L197.000,88.000 L197.000,210.720 L280.003,455.303 L275.586,459.008 L232.000,330.572 L232.000,338.000 L197.000,338.000 L197.000,404.988 L187.000,404.988 L187.000,338.000 L150.007,338.000 L108.464,460.008 L103.997,456.274 L187.000,212.504 L187.000,88.000 L114.000,88.000 L114.000,127.000 L104.000,127.000 L104.000,88.000 L30.000,88.000 L30.000,152.000 L20.000,152.000 L20.000,20.000 L30.000,20.000 L30.000,78.000 L104.000,78.000 L104.000,40.000 L114.000,40.000 L114.000,78.000 L187.000,78.000 L187.000,57.012 L197.000,57.012 L197.000,78.000 L270.000,78.000 L270.000,40.000 L280.000,40.000 L280.000,78.000 L358.000,78.000 L358.000,20.000 L368.000,20.000 L368.000,78.000 L368.000,88.000 L368.000,145.000 L358.000,145.000 ZM197.000,328.000 L231.127,328.000 L197.000,227.438 L197.000,328.000 ZM187.000,229.355 L153.412,328.000 L187.000,328.000 L187.000,229.355 Z" transform="translate(10.96 10.96)" style="stroke-width: 10;"></path></svg>',
+	station: '<svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="18" height="20" viewBox="0 0 389.923 481.915">  <path d="M358.000,145.000 L358.000,88.000 L280.000,88.000 L280.000,127.000 L270.000,127.000 L270.000,88.000 L197.000,88.000 L197.000,210.720 L280.003,455.303 L275.586,459.008 L232.000,330.572 L232.000,338.000 L197.000,338.000 L197.000,404.988 L187.000,404.988 L187.000,338.000 L150.007,338.000 L108.464,460.008 L103.997,456.274 L187.000,212.504 L187.000,88.000 L114.000,88.000 L114.000,127.000 L104.000,127.000 L104.000,88.000 L30.000,88.000 L30.000,152.000 L20.000,152.000 L20.000,20.000 L30.000,20.000 L30.000,78.000 L104.000,78.000 L104.000,40.000 L114.000,40.000 L114.000,78.000 L187.000,78.000 L187.000,57.012 L197.000,57.012 L197.000,78.000 L270.000,78.000 L270.000,40.000 L280.000,40.000 L280.000,78.000 L358.000,78.000 L358.000,20.000 L368.000,20.000 L368.000,78.000 L368.000,88.000 L368.000,145.000 L358.000,145.000 ZM197.000,328.000 L231.127,328.000 L197.000,227.438 L197.000,328.000 ZM187.000,229.355 L153.412,328.000 L187.000,328.000 L187.000,229.355 Z" transform="translate(10.96 10.96)" style="stroke-width: 10;"></path></svg>',
 	stop: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="explore-stop-btn" alt="Stop" viewBox="0 0 16 16"><path d="M5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 11V5A1.5 1.5 0 0 1 5 3.5z"/></svg>',
 	share: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/></svg>',
 	search: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="explore-search-btn tips" alt="Search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>',
-	tags: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFFFFF" stroke="#000000" stroke-width="20" viewBox="125 -10 250 500"><path d="m 307.38806,152.71231 v 163.57 c 0,8.284 -6.716,15 -15,15 -41.28149,-0.71533 -47.28327,1.62781 -80,0 -8.284,0 -15,-6.716 -15,-15 v -164.459 c -16.587,-15.09 -27,-36.85 -27,-61.041001 0,-45.563 36.937,-82.5 82.5,-82.5 45.563,0 82.5,36.937 82.5,82.5 0,24.672001 -10.834,46.811001 -28,61.930001 z" /><path d="M 251.05287,334.93644 V 488.58051"/></svg>',
+	tags: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFFFFF" stroke="currentColor" stroke-width="20" viewBox="125 -10 250 500"><path d="m 307.38806,152.71231 v 163.57 c 0,8.284 -6.716,15 -15,15 -41.28149,-0.71533 -47.28327,1.62781 -80,0 -8.284,0 -15,-6.716 -15,-15 v -164.459 c -16.587,-15.09 -27,-36.85 -27,-61.041001 0,-45.563 36.937,-82.5 82.5,-82.5 45.563,0 82.5,36.937 82.5,82.5 0,24.672001 -10.834,46.811001 -28,61.930001 z" /><path d="M 251.05287,334.93644 V 488.58051"/></svg>',
+	target: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" stroke="currentColor" stroke-width="20" viewBox="0 0 225 225"><?xml version="1.0" encoding="UTF-8" standalone="no"?> <!-- Created with Inkscape (http://www.inkscape.org/) --> <svg xmlns="http://www.w3.org/2000/svg" width="58.208347mm" height="58.20834mm" viewBox="0 0 58.208347 58.20834" version="1.1" stroke="currentColor" id="svg8"> <g transform="translate(-2.645827,-3.3125006)"> <circle style="fill:none;fill-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" id="path4518" cx="32.178452" cy="32.628746" r="20.894449" /> <path style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="M 31.75,21.833333 V 3.3125006" id="path4522"/> </g> <g transform="translate(-2.645827,-3.3125006)"> <path style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 42.333333,32.416667 h 18.52084" id="path4522-1" /> <path style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="M 31.75,43 V 61.52084" id="path4522-1-2"/> <path style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 2.645827,32.416667 h 18.52084" id="path4522-1-5"/> </g> </svg> ',
 	timeline: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="explore-timeline-btn tips" alt="Timeline" viewBox="0 0 16 16"><path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/><path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/><path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/></svg>',
 	track: '<svg   xmlns:dc="http://purl.org/dc/elements/1.1/"   xmlns:cc="http://creativecommons.org/ns#"   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   version="1.1"   viewBox="0 0 23.052618 41.573452"   height="23"   width="18">  <defs     id="defs2">    <marker       style="overflow:visible"       id="marker1384"       refX="0"       refY="0"       orient="auto">      <path         transform="matrix(0.4,0,0,0.4,2.96,0.4)"         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"         id="path1382" />    </marker>    <marker       style="overflow:visible"       id="DotM"       refX="0"       refY="0"       orient="auto">      <path         transform="matrix(0.4,0,0,0.4,2.96,0.4)"         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"         id="path910" />    </marker>    <marker       style="overflow:visible"       id="DotL"       refX="0"       refY="0"       orient="auto">      <path         transform="matrix(0.8,0,0,0.8,5.92,0.8)"         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"         id="path907" />    </marker>  </defs>  <g     transform="translate(-32.112052,-59.290716)"     id="layer1">    <path       d="M 34.395833,98.5625 52.916666,61.520831"       style="fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:3.29999995;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#DotM);marker-end:url(#marker1384)" />  </g></svg>'
+}
+
+var conservationStatus = {
+	DD: "Data deficient",
+	LC: "Least concern",
+	NT: "Near threatened",
+	VU: "Vulnerable",
+	EN: "Endangered",
+	CR: "Critically endangered",
+	EW: "Extinct in the wild",
+	EX: "Extinct"
 }
 
 var icon_paths = {
@@ -247,7 +262,7 @@ $(document).ready(function(){
 	filePrefix = window.location.hostname == 'localhost' || window.location.hostname == 'leberrigan.github.io' ? 'data/' : window.location.hostname.includes('motus.org') ? "https://" + window.location.hostname + "/wp-content/uploads/2021/09/" : "https://" + window.location.hostname + "/wp-content/uploads/";
 
 	// Change the document title based on the view and data type
-	document.title = "Motus - " + (exploreType == 'main' ? ( "Explore" + firstToUpper(dataType) ) : ( firstToUpper(exploreType) + " summary" ) );
+	document.title = "Motus - " + (exploreType == 'main' ? ( "Explore " + firstToUpper(dataType) ) : ( firstToUpper(exploreType) + " summary" ) );
 
 	// Capture any changes in URL
 	window.onhashchange = detectNavigation;
@@ -749,7 +764,7 @@ function populateExploreControls() {
 																	"</select>") :
 																	("<button class='submit_btn' onclick='exploreControls(this);'>View deployments</button>")
 			} else if (x == 'pdf') {
-				controlContent += "<input type='button' onclick='exploreControls(this.parentElement.parentElement);' value='Agree and Download' />";
+				controlContent += "<input type='button' onclick='exploreControls(this.parentElement);' value='Agree and Download' />";
 			} else if (x == 'timeline') {
 				controlContent += "<div id='dateSlider'>"+
 															"<div class='slider visible'><div id='custom-handle-1' class='ui-slider-handle'></div><div id='custom-handle-2' class='ui-slider-handle'></div></div>"+
@@ -1051,7 +1066,7 @@ function exploreControls(el, opt) {
 
 				$("#explore_card_profiles .explore-card-profile-data").each(function(i){
 
-					vals.push( $(this).children("span").text() );
+					vals.push( $(this).children(".explore-card-data-value").text() );
 					vars.push( $(this).children(".explore-card-data-label").text() );
 
 				});
@@ -1488,8 +1503,8 @@ function loadDataTable(tbl, columns, options, onEvent) {
 			}},
 			{className: 'dt-center', data: "created_dt", title: "Start date"},
 			{className: "dt-center", data: "stations", title: "Stations deployed", "render": {_: "display", sort: "order"}},
-			{className: "dt-center", data: "animals", title: "Stations deployed", "render": {_: "display", sort: "order"}},
-			{className: "dt-center", data: "species", title: "Stations deployed", "render": {_: "display", sort: "order"}},
+			{className: "dt-center", data: "animals", title: "Animals tagged", "render": {_: "display", sort: "order"}},
+			{className: "dt-center", data: "species", title: "Species tagged", "render": {_: "display", sort: "order"}},
 			{data: "fee_id", title: "Project group", "createdCell": function(td, cdata, rdata){
 				$(td).html(
 					`<a href='javascript:void(0);' onclick='viewProfile("projectsGroup", ["${rdata.fee_id}"]);'>${rdata.fee_id}</a>`
@@ -1568,94 +1583,6 @@ function addProfile(profile_id, dataset) {
 
 					updateURL(true);
 
-					/*
-		dataset = typeof dataset === 'undefined' ? (exploreType == 'species' ? 'animals' : exploreType) : dataset;
-
-		var filterName = exploreType != 'species' && exploreType != 'regions' ? (exploreType != 'species' ? 'id' : 'id') : exploreType;
-
-
-		if (dataset == 'stations') {
-
-			if (typeof filters.options.stations[profile_id] === 'undefined') {
-				profile_id = motusData.stationDepsByName.get(motusData.stationDeps.filter(x=>x.id==profile_id)[0].name)[0].id;
-				//console.log(profile_id);
-
-
-			var stationName = filters.options.stations[profile_id][0];
-			var subset = motusData.stationDepsByName.get(stationName);
-			motusFilter.stations = motusFilter.stations.concat([profile_id]).filter(onlyUnique);
-
-		//	updateURL(true);
-
-		} else if (dataset == 'projects') {
-
-			motusFilter.projects: motusFilter.projects.concat([profile_id]).filter(onlyUnique);
-		//	updateURL(true);
-
-		} else if (dataset == 'regions') {
-			motusFilter.regions. motusFilter.regions.concat([profile_id]).filter(onlyUnique);
-		//	updateURL(true);
-		//	return;
-		} else {
-			var stationName = filters.options[exploreType][profile_id];
-			var subset = motusData[dataset].filter(function(d){
-
-				return profile_id == d[filterName];
-
-			});
-		}
-
-
-		if (subset.length > 0) {
-
-			var status = ( exploreType == 'species' ? {
-														animals: [subset.length],
-														projects: [subset.map(x => x.projID).filter(onlyUnique).length],
-														stations: [96],
-														conservation: ['NT',"Near-threatened"]
-													}
-					   : ( exploreType == 'animals' ? {
-														species: [subset.length],
-														projects: [subset.map(x => x.projID).filter(onlyUnique).length],
-														stations: [96],
-														conservation: ['NT',"Near-threatened"]
-													}
-					   : ( exploreType == 'stations' ? {
-														animals: [d3.sum(subset, d => d.nAnimals)],
-											//			projectID: [subset[0].projID],
-														species: [d3.sum(subset, d => d.nSpp)],
-														lastData: [Math.round( subset[subset.length-1].lastData )],
-														status: [subset[subset.length-1].status]
-													}
-					   : 							{
-														animals: [subset[0].nAnimals],
-														projectID: [subset[0].projID],
-														species: [subset[0].nSpp],
-														lastData: [Math.round( subset[0].lastData )]
-													}
-						)	)	)
-
-			// Photos: my thought here is that eventually we'd have default photo for each species.
-			// 		- Perhaps some day we users could upload an image for a deployment and it would replace this default.
-
-
-			addExploreCard({
-				data: subset,
-				id: profile_id,
-				name: stationName,
-				status: status,
-				photo: exploreType == 'species' ? 'https://i.postimg.cc/jdFJcfF1/Screenshot-2020-11-10-110730.png' : 'https://i.postimg.cc/2yLppgyn/20190717-130907-1.jpg'
-			});
-
-			updateData();
-
-		} else {
-			console.warn(firstToUpper(exploreType) + ' ' + filterName + ' ' + profile_id + ' could not be found!');
-
-		}
-
-		$("body").trigger('click');
-		*/
 }
 
 
@@ -1665,9 +1592,12 @@ function addExploreCardProfile(profile) {
 
 	// define the profile DOM structure
 	var struct = "grid";
-  var data = profile.data.filter(d => d.value > 0 || profile.data.length <= 4).map((d, i) => `<div class='explore-card-profile-data explore-card-data${i + 1}' onclick='showProfileData("${profile.id}", "${d.type}")'>${d.icon}<div class='explore-card-data-label'>${d.label}</div><div class='explore-card-data-value'>${d.value}</div></div>`);
-
-	var infoText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+  var data = profile.data.filter(d => d.value > 0 || isNaN(d.value) || profile.data.length <= 4)
+										.map((d, i) => `<div class='explore-card-profile-data explore-card-data${i + 1}' onclick='showProfileData("${profile.id}", "${d.type}")'>`+
+																			`${d.icon || ""}`+
+																			`<div class='explore-card-data-label'>${d.label}</div>`+
+																			`<div class='explore-card-data-value'>${d.value}</div>`+
+																		`</div>`);
 
 
 	var toAppend = `<div class='explore-card-profile ${struct}-container' id='explore_card_profile_${profile.id}'>`+
@@ -1679,12 +1609,12 @@ function addExploreCardProfile(profile) {
 											`<div class='btn explore-card-remove remove_btn tips' alt='Remove this ${dataType=="species"?dataType:dataType.substring(0, dataType.length - 1)}'>${icons.remove}</div>`+
 										`</div>`+
 										`<div class='explore-profile-summary-wrapper'>`+
-										 	data.join('')+
+										 	data.join('')+/*
   										`<div class='explore-profile-info'>`+
 												'<div class="expand_btn"></div>'+
   										 	infoText+
   										 `</div>`+
-										 `</div>`+
+										 `</div>`+*/
 										// "<div class='explore-card-remove explore-card-subtext' alt='Remove "+exploreType+"'>"+'<div class="explore-card-remove-label">Remove</div>' + icons.remove +"</div>"+
 									"</div>";
 
@@ -1696,14 +1626,28 @@ function showProfileData(profileID, varName) {
 
 	console.log("ProfileID: %s, varName: %s", profileID, varName);
 
-	$(`.explore-card-profiles-tabs .explore-card-${varName == 'animals' || varName == 'species'? 'speciesHits' : varName == 'stations' ? 'stationHits' : varName == 'countries' ? 'map' : varName == 'detections' ? 'tagHits' : varName == 'projects' ? 'projectsTable' : varName }-tab`).click();
 
+	varName = dataTypes.filter(x=>varName.toLowerCase().includes(x.toLowerCase()))[0].toLowerCase();
+
+
+	var tabName = (varName == 'animals' || varName == 'species') ? 'speciesHits' : varName == 'stations' ? 'stationHits' : varName == 'countries' ? 'map' : varName == 'detections' ? 'tagHits' : varName == 'projects' ? 'projectsTable' : varName;
+
+	var subSelectionName = ['detected', 'tagged'].filter(x=>varName.toLowerCase().includes(x.toLowerCase()))[0];
+
+	subSelectionName = subSelectionName ? subSelectionName : (dataType=='species'&&varName=='projects') ? 'with tag deployments' : false;
+
+	console.log("tabName: %s, varName: %s, subSelectionName: %s", tabName, varName, subSelectionName);
+	$(`.explore-card-profiles-tabs .explore-card-${tabName}-tab`).click();
+
+	if (subSelectionName) {
+		$(`#explore_card_${tabName} .explore-card-header select`).val(`${firstToUpper(varName)} ${subSelectionName}`).trigger('change');
+	}
 }
 
 function addExploreCard(card) {
 
 
-	if (typeof card.data === 'object') {
+	if (false) {//typeof card.summary === 'object') {
 
 		if ($("#explore_card_profile_" + card.id).length == 0) {
 
@@ -1711,31 +1655,20 @@ function addExploreCard(card) {
 
 				var profiles_header = "";
 
-				var headers = (exploreType == 'species' ? ['Name', 'Animals', 'Projects', 'Stations', 'Conservation Status'] :
-				(exploreType == 'regions' ? ['Name', 'Animals', 'Species', 'Projects', 'Stations'] :
-				(exploreType == 'projects' ? ['Name', 'Animals', 'Countries', 'Species', 'Stations'] : ['Name', 'Animals', 'Species', 'Last data', 'Status'])));
+				$("#exploreContent .explore-card-wrapper").append(`<div class='explore-card' id='explore_card_profiles'>`+
+																														`<div class='explore-card-add explore-card-${dataType}' alt='Add a ${dataType=='species'?dataType:dataType.slice(0,-1)}'>`
+																															`<select class='explore-card-add-${dataType}' data-placeholder='Select a ${dataType=='species'?dataType:dataType.slice(0,-1)}'>`+
+																																`<option></option>`+
+																															`</select>`+
+																														`</div>`+
+																														`<div class='explore-card-profiles-toggles'></div>`
+																													`</div>`+
+																													`<div class='explore-card-profiles-tabs'>`
+																														`<div class='explore-card-tab expand-menu-btn'>${icons.expand}</div>`+
+																														`<div class='explore-profiles-tab-wrapper'></div>`
+																													`</div>`);
 
-			//	headers.forEach(function(x){profiles_header += "<div class='explore-card-stats-"+(x.toLowerCase().replace(' ',''))+"'>"+x+"</div>";});
-				headers.forEach(function(x){profiles_header += "<th class='"+(x.toLowerCase().replace(' ','-'))+"'>"+x+"</th>";});
-
-
-				$("#exploreContent .explore-card-wrapper").append("<div class='explore-card' id='explore_card_profiles'><div class='explore-card-add explore-card-"+exploreType+"' alt='Add a "+exploreType+"'><select class='explore-card-add-"+exploreType+"' data-placeholder='Select a "+exploreType+"'><option></option></select></div><div class='explore-card-profiles-toggles'></div></div><div class='explore-card-profiles-tabs'><div class='explore-card-tab expand-menu-btn'>"+icons.expand+"</div><div class='explore-profiles-tab-wrapper'></div></div>");
-
-
-// OLD				$("#exploreContent .explore-card-wrapper").append("<div class='explore-card' id='explore_card_profiles'><div class='explore-card-profiles-name'>"+icons[exploreType]+"&nbsp;&nbsp;&nbsp;"+card.name+"</div><table><thead><tr class='explore-card-profiles-header'>"+profiles_header+"<th></th></tr></thead><tbody class='explore-card-profiles-wrapper'></tbody></table><div class='explore-card-add explore-card-"+exploreType+"' alt='Add a "+exploreType+"'><select class='explore-card-add-"+exploreType+"' data-placeholder='Select a "+exploreType+"' style='width:300px;'><option></option></select></div><div class='explore-card-profiles-toggles'></div><div class='explore-card-profiles-tabs'><div class='expand-menu-btn'>"+icons.expand+"</div></div></div>");
-
-
-
-			//	$("#exploreContent .explore-card-wrapper").append("<div class='explore-card' id='explore_card_profiles'><div class='explore-card-profiles-name'>"+card.name+"</div><div class='explore-card-profiles-header'>"+profiles_header+"<th></th></tr></thead><tbody class='explore-card-profiles-wrapper'></tbody></table>"+
-		//		"<div class='explore-card-add explore-card-"+exploreType+"' alt='Add a "+exploreType+"'><select class='explore-card-add-"+exploreType+"' data-placeholder='Select a "+exploreType+"' style='width:300px;'><option></option></select></div><div class='explore-card-profiles-toggles'></div><div class='explore-card-profiles-tabs'><div class='expand-menu-btn'>"+icons.expand+"</div></div></div>");
-				/*$(".explore-card-profiles-controls").append("<button class='explore-card-more-details'>More details</button>"+
-																										"<button class='explore-card-profiles-download-pdf'>Download PDF report</button>"+
-																										"<button class='explore-card-profiles-download-csv'>Download summary data</button>");
-				$(".explore-card-profiles-download-pdf").click(function(){$(".explore-map-"+dataType+"-pdf input[type=button]").trigger('click');});
-				$(".explore-card-more-details").click(function(){detailedView=true;exploreRegions(motusFilter.regions)});
-				*/
 				addExploreTab('explore-card-map', 'Map', {selected: true, icon: icons.map});
-			//	addExploreTab('explore-card-profiles-download-pdf', 'Download report', {click:function(){$(".explore-map-"+dataType+"-pdf input[type=button]").trigger('click');}, noToggle:true, icon: icons.download});
 
 				if (["stations","regions","projects"].includes(dataType)) {
 
@@ -1753,19 +1686,11 @@ function addExploreCard(card) {
 
 			var profile = {id: card.id, label: card.name, photo: card.photo, data: []};
 
-			var toAppend = "<tr class='explore-card-profile' id='explore_card_profile_" + card.id + "'>"+
-								"<td class='explore-card-header'>" +
-									"<div class='explore-card-image tips enlarge' alt='Click to expand'></div>"+
-									"<div class='explore-card-name'>"+card.name +"</div>"+
-								"</td>";
-
-
-						//		"<td class='explore-card-status'>";
 
 			for (s in card.status) {
 
 
-				var title = s == 'conservation' ? 'Conservation<br>status' :
+				var title = s == 'conservation' ? 'Conservation status' :
 						   (s == 'lastData' ? 'Last Data' :
 						   (s.indexOf('ID') != -1 ? s.replace('ID', ' ID') : firstToUpper(s.replace('Det', ' Det').replace('Tag', ' Tag').replace('Seg', ' Seg'))));
 
@@ -1773,102 +1698,48 @@ function addExploreCard(card) {
 
 				var statusText = card.status[s][0];
 				statusText = s == 'status' ? (statusText != 'active' ? 'Inactive' : 'Active') : statusText;
-
 				profile.data.push( { type: s.replace('Detected', '').replace('Tagged', '').replace('Segments', ''), label: title, icon: icon, value: statusText } );
 
-				toAppend += "<td><div class='status-icon status-icon-" + s + (s == 'conservation' ? ' tips' : (s == 'status' ? ' status-icon-'+(statusText.toLowerCase()) : '')) + "'>"+ icon +"<div>"+ statusText + (s == 'lastData' ? '<div>days</div>' : '') + "</div></div></td>";
+	//			toAppend += "<td><div class='status-icon status-icon-" + s + (s == 'conservation' ? ' tips' : (s == 'status' ? ' status-icon-'+(statusText.toLowerCase()) : '')) + "'>"+ icon +"<div>"+ statusText + (s == 'lastData' ? '<div>days</div>' : '') + "</div></div></td>";
 			}
 
 
-			toAppend += "<td class='explore-card-options'>"+
-			//toAppend += "</td><td class='explore-card-options'>"+
-							"<div class='explore-card-remove explore-card-subtext' alt='Remove "+exploreType+"'>"+'<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/></svg>'+"</div></td>"+
-						"</tr>";
-
-			toAppend += "<tr></tr>";
-
-//			$("#explore_card_profiles .explore-card-profiles-wrapper").append(toAppend);
+			console.log(profile);
 			addExploreCardProfile(profile);
 
-		//	if ($(".explore-card-add").length > 0) {$(".explore-card-add").before(toAppend);}
-
-		//	else {$(".explore-card-map").before(toAppend);}
 
 			card.el = $("#explore_card_profile_" + card.id).get(0);
-			/*
-			if ($.fn.DataTable.isDataTable("#explore_table")) {
-				$("#explore_card_profiles table").DataTable().clear().destroy();
-			}*/
+
 			$(card.el).find(".explore-profile-info .expand_btn").click(function(){$(this).parent().toggleClass("expanded");});
 
 			if (card.photo == "") {
-				$("#explore_card_profile_" + card.id).addClass("no-photo").removeClass('tips');/*
-				.find(".explore-card-image")
-				.click(function(){
-						if ($("#explore_card_profiles").hasClass('solo-card')) {
-							$("#exploreContent .explore-card-add").click();
-						} else {
-							viewSolo(card.id);
-						}
-				});*/
-			//	$("#explore_card_profile_" + card.id).addClass("no-photo");
+
+				$("#explore_card_profile_" + card.id).addClass("no-photo").removeClass('tips');
+
 			} else {
+
 				$("#explore_card_profile_" + card.id + " .explore-card-image")
 					.css("background-image", "url(" + card.photo + ")")
 					.click(function(){
-
-						initiateLightbox(this);/*
-						if ($("#explore_card_profiles").hasClass('solo-card')) {
-							initiateLightbox(this);
-						}	else {
-							viewSolo(card.id);
-						}*/
+						initiateLightbox(this);
 				});
+
 			}
 
 			$("#explore_card_profile_" + card.id + " .explore-card-name").click(function(){
-		//		if ($("#explore_card_profiles").is(':not(.solo-card)')) {
 					$(this).closest(".explore-card-profile").toggleClass('expanded');
-		//		}
 			})
 
 			$("#explore_card_profile_" + card.id + " .explore-card-remove").click(function(){removeExploreCard(this, exploreType)});
-
-	//		console.log(card.status);
-
-			for (i in card.status) {
-
-				var text = String(card.status[i][0]);
-
-
-				var adjustedFontSize = 15 - text.length;
-				var adjustedPadding = [(8 + text.length), (16 - (text.length * 3))];
-				var adjustedWidth = 40 - (adjustedPadding[1] * 2);
-				var adjustedHeight = 40 - (adjustedPadding[0] * 2);
-
-				//$("#explore_card_profile_"+card.id+" .status-icon-" + i).text(text);
-				if (i == 'conservation') {
-				//	$("#explore_card_profile_"+card.id+" .status-icon-" + i).css({fontSize: adjustedFontSize + 'pt', padding: adjustedPadding[0]+"px "+adjustedPadding[1] + "px", width: adjustedWidth+'px', height: adjustedHeight+'px'});
-					$("#explore_card_profile_"+card.id+" .status-icon-" + i).css({fontSize: adjustedFontSize + 'pt', padding: adjustedPadding[0]+"px "+adjustedPadding[1] + "px", width: adjustedWidth+'px', height: adjustedHeight+'px'});
-				}
-				if (card.status[i][1] != undefined) {
-
-					$("#explore_card_profile_"+card.id+" .status-icon-" + i).addClass('status-icon-' + (card.status[i][1].replace(' ', '-').toLowerCase())).attr('alt', card.status[i][1]);
-
-				}
-			}
-
 
 			if (motusFilter[exploreType][0] === 'all') {motusFilter[exploreType] = [];}
 
 			motusFilter[exploreType].push(String(card.id));
 			motusFilter[exploreType] = motusFilter[exploreType].filter(onlyUnique);
 
-			//if (typeof motusMap.setVisibility !== 'undefined') {motusMap.setVisibility();}
-
 			if ($("#exploreContent .explore-card-profile").length == 1) {
-				$(".explore-card-wrapper").addClass('solo-card');
-				$("#explore_card_profiles").addClass('solo-card');
+		//		$(".explore-card-wrapper").addClass('solo-card');
+		//		$("#explore_card_profiles").addClass('solo-card');
 				$(".explore-card-wrapper #explore_card_profiles .explore-card-profile").addClass('expanded');
 				try { motusMap.setColour('id'); }
 				catch(err) { console.log("motusMap not yet created"); }
@@ -2107,8 +1978,8 @@ function removeExploreCard(el, filterType) {
 		if (exploreType == 'regions') {updateURL(true);}
 
 		if ($("#exploreContent .explore-card-profile").length == 1) {
-			$("#explore_card_profiles").addClass('solo-card');
-			$(".explore-card-wrapper").addClass('solo-card');
+	//		$("#explore_card_profiles").addClass('solo-card');
+		//	$(".explore-card-wrapper").addClass('solo-card');
 			$(".explore-card-wrapper #explore_card_profiles .explore-card-profile").addClass('expanded');
 			//motusMap.setColour('id');
 		}
@@ -2251,8 +2122,8 @@ function updateData() {
 
 	if (exploreType != 'main') {
 		if ($("#exploreContent .explore-card-profile").length == 1) {
-			$(".explore-card-wrapper").addClass('solo-card');
-			$("#explore_card_profiles").addClass('solo-card');
+		//	$(".explore-card-wrapper").addClass('solo-card');
+		//	$("#explore_card_profiles").addClass('solo-card');
 			$(".explore-card-wrapper #explore_card_profiles .explore-card-profile").addClass('expanded');
 			try { motusMap.setColour('id'); }
 			catch(err) { console.log("motusMap not yet created"); }
