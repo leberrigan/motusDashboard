@@ -66,6 +66,7 @@ function exploreMap({
 							(
 								typeof d.projID == "undefined" ||
 								motusFilter.projects.includes('all') ||
+								exploreType == 'projects' ||
 								d.projID.split(',').some(r => motusFilter.projects.includes(r))
 							) && (
 								typeof d.status == "undefined" ||
@@ -303,7 +304,7 @@ function exploreMap({
 					$('.tooltip').html(
 						"<big>"+
 							(d.animals.split(',').length > 1 ? (d.animals.split(',').length + (d.species.split(',').length == 1 ? " " + (d.species == "NA" ? "Unknown species" : (motusData.speciesByID.get(d.species)[0].english + "s")) : " Animals") ):
-							(d.species == "NA" ? "Unknown species" : motusData.speciesByID.get(d.species)[0].english) + " #"+d.animals)+
+							(d.species == "NA" || typeof motusData.speciesByID.get(d.species) === 'undefined' ? "Unknown species" : motusData.speciesByID.get(d.species)[0].english) + " #"+d.animals)+
 						"</big>"+
 						"</br>(Click to view)"
 					);
@@ -536,7 +537,12 @@ function exploreMap({
 				$(".popup").remove();
 				$("body").append("<div class='popup'><div class='popup-topbar'><div class='popup-topbar-close'>X</div></div><div class='popup-content'></div></div>");
 				$(".popup").draggable({handle: ".popup-topbar"});
-				$(".popup .popup-topbar .popup-topbar-close").click(function(){$(".popup").remove();$(".explore-map-track").removeClass('hidden');motusMap.group_f = 20;motusFilter.animals=[];});
+				$(".popup .popup-topbar .popup-topbar-close").click(function(){
+					$(".popup").remove();
+					$(".explore-map-track").css({'opacity':1,'pointer-events':'auto'});
+					motusMap.group_f = 20;
+					motusFilter.animals=[];
+				});
 				var allTracks = [];
 
 				motusFilter.animals = d.animals.split(',');
@@ -549,7 +555,7 @@ function exploreMap({
 				});
 
 
-				$(".explore-map-track").addClass('hidden');
+				$(".explore-map-track").css({'opacity':0,'pointer-events':'none'});
 
 				allTracks.filter(onlyUnique).forEach(function(route){
 
@@ -571,10 +577,11 @@ function exploreMap({
 							}
 						}
 					} else {
-						var recvs = route;
+						var recvs = route.replace('.','-');
 					}
 					//$("#explore-map-track-" + ( recv1 < recv2 ? recv1 + "-" + recv2 : recv2 + "-" + recv1 ) ).removeClass('hidden');
-					$("#explore-map-track-" + recvs ).removeClass('hidden');
+
+					$("#explore-map-track-" + recvs ).css({'opacity':1,'pointer-events':'auto'});
 
 				});
 			//	console.log(motusData.stationDepsBySubset);
@@ -1195,46 +1202,73 @@ function loadMapObjects(callback) {
 //			motusData.stationDeps = motusData.stations;
 
 			var station_freqs = [];
-			motusData.stations = Array.from(d3.rollup(motusData.stationDeps, function(v){
 
-					var startDate = new Date(d3.min(v, d => d.dtStart));
-					var endDate = new Date(d3.max(v, d => d.dtEnd == "NA" ? new Date().toISOString().substr(0, 10) : d.dtEnd));
+			if (typeof motusData.stations === 'undefined') {
+				motusData.stations2 = Array.from(d3.rollup(motusData.stationDeps, function(v){
 
-					if (dtLims.min > startDate) {dtLims.min = startDate;}
-					if (dtLims.max < endDate) {dtLims.max = endDate;}
+						var startDate = new Date(d3.min(v, d => d.dtStart));
+						var endDate = new Date(d3.max(v, d => d.dtEnd == "NA" ? new Date().toISOString().substr(0, 10) : d.dtEnd));
 
-					var animals = v.map(x => x.animals.split(';')).flat().filter(onlyUnique);
-					var localAnimals = v.map(x => x.localAnimals.split(';')).flat().filter(onlyUnique);
-					var species = v.map(x => x.species.split(';')).flat().filter(onlyUnique);
+						if (dtLims.min > startDate) {dtLims.min = startDate;}
+						if (dtLims.max < endDate) {dtLims.max = endDate;}
 
-					var currentDate = moment().toISOString().substr(0,10);
+						var animals = v.map(x => x.animals.split(';')).flat().filter(onlyUnique);
+						var localAnimals = v.map(x => x.localAnimals.split(';')).flat().filter(onlyUnique);
+						var species = v.map(x => x.species.split(';')).flat().filter(onlyUnique);
 
+						var currentDate = moment().toISOString().substr(0,10);
+
+						if (!station_freqs.includes(v[0].frequency)) {station_freqs.push(v[0].frequency);}
+						//recvDepsLink.push([+row.lon, +row.lat, +row.id]);
+						if (!(isNaN(+v[0].lon) || isNaN(+v[0].lon))) {
+						return {
+							id: v[0].id,
+							stationDeps: v.map( d => d.id).join(','),
+							type: 'Feature',
+							geometry: {
+								type: "Point",
+								coordinates: [+v[0].lon, +v[0].lat]
+							},
+							status: (Array.from(v.map( d => d.dtEnd ).values()).some( d => ['NA', currentDate].includes(d) ) ? 'active' : 'not active'),
+							frequency: v[0].frequency,
+							name: v[0].name,
+							projID: Array.from(v.map( d => d.projID ).values()).filter(onlyUnique).join(','),
+							dtStart: startDate,
+							dtEnd: endDate,
+							lastData: moment().diff(moment(endDate), 'days'),
+							animals: animals.join(';'),
+							localAnimals: localAnimals.join(';'),
+							species: species.join(';'),
+							nAnimals: animals.length,
+							nSpp: species.length
+						}
+					} else { console.log("Warning: NAs found", v); }
+				}, x => x.name).values()).filter(x => typeof x !== "undefined");
+			} else {
+			//	var maxDate = d3.max(motusData.stations, d => d.dtEnd)
+
+				var maxDate = "2021-09-17";
+
+				motusData.stations.forEach( d => {
+					d.status = d.status == 'active' || d.dtEnd == maxDate ? 'active' : 'inactive';
+					d.stationDeps =	d.stationDeps.replace(';',',');
+					d.projID =	d.projID.replace(';',',');
+					d.lastData = 0;
 					if (!station_freqs.includes(v[0].frequency)) {station_freqs.push(v[0].frequency);}
-					//recvDepsLink.push([+row.lon, +row.lat, +row.id]);
-					if (!(isNaN(+v[0].lon) || isNaN(+v[0].lon))) {
-					return {
-						id: v[0].id,
-						stationDeps: v.map( d => d.id).join(','),
-						type: 'Feature',
-						geometry: {
-							type: "Point",
-							coordinates: [+v[0].lon, +v[0].lat]
-						},
-						status: (Array.from(v.map( d => d.dtEnd ).values()).some( d => ['NA', currentDate].includes(d) ) ? 'active' : 'not active'),
-						frequency: v[0].frequency,
-						name: v[0].name,
-						projID: Array.from(v.map( d => d.projID ).values()).filter(onlyUnique).join(','),
-						dtStart: startDate,
-						dtEnd: endDate,
-						lastData: moment().diff(moment(endDate), 'days'),
-						animals: animals.join(';'),
-						localAnimals: localAnimals.join(';'),
-						species: species.join(';'),
-						nAnimals: animals.length,
-						nSpp: species.length
+					d.type = "Feature";
+					d.geometry = {
+						type: "Point",
+						coordinates: [+d.lon, +d.lat]
 					}
-				} else { console.log("Warning: NAs found", v); }
-			}, x => x.name).values()).filter(x => typeof x !== "undefined");
+
+					d.dtStart = new Date(d.dtStart);
+					d.dtEnd = new Date(d.dtEnd);
+				});
+
+				dtLims.min = d3.min(motusData.stations.map(x => x.dtStart));
+				dtLims.max = d3.max(motusData.stations.map(x => x.dtEnd));
+
+	 		}
 
 			//motusData.stationDeps = motusData.stations;
 /*
@@ -1634,8 +1668,8 @@ function animateTracks(duration) {
 
 	//	animateTimeline( $("#dateSlider").get(0) );
 	//	animateTrackStep(undefined, true);
-
-			animateTrackStep(motusFilter.dtStart.toISOString().substring(0,10), true);
+		motusMap.animation.isAnimating=true;
+		animateTrackStep(motusFilter.dtStart.toISOString().substring(0,10), true);
 	} else {
 
 			motusMap.animation.pause = false;
@@ -1643,6 +1677,7 @@ function animateTracks(duration) {
 			var durationRatio = (new Date().addDays(1) - new Date())/(motusMap.animation.dtEnd - motusMap.animation.dtStart);
 			var stepDuration = Math.round(motusMap.animation.duration * durationRatio);
 
+			motusMap.animation.isAnimating=true;
 			motusMap.animation.timer = setInterval(function(){animateTrackStep(motusMap.animation.date);}, stepDuration);
 
 	}
@@ -1722,11 +1757,12 @@ function animateTrackStep(date, start) {
 
 		motusMap.animation.timer = setInterval(function(){animateTrackStep(motusMap.animation.date);}, stepDuration);
 		//console.log("Date: %s, duration: %s, stepDuration: %s, nSteps: %s", date, motusMap.animation.duration, stepDuration, nSteps);
-		motusMap.animation.test = moment();
+	//	motusMap.animation.test = moment();
 //		motusMap.animation.lastTime = moment();
 //		motusMap.animation.lastDate = date;
 	} else if (motusMap.animation.pause || motusMap.animation.stop) {
 
+				motusMap.animation.isAnimating = false;
 			clearInterval(motusMap.animation.timer);
 
 		if (motusMap.animation.stop) {
@@ -1761,6 +1797,7 @@ function animateTrackStep(date, start) {
 
 		clearInterval(motusMap.animation.timer);
 
+		motusMap.animation.isAnimating = false;
 	}
 
 
@@ -1826,7 +1863,7 @@ function animateTrackStep(date, start) {
 
 
 
-	if (motusMap.animation.i % 7 == 0)	{console.log("Date: %s, stepDuration: %s, actual duration: %s, search time: %s", date, motusMap.animation.stepDuration, Math.round((moment() - motusMap.animation.lastTime)/7), new Date() - motusMap.animation.testTime);motusMap.animation.lastTime = new Date();}
+//	if (motusMap.animation.i % 7 == 0)	{console.log("Date: %s, stepDuration: %s, actual duration: %s, search time: %s", date, motusMap.animation.stepDuration, Math.round((moment() - motusMap.animation.lastTime)/7), new Date() - motusMap.animation.testTime);motusMap.animation.lastTime = new Date();}
 
 //	motusMap.animation.lastDate = date;
 
