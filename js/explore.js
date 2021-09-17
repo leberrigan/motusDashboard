@@ -34,6 +34,7 @@ var icons = {
 	/*	species: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="-50 0 900 400"><path d="m 593.63776,191.06651 -159.1803,45.46998 3.019,6.13 46.529,68.677 -2.439,5.834 -81.503,31.964 -82.23705,-31.992 -2.434,-5.803 46.52405,-68.701 2.95,-5.975 L 208.32143,191.0665 -44.302404,223.18575 61.054237,124.39961 208.32143,79.074162 l 140.55903,6.86332 15.3948,-13.13068 11.5769,-34.43522 18.8475,-13.58332 3.30134,-24.82593528 2.17411,-2.36971272 2.07904,2.47033816 3.38371,24.70155984 18.5618,13.77773 10.0921,32.89878 17.2207,14.50546 142.1253,-6.87232 150.64264,45.325448 106.87955,99.12663 z"/></svg>',*/
 	animals: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFFFFF" stroke="currentColor" stroke-width="20" viewBox="125 -10 250 500"><path d="m 307.38806,152.71231 v 163.57 c 0,8.284 -6.716,15 -15,15 -41.28149,-0.71533 -47.28327,1.62781 -80,0 -8.284,0 -15,-6.716 -15,-15 v -164.459 c -16.587,-15.09 -27,-36.85 -27,-61.041001 0,-45.563 36.937,-82.5 82.5,-82.5 45.563,0 82.5,36.937 82.5,82.5 0,24.672001 -10.834,46.811001 -28,61.930001 z" /><path d="M 251.05287,334.93644 V 488.58051"/></svg>',
 	animate: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="explore-animate-btn tips" alt="Animate tracks" viewBox="0 0 16 16"><path d="M 13.206 7.5 L 4.5 2.4495 v 10.101 L 13.206 7.5 z m 1.188 -1.044 a 1.203 1.203 90 0 1 0 2.088 l -9.5445 5.538 C 4.0695 14.535 3 14.0175 3 13.038 V 1.962 c 0 -0.9795 1.0695 -1.497 1.8495 -1.044 l 9.5445 5.538 z"/></svg>',
+	add: '<div class="add_icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/></svg></div>',
 	camera: '<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" id="svg8" version="1.1" viewBox="0 0 59.208336 38.041672" height="38.041672mm" width="59.208336mm"> <defs id="defs2" /> <metadata id="metadata5"> <rdf:RDF> <cc:Work rdf:about=""> <dc:format>image/svg+xml</dc:format> <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" /> <dc:title></dc:title> </cc:Work> </rdf:RDF> </metadata> <g transform="translate(-52.416666,-121.875)" id="layer1"> <path id="path4520" d="m 52.916667,156.77083 -10e-7,-23.8125 c 0.07609,-3.35273 1.582589,-5.35555 5.291667,-5.29166 H 71.4375 c 0.946943,-2.17074 0.246566,-4.80156 3.96875,-5.29167 h 13.229167 c 2.97845,0.037 3.387115,2.75455 3.96875,5.29167 h 13.229163 c 3.90069,-0.0631 5.18139,2.11388 5.29167,5.29166 v 23.8125 c -0.18623,1.7734 -1.22238,2.43252 -2.59859,2.64584 H 55.5625 c -1.892818,-0.18261 -2.402997,-1.32175 -2.645833,-2.64584 z" style="fill:none;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" /> <circle r="11.49465" cy="144.18936" cx="81.612877" id="path4524" style="fill:none;fill-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" /> <circle r="8.2983761" cy="144.20241" cx="81.675636" id="path4524-5" style="fill:none;fill-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" /> </g></svg>',
 	countries: '<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 27 27"><g transform="translate(0,-270.54167)"> <path d="m 1.3229166,294.35417 7.9375,-2.64583 7.9374994,2.64583 7.9375,-2.64583 V 273.1875 l -7.9375,2.64584 -7.9374994,-2.64584 -7.9375,2.64584 z" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> <path d="m 9.2604166,273.1875 v 18.52084" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> <path d="M 17.197916,294.35417 V 275.83334" style="fill:none;stroke:#000000;stroke-width:1.32291665;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;paint-order:fill markers stroke" /> </g></svg>',
 	download: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 100 100"><g transform="translate(0,-77.196699)"><path style="stroke-width:0.22810185" d="M 71.184445,127.20913 H 58.681499 v -22.92514 c 0,-0.60812 -0.196624,-1.10698 -0.586906,-1.49794 -0.388685,-0.38983 -0.888457,-0.58577 -1.495664,-0.58577 H 44.093702 c -0.607663,0 -1.107206,0.19594 -1.497945,0.58577 -0.390967,0.39119 -0.586222,0.88982 -0.586222,1.49794 v 22.92423 H 29.50522 c -0.954834,0 -1.606293,0.43454 -1.95392,1.30224 -0.347627,0.82596 -0.194799,1.58462 0.455976,2.2801 l 20.840068,20.83962 c 0.478101,0.39028 0.976961,0.58554 1.497945,0.58554 0.5203,0 1.019843,-0.19526 1.498402,-0.58554 l 20.774831,-20.77392 c 0.433849,-0.52076 0.650318,-1.0438 0.650318,-1.56296 0,-0.6072 -0.195027,-1.10697 -0.586906,-1.49862 -0.389826,-0.39052 -0.889369,-0.58555 -1.497489,-0.58555 z" /><path d="m 10.924903,167.89927 80.108917,0.42385" style="fill:none;stroke:#000000;stroke-width:9.12407398;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:1;stroke-dasharray:none;stroke-opacity:1" /></g></svg>',
@@ -157,7 +158,7 @@ function updateURL(reload) {
 						( motusFilter.default && motusFilter.default[f] != motusFilter[f] && ['dtStart','dtEnd', 'colour'].includes(f) ) ||
 						!( !['dtStart','dtEnd', 'colour'].includes(f) && motusFilter.default && motusFilter.default[f] && motusFilter.default[f].sort().join(',') == motusFilter[f].sort().join(',') )
 						) {
-					stateToPush+='&'+f+'='+encodeURIComponent(toEncode);
+					stateToPush+='&'+f+'='+encodeURIComponent(toEncode.filter(onlyUnique));
 				}
 			}
 		}
@@ -435,12 +436,6 @@ function loadDashboardContent() {
 
 		});*/
 	}
-	if (dataType == 'animals' || dataType == 'stations' || exploreType != 'main') {
-		console.log($(".explore-control-timeline").innerWidth())
-		exploreTimeline({ min: dtLims.min.valueOf() / 1000,
-											max: dtLims.max.valueOf() / 1000,
-											defaultValues: [ motusFilter.dtStart.valueOf() / 1000, motusFilter.dtEnd.valueOf() / 1000 ] });
-	}
 
 	initiateTooltip();
 	initiatePopup();
@@ -463,7 +458,6 @@ function loadDashboardContent() {
 	//loadMapObjects({"tagDeps": subset});
 
 	//loadMapData(['regions', 'stations', 'tagDeps', 'tracks'] , afterMapLoads);
-
 
 
 }
@@ -733,7 +727,7 @@ function populateExploreControls() {
 	var toAppend = [];
 
 	if (exploreType != 'main') {
-		toAppend = ["filters", "timeline", "animate", "search", 'pdf', 'share'];
+		toAppend = ["filters", "timeline", "animate", "search", 'pdf', 'share', 'add'];
 	} else if ( ['regions', 'projects','species'].includes(dataType) ) {
 		toAppend = ["type"];
 		if (exploreType == 'main') {
@@ -775,7 +769,7 @@ function populateExploreControls() {
 				controlContent += `<button class='animate-play tips' alt='Play'>${icons.play}</button>`+
 														`<button class='animate-pause tips' alt='Pause'>${icons.pause}</button>`+
 														`<button class='animate-stop tips' alt='Stop'>${icons.stop}</button>`+
-														`Duration: <input class='animate-duration' type="number" min="1" step="1" value="10"/> seconds`
+														`<div class='animate-duration-wrapper'>Duration: <input class='animate-duration' type="number" min="1" step="1" value="10"/> seconds</div>`
 			} else if (x == 'share') {
 				controlContent += `<div class="fb-share-button" data-href="${window.location.href}" data-layout="button"></div>`;
 			} else if (x == 'type') {
@@ -900,8 +894,8 @@ function populateExploreControls() {
 
 //	$("#explore_controls .animate-play").click(function(){animateTimeline($("#dateSlider").get(0));});
 	$(".explore-control-content .animate-play").click(function(){
-		if (["animals", "species", "regions", "projects"].includes(dataType)) {
-			animateTracks($(".explore-control-content .animate-duration").val() * 1000);
+		if (exploreType != 'main') {
+			if (!motusMap.animation.isAnimating) {animateTracks($(".explore-control-content .animate-duration").val() * 1000);}
 		} else {
 			animateTimeline( $("#dateSlider").get(0) );
 		}
@@ -1251,6 +1245,85 @@ function afterMapLoads() {
 		}
 	}
 
+		if (dataType == 'animals' || dataType == 'stations' || exploreType != 'main') {
+			console.log($(".explore-control-timeline").innerWidth());
+		//	alert(1);
+		// TIMELINE
+			if (exploreType == 'main') {
+				dtLims = {
+					min: d3.min(motusData.stations.map( d => new Date( d.dtStart ))),
+					max: d3.max(motusData.stations.map( d => new Date( d.dtEnd )))
+				}
+			} else if (['species', 'animals'].includes(dataType)) {
+				dtLims = {
+					min: d3.min(motusData.selectedAnimals.map( d => new Date( d.dtStart ) )),
+					max: d3.max(motusData.selectedAnimals.map( d => new Date( d.dtEnd ) ))
+				}
+	 		} else if ('stations' == dataType) {
+				dtLims = {
+					min: d3.min(motusData.selectedStations.map( d => new Date( d.dtStart ) )),
+					max: d3.max(motusData.selectedStations.map( d => new Date( d.dtEnd ) ))
+				}
+	 		} else {
+				dtLims = {
+					min: d3.min(
+												motusData.selectedStations.map( d => new Date( d.dtStart ) )
+													.concat(
+														motusData.selectedAnimals.map( d => new Date( d.dtStart ) )
+													)
+												),
+					max: d3.max(
+												motusData.selectedStations.map( d => new Date( d.dtEnd ) )
+													.concat(
+														motusData.selectedAnimals.map( d => new Date( d.dtEnd ) )
+													)
+												)
+				};
+	 		}
+	//		dtLims.min = new Date( timeline.min );
+	//		dtLims.max = new Date( timeline.max );
+	console.log(dtLims);
+			exploreTimeline({ min: dtLims.min.valueOf() / 1000,
+												max: dtLims.max.valueOf() / 1000,
+												defaultValues: [ motusFilter.dtStart.valueOf() / 1000, motusFilter.dtEnd.valueOf() / 1000 ] });
+
+/*
+			timeline.min = dtLims.min.valueOf() / 1000;
+			timeline.max = dtLims.min.valueOf() / 1000;*/
+
+			$("#explore_filters input.filter_dates").daterangepicker({
+				opens: 'left',
+				minDate: new Date(timeline.min * 1000),
+				maxDate: new Date(),
+				startDate: motusFilter.dtStart,
+				endDate: motusFilter.dtEnd,
+				locale: {
+					format: "YYYY/MM/DD"
+				},
+						ranges: {
+							 'Today': [moment(), moment()],
+							 'Past 7 days': [moment().subtract(6, 'days'), moment()],
+							 'Past 30 days': [moment().subtract(29, 'days'), moment()],
+							 'Past 6 months':  [moment().subtract(6, 'months'), moment()],
+							 'Past year': [moment().subtract(1, 'year'), moment()],
+							 'Past 3 years': [moment().subtract(3, 'years'), moment()],
+							 'All time': [moment.unix(timeline.min), moment()],
+							 //'This Month': [moment().startOf('month'), moment().endOf('month')],
+							 //'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+						}
+			}, function(start, end, label) {
+
+				timeline.setSlider( [ start.unix(), end.subtract(12, 'hours').unix()], true, false );
+				//timeline.setSlider( [ start.unix(), end.diff(start, 'days') > 0 ? end.unix() : start.unix() ] );
+				motusMap.setVisibility();
+
+			});
+
+			$(timeline.el).dragslider("option", { "min": timeline.min, "max": timeline.max});
+
+			timeline.createLegend();
+		}
+
 
 	$('.explore-card-wrapper').animate({'opacity':1}, 500);
 
@@ -1435,34 +1508,7 @@ function populateSelectOptions() {
 		placeholder: function(){return $(this).data('placeholder');},
 		width: "100%"
 	}).change(setFilter);
-	//console.log(timeline);
-	$("#explore_filters input.filter_dates").daterangepicker({
-		opens: 'left',
-		minDate: moment.unix(timeline.min),
-		maxDate: moment(),
-		startDate: motusFilter.dtStart,
-		endDate: motusFilter.dtEnd,
-		locale: {
-			format: "YYYY/MM/DD"
-		},
-        ranges: {
-           'Today': [moment(), moment()],
-           'Past 7 days': [moment().subtract(6, 'days'), moment()],
-           'Past 30 days': [moment().subtract(29, 'days'), moment()],
-           'Past 6 months':  [moment().subtract(6, 'months'), moment()],
-           'Past year': [moment().subtract(1, 'year'), moment()],
-           'Past 3 years': [moment().subtract(3, 'years'), moment()],
-           'All time': [moment.unix(timeline.min), moment()],
-           //'This Month': [moment().startOf('month'), moment().endOf('month')],
-           //'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        }
-	}, function(start, end, label) {
 
-		timeline.setSlider( [ start.unix(), end.subtract(12, 'hours').unix()], true, false );
-		//timeline.setSlider( [ start.unix(), end.diff(start, 'days') > 0 ? end.unix() : start.unix() ] );
-		motusMap.setVisibility();
-
-	});
 }
 
 
@@ -2136,6 +2182,7 @@ function updateData() {
 		}
 
 	}
+	window.dispatchEvent(new Event('resize'));
 
 	motusMap.setVisibility();
 

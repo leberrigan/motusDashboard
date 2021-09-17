@@ -38,7 +38,6 @@ antDeps <- read.csv(paste0(data.dir, 'antenna-deployments.csv')) %>%
   group_by(recvDeployID) %>%
   summarise(freq = paste(unique(frequency), sep = ','))
 
-
 Mode <- function(x, na.rm = F) {
   ux <- unique(x[!is.na(x) | !na.rm])
   ux[which.max(tabulate(match(x, ux)))]
@@ -47,18 +46,27 @@ antDeps2.df <- antDeps %>%
   group_by(recvDeployID) %>%
   summarise(freq = ifelse(freq[1] == 434 & length(freq) > 1, freq[2], freq[1]))
 
+stations.df <- read.csv(paste0(data.dir, 'stations.csv'))
+
+stations.by.recv <- stations.df %>% select(id, stationDeps) %>% 
+  separate_rows(stationDeps, sep = ";") %>% 
+  mutate(recvDeployID = as.numeric(stationDeps)) %>%
+  select(stationID = id, recvDeployID)
+
 allTracks.df.raw <- read.csv(paste0(data.dir, 'MotusAllTheTracks.csv')) 
+
 allTracks.df <- allTracks.df.raw %>% 
   rename(deployID = tagDeployId, lat = latitude, lon = longitude) %>%
   left_join(recvDeps, by = c('lat','lon')) %>% 
+  left_join(stations.by.recv, by = c("recvDeployID")) %>% 
   group_by(deployID) %>%
   arrange(end_s) %>%
   mutate(lat1 = lag(lat), 
          lon1 = lag(lon), 
          lat2 = lat, 
          lon2 = lon,
-         recv1 = lag(recvDeployID),
-         recv2 = recvDeployID,
+         recv1 = lag(stationID),
+         recv2 = stationID,
          recvProj1 = lag(projID),
          recvProj2 = projID,
          ts1 = lag(end_s), 
@@ -68,7 +76,9 @@ allTracks.df <- allTracks.df.raw %>%
       #   route = ifelse(lat1 < lat2, paste(lat1, lon1, lat2, lon2, sep = ','),  paste(lat2, lon2, lat1, lon1, sep = ','))
 #         route = as.integer(as.factor(route))
          ) %>%
-  filter(!is.na(route)) %>%
+  dplyr::select(-projID) %>%
+  filter(!is.na(route),
+         recv1!=recv2) %>%
   left_join(dplyr::select(tagDeps, deployID, projID, species = speciesID, freq), by = 'deployID') %>%
   filter(!is.na(projID) & !is.na(species)) %>%
   left_join(antDeps2.df, by = 'recvDeployID') %>%
@@ -97,5 +107,8 @@ allTracks.df <- allTracks.df.raw %>%
         #    time_elapsed = paste(as.integer(round(difftime(as.POSIXct(ts1, origin = '1970-01-01'), as.POSIXct(ts2, origin = '1970-01-01'), units = 'hours'), collapse=','))))
 
 allTracks.df %>%  write.csv(paste0(dashboard.dir,'siteTrans_real2.csv'), row.names = F)
+
+# Count how many routes use recevier IDs that are not a station ID
+which(!(allTracks.df %>% select(recv1, recv2) %>% unlist %>% unique) %in% stations.df$id) %>% length
 
 allTracks.df %>% filter(grepl("^27476$|^27476,|,27476$|,27476,", animal)) %>% View()

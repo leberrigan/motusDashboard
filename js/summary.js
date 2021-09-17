@@ -55,11 +55,13 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 		motusFilter.stations = motusData.selectedStations.map( x => x.id );
 
 	} else if (dataType == 'stations') {
+		if (motusFilter.stations.length == 0) {
+				motusFilter.stations = motusFilter.selections;
+		}
+		console.log(motusFilter)
+		motusData.selectedStations = motusData.stations.filter(x => motusFilter.stations.includes(x.id));
 
-
-		motusData.selectedStations = motusData.stations.filter(x => motusFilter.stations.some(d => x.stationDeps.split(',').includes(d)) );
-
-		motusFilter.stations = motusData.selectedStations.map( x => x.id );
+//		motusFilter.stations = motusData.selectedStations.map( x => x.id );
 	//	motusData.selectedStationDeps = motusData.stationDeps.filter(x => motusFilter.stations.includes(x.id) );
 
 
@@ -220,9 +222,9 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 //		var colourScale = d3.scaleOrdinal().domain(['visiting'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length + 1)));
 		var colourScale = d3.scaleOrdinal().domain(['visiting'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length + 1)));
 	} else if (dataType == 'stations') {
-		var colourScale = d3.scaleOrdinal().domain(['other'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length)));
+		var colourScale = d3.scaleOrdinal().domain(['visiting'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length)));
 	} else {
-		var colourScale = d3.scaleOrdinal().domain(['other'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length)));
+		var colourScale = d3.scaleOrdinal().domain(['visiting'].concat(motusFilter[dataType])).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter[dataType].length)));
 	}
 	motusMap.colourScale = colourScale;
 
@@ -300,6 +302,8 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 				var selectedRecv1 = true;
 				var selectedRecv2 = true;
 			} else {
+				// Here I'm fixing the receiver ID's in the tracks so that they are actually station Ids
+				// This should be removed and the imported data should have the correct IDs
 				if ( motusFilter.stationDeps.includes(v.recv1) && !motusFilter.stations.includes(v.recv1) ) {
 //					console.log("recv1 (1): ",v.recv1);
 					v.recv1 = motusData.selectedStations.filter( x => x.stationDeps.split(',').includes(v.recv1) )[0].id;
@@ -323,6 +327,8 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 				animals = animals.filter((x,i) => selectedIndices.includes(i));
 				species = species.filter((x,i) => selectedIndices.includes(i));
 				allTimes = dtStart.concat(dtEnd);
+				origin = motusData.selectedStations.filter( x => x.localAnimals.split(';').some( k => animals.includes(k) ) ).map( x => x.id ).join("-");
+				origin = origin.length > 0 ? origin : 'visiting';
 			}
 
 			if (selectedRecv1 || selectedRecv2) {
@@ -342,13 +348,15 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 			}
 
-			if ( !['animals', 'species', 'stations'].includes(dataType) ) {
+			if ( ['projects', 'regions'].includes(dataType) ) {
 				motusFilter[dataType].forEach(function(c) {
 					if ( typeof motusData["animalsBy" + firstToUpper(dataType)].get( c ) !== 'undefined' &&
 					 		 Array.from( motusData["animalsBy" + firstToUpper(dataType)].get( c ).keys() ).some(x => v.animal.split(',').includes(x))	) {
 						origin = c;
 					}
 				});
+
+			} else if ( dataType == 'stations' ) {
 
 			}
 
@@ -402,7 +410,8 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 			motusData.allTimes = motusData.allTimes.concat(allTimes);
 
-			var colourVal = dataType == 'projects' ? v.project : dataType == 'regions' ? origin : dataType == 'stations' ? ( selectedRecv1 ? v.recv1 : selectedRecv2 ? v.recv2 : "other" ) : dataType == 'species' ? v.species.split(',').filter(x=>motusFilter.species.includes(x)).filter(onlyUnique).join(',') : v.animal.split(',').filter(x=>motusFilter.animals.includes(x)).join(',')
+//			var colourVal = dataType == 'projects' ? origin : dataType == 'regions' ? origin : dataType == 'stations' ? ( selectedRecv1 ? v.recv1 : selectedRecv2 ? v.recv2 : "other" ) : dataType == 'species' ? v.species.split(',').filter(x=>motusFilter.species.includes(x)).filter(onlyUnique).join(',') : v.animal.split(',').filter(x=>motusFilter.animals.includes(x)).join(',')
+			var colourVal = ['projects','regions','stations'].includes(dataType) ? origin : dataType == 'species' ? v.species.split(',').filter(x=>motusFilter.species.includes(x)).filter(onlyUnique).join(',') : v.animal.split(',').filter(x=>motusFilter.animals.includes(x)).join(',')
 
 			motusData.selectedTracks[v.route] = {
 				animals: animals.join(','),
@@ -548,7 +557,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 		var yesterday = moment().subtract(1, 'days');
 
-console.log(motusData.stations.filter(d => motusFilter.stationDeps.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)));
+		console.log(motusData.stations.filter(d => motusFilter.stations.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)));
 
 		motusMap.g.selectAll('stations')
 			.data(motusData.stations.filter(d => motusFilter.stationDeps.includes(d.id)).sort((a, b) => d3.ascending(a.id, b.id)))
@@ -558,7 +567,8 @@ console.log(motusData.stations.filter(d => motusFilter.stationDeps.includes(d.id
 			.attr("d", motusMap.path.pointRadius(6))
 		//	.attr("d", "")
 			.style('stroke', '#000')
-			.style('fill', (d) => d.dtEnd > yesterday ? '#0F0' : '#F00')
+			//.style('fill', (d) => d.dtEnd > yesterday ? '#0F0' : '#F00')
+			.style('fill', '#0F0')
 			.attr('id', d => "explore_map_station_" + d.id)
 			.attr('class', d => 'explore-map-station leaflet-zoom-hide explore-map-station-' + (d.dtEnd > yesterday ? 'active' : 'inactive') )
 	//		.style('fill', d => motusFilter.stations.includes(d.id) ? "#F00" : "#000")
@@ -599,9 +609,9 @@ console.log(motusData.stations.filter(d => motusFilter.stationDeps.includes(d.id
 		g.append("text")
 				.attr("x", "20")
 				.attr("y", "20")
-				.text("Active station");
+				.text("Selected station");
 
-
+/*
 		var g = stations_legend.append("g")
 												   .attr('class', 'map-legend-stations-inactive selected')
 													 .on('click', motusMap_legendClick);
@@ -627,7 +637,7 @@ console.log(motusData.stations.filter(d => motusFilter.stationDeps.includes(d.id
 				.attr("x", "20")
 				.attr("y", "40")
 				.text("Inactive station");
-
+*/
 
 		var g = stations_legend.append("g")
 												   .attr('class', 'map-legend-stations-other selected')
@@ -635,7 +645,7 @@ console.log(motusData.stations.filter(d => motusFilter.stationDeps.includes(d.id
 
 		g.append("circle")
 				.attr("cx", "10")
-				.attr("cy", "55")
+				.attr("cy", "35")
 				.attr("r", 3)
 				.style('stroke', '#000')
 				.style('fill', '#FF0')
@@ -644,7 +654,7 @@ console.log(motusData.stations.filter(d => motusFilter.stationDeps.includes(d.id
 
 		g.append("text")
 				.attr("x", "20")
-				.attr("y", "60")
+				.attr("y", "40")
 				.text("Other station");
 
 
@@ -700,23 +710,31 @@ console.log(motusData.stations.filter(d => motusFilter.stationDeps.includes(d.id
 
 		var h = 20;
 
+		mapLegend.append('div')
+			.style('font-weight','bold')
+			.text('Tagging location')
+
 		var tracks_svg = mapLegend.append("svg")
 			.attr('class','map-legend-tracks');
 
 		var max_length = 0;
+		console.log(motusMap.colourScale.domain());
+		console.log(colourScale.domain());
 
-		colourScale.range().forEach(function(x, i) {
+		motusMap.colourScale.domain().forEach(function(x, i) {
+
+			var selectionColour = motusMap.colourScale.range()[i];
+			var selectionName = x == "remote" || x == 'other' || x == 'visiting' ? firstToUpper( x ) : motusData.selectionNames[ x ];
 
 			var g = tracks_svg.append("g");
 
+
 			g.append("path")
 				.attr("d", `M0,${10 + (i * h)} L30,${10 + (i * h)}`)
-				.style('stroke', x )
+				.style('stroke', selectionColour )
 				.style('stroke-width', '3px')
 				.style('pointer-events', 'auto');
 
-			var selectionCode = colourScale.domain()[i];
-			var selectionName = selectionCode == "remote" || selectionCode == 'other' ? firstToUpper(selectionCode) : motusData.selectionNames[ selectionCode ];
 
 			g.append("text")
 				.attr("x", 40)
@@ -728,15 +746,15 @@ console.log(motusData.stations.filter(d => motusFilter.stationDeps.includes(d.id
 
 			max_length = max_length < len ? len : max_length;
 
-			g.attr("class","map-legend-tracks-" + selectionCode + " selected")
+			g.attr("class","map-legend-track-" + x + " selected")
 				.style('pointer-events', 'auto')
 				.on('click', motusMap_legendClick);
 
 		});
 
-		tracks_svg.attr('viewBox', `0 0 ${50 + max_length} ${colourScale.range().length * h}`)
+		tracks_svg.attr('viewBox', `0 0 ${50 + max_length} ${motusMap.colourScale.domain().length * h}`)
 			.attr('width', 50 + max_length)
-			.attr('height', colourScale.range().length * h);
+			.attr('height', motusMap.colourScale.domain().length * h);
 
 
 		motusMap.map.on("zoomend", motusMap.reset);
@@ -768,7 +786,7 @@ function tempFunction(){}
 			var stationDeps = motusData.selectedStationDeps.filter( x => d.stationDeps.split(';').includes(x.id) );
 					stationDeps.forEach( x => {x.dtStart = new Date(x.dtStart)});
 
-			var detections = Object.values( motusData.selectedTracks ).filter( x => x.route.split('.').includes( d.id ) );
+			var detections = Object.values( motusData.selectedTracks ).filter( x => motusData.tracksByStation[ d.id ].includes( x.route ) );
 
 			var animalsDetected = motusData.selectedAnimals.filter( x => d.animals.split(';').includes(x.id) );
 			var speciesDetected = d.species.split(';').filter(onlyUnique);
@@ -812,12 +830,14 @@ function tempFunction(){}
 				} ) : false;
 			var lastDetection = detections.length > 0 ? detections[lastDetectionIndex] : false;
 
-		//	console.log("lastDetection: %o, lastDetectionIndex: %s, lastDetectionSubIndex: %s, dtMax: %s", lastDetection, lastDetectionIndex, lastDetectionSubIndex, dtMax);
+			//console.log("lastDetection: %o, lastDetectionIndex: %s, lastDetectionSubIndex: %s, dtMax: %s", lastDetection, lastDetectionIndex, lastDetectionSubIndex, dtMax);
+			console.log(dtMax);
 
 			if (lastDetection) {
 						lastDetectionSubIndex = lastDetectionSubIndex[lastDetectionIndex];
+						console.log(lastDetectionSubIndex);
 						lastDetection.lastDetectedAnimal = [lastDetectedAnimal[lastDetectionIndex]];
-						lastDetection.dtMax = dtMax[lastDetectionSubIndex].toISOString().substring(0, 10);
+						lastDetection.dtMax = dtMax[lastDetectionIndex].toISOString().substring(0, 10);
 
 /*
 
@@ -875,9 +895,14 @@ function tempFunction(){}
 															stations.map( x => x.species.split(';') ).flat().filter(onlyUnique) :
 															[];
 			// Station detections
-			var detections = Object.values( motusData.selectedTracks ).filter( x => x.recvProjs.split(',').includes( d.id ) );
+			var tracksByStations = stations.map( (x) => motusData.tracksByStation[ x.id ] ).flat().filter(onlyUnique);
+
+			var detections = Object.values( motusData.selectedTracks ).filter( x => tracksByStations.includes( x.route ) );
 			// Tag detections
 //			var detections = Object.values( motusData.selectedTracks ).filter( x => x.projID.split(',').includes( d.id ) );
+			var tracksByAnimals = animalsTagged.map( (x) => motusData.tracksByAnimal[ x.id ] ).flat().filter(onlyUnique);
+
+			var animalDetections = Object.values( motusData.selectedTracks ).filter( x => tracksByAnimals.includes( x.route ) );
 
 
 			// Last activity
@@ -1418,8 +1443,10 @@ function tempFunction(){}
 
 	setCardColours( colourScale )
 
-//	motusFilter.animals = ['all'];
-//	motusFilter.stations = ['all'];
+	motusFilter.animals = ['all'];
+	motusFilter.stations = ['all'];
+	motusFilter.projects = ['all'];
+	motusFilter.species = ['all'];
 //	updateURL();
 
 	motusMap.setVisibility();
@@ -1557,223 +1584,7 @@ function tempFunction(){}
 		}
 	}
 
-	function stationTimeline( d, {
-			 													width = 300,
-															  height = 60,
-																timelineScale = d3.scaleLinear().domain([ timeRange.min, timeRange.max ]).range([ 0, width ]),
-																dayWidth = timelineScale( timeRange.min + (1 * 24 * 60 * 60 * 1000) ),
-																colourScale = d3.scaleSequential(d3.interpolateTurbo).domain([ 1, 10 ]),
-																timelineSVG = $("<svg width='"+width+"' height='"+height+"' style='margin:-8px 0;cursor:pointer;'></svg>")
-															} = {} ) {
 
-		if (width > 0) {
-			dayWidth = dayWidth < 1 ? 1 : dayWidth;
-
-			var timeFormat = ( timeRange.range / (1000 * 60 * 60 * 24 * 365) ) * ( 300 / width ) > 2 ? "%Y" :
-								( ( timeRange.range / (1000 * 60 * 60 * 24 * 365) ) * ( 300 / width ) > 1 ? "%b %Y" : "%Y-%m-%d" );
-
-			var x_scale = d3.scaleTime()
-										.domain( [ new Date(timeRange.min), new Date(timeRange.max) ] )
-										.range( [0, width] );
-
-										console.log(width);
-
-			var axis_x = d3.axisTop( x_scale )
-											.tickFormat( d3.timeFormat( timeFormat ) )
-											.ticks( Math.round( width /  75 ) );
-
-			var hasData = false;
-
-			var svg = d3.select( timelineSVG[0] )
-									.on("touchstart touchmove mousemove", dataHover)
-									.on("touchend mouseleave", function(e) {dataHover(e, "out");});
-
-			var stationHits = {};
-
-
-			d.forEach(function(v) {
-
-				var w = width * ((moment(v.dtEnd).valueOf()) - (moment(v.dtStart).valueOf())) / timeRange.range;
-				var x = width * ((moment(v.dtStart).valueOf()) - timeRange.min) / timeRange.range;
-
-				svg
-					.append('rect')
-					.attr('width', w)
-					.attr('height', height)
-					.attr('x', x)
-					.style('fill', '#CCCCCC');
-
-
-				var g = d3.select( timelineSVG[0] )
-					.append('g');
-
-				w = width * ( 24 * 60 * 60 * 3000 ) / timeRange.range;
-
-
-
-				if (typeof motusData.tracksByStation[v.id] !== 'undefined') {
-
-					hasData = true;
-
-					motusData.tracksByStation[v.id].forEach(function(x){
-
-						var datePos = ( x.split('.')[0] == v.id ? 'dtStart' : 'dtEnd' ) + 'List';
-
-						var trackData = motusData.selectedTracks[x];
-
-						if (typeof trackData[datePos] !== 'undefined') {
-
-							var dates = trackData[datePos].split(',');
-
-							var data = countInstances( dates.map(k => moment(k).valueOf()) );
-
-							var spp = {};
-
-							trackData.species.split(',').forEach(function(k, i){
-
-					//			if ( spp.length != 0 && typeof data[2] !== 'undefined' && data[2][data[2].length - 1] == dates[i]) {
-
-								if ( typeof data[2] !== 'undefined' && data[0][data[2].length - 1] == dates[i]) {
-
-									data[2][i].push(k);
-
-								} else if ( typeof data[2] !== 'undefined' ) {
-
-									data[2].push([k]);
-
-								} else {
-
-									data[2] = [[k]];
-
-								}
-
-							});
-							var date_str;
-
-							for (var i = 0; i < data[0].length; i++) {
-								date_str = new Date( data[0][i] ).toISOString().substr(0, 10);
-								if ( typeof stationHits[ date_str ] !== 'undefined' ) {
-									stationHits[ date_str ].count += data[1][i];
-									stationHits[ date_str ].species = stationHits[ date_str ].species.concat(data[2][i]).filter(onlyUnique);
-								} else {
-									stationHits[ date_str ] = {date: data[0][i], count: data[1][i], species: data[2][i].filter(onlyUnique)};
-								}
-							}
-						}
-
-					});
-
-				} else {
-					// no data
-				}
-
-			});
-
-			var maxCount = d3.max(Object.values(stationHits), x => x.count);
-
-			var maxSpp = d3.max(Object.values(stationHits), x => x.species.length);
-
-			var g = d3.select( timelineSVG[0] )
-				.append('g');
-
-			g.selectAll('rect')
-				.data(Object.values(stationHits))
-				.enter()
-					.append('rect')
-						//.attr('width', 3 ) // Three days
-						.attr('width', dayWidth ) // one day
-						.attr('height', dataHeight )
-						.attr('x', (x) => timelineScale(x.date) )
-						.attr('fill', (x) => colourScale(x.species.length) )
-						.attr('transform', translate);
-	//							.attr('class', 'hover-data')
-	//							.on('mouseover', (e,d) => dataHover(e, d, 'in'))
-	//							.on('mouseout', (e,d) => dataHover(e, d, 'out'));
-
-			var tooltip_data_bar = d3.select( timelineSVG[0] )
-																.append('g')
-																	.style('display', 'none');
-			tooltip_data_bar.append('rect')
-											.attr('width', dayWidth)
-											.attr('height', height)
-											.attr('fill', '#000')
-											.attr('x', 0)
-											.attr('y', 0);
-
-			function bisect(mx) {
-				const bisect = d3.bisector( d => d.date ).left;
-
-				const date = x_scale.invert(mx);
-			  const index = bisect(Object.values(stationHits), date, 1);
-			  const a = Object.values(stationHits)[index - 1];
-			  const b = Object.values(stationHits)[index];
-			  return b && (date - a.date > b.date - date) ? b : a;
-			}
-
-			function dataHover(e, dir = 'in') {
-				//							from: https://observablehq.com/@d3/line-chart-with-tooltip
-				if (dir == 'in') {
-					const x_pos = d3.pointer(e, this)[0];
-					const date =  x_scale.invert( x_pos ).toISOString().substr(0, 10);
-					const d = stationHits[ date ];
-
-					$('.tooltip').html(
-						"<center><h3>"+
-							( date )+
-						"</h3></center>"+
-						(d ?
-							`<table style="width:100%;text-align:center;font-size:14pt;"><tbody>`+
-								`<tr><td>${d.count} ${icons.animals}</td><td style="padding-left: 10px;">${d.species.length} ${icons.species}</td></tr>`+
-								`<tr><td><b>Animal${d.count==1?"":"s"}</b></td><td style="padding-left: 10px;"><b>Species</b></td></tr>`+
-							`</tbody></table>`
-						: "") +
-						"</div>"
-					);
-
-					if (e.pageX + 15 + $('.tooltip').outerWidth() > $(window).width()) {
-						$('.tooltip').css({top:e.pageY - 10, left:e.pageX - $('.tooltip').outerWidth() - 15});
-					} else {
-						$('.tooltip').css({top:e.pageY - 10, left:e.pageX + 15});
-					}
-					tooltip_data_bar.attr('transform', `translate(${x_pos},0)`).style('display', null)
-					$('.tooltip:hidden').show();
-				} else {
-					$('.tooltip').hide();
-					tooltip_data_bar.style('display', 'none');
-				}
-			}
-			function dataHeight(x) {
-				return 2 + ( ( height - 25 ) * x.count / maxCount);
-			}
-
-			function translate(x) {
-				return "translate(0, " + (((height - 25) - dataHeight(x))/2) + ")";
-			}
-
-			if (!hasData) {
-
-				d3.select( timelineSVG[0] )
-					.append('text')
-					.attr('dy', '.3em')
-					.attr('text-anchor', 'middle')
-					.attr('x', (width / 2) )
-					.attr('y', (height / 2) )
-					.style('font-weight', '600')
-					.text("NO DETECTIONS");
-
-			}
-
-
-			d3.select( timelineSVG[0] )
-				.append( 'g' )
-				.attr('transform', 'translate(0 60)')
-				.call(axis_x);
-		}
-
-
-		return timelineSVG[0];
-
-	}
 
 
 	function stationTable( cardID ) {
@@ -1797,8 +1608,6 @@ function tempFunction(){}
 
 			//headers.forEach( x => $(`#explore_card_${cardID} .explore-card-${cardID}-table thead tr`).append( $('<th></th>').text(x) ) );
 
-			timeRange = {min: timeRange.min.valueOf(), max: timeRange.max.valueOf()}
-			timeRange.range = timeRange.max - timeRange.min;
 
 			var stationTableData = Array.from(
 											d3.rollup(
@@ -2540,7 +2349,9 @@ function addExploreProfile(profile) {
 													" Summary"
 			}
 			if (typeof profile.dtStart !== 'undefined' && typeof profile.dtEnd !== 'undefined') {
-				timeline.setSlider([profile.dtStart, profile.dtEnd]);
+			//	timeline.setSlider([profile.dtStart, profile.dtEnd]);
+				motusFilter.dtStart = new Date(profile.dtStart);
+				motusFilter.dtEnd = new Date(profile.dtEnd);
 			}
 			$("#exploreContent .explore-card-wrapper")
 				.append(`<div class='explore-card' id='explore_card_profiles'>`+
@@ -2582,13 +2393,13 @@ function addExploreProfile(profile) {
 						//	 	`<div class='explore-card-name'><div style='font-size:${24 - (Math.floor(profile.label.length/15)*2)}pt;'>${profile.label}</div></div>`+
 							 	`<div class='explore-card-name'>`+
 									`<div class='explore-card-name-text'>${profile.name} <div class='${(profile.subtitle&&profile.subtitle.link)?'link':''}'>${profile.subtitle?profile.subtitle.text:''}</div></div>`+
-									(typeof profile.status !== 'undefined' ? `<div class='explore-profile-status explore-profile-status-${profile.status.toLowerCase()} tips' alt='${profile.status}'> </div>`:'')+
+									(typeof profile.status !== 'undefined' ? `<div class='explore-profile-status explore-profile-status-${profile.status.toLowerCase()} tips' alt='${profile.status}'>${profile.status.toLowerCase()}</div>`:'')+
 								//	`<div class='btn add_btn explore-card-add tips' alt='Compare with another ${dataType=="species"?dataType:dataType.slice(0, -1)}'>${icons.remove}</div>`+
 								//	`<div class='btn explore-card-remove remove_btn tips' alt='Remove this ${dataType=="species"?dataType:dataType.slice(0, -1)}'>${icons.remove}</div>`+
 								`</div>`+
 								`<div class='explore-profile-summary-wrapper'>`+
 									Object.entries(profile.summary).map( (d,i) => {
-										var profileDataType = d[0].replace('Detected', '').replace('Tagged', '').replace('Segments', '');
+										var profileDataType = d[0].replace('Detected', '').replace('Tagged', '').replace('Segments', '').toLowerCase();
 										return `<div class='explore-card-profile-data explore-card-data${i + 1}' onclick='showProfileData("${profile.id}", "${d[0]}")'>`+
 															`${icons[profileDataType] || ""}`+
 															`<div class='explore-profile-data-label'>${d[0].replace('Det', ' Det').replace('Tag', ' Tag').replace('Seg', ' Seg')}</div>`+
@@ -2599,7 +2410,7 @@ function addExploreProfile(profile) {
 									`<div class='explore-profile-shortDescription'>${profile.shortDescription}</div>`
 									 : "")+
 								"</div>"+
-								`<div class='explore-profile-info expanded'>`+
+								`<div class='explore-profile-info'>`+
 									`<div class='expand_btn'> info</div>`+
 									`<div class='explore-profile-info-section'><h4>Latest Activity</h4>`+
 									(
@@ -2761,4 +2572,329 @@ function populateAntennaInfo() {
 			});
 		});
 	}
+}
+function stationTimeline( d, {
+															width = 300,
+															height = 60,
+															timelineScale = d3.scaleLinear().domain([ timeRange.min, timeRange.max ]).range([ 0, width ]),
+															dayWidth = timelineScale( timeRange.min + (1 * 24 * 60 * 60 * 1000) ),
+															colourScale = d3.scaleSequential(d3.interpolateTurbo).domain([ 1, 10 ]),
+															timelineSVG = $("<svg width='"+width+"' height='"+height+"' style='margin:-8px 0;cursor:pointer;'></svg>"),
+															resize = false,
+															dataSource = 'station'
+														} = {} ) {
+
+	if (width > 0) {
+
+		dayWidth = dayWidth < 1 ? 1 : dayWidth;
+
+		var timeFormat = ( timeRange.range / (1000 * 60 * 60 * 24 * 365) ) * ( 300 / width ) > 2 ? "%Y" :
+							( ( timeRange.range / (1000 * 60 * 60 * 24 * 365) ) * ( 300 / width ) > 1 ? "%b %Y" : "%Y-%m-%d" );
+
+		var x_scale = d3.scaleTime()
+									.domain( [ new Date(timeRange.min), new Date(timeRange.max) ] )
+									.range( [0, width] );
+
+		var axis_x = d3.axisTop( x_scale )
+										.tickFormat( d3.timeFormat( timeFormat ) )
+										.ticks( Math.round( width /  75 ) );
+
+		var hasData = false;
+
+		var svg = d3.select( timelineSVG[0] )
+								.on("touchstart touchmove mousemove", dataHover)
+								.on("touchend mouseleave", function(e) {dataHover(e, "out");});
+
+		var stationHits = {};
+
+		if (dataSource != 'station') {
+			if (d.length > 0) {
+				hasData = true;
+			}
+			d.forEach(function(trackData) {
+
+				var dtsStart = trackData.dtStartList.split(',');
+				var dtsEnd = trackData.dtEndList.split(',');
+				var stations = trackData.route.split('.');
+				var projects = trackData.projID.split(',');
+				var species = trackData.species.split(',');
+				var animals = trackData.animals.split(',');
+
+				var dates = [];
+				var spp = [];
+
+				trackData.dir.split(',').forEach((dir ,i) => {
+					if (( motusFilter.projects.includes('all') || motusFilter.projects.includes(projects[i]) ) &&
+							( motusFilter.species.includes('all') || motusFilter.species.includes(species[i]) ) &&
+							( motusFilter.animals.includes('all') || motusFilter.animals.includes(animals[i]) )) {
+
+							if ( motusFilter.stations.includes('all') || motusFilter.stations.includes(stations[0]) ) {
+								dates.push( dir == 1 ? dtsStart[i] : dtsEnd[i] );
+								spp.push(species[i]);
+							}
+							if ( motusFilter.stations.includes('all') || motusFilter.stations.includes(stations[1]) ) {
+								dates.push( dir == 1 ? dtsEnd[i] : dtsStart[i] );
+								spp.push(species[i]);
+							}
+					}
+				}, []);
+
+				//var dates = trackData.dir.split(',')
+
+			//	console.log(trackData);
+			//	console.log(dates);
+//				var dates = dtsStart.concat(dtsEnd);
+
+				var data = countInstances( dates.map(k => new Date(k).valueOf()) );
+
+			//	console.log(data);
+				//var spp = {};
+
+				spp.forEach(function(k, i){
+
+		//			if ( spp.length != 0 && typeof data[2] !== 'undefined' && data[2][data[2].length - 1] == dates[i]) {
+
+					if ( typeof data[2] !== 'undefined' && data[0][data[2].length - 1] == dates[i]) {
+
+						data[2][i].push(k);
+
+					} else if ( typeof data[2] !== 'undefined' ) {
+
+						data[2].push([k]);
+
+					} else {
+
+						data[2] = [[k]];
+
+					}
+
+				});
+
+
+				var date_str;
+
+				for (var i = 0; i < data[0].length; i++) {
+					date_str = new Date( data[0][i] ).toISOString().substr(0, 10);
+					if ( typeof stationHits[ date_str ] !== 'undefined' ) {
+						stationHits[ date_str ].count += data[1][i];
+						stationHits[ date_str ].species = stationHits[ date_str ].species.concat(data[2][i]).filter(onlyUnique);
+					} else {
+						stationHits[ date_str ] = {date: data[0][i], count: data[1][i], species: data[2][i].filter(onlyUnique)};
+					}
+				}
+			});
+		} else {
+			d.forEach(function(v) {
+
+				var w = width * ((new Date(v.dtEnd).valueOf()) - (new Date(v.dtStart).valueOf())) / timeRange.range;
+				var x = width * ((new Date(v.dtStart).valueOf()) - timeRange.min) / timeRange.range;
+
+				svg
+					.append('rect')
+					.attr('width', w)
+					.attr('height', height)
+					.attr('x', x)
+					.style('fill', '#CCCCCC');
+
+
+				var g = d3.select( timelineSVG[0] )
+					.append('g');
+
+				w = width * ( 24 * 60 * 60 * 3000 ) / timeRange.range;
+
+				if (typeof motusData.tracksByStation[v.id] !== 'undefined') {
+
+					hasData = true;
+
+					motusData.tracksByStation[v.id].forEach(function(x){
+
+						var datePos = ( x.split('.')[0] == v.id ? 'dtStart' : 'dtEnd' ) + 'List';
+
+						var trackData = motusData.selectedTracks[x];
+
+						if (typeof trackData[datePos] !== 'undefined') {
+
+							var dates = trackData[datePos].split(',');
+
+							var data = countInstances( dates.map(k => moment(k).valueOf()) );
+
+							var spp = {};
+
+							trackData.species.split(',').forEach(function(k, i){
+
+					//			if ( spp.length != 0 && typeof data[2] !== 'undefined' && data[2][data[2].length - 1] == dates[i]) {
+
+								if ( typeof data[2] !== 'undefined' && data[0][data[2].length - 1] == dates[i]) {
+
+									data[2][i].push(k);
+
+								} else if ( typeof data[2] !== 'undefined' ) {
+
+									data[2].push([k]);
+
+								} else {
+
+									data[2] = [[k]];
+
+								}
+
+							});
+							var date_str;
+
+							for (var i = 0; i < data[0].length; i++) {
+								date_str = new Date( data[0][i] ).toISOString().substr(0, 10);
+								if ( typeof stationHits[ date_str ] !== 'undefined' ) {
+									stationHits[ date_str ].count += data[1][i];
+									stationHits[ date_str ].species = stationHits[ date_str ].species.concat(data[2][i]).filter(onlyUnique);
+								} else {
+									stationHits[ date_str ] = {date: data[0][i], count: data[1][i], species: data[2][i].filter(onlyUnique)};
+								}
+							}
+						}
+
+					});
+
+				} else {
+					// no data
+				}
+
+			});
+		}
+		var maxCount = d3.max(Object.values(stationHits), x => x.count);
+
+		var maxSpp = d3.max(Object.values(stationHits), x => x.species.length);
+
+		var g = d3.select( timelineSVG[0] )
+			.append('g')
+			.attr('class','hits');
+
+		g.selectAll('rect')
+			.data(Object.values(stationHits))
+			.enter()
+				.append('rect')
+					//.attr('width', 3 ) // Three days
+					.attr('width', dayWidth ) // one day
+					.attr('height', dataHeight )
+					.attr('x', (x) => timelineScale(x.date) )
+					.attr('fill', (x) => colourScale(x.species.length) )
+					.attr('transform', translate);
+	//							.attr('class', 'hover-data')
+	//							.on('mouseover', (e,d) => dataHover(e, d, 'in'))
+	//							.on('mouseout', (e,d) => dataHover(e, d, 'out'));
+
+		var tooltip_data_bar = d3.select( timelineSVG[0] )
+															.append('g')
+																.style('display', 'none');
+		tooltip_data_bar.append('rect')
+										.attr('width', dayWidth)
+										.attr('height', height)
+										.attr('fill', '#000')
+										.attr('x', 0)
+										.attr('y', 0);
+
+
+		if (typeof resize !== 'undefined') {
+			window.addEventListener("resize", resizeWidth);
+		}
+
+		function bisect(mx) {
+			const bisect = d3.bisector( d => d.date ).left;
+
+			const date = x_scale.invert(mx);
+			const index = bisect(Object.values(stationHits), date, 1);
+			const a = Object.values(stationHits)[index - 1];
+			const b = Object.values(stationHits)[index];
+			return b && (date - a.date > b.date - date) ? b : a;
+		}
+
+		function dataHover(e, dir = 'in') {
+			//							from: https://observablehq.com/@d3/line-chart-with-tooltip
+			if (dir == 'in') {
+				const x_pos = d3.pointer(e, this)[0];
+				const date =  x_scale.invert( x_pos ).toISOString().substr(0, 10);
+				const d = stationHits[ date ];
+
+				$('.tooltip').html(
+					"<center><h3>"+
+						( date )+
+					"</h3></center>"+
+					(d ?
+						`<table style="width:100%;text-align:center;font-size:14pt;"><tbody>`+
+							`<tr><td>${d.count} ${icons.animals}</td><td style="padding-left: 10px;">${d.species.length} ${icons.species}</td></tr>`+
+							`<tr><td><b>Animal${d.count==1?"":"s"}</b></td><td style="padding-left: 10px;"><b>Species</b></td></tr>`+
+						`</tbody></table>`
+					: "") +
+					"</div>"
+				);
+
+				if (e.pageX + 15 + $('.tooltip').outerWidth() > $(window).width()) {
+					$('.tooltip').css({top:e.pageY - 10, left:e.pageX - $('.tooltip').outerWidth() - 15});
+				} else {
+					$('.tooltip').css({top:e.pageY - 10, left:e.pageX + 15});
+				}
+				tooltip_data_bar.attr('transform', `translate(${x_pos},0)`).style('display', null)
+				$('.tooltip:hidden').show();
+			} else {
+				$('.tooltip').hide();
+				tooltip_data_bar.style('display', 'none');
+			}
+		}
+		function dataHeight(x) {
+			return 2 + ( ( height - 25 ) * x.count / maxCount);
+		}
+
+		function translate(x) {
+			return "translate(0, " + (((height - 25) - dataHeight(x))/2) + ")";
+		}
+		function resizeWidth() {
+
+			if (resize.length > 0 && width != resize.width()) {
+
+
+				var width_el = resize;
+				var tmp_width = 0;
+
+				while(tmp_width == 0 && width_el.get(0).tagName != "BODY") {
+					tmp_width = width_el.width();
+					width_el = width_el.parent();
+				}
+
+				if (tmp_width != width) {
+					width = tmp_width;
+					resize.find("svg").remove();
+					resize.append( stationTimeline(d3.selectAll('.explore-map-track:not(.hidden)').data(), {
+						width:width,
+						timelineSVG: $("<svg height='"+height+"' style='width:100%;margin:-8px 0;cursor:pointer;'></svg>"),
+						dataSource: dataSource
+					}) );
+				}
+			}
+		}
+
+		if (!hasData) {
+
+			d3.select( timelineSVG[0] )
+				.append('text')
+				.attr('dy', '.3em')
+				.attr('text-anchor', 'middle')
+				.attr('x', (width / 2) )
+				.attr('y', (height / 2) )
+				.attr('class','no-data-text')
+				.style('font-weight', '600')
+				.text("NO DETECTIONS");
+
+		}
+
+
+		d3.select( timelineSVG[0] )
+			.append( 'g' )
+			.attr('class','axis-x')
+			.attr('transform', 'translate(0 60)')
+			.call(axis_x);
+
+	}
+
+
+	return timelineSVG[0];
+
 }

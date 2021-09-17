@@ -7,6 +7,7 @@ function getMotusData(datasetName) {
   // List of all the files
   // This will have to change to include API calls
 	var allFiles = {
+		stations: filePrefix + "stations.csv",	// All stations including station deployments (a.k.a. receiver deployments)
 		stationDeps: filePrefix + "recv-deps.csv",	// All receiver deployments, including deployment country
 		regions: filePrefix + "country-stats.csv", // Number of projects, stations, and tag deployments in each country
 		polygons: filePrefix + "ne_50m_admin_0_countries.geojson", // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
@@ -55,11 +56,11 @@ function getMotusData(datasetName) {
   	if (exploreType == 'main') {
 
   		if (dataType == 'animals') {
-  				fileList = ["stationDeps", "tracks", "species", "animals"];
+  				fileList = ["stations", "stationDeps", "tracks", "species", "animals"];
   		} else if (dataType == 'stations') {
-  				fileList = ["stationDeps"];
+  				fileList = ["stations", "stationDeps"];
   		} else {
-  				fileList = ["stationDeps", "polygons", "regions",  "projects", "species", "animals"];
+  				fileList = ["stations", "stationDeps", "polygons", "regions",  "projects", "species", "animals"];
   		}
 
   	} else {

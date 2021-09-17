@@ -211,7 +211,7 @@ console.log(motusFilter[profileType] );
 function initiateLightbox(el) {
 	if (typeof el === 'undefined') {
 
-		$("#lightbox").click(function(){$(this).fadeOut(250);$("#lightbox_bg").fadeOut(250);});
+		$("#lightbox").click(function(){$(this).fadeOut(250);});
 		$('.enlarge').click(initiateLightbox);
 
 	} else {
@@ -226,8 +226,6 @@ function initiateLightbox(el) {
 			var img_url = el.src;
 		}
 
-
-		$("#lightbox_bg").fadeIn(250);
 		$("#lightbox img").attr('src', img_url).parent().fadeIn(250);
 	}
 
