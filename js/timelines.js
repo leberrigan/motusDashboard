@@ -571,7 +571,7 @@
 			}
 
 			function redrawXAxis() {
-				if ($(gParent._groups[0]).length > 0 && width != $(gParent._groups[0]).width()) {
+				if ($(gParent._groups[0]).length > 0 && width != $(gParent._groups[0]).width() && $(gParent._groups[0]).is(":visible")) {
 
 					var width_el = $(gParent._groups[0]);
 					var tmp_width = 0;

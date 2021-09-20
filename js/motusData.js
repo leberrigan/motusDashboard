@@ -114,7 +114,7 @@ function getMotusData(datasetName) {
 
 					var colourVal = dataType == 'projects' ? x.projID : dataType == 'regions' ? x.country : dataType == 'stations' ? "other" : dataType == 'species' ? x.species : x.animal;
 
-	  			x.dtEnd = x.dtEnd.length == "NA" ? new Date().toISOString().substr(0, 10) : x.dtEnd;
+	  			x.dtEnd = x.dtEnd == "NA" ? new Date().toISOString().substr(0, 10) : x.dtEnd;
 	  			x.status = new Date() - new Date(x.dtEnd) > (2 * 24 * 60 * 60 * 1000) ? 'inactive' : 'active';
 	  			x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
 					x.colourVal = colourVal;

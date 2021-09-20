@@ -11,6 +11,10 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ## Updates
 
 ### Latest
+* [x] [2021-09-20] Add zoom and brush to linear timelines
+* [x] [2021-09-19] Linear detection timelines
+* [x] [2021-09-16] Date slider includes detection timeline
+* [x] [2021-09-16] Latest information added
 * [x] [2021-09-05] Complete redesign of interface to remove clutter and save space.
 * [x] [2021-09-03] Add in track animations.
 * [x] [2021-08-20] Improve grid design for smaller screens.

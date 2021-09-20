@@ -240,29 +240,6 @@ function exploreMap({
 			}
 		},
 		regionColours: {},
-	/*	dataHover: function(e, d, dir, t){
-			if (dir == 'in') {
-
-				var filterName = motusFilter.colour;
-				filterName = (filterName == 'species' && mapType != 'tracks') ? 'nSpp' : filterName;
-
-				$('.tooltip').html("<big>" + d.name + "</big></br>" + $(".colourType_selector option[value='" + motusFilter.colour + "']").text() + ": " + d[filterName]);
-
-				if (e.pageX + 15 + $('.tooltip').outerWidth() > $(window).width()) {
-					$('.tooltip').css({top:e.pageY - 10, left:e.pageX - $('.tooltip').outerWidth() - 15});
-				} else {
-					$('.tooltip').css({top:e.pageY - 10, left:e.pageX + 15});
-				}
-
-				$('.tooltip:hidden').show();
-
-				d3.selectAll(".explore-map-" + t + "s:not(." + t + "" + d.id + ")").style('opacity', '0.1');
-			} else if (dir == 'out') {
-				$('.tooltip').hide();
-				d3.selectAll(".explore-map-" + t + "s").style('opacity', '1');
-			}
-		},
-		*/
 		loadingPane: function(text){
 			console.log(text);
 			if (text) {
@@ -281,26 +258,6 @@ function exploreMap({
 			if (dir == 'in') {
 
 				if (t == 'track') {
-					/*
-					var filterName = motusFilter.colour;
-
-					var title = d[filterName];
-
-
-					$('.tooltip').html(
-						"<big>"+
-							motusData.speciesByID.get(d.species)[0].english+
-							" - #" + d.id +
-						"</big>"+
-						//(filterName != 'projID' ? ("<br/>Project " + d.projID) : "") +
-					//	"<br/>Animal ID: " + d.id +
-					//	"<br/>Frequency: " + d.frequency + " MHz" +
-						"</br>Segment timespan: " + new Date( d.dtStart ).toISOString().substr(0,10)+ " - " + new Date( d.dtEnd ).toISOString().substr(0,10) +
-						"</br>Segment length: " + Math.round(d.dist/1000) + " km" +
-						"</br>(Click to view)"
-					);
-					d3.selectAll(".explore-map-" + t + "s:not(." + t + "" + ( (filterName == 'species' || mapType == 'tracks') ? d.id : d.id[0] ) + ")");
-					*/
 					$('.tooltip').html(
 						"<big>"+
 							(d.animals.split(',').length > 1 ? (d.animals.split(',').length + (d.species.split(',').length == 1 ? " " + (d.species == "NA" ? "Unknown species" : (motusData.speciesByID.get(d.species)[0].english + "s")) : " Animals") ):
@@ -379,7 +336,9 @@ function exploreMap({
 												"<br/>"+
 											  `<b>First installed: </b>${d.dtStart.toISOString().substr(0,10)}`+
 												"<br/>"+
-												`<a class='station-status station-status-${d.status.replace(' ','-')}'>`+
+											  `<b>Last data: </b>${d.lastData} days ago	`+
+												"<br/>"+
+												`<a class='station-status station-status-${d.status}'>`+
 													`${firstToUpper(d.status)}`+
 												"</a>"+
 												"<center>Click to view profile</center>");
@@ -1248,12 +1207,12 @@ function loadMapObjects(callback) {
 			//	var maxDate = d3.max(motusData.stations, d => d.dtEnd)
 
 				var maxDate = "2021-09-17";
+				var currentDate = new Date();
 
 				motusData.stations.forEach( d => {
 					d.status = d.status == 'active' || d.dtEnd == maxDate ? 'active' : 'inactive';
 					d.stationDeps =	d.stationDeps.replace(';',',');
 					d.projID =	d.projID.replace(';',',');
-					d.lastData = 0;
 					if (!station_freqs.includes(v[0].frequency)) {station_freqs.push(v[0].frequency);}
 					d.type = "Feature";
 					d.geometry = {
@@ -1263,6 +1222,11 @@ function loadMapObjects(callback) {
 
 					d.dtStart = new Date(d.dtStart);
 					d.dtEnd = new Date(d.dtEnd);
+
+
+					d.lastData = Math.ceil((currentDate - d.dtEnd) / (24 * 60 * 60 * 1000)); // Days ago
+
+
 				});
 
 				dtLims.min = d3.min(motusData.stations.map(x => x.dtStart));
