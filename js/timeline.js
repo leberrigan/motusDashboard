@@ -140,12 +140,13 @@ function exploreTimeline({
 				timeRange = {min: timeRange.min.valueOf(), max: timeRange.max.valueOf()}
 				timeRange.range = timeRange.max - timeRange.min;
 				$(timeline.el).dragslider("option","min",timeRange.min/1000).dragslider("option","max",timeRange.max/1000)
-
-				$(el).parent().append(stationTimeline(Object.values(motusData.selectedTracks),{
+console.log('timeline')
+				$(el).parent().append(detectionTimeline(Object.values(motusData.selectedTracks),{
 						width:width,
 						resize: $(el).parent(),
 						timelineSVG: $("<svg height='"+height+"' style='width:100%;margin:-8px 0;cursor:pointer;'></svg>"),
-						dataSource: "animals"
+						dataSource: "animals",
+						margin:{left:0,right:0}
 					}));
 					console.log($(el).parent().find('svg'));
 			} else {

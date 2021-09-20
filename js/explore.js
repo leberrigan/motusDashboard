@@ -24,7 +24,7 @@ Current order:
 //
 //	Global variables
 //
-var speciesPhotos = ["red-necked phalarope.jpg", "snow bunting.jpg", "semipalmated plover.jpg", "lincoln's sparrow.jpg", "cape may warbler.jpg", "semipalmated sandpiper.jpg", "eastern phoebe.jpg", "sanderling.jpg", "black-crowned night-heron.jpg", "yellow-billed cuckoo.jpg", "blackpoll warbler.jpg", "chipping sparrow.jpg", "dickcissel.jpg", "magnolia warbler.jpg", "tree swallow.jpg", "white-crowned sparrow.jpg"];
+var speciesPhotos = ["swainson's thrush", "black-and-white warbler", "prairie warbler.jpg", "pectoral sandpiper.jpg","palm warbler","red-necked phalarope.jpg", "snow bunting.jpg", "semipalmated plover.jpg", "lincoln's sparrow.jpg", "cape may warbler.jpg", "semipalmated sandpiper.jpg", "eastern phoebe.jpg", "sanderling.jpg", "black-crowned night-heron.jpg", "yellow-billed cuckoo.jpg", "blackpoll warbler.jpg", "chipping sparrow.jpg", "dickcissel.jpg", "magnolia warbler.jpg", "tree swallow.jpg", "white-crowned sparrow.jpg"];
 var stationPhotos = ["sable west spit.jpg", "pugwash.jpg", "panama sewage plant.jpg", "reserva nacional paracas.jpg", "nahant.jpg"];
 
 var devText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
@@ -45,6 +45,8 @@ var icons = {
 	  '<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>'+
 	'</svg>',
 	filters: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="explore-filter-btn tips" alt="Show filters" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z" /></svg>',
+	addFilter: '<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="20" height="20" class="add-filter-btn tips" alt="Add to filters"> <path style="fill:#000000;fill-rule:evenodd;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill-opacity:1" d="M 2.5 1.25 A 0.625 0.625 0 0 0 1.875 1.875 L 1.875 4.375 A 0.625 0.625 0 0 0 2.0351562 4.7929688 L 7.5 10.865234 L 7.5 18.125 A 0.625 0.625 0 0 0 8.3222656 18.716797 L 12.072266 17.466797 A 0.625 0.625 0 0 0 12.5 16.875 L 12.5 10.865234 L 16.464844 6.4589844 A 4.0735662 4.0735662 0 0 1 15.298828 5.8867188 L 11.410156 10.207031 A 0.625 0.625 0 0 0 11.25 10.625 L 11.25 16.425781 L 8.75 17.257812 L 8.75 10.625 A 0.625 0.625 0 0 0 8.5898438 10.207031 L 3.125 4.1347656 L 3.125 2.5 L 13.578125 2.5 A 4.0735662 4.0735662 0 0 1 13.794922 1.25 L 2.5 1.25 z " transform="scale(0.8)" /> <path style="fill:none;stroke:#00AA00;stroke-width:0.80000001;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 12.029041,2.2652033 2.948276,0.02397 M 13.503179,0.81503537 13.479209,3.7633111" /></svg>',
+	removeFilter: '<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="20" height="20" class="remove-filter-btn tips" alt="Remove filter"> <path style="fill:#000000;fill-rule:evenodd;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill-opacity:1" d="M 2.5 1.25 A 0.625 0.625 0 0 0 1.875 1.875 L 1.875 4.375 A 0.625 0.625 0 0 0 2.0351562 4.7929688 L 7.5 10.865234 L 7.5 18.125 A 0.625 0.625 0 0 0 8.3222656 18.716797 L 12.072266 17.466797 A 0.625 0.625 0 0 0 12.5 16.875 L 12.5 10.865234 L 16.464844 6.4589844 A 4.0735662 4.0735662 0 0 1 15.298828 5.8867188 L 11.410156 10.207031 A 0.625 0.625 0 0 0 11.25 10.625 L 11.25 16.425781 L 8.75 17.257812 L 8.75 10.625 A 0.625 0.625 0 0 0 8.5898438 10.207031 L 3.125 4.1347656 L 3.125 2.5 L 13.578125 2.5 A 4.0735662 4.0735662 0 0 1 13.794922 1.25 L 2.5 1.25 z " transform="scale(0.8)" id="path2" /> <path id="path4537-0" style="fill:none;stroke:#AA0000;stroke-width:0.80000001;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 12.537516,2.5363897 2.948276,0.02397" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" /></svg>',
 	help: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">'+
 	  '<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>'+
 	  '<path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>'+
@@ -139,8 +141,7 @@ var exploreType,
 
 function updateURL(reload) {
 
-	var stateToPush = 'e=' + (exploreType) +
-		'&d=' + (dataType),
+	var stateToPush = 'e=' + (exploreType) + '&d=' + (dataType),
 		toEncode;
 
 	for (f in motusFilter) {
@@ -150,7 +151,7 @@ function updateURL(reload) {
 				(f != 'dtEnd' || motusFilter.dtEnd.toISOString().substr(0,10) != default_endDate.toISOString().substr(0,10))
 				) {
 				if (['dtStart','dtEnd'].includes(f)) {
-					toEncode = moment( motusFilter[f] ).toISOString().substr(0,10);
+					toEncode = motusFilter[f].toISOString().substr(0,10);
 				} else  {
 					toEncode = motusFilter[f];
 				}
@@ -158,7 +159,7 @@ function updateURL(reload) {
 						( motusFilter.default && motusFilter.default[f] != motusFilter[f] && ['dtStart','dtEnd', 'colour'].includes(f) ) ||
 						!( !['dtStart','dtEnd', 'colour'].includes(f) && motusFilter.default && motusFilter.default[f] && motusFilter.default[f].sort().join(',') == motusFilter[f].sort().join(',') )
 						) {
-					stateToPush+='&'+f+'='+encodeURIComponent(toEncode.filter(onlyUnique));
+					stateToPush+='&'+f+'='+encodeURIComponent(toEncode.constructor.name == "Array" ? toEncode.filter(onlyUnique) : toEncode);
 				}
 			}
 		}
@@ -487,12 +488,9 @@ function exploreSummaryTabSelect(selectedTab) {
 
 				var tbl = [selectedTab,Array.from(motusData.projects.map(function(d) {
 
-					var stations = motusData.stationDepsByProjects.get(`${d.id}`);
-					var animals = motusData.animalsByProjects.get(`${d.id}`);
-					var species = typeof animals === 'undefined' ? [] : Array.from( animals.values() ).flat().map( d => d.species ).filter(onlyUnique);
-					stations = typeof stations === 'undefined' ? []  : Array.from( stations.values() ).flat().map( d => d.id ).filter(onlyUnique);
-					species = typeof species === 'undefined' ? [] : species;
-					animals = typeof animals === 'undefined' ? [] : Array.from( animals.values() ).flat().map( d => d.id ).filter(onlyUnique);
+					var stations = motusData.stations.filter( x => x.projID == d.id).map(x => x.id);
+					var animals = motusData.animals.filter(x => x.projID == d.id).map(x => x.id);
+					var species = animals.length == 0 ? [] : animals.map( x => x.species ).filter(onlyUnique);
 
 					return {
 						id: d.id,
@@ -515,7 +513,13 @@ function exploreSummaryTabSelect(selectedTab) {
 							style: multi?"multi+shift":"single"
 						},
 						order: [[ multi ? 1 : 0, 'asc' ]],
-						dom: '<"explore-table-header-controls"fi>lpti'
+						dom: '<"explore-table-header-controls"fi>lBpti',
+		        buttons: [
+							'copyHtml5',
+							'excelHtml5',
+							'csvHtml5',
+							'pdfHtml5'
+		        ]
 
 					};
 				var cols = selectedTab == 'projects' ? ['id', 'project_name', 'fee_id', 'stations', 'animals'] :
@@ -1264,7 +1268,7 @@ function afterMapLoads() {
 					min: d3.min(motusData.selectedStations.map( d => new Date( d.dtStart ) )),
 					max: d3.max(motusData.selectedStations.map( d => new Date( d.dtEnd ) ))
 				}
-	 		} else {
+	 		} else if (motusData.selectedStations.length > 0 || motusData.selectedAnimals.length > 0) {
 				dtLims = {
 					min: d3.min(
 												motusData.selectedStations.map( d => new Date( d.dtStart ) )
@@ -1279,13 +1283,20 @@ function afterMapLoads() {
 													)
 												)
 				};
-	 		}
+	 		} else {
+				dtLims = {min: motusFilter.dtStart, max: motusFilter.dtEnd}
+			}
+
+
 	//		dtLims.min = new Date( timeline.min );
 	//		dtLims.max = new Date( timeline.max );
 	console.log(dtLims);
+
 			exploreTimeline({ min: dtLims.min.valueOf() / 1000,
 												max: dtLims.max.valueOf() / 1000,
-												defaultValues: [ motusFilter.dtStart.valueOf() / 1000, motusFilter.dtEnd.valueOf() / 1000 ] });
+												defaultValues: [ motusFilter.dtStart.valueOf() / 1000, motusFilter.dtEnd.valueOf() / 1000 ],
+											 	height: 150
+											});
 
 /*
 			timeline.min = dtLims.min.valueOf() / 1000;
@@ -1344,7 +1355,7 @@ function exploreTable(opts) {
 
 	});
 	$("#" + opts.containerID + "_" + dataType).DataTable({
-		dom: '<"#explore_table_controls"lf><ip><rt>'
+		dom: '<"#explore_table_controls"lf><Bip><rBt>'
 	});
 
 	$("#explore_controls > div").append($("#explore_table_controls > div"))
@@ -1693,115 +1704,7 @@ function showProfileData(profileID, varName) {
 function addExploreCard(card) {
 
 
-	if (false) {//typeof card.summary === 'object') {
-
-		if ($("#explore_card_profile_" + card.id).length == 0) {
-
-			if ($("#explore_card_profiles").length == 0) {
-
-				var profiles_header = "";
-
-				$("#exploreContent .explore-card-wrapper").append(`<div class='explore-card' id='explore_card_profiles'>`+
-																														`<div class='explore-card-add explore-card-${dataType}' alt='Add a ${dataType=='species'?dataType:dataType.slice(0,-1)}'>`
-																															`<select class='explore-card-add-${dataType}' data-placeholder='Select a ${dataType=='species'?dataType:dataType.slice(0,-1)}'>`+
-																																`<option></option>`+
-																															`</select>`+
-																														`</div>`+
-																														`<div class='explore-card-profiles-toggles'></div>`
-																													`</div>`+
-																													`<div class='explore-card-profiles-tabs'>`
-																														`<div class='explore-card-tab expand-menu-btn'>${icons.expand}</div>`+
-																														`<div class='explore-profiles-tab-wrapper'></div>`
-																													`</div>`);
-
-				addExploreTab('explore-card-map', 'Map', {selected: true, icon: icons.map});
-
-				if (["stations","regions","projects"].includes(dataType)) {
-
-					var toggleText = dataType == "stations" ? `Animals tagged near this ${dataType.slice(0,-1)} only` : `Animals tagged in this ${dataType.slice(0,-1)} only`;
-
-					$("#exploreContent .explore-card-profiles-toggles").append(`<button class='toggleButton'>${toggleText}</button>`);
-
-					$("#exploreContent .explore-card-profiles-toggles .toggleButton").click(function(e){$(this).toggleClass('selected');setFilter.call(this, e);});
-
-				}
-
-				$("#exploreContent .explore-card-profiles-tabs .expand-menu-btn").click(function(){$(this).parent().toggleClass('expanded');});
-
-			}
-
-			var profile = {id: card.id, label: card.name, photo: card.photo, data: []};
-
-
-			for (s in card.status) {
-
-
-				var title = s == 'conservation' ? 'Conservation status' :
-						   (s == 'lastData' ? 'Last Data' :
-						   (s.indexOf('ID') != -1 ? s.replace('ID', ' ID') : firstToUpper(s.replace('Det', ' Det').replace('Tag', ' Tag').replace('Seg', ' Seg'))));
-
-				var icon = icons[ s.replace('Detected', '').replace('Tagged', '').replace('Segments', '') ];
-
-				var statusText = card.status[s][0];
-				statusText = s == 'status' ? (statusText != 'active' ? 'Inactive' : 'Active') : statusText;
-				profile.data.push( { type: s.replace('Detected', '').replace('Tagged', '').replace('Segments', ''), label: title, icon: icon, value: statusText } );
-
-	//			toAppend += "<td><div class='status-icon status-icon-" + s + (s == 'conservation' ? ' tips' : (s == 'status' ? ' status-icon-'+(statusText.toLowerCase()) : '')) + "'>"+ icon +"<div>"+ statusText + (s == 'lastData' ? '<div>days</div>' : '') + "</div></div></td>";
-			}
-
-
-			console.log(profile);
-			addExploreCardProfile(profile);
-
-
-			card.el = $("#explore_card_profile_" + card.id).get(0);
-
-			$(card.el).find(".explore-profile-info .expand_btn").click(function(){$(this).parent().toggleClass("expanded");});
-
-			if (card.photo == "") {
-
-				$("#explore_card_profile_" + card.id).addClass("no-photo").removeClass('tips');
-
-			} else {
-
-				$("#explore_card_profile_" + card.id + " .explore-card-image")
-					.css("background-image", "url(" + card.photo + ")")
-					.click(function(){
-						initiateLightbox(this);
-				});
-
-			}
-
-			$("#explore_card_profile_" + card.id + " .explore-card-name").click(function(){
-					$(this).closest(".explore-card-profile").toggleClass('expanded');
-			})
-
-			$("#explore_card_profile_" + card.id + " .explore-card-remove").click(function(){removeExploreCard(this, exploreType)});
-
-			if (motusFilter[exploreType][0] === 'all') {motusFilter[exploreType] = [];}
-
-			motusFilter[exploreType].push(String(card.id));
-			motusFilter[exploreType] = motusFilter[exploreType].filter(onlyUnique);
-
-			if ($("#exploreContent .explore-card-profile").length == 1) {
-		//		$(".explore-card-wrapper").addClass('solo-card');
-		//		$("#explore_card_profiles").addClass('solo-card');
-				$(".explore-card-wrapper #explore_card_profiles .explore-card-profile").addClass('expanded');
-				try { motusMap.setColour('id'); }
-				catch(err) { console.log("motusMap not yet created"); }
-			} else {
-				$(".explore-card-wrapper").removeClass('solo-card');
-				$("#explore_card_profiles").removeClass('solo-card');
-				$(".explore-card-wrapper #explore_card_profiles .explore-card-profile").removeClass('expanded');
-				try { motusMap.setColour('species'); }
-				catch(err) { console.log("motusMap not yet created"); }
-			}
-		} else {
-			$("#explore_card_profile_" + card.id).addClass('flash')
-			setTimeout('$("#explore_card_profile_' + card.id + '").removeClass("flash");',250);
-		}
-	}
-	else if (card.data == 'custom') 	{
+	if (card.data == 'custom') 	{
 		var toAppend = "<div class='explore-card explore-card-"+card.type+"' id='explore_card_"+card.type+"'>"+card.html+"</div>";
 		if (card.attachEl) {
 			$(card.attachEl)[card.attachMethod](toAppend);
@@ -2003,9 +1906,9 @@ function addExploreTab(el, header, opts = {}) {
 		tab.click(function(){$(this).toggleClass('selected',true);$(this).siblings().removeClass('selected');if ($(this).siblings('.expand-menu-btn').is(":visible") && $(this).parent().is(".expanded")) {$(this).siblings('.expand-menu-btn').trigger('click')}})
 	}
 	if (opts.insertAfter) {
-		$(".explore-card-profiles-tabs  > .explore-profiles-tab-wrapper ." + opts.insertAfter).after(tab);
+		$(".explore-card-profiles-tabs  > ." + opts.insertAfter).after(tab);
 	} else {
-		$(".explore-card-profiles-tabs > .explore-profiles-tab-wrapper").append(tab);
+		$(".explore-card-profiles-tabs").append(tab);
 	}
 	if (opts.selected) {tab.trigger('click');}
 }
@@ -2129,7 +2032,7 @@ function setFilter(e) {
 
 		motusFilter[filterName] = newFilter;
 
-		var displayText = motusFilter[filterName].map(v => $("#filter_" + filterName + " option[value='" + v + "']").text());
+	//	var displayText = motusFilter[filterName].map(v => $("#filter_" + filterName + " option[value='" + v + "']").text());
 
 		if (filterName == dataType) {
 			if (motusFilter[dataType].includes('all') && motusFilter.selections.length > 0) {
