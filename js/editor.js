@@ -259,7 +259,7 @@ function viewAntennaRanges(callback) {
 
           if (station.length != 0 && station[0].lat && station[0].lon && +station[0].lat != 0 && +station[0].lon != 0 ) {
 
-            var coordinates = getAntennaShape({lat: +station[0].lat, lon: +station[0].lon, type: d.antennaType, bearing: d.bearing});
+            var coordinates = getAntennaShape({lat: +station[0].lat, lon: +station[0].lon, antennaType: d.antennaType, bearing: d.bearing});
 
             // If it's a polygon, close the path
             if (coordinates.length > 1) {coordinates.push(coordinates[coordinates.length - 1])}
@@ -314,5 +314,6 @@ function viewAntennaRanges(callback) {
 		});
 	}
 
+  motusMap.setVisibility();
 
 }

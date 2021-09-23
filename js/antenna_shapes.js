@@ -15,14 +15,16 @@ function getAntennaShape({
 
 if (lat && lon) {
   if (antennaType === 'omni-mast' || antennaType === 'omni-whip' || antennaType === 'j-pole' || antennaType === 'monopole') {
-    return createOmni(lat, lon);
+    return createOmni(lat, lon, 1000);
   } else if (typeof parseInt(bearing) === 'number' && bearing >= 0 && bearing < 360) {
     if (antennaType === 'yagi-9-laird' || antennaType === 'yagi-9' || antennaType === 'yagi-9-maple' || antennaType === 'custom-9' || antennaType === 'yagi-8') {
-      return createYagi9(lat, lon, bearing);
+//      return createYagi9(lat, lon, bearing);
+      return createFake(lat, lon, bearing, 15000);
     } else if(antennaType === 'yagi-6' || antennaType === 'yagi-5' || antennaType === 'custom-6' || antennaType === 'yagi-4') {
-      return createYagi5(lat, lon, bearing);
+  //    return createYagi5(lat, lon, bearing);
+	      return createFake(lat, lon, bearing, 7500);
     } else {
-      return createFake(lat, lon, bearing);
+      return createFake(lat, lon, bearing, 15000);
     }
   } else {
     return [lon, lat];
@@ -31,7 +33,7 @@ if (lat && lon) {
   return [];
 }
 
- function createOmni(lat, lon) {
+ function createOmni(lat, lon, range) {
   var TAU = 2 * Math.PI; // 360 degrees in radians
   var t = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
   t = product(rotation(0, 1, 0, TAU * (90 - lat) / 360), t); // rotation along the meridian to the given latitude
@@ -42,7 +44,7 @@ if (lat && lon) {
   var path = [];
   for(var i=0; i<TAU; i+=TAU/numSegments) {
    // Set up omnidirectional antenna coordinates at the north pole:
-   var r = omniRange * referenceIsotropicRange;
+   var r = omniRange * (range?range:referenceIsotropicRange);
    var x1 = r * Math.cos(i);
    var y1 = r * Math.sin(i);
    // Apply the transform:
@@ -105,11 +107,11 @@ if (lat && lon) {
   return path;
  }
 
- function createFake(lat, lon, bearing) {
+ function createFake(lat, lon, bearing, range) {
   // distances in meters
-  var outerRadius = 10000;
-  var innerRadius = 6666;
-  var width = 2500;
+  var outerRadius = ( range ? range : 10000 );
+  var innerRadius = outerRadius*(2 / 3);
+  var width = outerRadius / 4;
 
   var TAU = 2 * Math.PI; // 360 degrees in radians
   var t = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];

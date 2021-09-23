@@ -252,6 +252,9 @@ function exploreMap({
 			}
 		},
 		dataHover: function(e, d, dir, t){
+			if (typeof e.touches !== 'undefined') {
+				e.preventDefault();
+			}
 			if (t == 'station') {
 				$('#explore-map-point-'+d.id).toggleClass('hover')
 			}
@@ -305,14 +308,6 @@ function exploreMap({
 											"<center>Click to view profile</center>");
 
 				} else if (t == 'station') {
-					$('.tooltip').html(
-						"<big>"+
-							(d.group > 1 ? d.group + " Stations" : d.name)+
-						"</big>"+
-						"<br/>"+
-						`<em><b>${d.nAnimals} animal${d.nAnimals==1?"":"s"}</b></em> of <em><b>${d.nSpp} species</b></em> detected`+
-						"</br>Click to view profile"
-					);
 
 					if (d.group > 1) {
 						$('.tooltip').html(
@@ -341,7 +336,10 @@ function exploreMap({
 												`<a class='station-status station-status-${d.status}'>`+
 													`${firstToUpper(d.status)}`+
 												"</a>"+
-												"<center>Click to view profile</center>");
+												"<center>"+
+												( isMobile ? `<button class='submit_btn' onclick='motusMap.dataClick(false,{id: ${d.id}},"station")'>View station profile</button>`
+													: "Click to view profile" )+
+												"</center>");
 					}
 				} else {
 
@@ -363,13 +361,27 @@ function exploreMap({
 					);
 
 				}
-				if (e.pageX + 15 + $('.tooltip').outerWidth() > $(window).width()) {
-					$('.tooltip').css({top:e.pageY - 10, left:e.pageX - $('.tooltip').outerWidth() - 15});
+				if (typeof e.touches !== 'undefined') {
+					if ($(document).width() < 600) {
+						$('.tooltip').css({top:$(document).scrollTop() + 10, left: ($(document).width() - $('.tooltip').outerWidth()) / 2 });
+					} else {
+						if (e.touches[0].pageX + 15 + $('.tooltip').outerWidth() > $(window).width()) {
+							$('.tooltip').css({top:e.touches[0].pageY - 10, left:e.touches[0].pageX - $('.tooltip').outerWidth() - 15});
+						} else {
+							$('.tooltip').css({top:e.touches[0].pageY - 10, left:e.touches[0].pageX + 15});
+						}
+					}
 				} else {
-					$('.tooltip').css({top:e.pageY - 10, left:e.pageX + 15});
+					if (e.pageX + 15 + $('.tooltip').outerWidth() > $(window).width()) {
+						$('.tooltip').css({top:e.pageY - 10, left:e.pageX - $('.tooltip').outerWidth() - 15});
+					} else {
+						$('.tooltip').css({top:e.pageY - 10, left:e.pageX + 15});
+					}
 				}
-
 				$('.tooltip:hidden').show();
+				if (isMobile) {
+					$('.tooltip_bg:hidden').show();
+				}
 
 			} else if (dir == 'out') {
 				$('.tooltip').hide();
@@ -679,7 +691,7 @@ function exploreMap({
 			//if (typeof tagDeps_el !== 'undefined') { tagDeps_el.attr("d", path); }
 			if (typeof motusMap.stationPaths !== 'undefined') {
 				motusMap.stationPaths.attr("d", motusMap.path.pointRadius(6));
-				motusMap.g.selectAll('.explore-map-r2').attr("d", motusMap.path.pointRadius(2));
+				motusMap.g.selectAll('.explore-map-r4').attr("d", motusMap.path.pointRadius(4));
 			}
 //			if (typeof motusMap.animalPaths !== 'undefined') { motusMap.animalPaths.attr("d", motusMap.path); }
 			if (typeof motusMap.trackPaths !== 'undefined') { motusMap.trackPaths.attr("d", motusMap.path); }
@@ -1314,9 +1326,9 @@ function loadMapObjects(callback) {
 									.attr('id', (d) => 'explore-map-point-'+d.id)
 									.style('stroke-width', '1px')
 									.style('pointer-events', 'auto')
-									.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
-									.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'station'))
-									.on('click', (e,d) => motusMap.dataClick(e, d, 'station'));
+									.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
+									.on('mouseout touchend', (e,d) => motusMap.dataHover(e, d, 'out', 'station'))
+									.on('mouseup', (e,d) => motusMap.dataClick(e, d, 'station'));
 
 						motusMap.map.on("zoomend", reset);
 
