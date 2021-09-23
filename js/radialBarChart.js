@@ -11,6 +11,7 @@
 			var gParentSize = gParent.node().getBoundingClientRect(); // the svg size
 			var gParentItem = d3.select(gParent.node()); // the svg
 
+			console.log(data);
 			console.log(gParentSize);
 		//	console.log(d3.max(data, d => d?d.total:d));
 
@@ -42,7 +43,7 @@
 
 
 			var y = d3.scaleRadial()
-				.domain([0, d3.max(data, d => d.total)])
+				.domain([0, d3.max(data, d => d.total.length)])
 				.range([innerRadius, outerRadius])
 
 			var x = d3.scaleBand()
@@ -104,7 +105,7 @@
 						.text( dateFun )));
 
 			var arc = d3.arc()
-				.innerRadius(d => y(d[0]))
+				.innerRadius(d => {return y(d[0])})
 				.outerRadius(d => y(d[1]))
 				.startAngle(d => x(d.data[data.columns[0]]))
 				.endAngle(d => x(d.data[data.columns[0]]) + x.bandwidth())
@@ -118,25 +119,31 @@
 				.style("font", "10px sans-serif");
 
 			gParentItem.append("g")
+				.call(xAxis);
+
+			gParentItem.append("g")
+				.call(yAxis);
+				
+			gParentItem.append("g")
 				.selectAll("g")
-				.data(d3.stack().keys(data.columns.slice(1))(data))
+				.data(d3.stack().keys(data.columns.slice(1)).value( (d, key) => d[key].length )(data))
 				.join("g")
 				.attr("fill", d => z(d.key))
-				.attr("class", d => `animal-timeline-arcs-${d.key}`)
+			//	.attr("class", d => `animal-timeline-arcs-${d.key}`)
+				.attr("data-category", d => d.key)
 				.selectAll("path")
 				.data(d => d)
 				.join("path")
 				.attr("d", arc)
 				.style('pointer-events', 'auto')
-				.on('touchstart mouseover', (e,d) => dataHover(e, d, 'in'))
+				.style('opacity','0.8')
+				.style('stroke','#000')
+				.style('stroke-width','3px')
+				.style('cursor','pointer')
+				.on('touchstart mouseover mousemove', (e,d) => dataHover(e, d, 'in'))
 				.on('touchend mouseout', (e,d) => dataHover(e, d, 'out'))
 				.on('click', (e,d) => dataClick(e, d));
 
-			gParentItem.append("g")
-				.call(xAxis);
-
-			gParentItem.append("g")
-				.call(yAxis);
 
 			gParentItem.append("g")
 				.append('g')
@@ -158,25 +165,31 @@
 		function dataHover(e, data, dir) {
 				//							from: https://observablehq.com/@d3/line-chart-with-tooltip
 				if (dir == 'in') {
+					$(e.target).css("opacity", "1");
+					const key = d3.select(e.target.parentElement).attr("data-category");
+					const dateFun = dateFormat == "H" ? (d=>`${d}:00 UTC`) : (d=> moment().dayOfYear( d ).format( dateFormat == "MMM" ? "MMMM" : dateFormat ) );
 
-					const key = e.target.parentElement.classList[0].split('-')[3];
-					const dateFun = dateFormat == "H" ? (d=>moment( d ).format( dateFormat )) : (d=> moment().dayOfYear( d ).format( dateFormat == "MMM" ? "MMMM" : dateFormat ) );
-
-//					console.log(data.data["Julian date"])
-
-					const date =  dateFun(data.data["Julian date"]);
 					const hits = data[1] - data[0];
 
-					$('.tooltip').html(
-						"<div style='text-align:center;'><big>"+
-							firstToUpper(key)+
-						"</big><br />"+
-							date+
-							"<br/>"+
-							icons.animals + "&nbsp;&nbsp;" +hits+
-							"<br/>animals"+
-						"</div>"
-					);
+					const animals = data.data[key].filter( onlyUnique );
+
+					const species = motusData.animals.filter( x => animals.includes( x.id ) ).map( x => x.species ).filter( onlyUnique );
+
+
+						$('.tooltip').html(
+							"<center><h3>"+
+								key+
+								"</h3><h2>"+
+								(dateFun == "H" ? "Time: " : "")+
+								dateFun( data.data[Object.keys(data.data)[0]] )+
+							"</h2></center>"+
+							`<table style="width:100%;text-align:center;font-size:14pt;"><tbody>`+
+									`<tr><td colspan="2">${hits} detections</td></tr>`+
+									`<tr><td>${animals.length} ${icons.animals}</td><td style="padding-left: 10px;">${species.length} ${icons.species}</td></tr>`+
+									`<tr><td><b>Animal${animals.length==1?"":"s"}</b></td><td style="padding-left: 10px;"><b>Species</b></td></tr>`+
+								`</tbody></table>`+
+							"</div>"
+						);
 
 					if (e.pageX + 15 + $('.tooltip').outerWidth() > $(window).width()) {
 						$('.tooltip').css({top:e.pageY - 10, left:e.pageX - $('.tooltip').outerWidth() - 15});
@@ -186,15 +199,81 @@
 
 					$('.tooltip:hidden').show();
 				} else {
+					$(e.target).css("opacity", "0.8");
 					$('.tooltip').hide();
 				}
 
 		}
 
-		function dataClick(e, data) {
-				console.log(data.key)
-		}
 
+		function dataClick(e, data) {
+				// Highlight all the tracks that shares these animals
+
+				const key = d3.select(e.target.parentElement).attr("data-category");
+				const dateFun = dateFormat == "H" ? (d=>`${d}:00 UTC`) : (d=> moment().dayOfYear( d ).format( dateFormat == "MMM" ? "MMMM" : dateFormat ) );
+				const date = dateFun( data.data[Object.keys(data.data)[0]] );
+
+			//	const hits = data[1] - data[0];
+
+				const animals = data.data[key];
+
+
+				$(".popup").remove();
+					$("body").append(`<div class='popup'><div class='popup-topbar'><div class='popup-header'>Detections from ${date}</div><div class='popup-topbar-close'>X</div></div><div class='popup-content'></div></div>`);
+					$(".popup").draggable({handle: ".popup-topbar"});
+
+					$(".popup .popup-topbar .popup-topbar-close").click(function(){
+						$(".popup").remove();
+					});
+
+					if (typeof motusData.animalsTableData === 'undefined') {getAnimalsTableData();}
+
+					var tableDom = motusData.animalsTableData.filter( x => animals.includes( x.id ) ).length > 10 ? "itp" : "t";
+
+					$('.popup .popup-content').html( "<table></table>" );
+
+
+					var color_dataType = 'regions' == dataType ? 'country' : 'project';
+
+					$('.popup .popup-content table').DataTable({
+							data: motusData.animalsTableData.filter( x => animals.includes( x.id ) ),
+							columns: [
+								{data: null, className: "icons", orderable: false, defaultContent: icons.addFilter},
+								{data: "id", title: "Animal", "createdCell": function(td, cdata, rdata){
+									$(td).html(
+															`<div class='explore-card-table-legend-icon table_tips' style='border-color:${motusMap.colourScale(rdata[color_dataType])};background-color:${motusMap.colourScale(rdata[color_dataType])}'><div class='tip_text'>${firstToUpper(color_dataType)}: ${['project','country'].includes(color_dataType)?rdata[color_dataType + "Name"]:rdata[color_dataType]}</div></div>`+
+															`<a href='javascript:void(0);' class='tips' alt='View animal profile' onclick='viewProfile("animals", [${cdata}]);'>#${cdata}</a>`
+														);
+								}},
+								{data: "name", title: "Species", "createdCell": function(td, cdata, rdata){
+									$(td).html(
+															`<a href='javascript:void(0);' class='tips' alt='View  profile' onclick='viewProfile("species", ["${rdata.species}"]);'>${cdata}</a>`
+														);
+								}},
+								{data: "dtStart", title: "Release date"},
+								{data: "dtEnd", title: "Status"},
+								{data: "nStations", title: "Stations visited"},
+								{data: "nDays", title: "Days detected"},
+								{data: "projectName", title: "Project", "createdCell": function(td, cdata, rdata){
+									$(td).html(
+										`<a href='javascript:void(0);' onclick='viewProfile("projects", [${rdata.project}]);'>${rdata.projectName}</a>`
+									);
+								}}
+							],
+							dom: tableDom,
+							autoWidth: false,
+							columnDefs: [ {
+								targets: 0,
+								orderable: false
+							}
+							],
+							order: [[1, 'asc']]
+						});
+
+				$('.popup').css({top:$("html").scrollTop() + ($(window).height() - $('.popup').outerHeight())/2, left:($(window).width() - $('.popup').outerWidth())/2});
+
+				$('.popup:hidden').show();
+		}
 		radialBarChart.colourScale = function (p) {
 			if (!arguments.length) return colourScale;
 			colourScale = p;

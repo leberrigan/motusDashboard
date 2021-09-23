@@ -157,7 +157,7 @@ function updateURL(reload) {
 				}
 				if ( f == 'selections' ||
 						( motusFilter.default && motusFilter.default[f] != motusFilter[f] && ['dtStart','dtEnd', 'colour'].includes(f) ) ||
-						!( !['dtStart','dtEnd', 'colour'].includes(f) && motusFilter.default && motusFilter.default[f] && motusFilter.default[f].sort().join(',') == motusFilter[f].sort().join(',') )
+						!( !['dtStart','dtEnd', 'colour', 'group'].includes(f) && motusFilter.default && motusFilter.default[f] && motusFilter.default[f].sort().join(',') == motusFilter[f].sort().join(',') )
 						) {
 					stateToPush+='&'+f+'='+encodeURIComponent(toEncode.constructor.name == "Array" ? toEncode.filter(onlyUnique) : toEncode);
 				}
@@ -232,6 +232,7 @@ function detectNavigation() {
 		status: url_params.status === undefined || url_params.status.length == 0 ? ["all"] : url_params.status.split(','),
 		selections: url_params.selections === undefined || url_params.selections.length == 0 ? url_params[dataType] === undefined ? [] : url_params[dataType].split(',') : url_params.selections.split(','),
 		frequencies: url_params.frequencies === undefined || url_params.frequencies.length == 0 ? ["all"] : url_params.frequencies.split(','),
+		group: url_params.group === undefined || url_params.group.length == 0 ? [] : url_params.group,
 		colour: url_params.frequencies === undefined || url_params.frequencies.length == 0 ? [] : url_params.colour
 	};
 	if (motusFilter[dataType].includes('all') && motusFilter.selections.length > 0) {
@@ -255,6 +256,8 @@ $(document).ready(function(){
 
 	// Are we on a mobile device?
 	isMobile = window.mobileCheck();
+
+	$('body').toggleClass("touch", isMobile)
 
 	//	Get URL parameters
 	detectNavigation();
@@ -1851,7 +1854,26 @@ function addExploreCard(card) {
 			},
 			width: "100%",
 			placeholder: function(){return $(this).data('placeholder');},
-		}).change(function(f) {addProfile(this.options[this.selectedIndex].value);});
+		}).change(function(e) {
+
+			if ($(this).hasClass("switch-profile")) {
+
+				$(this).removeClass("switch-profile");
+
+			 	const oldID = $(".explore-card-profile.switching").attr("data-profile-id");
+			 	const newID = this.options[this.selectedIndex].value;
+
+				motusFilter[dataType] = motusFilter[dataType].map( x => x==oldID?newID:x);
+				motusFilter.selections = motusFilter.selections.map( x => x==oldID?newID:x);
+
+				updateURL(true);
+
+			} else {
+				addProfile(this.options[this.selectedIndex].value);
+			}
+
+
+		});
 
 	}
 
@@ -1914,28 +1936,6 @@ function addExploreTab(el, header, opts = {}) {
 }
 
 
-function removeExploreCard(el, filterType) {
-
-	var cardID = $(el).closest('.explore-card-profile').attr('id').replace('explore_card_profile_', '');
-
-	$(el).closest('.explore-card-profile').remove();
-
-	motusFilter[exploreType] = motusFilter[exploreType].filter(function(x){return x != cardID;});
-	if ($("#exploreContent .explore-card-profile").length == 0) {
-		$(".explore-card-add").trigger('click');
-	} else {
-		if (exploreType == 'regions') {updateURL(true);}
-
-		if ($("#exploreContent .explore-card-profile").length == 1) {
-	//		$("#explore_card_profiles").addClass('solo-card');
-		//	$(".explore-card-wrapper").addClass('solo-card');
-			$(".explore-card-wrapper #explore_card_profiles .explore-card-profile").addClass('expanded');
-			//motusMap.setColour('id');
-		}
-	}
-	motusMap.setVisibility();
-	updateData();
-}
 function setCardColours(colourFun) {
 
 	$("#explore_card_profiles .explore-card-profile").each(function(){
