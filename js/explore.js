@@ -248,11 +248,13 @@ function detectNavigation() {
 }
 
 var filePrefix;
+var testTimer=[];
 
 $(document).ready(function(){
 
 //	$('.explore-card-wrapper').css({'opacity':0});
 
+	testTimer.push([new Date(), "Startup"]);
 
 	// Are we on a mobile device?
 	isMobile = window.mobileCheck();
@@ -367,6 +369,7 @@ $(document).ready(function(){
 	$("#explore_menu .explore-menu-overlay").click(function(){$("#explore_menu").removeClass('expanded');})
 	// Load the data
 	//	Now that we know what content to load and we have the dom to put it in, read in the required datasets
+		testTimer.push([new Date(), "Get data"]);
 	getMotusData();
 
 });
@@ -419,6 +422,8 @@ function makeTimelineSVG() {
 
 function loadDashboardContent() {
 
+		testTimer.push([new Date(), "Load dashboard content"]);
+
 	populateExploreControls();
 
 
@@ -454,7 +459,8 @@ function loadDashboardContent() {
 
 	if (["stations","animals","regions", "species", "projects"].includes(dataType)) {
 		exploreMap({containerID: 'explore_map'});
-		setTimeout(function(){loadMapObjects();},1)
+		setTimeout(function(){
+				testTimer.push([new Date(), "Load map objects"]);loadMapObjects();},1)
 	} else {
 		exploreTable({containerID: 'explore_table', name: dataType, data: motusData[dataType]});
 	}

@@ -5,6 +5,7 @@ var exploreProfile_hasLoaded = false;
 var timeRange = {};
 function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // {summaryType: String, summaryID: Integer or String, summaryData: Object}
 
+			testTimer.push([new Date(), "Explore summary"]);
 	if (summaryType) {
 		dataType = summaryType;
 	}
@@ -275,6 +276,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 	if (typeof selectedTracks === "undefined") {
 
+				testTimer.push([new Date(), "Load tracks"]);
 		console.log(motusFilter.stations)
 
 		if (!['animals', 'species'].includes(dataType)) {
@@ -513,6 +515,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 	console.log("motusMap.regionPaths: " + moment().diff(ts[0]) + "@" + moment().diff(ts[ts.length-1]));ts.push(moment());
 
+			testTimer.push([new Date(), "Add profile map objects"]);
 	if (!exploreProfile_hasLoaded) {
 /*
 		motusMap.svg.append("svg:defs").append("svg:marker")
@@ -817,6 +820,7 @@ function exploreSummary({regionBin = "adm0_a3", summaryType = false} = {}) { // 
 
 		console.log(d);
 
+				testTimer.push([new Date(), "Get profile data"]);
 function tempFunction(){}
 
 		if (dataType == 'stations') {
@@ -1392,6 +1396,7 @@ function tempFunction(){}
 
 	}
 
+			testTimer.push([new Date(), "Add other explore cards"]);
 			/*
 
 
@@ -1518,6 +1523,18 @@ $(window).bind('scroll', function () {
 
 	motusMap.setVisibility();
 	console.log("End: " + moment().diff(ts[0]) + "@" + moment().diff(ts[ts.length-1]));ts.push(moment());
+
+	testTimer.push([new Date(), "Done"]);
+
+	testTimer.forEach( (x,i) => {
+		var text = i == 0 ? "Begin" : testTimer[i-1][1];
+		x[2] = i == 0 ? 0 : x[0] - testTimer[i-1][0];
+		console.log(`${text}: ${x[2]}`);
+		if (i == testTimer.length - 1) {
+			console.log(`Total: ${d3.sum(testTimer, t => t[2])}`);
+		}
+	});
+
 
 	setProgress(100);
 
