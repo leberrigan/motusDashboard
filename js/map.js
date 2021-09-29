@@ -50,7 +50,6 @@ function exploreMap({
 		pointPath: d3.geoPath().pointRadius(1),// A path generator
 		isVisible: function(d) {
 		//	if (tmpvar < 1) {tmpvar++;console.log(d);}
-
 			const visibility = (
 						(
 							motusFilter.dtEnd > d.dtStart && motusFilter.dtStart < d.dtEnd
@@ -59,7 +58,7 @@ function exploreMap({
 								exploreType != 'main' &&
 								typeof d.name != "undefined" &&
 								(
-									!d.stationDeps.split(',').some(r => motusFilter.stations.includes(r)) ||
+									!d.stationDeps.some(r => motusFilter.stations.includes(r)) ||
 									motusFilter.stations.includes(d.id)
 								)
 							) || (
@@ -67,32 +66,38 @@ function exploreMap({
 								typeof d.projID == "undefined" ||
 								motusFilter.projects.includes('all') ||
 								exploreType == 'projects' ||
-								d.projID.split(',').some(r => motusFilter.projects.includes(r))
+								d.projID.some(r => motusFilter.projects.includes(r))
 							) && (
 								typeof d.status == "undefined" ||
 								motusFilter.status.includes('all') ||
-								d.status.split(',').some(r => motusFilter.status.includes(r))
+								d.status.some(r => motusFilter.status.includes(r))
 							) && (
 								typeof d.frequency == "undefined" ||
 								motusFilter.frequencies.includes('all') ||
-								motusFilter.frequencies.every(r => d.frequency.split(',').includes(r)) ||
+								motusFilter.frequencies.every(r => d.frequency.includes(r)) ||
 								d.frequency === motusFilter.frequencies[0]
 							) && (
 								typeof d.species == "undefined" ||
 								exploreType == 'stations' ||
 								motusFilter.species.includes('all') ||
-								d.species.split(',').some(r => motusFilter.species.includes(r))
+								(
+									typeof d.species != "object" &&
+									motusFilter.species.includes( d.species )
+								) || (
+									typeof d.species == "object" &&
+									d.species.some(r => motusFilter.species.includes(r))
+								)
 							) && (
 								typeof d.name == "undefined" ||
 								exploreType == 'species' ||
 								exploreType == 'regions' ||
 								motusFilter.stations.includes('all') ||
-								d.stationDeps.split(',').some(r => motusFilter.stations.includes(r))
+								d.stationDeps.some(r => motusFilter.stations.includes(r))
 							) && (
 								typeof d.animals == "undefined" ||
 								typeof motusFilter.animals == "undefined" ||
 								motusFilter.animals.includes('all') ||
-								d.animals.split(',').some(r => motusFilter.animals.includes(r))
+								d.animals.some(r => motusFilter.animals.includes(r))
 							)
 						)
 					)
@@ -139,7 +144,7 @@ function exploreMap({
 
 							motusMap.svg.selectAll(".explore-map-track:not(.hidden)").each((d)=>motusMap.visible.animals+=","+d.animals);
 
-							var nTracks = motusMap.visible.animals.split(',').length;
+							var nTracks = motusMap.visible.animals.length;
 
 							$("#explore_filters").siblings('.filter_status').find('span:eq(0)').text(nTracks);
 
@@ -261,11 +266,23 @@ function exploreMap({
 			if (dir == 'in') {
 
 				if (t == 'track') {
+					if (d.species.length == 1) {
+						var species = "Loading...";
+					// Make a request to the database to find the species name
+					 motusData.db.species.get( d.species.toString() ).then( sp => {
+						 // When request received, add the text
+						 $('.tooltip big').text(
+							 // If there are more than one animals, display the number of animals, but not the ID
+		 							(d.animal.length > 1 ? (d.animal.length + " " + (typeof sp === 'undefined' ? "Unknown species" : sp.english + "s") ):
+		 							(typeof sp === 'undefined' ? "Unknown species" : sp.english) + " #"+d.animal)
+							 );
+					 });
+				 } else {
+						// If there are more than one species, list the number of species as well as the number of animals.
+						var species = `${d.animal.length} animals of ${d.species.length} species`;
+				 }
 					$('.tooltip').html(
-						"<big>"+
-							(d.animals.split(',').length > 1 ? (d.animals.split(',').length + (d.species.split(',').length == 1 ? " " + (d.species == "NA" ? "Unknown species" : (motusData.speciesByID.get(d.species)[0].english + "s")) : " Animals") ):
-							(d.species == "NA" || typeof motusData.speciesByID.get(d.species) === 'undefined' ? "Unknown species" : motusData.speciesByID.get(d.species)[0].english) + " #"+d.animals)+
-						"</big>"+
+						"<big>"+species+"</big>"+
 						"</br>(Click to view)"
 					);
 
@@ -347,7 +364,7 @@ function exploreMap({
 					filterName = (dataType == 'species' && mapType != 'tracks') ? 'nSpp' : filterName;
 
 					var title = (dataType == 'species' && mapType != 'tracks') ?
-									(d.nSpp == 1 ? $("#filter_species option[value=" + d.species.split(',')[0] + "]").text() : "Species: " + d.nSpp) + "</br>Animals: " + d.id.length
+									(d.nSpp == 1 ? $("#filter_species option[value=" + d.species[0] + "]").text() : "Species: " + d.nSpp) + "</br>Animals: " + d.id.length
 								: d.name;
 
 
@@ -512,11 +529,11 @@ function exploreMap({
 					$(".popup").remove();
 					$(".explore-map-track").css({'opacity':1,'pointer-events':'auto'});
 					motusMap.group_f = 20;
-					motusFilter.animals=[];
+					motusFilter.animals = motusFilter.animalsOld;
 				});
 				var allTracks = [];
-
-				motusFilter.animals = d.animals.split(',');
+				motusFilter.animalsOld = motusFilter.animals;
+				motusFilter.animals = d.animal && d.animal.every(x=>x!="NA") ? d.animal : motusFilter.animals;
 				motusMap.group_f = false;
 
 				var animals = motusFilter.animals.forEach(function(a){
@@ -557,26 +574,36 @@ function exploreMap({
 				});
 			//	console.log(motusData.stationDepsBySubset);
 				// Make a table of species and their count and display a popup
-				console.log(d);
-				var spp = d.species.split(',');
-				var animals = d.animals.split(',');
+				var spp = d.species;
+				var animals = d.animal;
 
-				var species = d3.rollup(spp.map(function(x, i){return {species: x, animal: animals[i]}}), (v) => v.map(x => x.animal).join(','), x => x.species);
+				var species = d3.rollup( spp.map(function(x, i){
+						return {
+							species: x,
+							animal: animals[i]
+						}
+					}), (v) => v.map(x => x.animal).join(','), x => x.species);
 				//spp.forEach(sp => speciesCounts[sp] = speciesCounts[sp] ? speciesCounts[sp] + 1 : 1);
+				var rows = (Array.from(species.keys()).map(function(sp, i){
 
-				$('.popup .popup-content').html(
-					"<table><thead><tr><th>Species</th><th>Count</th><th></th><th></th></tr></thead><tbody>"+
-					(Array.from(species.keys()).map(function(sp){
-						//console.log(((sp=='NA'||motusData.speciesByID.get(sp)===undefined)?'Unknown species':motusData.speciesByID.get(sp)[0].english)+" - " +speciesCounts[sp]);
-						return "<tr>" +
-									"<td>"+
-										((sp=='NA'||motusData.speciesByID.get(sp)===undefined)?'Unknown species':motusData.speciesByID.get(sp)[0].english) +
+					var speciesName = 'Unknown species';
+
+					 motusData.db.species.get( sp ).then( speciesMeta => {
+						 speciesName = typeof speciesMeta === 'undefined' ? "Unknown species" : speciesMeta[currLang];
+							 $(`.popup .popup-content tbody tr:eq(${i}) td.species`).text(
+								 speciesName
+							 );
+					 });
+
+					return "<tr>" +
+									"<td class='species'>"+
+										speciesName+
 									"</td>"+
 									"<td>"+
-										(species.get(sp).split(',').length)+
+										(species.get(sp).length)+
 									"</td>"+
 									"<td>"+
-										((species.get(sp).split(',').length) > 3 ?
+										((species.get(sp).length) > 3 ?
 											"<a href='#e=species&d=species&species="+sp+"&animals="+(species.get(sp))+"'>Animal profile</a>" :
 											"<a href='#e=animals&d=animals&animals="+(species.get(sp))+"'>Animal profile</a>")+
 
@@ -584,9 +611,13 @@ function exploreMap({
 									"<td>"+
 										"<a href='#e=species&d=species&species="+sp+"'>Species profile</a>"+
 									"</td>"+
-
 								"</tr>";
-					}).join(''))+
+
+				}));
+
+				$('.popup .popup-content').html(
+					"<table><thead><tr><th>Species</th><th>Count</th><th></th><th></th></tr></thead><tbody>"+
+					(rows.join(''))+//(await rows[0]).join("")+
 					"</tbody></table>"
 				)
 
@@ -674,7 +705,7 @@ function exploreMap({
 			}
 		},
 		reset: function(dataset) {
-			var bounds = motusMap.path.bounds(motusData.polygons),
+			var bounds = motusMap.path.bounds({type:"FeatureCollection", features: motusData.polygons}),
 			//var bounds = path.bounds(),
 				topLeft = bounds[0],
 				bottomRight = bounds[1];
@@ -840,6 +871,18 @@ function exploreMap({
 			});
 			return nodes;
 		},
+		legendClick: function(){
+			var toggleEls = [
+				(this.classList.contains('selected') ? "hide" : "show"),
+				 (this.classList[0].split('-')[2] + "-" + this.classList[0].split('-')[3]).toLowerCase()
+			 ];
+
+			console.log(toggleEls);
+
+			motusMap.setVisibility(false, toggleEls);
+
+			$(this).toggleClass( 'selected', !this.classList.contains('selected') );
+		},
 		MercatorXofLongitude: function(lon) {
 			return lon * 20037508.34 / 180;
 		},
@@ -935,18 +978,18 @@ function exploreMap({
 				var trackDataByRouteBundled = Array.from(d3.rollup(motusData.trackDataByRoute,
 				function(v) {
 					//		if (v[0][1].recv1 == '4555' || v[0][1].recv2 == '4555') {console.log(v);}
-					nVisible += v.map(x=>x[1].animals).join(',').split(',').length;
+					nVisible += v.map(x=>x[1].animals).flat().length;
 					return {
-						animals: v.map(x=>x[1].animals).join(','),
-						species: v.map(x=>x[1].species).join(',').split(',').join(','),
-						frequency: v.map(x=>x[1].frequency).join(',').split(',').filter(onlyUnique).join(','),
-						projID: v.map(x=>x[1].projID).join(',').split(',').filter(onlyUnique).join(','),
+						animals: v.map(x=>x[1].animals),
+						species: v.map(x=>x[1].species).flat(),
+						frequency: v.map(x=>x[1].frequency).flat().filter(onlyUnique),
+						projID: v.map(x=>x[1].projID).flat().filter(onlyUnique),
 						type: v[0][1].type,
 						dist: v[0][1].dist,
 						recv1: v[0][1].recv1,
 						recv2: v[0][1].recv2,
-						dtStart: d3.min(v.map(x=>x[1].dtStart)),
-						dtEnd: d3.max(v.map(x=>x[1].dtEnd)),
+						dtStart: new Date(d3.min(v.map(x=>x[1].dtStart))),
+						dtEnd: new Date(d3.max(v.map(x=>x[1].dtEnd))),
 						coordinates: v[0][1].coordinates
 					}
 				}, function(x){
@@ -966,7 +1009,7 @@ function exploreMap({
 									motusFilter.animals.includes('all') ||
 									motusFilter.animals.length == 0 ||
 									motusFilter.animals.some(
-										(a) => x.animals.split(',').includes(a)
+										(a) => x.animals.includes(a)
 									)
 								)
 					});
@@ -992,9 +1035,9 @@ function exploreMap({
 				tracks_el.enter().append("path")
 					.attr('class', "leaflet-zoom-hide explore-map-track explore-map-track")
 					.attr('id', (d) => ("explore-map-track-"+(d.recv1 < d.recv2 ? d.recv1 + '-' + d.recv2 : d.recv2 + '-' + d.recv1)))
-					.style('stroke', (d) => motusMap.colourScale(d.frequency.split(',')[0]))
-					.style('stroke-width', (d) => 2+(Math.log(d.animals.split(',').length,3)))
-					.style('opacity', (d) => (2/(1-Math.log(scale)))*(1 + Math.log(d.animals.split(',').length)))
+					.style('stroke', (d) => motusMap.colourScale(d.frequency[0]))
+					.style('stroke-width', (d) => 2+(Math.log(d.animals.length,3)))
+					.style('opacity', (d) => (2/(1-Math.log(scale)))*(1 + Math.log(d.animals.length)))
 					.style('pointer-events', 'auto')
 					.attr("d", motusMap.path)
 					.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'track'))
@@ -1094,51 +1137,19 @@ function loadMapObjects(callback) {
 
 	console.log(Object.keys(motusData));
 
-	for (dataset in motusData) {
+	['stations', 'stationDeps', 'regions', 'polygons', 'animals', 'tracks', 'species', 'projects'].forEach(function(dataset) {
 
-		if (dataset == 'regions') {
-
-
-			motusData.regionByCode = d3.group(motusData.regions,  d => d.ADM0_A3);
-
-			var stationsRemaining = motusData.stations;
-
-			//motusMap.colourScales.regions.stations = d3.scaleSequential(d3.interpolateYlGnBu).domain([-100,1000])
-			motusMap.colourScales.regions.stations = d3.scaleOrdinal().domain(["166.380 MHz", "151.50 MHz", "150.10 MHz", "none"]).range(["#66c2a5","#fc8d62","#8da0cb","#999999"]);
-
-			var continentFreqs = {
-				"North America":"166.380 MHz",
-				"South America":"166.380 MHz",
-				"Europe":"150.10 MHz",
-				"Asia":"151.50 MHz",
-				"Oceania":"151.50 MHz",
-				"Africa":"150.10 MHz",
-				"Antarctica":"none"
-			}
-			var regionFreqs = {
-				"Americas":"166.380 MHz",
-				"Europe":"150.10 MHz",
-				"Asia":"151.50 MHz",
-				"Oceania":"151.50 MHz",
-				"Africa":"150.10 MHz",
-				"Antarctica":"none"
-			}
-			console.log(motusData.stationDeps)
-			motusData.stationDepsByRegions = d3.group(motusData.stationDeps, d => d.country);
-			motusData.stationDepsByProjects = d3.group(motusData.stationDeps, d => d.projID);
+		if (dataset == 'regions' && !['animals', 'stations'].includes(dataType) ) {
 
 
-
-			motusMap.regionColours = motusMap.colourScales.regions.stations;
 
 			if (exploreType == 'main') {
-				console.log(motusData.polygons.features[0].properties);
 
 				var propNames = ["adm0_a3", "region_un"]
 				//var propNames = ["COUNTRY", "REGION"]
 				if (dataType == 'regions') {
 					var regions_el = motusMap.g.selectAll("regions")
-						.data(motusData.polygons.features)
+						.data(motusData.polygons)
 						.enter().append("path")
 						.attr('class', (d) => "explore-map-region" + (motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? ' leaflet-hide-always' : ' leaflet-interactive'))
 						.style('fill', function(d){
@@ -1158,7 +1169,7 @@ function loadMapObjects(callback) {
 				} else {
 
 						var regions_el = motusMap.g.selectAll("regions")
-							.data(motusData.polygons.features)
+							.data(motusData.polygons)
 							.enter().append("path")
 							.attr('class', (d) => "explore-map-region disable-filter")
 							.style('fill', '#DDDDDD')
@@ -1220,11 +1231,13 @@ function loadMapObjects(callback) {
 
 				var maxDate = "2021-09-17";
 				var currentDate = new Date();
-
+/*
 				motusData.stations.forEach( d => {
 					d.status = d.status == 'active' || d.dtEnd == maxDate ? 'active' : 'inactive';
-					d.stationDeps =	d.stationDeps.replace(';',',');
-					d.projID =	d.projID.replace(';',',');
+					d.stationDeps =	d.stationDeps.split(";");
+					d.animals =	d.animals.split(";");
+					d.localAnimals =	d.localAnimals.split(";");
+					d.projID =	d.projID.split(';');
 					if (!station_freqs.includes(v[0].frequency)) {station_freqs.push(v[0].frequency);}
 					d.type = "Feature";
 					d.geometry = {
@@ -1241,9 +1254,9 @@ function loadMapObjects(callback) {
 
 				});
 
+				*/
 				dtLims.min = d3.min(motusData.stations.map(x => x.dtStart));
 				dtLims.max = d3.max(motusData.stations.map(x => x.dtEnd));
-
 	 		}
 
 			//motusData.stationDeps = motusData.stations;
@@ -1284,7 +1297,7 @@ function loadMapObjects(callback) {
 			});
 
 */
-			if (motusData.polygons === undefined) {
+			if (exploreType == 'main') {
 
 				motusMap.colourScales.stations.frequency = d3.scaleOrdinal().domain(["166.38", "151.5", "150.1", "434", "none"]).range(["#66c2a5","#fc8d62","#8da0cb","#e78ac3","#999999"]);
 
@@ -1345,8 +1358,6 @@ function loadMapObjects(callback) {
 		*/
 
 
-			motusData.animalsByRegions = d3.group(motusData.animals, d => d.country, d => d.id);
-			motusData.animalsByProjects = d3.group(motusData.animals, d => d.projID, d => d.id);
 
 		} else if (dataset == 'tracks') {
 
@@ -1384,8 +1395,8 @@ function loadMapObjects(callback) {
 
 				var trackDataByRoute = d3.rollup(trackDataLink, function(v) {
 					return {
-						animals: v.map(x=>x.id).join(','),
-						species: v.map(x=>x.species).filter(onlyUnique).join(','),
+						animals: v.map(x=>x.id),
+						species: v.map(x=>x.species).filter(onlyUnique),
 						type: v[0].type,
 						dist: v[0].dist,
 						recv1: v[0].recv1,
@@ -1406,12 +1417,12 @@ function loadMapObjects(callback) {
 				motusData.nTracks = 0;
 
 				motusData.trackDataByRoute = d3.rollup(motusData.tracks, function(v) {
-					var dtStart = moment(d3.min(v[0].dtStart.split(',')));
-					var dtEnd = moment(d3.min(v[0].dtEnd.split(',')));
-					if (dtLims.min > dtStart.toDate()) {dtLims.min = dtStart.toDate();}
-					if (dtLims.max < dtEnd.toDate()) {dtLims.max = dtEnd.toDate();}
-					motusData.nTracks += v[0].animal.split(',').length;
-					v[0].animal.split(',').forEach(function(x){
+					var dtStart = v[0].dtStart;
+					var dtEnd = v[0].dtEnd;
+					if (dtLims.min > dtStart) {dtLims.min = dtStart;}
+					if (dtLims.max < dtEnd) {dtLims.max = dtEnd;}
+					motusData.nTracks += v[0].animal.length;
+					v[0].animal.forEach(function(x){
 						if (motusData.tracksByAnimal[x]) {
 							motusData.tracksByAnimal[x].push(v[0].route);
 						} else {
@@ -1419,8 +1430,8 @@ function loadMapObjects(callback) {
 						}
 					});
 					return {
-						animals: v[0].animal,
-						species: v[0].species,
+						animals: v[0].animal.join(','),
+						species: v[0].species.join(','),
 						type: v[0].type,
 						recv1: v[0].recv1,
 						recv2: v[0].recv2,
@@ -1463,7 +1474,7 @@ function loadMapObjects(callback) {
 		console.log("Loaded " + dataset+ " to the map.");
 
 	//	loadContent();
-	}
+});
 	// TIMELINE
 
 	if (timeline != undefined && timeline.el != undefined) {
@@ -1699,15 +1710,15 @@ function animateTrackStep(date, start) {
 				var n_index = d.animal.reduce( (a, v, i) => {if (motusMap.animation.animals.includes(v)) {a.push(i);}return a}, [] );
 				// Select nested data based on index
 				d.animal = d.animal.filter( (x, i) => n_index.includes(i) );
-				d.dtStart = d.dtStart.filter( (x, i) => n_index.includes(i) );
-				d.dtEnd = d.dtEnd.filter( (x, i) => n_index.includes(i) );
+				d.dtStart = d.dtStartList.filter( (x, i) => n_index.includes(i) );
+				d.dtEnd = d.dtEndList.filter( (x, i) => n_index.includes(i) );
 			} else {
 				// Get the index of animal matches for nested data
-				var n_index = d.animal.split(',').reduce( (a, v, i) => {if (motusMap.animation.animals.includes(v)) {a.push(i);}return a}, [] );
+				var n_index = d.animal.reduce( (a, v, i) => {if (motusMap.animation.animals.includes(v)) {a.push(i);}return a}, [] );
 				// Select nested data based on index
-				d.animal = d.animal.split(',').filter( (x, i) => n_index.includes(i) );
-				d.dtStart = d.dtStart.split(',').filter( (x, i) => n_index.includes(i) );
-				d.dtEnd = d.dtEnd.split(',').filter( (x, i) => n_index.includes(i) );
+				d.animal = d.animal.filter( (x, i) => n_index.includes(i) );
+				d.dtStart = d.dtStartList.filter( (x, i) => n_index.includes(i) );
+				d.dtEnd = d.dtEndList.filter( (x, i) => n_index.includes(i) );
 			}
 
 		});
@@ -1858,4 +1869,220 @@ function animateTrackStep(date, start) {
 	    };
 	  };
 	}
+}
+
+function populateProfilesMap() {
+
+
+
+	motusMap.mapLegend = d3.create('div').attr("class", "explore-map-legend hidden")
+																	.attr("id", "explore_map_legend");
+	motusMap.mapLegend.append('div')
+						.attr("class", "explore-map-legend-header")
+						.on('click', function(){	$(this).closest('.explore-map-legend').toggleClass('hidden');	})
+							.append('span')
+							.text('Map legend')
+							.attr('class', 'showHide');
+
+	$('#explore_map').before("<div class='explore-map-controls'></div>")
+
+	d3.select(".explore-map-controls").append(()=>motusMap.mapLegend.node());
+	console.log(motusData);
+
+	if (dataType == 'regions') {
+		motusMap.regionPaths = motusMap.g.selectAll("regions")
+			.data(motusData.selectedRegions)
+			.enter().append("path")
+			.attr("d", motusMap.path)
+			.attr('class', 'explore-map-regions leaflet-zoom-hide')
+			.style('stroke', '#000')
+			.style('fill', d => motusFilter.regions.includes(d.properties.adm0_a3) ? "#FFF" : "#CCC" )
+			.style('stroke-width', '1px');
+	}
+// Other stations
+	motusMap.g.selectAll('stations')
+		.data( motusData.stations.filter( d => !motusFilter.selectedStationDeps.includes( d.id ) ).sort((a, b) => d3.ascending(a.id, b.id)) )
+		.enter().append("path")
+		.attr("d", motusMap.path.pointRadius(4))
+		.style('stroke', '#000')
+		.style('fill', '#FF0')
+		.attr('id', d => "explore_map_station_" + d.id)
+		.attr('class', 'explore-map-station explore-map-r4 leaflet-zoom-hide explore-map-station-other')
+		.style('stroke-width', '1px')
+		.style('pointer-events', 'auto')
+		.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
+		.on('mouseout touchmove', (e,d) => motusMap.dataHover(e, d, 'out', 'station'))
+		.on('touchend', (e) => e.preventDefault())
+		.on('mouseup', (e,d) => motusMap.dataClick(e, d, 'station'));
+
+
+	var yesterday = new Date().addDays( -1 );
+
+	testTimer.push([new Date(), "Set map bounds"]);
+
+// Selected stations
+	motusMap.g.selectAll('stations')
+		.data( motusData.selectedStations.sort((a, b) => d3.ascending(a.id, b.id)) )
+		.enter().append("path")
+		.attr("d", motusMap.path.pointRadius(6))
+		.style('stroke', '#000')
+		.style('fill', '#0F0')
+		.attr('id', d => "explore_map_station_" + d.id)
+		.attr('class', d => 'explore-map-station leaflet-zoom-hide explore-map-station-' + (d.dtEnd > yesterday ? 'active' : 'inactive') )
+		.style('stroke-width', '1px')
+		.style('pointer-events', 'auto')
+		.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
+		.on('mouseout touchmove', (e,d) => motusMap.dataHover(e, d, 'out', 'station'))
+		.on('touchend', (e) => e.preventDefault())
+		.on('mouseup', (e,d) => motusMap.dataClick(e, d, 'station'));
+
+	var stations_legend = motusMap.mapLegend.append('svg')
+			.attr('class', 'map-legend-stations')
+			.attr('viewBox', `0 0 150 60`)
+			.attr('width', '150')
+			.attr('height', `60`);
+
+	var g = stations_legend.append("g")
+												 .attr('class', 'map-legend-stations-active selected')
+												 .on('click', motusMap.legendClick);
+
+	g.append("circle")
+		.attr("cx", "10")
+		.attr("cy", "15")
+		.attr("r", 6)
+		.style('stroke', '#000')
+		.style('fill', '#0F0')
+		.style('stroke-width', '1px')
+		.style('pointer-events', 'auto');
+
+	g.append("path")
+		.attr('marker-end','url(#station_path)')
+		.attr("d", "M10,21 L10,20")
+		.style('stroke', '#000')
+		.style('fill', '#F00')
+		.style('stroke-width', '1px')
+		.style('pointer-events', 'auto');
+
+	g.append("text")
+			.attr("x", "20")
+			.attr("y", "20")
+			.text("Selected station");
+
+	var g = stations_legend.append("g")
+												 .attr('class', 'map-legend-stations-other selected')
+												 .on('click', motusMap.legendClick);
+
+	g.append("circle")
+			.attr("cx", "10")
+			.attr("cy", "35")
+			.attr("r", 3)
+			.style('stroke', '#000')
+			.style('fill', '#FF0')
+			.style('stroke-width', '1px')
+			.style('pointer-events', 'auto');
+
+	g.append("text")
+			.attr("x", "20")
+			.attr("y", "40")
+			.text("Other station");
+
+
+	testTimer.push([new Date(), "Set map bounds"]);
+	motusMap.stationPaths = motusMap.g.selectAll('.explore-map-station')
+
+	if (motusData.selectedRegions && false) {
+
+		motusMap.regionBounds = d3.geoPath().bounds({features:motusData.selectedRegions, type: "FeatureCollection"});
+
+		motusMap.map.fitBounds( [ [motusMap.regionBounds[0][1], motusMap.regionBounds[0][0]], [motusMap.regionBounds[1][1], motusMap.regionBounds[1][0]]]);
+	} else if (dataType == 'stations' ){
+
+		if (motusData.selectedStations.length == 1) {
+
+			motusData.selectionBounds = motusData.selectedStations[0].geometry.coordinates;
+
+			motusMap.map.setView(  [motusData.selectionBounds[1], motusData.selectionBounds[0]], 9);
+
+		} else { // If there are more than one points, get the extent of the bounds and fit them.
+
+			var lats = motusData.selectedStations.map( x => x.geometry.coordinates[1]);
+			var lons = motusData.selectedStations.map( x => x.geometry.coordinates[0]);
+			motusData.selectionBounds = [ d3.extent(lons), d3.extent(lats)];
+
+			motusMap.map.fitBounds( [ [motusData.selectionBounds[1][0], motusData.selectionBounds[0][0]], [motusData.selectionBounds[1][1], motusData.selectionBounds[0][1]]]);
+
+		}
+
+	}
+
+	testTimer.push([new Date(), "Add track paths"]);
+
+	var colourBy = dataType == 'stations' ? 'recv1' : dataType == 'species' ? 'species' : "origin"
+
+	motusMap.trackPaths = motusMap.g.selectAll("tracks")
+		.data(Object.values(motusData.selectedTracks))
+		.enter().append("path")
+		.attr('class', (d) => "explore-map-track explore-map-species leaflet-zoom-hide " + [d.colourVal].map( x => "explore-map-track-" + ( x.toLowerCase() ) ).join(" ") )
+		.attr("id", (d) => "explore-map-track-" + d.route.replace('.','-'))
+		.style('stroke', (d) => motusMap.colourScale(d.colourVal))
+		.style('pointer-events', 'auto')
+		.style('stroke-width', '3px')
+		.attr("d", motusMap.path)
+		.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'track'))
+		.on('mouseout touchend', (e,d) => motusMap.dataHover(e, d, 'out', 'track'))
+		.on('mouseup', (e,d) => motusMap.dataClick(e, d, 'track'));
+
+	var h = 20;
+
+	motusMap.mapLegend.append('div')
+		.style('font-weight','bold')
+		.text('Tagging location')
+
+	var tracks_svg = motusMap.mapLegend.append("svg")
+		.attr('class','map-legend-tracks');
+
+	var max_length = 0;
+
+	motusMap.colourScale.domain().forEach(function(x, i) {
+
+		var selectionColour = motusMap.colourScale.range()[i];
+		var selectionName = x == "remote" || x == 'other' || x == 'visiting' ? firstToUpper( x ) : motusData.selectionNames[ x ];
+
+		var g = tracks_svg.append("g");
+
+
+		g.append("path")
+			.attr("d", `M0,${10 + (i * h)} L30,${10 + (i * h)}`)
+			.style('stroke', selectionColour )
+			.style('stroke-width', '3px')
+			.style('pointer-events', 'auto');
+
+
+		g.append("text")
+			.attr("x", 40)
+			.attr("y", h * ( i + 0.75 ) )
+			.text( selectionName )
+			.style('pointer-events', 'auto');
+
+		var len = $("<div class='get-text-size'></div>").appendTo("body").css('font-size', '14pt').text( selectionName ).width();
+
+		max_length = max_length < len ? len : max_length;
+
+		g.attr("class","map-legend-track-" + x + " selected")
+			.style('pointer-events', 'auto')
+			.on('click', motusMap.legendClick);
+
+	});
+
+	tracks_svg.attr('viewBox', `0 0 ${50 + max_length} ${motusMap.colourScale.domain().length * h}`)
+		.attr('width', 50 + max_length)
+		.attr('height', motusMap.colourScale.domain().length * h);
+
+
+
+
+	motusMap.map.on("zoomend", motusMap.reset);
+
+	// Reposition the SVG to cover the features.
+	motusMap.reset();
 }

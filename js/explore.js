@@ -114,6 +114,72 @@ var dataTypes = ['Stations', 'Animals', 'Regions', 'Projects', 'Species']
 
 var default_startDate = new Date('2014-02-05'),
 	default_endDate = new Date('2021-04-20');
+var dtLims2;
+(function(){
+	dtLims2 = function(){
+
+		function dateLimits(){
+				dateLimits.min = dateLimits.getMinDate();
+				dateLimits.max = dateLimits.getMaxDate();
+				return dateLimits;
+		};
+
+		dateLimits.getMinDate = function() {
+
+				console.log("Get Min Date");
+			if (typeof motusData.selectedStations !== 'undefined' && typeof motusData.selectedAnimals !== 'undefined') {
+				return d3.min([d3.min(motusData.selectedStations, x => x.dtStart), d3.min(motusData.selectedAnimals, x => x.dtStart)]);
+			} else if (typeof motusData.selectedStations !== 'undefined') {
+				return d3.min(motusData.selectedStations, x => x.dtStart);
+			} else if (typeof motusData.selectedAnimals !== 'undefined') {
+				return d3.min(motusData.selectedAnimals, x => x.dtStart);
+			} else if (typeof motusData.stations !== 'undefined' && typeof motusData.animals !== 'undefined') {
+				return d3.min([d3.min(motusData.stations, x => x.dtStart), d3.min(motusData.animals, x => x.dtStart)]);
+			} else if (typeof motusData.stations !== 'undefined') {
+				return d3.min(motusData.stations, x => x.dtStart);
+			} else if (typeof motusData.animals !== 'undefined') {
+				return d3.min(motusData.animals, x => x.dtStart);
+			} else {
+				return new Date();
+			}
+
+		}
+
+		dateLimits.getMaxDate = function() {
+			console.log("Get Max Date");
+			if (typeof motusData.selectedStations !== 'undefined' && typeof motusData.selectedAnimals !== 'undefined') {
+				return d3.max([d3.max(motusData.selectedStations, x => x.dtEnd), d3.max(motusData.selectedAnimals, x => x.dtEnd)]);
+			} else if (typeof motusData.selectedStations !== 'undefined') {
+				return d3.max(motusData.selectedStations, x => x.dtEnd);
+			} else if (typeof motusData.selectedAnimals !== 'undefined') {
+				return d3.max(motusData.selectedAnimals, x => x.dtEnd);
+			} else if (typeof motusData.stations !== 'undefined' && typeof motusData.animals !== 'undefined') {
+				return d3.max([d3.max(motusData.stations, x => x.dtEnd), d3.max(motusData.animals, x => x.dtEnd)]);
+			} else if (typeof motusData.stations !== 'undefined') {
+				return d3.max(motusData.stations, x => x.dtEnd);
+			} else if (typeof motusData.animals !== 'undefined') {
+				return d3.max(motusData.animals, x => x.dtEnd);
+			} else {
+				return new Date();
+			}
+
+		}
+
+		dateLimits.min = typeof dateLimits.min === 'undefined' ? dateLimits.getMinDate() :
+			typeof dateLimits.min.getTime === 'undefined' || isNaN(dateLimits.min.getTime()) ? dateLimits.getMinDate() :
+			typeof dateLimits.min === 'string' && isNaN(new Date(dateLimits.min).getTime()) ? dateLimits.getMinDate() :
+			typeof dateLimits.min === 'string' && !isNaN(new Date(dateLimits.min).getTime()) ? new Date(dateLimits.min) :
+			dateLimits.min;
+
+		dateLimits.max = typeof dateLimits.max === 'undefined' ? dateLimits.getMaxDate() :
+			typeof dateLimits.max.getTime === 'undefined' || isNaN(dateLimits.max.getTime()) ? dateLimits.getMaxDate() :
+			typeof dateLimits.max === 'string' && isNaN(new Date(dateLimits.max).getTime()) ? dateLimits.getMaxDate() :
+			typeof dateLimits.max === 'string' && !isNaN(new Date(dateLimits.max).getTime()) ? new Date(dateLimits.max) :
+			dateLimits.max;
+
+		return dateLimits;
+	}
+})();
 
 var dtLims = {min: default_startDate, max: default_endDate};
 
@@ -133,6 +199,8 @@ var URLdataType = null,
 	URLmapType = null;
 
 var isMobile = false;
+
+var currLang = 'english';
 
 var exploreType,
 	mapType,
@@ -253,6 +321,7 @@ $(document).ready(function(){
 
 //	$('.explore-card-wrapper').css({'opacity':0});
 
+	testTimer.push([new Date(), "Startup"]);
 
 	// Are we on a mobile device?
 	isMobile = window.mobileCheck();
@@ -371,77 +440,20 @@ $(document).ready(function(){
 
 });
 
-// REMOVE
-function setProgress(percent) {
-}
-
-
-// Loads all the data needed based on the dataType and your exploreView
-/*
-function makeTimelineSVG() {
-
-	$("#dateSlider").append("<svg id='activityTimeline' width='" + $("#explore_main_wrapper").innerWidth() + "'></svg>");
-
-	var dateLimits = recvDepsLink.map(function(d){
-		return {
-			start: d.dtStart,
-			end: d.dtEnd
-		}
-	});
-	timeline.min = d3.min(dateLimits.map(d=>+d.start)) / 1000
-	timeline.max = d3.max(dateLimits.map(d=>+d.end)) / 1000
-	var timeLineRange = [
-			{
-				label: "",
-				times: [
-					{
-						"starting_time": timeline.min * 1000,
-						"ending_time": timeline.max * 1000
-					}
-				]
-			}
-		]
-
-
-	var timeLineConstruct = d3.timeline()
-		.tickFormat({
-			format: d3.timeFormat("%Y-%m-%d"),
-			tickTime: d3.timeDays,
-			numTicks: 10,
-			tickSize: 6})
-		.margin({left: 0, right: 0, top: 0, bottom: 0});
-
-	timeline.svg = d3.select("#activityTimeline")
-		.datum(timeLineRange).call(timeLineConstruct);
-
-}
-*/
-
 function loadDashboardContent() {
+
+	motusData.stationDepsByRegions = d3.group(motusData.stationDeps, d => d.country);
+	motusData.stationDepsByProjects = d3.group(motusData.stationDeps, d => d.projID);
+	motusData.animalsByRegions = d3.group(motusData.animals, d => d.country, d => d.id);
+	motusData.animalsByProjects = d3.group(motusData.animals, d => d.projID, d => d.id);
+	motusData.regionByCode = d3.group(motusData.regions,  d => d.ADM0_A3);
+
+	testTimer.push([new Date(), "Load dashboard content"]);
 
 	populateExploreControls();
 
-
-	if ( ["regions", "projects", "species"].includes(dataType) && exploreType == 'main' ) {
-		//console.log(dataType);
-			//		exploreSummaryTabSelect(dataType);
-				/*
-		$("#explore_controls .explore-summary-control-tab").click(function(){
-
-			$("#explore_controls .explore-summary-selections input").hide();
-
-			$("#explore_controls .explore-summary-control-tab").removeClass('selected');
-			$(this).addClass('selected');
-
-			var tabText = $(this).text().toLowerCase();
-			var selectedTab = ["region", "project", "species"].filter(x=>tabText.indexOf(x) != -1)[0];
-
-			exploreSummaryTabSelect(selectedTab);
-
-		});*/
-	}
-
 	initiateTooltip();
+
 	initiatePopup();
 
 	initiateLightbox();
@@ -449,19 +461,39 @@ function loadDashboardContent() {
 
 	populateSelectOptions();
 
-//	dataType = 'species';
-//	mapType = 'tracks';
+	exploreMap({containerID: 'explore_map'});
+
+	motusMap.regionColours = d3.scaleOrdinal().domain(["166.380 MHz", "151.50 MHz", "150.10 MHz", "none"]).range(["#66c2a5","#fc8d62","#8da0cb","#999999"]);
+
+	if (exploreType != 'main') {
+
+		addExploreProfilesWrapper();
+
+		testTimer.push([new Date(), "Get selections"]);
+
+		// References indexeddb
+		getSelections().then( () => {
+			// Set the default timeline date limits
+			timeRange.min = dtLims.min;
+			timeRange.max = dtLims.max;
+			// Load map objects (will be replaced?)
+			loadMapObjects();
+			// Add the tab menu item for the map
+			addExploreTab('explore-card-map', 'Map', {selected: true, icon: icons.map});
+			// Add the explore profiles
+			exploreSummary();
+
+		} );
+
+	} else {
+		loadMapObjects();
+	}
 
 	if (["stations","animals","regions", "species", "projects"].includes(dataType)) {
-		exploreMap({containerID: 'explore_map'});
-		setTimeout(function(){loadMapObjects();},1)
+//		setTimeout(function(){},1)
 	} else {
 		exploreTable({containerID: 'explore_table', name: dataType, data: motusData[dataType]});
 	}
-
-	//loadMapObjects({"tagDeps": subset});
-
-	//loadMapData(['regions', 'stations', 'tagDeps', 'tracks'] , afterMapLoads);
 
 
 }
@@ -823,77 +855,6 @@ function populateExploreControls() {
 				$("#explore_controls > div").append(controlIcon);
 				$("#explore_controls").after(controlContent);
 			}
-/*
-			$("#explore_controls > div").append(
-
-
-
-					(
-						x == 'view' ? (
-
-							//dataType == 'stations_NULL' ? ("<select style='width:150px'><option>Active stations</option><option>Prospective stations</option><option>Rectangles</option><option>Circles</option></select>") :
-							dataType == 'stations' ? ("<select style='width:200px' multiple='multiple'>"+
-																						"<option selected='selected'>Active stations</option><option>Prospective stations</option><option>Regional coordination\n groups</option>"+
-																				"</select>") :
-
-							("<button class='submit_btn' onclick='exploreControls(this);'>View " + (dataType == 'stations' ? "prospective stations" : "deployments")  + "</button>")
-
-						) : (
-						x == 'edit' ? "<label for='explore_controls_plan_layer_select'>Layers: </label><select id='explore_controls_plan_layer_select' style='width:200px' multiple='multiple'>"+
-															"<option selected='selected'>Active stations</option><option>Prospective stations</option><option>Coordination regions</option><option>Antenna ranges</option>"+
-													"</select>"+
-													"<button onclick='$(this).siblings(\"select\").select2(\"open\");'>Add layer</button>"+
-													"<button onclick='exploreMapAddStation()' class='submit_btn'>Add a prospective station</button>" :
-						(
-						x == 'pdf' ? "<input type='button' onclick='exploreControls(this.parentElement.parentElement);' value='Agree and Download' />" :
-						(
-							x == 'timeline' ?  "<div id='dateSlider'><div class='slider visible'><div id='custom-handle-1' class='ui-slider-handle'></div><div id='custom-handle-2' class='ui-slider-handle'></div></div></div>"  : (
-									x == 'search' ? "<input type='text' /><input type='button' value='Search' />" :
-									(
-										x == 'type' ?
-										(
-											['regions', 'projects','species'].includes(dataType) ?
-												"<div class='explore-summary-selections'>"+
-													"<span></span> "+
-													"<button class='multiSelect_btn'>Select multiple</button> "+
-													"<button class='submit_btn'>Summarise these data</button>"+
-													"<button class='reset_btn'>Clear selections</button>"+
-												"</div>"+
-												"<div class='explore-summary-regions-control-options explore-summary-control-options'>"+
-													"<label for='explore_control_regions_type'>Mapping regions by: </label><select id='explore_control_regions_type' style='width:150px'>"+
-													(["state/province", "country", "continent", "ecoregion", "BCR", "KBA", "Custom..."].map((x)=>"<option value='"+x+"'>"+firstToUpper(x)+"</option>"))+
-													"</select>"+
-													"<input type='button' onclick='exploreControls(this);' value='View as table' />"+
-												"</div>"+
-												"<div class='explore-summary-regionTable-control-options explore-summary-control-options'>"+
-													"<label for='explore_control_regions_type'>List regions by: </label><select id='explore_control_regions_type' style='width:150px'>"+
-													(["state/province", "country", "continent", "ecoregion", "BCR", "KBA", "Custom..."].map((x)=>"<option value='"+x+"'>"+firstToUpper(x)+"</option>"))+
-													"</select>"+
-													"<input type='button' onclick='exploreControls(this);' value='View as map' />"+
-												"</div>"+
-												"<div class='explore-summary-projects-control-options explore-summary-control-options'></div>"+
-												"<div class='explore-summary-species-control-options explore-summary-control-options'></div>" : ""
-										) : x == 'animate' ?
-										(
-											`<button class='animate-play tips' alt='Play'>${icons.play}</button>`+
-											`<button class='animate-pause tips' alt='Pause'>${icons.pause}</button>`+
-											`<button class='animate-stop tips' alt='Stop'>${icons.stop}</button>`
-										) : x == 'share' ?
-										(
-											`<div class="fb-share-button" data-href="${window.location.href}"	data-layout="button"></div>`
-										) : ""
-									)
-								)
-							)
-						)
-						)
-					)+
-
-					(hasIcon?'</div>':"")+
-
-
-				"</div>"
-			);*/
 
 		});
 		//console.log($("#explore_controls > div").html());
@@ -919,7 +880,7 @@ function populateExploreControls() {
 		}
 	});
 	$(".explore-control-content select").select2({
-		matcher: function(params, data) {
+		matcher: (params, data) => {
 			// If there are no search terms, return all of the data
 			if ($.trim(params.term) === '') {
 				return data;
@@ -944,14 +905,14 @@ function populateExploreControls() {
 			// Return `null` if the term should not be displayed
 			return null;
 		},
-		templateResult: function (data, container) {
+		templateResult: (data, container) => {
 			if (data.element) {
 				$(container).addClass($(data.element).attr("class"));
 			}
 			return data.text;
 		},
 		width: "100%",
-		placeholder: function(){return $(this).data('placeholder');},
+		placeholder: () => {return $(this).data('placeholder');},
 	}).change(function(){exploreControls(this);});
 
 	$("#explore_controls .toggleDisplay svg").click(function(){
@@ -1206,7 +1167,7 @@ function afterMapLoads() {
 			$("#explore_controls .explore-summary-control-options").hide();
 		}*/
 
-	} else {
+	} else if (false) {
 
 		if (exploreType == 'regions') {
 
@@ -1392,11 +1353,9 @@ function populateSelectOptions() {
 		});
 	}
 	if (typeof motusData.stationDeps !== 'undefined') {
-		for (const [name, d] of motusData.stationDepsByName.entries()){
 
-			filters.options.stations[d[0].id] = [name, d[d.length-1].status != 'active' ? 'inactive' : 'active'];
+		filters.options.stations = Object.fromEntries( motusData.stationDeps.map( d => [ d.id, [ d.name, ( d.status != 'active' ? 'inactive' : 'active' ) ] ] ) );
 
-		};
 		filters.options.frequencies = {};
 
 		(Array.from(motusData.stationDeps.map(d => d.frequency).values())).filter(onlyUnique).filter(d => d.length > 0 && d!="NA" && d.split(',').length == 1).forEach(d => filters.options.frequencies[`${d}`] = d + " MHz");
@@ -1488,7 +1447,7 @@ function populateSelectOptions() {
 	}
 
 	$((exploreType == 'main' || true ? "#explore_filters" : "#exploreContent") + " select").select2({
-		matcher: function(params, data) {
+		matcher: (params, data) => {
 			// If there are no search terms, return all of the data
 			if ($.trim(params.term) === '') {
 				return data;
@@ -1513,13 +1472,13 @@ function populateSelectOptions() {
 			// Return `null` if the term should not be displayed
 			return null;
 		},
-		templateResult: function (data, container) {
+		templateResult: (data, container) => {
 			if (data.element) {
 				$(container).addClass($(data.element).attr("class"));
 			}
 			return data.text;
 		},
-		placeholder: function(){return $(this).data('placeholder');},
+		placeholder: () => $(this).data('placeholder'),
 		width: "100%"
 	}).change(setFilter);
 
@@ -1774,23 +1733,6 @@ function addExploreCard(card) {
 
 		$(".explore-card-wrapper").append(toAppend);
 
-		/*
-
-		var selections = [];
-
-		var selectedVar = 'tags';
-
-		motusFilter[exploreType].forEach(function(id){
-			selections.push({
-				name: $("#explore_card_profile_" + id + " .explore-card-header").text(),
-				value: $("#explore_card_profile_" + id + " .status-icon-" + selectedVar + " > div").text(),
-				colour: $("#explore_card_profile_" + id + " .explore-card-image").css("border-left-color")
-			});
-		});
-		console.log(selections);
-
-		drawExploreChart({type:'barChart',data: selections});*/
-
 	}
 	else if (card.data === 'add') {
 		//$("#exploreContent .explore-card-map").append("<div class='explore-card explore-card-add tips' alt='Add a "+exploreType+"'><select class='explore-card-add-species' data-placeholder='Select a "+exploreType+"' style='width:200px;'><option></option></select></div>")
@@ -1798,15 +1740,24 @@ function addExploreCard(card) {
 
 		card.el = $("#exploreContent .explore-card-add").get(0);
 		//console.log(filters.options[exploreType]);
+/*
 		if (exploreType == 'stations') {
 			for (d in filters.options[exploreType]) {
-				$("#exploreContent .explore-card-add-" + exploreType).append('<option value="' + d + '" class="filter-option-' + filters.options[exploreType][d][1] + '">' + filters.options[exploreType][d][0] + '</option>');
+				$(`#exploreContent .explore-card-add-${exploreType}`).append(`<option value="${d}" class="filter-option-${filters.options[exploreType][d][1]}">${filters.options[exploreType][d][0]}</option>`);
 			}
 		} else {
 			for (d in filters.options[exploreType]) {
-				$("#exploreContent .explore-card-add-" + exploreType).append('<option value="' + d + '">' + filters.options[exploreType][d] + '</option>')
+				$(`#exploreContent .explore-card-add-${exploreType}`).append(`<option value="${d}">${filters.options[exploreType][d]}</option>`)
 			}
+		}*/
+						testTimer.push([new Date(), "Setup option data"]);
+		if (exploreType == 'stations') {
+			var data = Object.entries(filters.options[exploreType]).map( x => ({id: x[0], text: x[1][0]}) );
+		} else {
+			var data = Object.entries(filters.options[exploreType]).map( x => ({id: x[0], text: x[1]}) );
 		}
+
+		testTimer.push([new Date(), "Setup click events"]);
 		$("#exploreContent .explore-card-add").click(function(e){
 			e.stopPropagation();
 			if (!$(this).hasClass('visible') && !$('#explore_card_profiles').hasClass('view-solo')) {
@@ -1819,8 +1770,10 @@ function addExploreCard(card) {
 				$('.explore-card-profile').show();
 			}
 		});
+				testTimer.push([new Date(), "Select2"]);
 
 		$("#exploreContent .explore-card-add-" + exploreType).select2({
+			data: data,
 			matcher: function(params, data) {
 				// If there are no search terms, return all of the data
 				if ($.trim(params.term) === '') {
@@ -1953,54 +1906,6 @@ function setCardColours(colourFun) {
 
 function setFilter(e) {
 
-	/*if ($(this).hasClass('colourType_selector')) {
-		var val = this.value;
-
-		motusFilter.colour = val;
-
-		if (val == 'species' && mapType != 'tracks') {val = 'nSpp';}
-
-		motusMap.svg
-			.selectAll('.explore-map-' + dataType + '.explore-map-' + mapType)
-			.style(mapType == 'tracks' ? 'stroke' : 'fill', d => motusMap.colorScales[dataType][mapType][val](d[val]));
-
-		motusMap.legend.svg.html("");
-
-		if (val == 'nSpp' || val == 'nAnimals' || val == 'lastData') {
-
-			$("#explore_map_legend svg").show();
-
-			var colourScale = motusMap.colorScales[dataType][mapType][val];
-
-			if (val == 'projID' && mapType != 'regions') {
-				colourScale = motusMap.colorScales[dataType][mapType][val].domain(motusMap.visible.Projs).range(motusMap.visible.Projs.map(function(key){ return projectColours[key]; }))
-			} else if (val == 'nAnimals') {
-				var d = colourScale.domain();
-				colourScale.domain([d[1], d[0]]);
-			}
-
-			var legendWidth = $(motusMap.legend.el._groups[0][0]).parent().outerWidth();
-
-			legend({
-				el: motusMap.legend.svg,
-				color: colourScale,
-				title: $(this).select2('data')[0].text,
-			//	ticks: ((val == 'projID' && mapType != 'regions') ?  : undefined),
-				tickFormat: ( (val == 'nSpp' || val == 'species' || val == 'nAnimals') ? ".0f" : 's' ),
-				invert: (val == 'nSpp' || val == 'species' || val == 'nAnimals'),
-				height: legendWidth > 600 ? 600 : legendWidth
-			});
-
-			if (val == 'nAnimals') {
-				d = colourScale.domain();
-				colourScale.domain([d[1], d[0]]);
-			}
-		} else {
-			$("#explore_map_legend svg").hide();
-
-		}
-
-	} else*/
 	if ( $(this).parent().hasClass('explore-card-profiles-toggles') ) {
 
 		var toggle_type = this.textContent.toLowerCase().includes('stations') ? "stationDeps" : "animals";
@@ -2058,14 +1963,6 @@ function setFilter(e) {
 	return false;
 }
 
-
-
-function viewSolo(profile_id) {
-	console.log("#explore_card_profile_"+profile_id);
-	$("#explore_card_profile_"+profile_id).show();
-	$("#explore_card_profiles").addClass('solo-card view-solo');
-	$(".explore-card-wrapper").addClass('solo-card');
-}
 
 function updateData() {
 

@@ -241,6 +241,15 @@ body.touch .tooltip_bg {
 	border-radius:5px;
 	overflow: hidden;
 }
+.popup_bg {
+	position:fixed;
+	background: rgba(255,255,255,0.01);
+	left:0;
+	top:0;
+	right:0;
+	bottom:0;
+	z-index: 1098;
+}
 .popup .popup-topbar {
 	padding: 5px 10px;
   background-color: #CCC;
