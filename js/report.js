@@ -260,7 +260,7 @@ function detectNavigation() {
 	if (typeof exploreType === "undefined") {
 		// Define the explore view
 		//  exploreType defaults to "main" if not present in expected set of values
-		exploreType = url_params.e === undefined ? "main" : ["regions", "animals", "species", "stations", "projects"].includes(url_params.e) ? url_params.e : "main";
+		exploreType = url_params.e === undefined ? "main" : ["report", "regions", "animals", "species", "stations", "projects"].includes(url_params.e) ? url_params.e : "main";
 	}
 
 	if (typeof dataType === "undefined") {
@@ -277,12 +277,12 @@ function detectNavigation() {
 	} else if (	url_params.d === undefined 																									||
 							!dataTypes.includes(firstToUpper(url_params.d))															||
 							url_params.e === undefined 																									||
-							(!dataTypes.includes(firstToUpper(url_params.e)) && url_params.e != 'main')			) {
+							(!dataTypes.includes(firstToUpper(url_params.e)) && url_params.e != 'main' && url_params.e != 'report')			) {
 
 		window.location.href=`#e=${exploreType}&d=${dataType}`;
 		$('.explore-card-wrapper').animate({'opacity':0}, 500, function(){location.reload();});
 
-	} else if (url_params.d != url_params.e && url_params.e != 'main') {
+	} else if (url_params.d != url_params.e && url_params.e != 'main' && url_params.e != 'report') {
 
 		window.location.href=`#e=main&d=${dataType}`;
 		$('.explore-card-wrapper').animate({'opacity':0}, 500, function(){location.reload();});
@@ -290,8 +290,8 @@ function detectNavigation() {
 	}
 
 	motusFilter = {
-		dtStart: url_params.dtStart === undefined || url_params.dtStart.length == 0 ? motusFilter.dtStart : moment(url_params.dtStart),
-		dtEnd: url_params.dtEnd === undefined || url_params.dtEnd.length == 0 ? motusFilter.dtEnd : moment(url_params.dtEnd),
+		dtStart: url_params.dtStart === undefined || url_params.dtStart.length == 0 ? motusFilter.dtStart : new Date(url_params.dtStart),
+		dtEnd: url_params.dtEnd === undefined || url_params.dtEnd.length == 0 ? motusFilter.dtEnd : new Date(url_params.dtEnd),
 		species: url_params.species === undefined || url_params.species.length == 0 ? ["all"] : url_params.species.split(','),
 		animals: url_params.animals === undefined || url_params.animals.length == 0 ? ["all"] : url_params.animals.split(','),
 		regions: url_params.regions === undefined || url_params.regions.length == 0 ? ["all"] : url_params.regions.split(','),
@@ -304,11 +304,11 @@ function detectNavigation() {
 		colour: url_params.frequencies === undefined || url_params.frequencies.length == 0 ? [] : url_params.colour
 	};
 	if (motusFilter[dataType].includes('all') && motusFilter.selections.length > 0) {
-		motusFilter[dataType] = motusFilter.selections;
-	} else if ( !motusFilter.selections.every( x => motusFilter[dataType].includes(x))) {
-		motusFilter[dataType].concat( motusFilter.selections.filter( x => !motusFilter[dataType].includes(x) ) );
+//		motusFilter[dataType] = motusFilter.selections;
+	//} else if ( !motusFilter.selections.every( x => motusFilter[dataType].includes(x))) {
+//		motusFilter[dataType].concat( motusFilter.selections.filter( x => !motusFilter[dataType].includes(x) ) );
 	}
-	console.log(motusFilter);
+
 
 	if (motusMap.setVisibility) {
 		motusMap.setVisibility();
@@ -316,7 +316,6 @@ function detectNavigation() {
 }
 
 var filePrefix;
-var testTimer=[];
 
 $(document).ready(function(){
 
@@ -337,7 +336,7 @@ $(document).ready(function(){
 	filePrefix = window.location.hostname == 'localhost' || window.location.hostname == 'leberrigan.github.io' ? 'data/' : window.location.hostname.includes('motus.org') ? "https://" + window.location.hostname + "/wp-content/uploads/2021/09/" : "https://" + window.location.hostname + "/wp-content/uploads/";
 
 	// Change the document title based on the view and data type
-	document.title = "Motus - " + (exploreType == 'main' ? ( "Explore " + firstToUpper(dataType) ) : ( firstToUpper(exploreType) + " summary" ) );
+	document.title = "Motus Report - " + (exploreType == 'main' ? ( "Explore " + firstToUpper(dataType) ) : ( firstToUpper(exploreType) + " summary" ) );
 
 	// Capture any changes in URL
 	window.onhashchange = detectNavigation;
@@ -349,100 +348,16 @@ $(document).ready(function(){
 	default_startDate = dtLims.min;
 	default_endDate = dtLims.max;
 
-	// Set the HTML structure of the page based on exploreType
-	var HTML_dom = "<div class='explore-card-wrapper' style='opacity:0;'>"+
-						"<div class='title-wrapper'>"+
-							//(exploreType == 'main' ? "<div class='title-header'>Explore "+firstToUpper(dataType)+"</div>" : "<div class='title-header'>Explore [NAME]</div>")+
-							"<div class='explore-menu-header'>Summarise data by:</div>"+
-							"<div id='explore_menu'>"+
-								"<div class='explore-menu-overlay'></div>"+
-								`<div class='explore-menu-item expand_btn'>${icons.menu}</div>`+
-								(dataTypes.map(x=>`<div class='explore-menu-item${(x==firstToUpper((exploreType == 'main' ? dataType : exploreType))?" selected":"")}' __data='${(x.toLowerCase())}'>${x=='Animals'&&exploreType=='main'?'Tracks':x}</div>`).join(""))+
-					//			(dataTypes.map(x=>"<div class='explore-menu-item"+(x==firstToUpper((exploreType == 'main' ? dataType : exploreType))?" selected":"")+"' __data='"+(x.toLowerCase())+"'>"+(x=='Animals'?'Tracks':x)+"</div>").join(""))+
-							"</div>"+
-						"</div>"+
-						"<div class='explore-controls' id='explore_controls'>"+
-							"<div class='explore-control-wrapper'></div>"+
-						"</div>"+
-						(
-							["animals","stations","regions","projects","species"].includes(dataType) ? (
 
-									(exploreType != 'main' || dataType == 'regions' ? "<div id='explore_card_map' class='explore-card explore-card-map'>" : "") +
-										"<div id='explore_map'></div>" +
-									(exploreType != 'main' || dataType == 'regions' ? "</div>" : "")
-//									(exploreType != 'main'? `<div class='page-name'>${firstToUpper(dataType=='species'?dataType:dataType.substring(0, dataType.length - 1))} summary</div>` : "")
-
-								) :	""
-						)+
-						(
-						/*	["projects","species","regions"].includes(dataType) ?*/ "<div class='explore-table-wrapper'><table class='hover' id='explore_table' style='width:100%;'></table></div>" //: ""
-						)
-					"</div>";
-
-	// Append the above HTML and then set the view class
-	$("#exploreContent").append(HTML_dom).toggleClass('profiles', exploreType != 'main');//.toggleClass('data-summary', exploreType == 'main' && dataType == 'regions');
-
-	// Set the click events for main menu
-	$("#explore_menu .explore-menu-item").on('touchstart',function(){
-		$("#explore_menu").toggleClass("touch");
-	});
-	$("#explore_menu .explore-menu-item").click(function(){
-
-		if (($("#explore_menu").hasClass("expanded") && !$(this).hasClass('expand_btn')) || exploreType == 'main') {
-			// This should probably be done differently. #change
-
-			// Record the current datatype
-			var dataType_old = dataType;
-
-			// Get the new datatype
-			// This should be stored differently
-			dataType = $(this).attr('__data');
-
-			// Store the current explore view
-			var exploreType_old = exploreType;
-
-			// Set the explore view to 'main' (it defaults to this view when you click on the main menu)
-			exploreType = 'main';
-
-			// Refresh the page if the data type has changed (unless it was and is a table) or if the explore view has changed
-			var refresh = exploreType_old != exploreType || (dataType_old != dataType && !( ['regions','projects','species'].includes(dataType_old) && ['regions','projects','species'].includes(dataType) ) );
-
-			// Empty the motus filters
-			// We should probably have an option here to maintain filters. #change
-			motusFilter={};
-
-			// Update the url
-			updateURL( refresh );
-
-			// If we're not refreshing, we'll make the selected menu item change and then transition to the new data
-			if (!refresh) {
-
-				// Set selected menu option
-				$("#explore_menu .explore-menu-item.selected").removeClass("selected");
-				$(this).addClass("selected");
-
-				// Load the new data
-				// This function needs to change. #change
-				exploreSummaryTabSelect(dataType);
-
-			}
-		} else if ($(this).hasClass('expand_btn')) {
-			$("#explore_menu").toggleClass('expanded');//.unbind('mouseout');
-		} else {
-			$("#explore_menu").addClass('expanded');//.on('mouseout',function(){$("#explore_menu.expanded .expand_btn").trigger('click');});
-		}
-
-	});
-
-	$("#explore_menu .explore-menu-overlay").click(function(){$("#explore_menu").removeClass('expanded');})
-	// Load the data
-	//	Now that we know what content to load and we have the dom to put it in, read in the required datasets
-		testTimer.push([new Date(), "Get data"]);
-	getMotusData();
+//	getMotusData( ["stations"] );
+	getMotusData(  );
 
 });
 
 function loadDashboardContent() {
+
+
+	addReportControls();
 
 	motusData.stationDepsByRegions = d3.group(motusData.stationDeps, d => d.country);
 	motusData.stationDepsByProjects = d3.group(motusData.stationDeps, d => d.projID);
@@ -450,8 +365,18 @@ function loadDashboardContent() {
 	motusData.animalsByProjects = d3.group(motusData.animals, d => d.projID, d => d.id);
 	motusData.regionByCode = d3.group(motusData.regions,  d => d.ADM0_A3);
 
-	testTimer.push([new Date(), "Load dashboard content"]);
+	exploreMap({containerID: 'exploreMap'});
 
+	testTimer.push([new Date(), "Load map objects"]);
+	loadMapObjects();
+
+	testTimer.push([new Date(), "Get selections"]);
+	if (motusFilter.selections.length > 0) {
+		toggleLoadingOverlay(true);
+		getSelections().then(updateSelectionStatus);
+	}
+
+/*
 	populateExploreControls();
 
 	initiateTooltip();
@@ -492,455 +417,191 @@ function loadDashboardContent() {
 	}
 
 	if (["stations","animals","regions", "species", "projects"].includes(dataType)) {
+//		setTimeout(function(){},1)
 	} else {
 		exploreTable({containerID: 'explore_table', name: dataType, data: motusData[dataType]});
 	}
-
+*/
 
 }
-function exploreSummaryTabSelect(selectedTab) {
 
-	$(".explore-control-content .explore-summary-selections span").text(`Select one or more ${selectedTab} below`);
 
-		if (selectedTab == 'regions') {
-			$(".explore-control-content .explore-summary-selections button.multiSelect_btn:visible").hide();
-			$("#explore_table:visible").hide();
-			if ($.fn.DataTable.isDataTable("#explore_table")) {
-				$("#explore_table").DataTable().clear().destroy();
-			}
+function updateSelectionStatus() {
 
-			$(".explore-card-map:hidden").show();
-			$("#explore_map:hidden").show();
+
+	testTimer.push([new Date(), "Done"]);
+
+	testTimer.forEach( (x,i) => {
+		var text = i == 0 ? "Begin" : testTimer[i-1][1];
+		x[2] = i == 0 ? 0 : x[0] - testTimer[i-1][0];
+		console.log(`${text}: ${x[2]}`);
+		if (i == testTimer.length - 1) {
+			console.log(`Total: ${d3.sum(testTimer, t => t[2])}`);
+		}
+	});
+
+	motusMap.highlightSelections();
+
+	$(".explore-report-selectionStatus .status-value").each(function(){
+
+		var dataVar = this.parentElement.classList[0].replace("selected-", "");
+
+		if (dataVar == dataType) {
+			$(this).parent().toggleClass("selected",true);
+		} else {$(this).parent().removeClass("selected");}
+
+		console.log(`selected${firstToUpper(dataVar)}`);
+
+		if (['dtStart', 'dtEnd'].includes(dataVar)) {
+			$(this).text( motusFilter[`selected${firstToUpper(dataVar)}`] ? motusFilter[`selected${firstToUpper(dataVar)}`].toISOString().substr(0,10) : "" );
 		} else {
-			$(".explore-control-content .explore-summary-selections button:not(.multiSelect_btn):visible").hide();
-			$(".explore-card-map:visible").hide();
-			$("#explore_map:visible").hide();
-
-			if (selectedTab == 'regionTable') {
-
-				var tbl = [ dataType, motusData.regions.filter( x => x.both != 0 ) ];
-
-			} else if (selectedTab == 'projects') {
-
-				var tbl = [selectedTab,Array.from(motusData.projects.map(function(d) {
-
-					var stations = motusData.stations.filter( x => x.projID == d.id).map(x => x.id);
-					var animals = motusData.animals.filter(x => x.projID == d.id).map(x => x.id);
-					var species = animals.length == 0 ? [] : animals.map( x => x.species ).filter(onlyUnique);
-
-					return {
-						id: d.id,
-						name: d.project_name,
-						created_dt: moment(d.created_dt).toISOString().substring(0,10),
-						fee_id: d.fee_id,
-						stations: {display:	stations.length > 0 ? `<a href='javascript:void(0);' onclick='viewTableStats('stations',["${stations.join('","')}"])'>${stations.length}</a>` : 0, order: stations.length},
-						animals: {display:	animals.length > 0 ? `<a href='javascript:void(0);' onclick='viewTableStats('animals',["${animals.join('","')}"])'>${animals.length}</a>` : 0, order: animals.length},
-						species: {display:	species.length > 0 ? `<a href='javascript:void(0);' onclick='viewTableStats('species',["${species.join('","')}"])'>${species.length}</a>` : 0, order: species.length}
-					};
-
-				}).values())];
-
-			}
-
-			function loadTable(multi) {
-
-				var opts = {
-						select: {
-							style: multi?"multi+shift":"single"
-						},
-						order: [[ multi ? 1 : 0, 'asc' ]],
-						dom: '<"explore-table-header-controls"fi>lBpti',
-		        buttons: [
-							'copyHtml5',
-							'excelHtml5',
-							'csvHtml5',
-							'pdfHtml5'
-		        ]
-
-					};
-				var cols = selectedTab == 'projects' ? ['id', 'project_name', 'fee_id', 'stations', 'animals'] :
-									(selectedTab == 'regionTable' ? ['country', 'stations', 'animals'] :
-																									['english', 'scientific', 'animals', 'projects', 'group', 'code', 'sort']);
-
-				opts.columnDefs = [];
-
-				if (selectedTab == 'species') {
-
-
-					opts.order = [[6, 'asc']];
-					opts.columns = [];
-
-					for (var i in cols) {
-
-						opts.columns.push({
-							data: cols[i],
-							title: dataColNames[selectedTab][cols[i]],
-							createdCell: cols[i] == 'animals' ? function(td, cdata, rdata){
-								$(td).html(`<a href='javascript:void(0);' class='tips' alt='View list of animals'>${rdata.animals.split(',').length}</a>`).css('text-align', 'center');
-								} : cols[i] == 'projects' ? function(td, cdata, rdata){
-								$(td).html(`<a href='javascript:void(0);' class='tips' alt='View list of projects'>${rdata.projects.split(',').filter(onlyUnique).length}</a>`).css('text-align', 'center');
-							} : null,
-							className: "",
-				      searchable: i != 6,
-	      			visible: !(i == 4 || i == 5 || i == 6),
-							orderable: !(i == 4 || i == 5),
-							orderData: i == 1 ? [6, 1] : i
-						});
-					}
-
-					console.log(opts.columns);
-				}
-
-				if (multi) {
-
-					opts.columnDefs.push({
-							targets: 0,
-							data: null,
-							defaultContent: '',
-							orderable: false,
-							className: 'select-checkbox' });
-
-				//	opts.select.selector = 'td:first-child';
-
-					cols = [''].concat(cols);
-
-					$(".explore-control-content .explore-summary-selections button.multiSelect_btn:visible").hide();
-
-				}
-				loadDataTable(
-					tbl,
-					cols,
-					opts,
-					[{event: 'select', fun: onSelect},
-					{event: 'deselect', fun: onSelect}]
-				);
-			}
-
-			loadTable(false);
-
-			$(".explore-control-content .explore-summary-selections button.multiSelect_btn").show();
-
-			$(".explore-control-content .explore-summary-selections button.multiSelect_btn").click(function(){
-
-				loadTable(true);
-				$("#explore_table th.select-checkbox").on('click', selectAll);
-				$(".explore-summary-control-options .explore-table-header-controls").remove();
-				$(".explore-summary-" + selectedTab + "-control-options").append($(".explore-table-header-controls"));
-
-			});
-
-			$("#explore_table:hidden").show();
-
-			$("#explore_table th.select-checkbox").on('click', selectAll);
-
-			function selectAll() {
-
-				$(this).closest("tr").toggleClass("selected");
-				var table = $("#explore_table").DataTable();
-				if( $(this).closest("tr").hasClass("selected")){
-					table.rows({page: 'current'}).select();
-				}
-				else {
-					table.rows({page: 'current'}).deselect();
-				}
-
-			}
-
-			$(".explore-summary-selections .submit_btn").click(function(){
-				var data = $("#explore_table").DataTable().rows( {selected: true} ).data();
-
-				default_startDate = dtLims.min;
-				default_endDate = dtLims.max;
-
-				var dataVar = dataType == 'regions' ? 'ADM0_A3' : 'id';
-
-				var selection = [];
-
-				for (var i=0; i<data.length; i++) {
-					selection.push(data[i][dataVar]);
-				}
-
-				viewProfile(dataType, selection);
-			});
-			$(".explore-summary-selections .reset_btn").click(function(){
-				$("#explore_table").DataTable().rows().deselect();
-			});
-			$(".explore-summary-control-options .explore-table-header-controls").remove();
-			$(".explore-summary-" + selectedTab + "-control-options").append($(".explore-table-header-controls"));
-
-			function onSelect(e, dt, t, i) {
-				var nSelected = $("#explore_table").DataTable().rows( {selected: true} ).count();
-				if (nSelected > 0 && $("#explore_table td.select-checkbox").length == 0) {
-
-			        var data = dt.rows( {selected: true} ).data();
-
-					var dataVar = dataType != 'species' ? dataType != 'projects' ? 'ADM0_A3' : 'id' : 'id';
-
-					var selection = data[0][dataVar];
-
-					default_startDate = dtLims.min;
-					default_endDate = dtLims.max;
-
-				//	viewProfile(profileName, selection);
-
-					loadOverlayPane( dataType, dataVar, selection );
-
-
-				} else if (nSelected > 0) {
-					$(".explore-control-content .explore-summary-selections span").text(`${nSelected} ${(selectedTab=='species'?selectedTab:(nSelected == 1 ? selectedTab.slice(0,-1):selectedTab))} selected`);
-					$(".explore-control-content .explore-summary-selections button:not(.multiSelect_btn)").show();
-				//	$(".explore-control-content .explore-summary-selections button.multiSelect_btn:visible").hide();
-				} else {
-					$(".explore-control-content .explore-summary-selections button:not(.multiSelect_btn)").hide();
-				//	if (!$("#explore_table td.select-checkbox").length > 0) {
-				//		$(".explore-control-content .explore-summary-selections button.multiSelect_btn").show();
-				//	}
-					$(".explore-control-content .explore-summary-selections span").text(`Select one or more ${selectedTab} in the table below`);
-				}
-			}
+			$(this).text( motusData[`selected${firstToUpper(dataVar)}`] ? motusData[`selected${firstToUpper(dataVar)}`].length : "" );
 		}
-		$(".explore-control-content .explore-summary-control-options").hide();
-		$(".explore-control-content .explore-summary-" + selectedTab + "-control-options").show();
+	});
+
+	toggleLoadingOverlay(false);
 
 }
+function addReportControls() {
 
+	////////////////////////////////////
+	// dataType
+	$(".explore-report-control-wrapper .report-control-datatype").html("<select></select>");
 
-
-function loadOverlayPane( profileName, dataVar, selection ) {
-
-	$('#explore_overlay').remove();
-
-	$('body').append('<div id="explore_overlay"><div class="explore-overlay-content"></div></div>');
-
-	if ($("#explore_overlay_bg").length == 0) {
-		$('body').append('<div id="explore_overlay_bg"></div>');
-		$("#explore_overlay_bg").click(closeExploreOverlay);
-		console.log( profileName );
-	}
-	$("#explore_overlay_bg").fadeIn(100);
-
-	var selected_row = motusData[profileName].filter( d => d[dataVar] == selection)[0];
-
-	if (profileName == 'regions') {
-		var cols = {'country':"header", 'code':'subheader', 'stations':"stat", 'animals':"stat"};
-
-		selected_row.code = `CODE: "${selected_row.ADM0_A3}"`;
-
-	} else if (profileName == 'species') {
-
-		var cols = {'english':"header", 'scientific':"subheader", "group":"group"};
-
-	} else if (profileName == 'projects') {
-		var cols = {'project_name':"header", 'code':"subheader", 'created_dt':"data", 'fee_id':"group", 'description':"text"};
-
-		selected_row.code = `CODE: "${selected_row.project_code}"`;
-
-	}
-
-	var vals = {};
-
-	console.log(cols);
-
-	Object.entries(cols).forEach(function(d){
-
-		if (d[1] == 'stat') {selected_row[d[0]] = `${firstToUpper(d[0])}: ${selected_row[d[0]]}`;}
-
-		if (selected_row[d[0]].length > 0) {
-			$('#explore_overlay .explore-overlay-content').append(`<div class='explore-overlay-${d[1]}'>${selected_row[d[0]]}</div>`);
-		}
-	});
-
-	$('#explore_overlay .explore-overlay-content').append("<div class='button_wrapper'><input type='button'  class='submit_btn' value='View summary' /><input type='button' class='close_btn' value='Close' /></div>");
-
-	$("#explore_overlay .explore-overlay-content .submit_btn").click(viewExploreProfile);
-
-	function viewExploreProfile() {	viewProfile(profileName, selection); }
-
-	$("#explore_overlay .explore-overlay-content .close_btn").click(closeExploreOverlay);
-
-	function closeExploreOverlay() { $("#explore_overlay_bg").fadeOut(100);$("#explore_overlay").remove(); }
-
-
-}
-function populateExploreControls() {
-
-	var toAppend = [];
-
-	if (exploreType != 'main') {
-		toAppend = ["filters", "timeline", "animate", "search", 'pdf', 'share', 'add'];
-	} else if ( ['regions', 'projects','species'].includes(dataType) ) {
-		toAppend = ["type"];
-		if (exploreType == 'main') {
-//			$('#explore_controls').addClass('data-summary');
-		}
-	} else if (dataType == 'stations') {
-		toAppend = ["filters", "timeline", "search", "edit", 'pdf', 'share'];
-	} else if (dataType == 'animals') {
-		toAppend = ["filters", "timeline", "search", "view", 'pdf', 'share'];
-	}
-	toAppend.push('help');
-
-	if (toAppend.length > 0) {
-
-		toAppend.forEach(function(x){
-
-			var hasIcon = ( ! ( ['regions', 'projects','species'].includes(dataType) && exploreType == 'main' ) ) && x != 'view';
-
-			var controlIcon = `<div class='explore-map-${dataType}-${x}${(hasIcon ? " toggleDisplay" : "")}'>${(hasIcon?icons[x]:"")}</div>`;
-
-//			var controlContent = hasIcon ? `<div class="explore-control-content explore-control-${x}"${ (x == 'filters' ? ' id="explore_filters"' : '') }>` : "";
-			var controlContent = `<div class="explore-control-content explore-control-${x}"${ (x == 'filters' ? ' id="explore_filters"' : '') }>`;
-
-			if (x == 'view') {
-				controlContent += dataType == 'stations' ?
-																	("<select style='width:200px' multiple='multiple'>"+
-																			"<option selected='selected'>Active stations</option><option>Prospective stations</option><option>Regional coordination\n groups</option>"+
-																	"</select>") :
-																	("<button class='submit_btn' onclick='exploreControls(this);'>View deployments</button>")
-			} else if (x == 'pdf') {
-				controlContent += "<input type='button' onclick='exploreControls(this.parentElement);' value='Agree and Download' />";
-			} else if (x == 'timeline') {
-				controlContent += "<div id='dateSlider'>"+
-															"<div class='slider visible'><div id='custom-handle-1' class='ui-slider-handle'></div><div id='custom-handle-2' class='ui-slider-handle'></div></div>"+
-														"</div>";
-			} else if (x == 'search') {
-				controlContent += "<input type='text' /><input type='button' value='Search' />";
-			} else if (x == 'animate') {
-				controlContent += `<button class='animate-play tips' alt='Play'>${icons.play}</button>`+
-														`<button class='animate-pause tips' alt='Pause'>${icons.pause}</button>`+
-														`<button class='animate-stop tips' alt='Stop'>${icons.stop}</button>`+
-														`<div class='animate-duration-wrapper'>Duration: <input class='animate-duration' type="number" min="1" step="1" value="10"/> seconds</div>`
-			} else if (x == 'share') {
-				controlContent += `<div class="fb-share-button" data-href="${window.location.href}" data-layout="button"></div>`;
-			} else if (x == 'type') {
-				controlContent += ['regions', 'projects','species'].includes(dataType) ?
-						"<div class='explore-summary-selections'>"+
-							"<span></span> "+
-							"<button class='multiSelect_btn'>Select multiple</button> "+
-							"<button class='submit_btn'>Summarise these data</button>"+
-							"<button class='reset_btn'>Clear selections</button>"+
-						"</div>"+
-						"<div class='explore-summary-regions-control-options explore-summary-control-options'>"+
-							"<label for='explore_control_regions_type'>Mapping regions by: </label><select id='explore_control_regions_type' style='width:150px'>"+
-							(["state/province", "country", "continent", "ecoregion", "BCR", "KBA", "Custom..."].map((x)=>`<option value='${x}'>${firstToUpper(x)}</option>`))+
-							"</select>"+
-							"<input type='button' onclick='exploreControls(this);' value='View as table' />"+
-						"</div>"+
-						"<div class='explore-summary-regionTable-control-options explore-summary-control-options'>"+
-							"<label for='explore_control_regions_type'>List regions by: </label><select id='explore_control_regions_type' style='width:150px'>"+
-							(["state/province", "country", "continent", "ecoregion", "BCR", "KBA", "Custom..."].map((x)=>`<option value='${x}'>${firstToUpper(x)}</option>`))+
-							"</select>"+
-							"<input type='button' onclick='exploreControls(this);' value='View as map' />"+
-						"</div>"+
-						"<div class='explore-summary-projects-control-options explore-summary-control-options'></div>"+
-						"<div class='explore-summary-species-control-options explore-summary-control-options'></div>" : "";
-			} else if (x == 'edit') {
-				controlContent += '<div class="explore-map-editor-wrapper">'+
-														'<div id="explore_map_editor" class="explore-map-edit"><button class="close_btn">Close</button></div>'+
-	                        	'<div class="add-station-info">'+
-															'<span class="note">Click on the map to place a prospective station.</span><div class="add-station-range"></div><button class="close_btn">Cancel</button>'+
-														'</div>'+
-													'</div>'+
-													"<select id='explore_controls_plan_layer_select' style='width:200px' multiple='multiple'>"+
-															"<option selected='selected'>Active stations</option><option>Prospective stations</option><option>Coordination regions</option><option>Antenna ranges</option>"+
-													"</select>"+
-													"<button onclick='$(this).siblings(\"select\").select2(\"open\");'>Add layer</button>"+
-													"<button onclick='exploreMapAddStation()' class='submit_btn'>Add a prospective station</button>";
-			}
-
-			controlContent += "</div>";
-
-			if (!hasIcon) {
-				$("#explore_controls > div").append(controlContent);
-			} else {
-				$("#explore_controls > div").append(controlIcon);
-				$("#explore_controls").after(controlContent);
-			}
-
-		});
-		//console.log($("#explore_controls > div").html());
-	}
-
-//	$("#explore_controls .animate-play").click(function(){animateTimeline($("#dateSlider").get(0));});
-	$(".explore-control-content .animate-play").click(function(){
-		if (exploreType != 'main') {
-			if (!motusMap.animation.isAnimating) {animateTracks($(".explore-control-content .animate-duration").val() * 1000);}
-		} else {
-			animateTimeline( $("#dateSlider").get(0) );
-		}
-	});
-	$(".explore-control-content .animate-pause").click(function(){
-		motusMap.animation.pause = true;
-	});
-	//$(".explore-control-content .animate-duration").change(function(){motusMap.animation.duration = this.value * 1000;});
-	$(".explore-control-content .animate-stop").click(function(){
-		motusMap.animation.stop = true;
-		if (motusMap.animation.pause) {
-			motusMap.animation.pause = false;
-			animateTrackStep();
-		}
-	});
-	$(".explore-control-content select").select2({
-		matcher: (params, data) => {
-			// If there are no search terms, return all of the data
-			if ($.trim(params.term) === '') {
-				return data;
-			}
-
-			// Do not display the item if there is no 'text' property
-			if (typeof data.text === 'undefined') {
-				return null;
-			}
-
-			// `params.term` should be the term that is used for searching
-			// `data.text` is the text that is displayed for the data object
-			if (data.text.toUpperCase().indexOf(params.term.toUpperCase()) > -1) {
-				return data;
-			}
-
-
-			if (data.id.indexOf(params.term) > -1) {
-				return data;
-			}
-
-			// Return `null` if the term should not be displayed
-			return null;
-		},
-		templateResult: (data, container) => {
-			if (data.element) {
-				$(container).addClass($(data.element).attr("class"));
-			}
-			return data.text;
-		},
+	$(".explore-report-control-wrapper .report-control-datatype select").select2({
+		data: dataTypes.map( x => ({id: x.toLowerCase(), text:x }) ),
+		matcher: select2Matcher,
+		templateResult: select2TemplateResult,
 		width: "100%",
-		placeholder: () => {return $(this).data('placeholder');},
-	}).change(function(){exploreControls(this);});
-
-	$("#explore_controls .toggleDisplay svg").click(function(){
-
-		var controlName = this.parentElement.className.split(' ')[0].split('-').pop();
-
-		$(this).parent().toggleClass('selected').siblings('.toggleDisplay.selected').toggleClass('selected');
-
-		if (controlName == 'timeline') {
-			$('.explore-control-content.visible:not(.explore-control-' + controlName + ')').removeClass('visible');
-			$(".explore-control-timeline").toggleClass('visible', $(this).parent().is('.selected')).removeClass('animate');
-			window.dispatchEvent(new Event('resize'))
+		placeholder: select2Placeholder,
+		templateSelection: (state) => {return "Find detections by: "+state.text;}
+	}).change(function(){
+		if( dataType != this.value ) {
+			toggleLoadingOverlay(true);
+			dataType = this.value;
+			setTimeout(((dataType)=>{
+				updateURL();
+				addReportControls();
+				timeRange.min = dtLims.min;
+				timeRange.max = dtLims.max;
+				loadMapObjects();
+			}).bind(null, dataType), 250);
 		} else {
-			$('.explore-control-content.visible:not(.explore-control-' + controlName + ')').removeClass('visible');
-			$('.explore-control-content.explore-control-' + controlName).toggleClass('visible');
+			return false;
 		}
-		if (controlName == 'animate') {
-			$(".explore-control-timeline").toggleClass('visible', $(this).parent().is('.selected')).addClass('animate');
-			window.dispatchEvent(new Event('resize'))
-		}
-		if ($(this).parent().hasClass(`explore-map-${dataType}-edit`)) {
-			exploreMapEditor();
-		}
+	}).val(dataType).trigger("change");
+
+	////////////////////////////////////
+	// selections
+	$(".explore-report-control-wrapper .report-control-selections").html(`<select multiple data-placeholder='Select ${dataType}'></select><button class='reset_btn' style='margin-left:10px;'>Deselect all</button>`);
+
+	var textVar = dataType == 'species' ? currLang : dataType == 'regions' ? "country" : "name";
+
+	if (dataType == 'animals') {
+		motusData.animals.forEach( x=> {
+		    let species = motusData.species.filter( sp => sp.id == x.species);
+		    x.name = typeof species === 'object' && species.length > 0 ? species[0][currLang] : "Unknown species";
+		} );
+		var selectionsData = motusData.animals.map( x => ({id: x.id, text: `${x.name} #${x.id}` }) );
+	} else {
+		var selectionsData = motusData[dataType].map( x => ({id: x.id, text:x[textVar] }) );
+	}
+
+	$(".explore-report-control-wrapper .report-control-selections select").select2({
+		data: selectionsData,
+		templateResult: select2TemplateResult,
+		width: "calc(100% - 150px)",
+		placeholder: select2Placeholder,
+		minimumInputLength: selectionsData.length > 10e3 ? 3 : 0
+	}).change(function(e){
+
+		motusFilter.selections = $(e.target).val();
+
+		toggleLoadingOverlay(true);
+
+		getSelections().then(updateSelectionStatus);
+
+		updateData();
 
 	});
 
+		$(".explore-report-control-wrapper .report-control-selections button.reset_btn").click(function(){
+			if (motusFilter.selections.length > 0) {
+				$(".explore-report-control-wrapper .report-control-selections select").val([]).trigger("change");
+			}
+		});
+
+	if (motusFilter.selections) {
+		$(".explore-report-control-wrapper .report-control-selections select").val(motusFilter.selections).trigger("change");
+	}
+
+	// Selection status
+
+		$(".explore-report-selectionStatus").html(
+			`<span class="inter-text">Selected:</span>`+
+			"<div class='status-section'>"+
+				`<div class="selected-stations">${icons.station}<div class='status-value'></div> stations</div>`+
+				`<span class="inter-text">from</span>`+
+				`<div class="selected-stationProjects">${icons.projects}<div class='status-value'></div> projects</div>`+
+			"</div>"+
+				`<span class="inter-text">detected</span>`+
+			"<div class='status-section'>"+
+				`<div class="selected-animals">${icons.animals}<div class='status-value'></div> animals</div>`+
+				`<span class="inter-text">of</span>`+
+				`<div class="selected-species">${icons.species}<div class='status-value'></div> species</div>`+
+				`<span class="inter-text">from</span>`+
+				`<div class="selected-animalProjects">${icons.projects}<div class='status-value'></div> projects</div>`+
+			"</div>"+
+			`<span class="inter-text">between</span>`+
+			"<div class='status-section'>"+
+				`<div class="selected-dtStart"><div class='status-value'></div></div>`+
+				`<span class="inter-text">and</span>`+
+				`<div class="selected-dtEnd"><div class='status-value'></div></div>`+
+			"</div>"
+		);
+
+
+
+	// Timeline
+
+	$(".explore-report-control-wrapper .report-control-timeline").html("<div id='dateSlider'>"+
+																																					"<div class='slider visible'><div id='custom-handle-1' class='ui-slider-handle'></div><div id='custom-handle-2' class='ui-slider-handle'></div></div>"+
+																																				"</div>");
+
+
+	exploreTimeline({ min: dtLims.min.valueOf() / 1000,
+										max: dtLims.max.valueOf() / 1000,
+										defaultValues: [ motusFilter.dtStart.valueOf() / 1000, motusFilter.dtEnd.valueOf() / 1000 ],
+									 	height: 150
+									});
+
+
+	timeRange.min = dtLims.min;
+	timeRange.max = dtLims.max;
+
+	$(timeline.el).dragslider("option", { "min": timeline.min, "max": timeline.max});
+
+	timeline.createLegend();
+
 }
+
+function toggleLoadingOverlay(show) {
+
+	if (show) {
+		$("#exploreMap,#exploreTable,#exploreSelectionStatus").addClass("blur");
+		$("#loadingOverlay").css("top", $("#exploreMap").offset().top + "px" ).fadeIn(250);
+	} else {
+		$("#exploreMap,#exploreTable,#exploreSelectionStatus").removeClass("blur");
+		$("#loadingOverlay").fadeOut(250);
+	}
+}
+// Stuff to do once the map has finished loading
+function afterMapLoads() {
+
+
+}
+
+
 function exploreControls(el, opt) {
 	opt = typeof opt === 'undefined' ? $(el).closest('div').attr('class').replace('explore-control-content ','').split(' ')[0].split('-').pop() : opt;
 	console.log(el);
@@ -1146,195 +807,7 @@ function exploreControls(el, opt) {
 		}
 	}
 }
-function afterMapLoads() {
 
-	if (exploreType == 'main') {
-
-		$(".explore-control-content .explore-control-tab").click(function(){
-
-			$(".explore-control-content .explore-control-tab").removeClass('selected');
-			$(this).addClass('selected');
-
-		});
-
-		if ( ["regions", "projects", "species"].includes(dataType) ) {
-			console.log(dataType);
-			exploreSummaryTabSelect(dataType);
-		}
-/*
-		if (dataType == 'regions') {
-
-			$("#explore_map").hide();
-			$("#explore_controls .explore-summary-control-options").hide();
-		}*/
-
-	} else if (false) {
-
-		if (exploreType == 'regions') {
-
-
-			exploreSummary({summaryType: "regions"});
-	//		exploreRegions(motusFilter.regions);
-
-
-		}
-		else if (exploreType == 'projects') {
-
-			exploreSummary({summaryType: "projects"});
-//			exploreProjects(motusFilter.projects);
-		}
-		else if (exploreType == 'stations') {
-				console.log(motusFilter[dataType]);
-					exploreSummary({summaryType: "stations", selectedStations: motusFilter.stations});
-//			exploreStations(motusFilter.stations);
-		}
-		else if (exploreType == 'species') {
-
-					exploreSummary({summaryType: "species"});
-//			exploreStations(motusFilter.stations);
-		}
-		else if (exploreType == 'animals') {
-
-					console.log(motusData);
-					console.log(motusFilter);
-					exploreSummary({summaryType: "animals"});
-//			exploreStations(motusFilter.stations);
-		}
-		else {
-			addExploreCard({data:'chart', type:'barChart'});
-			addExploreCard({data:'chart', type:'detectionTimeline'});
-
-			loadDataTable(['animals','species'].includes(exploreType) ? 'tagDeps' : exploreType);
-
-			addExploreCard({data:'add'});
-
-			updateURL();
-
-			updateData();
-		}
-	}
-
-		if (dataType == 'animals' || dataType == 'stations' || exploreType != 'main') {
-			console.log($(".explore-control-timeline").innerWidth());
-		//	alert(1);
-		// TIMELINE
-			if (exploreType == 'main') {
-				dtLims = {
-					min: d3.min(motusData.stations.map( d => new Date( d.dtStart ))),
-					max: d3.max(motusData.stations.map( d => new Date( d.dtEnd )))
-				}
-			} else if (['species', 'animals'].includes(dataType)) {
-				dtLims = {
-					min: d3.min(motusData.selectedAnimals.map( d => new Date( d.dtStart ) )),
-					max: d3.max(motusData.selectedAnimals.map( d => new Date( d.dtEnd ) ))
-				}
-	 		} else if ('stations' == dataType) {
-				dtLims = {
-					min: d3.min(motusData.selectedStations.map( d => new Date( d.dtStart ) )),
-					max: d3.max(motusData.selectedStations.map( d => new Date( d.dtEnd ) ))
-				}
-	 		} else if (motusData.selectedStations.length > 0 || motusData.selectedAnimals.length > 0) {
-				dtLims = {
-					min: d3.min(
-												motusData.selectedStations.map( d => new Date( d.dtStart ) )
-													.concat(
-														motusData.selectedAnimals.map( d => new Date( d.dtStart ) )
-													)
-												),
-					max: d3.max(
-												motusData.selectedStations.map( d => new Date( d.dtEnd ) )
-													.concat(
-														motusData.selectedAnimals.map( d => new Date( d.dtEnd ) )
-													)
-												)
-				};
-	 		} else {
-				dtLims = {min: motusFilter.dtStart, max: motusFilter.dtEnd}
-			}
-
-
-	//		dtLims.min = new Date( timeline.min );
-	//		dtLims.max = new Date( timeline.max );
-	console.log(dtLims);
-
-			exploreTimeline({ min: dtLims.min.valueOf() / 1000,
-												max: dtLims.max.valueOf() / 1000,
-												defaultValues: [ motusFilter.dtStart.valueOf() / 1000, motusFilter.dtEnd.valueOf() / 1000 ],
-											 	height: 150
-											});
-
-/*
-			timeline.min = dtLims.min.valueOf() / 1000;
-			timeline.max = dtLims.min.valueOf() / 1000;*/
-
-			$("#explore_filters input.filter_dates").daterangepicker({
-				opens: 'left',
-				minDate: new Date(timeline.min * 1000),
-				maxDate: new Date(),
-				startDate: motusFilter.dtStart,
-				endDate: motusFilter.dtEnd,
-				locale: {
-					format: "YYYY/MM/DD"
-				},
-						ranges: {
-							 'Today': [moment(), moment()],
-							 'Past 7 days': [moment().subtract(6, 'days'), moment()],
-							 'Past 30 days': [moment().subtract(29, 'days'), moment()],
-							 'Past 6 months':  [moment().subtract(6, 'months'), moment()],
-							 'Past year': [moment().subtract(1, 'year'), moment()],
-							 'Past 3 years': [moment().subtract(3, 'years'), moment()],
-							 'All time': [moment.unix(timeline.min), moment()],
-							 //'This Month': [moment().startOf('month'), moment().endOf('month')],
-							 //'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-						}
-			}, function(start, end, label) {
-
-				timeline.setSlider( [ start.unix(), end.subtract(12, 'hours').unix()], true, false );
-				//timeline.setSlider( [ start.unix(), end.diff(start, 'days') > 0 ? end.unix() : start.unix() ] );
-				motusMap.setVisibility();
-
-			});
-
-			$(timeline.el).dragslider("option", { "min": timeline.min, "max": timeline.max});
-
-			timeline.createLegend();
-		}
-
-
-	$('.explore-card-wrapper').animate({'opacity':1}, 500);
-
-}
-function exploreTable(opts) {
-
-	$("#" + opts.containerID).append("<div class='" + opts.containerID.replace('_','-') + "-wrapper'><table id='" + opts.containerID + "_" + dataType + "'><thead><tr>"+
-									 (Object.keys(opts.data[0]).map(x=>"<th>"+dataColNames[opts.name][x]+"</th>").join(""))+
-									 "</tr></thead><tbody></tbody></table></div>")
-
-	opts.data.forEach(function(d){
-
-		var toAppend = "<tr>";
-
-		Object.values(d).forEach(x=>(toAppend+="<td>"+x+"</td>"));
-
-		$("#" + opts.containerID + "_" + dataType + " tbody").append(toAppend + "</tr>");
-
-	});
-	$("#" + opts.containerID + "_" + dataType).DataTable({
-		dom: '<"#explore_table_controls"lf><Bip><rBt>'
-	});
-
-	$("#explore_controls > div").append($("#explore_table_controls > div"))
-
-	/*
-	$("#" + opts.containerID).append("<div class='" + opts.containerID + "-wrapper'><table id='" + opts.containerID + "_" + dataType + "'></table></div>");
-	$("#" + opts.containerID + "_" + dataType).DataTable({
-		data: opts.data,
-		columns: Object.keys(opts.data[0])
-	})
-	*/
-
-	$('.explore-card-wrapper').animate({'opacity':1}, 500);
-}
 
 function populateSelectOptions() {
 	/*
@@ -1486,427 +959,7 @@ function populateSelectOptions() {
 }
 
 
-function loadDataTable(tbl, columns, options, onEvent) {
-
-	/*
-
-		This function loads a data table into a single element. It will reload data in this element each time it is run.
-		tbl = name of the table you want to display
-		filterVar = name of the variable you want to filter by
-
-	*/
-
-	if (typeof tbl === 'undefined') {
-		tbl = dataType;
-	}
-
-	if (typeof tbl !== 'string') {
-		var dataset = tbl[1];
-		tbl = tbl[0];
-	} else {
-		var dataset = motusData[tbl];
-	}
-
-	if ($("#explore_table").length == 0) {
-		$("#exploreContent").append('<div class="explore-table-wrapper"><table id="explore_table" style="width:100%"></table></div>');
-	}
-
-	if (dataType == 'projects') {
-		options.order = [[1, 'asc']]
-		options.columns = [
-			{className: "explore-table-expandRow", data: null, orderable: false, defaultContent: ""},
-			{className: 'dt-center', data: "id", title: "Project ID"},
-			{data: "name", title: "Project", "createdCell": function(td, cdata, rdata){
-				$(td).html(
-						`<a href='javascript:void(0);' onclick='viewProfile("projects", ${rdata.id});'>${rdata.name}</a>`
-				);
-			}},
-			{className: 'dt-center', data: "created_dt", title: "Start date"},
-			{className: "dt-center", data: "stations", title: "Stations deployed", "render": {_: "display", sort: "order"}},
-			{className: "dt-center", data: "animals", title: "Animals tagged", "render": {_: "display", sort: "order"}},
-			{className: "dt-center", data: "species", title: "Species tagged", "render": {_: "display", sort: "order"}},
-			{data: "fee_id", title: "Project group", "createdCell": function(td, cdata, rdata){
-				$(td).html(
-					`<a href='javascript:void(0);' onclick='viewProfile("projectsGroup", ["${rdata.fee_id}"]);'>${rdata.fee_id}</a>`
-				);
-			}}
-		];
-
-	}
-
-	if (typeof options.columns === "undefined") {
-		var columnNames = columns.filter(x=>x==="").concat(Object.keys(dataset[0]).filter(x => typeof columns === 'undefined' || columns.includes(x)));
-
-		var columns = [];
-		console.log(tbl);
-		console.log(columnNames);
-
-		for (var i in columnNames) {
-			columns.push({
-				data: columnNames[i],
-				title: dataColNames[tbl][columnNames[i]],
-				className: ""
-			});
-		}
-	}
-	if ($.fn.DataTable.isDataTable("#explore_table")) {
-		$("#explore_table").DataTable().clear().destroy();
-	}
-
-	$("#explore_table").html("");
-	console.log(options);
-	if (typeof options.columns !== 'undefined') {
-		options = {
-			...{
-				data: dataset
-			},
-			...options
-		};
-	}
-	if (typeof options !== 'undefined') {
-		options = {
-			...{
-				data: dataset,
-				columns: columns
-			},
-			...options
-		};
-	} else {
-		options = {
-			data: dataset,
-			columns: columns
-		};
-	}
-	console.log(options);
-
-	var table = $("#explore_table").DataTable(options);
-
-	if (typeof onEvent !== 'undefined') {
-		if (typeof onEvent.length !== 'undefined') {
-			onEvent.forEach(x => table.on(x.event, x.fun));
-		} else {
-			table.on(onEvent.event, onEvent.fun);
-		}
-	}
-
-	if (exploreType != 'main') {
-		motusFilter[exploreType].forEach(function(f) {addProfile(f, tbl)});
-	} else {
-		return false;
-	}
-}
-
-function addProfile(profile_id, dataset) {
-
-			motusFilter[exploreType].push(profile_id);
-			motusFilter.selections.push(profile_id);
-
-					updateURL(true);
-
-}
-
-
-function addExploreCardProfile(profile) {
-
-	// Profile = {id, label, data: [ {type, label, value}, ... ] }
-
-	// define the profile DOM structure
-	var struct = "grid";
-  var data = profile.data.filter(d => d.value > 0 || isNaN(d.value) || profile.data.length <= 4)
-										.map((d, i) => `<div class='explore-card-profile-data explore-card-data${i + 1}' onclick='showProfileData("${profile.id}", "${d.type}")'>`+
-																			`${d.icon || ""}`+
-																			`<div class='explore-card-data-label'>${d.label}</div>`+
-																			`<div class='explore-card-data-value'>${d.value}</div>`+
-																		`</div>`);
-
-
-	var toAppend = `<div class='explore-card-profile ${struct}-container' id='explore_card_profile_${profile.id}'>`+
-										`<div class='explore-card-image tips enlarge' alt='Click to expand'><div class='explore-card-image-icon'>${icons.camera}</div></div>`+
-								//	 	`<div class='explore-card-name'><div style='font-size:${24 - (Math.floor(profile.label.length/15)*2)}pt;'>${profile.label}</div></div>`+
-									 	`<div class='explore-card-name'>`+
-											`<div class='explore-card-name-text'>${profile.label}</div>`+
-											`<div class='btn add_btn explore-card-add tips' alt='Compare with another ${dataType=="species"?dataType:dataType.substring(0, dataType.length - 1)}'>${icons.remove}</div>`+
-											`<div class='btn explore-card-remove remove_btn tips' alt='Remove this ${dataType=="species"?dataType:dataType.substring(0, dataType.length - 1)}'>${icons.remove}</div>`+
-										`</div>`+
-										`<div class='explore-profile-summary-wrapper'>`+
-										 	data.join('')+/*
-  										`<div class='explore-profile-info'>`+
-												'<div class="expand_btn"></div>'+
-  										 	infoText+
-  										 `</div>`+
-										 `</div>`+*/
-										// "<div class='explore-card-remove explore-card-subtext' alt='Remove "+exploreType+"'>"+'<div class="explore-card-remove-label">Remove</div>' + icons.remove +"</div>"+
-									"</div>";
-
-	$("#explore_card_profiles").prepend(toAppend);
-
-}
-
-function showProfileData(profileID, varName) {
-
-	console.log("ProfileID: %s, varName: %s", profileID, varName);
-
-
-	varName = dataTypes.filter(x=>varName.toLowerCase().includes(x.toLowerCase()))[0].toLowerCase();
-
-
-	var tabName = (varName == 'animals' || varName == 'species') ? 'speciesHits' : varName == 'stations' ? 'stationHits' : varName == 'countries' ? 'map' : varName == 'detections' ? 'tagHits' : varName == 'projects' ? 'projectsTable' : varName;
-
-	var subSelectionName = ['detected', 'tagged'].filter(x=>varName.toLowerCase().includes(x.toLowerCase()))[0];
-
-	subSelectionName = subSelectionName ? subSelectionName : (dataType=='species'&&varName=='projects') ? 'with tag deployments' : false;
-
-	console.log("tabName: %s, varName: %s, subSelectionName: %s", tabName, varName, subSelectionName);
-	$(`.explore-card-profiles-tabs .explore-card-${tabName}-tab`).click();
-
-	if (subSelectionName) {
-		$(`#explore_card_${tabName} .explore-card-header select`).val(`${firstToUpper(varName)} ${subSelectionName}`).trigger('change');
-	}
-}
-
-function addExploreCard(card) {
-
-
-	if (card.data == 'custom') 	{
-		var toAppend = "<div class='explore-card explore-card-"+card.type+"' id='explore_card_"+card.type+"'>"+card.html+"</div>";
-		if (card.attachEl) {
-			$(card.attachEl)[card.attachMethod](toAppend);
-		} else {
-			$(".explore-card-wrapper").append(toAppend);
-		}
-	}
-	else if ( card.data == 'tabs' ) {
-
-		// If a default is set use that one, otherwise use the first
-		var selectedTab = ( typeof card.defaultTab !== 'undefined' ) ?  Object.keys(card.tabs)[card.defaultTab] : Object.keys(card.tabs)[0];
-
-		// Make the header with a select input instead of plain text
-		var exploreCardHeader = $("<div class='explore-card-header'><select style='width:100%;'></select></div>");
-
-		if (Object.keys(card.tabs).length > 1) {
-			// Add an option for each tab
-			for (t in card.tabs) {
-				exploreCardHeader.find('select').append( $("<option></option>").val(t).text(t).attr('selected', (selectedTab == t ? 'selected' : false) ) );
-			}
-		} else {
-			exploreCardHeader.find('select').after(`${Object.keys(card.tabs)[0]}`);
-			exploreCardHeader.find('select').remove();
-		}
-		// Make the explore card and append the header to it
-		var exploreCard = $("<div></div>")
-			.addClass("explore-card explore-card-" + card.data)
-			.attr('id', 'explore_card_' + card.type)
-			.append( exploreCardHeader );
-
-		if (typeof card.colSpan !== 'undefined') {
-			exploreCard.addClass('explore-card-full-width');
-		}
-
-		// Append the explore card to the wrapper
-		if ( card.attachEl ) {
-			$( card.attachEl )[ card.attachMethod ]( exploreCard );
-		} else {
-			$(".explore-card-wrapper").append( exploreCard );
-		}
-
-		// Make select in header a select2 object
-		$('#explore_card_' + card.type + ' .explore-card-header select').select2({
-			    minimumResultsForSearch: -1
-			}).change(switchTabs);
-
-		function switchTabs() {card.tabs[this.options[this.selectedIndex].value](card.type);}
-
-		console.log("card");
-		console.log(card);
-
-		card.icon = typeof card.icon === 'undefined' ? icons[card.header.toLowerCase().split(' ')[0]] : card.icon;
-
-		addExploreTab('explore-card-' + card.type, card.header, {icon: card.icon, insertAfter: 'explore-card-map-tab', card: card, selectedTab: selectedTab});
-
-//		card.tabs[ selectedTab ]( card.type );
-
-		exploreCard.hide();
-
-	}
-	else if (card.data == 'chart') {
-
-		var toAppend = "<div class='explore-card explore-card-"+card.data+"' id='explore_card_"+card.type+"'><div class='explore-card-header'></div><div class='explore-card-chart-wrapper'><div><svg></svg></div></div></div>";
-
-		$(".explore-card-wrapper").append(toAppend);
-
-	}
-	else if (card.data === 'add') {
-		//$("#exploreContent .explore-card-map").append("<div class='explore-card explore-card-add tips' alt='Add a "+exploreType+"'><select class='explore-card-add-species' data-placeholder='Select a "+exploreType+"' style='width:200px;'><option></option></select></div>")
-
-
-		card.el = $("#exploreContent .explore-card-add").get(0);
-		//console.log(filters.options[exploreType]);
-/*
-		if (exploreType == 'stations') {
-			for (d in filters.options[exploreType]) {
-				$(`#exploreContent .explore-card-add-${exploreType}`).append(`<option value="${d}" class="filter-option-${filters.options[exploreType][d][1]}">${filters.options[exploreType][d][0]}</option>`);
-			}
-		} else {
-			for (d in filters.options[exploreType]) {
-				$(`#exploreContent .explore-card-add-${exploreType}`).append(`<option value="${d}">${filters.options[exploreType][d]}</option>`)
-			}
-		}*/
-						testTimer.push([new Date(), "Setup option data"]);
-		if (exploreType == 'stations') {
-			var data = Object.entries(filters.options[exploreType]).map( x => ({id: x[0], text: x[1][0]}) );
-		} else {
-			var data = Object.entries(filters.options[exploreType]).map( x => ({id: x[0], text: x[1]}) );
-		}
-
-		testTimer.push([new Date(), "Setup click events"]);
-		$("#exploreContent .explore-card-add").click(function(e){
-			e.stopPropagation();
-			if (!$(this).hasClass('visible') && !$('#explore_card_profiles').hasClass('view-solo')) {
-				$(this).addClass('visible');
-				$('body').click(function(){$("#exploreContent .explore-card-add").removeClass('visible');$(this).unbind('click');});
-				$("#exploreContent .explore-card-add > select").select2("open");
-			} else if ($('#explore_card_profiles').hasClass('view-solo')) {
-				$('#explore_card_profiles').removeClass('solo-card view-solo');
-				$('.explore-card-wrapper').removeClass('solo-card');
-				$('.explore-card-profile').show();
-			}
-		});
-				testTimer.push([new Date(), "Select2"]);
-
-		$("#exploreContent .explore-card-add-" + exploreType).select2({
-			data: data,
-			matcher: function(params, data) {
-				// If there are no search terms, return all of the data
-				if ($.trim(params.term) === '') {
-					return data;
-				}
-
-				// Do not display the item if there is no 'text' property
-				if (typeof data.text === 'undefined') {
-					return null;
-				}
-
-				// `params.term` should be the term that is used for searching
-				// `data.text` is the text that is displayed for the data object
-				if (data.text.toUpperCase().indexOf(params.term.toUpperCase()) > -1) {
-					return data;
-				}
-
-
-				if (data.id.indexOf(params.term) > -1) {
-					return data;
-				}
-
-				// Return `null` if the term should not be displayed
-				return null;
-			},
-			templateResult: function (data, container) {
-				if (data.element) {
-					$(container).addClass($(data.element).attr("class"));
-				}
-				return data.text;
-			},
-			width: "100%",
-			placeholder: function(){return $(this).data('placeholder');},
-		}).change(function(e) {
-
-			if ($(this).hasClass("switch-profile")) {
-
-				$(this).removeClass("switch-profile");
-
-			 	const oldID = $(".explore-card-profile.switching").attr("data-profile-id");
-			 	const newID = this.options[this.selectedIndex].value;
-
-				motusFilter[dataType] = motusFilter[dataType].map( x => x==oldID?newID:x);
-				motusFilter.selections = motusFilter.selections.map( x => x==oldID?newID:x);
-
-				updateURL(true);
-
-			} else {
-				addProfile(this.options[this.selectedIndex].value);
-			}
-
-
-		});
-
-	}
-
-	initiateTooltip(card.el);
-
-	//updateURL();
-
-}
-
-
-function addExploreTab(el, header, opts = {}) {
-
-	var tab = $(`<div class='${el}-tab explore-card-tab'>${header}</div>`);
-
-	if (!opts.click) {
-
-		if (typeof opts.card !== 'undefined') {
-			var data = {fnc: opts.card.tabs[ opts.selectedTab ], arg: opts.card.type};
-		}
-
-		tab.click(data, function(e) {
-
-			var elID = this.className.split(' ')[0].replace(/-/g,'_').replace(new RegExp("_tab$"),'');
-
-			if ($(`#${elID}`).is(":hidden")) {
-				console.log(`#${elID}`);
-				$(".explore-card:not(#explore_card_profiles):visible").hide();
-
-				$(`#${elID}`).show();
-
-				// Create content on first click
-				if ($(`#${elID} div:not(.explore-card-header)`).length == 0 && $(`#${elID} table`).length == 0) {
-					e.data.fnc( e.data.arg );
-				}
-
-				// Redraw tables on subsequent clicks
-				if ($(`#${elID} table`).length > 0) {
-					console.log('Redrawing table')
-					$(`#${elID} table`).DataTable().columns.adjust().draw();
-				}
-			}
-		});
-	} else {
-		tab.click(opts.click);
-	}
-
-
-	if (opts.icon) {
-		tab.prepend(opts.icon);
-	}
-	if (!opts.noToggle) {
-		tab.click(function(){$(this).toggleClass('selected',true);$(this).siblings().removeClass('selected');if ($(this).siblings('.expand-menu-btn').is(":visible") && $(this).parent().is(".expanded")) {$(this).siblings('.expand-menu-btn').trigger('click')}})
-	}
-	if (opts.insertAfter) {
-		$(".explore-card-profiles-tabs  > ." + opts.insertAfter).after(tab);
-	} else {
-		$(".explore-card-profiles-tabs").append(tab);
-	}
-	if (opts.selected) {tab.trigger('click');}
-}
-
-
-function setCardColours(colourFun) {
-
-	$("#explore_card_profiles .explore-card-profile").each(function(){
-	//	if ($("#explore_card_profiles .explore-card-profile").length == 1) {
-	//		$(this).find('.explore-card-image').css('border-color', "#000000");
-	//	} else {
-			 var colour = exploreType == 'stations' ? colourFun($(this).find(".explore-card-name").text()) : exploreType == 'regions' ? colourFun( this.id.replace("explore_card_profile_", "") ) : colourFun(parseInt(this.id.replace("explore_card_profile_", "")));
-
-			 $(this).find('.explore-card-image').css({'border-color':colour})
-		//}
-
-	});
-
-}
-
-function setFilter(e) {
-
+function setFilter(e, filterName) {
 	if ( $(this).parent().hasClass('explore-card-profiles-toggles') ) {
 
 		var toggle_type = this.textContent.toLowerCase().includes('stations') ? "stationDeps" : "animals";
@@ -1930,7 +983,7 @@ function setFilter(e) {
 		motusMap.setVisibility();
 	} else {
 
-		var filterName = e.target.id.replace("filter_", "");
+		filterName = filterName ? filterName : e.target.id.replace("filter_", "");
 
 		var newFilter = $(e.target).val();
 		console.log(filterName + ": " + newFilter);
@@ -1947,6 +1000,8 @@ function setFilter(e) {
 				motusFilter[dataType].concat( motusFilter.selections.filter( x => !motusFilter[dataType].includes(x) ) );
 			}
 		}
+
+				testTimer.push([new Date(), "Update data"]);
 
 		updateData();
 	//	$("#filter_summary > div.explore_" + filterName + ":not(.visible)").addClass('visible');
@@ -1968,25 +1023,49 @@ function setFilter(e) {
 function updateData() {
 
 	if (exploreType != 'main') {
-		if ($("#exploreContent .explore-card-profile").length == 1) {
-		//	$(".explore-card-wrapper").addClass('solo-card');
-		//	$("#explore_card_profiles").addClass('solo-card');
-			$(".explore-card-wrapper #explore_card_profiles .explore-card-profile").addClass('expanded');
-			try { motusMap.setColour('id'); }
-			catch(err) { console.log("motusMap not yet created"); }
-		} else {
-			$(".explore-card-wrapper").removeClass('solo-card');
-			$("#explore_card_profiles").removeClass('solo-card');
-			$(".explore-card-wrapper #explore_card_profiles .explore-card-profile").removeClass('expanded');
-			try { motusMap.setColour(exploreType=='stations' ? 'name' :'species'); }
-			catch(err) { console.log("motusMap not yet created"); }
-		}
+
 
 	}
 	window.dispatchEvent(new Event('resize'));
 
-	motusMap.setVisibility();
+	if (motusMap.setVisibility)	motusMap.setVisibility();
+
+			testTimer.push([new Date(), "Update url"]);
 
 	updateURL();
+
+}
+
+function select2TemplateResult (data, container) {
+	if (data.element) {
+		$(container).addClass($(data.element).attr("class"));
+	}
+	return data.text;
+}
+function select2Placeholder() {return $(this).data('placeholder');}
+function select2Matcher(params, data) {
+	// If there are no search terms, return all of the data
+	if ($.trim(params.term) === '') {
+		return data;
+	}
+
+	// Do not display the item if there is no 'text' property
+	if (typeof data.text === 'undefined') {
+		return null;
+	}
+
+	// `params.term` should be the term that is used for searching
+	// `data.text` is the text that is displayed for the data object
+	if (data.text.toUpperCase().indexOf(params.term.toUpperCase()) > -1) {
+		return data;
+	}
+
+
+	if (data.id.indexOf(params.term) > -1) {
+		return data;
+	}
+
+	// Return `null` if the term should not be displayed
+	return null;
 
 }

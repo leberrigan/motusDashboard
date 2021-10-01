@@ -11,7 +11,7 @@ var tmpvar = 0;
 
 function exploreMap({
 	containerID,
-	map_el = "explore_map",
+	map_el = containerID,
 	mapButtons = {
 		'Points':'toggleButton selected mapBy dataType_stations',
 		'Deployments':'toggleButton mapBy dataType_species',
@@ -48,18 +48,17 @@ function exploreMap({
 		groups: {},
 		map:  {},
 		pointPath: d3.geoPath().pointRadius(1),// A path generator
-		isVisible: function(d) {
-		//	if (tmpvar < 1) {tmpvar++;console.log(d);}
-
+		isVisible: function(d,i) {
+			if (motusFilter.animals.includes(d.id)) {console.log(d);}
+			if (motusFilter.stations.includes(d.id)) {console.log(d);}
 			const visibility = (
 						(
 							motusFilter.dtEnd > d.dtStart && motusFilter.dtStart < d.dtEnd
 						) && (
 							(
-								exploreType != 'main' &&
+								!['main', 'report'].includes(exploreType) &&
 								typeof d.name != "undefined" &&
 								(
-									!d.stationDeps.split(',').some(r => motusFilter.stations.includes(r)) ||
 									motusFilter.stations.includes(d.id)
 								)
 							) || (
@@ -67,32 +66,39 @@ function exploreMap({
 								typeof d.projID == "undefined" ||
 								motusFilter.projects.includes('all') ||
 								exploreType == 'projects' ||
-								d.projID.split(',').some(r => motusFilter.projects.includes(r))
+								d.projID.some(r => motusFilter.projects.includes(r))
 							) && (
 								typeof d.status == "undefined" ||
 								motusFilter.status.includes('all') ||
-								d.status.split(',').some(r => motusFilter.status.includes(r))
+								d.status.some(r => motusFilter.status.includes(r))
 							) && (
 								typeof d.frequency == "undefined" ||
 								motusFilter.frequencies.includes('all') ||
-								motusFilter.frequencies.every(r => d.frequency.split(',').includes(r)) ||
+								motusFilter.frequencies.every(r => d.frequency.includes(r)) ||
 								d.frequency === motusFilter.frequencies[0]
 							) && (
 								typeof d.species == "undefined" ||
 								exploreType == 'stations' ||
 								motusFilter.species.includes('all') ||
-								d.species.split(',').some(r => motusFilter.species.includes(r))
+								(
+									typeof d.species != "object" &&
+									motusFilter.species.includes( d.species )
+								) || (
+									typeof d.species == "object" &&
+									d.species.some(r => motusFilter.species.includes(r))
+								)
 							) && (
 								typeof d.name == "undefined" ||
 								exploreType == 'species' ||
 								exploreType == 'regions' ||
-								motusFilter.stations.includes('all') ||
-								d.stationDeps.split(',').some(r => motusFilter.stations.includes(r))
+								(motusFilter.stations.includes('all') &&	motusFilter.animals.includes('all')) ||
+								(dataType=='stations' && motusFilter.stations.includes(d.id) )||
+								(dataType=='animals' && motusFilter.animals.includes(d.id) )
 							) && (
 								typeof d.animals == "undefined" ||
 								typeof motusFilter.animals == "undefined" ||
 								motusFilter.animals.includes('all') ||
-								d.animals.split(',').some(r => motusFilter.animals.includes(r))
+								d.animals.some(r => motusFilter.animals.includes(r))
 							)
 						)
 					)
@@ -128,7 +134,7 @@ function exploreMap({
 				//	tmpvar = 0;
 				//	console.log("Total: " + $("#explore_map svg path").length + " - Hidden: " + $("#explore_map svg path.hidden").length);
 				//	motusMap.svg.selectAll(".explore-map-" + mapType + ".explore-map-" + dataType)
-					motusMap.g.selectAll("path:not(.disable-filter):not(.explore-map-antenna)").classed('hidden', d => motusMap.isVisible(d));
+					motusMap.g.selectAll("path:not(.disable-filter):not(.explore-map-antenna):not(.explore-map-region)").classed('hidden', motusMap.isVisible);
 
 					motusMap.g.selectAll("path.explore-map-antenna:not(.disable-filter)").classed('hidden', d => $("#explore_map_station_" + d.id + ":not(.hidden)").length==0 );
 
@@ -139,7 +145,7 @@ function exploreMap({
 
 							motusMap.svg.selectAll(".explore-map-track:not(.hidden)").each((d)=>motusMap.visible.animals+=","+d.animals);
 
-							var nTracks = motusMap.visible.animals.split(',').length;
+							var nTracks = motusMap.visible.animals.length;
 
 							$("#explore_filters").siblings('.filter_status').find('span:eq(0)').text(nTracks);
 
@@ -184,10 +190,10 @@ function exploreMap({
 				}
 			}
 		},
-		svg: 'undefined',
+		svg: undefined,
 		legend: {
 			el: d3.select("#" + motusMap.el + "_legend"),
-			svg: 'undefined'
+			svg: undefined
 		},
 		colourScale: d3.scaleThreshold()
 			.domain([100000, 1000000, 10000000, 30000000, 100000000, 500000000])
@@ -261,11 +267,23 @@ function exploreMap({
 			if (dir == 'in') {
 
 				if (t == 'track') {
+					if (d.species.length == 1) {
+						var species = "Loading...";
+					// Make a request to the database to find the species name
+					 motusData.db.species.get( d.species.toString() ).then( sp => {
+						 // When request received, add the text
+						 $('.tooltip big').text(
+							 // If there are more than one animals, display the number of animals, but not the ID
+		 							(d.animal.length > 1 ? (d.animal.length + " " + (typeof sp === 'undefined' ? "Unknown species" : sp.english + "s") ):
+		 							(typeof sp === 'undefined' ? "Unknown species" : sp.english) + " #"+d.animal)
+							 );
+					 });
+				 } else {
+						// If there are more than one species, list the number of species as well as the number of animals.
+						var species = `${d.animal.length} animals of ${d.species.length} species`;
+				 }
 					$('.tooltip').html(
-						"<big>"+
-							(d.animals.split(',').length > 1 ? (d.animals.split(',').length + (d.species.split(',').length == 1 ? " " + (d.species == "NA" ? "Unknown species" : (motusData.speciesByID.get(d.species)[0].english + "s")) : " Animals") ):
-							(d.species == "NA" || typeof motusData.speciesByID.get(d.species) === 'undefined' ? "Unknown species" : motusData.speciesByID.get(d.species)[0].english) + " #"+d.animals)+
-						"</big>"+
+						"<big>"+species+"</big>"+
 						"</br>(Click to view)"
 					);
 
@@ -347,7 +365,7 @@ function exploreMap({
 					filterName = (dataType == 'species' && mapType != 'tracks') ? 'nSpp' : filterName;
 
 					var title = (dataType == 'species' && mapType != 'tracks') ?
-									(d.nSpp == 1 ? $("#filter_species option[value=" + d.species.split(',')[0] + "]").text() : "Species: " + d.nSpp) + "</br>Animals: " + d.id.length
+									(d.nSpp == 1 ? $("#filter_species option[value=" + d.species[0] + "]").text() : "Species: " + d.nSpp) + "</br>Animals: " + d.id.length
 								: d.name;
 
 
@@ -502,6 +520,8 @@ function exploreMap({
 
 				viewProfile('regions', d.properties.adm0_a3);
 
+			} else if (t == 'animal') {
+				viewProfile("animals", d.id)
 			} else if (t == 'track') {
 
 				// Highlight all the tracks that shares these animals
@@ -512,11 +532,11 @@ function exploreMap({
 					$(".popup").remove();
 					$(".explore-map-track").css({'opacity':1,'pointer-events':'auto'});
 					motusMap.group_f = 20;
-					motusFilter.animals=[];
+					motusFilter.animals = motusFilter.animalsOld;
 				});
 				var allTracks = [];
-
-				motusFilter.animals = d.animals.split(',');
+				motusFilter.animalsOld = motusFilter.animals;
+				motusFilter.animals = d.animal && d.animal.every(x=>x!="NA") ? d.animal : motusFilter.animals;
 				motusMap.group_f = false;
 
 				var animals = motusFilter.animals.forEach(function(a){
@@ -557,26 +577,36 @@ function exploreMap({
 				});
 			//	console.log(motusData.stationDepsBySubset);
 				// Make a table of species and their count and display a popup
-				console.log(d);
-				var spp = d.species.split(',');
-				var animals = d.animals.split(',');
+				var spp = d.species;
+				var animals = d.animal;
 
-				var species = d3.rollup(spp.map(function(x, i){return {species: x, animal: animals[i]}}), (v) => v.map(x => x.animal).join(','), x => x.species);
+				var species = d3.rollup( spp.map(function(x, i){
+						return {
+							species: x,
+							animal: animals[i]
+						}
+					}), (v) => v.map(x => x.animal).join(','), x => x.species);
 				//spp.forEach(sp => speciesCounts[sp] = speciesCounts[sp] ? speciesCounts[sp] + 1 : 1);
+				var rows = (Array.from(species.keys()).map(function(sp, i){
 
-				$('.popup .popup-content').html(
-					"<table><thead><tr><th>Species</th><th>Count</th><th></th><th></th></tr></thead><tbody>"+
-					(Array.from(species.keys()).map(function(sp){
-						//console.log(((sp=='NA'||motusData.speciesByID.get(sp)===undefined)?'Unknown species':motusData.speciesByID.get(sp)[0].english)+" - " +speciesCounts[sp]);
-						return "<tr>" +
-									"<td>"+
-										((sp=='NA'||motusData.speciesByID.get(sp)===undefined)?'Unknown species':motusData.speciesByID.get(sp)[0].english) +
+					var speciesName = 'Unknown species';
+
+					 motusData.db.species.get( sp ).then( speciesMeta => {
+						 speciesName = typeof speciesMeta === 'undefined' ? "Unknown species" : speciesMeta[currLang];
+							 $(`.popup .popup-content tbody tr:eq(${i}) td.species`).text(
+								 speciesName
+							 );
+					 });
+
+					return "<tr>" +
+									"<td class='species'>"+
+										speciesName+
 									"</td>"+
 									"<td>"+
-										(species.get(sp).split(',').length)+
+										(species.get(sp).length)+
 									"</td>"+
 									"<td>"+
-										((species.get(sp).split(',').length) > 3 ?
+										((species.get(sp).length) > 3 ?
 											"<a href='#e=species&d=species&species="+sp+"&animals="+(species.get(sp))+"'>Animal profile</a>" :
 											"<a href='#e=animals&d=animals&animals="+(species.get(sp))+"'>Animal profile</a>")+
 
@@ -584,9 +614,13 @@ function exploreMap({
 									"<td>"+
 										"<a href='#e=species&d=species&species="+sp+"'>Species profile</a>"+
 									"</td>"+
-
 								"</tr>";
-					}).join(''))+
+
+				}));
+
+				$('.popup .popup-content').html(
+					"<table><thead><tr><th>Species</th><th>Count</th><th></th><th></th></tr></thead><tbody>"+
+					(rows.join(''))+//(await rows[0]).join("")+
 					"</tbody></table>"
 				)
 
@@ -608,6 +642,18 @@ function exploreMap({
 			 			}
 					]
 				});
+			}
+		},
+		highlightSelections: function() {
+			if (motusFilter.selections.length > 0) {
+				$(`#exploreMap .explore-map-${toSingular(dataType)}.selected`).removeClass("selected");
+				$(`#exploreMap .explore-map-${toSingular(dataType)}`).toggleClass("deselected", true);
+				motusFilter.selections.forEach( (x) => {
+					$(`#explore-map-${toSingular(dataType)}-${x}`).toggleClass("selected", true).toggleClass("deselected", false);
+				});
+			} else {
+				$(`#exploreMap .explore-map-${toSingular(dataType)}.selected`).removeClass("selected");
+				$(`#exploreMap .explore-map-${toSingular(dataType)}.deselected`).removeClass("deselected");
 			}
 		},
 		highlightVal: '',
@@ -674,7 +720,7 @@ function exploreMap({
 			}
 		},
 		reset: function(dataset) {
-			var bounds = motusMap.path.bounds(motusData.polygons),
+			var bounds = motusMap.path.bounds({type:"FeatureCollection", features: motusData.polygons}),
 			//var bounds = path.bounds(),
 				topLeft = bounds[0],
 				bottomRight = bounds[1];
@@ -840,6 +886,18 @@ function exploreMap({
 			});
 			return nodes;
 		},
+		legendClick: function(){
+			var toggleEls = [
+				(this.classList.contains('selected') ? "hide" : "show"),
+				 (this.classList[0].split('-')[2] + "-" + this.classList[0].split('-')[3]).toLowerCase()
+			 ];
+
+			console.log(toggleEls);
+
+			motusMap.setVisibility(false, toggleEls);
+
+			$(this).toggleClass( 'selected', !this.classList.contains('selected') );
+		},
 		MercatorXofLongitude: function(lon) {
 			return lon * 20037508.34 / 180;
 		},
@@ -935,18 +993,18 @@ function exploreMap({
 				var trackDataByRouteBundled = Array.from(d3.rollup(motusData.trackDataByRoute,
 				function(v) {
 					//		if (v[0][1].recv1 == '4555' || v[0][1].recv2 == '4555') {console.log(v);}
-					nVisible += v.map(x=>x[1].animals).join(',').split(',').length;
+					nVisible += v.map(x=>x[1].animals).flat().length;
 					return {
-						animals: v.map(x=>x[1].animals).join(','),
-						species: v.map(x=>x[1].species).join(',').split(',').join(','),
-						frequency: v.map(x=>x[1].frequency).join(',').split(',').filter(onlyUnique).join(','),
-						projID: v.map(x=>x[1].projID).join(',').split(',').filter(onlyUnique).join(','),
+						animals: v.map(x=>x[1].animals),
+						species: v.map(x=>x[1].species).flat(),
+						frequency: v.map(x=>x[1].frequency).flat().filter(onlyUnique),
+						projID: v.map(x=>x[1].projID).flat().filter(onlyUnique),
 						type: v[0][1].type,
 						dist: v[0][1].dist,
 						recv1: v[0][1].recv1,
 						recv2: v[0][1].recv2,
-						dtStart: d3.min(v.map(x=>x[1].dtStart)),
-						dtEnd: d3.max(v.map(x=>x[1].dtEnd)),
+						dtStart: new Date(d3.min(v.map(x=>x[1].dtStart))),
+						dtEnd: new Date(d3.max(v.map(x=>x[1].dtEnd))),
 						coordinates: v[0][1].coordinates
 					}
 				}, function(x){
@@ -966,7 +1024,7 @@ function exploreMap({
 									motusFilter.animals.includes('all') ||
 									motusFilter.animals.length == 0 ||
 									motusFilter.animals.some(
-										(a) => x.animals.split(',').includes(a)
+										(a) => x.animals.includes(a)
 									)
 								)
 					});
@@ -992,9 +1050,9 @@ function exploreMap({
 				tracks_el.enter().append("path")
 					.attr('class', "leaflet-zoom-hide explore-map-track explore-map-track")
 					.attr('id', (d) => ("explore-map-track-"+(d.recv1 < d.recv2 ? d.recv1 + '-' + d.recv2 : d.recv2 + '-' + d.recv1)))
-					.style('stroke', (d) => motusMap.colourScale(d.frequency.split(',')[0]))
-					.style('stroke-width', (d) => 2+(Math.log(d.animals.split(',').length,3)))
-					.style('opacity', (d) => (2/(1-Math.log(scale)))*(1 + Math.log(d.animals.split(',').length)))
+					.style('stroke', (d) => motusMap.colourScale(d.frequency[0]))
+					.style('stroke-width', (d) => 2+(Math.log(d.animals.length,3)))
+					.style('opacity', (d) => (2/(1-Math.log(scale)))*(1 + Math.log(d.animals.length)))
 					.style('pointer-events', 'auto')
 					.attr("d", motusMap.path)
 					.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'track'))
@@ -1024,7 +1082,6 @@ function exploreMap({
 					.attr('cx', d => motusMap.path(d).split(',')[0].replace('M',''))
 					.attr('cy', d => motusMap.path(d).split(',')[1].replace('m0',''));
 			}*/
-console.log('test1')
 			motusMap.g.selectAll(".explore-map-animal.explore-map-point:not(.hidden)").attr("d", motusMap.path);
 /*
 			if (typeof motusMap.animalPaths !== 'undefined') {
@@ -1033,8 +1090,7 @@ console.log('test1')
 		//	console.log("updated in " + new Date().setTime(new Date().getTime() - start.getTime()) + " ms ");
 			motusMap.setVisibility();
 		},
-			mapmove: function(e) {
-console.log('test0')
+		mapmove: function(e) {
 
 			var mapBounds = motusMap.map.getBounds();
 			var scale = motusMap.getZoomScale();
@@ -1051,7 +1107,8 @@ console.log('test0')
 
 			motusMap.redrawSubset(subset, scale);
 		//	redrawSubset(subset);
-		}
+		},
+		regionColours: d3.scaleOrdinal().domain(["166.380 MHz", "151.50 MHz", "150.10 MHz", "none"]).range(["#66c2a5","#fc8d62","#8da0cb","#999999"])
 
 	};
 
@@ -1061,8 +1118,11 @@ console.log('test0')
 
 
 function loadMapObjects(callback) {
-	console.log(motusMap.el);
-	motusMap.map = new L.Map(motusMap.el, {
+
+
+	if (typeof motusMap.svg === 'undefined') {
+
+		motusMap.map = new L.Map(motusMap.el, {
 			center: motusMap.center,
 			zoom: motusMap.zoom,
 			maxZoom: 200,
@@ -1071,425 +1131,527 @@ function loadMapObjects(callback) {
 			zoomControl: true,
 			zoomSnap: dataType == 'regions' ? 0 : 1,
 			zoomDelta: dataType == 'regions' ? 0.25 : 0.5,
-		})
+		});
 
-	if (dataType == 'stations' || dataType == 'animals' || exploreType != 'main') {motusMap.map.addLayer(new L.TileLayer(motusMap.tileLayer));}
+		if (dataType == 'stations' || dataType == 'animals' || exploreType != 'main') {motusMap.map.addLayer(new L.TileLayer(motusMap.tileLayer));}
 
+		//L.control.mapView({ position: 'topleft' }).addTo(motusMap.map);
+		motusMap.map.zoomControl.setPosition('topleft');
+		motusMap.map.fullscreenControl.setPosition('topleft');
+	//	motusMap.map.setMaxBounds([[-90,-240],[90,240]]);
 
+		motusMap.svg = d3.select(motusMap.map.getPanes().overlayPane).append("svg");
 
-	//L.control.mapView({ position: 'topleft' }).addTo(motusMap.map);
-	motusMap.map.zoomControl.setPosition('topleft');
-	motusMap.map.fullscreenControl.setPosition('topleft');
-//	motusMap.map.setMaxBounds([[-90,-240],[90,240]]);
+		motusMap.g = motusMap.svg.append("g").attr('class', 'motusMap-tracks-container');//.attr("class", "leaflet-zoom-hide");
 
-	motusMap.svg = d3.select(motusMap.map.getPanes().overlayPane).append("svg");
-
-	motusMap.g = motusMap.svg.append("g").attr('class', 'motusMap-tracks-container');//.attr("class", "leaflet-zoom-hide");
-
-	var transform = d3.geoTransform({point: motusMap.projectPoint});
-	motusMap.path = d3.geoPath().projection(transform);
+		var transform = d3.geoTransform({point: motusMap.projectPoint});
+		motusMap.path = d3.geoPath().projection(transform);
 
 
-	motusMap.legend.svg = motusMap.legend.el.append('svg').attr('class','leaflet-zoom-hide');
+		motusMap.legend.svg = motusMap.legend.el.append('svg').attr('class','leaflet-zoom-hide');
+	}
+	if (exploreType == 'report') {
 
-	console.log(Object.keys(motusData));
+		if (dataType == 'regions') {
 
-	for (dataset in motusData) {
+			var propNames = ["adm0_a3", "region_un"]
 
-		if (dataset == 'regions') {
+			motusMap.svg.selectAll("path:not(.explore-map-region)").classed("disable-filter", true).classed("hidden", "true");
 
+			if (motusMap.svg.selectAll("path.explore-map-region").size() > 0) {
 
-			motusData.regionByCode = d3.group(motusData.regions,  d => d.ADM0_A3);
+				motusMap.svg.selectAll("path.explore-map-region").classed("disable-filter", false).classed("hidden", false);
 
-			var stationsRemaining = motusData.stations;
-
-			//motusMap.colourScales.regions.stations = d3.scaleSequential(d3.interpolateYlGnBu).domain([-100,1000])
-			motusMap.colourScales.regions.stations = d3.scaleOrdinal().domain(["166.380 MHz", "151.50 MHz", "150.10 MHz", "none"]).range(["#66c2a5","#fc8d62","#8da0cb","#999999"]);
-
-			var continentFreqs = {
-				"North America":"166.380 MHz",
-				"South America":"166.380 MHz",
-				"Europe":"150.10 MHz",
-				"Asia":"151.50 MHz",
-				"Oceania":"151.50 MHz",
-				"Africa":"150.10 MHz",
-				"Antarctica":"none"
-			}
-			var regionFreqs = {
-				"Americas":"166.380 MHz",
-				"Europe":"150.10 MHz",
-				"Asia":"151.50 MHz",
-				"Oceania":"151.50 MHz",
-				"Africa":"150.10 MHz",
-				"Antarctica":"none"
-			}
-			console.log(motusData.stationDeps)
-			motusData.stationDepsByRegions = d3.group(motusData.stationDeps, d => d.country);
-			motusData.stationDepsByProjects = d3.group(motusData.stationDeps, d => d.projID);
-
-
-
-			motusMap.regionColours = motusMap.colourScales.regions.stations;
-
-			if (exploreType == 'main') {
-				console.log(motusData.polygons.features[0].properties);
-
-				var propNames = ["adm0_a3", "region_un"]
-				//var propNames = ["COUNTRY", "REGION"]
-				if (dataType == 'regions') {
-					var regions_el = motusMap.g.selectAll("regions")
-						.data(motusData.polygons.features)
-						.enter().append("path")
-						.attr('class', (d) => "explore-map-region" + (motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? ' leaflet-hide-always' : ' leaflet-interactive'))
-						.style('fill', function(d){
-							return motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? "#DDDDDD" : motusMap.regionColours(regionFreqs[d.properties[propNames[1]]]);
-						})
-						.style('stroke-width', function(d){
-							return motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? 0 : 1;
-						})
-						.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'region'))
-						.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'region'))
-						.on('click', (e,d) => motusMap.dataClick(e, d, 'region'));
-
-					motusMap.map.on("zoomend", reset);
-
-					// Reposition the SVG to cover the features.
-					reset();
-				} else {
-
-						var regions_el = motusMap.g.selectAll("regions")
-							.data(motusData.polygons.features)
-							.enter().append("path")
-							.attr('class', (d) => "explore-map-region disable-filter")
-							.style('fill', '#DDDDDD')
-							.style('stroke-width', '0');
-
-				}
-
-			}
-
-		} else if (dataset == 'stationDeps') {
-
-//			motusData.stationDeps = motusData.stations;
-
-			var station_freqs = [];
-
-			if (typeof motusData.stations === 'undefined') {
-				motusData.stations2 = Array.from(d3.rollup(motusData.stationDeps, function(v){
-
-						var startDate = new Date(d3.min(v, d => d.dtStart));
-						var endDate = new Date(d3.max(v, d => d.dtEnd == "NA" ? new Date().toISOString().substr(0, 10) : d.dtEnd));
-
-						if (dtLims.min > startDate) {dtLims.min = startDate;}
-						if (dtLims.max < endDate) {dtLims.max = endDate;}
-
-						var animals = v.map(x => x.animals.split(';')).flat().filter(onlyUnique);
-						var localAnimals = v.map(x => x.localAnimals.split(';')).flat().filter(onlyUnique);
-						var species = v.map(x => x.species.split(';')).flat().filter(onlyUnique);
-
-						var currentDate = moment().toISOString().substr(0,10);
-
-						if (!station_freqs.includes(v[0].frequency)) {station_freqs.push(v[0].frequency);}
-						//recvDepsLink.push([+row.lon, +row.lat, +row.id]);
-						if (!(isNaN(+v[0].lon) || isNaN(+v[0].lon))) {
-						return {
-							id: v[0].id,
-							stationDeps: v.map( d => d.id).join(','),
-							type: 'Feature',
-							geometry: {
-								type: "Point",
-								coordinates: [+v[0].lon, +v[0].lat]
-							},
-							status: (Array.from(v.map( d => d.dtEnd ).values()).some( d => ['NA', currentDate].includes(d) ) ? 'active' : 'not active'),
-							frequency: v[0].frequency,
-							name: v[0].name,
-							projID: Array.from(v.map( d => d.projID ).values()).filter(onlyUnique).join(','),
-							dtStart: startDate,
-							dtEnd: endDate,
-							lastData: moment().diff(moment(endDate), 'days'),
-							animals: animals.join(';'),
-							localAnimals: localAnimals.join(';'),
-							species: species.join(';'),
-							nAnimals: animals.length,
-							nSpp: species.length
-						}
-					} else { console.log("Warning: NAs found", v); }
-				}, x => x.name).values()).filter(x => typeof x !== "undefined");
 			} else {
-			//	var maxDate = d3.max(motusData.stations, d => d.dtEnd)
 
-				var maxDate = "2021-09-17";
-				var currentDate = new Date();
+				var regions_el = motusMap.g.selectAll("regions")
+					.data(motusData.polygons)
+					.enter().append("path")
+					.attr('class', (d) => "explore-map-region" + (motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? ' leaflet-hide-always' : ' leaflet-interactive'))
+					.attr('id', (d) => 'explore-map-region-'+d.id)
+					.style('fill', function(d){
+						return motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? "#DDDDDD" : motusMap.regionColours(regionFreqs[d.properties[propNames[1]]]);
+					})
+					.style('stroke-width', function(d){
+						return motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? 0 : 1;
+					})
+					.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'region'))
+					.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'region'))
+					.on('click', (e,d) => motusMap.dataClick(e, d, 'region'));
 
-				motusData.stations.forEach( d => {
-					d.status = d.status == 'active' || d.dtEnd == maxDate ? 'active' : 'inactive';
-					d.stationDeps =	d.stationDeps.replace(';',',');
-					d.projID =	d.projID.replace(';',',');
-					if (!station_freqs.includes(v[0].frequency)) {station_freqs.push(v[0].frequency);}
-					d.type = "Feature";
-					d.geometry = {
-						type: "Point",
-						coordinates: [+d.lon, +d.lat]
-					}
+				motusMap.map.on("zoomend", reset);
 
-					d.dtStart = new Date(d.dtStart);
-					d.dtEnd = new Date(d.dtEnd);
+				// Reposition the SVG to cover the features.
+				reset();
+			}
 
+		} else if (dataType == 'stations') {
 
-					d.lastData = Math.ceil((currentDate - d.dtEnd) / (24 * 60 * 60 * 1000)); // Days ago
+			motusMap.svg.selectAll("path:not(.explore-map-station)").classed("disable-filter", true).classed("hidden", "true");
 
+			if (motusMap.svg.selectAll("path.explore-map-station").size() > 0) {
 
-				});
+				motusMap.svg.selectAll("path.explore-map-station").classed("disable-filter", false);
+				motusMap.setVisibility();
 
-				dtLims.min = d3.min(motusData.stations.map(x => x.dtStart));
-				dtLims.max = d3.max(motusData.stations.map(x => x.dtEnd));
-
-	 		}
-
-			//motusData.stationDeps = motusData.stations;
-/*
-			motusData.stationDeps.forEach(function(row){
-
-				var startDate = moment(row.dtStart);
-				var endDate = row.dtEnd == "NA" ? moment() : moment(row.dtEnd);
-				if (dtLims.min > startDate) {dtLims.min = startDate;}
-				if (dtLims.max < endDate) {dtLims.max = endDate;}
-				row.id = row.id;
-
-				motusData.stations.push({
-					id: row.id,
-					type: 'Feature',
-					geometry: {
-						type: "Point",
-						coordinates: [+row.lon, +row.lat]
-					},
-					frequency: row.frequency,
-					name: row.name,
-					projID: row.projID,
-					dtStart: startDate,
-					dtEnd: endDate
-				});
-
-				if (!station_freqs.includes(row.frequency)) {station_freqs.push(row.frequency);}
-				//recvDepsLink.push([+row.lon, +row.lat, +row.id]);
-				row.status = row.status == 'active' ? (row.dtEnd == 'NA' ? 'active' : 'expired') : row.status;
-
-				row.dtStart = moment(row.dtStart);
-				row.dtEnd = row.dtEnd == "NA" ? moment() : moment(row.dtEnd);
-
-				row.lastData = (moment().valueOf() - row.dtEnd) / (1000 * 60 * 60 * 24);
-				row.nAnimals = Math.ceil(Math.random() * ((row.dtEnd - row.dtStart) / ((1000 * 60 * 60 * 24) * (10))));
-				row.nSpp = Math.ceil(Math.random() * (10));
-
-			});
-
-*/
-			if (motusData.polygons === undefined) {
+			} else {
 
 				motusMap.colourScales.stations.frequency = d3.scaleOrdinal().domain(["166.38", "151.5", "150.1", "434", "none"]).range(["#66c2a5","#fc8d62","#8da0cb","#e78ac3","#999999"]);
 
 				motusMap.colourVar = "frequency";
 
 				motusMap.colourScale = motusMap.colourScales.stations.frequency;
-				if (dataType != 'stations' ) {
-					motusMap.setQuadtree(motusData.stations);
-				} else {
 
-					var bounds = motusMap.path.bounds({ type: "FeatureCollection", features: motusData.stations });
-					var topLeft = bounds[0];
-					var bottomRight = bounds[1];
+				var bounds = motusMap.path.bounds({ type: "FeatureCollection", features: motusData.stations });
+				var topLeft = bounds[0];
+				var bottomRight = bounds[1];
 
-					//console.log({ type: "FeatureCollection", features: subset });
-					//console.log(motusData.stationDepsBySubset);
-					//console.log(d3.extent(subset, x => x.geometry.coordinates[1]));
+				motusMap.svg.attr("width", bottomRight[0] - topLeft[0] + 100)
+					.attr("height", bottomRight[1] - topLeft[1] + 100)
+					.style("left", (topLeft[0]-50) + "px")
+					.style("top", (topLeft[1]-50) + "px");
 
-					motusMap.svg.attr("width", bottomRight[0] - topLeft[0] + 100)
-						.attr("height", bottomRight[1] - topLeft[1] + 100)
-						.style("left", (topLeft[0]-50) + "px")
-						.style("top", (topLeft[1]-50) + "px");
+				motusMap.g.attr("transform", "translate(" + (-topLeft[0]+50) + "," + (-topLeft[1]+50) + ")");
 
-					motusMap.g.attr("transform", "translate(" + (-topLeft[0]+50) + "," + (-topLeft[1]+50) + ")");
-					//motusMap.svg//.attr("width", bottomRight[0] - topLeft[0])
-					//  .attr("height", bottomRight[1] - topLeft[1])
-					  //.attr('class', "leaflet-zoom-hide")
-					//  .style("left", topLeft[0] + "px")
-					//  .style("top", topLeft[1] + "px");
+				var stationsPaths = motusMap.g.selectAll("stations")
+								.data(motusData.stations)
+								.enter().append("path")
+								.attr("d", motusMap.path.pointRadius(4))
+								.style('stroke', '#000')
+								.style("fill", d => motusMap.colourScale(d[motusMap.colourVar]))
+								.attr('class', 'leaflet-interactive explore-map-station explore-map-point')
+								.attr('id', (d) => 'explore-map-station-'+d.id)
+								.style('stroke-width', '1px')
+								.style('pointer-events', 'auto')
+								.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
+								.on('mouseout touchend', (e,d) => motusMap.dataHover(e, d, 'out', 'station'))
+								.on('mouseup', (e,d) => motusMap.dataClick(e, d, 'station'));
+
+					motusMap.map.on("zoomend", reset);
+
+					// Reposition the SVG to cover the features.
+					reset();
+			}
+		} else if (dataType == 'animals') {
+
+			motusMap.svg.selectAll("path:not(.explore-map-animal)").classed("disable-filter", true).classed("hidden", "true");
+
+			if (motusMap.svg.selectAll("path.explore-map-animal").size() > 0) {
+
+				motusMap.svg.selectAll("path.explore-map-animal").classed("disable-filter", false);
+				motusMap.setVisibility();
+
+			} else {
+
+				motusMap.colourScales.animals.frequency = d3.scaleOrdinal().domain(["166.38", "151.5", "150.1", "434", "none"]).range(["#66c2a5","#fc8d62","#8da0cb","#e78ac3","#999999"]);
+
+				motusMap.colourVar = "frequency";
+
+				motusMap.colourScale = motusMap.colourScales.animals.frequency;
+
+				// Remove NA deployment locations from array
+				var animalsToMap = motusData.animals.filter( x => !isNaN(x.geometry.coordinates[0])&&!isNaN(x.geometry.coordinates[1]))
+
+				var bounds = motusMap.path.bounds({ type: "FeatureCollection", features: animalsToMap });
+				var topLeft = bounds[0];
+				var bottomRight = bounds[1];
+
+				motusMap.svg.attr("width", bottomRight[0] - topLeft[0] + 100)
+					.attr("height", bottomRight[1] - topLeft[1] + 100)
+					.style("left", (topLeft[0]-50) + "px")
+					.style("top", (topLeft[1]-50) + "px");
+
+				motusMap.g.attr("transform", "translate(" + (-topLeft[0]+50) + "," + (-topLeft[1]+50) + ")");
+
+				var stationsPaths = motusMap.g.selectAll("animals")
+								.data(animalsToMap)
+								.enter().append("path")
+								.attr("d", motusMap.path.pointRadius(4))
+								.style('stroke', '#000')
+								.style("fill", d => motusMap.colourScale(d[motusMap.colourVar]))
+								.attr('class', 'leaflet-interactive explore-map-animal explore-map-point')
+								.attr('id', (d) => 'explore-map-animal-'+d.id)
+								.style('stroke-width', '1px')
+								.style('pointer-events', 'auto')
+								.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'animal'))
+								.on('mouseout touchend', (e,d) => motusMap.dataHover(e, d, 'out', 'animal'))
+								.on('mouseup', (e,d) => motusMap.dataClick(e, d, 'animal'));
+
+					motusMap.map.on("zoomend", reset);
+
+					// Reposition the SVG to cover the features.
+					reset();
+			}
+
+		}
 
 
-					var stationsPaths = motusMap.g.selectAll("stations")
-								  .data(motusData.stations)
-									.enter().append("path")
-									.attr("d", motusMap.path.pointRadius(4))
-									.style('stroke', '#000')
-									.style("fill", d => motusMap.colourScale(d[motusMap.colourVar]))
-									.attr('class', 'leaflet-interactive explore-map-station explore-map-point')
-									.attr('id', (d) => 'explore-map-point-'+d.id)
-									.style('stroke-width', '1px')
-									.style('pointer-events', 'auto')
-									.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
-									.on('mouseout touchend', (e,d) => motusMap.dataHover(e, d, 'out', 'station'))
-									.on('mouseup', (e,d) => motusMap.dataClick(e, d, 'station'));
+	} else {
+
+		['stations', 'stationDeps', 'regions', 'polygons', 'animals', 'tracks', 'species', 'projects'].forEach(function(dataset) {
+
+			if (dataset == 'regions' && !['animals', 'stations'].includes(dataType) ) {
+
+
+
+				if (exploreType == 'main') {
+
+					var propNames = ["adm0_a3", "region_un"]
+					//var propNames = ["COUNTRY", "REGION"]
+					if (dataType == 'regions') {
+						var regions_el = motusMap.g.selectAll("regions")
+							.data(motusData.polygons)
+							.enter().append("path")
+							.attr('class', (d) => "explore-map-region" + (motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? ' leaflet-hide-always' : ' leaflet-interactive'))
+							.style('fill', function(d){
+								return motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? "#DDDDDD" : motusMap.regionColours(regionFreqs[d.properties[propNames[1]]]);
+							})
+							.style('stroke-width', function(d){
+								return motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? 0 : 1;
+							})
+							.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'region'))
+							.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'region'))
+							.on('click', (e,d) => motusMap.dataClick(e, d, 'region'));
 
 						motusMap.map.on("zoomend", reset);
 
 						// Reposition the SVG to cover the features.
 						reset();
+					} else {
+
+							var regions_el = motusMap.g.selectAll("regions")
+								.data(motusData.polygons)
+								.enter().append("path")
+								.attr('class', (d) => "explore-map-region disable-filter")
+								.style('fill', '#DDDDDD')
+								.style('stroke-width', '0');
+
+					}
+
 				}
 
-			}
+			} else if (dataset == 'stationDeps') {
 
-		} else if (dataset == 'animals') {
+	//			motusData.stationDeps = motusData.stations;
 
-		/*
-				TAG DEPLOYMENT DATA
-		*/
+				var station_freqs = [];
+
+				if (typeof motusData.stations === 'undefined') {
+					motusData.stations2 = Array.from(d3.rollup(motusData.stationDeps, function(v){
+
+							var startDate = new Date(d3.min(v, d => d.dtStart));
+							var endDate = new Date(d3.max(v, d => d.dtEnd == "NA" ? new Date().toISOString().substr(0, 10) : d.dtEnd));
+
+							if (dtLims.min > startDate) {dtLims.min = startDate;}
+							if (dtLims.max < endDate) {dtLims.max = endDate;}
+
+							var animals = v.map(x => x.animals.split(';')).flat().filter(onlyUnique);
+							var localAnimals = v.map(x => x.localAnimals.split(';')).flat().filter(onlyUnique);
+							var species = v.map(x => x.species.split(';')).flat().filter(onlyUnique);
+
+							var currentDate = moment().toISOString().substr(0,10);
+
+							if (!station_freqs.includes(v[0].frequency)) {station_freqs.push(v[0].frequency);}
+							//recvDepsLink.push([+row.lon, +row.lat, +row.id]);
+							if (!(isNaN(+v[0].lon) || isNaN(+v[0].lon))) {
+							return {
+								id: v[0].id,
+								stationDeps: v.map( d => d.id).join(','),
+								type: 'Feature',
+								geometry: {
+									type: "Point",
+									coordinates: [+v[0].lon, +v[0].lat]
+								},
+								status: (Array.from(v.map( d => d.dtEnd ).values()).some( d => ['NA', currentDate].includes(d) ) ? 'active' : 'not active'),
+								frequency: v[0].frequency,
+								name: v[0].name,
+								projID: Array.from(v.map( d => d.projID ).values()).filter(onlyUnique).join(','),
+								dtStart: startDate,
+								dtEnd: endDate,
+								lastData: moment().diff(moment(endDate), 'days'),
+								animals: animals.join(';'),
+								localAnimals: localAnimals.join(';'),
+								species: species.join(';'),
+								nAnimals: animals.length,
+								nSpp: species.length
+							}
+						} else { console.log("Warning: NAs found", v); }
+					}, x => x.name).values()).filter(x => typeof x !== "undefined");
+				} else {
+				//	var maxDate = d3.max(motusData.stations, d => d.dtEnd)
+
+					var maxDate = "2021-09-17";
+					var currentDate = new Date();
+	/*
+					motusData.stations.forEach( d => {
+						d.status = d.status == 'active' || d.dtEnd == maxDate ? 'active' : 'inactive';
+						d.stationDeps =	d.stationDeps.split(";");
+						d.animals =	d.animals.split(";");
+						d.localAnimals =	d.localAnimals.split(";");
+						d.projID =	d.projID.split(';');
+						if (!station_freqs.includes(v[0].frequency)) {station_freqs.push(v[0].frequency);}
+						d.type = "Feature";
+						d.geometry = {
+							type: "Point",
+							coordinates: [+d.lon, +d.lat]
+						}
+
+						d.dtStart = new Date(d.dtStart);
+						d.dtEnd = new Date(d.dtEnd);
 
 
-			motusData.animalsByRegions = d3.group(motusData.animals, d => d.country, d => d.id);
-			motusData.animalsByProjects = d3.group(motusData.animals, d => d.projID, d => d.id);
+						d.lastData = Math.ceil((currentDate - d.dtEnd) / (24 * 60 * 60 * 1000)); // Days ago
 
-		} else if (dataset == 'tracks') {
 
-			// TRACKS
-		//	if (exploreType != 'main') {
-			if (false) {
-				var trackDataLink = [];
-				var animal_freqs = [];
+					});
 
-				motusData.tracks.forEach(function(row, i){
-					if (row.id.length > 0) {
-						source = [+row.lon1, +row.lat1];
-						target = [+row.lon2, +row.lat2];
-						topush = {
-								type: "LineString",
-								coordinates: [source, target],
-								id: row.id,
-								recv1: row.recvid1,
-								recv2: row.recvid2,
-								dist: row.dist,
-								dtStart: moment( d3.min(row.dtStart.split(',')) ),
-								dtEnd: moment( d3.max(row.dtEnd.split(',')) ),
-								species: row.species,
-								projID: row.projID,
-								frequency: row.freq,
-								lastData: (moment().valueOf() - moment(row.dtEnd).valueOf()) / (1000 * 60 * 60 * 24),
-								status: 'terminated'
-							};
+					*/
+					dtLims.min = d3.min(motusData.stations.map(x => x.dtStart));
+					dtLims.max = d3.max(motusData.stations.map(x => x.dtEnd));
+		 		}
 
-						topush.route = topush.recv1 + '.' + topush.recv2;
-						if (!animal_freqs.includes(row.freq)) {animal_freqs.push(row.freq);}
-						trackDataLink.push(topush)
-					}
+				//motusData.stationDeps = motusData.stations;
+	/*
+				motusData.stationDeps.forEach(function(row){
+
+					var startDate = moment(row.dtStart);
+					var endDate = row.dtEnd == "NA" ? moment() : moment(row.dtEnd);
+					if (dtLims.min > startDate) {dtLims.min = startDate;}
+					if (dtLims.max < endDate) {dtLims.max = endDate;}
+					row.id = row.id;
+
+					motusData.stations.push({
+						id: row.id,
+						type: 'Feature',
+						geometry: {
+							type: "Point",
+							coordinates: [+row.lon, +row.lat]
+						},
+						frequency: row.frequency,
+						name: row.name,
+						projID: row.projID,
+						dtStart: startDate,
+						dtEnd: endDate
+					});
+
+					if (!station_freqs.includes(row.frequency)) {station_freqs.push(row.frequency);}
+					//recvDepsLink.push([+row.lon, +row.lat, +row.id]);
+					row.status = row.status == 'active' ? (row.dtEnd == 'NA' ? 'active' : 'expired') : row.status;
+
+					row.dtStart = moment(row.dtStart);
+					row.dtEnd = row.dtEnd == "NA" ? moment() : moment(row.dtEnd);
+
+					row.lastData = (moment().valueOf() - row.dtEnd) / (1000 * 60 * 60 * 24);
+					row.nAnimals = Math.ceil(Math.random() * ((row.dtEnd - row.dtStart) / ((1000 * 60 * 60 * 24) * (10))));
+					row.nSpp = Math.ceil(Math.random() * (10));
+
 				});
 
-				var trackDataByRoute = d3.rollup(trackDataLink, function(v) {
-					return {
-						animals: v.map(x=>x.id).join(','),
-						species: v.map(x=>x.species).filter(onlyUnique).join(','),
-						type: v[0].type,
-						dist: v[0].dist,
-						recv1: v[0].recv1,
-						recv2: v[0].recv2,
-						dtStart: v[0].dtStart,
-						dtEnd: v[0].dtEnd,
-						projID: v[0].projID,
-						frequency: v[0].frequency,
-						coordinates: v[0].coordinates
+	*/
+				if (exploreType == 'main') {
+
+					motusMap.colourScales.stations.frequency = d3.scaleOrdinal().domain(["166.38", "151.5", "150.1", "434", "none"]).range(["#66c2a5","#fc8d62","#8da0cb","#e78ac3","#999999"]);
+
+					motusMap.colourVar = "frequency";
+
+					motusMap.colourScale = motusMap.colourScales.stations.frequency;
+					if (dataType != 'stations' ) {
+						motusMap.setQuadtree(motusData.stations);
+					} else {
+
+						var bounds = motusMap.path.bounds({ type: "FeatureCollection", features: motusData.stations });
+						var topLeft = bounds[0];
+						var bottomRight = bounds[1];
+
+						//console.log({ type: "FeatureCollection", features: subset });
+						//console.log(motusData.stationDepsBySubset);
+						//console.log(d3.extent(subset, x => x.geometry.coordinates[1]));
+
+						motusMap.svg.attr("width", bottomRight[0] - topLeft[0] + 100)
+							.attr("height", bottomRight[1] - topLeft[1] + 100)
+							.style("left", (topLeft[0]-50) + "px")
+							.style("top", (topLeft[1]-50) + "px");
+
+						motusMap.g.attr("transform", "translate(" + (-topLeft[0]+50) + "," + (-topLeft[1]+50) + ")");
+						//motusMap.svg//.attr("width", bottomRight[0] - topLeft[0])
+						//  .attr("height", bottomRight[1] - topLeft[1])
+						  //.attr('class', "leaflet-zoom-hide")
+						//  .style("left", topLeft[0] + "px")
+						//  .style("top", topLeft[1] + "px");
+
+
+						var stationsPaths = motusMap.g.selectAll("stations")
+									  .data(motusData.stations)
+										.enter().append("path")
+										.attr("d", motusMap.path.pointRadius(4))
+										.style('stroke', '#000')
+										.style("fill", d => motusMap.colourScale(d[motusMap.colourVar]))
+										.attr('class', 'leaflet-interactive explore-map-station explore-map-point')
+										.attr('id', (d) => 'explore-map-point-'+d.id)
+										.style('stroke-width', '1px')
+										.style('pointer-events', 'auto')
+										.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
+										.on('mouseout touchend', (e,d) => motusMap.dataHover(e, d, 'out', 'station'))
+										.on('mouseup', (e,d) => motusMap.dataClick(e, d, 'station'));
+
+							motusMap.map.on("zoomend", reset);
+
+							// Reposition the SVG to cover the features.
+							reset();
 					}
-				}, x => +x.route );
 
-				all_lastData = trackDataLink.map( x => +x.lastData );
-			} else if (exploreType == 'main') {
+				}
 
-				motusData.tracksByAnimal = {};
+			} else if (dataset == 'animals') {
 
-				motusData.nTracks = 0;
+			/*
+					TAG DEPLOYMENT DATA
+			*/
 
-				motusData.trackDataByRoute = d3.rollup(motusData.tracks, function(v) {
-					var dtStart = moment(d3.min(v[0].dtStart.split(',')));
-					var dtEnd = moment(d3.min(v[0].dtEnd.split(',')));
-					if (dtLims.min > dtStart.toDate()) {dtLims.min = dtStart.toDate();}
-					if (dtLims.max < dtEnd.toDate()) {dtLims.max = dtEnd.toDate();}
-					motusData.nTracks += v[0].animal.split(',').length;
-					v[0].animal.split(',').forEach(function(x){
-						if (motusData.tracksByAnimal[x]) {
-							motusData.tracksByAnimal[x].push(v[0].route);
-						} else {
-							motusData.tracksByAnimal[x] = [v[0].route];
+
+
+			} else if (dataset == 'tracks') {
+
+				// TRACKS
+			//	if (exploreType != 'main') {
+				if (false) {
+					var trackDataLink = [];
+					var animal_freqs = [];
+
+					motusData.tracks.forEach(function(row, i){
+						if (row.id.length > 0) {
+							source = [+row.lon1, +row.lat1];
+							target = [+row.lon2, +row.lat2];
+							topush = {
+									type: "LineString",
+									coordinates: [source, target],
+									id: row.id,
+									recv1: row.recvid1,
+									recv2: row.recvid2,
+									dist: row.dist,
+									dtStart: moment( d3.min(row.dtStart.split(',')) ),
+									dtEnd: moment( d3.max(row.dtEnd.split(',')) ),
+									species: row.species,
+									projID: row.projID,
+									frequency: row.freq,
+									lastData: (moment().valueOf() - moment(row.dtEnd).valueOf()) / (1000 * 60 * 60 * 24),
+									status: 'terminated'
+								};
+
+							topush.route = topush.recv1 + '.' + topush.recv2;
+							if (!animal_freqs.includes(row.freq)) {animal_freqs.push(row.freq);}
+							trackDataLink.push(topush)
 						}
 					});
-					return {
-						animals: v[0].animal,
-						species: v[0].species,
-						type: v[0].type,
-						recv1: v[0].recv1,
-						recv2: v[0].recv2,
-						projID: v[0].project,
-						dtStart: dtStart,
-						dtEnd: dtEnd,
-						frequency: v[0].frequency,
-						coordinates: [ [v[0].lon1, v[0].lat1], [v[0].lon2, v[0].lat2]]
-					}
-				}, x => +x.route );
 
-				$("#explore_filters").siblings('.filter_status').find('span:eq(1)').text(motusData.nTracks);
-				//	console.log(tracksByAnimal);
+					var trackDataByRoute = d3.rollup(trackDataLink, function(v) {
+						return {
+							animals: v.map(x=>x.id),
+							species: v.map(x=>x.species).filter(onlyUnique),
+							type: v[0].type,
+							dist: v[0].dist,
+							recv1: v[0].recv1,
+							recv2: v[0].recv2,
+							dtStart: v[0].dtStart,
+							dtEnd: v[0].dtEnd,
+							projID: v[0].projID,
+							frequency: v[0].frequency,
+							coordinates: v[0].coordinates
+						}
+					}, x => +x.route );
 
+					all_lastData = trackDataLink.map( x => +x.lastData );
+				} else if (exploreType == 'main') {
+
+					motusData.tracksByAnimal = {};
+
+					motusData.nTracks = 0;
+
+					motusData.trackDataByRoute = d3.rollup(motusData.tracks, function(v) {
+						var dtStart = v[0].dtStart;
+						var dtEnd = v[0].dtEnd;
+						if (dtLims.min > dtStart) {dtLims.min = dtStart;}
+						if (dtLims.max < dtEnd) {dtLims.max = dtEnd;}
+						motusData.nTracks += v[0].animal.length;
+						v[0].animal.forEach(function(x){
+							if (motusData.tracksByAnimal[x]) {
+								motusData.tracksByAnimal[x].push(v[0].route);
+							} else {
+								motusData.tracksByAnimal[x] = [v[0].route];
+							}
+						});
+						return {
+							animals: v[0].animal.join(','),
+							species: v[0].species.join(','),
+							type: v[0].type,
+							recv1: v[0].recv1,
+							recv2: v[0].recv2,
+							projID: v[0].project,
+							dtStart: dtStart,
+							dtEnd: dtEnd,
+							frequency: v[0].frequency,
+							coordinates: [ [v[0].lon1, v[0].lat1], [v[0].lon2, v[0].lat2]]
+						}
+					}, x => +x.route );
+
+					$("#explore_filters").siblings('.filter_status').find('span:eq(1)').text(motusData.nTracks);
+					//	console.log(tracksByAnimal);
+
+				}
+
+
+				motusMap.colourScales.tracks.freq = d3.scaleOrdinal().domain(["166.38", "151.5", "150.1", "434", "none"]).range(["#1b9e77","#d95f02","#7570b3","#e7298a","#999999"]);
+
+				motusMap.colourVar = "freq";
+
+				motusMap.colourScale = motusMap.colourScales.tracks.freq;
+
+
+
+
+				if (exploreType != 'main') {
+					// Add the path later on
+				} else if (dataType == 'animals'){
+
+					motusMap.group_f = 20;
+					motusMap.groupData = 'circles';
+
+					motusMap.updateNodes(motusMap.qtree);
+					motusMap.mapmove();
+					motusMap.map.on("moveend", motusMap.mapmove);
+				}
 			}
 
+			console.log("Loaded " + dataset+ " to the map.");
 
-			motusMap.colourScales.tracks.freq = d3.scaleOrdinal().domain(["166.38", "151.5", "150.1", "434", "none"]).range(["#1b9e77","#d95f02","#7570b3","#e7298a","#999999"]);
+		//	loadContent();
+	});
+		// TIMELINE
 
-			motusMap.colourVar = "freq";
+		if (timeline != undefined && timeline.el != undefined) {
 
-			motusMap.colourScale = motusMap.colourScales.tracks.freq;
+			var dateLimits = motusData.stationDeps.map(function(d){
+				return {
+					start: d.dtStart,
+					end: d.dtEnd
+				}
+			});
 
+			timeline.min = d3.min(dateLimits.map(d => new Date(d.start).getTime())) / 1000;
+			timeline.max = d3.max(dateLimits.map(d => new Date(d.start).getTime())) / 1000;
 
+			dtLims.min = new Date( timeline.min );
+			dtLims.max = new Date( timeline.max );
 
+			$(timeline.el).dragslider("option", { "min": timeline.min, "max": timeline.max});
+		//	console.log($('#explore_filters input.filter_dates').data('daterangepicker'));
 
-			if (exploreType != 'main') {
-				// Add the path later on
-			} else if (dataType == 'animals'){
+		//	($('#explore_filters input.filter_dates').data('daterangepicker')).minDate = moment(new Date(timeline.min * 1000));
+	//		$("#explore_filters input.filter_dates").daterangepicker("option", { "minDate": new Date(timeline.min * 1000), "maxDate": new Date(timeline.max * 1000)});
+			timeline.createLegend();
 
-				motusMap.group_f = 20;
-				motusMap.groupData = 'circles';
-
-				motusMap.updateNodes(motusMap.qtree);
-				motusMap.mapmove();
-				motusMap.map.on("moveend", motusMap.mapmove);
-			}
 		}
-
-		console.log("Loaded " + dataset+ " to the map.");
-
-	//	loadContent();
 	}
-	// TIMELINE
-
-	if (timeline != undefined && timeline.el != undefined) {
-
-		var dateLimits = motusData.stationDeps.map(function(d){
-			return {
-				start: d.dtStart,
-				end: d.dtEnd
-			}
-		});
-
-		timeline.min = d3.min(dateLimits.map(d => new Date(d.start).getTime())) / 1000;
-		timeline.max = d3.max(dateLimits.map(d => new Date(d.start).getTime())) / 1000;
-
-		dtLims.min = new Date( timeline.min );
-		dtLims.max = new Date( timeline.max );
-
-		$(timeline.el).dragslider("option", { "min": timeline.min, "max": timeline.max});
-	//	console.log($('#explore_filters input.filter_dates').data('daterangepicker'));
-
-	//	($('#explore_filters input.filter_dates').data('daterangepicker')).minDate = moment(new Date(timeline.min * 1000));
-//		$("#explore_filters input.filter_dates").daterangepicker("option", { "minDate": new Date(timeline.min * 1000), "maxDate": new Date(timeline.max * 1000)});
-		timeline.createLegend();
-
-	}
-
 	function reset(dataset) {
 	var bounds = motusMap.path.bounds( { type: "FeatureCollection", features: motusMap.g.selectAll('path').data() } ),
 	//var bounds = motusMap.path.bounds(dataType == "stations" ? { type: "FeatureCollection", features: motusData.stations } : motusData.polygons),
@@ -1699,15 +1861,15 @@ function animateTrackStep(date, start) {
 				var n_index = d.animal.reduce( (a, v, i) => {if (motusMap.animation.animals.includes(v)) {a.push(i);}return a}, [] );
 				// Select nested data based on index
 				d.animal = d.animal.filter( (x, i) => n_index.includes(i) );
-				d.dtStart = d.dtStart.filter( (x, i) => n_index.includes(i) );
-				d.dtEnd = d.dtEnd.filter( (x, i) => n_index.includes(i) );
+				d.dtStart = d.dtStartList.filter( (x, i) => n_index.includes(i) );
+				d.dtEnd = d.dtEndList.filter( (x, i) => n_index.includes(i) );
 			} else {
 				// Get the index of animal matches for nested data
-				var n_index = d.animal.split(',').reduce( (a, v, i) => {if (motusMap.animation.animals.includes(v)) {a.push(i);}return a}, [] );
+				var n_index = d.animal.reduce( (a, v, i) => {if (motusMap.animation.animals.includes(v)) {a.push(i);}return a}, [] );
 				// Select nested data based on index
-				d.animal = d.animal.split(',').filter( (x, i) => n_index.includes(i) );
-				d.dtStart = d.dtStart.split(',').filter( (x, i) => n_index.includes(i) );
-				d.dtEnd = d.dtEnd.split(',').filter( (x, i) => n_index.includes(i) );
+				d.animal = d.animal.filter( (x, i) => n_index.includes(i) );
+				d.dtStart = d.dtStartList.filter( (x, i) => n_index.includes(i) );
+				d.dtEnd = d.dtEndList.filter( (x, i) => n_index.includes(i) );
 			}
 
 		});
@@ -1858,4 +2020,220 @@ function animateTrackStep(date, start) {
 	    };
 	  };
 	}
+}
+
+function populateProfilesMap() {
+
+
+
+	motusMap.mapLegend = d3.create('div').attr("class", "explore-map-legend hidden")
+																	.attr("id", "explore_map_legend");
+	motusMap.mapLegend.append('div')
+						.attr("class", "explore-map-legend-header")
+						.on('click', function(){	$(this).closest('.explore-map-legend').toggleClass('hidden');	})
+							.append('span')
+							.text('Map legend')
+							.attr('class', 'showHide');
+
+	$('#explore_map').before("<div class='explore-map-controls'></div>")
+
+	d3.select(".explore-map-controls").append(()=>motusMap.mapLegend.node());
+	console.log(motusData);
+
+	if (dataType == 'regions') {
+		motusMap.regionPaths = motusMap.g.selectAll("regions")
+			.data(motusData.selectedRegions)
+			.enter().append("path")
+			.attr("d", motusMap.path)
+			.attr('class', 'explore-map-regions leaflet-zoom-hide')
+			.style('stroke', '#000')
+			.style('fill', d => motusFilter.regions.includes(d.properties.adm0_a3) ? "#FFF" : "#CCC" )
+			.style('stroke-width', '1px');
+	}
+// Other stations
+	motusMap.g.selectAll('stations')
+		.data( motusData.stations.filter( d => !motusFilter.selectedStationDeps.includes( d.id ) ).sort((a, b) => d3.ascending(a.id, b.id)) )
+		.enter().append("path")
+		.attr("d", motusMap.path.pointRadius(4))
+		.style('stroke', '#000')
+		.style('fill', '#FF0')
+		.attr('id', d => "explore_map_station_" + d.id)
+		.attr('class', 'explore-map-station explore-map-r4 leaflet-zoom-hide explore-map-station-other')
+		.style('stroke-width', '1px')
+		.style('pointer-events', 'auto')
+		.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
+		.on('mouseout touchmove', (e,d) => motusMap.dataHover(e, d, 'out', 'station'))
+		.on('touchend', (e) => e.preventDefault())
+		.on('mouseup', (e,d) => motusMap.dataClick(e, d, 'station'));
+
+
+	var yesterday = new Date().addDays( -1 );
+
+	testTimer.push([new Date(), "Set map bounds"]);
+
+// Selected stations
+	motusMap.g.selectAll('stations')
+		.data( motusData.selectedStations.sort((a, b) => d3.ascending(a.id, b.id)) )
+		.enter().append("path")
+		.attr("d", motusMap.path.pointRadius(6))
+		.style('stroke', '#000')
+		.style('fill', '#0F0')
+		.attr('id', d => "explore_map_station_" + d.id)
+		.attr('class', d => 'explore-map-station leaflet-zoom-hide explore-map-station-' + (d.dtEnd > yesterday ? 'active' : 'inactive') )
+		.style('stroke-width', '1px')
+		.style('pointer-events', 'auto')
+		.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
+		.on('mouseout touchmove', (e,d) => motusMap.dataHover(e, d, 'out', 'station'))
+		.on('touchend', (e) => e.preventDefault())
+		.on('mouseup', (e,d) => motusMap.dataClick(e, d, 'station'));
+
+	var stations_legend = motusMap.mapLegend.append('svg')
+			.attr('class', 'map-legend-stations')
+			.attr('viewBox', `0 0 150 60`)
+			.attr('width', '150')
+			.attr('height', `60`);
+
+	var g = stations_legend.append("g")
+												 .attr('class', 'map-legend-stations-active selected')
+												 .on('click', motusMap.legendClick);
+
+	g.append("circle")
+		.attr("cx", "10")
+		.attr("cy", "15")
+		.attr("r", 6)
+		.style('stroke', '#000')
+		.style('fill', '#0F0')
+		.style('stroke-width', '1px')
+		.style('pointer-events', 'auto');
+
+	g.append("path")
+		.attr('marker-end','url(#station_path)')
+		.attr("d", "M10,21 L10,20")
+		.style('stroke', '#000')
+		.style('fill', '#F00')
+		.style('stroke-width', '1px')
+		.style('pointer-events', 'auto');
+
+	g.append("text")
+			.attr("x", "20")
+			.attr("y", "20")
+			.text("Selected station");
+
+	var g = stations_legend.append("g")
+												 .attr('class', 'map-legend-stations-other selected')
+												 .on('click', motusMap.legendClick);
+
+	g.append("circle")
+			.attr("cx", "10")
+			.attr("cy", "35")
+			.attr("r", 3)
+			.style('stroke', '#000')
+			.style('fill', '#FF0')
+			.style('stroke-width', '1px')
+			.style('pointer-events', 'auto');
+
+	g.append("text")
+			.attr("x", "20")
+			.attr("y", "40")
+			.text("Other station");
+
+
+	testTimer.push([new Date(), "Set map bounds"]);
+	motusMap.stationPaths = motusMap.g.selectAll('.explore-map-station')
+
+	if (motusData.selectedRegions && false) {
+
+		motusMap.regionBounds = d3.geoPath().bounds({features:motusData.selectedRegions, type: "FeatureCollection"});
+
+		motusMap.map.fitBounds( [ [motusMap.regionBounds[0][1], motusMap.regionBounds[0][0]], [motusMap.regionBounds[1][1], motusMap.regionBounds[1][0]]]);
+	} else if (dataType == 'stations' ){
+
+		if (motusData.selectedStations.length == 1) {
+
+			motusData.selectionBounds = motusData.selectedStations[0].geometry.coordinates;
+
+			motusMap.map.setView(  [motusData.selectionBounds[1], motusData.selectionBounds[0]], 9);
+
+		} else { // If there are more than one points, get the extent of the bounds and fit them.
+
+			var lats = motusData.selectedStations.map( x => x.geometry.coordinates[1]);
+			var lons = motusData.selectedStations.map( x => x.geometry.coordinates[0]);
+			motusData.selectionBounds = [ d3.extent(lons), d3.extent(lats)];
+
+			motusMap.map.fitBounds( [ [motusData.selectionBounds[1][0], motusData.selectionBounds[0][0]], [motusData.selectionBounds[1][1], motusData.selectionBounds[0][1]]]);
+
+		}
+
+	}
+
+	testTimer.push([new Date(), "Add track paths"]);
+
+	var colourBy = dataType == 'stations' ? 'recv1' : dataType == 'species' ? 'species' : "origin"
+
+	motusMap.trackPaths = motusMap.g.selectAll("tracks")
+		.data(Object.values(motusData.selectedTracks))
+		.enter().append("path")
+		.attr('class', (d) => "explore-map-track explore-map-species leaflet-zoom-hide " + [d.colourVal].map( x => "explore-map-track-" + ( x.toLowerCase() ) ).join(" ") )
+		.attr("id", (d) => "explore-map-track-" + d.route.replace('.','-'))
+		.style('stroke', (d) => motusMap.colourScale(d.colourVal))
+		.style('pointer-events', 'auto')
+		.style('stroke-width', '3px')
+		.attr("d", motusMap.path)
+		.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'track'))
+		.on('mouseout touchend', (e,d) => motusMap.dataHover(e, d, 'out', 'track'))
+		.on('mouseup', (e,d) => motusMap.dataClick(e, d, 'track'));
+
+	var h = 20;
+
+	motusMap.mapLegend.append('div')
+		.style('font-weight','bold')
+		.text('Tagging location')
+
+	var tracks_svg = motusMap.mapLegend.append("svg")
+		.attr('class','map-legend-tracks');
+
+	var max_length = 0;
+
+	motusMap.colourScale.domain().forEach(function(x, i) {
+
+		var selectionColour = motusMap.colourScale.range()[i];
+		var selectionName = x == "remote" || x == 'other' || x == 'visiting' ? firstToUpper( x ) : motusData.selectionNames[ x ];
+
+		var g = tracks_svg.append("g");
+
+
+		g.append("path")
+			.attr("d", `M0,${10 + (i * h)} L30,${10 + (i * h)}`)
+			.style('stroke', selectionColour )
+			.style('stroke-width', '3px')
+			.style('pointer-events', 'auto');
+
+
+		g.append("text")
+			.attr("x", 40)
+			.attr("y", h * ( i + 0.75 ) )
+			.text( selectionName )
+			.style('pointer-events', 'auto');
+
+		var len = $("<div class='get-text-size'></div>").appendTo("body").css('font-size', '14pt').text( selectionName ).width();
+
+		max_length = max_length < len ? len : max_length;
+
+		g.attr("class","map-legend-track-" + x + " selected")
+			.style('pointer-events', 'auto')
+			.on('click', motusMap.legendClick);
+
+	});
+
+	tracks_svg.attr('viewBox', `0 0 ${50 + max_length} ${motusMap.colourScale.domain().length * h}`)
+		.attr('width', 50 + max_length)
+		.attr('height', motusMap.colourScale.domain().length * h);
+
+
+
+
+	motusMap.map.on("zoomend", motusMap.reset);
+
+	// Reposition the SVG to cover the features.
+	motusMap.reset();
 }

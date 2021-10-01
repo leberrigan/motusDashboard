@@ -301,13 +301,15 @@ function zoomableTimeline(data,{
 				const x_pos = d3.pointer(e, this)[0];
 				const date =  x_zoom.invert( x_pos ).toISOString().substr(0, 10);
 				const d = data.filter( d => d.date.toISOString().substr(0, 10) == date)[0];
-				$(".popup").remove();
+				$(".popup,.popup_bg").remove();
 				if (typeof d !== 'undefined' && d.value > 0) {
-					$("body").append(`<div class='popup'><div class='popup-topbar'><div class='popup-header'>Detections on: ${date}</div><div class='popup-topbar-close'>X</div></div><div class='popup-content'></div></div>`);
+					$("body").append(`<div class='popup_bg'></div><div class='popup'><div class='popup-topbar'><div class='popup-header'>Detections on: ${date}</div><div class='popup-topbar-close'>X</div></div><div class='popup-content'></div></div>`);
 					$(".popup").draggable({handle: ".popup-topbar"});
 
-					$(".popup .popup-topbar .popup-topbar-close").click(function(){
+					$(".popup .popup-topbar .popup-topbar-close, .popup_bg").click(function(){
 						$(".popup").remove();
+						$(".popup_bg").remove();
+//						$("body > *:not(.popup)").css({filter:"blur(0)"});
 					});
 
 					if (typeof motusData.animalsTableData === 'undefined') {getAnimalsTableData();}
@@ -357,6 +359,8 @@ function zoomableTimeline(data,{
 				$('.popup').css({top:$("html").scrollTop() + ($(window).height() - $('.popup').outerHeight())/2, left:($(window).width() - $('.popup').outerWidth())/2});
 
 				$('.popup:hidden').show();
+				$('.popup_bg:hidden').show();
+//				$("body > *:not(.popup)").css({filter:"blur(10px)"});
 			}
 		}
 

@@ -123,7 +123,7 @@
 
 			gParentItem.append("g")
 				.call(yAxis);
-				
+
 			gParentItem.append("g")
 				.selectAll("g")
 				.data(d3.stack().keys(data.columns.slice(1)).value( (d, key) => d[key].length )(data))

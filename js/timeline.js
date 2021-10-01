@@ -124,7 +124,42 @@ function exploreTimeline({
 			}
 
 		},
+		setLimits: function(min, max) {
+
+			if (Array.isArray(min) && min.length == 2) {
+				[min, max] = min;
+			}
+
+			min = typeof min == 'object' ? Math.round(min/1000) :
+						typeof min == 'string' && new Date(min).getTime( )? Math.round(new Date(min)/1000) :
+						typeof min != 'number' ? false :
+						min  > 10e10 ? Math.round(min/1000) : min;
+
+			max = typeof max == 'object' ? Math.round(max/1000) :
+						typeof max == 'string' && new Date(max).getTime( )? Math.round(new Date(max)/1000) :
+						typeof max != 'number' ? false :
+						max  > 10e10 ? Math.round(max/1000) : max;
+
+			if (!min && !max) {console.error("Min/max are of the wrong format");return false;}
+
+			if (!min) {console.error("Min is of the wrong format");}
+			else {
+				$("#dateSlider .slider").dragslider("option", "min", min)
+				timeRange.min = new Date(min * 1000);
+			}
+
+			if (!max) {console.error("Max is of the wrong format");}
+			else {
+				$("#dateSlider .slider").dragslider("option", "max", max)
+				timeRange.max = new Date(min * 1000);
+			}
+
+			timeRange.range = timeRange.max - timeRange.min;
+
+			return [min, max];
+		},
 		createLegend: function () {
+			console.log('Create timeline legend')
 			// timeline.min and *.max must be set prior to call
 			var width_el = $(el).parent();
 			width = 0;
@@ -133,20 +168,22 @@ function exploreTimeline({
 				width_el = width_el.parent();
 			}
 
-			if (width == 0) {$(el).parent().parent().width();}
+			if (width == 0) {width = $(el).parent().parent().width();}
+			console.log(height)
 
-			if (exploreType != 'main') {
+			if (exploreType != 'main' && exploreType != 'report') {
 
 				timeRange = {min: timeRange.min.valueOf(), max: timeRange.max.valueOf()}
 				timeRange.range = timeRange.max - timeRange.min;
-				$(timeline.el).dragslider("option","min",timeRange.min/1000).dragslider("option","max",timeRange.max/1000)
-console.log('timeline')
+				$(timeline.el).dragslider("option","min",timeline.min).dragslider("option","max",timeline.max)
+
 				$(el).parent().append(detectionTimeline(Object.values(motusData.selectedTracks),{
 						width:width,
 						resize: $(el).parent(),
 						timelineSVG: $("<svg height='"+height+"' style='width:100%;margin:-8px 0;cursor:pointer;'></svg>"),
 						dataSource: "animals",
-						margin:{left:0,right:0}
+						margin:{left:0,right:0},
+						setTimeline: true
 					}));
 					console.log($(el).parent().find('svg'));
 			} else {
@@ -270,6 +307,7 @@ console.log('timeline')
 		},
 		stop: updateURL
 	});
+
 	timeline.range = $(el).dragslider('option', 'max') - $(el).dragslider('option', 'min');
 
 }

@@ -241,6 +241,15 @@ body.touch .tooltip_bg {
 	border-radius:5px;
 	overflow: hidden;
 }
+.popup_bg {
+	position:fixed;
+	background: rgba(255,255,255,0.01);
+	left:0;
+	top:0;
+	right:0;
+	bottom:0;
+	z-index: 1098;
+}
 .popup .popup-topbar {
 	padding: 5px 10px;
   background-color: #CCC;
@@ -1559,6 +1568,13 @@ div.explore-card {
 	opacity:0;
 	position:absolute;
 }
+#explore_card_profiles > .explore-card-add.fixed {
+	display:block;
+	top:30px;
+	left:0px;
+	position:fixed;
+	z-index:1000;
+}
 
 #explore_card_profiles > .explore-card-add:hover,
 #explore_card_profiles > .explore-card-add.visible {
@@ -1746,6 +1762,14 @@ line-height: 60px;
 	overflow:hidden;
 	height:var(--explore-card-height);
 	margin-right:40px;
+}
+#explore_card_map.fixed {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    bottom: 0;
+    top: 100px;
+    height: auto;
 }
 #explore_map {
 	margin:0px;
