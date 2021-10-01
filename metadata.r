@@ -29,7 +29,9 @@ stations.df <- recvDeps.df %>%
             localAnimals = paste0(unique(unlist(str_split(localAnimals, ';'))), collapse = ';'),
             species = paste0(unique(unlist(str_split(species, ';'))), collapse = ';'),
             nAnimals = str_split(animals, ";") %>% unlist %>% length,
-            nSpecies = str_split(species, ";") %>% unlist %>% length) %>%
+            nSpecies = str_split(species, ";") %>% unlist %>% length,
+            country = country[1],
+            continent = continent[1]) %>%
   filter(!is.na(lat), !is.na(lon))
 
 stations.df %>% write.csv(paste0(dashboard.dir, 'stations.csv'), row.names = F)

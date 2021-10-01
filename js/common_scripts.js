@@ -193,26 +193,37 @@ function viewProfile(profileType, dataID) {
 
 	profileType = profileType.replace('Group', '');
 
-	exploreType = profileType;
+	if (exploreType!='report') {exploreType = profileType;}
 	dataType = profileType;
 
 	dataID = typeof dataID === 'object' ? dataID : [dataID];
 
-
-	motusFilter={};
-	if (group) {
-		if (profileType == 'projects') {
-			dataID = motusData.projects.filter( d => dataID.includes(d.fee_id) ).map( d => d.id )
+	if (exploreType != "report") {
+		motusFilter={};
+		if (group) {
+			if (profileType == 'projects') {
+				dataID = motusData.projects.filter( d => dataID.includes(d.fee_id) ).map( d => d.id )
+			} else {
+				dataID = motusData[dataType].filter( d => dataID.includes(d.id) ).map( d => d.id )
+			}
+			motusFilter.group = groupID;
+			motusFilter[profileType] = dataID;
 		} else {
-			dataID = motusData[dataType].filter( d => dataID.includes(d.id) ).map( d => d.id )
+			motusFilter[profileType] = dataID;
 		}
-		motusFilter.group = groupID;
-		motusFilter[profileType] = dataID;
+
+		updateURL(true);
+
 	} else {
-		motusFilter[profileType] = dataID;
+		//motusFilter.selections = dataID;
+
+		if ($(`#explore-map-${toSingular(profileType)}-${dataID}`).hasClass("selected")) {
+			$(".report-control-selections select").val($(".report-control-selections select").val().filter( x => x!=dataID )).trigger("change");
+		} else {
+			$(".report-control-selections select").val($(".report-control-selections select").val().concat(dataID)).trigger("change");
+		}
+
 	}
-console.log(motusFilter[profileType] );
-	updateURL(true);
 
 }
 function initiateLightbox(el) {
@@ -503,4 +514,8 @@ function Legend(color, {
         .text(title));
 
   return svg.node();
+}
+
+function toSingular(plural) {
+	return plural.toLowerCase() == 'species' ? plural : plural.slice(0, -1);
 }

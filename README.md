@@ -3,6 +3,7 @@
 To be released 2021. An upgrade for Motus Explore Data tool.
 
 ### **[DEMO](https://leberrigan.github.io/motusDashboard/explore.html)**
+### **[REPORTS](https://leberrigan.github.io/motusDashboard/report.html)**
 - [Updates](#updates)
 - [Site map](#site-map)
 - [Data structure](#data-structure)
@@ -11,6 +12,8 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ## Updates
 
 ### Latest
+* [x] [2021-10-01] Add in report.html
+* [x] [2021-10-01] Introducing indexeddb
 * [x] [2021-09-20] Add zoom and brush to linear timelines
 * [x] [2021-09-19] Linear detection timelines
 * [x] [2021-09-16] Date slider includes detection timeline
