@@ -235,8 +235,6 @@ function stationTable( cardID ) {
 
 	if ($(`#explore_card_${cardID} .explore-card-${cardID}-table`).length == 0) {
 
-		//$("#explore_card_stationHits .explore-card-header").text("Stations in th" + ( motusFilter.regions.length > 1 ? "ese" : "is") + " region" + ( motusFilter.regions.length > 1 ? "s" : ""));
-
 		var headers = ["Station Name", "Start Date", "Status", "Animals", "Species", "Project"];
 
 		$(`#explore_card_${cardID}`)
@@ -591,6 +589,8 @@ console.log("Hourly");
 				for (k in d) {
 
 					if (k != "Hour") d[k] = d[k];//.filter(onlyUnique);//.length;
+          
+  
 
 				}
 
