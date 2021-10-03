@@ -178,27 +178,59 @@ function motusIndexedDB( motusDataTableNames = [] ) {
 			}
 
 	});
-		testTimer.push([new Date(), "Get data: declare the database"]);
-	// Declare the database
-  motusData.db = new Dexie("explore_motus");
-	//
-  motusData.db.version(1).stores(
-		Object.fromEntries(
-			Object.entries(	motusDataTables	)
-						.map( x => [ x[0], x[1].key ] )
-		)
-	);
-	console.log(`Initiating local Motus DB with ${Object.keys(motusDataTables).length} tables...`);
+	testTimer.push([new Date(), "Get data: declare the database"]);
+	// Check whether IndexedDB is supported
+	if (indexedDB) {
+		// Declare the database
+	  motusData.db = new Dexie("explore_motus");
+		//
+	  motusData.db.version(1).stores(
+			Object.fromEntries(
+				Object.entries(	motusDataTables	)
+							.map( x => [ x[0], x[1].key ] )
+			)
+		);
 
-  motusData.db.on('ready', function(){
+		console.log(`Initiating local Motus DB with ${Object.keys(motusDataTables).length} tables...`);
 
 
-		console.log("DB Ready. Checking tables...");
+	  motusData.db.open()
+    	.catch ('MissingApiError',function(error){// If IndexedDB is NOT supported
+					console.log(error);
+					var tableToDownload = Object.entries(motusDataTables).filter( x => x[1].get );
+					downloadMotusData( tableToDownload.map( x => x[1].promise( x[1].file ) ), tableToDownload.map( x => x[0] ) );
+					indexedDB=false;
+			}).catch (function (error) {
+	        // Show e.message to user
+					console.log("Some other error: ");
+					console.log(error);
+					var tableToDownload = Object.entries(motusDataTables).filter( x => x[1].get );
+					downloadMotusData( tableToDownload.map( x => x[1].promise( x[1].file ) ), tableToDownload.map( x => x[0] ) );
+					indexedDB=false;
+	    });
 
-		Object.keys(motusDataTables).filter( x => motusDataTables[x].get ).forEach(function(tableName, i){
+	  motusData.db.on('ready', checkTables);
 
-			if (motusDataTables[tableName].get) {
+	} else { // If IndexedDB is NOT supported
 
+		var tableToDownload = Object.entries(motusDataTables).filter( x => x[1].get );
+		downloadMotusData( tableToDownload.map( x => x[1].promise( x[1].file ) ), tableToDownload.map( x => x[0] ) )
+
+	}
+
+
+}
+
+function checkTables() {
+
+	console.log("DB Ready. Checking tables...");
+
+	Object.keys(motusDataTables).filter( x => motusDataTables[x].get ).forEach(function(tableName, i){
+
+		if (motusDataTables[tableName].get) {
+
+			// Check whether IndexedDB is supported
+			if (indexedDB) {
 				motusData.db[tableName].count( count => {
 					testTimer.push([new Date(), "Get data: respond to count of "+tableName]);
 					if (count > 0 || !motusDataTables[tableName].file) {
@@ -246,17 +278,12 @@ function motusIndexedDB( motusDataTableNames = [] ) {
 					}
 
 				});
-			} else {
-
 			}
-		});
 
+		} else {
 
+		}
 	});
-
-
-	motusData.db.open();
-
 }
 
 function downloadMotusData(promises, fileList) {
@@ -295,6 +322,8 @@ function downloadMotusData(promises, fileList) {
 					x.type = "Feature";
 
 					x.project = x.projID;
+					x.projects = x.projects.split(";");
+					x.stations = x.stations.split(";");
 
 	  		});
 
@@ -359,6 +388,16 @@ function downloadMotusData(promises, fileList) {
 					x.id = x.ADM0_A3;
 	  		});
 	  	}
+
+
+			if (typeof motusData.species !== 'undefined') {
+				motusData.species.forEach(function(x) {
+					x.animals = x.animals.split(";");
+					x.projects = x.projects.split(";");
+					x.stations = x.stations.split(";");
+					x.stationProjects = x.stationProjects.split(";");
+				});
+			}
 
 
 			if (typeof motusData.polygons !== 'undefined') {
@@ -516,6 +555,8 @@ function downloadMotusData(promises, fileList) {
 
 function updateMotusDB(tableName, tableData) {
 
+		console.log(`Adding '${tableName}'...`);
+		console.log(tableData);
 		motusData.db[tableName].bulkPut(tableData).then(function(lastKey) {
 			console.log(`Done adding '${tableName}' table.`);
 		}).catch(Dexie.BulkError, function (e) {
@@ -572,7 +613,24 @@ async function getSelections({
 
 			motusFilter.selectedAnimals = await motusFilter.localAnimals.concat( motusFilter.visitingAnimals );
 			motusData.selectedAnimals = await motusData.localAnimals.concat( motusData.visitingAnimals );
-			motusData.selectedSpecies = await getSelectedSpecies( motusFilter.selectedAnimals );
+
+
+
+			testTimer.push([new Date(), "Get selections: local species"]);
+			motusData.localSpecies = await getSelectedSpecies( motusData.localAnimals );
+			testTimer.push([new Date(), "Get selections: visiting species"]);
+			motusData.visitingSpecies = await getSelectedSpecies( motusData.visitingAnimals );
+			testTimer.push([new Date(), "Get selections: all species"]);
+			motusData.selectedSpecies = await [...new Set(motusData.visitingSpecies.concat( motusData.localSpecies ))];
+
+			motusData.selectedLocalStations = motusData.selectedStations;
+			motusData.selectedVisitingStations = await [...new Set( motusData.localAnimals.map( x => x.stations ).flat() )].filter( x => x!="NA");
+
+
+			// Animal regions have tags deployed
+			motusData.selectedAnimalRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.localAnimals.map( x => x.country ))] });
+			// Station projects have stations deployed
+			motusData.selectedStationRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
 
 			// Routes consist of tracks by local animals and visiting animals
 			motusData.tracksByAnimal = await getAnimalRoutes( motusFilter.selectedAnimals );
@@ -605,7 +663,7 @@ async function getSelections({
 			motusFilter.selectedStations = motusData.selectedStations.map( x => x.id );
 			motusFilter.selectedStationDeps = motusData.selectedStationDeps.map( x => x.id );
 
-					testTimer.push([new Date(), "Get selections: local animals"]);
+			testTimer.push([new Date(), "Get selections: local animals"]);
 			// Local animals are those tagged within the project
 			motusData.localAnimals = await getSelectedAnimals({ key: "project", values: motusFilter.selections}).then(async (localAnimals) => {
 
@@ -629,8 +687,17 @@ async function getSelections({
 					// This takes a long time when there are a lot of animals
 					motusData.selectedAnimals = localAnimals.concat( visitingAnimals );
 
-					testTimer.push([new Date(), "Get selections: species"]);
-					motusData.selectedSpecies = getSelectedSpecies( motusFilter.selectedAnimals );
+					testTimer.push([new Date(), "Get selections: local species"]);
+					motusData.localSpecies = await getSelectedSpecies( localAnimals );
+					testTimer.push([new Date(), "Get selections: visiting species"]);
+					motusData.visitingSpecies = await getSelectedSpecies( visitingAnimals );
+					console.log(getSelectedSpecies( visitingAnimals ));
+					testTimer.push([new Date(), "Get selections: all species"]);
+					motusData.selectedSpecies = await getSelectedSpecies( motusData.selectedAnimals );
+
+
+					motusData.selectedLocalStations = motusData.selectedStations;
+					motusData.selectedVisitingStations = [...new Set( localAnimals.map( x => x.stations ).flat() )].filter( x => x!="NA");
 
 
 //					testTimer.push([new Date(), `Get selections - animal paths from ${motusFilter.selectedAnimals.length} animals`]);
@@ -647,7 +714,8 @@ async function getSelections({
 					// Station projects have stations deployed
 					motusData.selectedStationRegions = getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
 					motusData.selectedRegions = getSelectedRegions({ key: "adm0_a3", values: motusData.selectedStations.map( x => x.country ).concat( [...new Set(motusData.selectedAnimals.map( x => x.country ) )] ) });
-		
+
+
 					motusFilter.selectedAnimalsDtStart = await d3.min( motusData.selectedAnimals, x => x.dtStart );
 					motusFilter.selectedAnimalsDtEnd = await d3.max( motusData.selectedAnimals, x => x.dtEnd );
 
@@ -664,6 +732,12 @@ async function getSelections({
 				return localAnimals;
 
 			});
+
+			// Animal projects have tags deployed
+			motusData.selectedAnimalProjects = await getSelectedProjects( [...new Set(motusData.localAnimals.map( x => x.projID ))] );
+			// Station projects have stations deployed
+			motusData.selectedStationProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.projID ))] );
+
 		} else if (dataType == 'stations') {
 
 			motusData.selectedStations = getSelectedStations();
@@ -681,7 +755,7 @@ async function getSelections({
 
 			motusFilter.selectedAnimals = await motusFilter.localAnimals.concat( motusFilter.visitingAnimals );
 			motusData.selectedAnimals = await getSelectedAnimals( motusFilter.selectedAnimals );
-			motusData.selectedSpecies = await getSelectedSpecies( motusFilter.selectedAnimals );
+			motusData.selectedSpecies = await getSelectedSpecies( motusData.selectedAnimals );
 
 			motusData.tracksByAnimal = await getAnimalRoutes( motusFilter.selectedAnimals );
 			motusData.selectedTracks = await getSelectedTracks( [...new Set(Object.values(motusData.tracksByAnimal).flat())] );
@@ -782,10 +856,10 @@ async function getSelections({
 
 	function getSelectedRegions(selections) {
 
-		return typeof selections !== "object" ?
+		return (typeof selections !== "object" ?
 			motusData.polygons.filter(
 				x =>
-				motusFilter.regions.includes(x.properties.adm0_a3)
+				motusFilter.selections.includes(x.properties.adm0_a3)
 			).map(
 				x => ({
 					geometry:x.geometry,
@@ -819,6 +893,11 @@ async function getSelections({
 						name: x.properties.name,
 						type: x.type
 					})
+				)).map(
+					x => ({
+						...x,
+						...motusData.regions.filter( k => k.id == x.id)[0]
+					})
 				);
 
 	}
@@ -841,6 +920,9 @@ async function getSelections({
 	}
 
 	function getSelectedSpecies(selections) {
+		if (selections && typeof selections[0] === "object") {
+			selections = selections.map( x => x.species );
+		}
 		var toReturn = typeof selections !== "object" ?
 			motusData.species.filter(
 				x => motusFilter.species.includes(x.id)

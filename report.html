@@ -34,7 +34,6 @@
 			<link href='css/leaflet.fullscreen.css' rel='stylesheet' />
 			<!--link rel='stylesheet' href='style.css'/-->
 			<link rel='stylesheet' href='css/report.css'/>
-
 			<!-- CSS only -->
 
 <!-- JavaScript Bundle with Popper -->
@@ -70,9 +69,9 @@
 			<script src="js/timeline.js"></script>
 			<script src="js/zoomableTimeline.js"></script>
 			<script src="js/map.js"></script>
+			<script src="js/exploreTable.js"></script>
 			<script src="js/motusData.js"></script>
 			<script src="js/report.js"></script>
-			<script src="js/summary.js"></script>
 			<script src="js/editor.js"></script>
 			<script src="js/antenna_shapes.js"></script>
 
@@ -98,7 +97,7 @@
 					<img src='images/motus-logo-long.png' alt='Home' class='motus-logo' />
 
 					<div class='header-controls'>
-						<a class="icon tips" href='javascript:void(0);' id='login_wrapper' alt="Settings">
+						<a class="tips" href='javascript:void(0);' id='login_wrapper' alt="Settings">
 							<span>Lucas Berrigan</span>
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="user-controls-settings-icon" viewBox="0 0 16 16">
 							  <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
@@ -142,15 +141,19 @@
 
 						</div>
 
+						<!--div class='explore-report-control report-control-filters'>
+
+						</div-->
+
 						<div class='explore-report-control report-control-selections'>
 
 						</div>
 
-						<div class='explore-report-control report-control-filters'>
+						<div class='explore-report-control report-control-buttons'>
 
 						</div>
 
-						<div class='explore-report-control report-control-timeline colspan2'>
+						<div class='explore-report-control report-control-timeline'>
 
 						</div>
 
@@ -160,9 +163,27 @@
 
 				</div>
 
+				<div class='explore-table' id='exploreTable'>
+
+				</div>
+
 				<div id="exploreSelectionStatus" class='explore-report-selectionStatus colspan2'>
 
 				</div>
+				<div class='explore-report' id='exploreReport'>
+
+				</div>
+
+				<!--  Source: https://stackoverflow.com/questions/5445491/height-equal-to-dynamic-width-css-fluid-layout -->
+				<!--div class='explore-report-wrapper'>
+					<div class='explore-report-wrapper-dummy'>
+
+					</div>
+					<div class='explore-report' id='exploreReport'>
+
+					</div>
+
+				</div-->
 
 			</div>
 

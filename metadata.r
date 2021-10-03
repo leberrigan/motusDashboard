@@ -35,3 +35,62 @@ stations.df <- recvDeps.df %>%
   filter(!is.na(lat), !is.na(lon))
 
 stations.df %>% write.csv(paste0(dashboard.dir, 'stations.csv'), row.names = F)
+
+
+# Animals
+animals.df <- paste0(dashboard.dir, 'tag-deps.csv') %>% read.csv()
+
+stationAnimals.df <- stations.df %>% 
+  select(id, projID, animals) %>%
+  mutate(animals = strsplit(animals, ';')) %>%
+  unnest(animals) %>%
+  group_by(id, projID) %>%
+  mutate(row = row_number()) %>%
+  spread(row, animals) %>%
+  pivot_longer(matches("[0-9]"), 
+               names_to = "row_num", 
+               values_to = "animal",
+               values_drop_na = T) %>%
+  select(-row_num) %>%
+  filter(animal != "NA") %>%
+  group_by(animal) %>%
+  summarise(stations = paste0(unique(id), collapse = ';'),
+            projects = paste0(unique(projID), collapse = ';')) %>%
+  mutate(id = as.integer(animal)) %>%
+  select(-animal)
+
+animals.df %>% 
+  left_join(stationAnimals.df, by = 'id') %>%
+  write.csv(paste0(dashboard.dir, 'tag-deps.csv'), row.names = F)
+
+
+
+# Species
+spp.df <- paste0(dashboard.dir, 'spp.csv') %>% read.csv() %>% 
+  mutate(projects = gsub(",", ";", projects),
+         animals = gsub(",", ";", animals)) %>%
+  select(-contains("station"))
+
+stationSpecies.df <- stations.df %>% 
+  select(id, projID, species) %>%
+  mutate(species = strsplit(species, ';')) %>%
+  unnest(species) %>%
+  group_by(id, projID) %>%
+  mutate(row = row_number()) %>%
+  spread(row, species) %>%
+  pivot_longer(matches("[0-9]"), 
+               names_to = "row_num", 
+               values_to = "species",
+               values_drop_na = T) %>%
+  select(-row_num) %>%
+  filter(species != "NA") %>%
+  group_by(species) %>%
+  summarise(stations = paste0(unique(id), collapse = ';'),
+            stationProjects = paste0(unique(projID), collapse = ';')) %>%
+  mutate(id = as.integer(species)) %>%
+  select(-species)
+
+spp.df %>% 
+  left_join(stationSpecies.df, by = 'id') %>%
+  write.csv(paste0(dashboard.dir, 'spp.csv'), row.names = F)
+

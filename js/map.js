@@ -24,7 +24,7 @@ function exploreMap({
 	mapZoom = 2,
 	callback
 } = {}) {
-
+	$(`#${motusMap.el}`).show();
 	//$('#' + containerID).append('<div id="' + map_el + '" class="explore_map"></div>');
 	//$('#' + containerID).append('<div id="' + map_el + '_legend"></div>');
 
@@ -1167,13 +1167,13 @@ function loadMapObjects(callback) {
 				var regions_el = motusMap.g.selectAll("regions")
 					.data(motusData.polygons)
 					.enter().append("path")
-					.attr('class', (d) => "explore-map-region" + (motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? ' leaflet-hide-always' : ' leaflet-interactive'))
+					.attr('class', (d) => "explore-map-region" + (motusData.regions.filter( x => x.id == d.id).length == 0 || motusData.regions.filter( x => x.id == d.id)[0].both == 0 ? ' leaflet-hide-always' : ' leaflet-interactive'))
 					.attr('id', (d) => 'explore-map-region-'+d.id)
 					.style('fill', function(d){
-						return motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? "#DDDDDD" : motusMap.regionColours(regionFreqs[d.properties[propNames[1]]]);
+						return motusData.regions.filter( x => x.id == d.id).length == 0 || motusData.regions.filter( x => x.id == d.id)[0].both == 0 ? "#DDDDDD" : motusMap.regionColours(regionFreqs[d.properties[propNames[1]]]);
 					})
 					.style('stroke-width', function(d){
-						return motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3)) === undefined || motusData.regionByCode.get(d.properties[propNames[0]].substr(0,3))[0].both == 0 ? 0 : 1;
+						return motusData.regions.filter( x => x.id == d.id).length == 0 || motusData.regions.filter( x => x.id == d.id)[0].both == 0 ? 0 : 1;
 					})
 					.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'region'))
 					.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'region'))
@@ -1186,7 +1186,7 @@ function loadMapObjects(callback) {
 			}
 
 		} else if (dataType == 'stations') {
-
+			
 			motusMap.svg.selectAll("path:not(.explore-map-station)").classed("disable-filter", true).classed("hidden", "true");
 
 			if (motusMap.svg.selectAll("path.explore-map-station").size() > 0) {
@@ -1648,8 +1648,9 @@ function loadMapObjects(callback) {
 
 		//	($('#explore_filters input.filter_dates').data('daterangepicker')).minDate = moment(new Date(timeline.min * 1000));
 	//		$("#explore_filters input.filter_dates").daterangepicker("option", { "minDate": new Date(timeline.min * 1000), "maxDate": new Date(timeline.max * 1000)});
-			timeline.createLegend();
-
+			if (motusData.selections) {
+				timeline.createLegend();
+			}
 		}
 	}
 	function reset(dataset) {
