@@ -72,7 +72,8 @@ var icons = {
 	tags: '<svg xmlns="http://www.w3.org/2000/svg" class="icon-tags icon" fill="#FFFFFF" stroke="currentColor" stroke-width="20" viewBox="125 -10 250 500"><path d="m 307.38806,152.71231 v 163.57 c 0,8.284 -6.716,15 -15,15 -41.28149,-0.71533 -47.28327,1.62781 -80,0 -8.284,0 -15,-6.716 -15,-15 v -164.459 c -16.587,-15.09 -27,-36.85 -27,-61.041001 0,-45.563 36.937,-82.5 82.5,-82.5 45.563,0 82.5,36.937 82.5,82.5 0,24.672001 -10.834,46.811001 -28,61.930001 z" /><path d="M 251.05287,334.93644 V 488.58051"/></svg>',
 	target: '<svg xmlns="http://www.w3.org/2000/svg" class="icon-target icon" stroke="currentColor" stroke-width="20" viewBox="0 0 225 225"><?xml version="1.0" encoding="UTF-8" standalone="no"?> <!-- Created with Inkscape (http://www.inkscape.org/) --> <svg xmlns="http://www.w3.org/2000/svg" width="58.208347mm" height="58.20834mm" viewBox="0 0 58.208347 58.20834" version="1.1" stroke="currentColor" id="svg8"> <g transform="translate(-2.645827,-3.3125006)"> <circle style="fill:none;fill-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" id="path4518" cx="32.178452" cy="32.628746" r="20.894449" /> <path style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="M 31.75,21.833333 V 3.3125006" id="path4522"/> </g> <g transform="translate(-2.645827,-3.3125006)"> <path style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 42.333333,32.416667 h 18.52084" id="path4522-1" /> <path style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="M 31.75,43 V 61.52084" id="path4522-1-2"/> <path style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 2.645827,32.416667 h 18.52084" id="path4522-1-5"/> </g> </svg> ',
 	timeline: '<svg xmlns="http://www.w3.org/2000/svg" class="icon-timeline icon" fill="currentColor" class="explore-timeline-btn tips" alt="Timeline" viewBox="0 0 16 16"><path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/><path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/><path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/></svg>',
-	track: '<svg   xmlns:dc="http://purl.org/dc/elements/1.1/"   xmlns:cc="http://creativecommons.org/ns#"   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   version="1.1"   viewBox="0 0 23.052618 41.573452"   class="icon-track icon" >  <defs     id="defs2">    <marker       style="overflow:visible"       id="marker1384"       refX="0"       refY="0"       orient="auto">      <path         transform="matrix(0.4,0,0,0.4,2.96,0.4)"         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"         id="path1382" />    </marker>    <marker       style="overflow:visible"       id="DotM"       refX="0"       refY="0"       orient="auto">      <path         transform="matrix(0.4,0,0,0.4,2.96,0.4)"         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"         id="path910" />    </marker>    <marker       style="overflow:visible"       id="DotL"       refX="0"       refY="0"       orient="auto">      <path         transform="matrix(0.8,0,0,0.8,5.92,0.8)"         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"         id="path907" />    </marker>  </defs>  <g     transform="translate(-32.112052,-59.290716)"     id="layer1">    <path       d="M 34.395833,98.5625 52.916666,61.520831"       style="fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:3.29999995;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#DotM);marker-end:url(#marker1384)" />  </g></svg>'
+	track: '<svg   xmlns:dc="http://purl.org/dc/elements/1.1/"   xmlns:cc="http://creativecommons.org/ns#"   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   version="1.1"   viewBox="0 0 23.052618 41.573452"   class="icon-track icon" >  <defs     id="defs2">    <marker       style="overflow:visible"       id="marker1384"       refX="0"       refY="0"       orient="auto">      <path         transform="matrix(0.4,0,0,0.4,2.96,0.4)"         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"         id="path1382" />    </marker>    <marker       style="overflow:visible"       id="DotM"       refX="0"       refY="0"       orient="auto">      <path         transform="matrix(0.4,0,0,0.4,2.96,0.4)"         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"         id="path910" />    </marker>    <marker       style="overflow:visible"       id="DotL"       refX="0"       refY="0"       orient="auto">      <path         transform="matrix(0.8,0,0,0.8,5.92,0.8)"         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"         id="path907" />    </marker>  </defs>  <g     transform="translate(-32.112052,-59.290716)"     id="layer1">    <path       d="M 34.395833,98.5625 52.916666,61.520831"       style="fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:3.29999995;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#DotM);marker-end:url(#marker1384)" />  </g></svg>',
+	zoom: '<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/><path d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z"/><path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5z"/></svg>'
 }
 
 var conservationStatus = {
@@ -209,6 +210,7 @@ var exploreType,
 	mapType,
 	dataType; // 'stations' or 'species'
 
+var reportStep = 1;
 
 
 function updateURL(reload) {
@@ -219,6 +221,7 @@ function updateURL(reload) {
 	for (f in motusFilter) {
 		if (typeof motusFilter[f] !== 'undefined' && f != 'default') {
 			if (motusFilter[f][0] != 'all' &&
+				(!f.includes("selected")) &&
 				(f != 'dtStart' || motusFilter.dtStart.toISOString().substr(0,10) != default_startDate.toISOString().substr(0,10)) &&
 				(f != 'dtEnd' || motusFilter.dtEnd.toISOString().substr(0,10) != default_endDate.toISOString().substr(0,10))
 				) {
@@ -375,7 +378,10 @@ function loadDashboardContent() {
 	testTimer.push([new Date(), "Get selections"]);
 	if (motusFilter.selections.length > 0) {
 		toggleLoadingOverlay(true);
-		getSelections().then(()=>{updateSelectionStatus();displayReportPreview();});
+		getSelections().then(()=>{updateSelectionStatus();displayReportPreview();loadReportStep(4)});
+	} else {
+		console.log("TEST")
+		loadReportStep(1)
 	}
 
 /*
@@ -441,24 +447,32 @@ function updateSelectionStatus() {
 				console.log(`Total: ${d3.sum(testTimer, t => t[2])}`);
 			}
 		});
-}
+	}
 
 	if (motusMap.highlightSelections) motusMap.highlightSelections();
+	if (motusFilter.selections.length > 0) {
 
-	$(".explore-report-selectionStatus .status-value").each(function(){
+		$(".explore-report-selectionStatus .status-value").each(function(){
 
-		var dataVar = this.parentElement.attributes["--data-var"].value;
+			var dataVar = this.parentElement.attributes["--data-var"].value;
 
-		if (dataVar == dataType) {
-			$(this).parent().toggleClass("selected",true);
-		} else {$(this).parent().removeClass("selected");}
+			if (dataVar == dataType) {
+				$(this).parent().toggleClass("selected",true);
+			} else {$(this).parent().removeClass("selected");}
 
-		if (['selectedDtStart', 'selectedDtEnd'].includes(dataVar)) {
-			$(this).text( motusFilter[dataVar] ? motusFilter[dataVar].toISOString().substr(0,10) : "" );
-		} else {
-			$(this).text( motusData[dataVar] ? motusData[dataVar].length : "" );
-		}
-	});
+			if (['selectedDtStart', 'selectedDtEnd'].includes(dataVar)) {
+				$(this).text( motusFilter[dataVar] ? motusFilter[dataVar].toISOString().substr(0,10) : "" );
+			} else {
+				$(this).text( motusData[dataVar] ? motusData[dataVar].length : "" );
+			}
+		});
+
+		$(".explore-report-selectionStatus.no-data").removeClass("no-data");
+
+	} else {
+
+			$(".explore-report-selectionStatus:not(.no-data)").addClass("no-data");
+	}
 
 	toggleLoadingOverlay(false);
 
@@ -572,14 +586,37 @@ function addReportControls() {
 
 
 	$(".explore-report-control-wrapper .report-control-buttons").html(
-		"<button class='toggle_view'>View a table instead</button>"+
-		" <button class='reset_btn' style='margin-left:10px;'>Deselect all</button>"+
-		" <button class='submit_btn'>Create report</button>"+
-		" <button class='annual_reports toggleButton'>Report years separately</button>"+
-		" <button class='quarterly_reports toggleButton' disabled='disabled'>Split years into quarters</button>"+
-		" <button class='latest_period_only toggleButton' disabled='disabled'>Only report the latest period</button>"+
-		"<small class='report-status-text' style='margin-left:20px;'></small>"+
-		"<small style='color:#777;margin-left:20px;'><i>You may also make selections using the <span>map</span> below</i></small>"
+		"<div class='report-step report-step1'>"+
+			" <button class='reset_btn' style='margin-left:10px;'>Deselect all</button>"+
+			" <button class='next_btn dark_btn'>Step 2: Refine selections &gt;&gt;</button>"+
+			"<small class='report-status-text' style='margin-left:20px;'></small>"+
+		"</div>"+
+		"<div class='report-step report-step1'>"+
+			"<button class='toggle_view'>View a table instead</button>"+
+			"<small style='color:#777;margin-left:20px;'><i>You may also make selections using the <span>map</span> below</i></small>"+
+		"</div>"+
+		"<div class='report-step report-step2'>"+
+			" <button class='reset_btn' style='margin-left:10px;'>Reset filters</button>"+
+			" <button class='prev_btn'>&lt;&lt; Back</button>"+
+			" <button class='next_btn dark_btn'>Step 3: Format report &gt;&gt;</button>"+
+			"<small class='report-status-text' style='margin-left:20px;'></small>"+
+		"</div>"+
+		"<div class='report-step report-step3'>"+
+			" <button class='annual_reports toggleButton'>Report years separately</button>"+
+			" <button class='quarterly_reports toggleButton' disabled='disabled'>Split years into quarters</button>"+
+			" <button class='latest_period_only toggleButton' disabled='disabled'>Only report the latest period</button>"+
+		"</div>"+
+		"<div class='report-step report-step3'>"+
+			" <button class='prev_btn'>&lt;&lt; Back</button>"+
+			" <button class='next_btn dark_btn'>Step 4: Create report &gt;&gt;</button>"+
+			"<small class='report-status-text' style='margin-left:20px;'></small>"+
+		"</div>"+
+		"<div class='report-step report-step4'>"+
+			" <button class='prev_btn'>&lt;&lt; Back</button>"+
+			" <button class='restart_btn dark_btn'>Restart to select new data</button>"+
+			"<small class='report-status-text' style='margin-left:20px;'></small>"+
+		//	" <button class='submit_btn'></button>"+
+		"</div>"
 	);
 
 	$(".explore-report-control-wrapper .report-control-buttons .toggle_view").click(function(){
@@ -611,14 +648,58 @@ function addReportControls() {
 	});
 
 
-	$(".explore-report-control-wrapper .report-control-buttons .submit_btn").click(function(){
-		displayReportPreview();
+	$(".explore-report-control-wrapper .report-control-buttons .report-step .next_btn").click(nextReportStep);
+	$(".explore-report-control-wrapper .report-control-buttons .report-step .prev_btn").click(prevReportStep);
+
+	$(".explore-report-control-wrapper .report-control-buttons .report-step1 .next_btn").click(function(){
+
+		// See if there's enough data to make a reports
+		var err = false;
+		var warn = false;
+		var msg = false;
+		if (!motusFilter.selections) {
+
+			err = "You must make a selection first";
+
+		} else if (motusData.selectedStations.length == 0) {
+
+			err = "There are no stations or detections associated with your selection";
+
+		} else if (motusData.selectedAnimals.length == 0) {
+
+			err = "There are no animals or detections associated with your selection";
+
+		} else if (motusData.selectedTracks.length == 0) {
+
+			warn = "There are no detections associated with your selection. Are you sure you want to make a report?";
+
+		}
+
+		if (warn) {
+			console.warn("Warning: %s", warn);
+			$(".report-status-text").text(warn).css("color", "#FA0");
+		}
+		if (err) {
+			console.error("Error: %s", err);
+			$(".report-status-text").text(err).css("color", "#A00");
+			prevReportStep();
+		}
+
+	});
+	$(".explore-report-control-wrapper .report-control-buttons .report-step4 .restart_btn").click(function(){loadReportStep(1);});
+	$(".explore-report-control-wrapper .report-control-buttons .report-step3 .next_btn").click(function(){
+		if (!displayReportPreview()) {
+			prevReportStep();
+		}
 	});
 
-	$(".explore-report-control-wrapper .report-control-buttons button.reset_btn").click(function(){
+	$(".explore-report-control-wrapper .report-control-buttons .report-step1 button.reset_btn").click(function(){
 		if (motusFilter.selections.length > 0) {
-			$(".explore-report-control-wrapper .report-control-selections select").val([]).trigger("change");
+			resetMotusFilter();
 		}
+	});
+	$(".explore-report-control-wrapper .report-control-buttons .report-step2 button.reset_btn").click(function(){
+		resetMotusFilter("not selected");
 	});
 
 
@@ -628,6 +709,7 @@ function addReportControls() {
 
 		$(".explore-report-selectionStatus").html( getSelectionStatusDOM() );
 
+		$(".explore-report-selectionStatus .status-selection").click( selectionStatusPopup );
 
 	// Timeline
 
@@ -664,22 +746,190 @@ function addReportControls() {
 
 }
 
+
+function nextReportStep() {
+	$(`.report-step`).css("display", "none");
+	reportStep++;
+	$(`.report-step${reportStep}`).css("display", "");
+}
+
+function prevReportStep() {
+	$(`.report-step`).css("display", "none");
+	reportStep--;
+	$(`.report-step${reportStep}`).css("display", "");
+}
+
+function loadReportStep( step ) {
+	$(`.report-step`).css("display", "none");
+	reportStep = step;
+	$(`.report-step${step}`).css("display", "");
+}
+
+function resetMotusFilter( options ) {
+
+	Object.keys(motusFilter).forEach( x => {
+		if (['dtStart','dtEnd'].includes(x)) {motusFilter[x] = new Date(timeline.position[['dtStart','dtEnd'].indexOf(x)] * 1000);}
+		else if (
+			(
+				x.includes('select') ||
+				['localAnimals', 'visitingAnimals', 'animalsDetected'].includes(x)
+			) &&
+			options != 'not selected'
+		) {
+			motusFilter[x] = [];
+		} else if (
+			!(
+				x.includes('select') ||
+				['localAnimals', 'visitingAnimals', 'animalsDetected'].includes(x)
+			) &&
+			x != 'colour'
+		) {
+			motusFilter[x] = ['all']
+		}
+	});
+
+	$(".explore-report-control.report-control-selections select").val(motusFilter.selections).trigger("change")
+	
+	updateData();
+
+}
+
+
+function selectionStatusPopup( e ) {
+
+	var dataVar = this.attributes["--data-var"].value;
+
+	var popupText = "";
+	var popupData = [];
+
+	filterPopup("Loading...", e)
+
+	setTimeout( function(e, dataVar) {
+
+			if (['selectedDtStart', 'selectedDtEnd'].includes(dataVar)) {
+				popupText = motusFilter[dataVar] ? motusFilter[dataVar].toISOString().substr(0,10) : "";
+			} else {
+				popupData = motusData[dataVar] ? getSelectionQuickList( dataVar ) : [{}];
+				popupText = "<div class='report-refine'>"+
+											"<table>"+
+												"<thead><tr>" +
+													"<th>Select</th>"+
+													"<th>" + Object.keys(  popupData[0] ).map( x => camelToRegularText( x ).replace("I D", "ID") ).join("</th><th>") + "</th>"+
+												"</tr></thead>"+
+												"<tbody><tr class='selected'>" +
+													"<td></td>"+
+													popupData.map( d => "<td>" + Object.values( d ).join("</td><td>") + "</td>").join("</tr><tr class='selected'><td class='select-checkbox'></td>") +
+												"</tr></tbody>"+
+											"</table>"+
+										"</div>";
+			}
+
+			filterPopup(popupText, e);
+
+			$("#filterPopup table").DataTable({
+				columnDefs: [ {
+					orderable: false,
+					className: 'select-checkbox',
+					targets:   0
+				} ],
+				paging:false,
+				select: {
+					style: "multi"
+				},
+				dom: "fi<'scroll-box't>B",
+		    "language": {
+		      "info": "Showing _TOTAL_ entries",
+					"infoEmpty": "Showing 0 entries",
+					"infoFiltered": "",
+		    },
+				buttons: [
+					'selectAll',
+					'selectNone',
+					{
+						extend:'copy',
+						title: camelToRegularText( dataVar )
+					},
+					{
+						extend:'csv',
+						title: camelToRegularText( dataVar )
+					}
+				],
+				scrollY: "40vh",
+				scrollCollapse: true,
+		    order: [[ 1, 'asc' ]],
+				initComplete: () => {this.api().rows().select();}
+			})
+		/*
+			$("#filterPopup tbody tr").click( function(e) {
+				e.stopPropagation();
+				$(this).find("input[type=checkbox]").prop("checked", !$(this).find("input[type=checkbox]").prop("checked") );
+
+				$(this).toggleClass("selected", $(this).find("input[type=checkbox]").prop("checked") )
+			});
+		*/
+			// This fixes the popup position after the DataTable has rendered in case it goes off the right side of the screen
+			filterPopup(false, e)
+	}, 10, e, dataVar)
+
+
+}
+
+function getSelectionQuickList( dataVar ) {
+
+	var data = motusData[dataVar];
+	var toReturn = [];
+
+	if (dataVar.includes("Stations")) {
+		toReturn = data.map( d => ({id: d.id, name: d.name, firstDeployed: d.dtStart.toISOString().substr(0,10), project: d.projID, currentStatus: d.status}) );
+	} else if (dataVar.includes("Animals")) {
+		toReturn = data.map( d => ({deploymentID: d.id, tagID: d.tagID, name: d.name, firstDeployed: d.dtStart.toISOString().substr(0,10), project: d.projID, frequency: d.frequency}) );
+	} else if (dataVar.includes("Species")) {
+		toReturn = data.map( d => ({name: d.name, latin: d.scientific, group: d.group}) )
+	} else if (dataVar.includes("Projects")) {
+		toReturn = data.map( d => ({ID: d.id, name: d.name, created: new Date(d.created_dt).toISOString().substr(0,10), group: d.fee_id}) );
+	}
+
+
+	return toReturn;
+
+}
+
+
 function getSelectionStatusDOM() {
 
 	if (dataType == "stations") {
-		return "<div class='section-header'>Refine your results</div>"+
-							"<div class='status-section'>"+
-								`<div class="status-selection" --data-var="selectedStations">${icons.station}<div class='status-value'></div> stations</div>`+
-								`<span class="inter-text">from</span>`+
-								`<div class="status-selection" --data-var="selectedStationProjects">${icons.projects}<div class='status-value'></div> projects</div>`+
-							"</div>"+
-								`<span class="inter-text">have detected</span>`+
-							"<div class='status-section'>"+
+		return "<div class='status-section'>"+
+							`<div class="status-selection" --data-var="selectedStations">${icons.station}<div class='status-value'></div> stations</div>`+
+							`<span class="inter-text">from</span>`+
+							`<div class="status-selection" --data-var="selectedStationProjects">${icons.projects}<div class='status-value'></div> projects</div>`+
+						"</div>"+
+							`<span class="inter-text">have detected</span>`+
+						"<div class='status-section'>"+
+							`<div class="status-selection" --data-var="selectedAnimals">${icons.animals}<div class='status-value'></div> animals</div>`+
+							`<span class="inter-text">of</span>`+
+							`<div class="status-selection" --data-var="selectedSpecies">${icons.species}<div class='status-value'></div> species</div>`+
+							`<span class="inter-text">from</span>`+
+							`<div class="status-selection" --data-var="selectedAnimalProjects">${icons.projects}<div class='status-value'></div> projects</div>`+
+						"</div>"+
+						`<span class="inter-text">between</span>`+
+						"<div class='status-section'>"+
+							`<div class="status-selection" --data-var="selectedDtStart"><div class='status-value'></div></div>`+
+							`<span class="inter-text">and</span>`+
+							`<div class="status-selection" --data-var="selectedDtEnd"><div class='status-value'></div></div>`+
+						"</div>";
+	} else if (dataType == "animals") {
+			return "<div class='status-section'>"+
 								`<div class="status-selection" --data-var="selectedAnimals">${icons.animals}<div class='status-value'></div> animals</div>`+
 								`<span class="inter-text">of</span>`+
 								`<div class="status-selection" --data-var="selectedSpecies">${icons.species}<div class='status-value'></div> species</div>`+
 								`<span class="inter-text">from</span>`+
 								`<div class="status-selection" --data-var="selectedAnimalProjects">${icons.projects}<div class='status-value'></div> projects</div>`+
+							"</div>"+
+							`<span class="inter-text">have been detected by</span>`+
+							"<div class='status-section'>"+
+								`<div class="status-selection" --data-var="selectedStations">${icons.station}<div class='status-value'></div> stations</div>`+
+								`<span class="inter-text">from</span>`+
+								`<div class="status-selection" --data-var="selectedStationProjects">${icons.projects}<div class='status-value'></div> projects</div>`+
 							"</div>"+
 							`<span class="inter-text">between</span>`+
 							"<div class='status-section'>"+
@@ -687,120 +937,96 @@ function getSelectionStatusDOM() {
 								`<span class="inter-text">and</span>`+
 								`<div class="status-selection" --data-var="selectedDtEnd"><div class='status-value'></div></div>`+
 							"</div>";
-	} else if (dataType == "animals") {
-			return "<div class='section-header'>Refine your results</div>"+
-								"<div class='status-section'>"+
-									`<div class="status-selection" --data-var="selectedAnimals">${icons.animals}<div class='status-value'></div> animals</div>`+
-									`<span class="inter-text">of</span>`+
-									`<div class="status-selection" --data-var="selectedSpecies">${icons.species}<div class='status-value'></div> species</div>`+
-									`<span class="inter-text">from</span>`+
-									`<div class="status-selection" --data-var="selectedAnimalProjects">${icons.projects}<div class='status-value'></div> projects</div>`+
-								"</div>"+
-								`<span class="inter-text">have been detected by</span>`+
-								"<div class='status-section'>"+
-									`<div class="status-selection" --data-var="selectedStations">${icons.station}<div class='status-value'></div> stations</div>`+
-									`<span class="inter-text">from</span>`+
-									`<div class="status-selection" --data-var="selectedStationProjects">${icons.projects}<div class='status-value'></div> projects</div>`+
-								"</div>"+
-								`<span class="inter-text">between</span>`+
-								"<div class='status-section'>"+
-									`<div class="status-selection" --data-var="selectedDtStart"><div class='status-value'></div></div>`+
-									`<span class="inter-text">and</span>`+
-									`<div class="status-selection" --data-var="selectedDtEnd"><div class='status-value'></div></div>`+
-								"</div>";
 	} else if (dataType == "species") {
-			return "<div class='section-header'>Refine your results</div>"+
-								"<div class='status-section'>"+
-									`<div class="status-selection" --data-var="selectedAnimals">${icons.animals}<div class='status-value'></div> animals</div>`+
-									`<span class="inter-text">of</span>`+
-									`<div class="status-selection" --data-var="selectedSpecies">${icons.species}<div class='status-value'></div> species</div>`+
-									`<span class="inter-text">from</span>`+
-									`<div class="status-selection" --data-var="selectedAnimalProjects">${icons.projects}<div class='status-value'></div> projects</div>`+
-								"</div>"+
-								`<span class="inter-text">have been detected by</span>`+
-								"<div class='status-section'>"+
-									`<div class="status-selection" --data-var="selectedStations">${icons.station}<div class='status-value'></div> stations</div>`+
-									`<span class="inter-text">from</span>`+
-									`<div class="status-selection" --data-var="selectedStationProjects">${icons.projects}<div class='status-value'></div> projects</div>`+
-								"</div>"+
-								`<span class="inter-text">between</span>`+
-								"<div class='status-section'>"+
-									`<div class="status-selection" --data-var="selectedDtStart"><div class='status-value'></div></div>`+
-									`<span class="inter-text">and</span>`+
-									`<div class="status-selection" --data-var="selectedDtEnd"><div class='status-value'></div></div>`+
-								"</div>";
+			return "<div class='status-section'>"+
+								`<div class="status-selection" --data-var="selectedAnimals">${icons.animals}<div class='status-value'></div> animals</div>`+
+								`<span class="inter-text">of</span>`+
+								`<div class="status-selection" --data-var="selectedSpecies">${icons.species}<div class='status-value'></div> species</div>`+
+								`<span class="inter-text">from</span>`+
+								`<div class="status-selection" --data-var="selectedAnimalProjects">${icons.projects}<div class='status-value'></div> projects</div>`+
+							"</div>"+
+							`<span class="inter-text">have been detected by</span>`+
+							"<div class='status-section'>"+
+								`<div class="status-selection" --data-var="selectedStations">${icons.station}<div class='status-value'></div> stations</div>`+
+								`<span class="inter-text">from</span>`+
+								`<div class="status-selection" --data-var="selectedStationProjects">${icons.projects}<div class='status-value'></div> projects</div>`+
+							"</div>"+
+							`<span class="inter-text">between</span>`+
+							"<div class='status-section'>"+
+								`<div class="status-selection" --data-var="selectedDtStart"><div class='status-value'></div></div>`+
+								`<span class="inter-text">and</span>`+
+								`<div class="status-selection" --data-var="selectedDtEnd"><div class='status-value'></div></div>`+
+							"</div>";
 	} else if (dataType == "projects") {
-			return "<div class='section-header'>Refine your results</div>"+
-								"<div class='status-section'>"+
-									`<div class="status-selection" --data-var="selectedProjects">${icons.projects}<div class='status-value'></div> projects</div>`+
-									`<span class="inter-text"> including </span>`+
-									`<div class="status-selection" --data-var="selectedStationProjects"><div class='status-value'></div> projects</div>`+
-									`<span class="inter-text">with stations</span>`+
-									`<div class="status-selection" --data-var="selectedAnimalProjects"><div class='status-value'></div> projects</div>`+
-									`<span class="inter-text">with tagged animals</span>`+
-								"</div>"+
-								`<span class="inter-text">have detections between</span>`+
-								"<div class='status-section'>"+
-									`<div class="status-selection" --data-var="selectedDtStart"><div class='status-value'></div></div>`+
-									`<span class="inter-text">and</span>`+
-									`<div class="status-selection" --data-var="selectedDtEnd"><div class='status-value'></div></div>`+
-								"</div>"+
-								"<div class='flex-break'></div>"+
-								"<div class='status-section'>"+
-									`<div class="status-selection" --data-var="selectedLocalStations">${icons.station}<div class='status-value'></div> stations</div>`+
-								"</div>"+
-									`<span class="inter-text">in these projects have detected</span>`+
-								"<div class='status-section'>"+
-									`<div class="status-selection" --data-var="visitingAnimals">${icons.animals}<div class='status-value'></div> animals</div>`+
-									`<span class="inter-text">of</span>`+
-									`<div class="status-selection" --data-var="visitingSpecies">${icons.species}<div class='status-value'></div> species</div>`+
-								"</div>"+
-								"<div class='flex-break'></div>"+
-								"<div class='status-section'>"+
-									`<div class="status-selection" --data-var="localAnimals">${icons.animals}<div class='status-value'></div> animals</div>`+
-									`<span class="inter-text">of</span>`+
-									`<div class="status-selection" --data-var="localSpecies">${icons.species}<div class='status-value'></div> species</div>`+
-								"</div>"+
-								`<span class="inter-text">in these projects have been detected by</span>`+
-								"<div class='status-section'>"+
-									`<div class="status-selection" --data-var="selectedVisitingStations">${icons.station}<div class='status-value'></div> stations</div>`+
-								"</div>";
+			return "<div class='status-section'>"+
+								`<div class="status-selection" --data-var="selectedProjects">${icons.projects}<div class='status-value'></div> projects</div>`+
+								`<span class="inter-text"> including </span>`+
+								`<div class="status-selection" --data-var="selectedStationProjects"><div class='status-value'></div> projects</div>`+
+								`<span class="inter-text">with stations</span>`+
+								`<div class="status-selection" --data-var="selectedAnimalProjects"><div class='status-value'></div> projects</div>`+
+								`<span class="inter-text">with tagged animals</span>`+
+							"</div>"+
+							`<span class="inter-text">have detections between</span>`+
+							"<div class='status-section'>"+
+								`<div class="status-selection" --data-var="selectedDtStart"><div class='status-value'></div></div>`+
+								`<span class="inter-text">and</span>`+
+								`<div class="status-selection" --data-var="selectedDtEnd"><div class='status-value'></div></div>`+
+							"</div>"+
+							"<div class='flex-break'></div>"+
+							"<div class='status-section'>"+
+								`<div class="status-selection" --data-var="selectedLocalStations">${icons.station}<div class='status-value'></div> stations</div>`+
+							"</div>"+
+								`<span class="inter-text">in these projects have detected</span>`+
+							"<div class='status-section'>"+
+								`<div class="status-selection" --data-var="visitingAnimals">${icons.animals}<div class='status-value'></div> animals</div>`+
+								`<span class="inter-text">of</span>`+
+								`<div class="status-selection" --data-var="visitingSpecies">${icons.species}<div class='status-value'></div> species</div>`+
+							"</div>"+
+							"<div class='flex-break'></div>"+
+							"<div class='status-section'>"+
+								`<div class="status-selection" --data-var="localAnimals">${icons.animals}<div class='status-value'></div> animals</div>`+
+								`<span class="inter-text">of</span>`+
+								`<div class="status-selection" --data-var="localSpecies">${icons.species}<div class='status-value'></div> species</div>`+
+							"</div>"+
+							`<span class="inter-text">in these projects have been detected by</span>`+
+							"<div class='status-section'>"+
+								`<div class="status-selection" --data-var="selectedVisitingStations">${icons.station}<div class='status-value'></div> stations</div>`+
+							"</div>";
 	} else if (dataType == "regions") {
-			return "<div class='section-header'>Refine your results</div>"+
-								"<div class='status-section'>"+
-									`<div class="status-selection" --data-var="selectedRegions">${icons.projects}<div class='status-value'></div> regions</div>`+
-									`<span class="inter-text"> including </span>`+
-									`<div class="status-selection" --data-var="selectedStationRegions"><div class='status-value'></div> regions</div>`+
-									`<span class="inter-text">with stations</span>`+
-									`<div class="status-selection" --data-var="selectedAnimalRegions"><div class='status-value'></div> regions</div>`+
-									`<span class="inter-text">with tagged animals</span>`+
-								"</div>"+
-								`<span class="inter-text">have detections between</span>`+
-								"<div class='status-section'>"+
-									`<div class="status-selection" --data-var="selectedDtStart"><div class='status-value'></div></div>`+
-									`<span class="inter-text">and</span>`+
-									`<div class="status-selection" --data-var="selectedDtEnd"><div class='status-value'></div></div>`+
-								"</div>"+
-								"<div class='flex-break'></div>"+
-								"<div class='status-section'>"+
-									`<div class="status-selection" --data-var="selectedLocalStations">${icons.station}<div class='status-value'></div> stations</div>`+
-								"</div>"+
-									`<span class="inter-text">in these regions have detected</span>`+
-								"<div class='status-section'>"+
-									`<div class="status-selection" --data-var="visitingAnimals">${icons.animals}<div class='status-value'></div> animals</div>`+
-									`<span class="inter-text">of</span>`+
-									`<div class="status-selection" --data-var="visitingSpecies">${icons.species}<div class='status-value'></div> species</div>`+
-								"</div>"+
-								"<div class='flex-break'></div>"+
-								"<div class='status-section'>"+
-									`<div class="status-selection" --data-var="localAnimals">${icons.animals}<div class='status-value'></div> animals</div>`+
-									`<span class="inter-text">of</span>`+
-									`<div class="status-selection" --data-var="localSpecies">${icons.species}<div class='status-value'></div> species</div>`+
-								"</div>"+
-								`<span class="inter-text">in these regions have been detected by</span>`+
-								"<div class='status-section'>"+
-									`<div class="status-selection" --data-var="selectedVisitingStations">${icons.station}<div class='status-value'></div> stations</div>`+
-								"</div>";
+			return "<div class='status-section'>"+
+								`<div class="status-selection" --data-var="selectedRegions">${icons.projects}<div class='status-value'></div> regions</div>`+
+								`<span class="inter-text"> including </span>`+
+								`<div class="status-selection" --data-var="selectedStationRegions"><div class='status-value'></div> regions</div>`+
+								`<span class="inter-text">with stations</span>`+
+								`<div class="status-selection" --data-var="selectedAnimalRegions"><div class='status-value'></div> regions</div>`+
+								`<span class="inter-text">with tagged animals</span>`+
+							"</div>"+
+							`<span class="inter-text">have detections between</span>`+
+							"<div class='status-section'>"+
+								`<div class="status-selection" --data-var="selectedDtStart"><div class='status-value'></div></div>`+
+								`<span class="inter-text">and</span>`+
+								`<div class="status-selection" --data-var="selectedDtEnd"><div class='status-value'></div></div>`+
+							"</div>"+
+							"<div class='flex-break'></div>"+
+							"<div class='status-section'>"+
+								`<div class="status-selection" --data-var="selectedLocalStations">${icons.station}<div class='status-value'></div> stations</div>`+
+							"</div>"+
+								`<span class="inter-text">in these regions have detected</span>`+
+							"<div class='status-section'>"+
+								`<div class="status-selection" --data-var="visitingAnimals">${icons.animals}<div class='status-value'></div> animals</div>`+
+								`<span class="inter-text">of</span>`+
+								`<div class="status-selection" --data-var="visitingSpecies">${icons.species}<div class='status-value'></div> species</div>`+
+							"</div>"+
+							"<div class='flex-break'></div>"+
+							"<div class='status-section'>"+
+								`<div class="status-selection" --data-var="localAnimals">${icons.animals}<div class='status-value'></div> animals</div>`+
+								`<span class="inter-text">of</span>`+
+								`<div class="status-selection" --data-var="localSpecies">${icons.species}<div class='status-value'></div> species</div>`+
+							"</div>"+
+							`<span class="inter-text">in these regions have been detected by</span>`+
+							"<div class='status-section'>"+
+								`<div class="status-selection" --data-var="selectedVisitingStations">${icons.station}<div class='status-value'></div> stations</div>`+
+							"</div>";
 		}
 
 }
@@ -840,7 +1066,7 @@ function displayReportPreview() {
 	} else {
 		msg = `Making a report for ${motusFilter.selections.length} ${motusFilter.selections.length > 1 ? dataType : toSingular(dataType)}...`;
 		console.log(msg);
-		$(".report-status-text").text(msg).css("color", "#0A0");
+		$(".report-step4 .report-status-text").text(msg).css("color", "#0A0");
 	}
 
 	// Hide the map and table
@@ -859,7 +1085,11 @@ function displayReportPreview() {
 				" <button class='toggleButton shrink_btn'>Shrink pages</button>"+
 				" <button class='toggleButton select_btn selected'>Select all</button>"+
 				" <button class='submit_btn print_btn'>Print or save as PDF</button>"+
-			"</div>");
+				"<div class='zoom-controls'>"+
+					" <button class='close_btn closeZoom_btn'>Close zoom</button>"+
+				"</div>"+
+		"</div>");
+		$("#exploreReport .closeZoom_btn").click(function(){$("#exploreReport, #exploreReport .report-page-wrapper").removeClass("zoomed");});
 		$("#exploreReport .print_btn").click(function(){window.print();});
 		$("#exploreReport .select_btn").click(function(){
 			$(this).toggleClass("selected").removeClass('partial');
@@ -889,7 +1119,6 @@ function displayReportPreview() {
 	dates = splitTime == 'annual' ? [dates[0], d3.timeYears(dates[0], dates[1]), dates[1]].flat() :
 					splitTime == 'quarterly' ? [dates[0], d3.timeMonths(dates[0], dates[1], 3), dates[1]].flat() :
 					dates;
-	dates = $(".report-control-buttons .latest_period_only").is(".selected") ? [dates[dates.length - 3], dates[dates.length - 2]] : dates;
 
 	if (dates.length > 2) {
 
@@ -918,11 +1147,13 @@ function displayReportPreview() {
 				clearInterval(report.interval);
 				finishReport(report);
 				// Clear status
-				$(".report-status-text").text("Finished report");
+				$(".report-step4 .report-status-text").text("Finished report");
 			}
 		} , 10)
 
 	} else {
+
+		dates = $(".report-control-buttons .latest_period_only").is(".selected") ? [dates[dates.length - 3], dates[dates.length - 2]] : dates;
 
 		// If there are more than one selections, start with a master summary
 		if (motusFilter.selections.length > 1) {
@@ -935,10 +1166,10 @@ function displayReportPreview() {
 		finishReport(report);
 
 		// Clear status
-		$(".report-status-text").text("Finished report");
+		$(".report-step4 .report-status-text").text("Finished report");
 	}
 
-
+	return true;
 }
 
 function finishReport(report) {
@@ -946,10 +1177,12 @@ function finishReport(report) {
 	if (report.pageIndex > 3) {
 		$("#exploreReport:not(.small) .shrink_btn").trigger("click");
 	}
+	// Page selection function
+	$("#exploreReport .report-page-wrapper .report-checkbox, #exploreReport .report-page-wrapper").click(function(e) {
 
-	// End point
-	$("#exploreReport .report-page-wrapper,#exploreReport .report-page-wrapper .report-checkbox").click(function() {
-		if ($("#exploreReport").is(".small") || $(this).is(".report-checkbox")) {
+					e.stopPropagation();
+					console.log(e);
+		if ($("#exploreReport").is(".small:not(.zoomed)") || $(this).is(".report-checkbox")) {
 			( $(this).is(".report-checkbox") ? $(this).closest(".report-page-wrapper") : $(this) ).toggleClass("selected");
 			if ($("#exploreReport .report-page-wrapper.selected").length == 0) {
 				$("#exploreReport .select_btn").removeClass('selected').removeClass('partial');
@@ -958,9 +1191,27 @@ function finishReport(report) {
 			} else {
 				$("#exploreReport .select_btn").removeClass('selected').addClass('partial')
 			}
+		} else if ($("#exploreReport").is(".small.zoomed")) {
+//			$(this).find('.report-zoom').trigger('click');
+			$("#exploreReport .report-page-wrapper").removeClass('zoomed');
+			$(this).toggleClass("zoomed");
 		}
+
 	});
 
+	// Zoom function
+	$("#exploreReport .report-page-wrapper .report-zoom").click(function(e) {
+
+		e.stopPropagation();
+
+		if ( !$(this).closest(".report-page-wrapper").is(".zoomed") )
+			$("#exploreReport .report-page-wrapper").removeClass('zoomed');
+
+		$(this).closest(".report-page-wrapper").toggleClass("zoomed");
+
+		$("#exploreReport").toggleClass("zoomed", $("#exploreReport .report-page-wrapper.zoomed").length > 0);
+
+	});
 }
 
 function getSeasonName(dt) {
@@ -985,9 +1236,8 @@ function addReportSummaryPage(d, report, interval) {
 	$("#exploreReport").append(
 		`<div class='report-page-wrapper first-page selected'>
 			<!--  Source: https://stackoverflow.com/questions/5445491/height-equal-to-dynamic-width-css-fluid-layout -->
-			<div class='report-page-wrapper-dummy'>
-
-			</div>
+			<div class='report-page-wrapper-dummy'></div>
+			<div class="report-zoom">${icons.zoom}</div>
 			<div class='report-page'>
 				<div class="report-checkbox"></div>
 				<div class="report-header">${report.header}</div>
@@ -1073,6 +1323,7 @@ function addReportSelectionPage(d, report, interval) {
 	$("#exploreReport").append(
 		`<div class='report-page-wrapper selected'>
 			<div class='report-page-wrapper-dummy'></div>
+			<div class="report-zoom">${icons.zoom}</div>
 			<div class='report-page'>
 				<div class="report-checkbox"></div>
 				<div class="report-header"><small>${report.header}</small></div>
@@ -1674,15 +1925,14 @@ function setFilter(e, filterName) {
 
 function updateData() {
 
-	if (exploreType != 'main') {
-
-
-	}
 	window.dispatchEvent(new Event('resize'));
 
 	if (motusMap.setVisibility)	motusMap.setVisibility();
 
-			testTimer.push([new Date(), "Update url"]);
+	testTimer.push([new Date(), "Update url"]);
+
+
+	updateSelectionStatus();
 
 	updateURL();
 

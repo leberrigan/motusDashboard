@@ -28,6 +28,16 @@ function exploreSummary({regionBin = "adm0_a3"} = {}) { // {summaryType: String,
 		.domain(['visiting'].concat(motusFilter.selections))
 		.range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusFilter.selections.length + (dataType == 'regions'))));
 
+if (motusFilter.selections.length > 1) {
+	motusData.tableColourScale = motusMap.colourScale;
+} else {
+	motusData.tableColourScale = d3.scaleOrdinal()
+		.domain(['visiting'].concat( motusData.selectedProjects.map( x => x.id ) ))
+		.range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusData.selectedProjects.length + (dataType == 'regions'))));
+
+	motusMap.colourScale = motusData.tableColourScale;
+}
+
 
 	/*
 
@@ -147,7 +157,7 @@ function projectsTable( cardID, tableType ) {
 
 
 			var tableDom = projectsTableData.length > 10 ? "Bipt" : "Bt";
-			var color_dataType = 'regions' == dataType ? 'country' : 'project';
+			var color_dataType = 'regions' == dataType ? 'country' : 'id';
 
 			$(`#explore_card_${cardID} .explore-card-${cardID}-${tableType}-table`).DataTable({
 				data: projectsTableData,
@@ -156,7 +166,7 @@ function projectsTable( cardID, tableType ) {
 					{data: "id", title: "Project #"},
 					{data: "name", title: "Project", "createdCell": function(td, cdata, rdata){
 						$(td).html(
-								`<div class='explore-card-table-legend-icon table_tips' style='border-color:${motusMap.colourScale(rdata[color_dataType])};background-color:${motusMap.colourScale(rdata[color_dataType])}'><div class='tip_text'>${firstToUpper(color_dataType)}: ${rdata[color_dataType]}</div></div>`+
+								`<div class='explore-card-table-legend-icon table_tips' style='border-color:${motusData.tableColourScale(rdata[color_dataType])};background-color:${motusData.tableColourScale(rdata[color_dataType])}'><div class='tip_text'>${firstToUpper(color_dataType)}: ${rdata.name}</div></div>`+
 								`<a href='javascript:void(0);' onclick='viewProfile("projects", ${rdata.id});'>${rdata.name}</a>`
 						);
 					}},
@@ -251,16 +261,20 @@ function stationTable( cardID ) {
 
 		var tableDom = motusData.selectedStations.length > 10 ? "ipt" : "t";
 
-		var color_dataType = 'regions' == dataType ? 'country' : 'project';
+		var color_dataType = 'regions' == dataType ? 'regions' : 'projects';
+		var color_dataVar = 'regions' == dataType ? 'country' : 'project';
 
 		$(`#explore_card_${cardID} .explore-card-${cardID}-table`).DataTable({
 			data: motusData.selectedStations,
 			columns: [
 				{className: "explore-table-expandRow", data: null, orderable: false, defaultContent: icons.add+icons.addFilter},
 				{data: "name", title: "Station", "createdCell": function(td, cdata, rdata){
+
+					var dataVal = rdata[color_dataVar].split(";").map( x => motusData[color_dataType].filter( p => p.id == x )[0].name ).join(", ");
+
 					$(td).html(
-							`<div class='explore-card-table-legend-icon table_tips' style='border-color:${motusMap.colourScale(rdata[color_dataType])};background-color:${motusMap.colourScale(rdata[color_dataType])}'>`+
-								`<div class='tip_text'>${firstToUpper(color_dataType)}: ${color_dataType == 'project' || color_dataType == 'country' ? rdata[color_dataType + "Name"] : rdata[color_dataType]}</div>`+
+							`<div class='explore-card-table-legend-icon table_tips' style='border-color:${motusData.tableColourScale(rdata[color_dataVar])};background-color:${motusData.tableColourScale(rdata[color_dataVar])}'>`+
+								`<div class='tip_text'>${firstToUpper(color_dataVar)}: ${dataVal}</div>`+
 							`</div>`+
 							`<a href='javascript:void(0);' onclick='viewProfile("stations", ${rdata.id});'>${rdata.name}</a>`
 					);
@@ -589,8 +603,8 @@ console.log("Hourly");
 				for (k in d) {
 
 					if (k != "Hour") d[k] = d[k];//.filter(onlyUnique);//.length;
-          
-  
+
+
 
 				}
 
@@ -671,7 +685,7 @@ function speciesTable( cardID ) {
 					$(td).html(
 						rdata[color_dataType].map(
 							(d, i) =>
-								`<div class='explore-card-table-legend-icon table_tips' style='border-color:${motusMap.colourScale( d )};background-color:${motusMap.colourScale( d )}'>`+
+								`<div class='explore-card-table-legend-icon table_tips' style='border-color:${motusData.tableColourScale( d )};background-color:${motusData.tableColourScale( d )}'>`+
 									`<div class='tip_text'>${firstToUpper(color_dataType)}: ${rdata.colourName[i]}</div>`+
 								`</div>`
 							).join('') +
@@ -717,7 +731,7 @@ function speciesTable( cardID ) {
 					columns: [
 						{data: "name", title: "Animal", "createdCell": function(td, cdata, rdata){
 							$(td).html(
-													`<div class='explore-card-table-legend-icon table_tips' style='border-color:${motusMap.colourScale(rdata[color_dataType])};background-color:${motusMap.colourScale(rdata[color_dataType])}'><div class='tip_text'>${firstToUpper(color_dataType)}: ${['project','country'].includes(color_dataType)?rdata[color_dataType + "Name"]:rdata[color_dataType]}</div></div>`+
+													`<div class='explore-card-table-legend-icon table_tips' style='border-color:${motusData.tableColourScale(rdata[color_dataType])};background-color:${motusData.tableColourScale(rdata[color_dataType])}'><div class='tip_text'>${firstToUpper(color_dataType)}: ${['project','country'].includes(color_dataType)?rdata[color_dataType + "Name"]:rdata[color_dataType]}</div></div>`+
 													`<a href='javascript:void(0);' class='tips' alt='View animal profile' onclick='viewProfile("animals", [${rdata.id}]);'>${rdata.name} #${rdata.id}</a>`
 												);
 						}},
@@ -1323,6 +1337,8 @@ function addExploreProfilesWrapper() {
 						`</div>`);
 
 
+	$("#exploreContent .explore-card-wrapper .explore-card-add").appendTo(".explore-control-content.explore-control-add");
+
 	// Add explore content toggles
 	if (["stations","regions","projects"].includes(dataType)) {
 
@@ -1504,7 +1520,8 @@ function addExploreProfile(profile) {
 
 		$("#explore_card_profile_" + profile.id + " .explore-profile-switch").click(function(){
 			var profileID = $(this).closest(".explore-card-profile").toggleClass("switching", true).attr('id').replace("explore_card_profile_", "");
-			$("#exploreContent .explore-card-add > select").toggleClass("switch-profile", true).val(profileID).select2("open");
+			$("#exploreContent .explore-card-add > select").toggleClass("switch-profile", true).val(profileID);//.select2("open");
+			$(`.explore-map-${dataType}-add svg`).trigger('click');
 			selectNewProfile();
 		})
 

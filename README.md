@@ -3,7 +3,7 @@
 To be released 2021. An upgrade for Motus Explore Data tool.
 
 ### **[DEMO](https://leberrigan.github.io/motusDashboard/explore.html)**
-### **[REPORTS](https://leberrigan.github.io/motusDashboard/report.html)**
+### **[REPORTS](https://leberrigan.github.io/motusDashboard/report.html#e=report&d=stations)**
 - [Updates](#updates)
 - [Site map](#site-map)
 - [Data structure](#data-structure)
