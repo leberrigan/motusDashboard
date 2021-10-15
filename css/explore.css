@@ -95,6 +95,28 @@ body.dark {
 
 }
 
+body.dark2 {
+	--theme-background-colour: #142e40;
+	--theme-background-colour-pale: #274c67;
+	--theme-background-colour2: #222;
+	--theme-background-colour-pale2: #DDD;
+	--theme-background-colour3: #EEE;
+	--theme-background-colour-pale3: #FFF;
+
+
+		--theme-text-colour: #FFF;
+		--theme-text-colour2: #EEE;
+		--theme-text-colour3: #222;
+
+	--theme-highlight-green: #85AF02;
+	--theme-highlight-green-pale: #A5CF3F;
+	--theme-highlight-red: #8f2525;
+	--theme-highlight-red-pale: #c43333;
+
+	--theme-link-colour: #EEF;
+
+}
+
 
 body, html {
 	font-family:sans-serif;
@@ -618,9 +640,9 @@ iframe#pdf_output {
 .explore-card-profiles-tabs div.explore-card-tab:hover {
 	cursor:pointer;
 	background-color:var(--theme-background-colour-pale2);
-	color:var(--theme-text-colour2);
-	fill:var(--theme-text-colour2);
-	stroke:var(--theme-text-colour2);
+	color:var(--theme-text-colour3);
+	fill:var(--theme-text-colour3);
+	stroke:var(--theme-text-colour3);
 }
 .explore-card-profiles-tabs {
 	text-align:center;
@@ -806,8 +828,7 @@ iframe#pdf_output {
 	grid-template:35px / auto;
 }
 #explore_menu .explore-menu-item {
-	background-color: var(--theme-background-colour-pale2);
-	border: solid 1px var(--theme-edge-colour);
+	background-color: var(--theme-background-colour2);
 	border-top-width: 0;
 	display: inline-block;
 	color: var(--theme-text-colour2);
@@ -821,19 +842,18 @@ iframe#pdf_output {
 }
 #explore_menu:not(.profiles) .explore-menu-item:hover,
 #explore_menu.expanded .explore-menu-item:hover {
-	background-color: var(--theme-background-colour3);
-	color: #000;
+	filter: brightness(150%);
 }
 
 #exploreContent:not(.profiles) .explore-menu-item.selected {
-	background-color: var(--theme-background-colour-pale2);
+	filter: brightness(150%);
 }
 
 #exploreContent.profiles #explore_menu {
 	text-align:center;
 	display:block;
-	transition:background-color 250ms;
-	width:35vw;
+	transition:all 250ms;
+	width:100%;
 	height:50px;
 	z-index:0;
 	background-color: var(--theme-background-colour2);
@@ -847,7 +867,7 @@ iframe#pdf_output {
 	background:transparent;
 }
 #exploreContent.profiles #explore_menu:not(.expanded):hover {
-	background-color: var(--theme-background-colour-pale2);
+	filter: brightness(125%);
 }
 #exploreContent.profiles #explore_menu.expanded {
 	height:auto;
@@ -971,6 +991,7 @@ iframe#pdf_output {
 #explore_controls .explore-control-wrapper > div.toggleDisplay {
 	padding:0px;
 }
+
 #explore_controls .explore-control-wrapper > div > svg {
 	padding:10px;
 	cursor:pointer;
@@ -982,6 +1003,7 @@ iframe#pdf_output {
 #explore_controls .explore-control-wrapper > div.toggleDisplay.active > svg,
 #explore_controls .explore-control-wrapper > div.toggleDisplay > svg:hover {
 	background-color:var(--theme-background-colour-pale2);
+	fill:var(--theme-text-colour3);
 }
 #explore_controls .explore-control-wrapper > div.toggleDisplay .filter-status,
 #explore_controls .explore-control-wrapper > div.toggleDisplay .clear-filters {
@@ -1219,6 +1241,7 @@ button.toggleButton.selected::before {
 	margin: 0;
 	background-color: var(--theme-background-colour2);
 	padding: 10px 0;
+	color: var(--theme-text-colour);
 }
 #explore_filters .filterButton.clear-filters:hover {
 background-color: var(--theme-background-colour-pale);
@@ -1277,7 +1300,7 @@ input.filter_dates {
 	content: " ";
 	height: 3px;
 	width: 100%;
-	background: #000;
+	background: var(--theme-text-colour2);
 	display: block;
 	margin: 6px 0;
 }
@@ -1289,11 +1312,14 @@ input.filter_dates {
 }
 #dateSlider .ui-state-default,#dateSlider .ui-widget-content .ui-state-default,
 #dateSlider .ui-widget-content .ui-state-active, #dateSlider .ui-widget-content .ui-state-hover {
-	background:#000;
+	background: var(--theme-text-colour2);
 	border:0px;
 	cursor:pointer;
 	height:17px;
 	width:10px;
+}
+#dateSlider {
+	color: var(--theme-text-colour2);
 }
 
 
@@ -1615,7 +1641,7 @@ div.explore-card {
 
 
 .explore-card-add:not(.visible) > .select2 {
-	display:none;
+/*	display:none;*/
 }
 
 .explore-card > div, .explore-card-profile > div {
@@ -2347,8 +2373,8 @@ padding-top:10px;
 	grid-template-rows: 50px auto 45px 1fr;
 }
 .content-wrapper.profiles .explore-card-wrapper #explore_controls {
-	grid-row: 1/2;
-	grid-column: 2 / 3;
+	grid-row: 4 / 5;
+	grid-column: 1 / 3;
 	justify-self: start;
 	position: relative;
 	transition: background-color 250ms;
@@ -2755,10 +2781,10 @@ background: rgba(0,0,0,0.5);
 	padding: 6px;
 	background: var(--theme-background-colour2);
 	color: var(--theme-text-colour2);
-	transition: background-color 250ms;
+	transition: filter 250ms;
 }
 .explore-card-profile .explore-card-name:hover {
-	background-color:var(--theme-background-colour-pale2);
+	filter: brightness(125%);
 	cursor:pointer;
 }
 .explore-card-profile .explore-card-name .explore-card-name-text {

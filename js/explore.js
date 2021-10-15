@@ -215,6 +215,7 @@ function updateURL(reload) {
 	for (f in motusFilter) {
 		if (typeof motusFilter[f] !== 'undefined' && f != 'default') {
 			if (motusFilter[f][0] != 'all' &&
+				(!f.includes("selected")) &&
 				(f != 'dtStart' || motusFilter.dtStart.toISOString().substr(0,10) != default_startDate.toISOString().substr(0,10)) &&
 				(f != 'dtEnd' || motusFilter.dtEnd.toISOString().substr(0,10) != default_endDate.toISOString().substr(0,10))
 				) {
@@ -576,9 +577,9 @@ function exploreSummaryTabSelect(selectedTab) {
 							data: cols[i],
 							title: dataColNames[selectedTab][cols[i]],
 							createdCell: cols[i] == 'animals' ? function(td, cdata, rdata){
-								$(td).html(`<a href='javascript:void(0);' class='tips' alt='View list of animals'>${rdata.animals.split(',').length}</a>`).css('text-align', 'center');
+								$(td).html(`<a href='javascript:void(0);' class='tips' alt='View list of animals'>${rdata.animals.length}</a>`).css('text-align', 'center');
 								} : cols[i] == 'projects' ? function(td, cdata, rdata){
-								$(td).html(`<a href='javascript:void(0);' class='tips' alt='View list of projects'>${rdata.projects.split(',').filter(onlyUnique).length}</a>`).css('text-align', 'center');
+								$(td).html(`<a href='javascript:void(0);' class='tips' alt='View list of projects'>${rdata.projects.filter(onlyUnique).length}</a>`).css('text-align', 'center');
 							} : null,
 							className: "",
 				      searchable: i != 6,
@@ -918,7 +919,7 @@ function populateExploreControls() {
 
 	$("#explore_controls .toggleDisplay svg").click(function(){
 
-		var controlName = this.parentElement.className.split(' ')[0].split('-').pop();
+		var controlName = $(this).closest(".toggleDisplay").get(0).classList[0].split('-').pop();
 
 		$(this).parent().toggleClass('selected').siblings('.toggleDisplay.selected').toggleClass('selected');
 
@@ -933,6 +934,10 @@ function populateExploreControls() {
 		if (controlName == 'animate') {
 			$(".explore-control-timeline").toggleClass('visible', $(this).parent().is('.selected')).addClass('animate');
 			window.dispatchEvent(new Event('resize'))
+		}
+
+		if (controlName == 'add' && $(".explore-control-add").is(':visible')) {
+			$(".explore-control-add select").select2('open');
 		}
 		if ($(this).parent().hasClass(`explore-map-${dataType}-edit`)) {
 			exploreMapEditor();
@@ -1827,6 +1832,8 @@ function addExploreCard(card) {
 			}
 
 
+		}).on("select2:close",function(){
+			$(this).closest('.explore-control-add').removeClass("visible");
 		});
 
 	}

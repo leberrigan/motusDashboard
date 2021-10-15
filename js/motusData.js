@@ -1197,7 +1197,13 @@ function getSelectedTrackData(selectedTracks, reload = false) {
 			motusData.allTimes = motusData.allTimes.concat(allTimes);
 
 	//			var colourVal = dataType == 'projects' ? origin : dataType == 'regions' ? origin : dataType == 'stations' ? ( selectedRecv1 ? v.recv1 : selectedRecv2 ? v.recv2 : "other" ) : dataType == 'species' ? v.species.split(',').filter(x=>motusFilter.species.includes(x)).filter(onlyUnique).join(',') : v.animal.split(',').filter(x=>motusFilter.animals.includes(x)).join(',')
-			var colourVal = ['projects','regions','stations'].includes(dataType) ? origin : dataType == 'species' ? [...new Set(v.species.filter(x=>motusFilter.species.includes(x)))].join(',') : v.animal.filter(x=>motusFilter.animals.includes(x)).join(',')
+
+			if (motusFilter.selections.length > 1) {
+				var colourVal = ['projects','regions','stations'].includes(dataType) ? origin : dataType == 'species' ? [...new Set(v.species.filter(x=>motusFilter.species.includes(x)))].join(',') : v.animal.filter(x=>motusFilter.animals.includes(x)).join(',')
+			} else {
+				var colourVal = ['projects','regions','stations'].includes(dataType) ? v.species[Math.floor(Math.random()*v.species.length)] : v.project[Math.floor(Math.random()*v.project.length)];
+			}
+
 
 			motusData.selectedTracks[v.route] = {
 				animal: animals,

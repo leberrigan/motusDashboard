@@ -66,7 +66,8 @@ function exploreMap({
 								typeof d.projID == "undefined" ||
 								motusFilter.projects.includes('all') ||
 								exploreType == 'projects' ||
-								d.projID.some(r => motusFilter.projects.includes(r))
+								(	typeof d.projID === "object" && d.projID.some(r => motusFilter.projects.includes(r))) ||
+								(	typeof d.projID === "string" && motusFilter.projects.includes(d.projID ) )
 							) && (
 								typeof d.status == "undefined" ||
 								motusFilter.status.includes('all') ||
@@ -280,7 +281,7 @@ function exploreMap({
 					 });
 				 } else {
 						// If there are more than one species, list the number of species as well as the number of animals.
-						var species = `${d.animal.length} animals of ${d.species.length} species`;
+						var species = `${d.animal.length} animals of ${d.species.filter(onlyUnique).length} species`;
 				 }
 					$('.tooltip').html(
 						"<big>"+species+"</big>"+
@@ -1186,7 +1187,7 @@ function loadMapObjects(callback) {
 			}
 
 		} else if (dataType == 'stations') {
-			
+
 			motusMap.svg.selectAll("path:not(.explore-map-station)").classed("disable-filter", true).classed("hidden", "true");
 
 			if (motusMap.svg.selectAll("path.explore-map-station").size() > 0) {
@@ -2174,7 +2175,7 @@ function populateProfilesMap() {
 	motusMap.trackPaths = motusMap.g.selectAll("tracks")
 		.data(Object.values(motusData.selectedTracks))
 		.enter().append("path")
-		.attr('class', (d) => "explore-map-track explore-map-species leaflet-zoom-hide " + [d.colourVal].map( x => "explore-map-track-" + ( x.toLowerCase() ) ).join(" ") )
+		.attr('class', (d) => "explore-map-track explore-map-species leaflet-zoom-hide " + [d.colourVal].map( x => "explore-map-track-" + ( `${x}`.toLowerCase() ) ).join(" ") )
 		.attr("id", (d) => "explore-map-track-" + d.route.replace('.','-'))
 		.style('stroke', (d) => motusMap.colourScale(d.colourVal))
 		.style('pointer-events', 'auto')
