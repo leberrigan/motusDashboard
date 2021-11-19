@@ -351,7 +351,7 @@ var dataColNames = {
 	lon: 'Longitude',
 	nAnt: 'Number of antennas',
 	frequency: 'Frequency',
-	species: 'Species',
+//	species: 'Species',
 	model: 'Model',
 	tagID: 'Tag ID',
 	manufacturer: 'Brand',
@@ -383,7 +383,7 @@ var dataColNames = {
 		french: "Français",
 		spanish: "Español",
 		scientific: "Scientific",
-		animals: "Animals",
+		animals: "Animals tagged",
 		projects: "Projects"
 	},
 	regions: {

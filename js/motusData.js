@@ -22,11 +22,24 @@ var regionFreqs = {
 }
 
 var projectGroupNames = {
-	1:'',
+	1:'No affiliation',
 	2:'US Dept. of the Interior',
 	3:'Environment Canada',
 	8:'Wind development',
 	9:'Birds Canada'
+}
+var speciesGroupNames = {
+	1: 'Not defined',
+	'BATS': 'Bats',
+	'BEETLES': 'Insects',
+	'BIRDS': 'Birds',
+	'BUTTERFL': 'Insects',
+	'HYMENOPTERA': 'Insects',
+	'MAMMALS': 'Mammals',
+	'MOTHS': 'Insects',
+	'ODONATA': 'Insects',
+	'ORTHOPTERA': 'Insects',
+	'REPTILES': 'Reptiles'
 }
 
 var motusDataTables;
@@ -154,7 +167,7 @@ function motusIndexedDB( motusDataTableNames = [] ) {
 		regions: {file: filePrefix + "country-stats.csv", key: 'id', get: true}, // Number of projects, stations, and tag deployments in each country
 		polygons: {file: filePrefix + "ne_50m_admin_0_countries.geojson", key: '++, id', get: true}, // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
 		animals: {file: filePrefix + "tag-deps.csv", key: 'id, project, country, species', get: true}, // All tag deployments, including deployment country
-		tracks: {file: filePrefix + "siteTrans_real2" + (window.location.hostname.indexOf('beta') != -1 ? '-2' : '') + ".csv", key: 'route, *animal', get: true}, // All site transitions
+		tracks: {file: filePrefix + "siteTrans_real3" + (window.location.hostname.indexOf('beta') != -1 ? '-2' : '') + ".csv", key: 'route, *animal', get: true}, // All site transitions
 		species: {file: filePrefix + "spp.csv", key: 'id', get: true}, // List of all species and various names/codes
 		projects: {file: filePrefix + "projs.csv", key: 'id', get: true}, // All projects, their codes, and descriptions
 		tracksByAnimal: {file: false, key: 'id', get:false}, //
@@ -184,7 +197,7 @@ function motusIndexedDB( motusDataTableNames = [] ) {
 		// Declare the database
 	  motusData.db = new Dexie("explore_motus");
 		//
-	  motusData.db.version(1).stores(
+	  motusData.db.version(2).stores(
 			Object.fromEntries(
 				Object.entries(	motusDataTables	)
 							.map( x => [ x[0], x[1].key ] )
@@ -395,6 +408,7 @@ function downloadMotusData(promises, fileList) {
 					x.animals = x.animals.split(";");
 					x.projects = x.projects.split(";");
 					x.stations = x.stations.split(";");
+	  			x.group = speciesGroupNames[x.group==""?1:x.group];
 					x.stationProjects = x.stationProjects.split(";");
 				});
 			}

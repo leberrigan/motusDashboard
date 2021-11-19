@@ -12,11 +12,15 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ## Updates
 
 ### Latest
+* [x] [2021-11-19] Any table can now be copied or download as csv
+* [x] [2021-11-19] Add toggle to view groups of projects or species
+* [x] [2021-11-19] Fixed table column sorting on main explore page
+* [x] [2021-11-15] Updated dataset
 * [x] [2021-10-03] Refine selection summaries by datatype
 * [x] [2021-10-03] Add in annual and quarterly reporting options
 * [x] [2021-10-03] Make reports printable (or save to PDF)
 * [x] [2021-10-01] Add in report.html
-* [x] [2021-10-01] Introducing indexeddb
+* [x] [2021-10-01] Introducing indexedDB (Dexie)
 * [x] [2021-09-20] Add zoom and brush to linear timelines
 * [x] [2021-09-19] Linear detection timelines
 * [x] [2021-09-16] Date slider includes detection timeline

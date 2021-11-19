@@ -6,6 +6,8 @@ library(geosphere)
 dashboard.dir <- "C:/wamp64/www/Motus/Dashboard/data/"
 data.dir <- 'E:/Data/'
 
+track.filename <- 'allthetracks-2021-11-15.csv'
+
 tags <- read.csv(paste0(data.dir, 'tags.csv')) %>% 
   select(projID = tagProjectID, tagID, bi = period, freq = nomFreq)
 #  select(projID = project_id, tagID = id, mfgID = mfg_id, bi = period, freq = nom_freq)
@@ -46,14 +48,14 @@ antDeps2.df <- antDeps %>%
   group_by(recvDeployID) %>%
   summarise(freq = ifelse(freq[1] == 434 & length(freq) > 1, freq[2], freq[1]))
 
-stations.df <- read.csv(paste0(data.dir, 'stations.csv'))
+stations.df <- read.csv(paste0(dashboard.dir, 'stations.csv'))
 
 stations.by.recv <- stations.df %>% select(id, stationDeps) %>% 
   separate_rows(stationDeps, sep = ";") %>% 
   mutate(recvDeployID = as.numeric(stationDeps)) %>%
   select(stationID = id, recvDeployID)
 
-allTracks.df.raw <- read.csv(paste0(data.dir, 'MotusAllTheTracks.csv')) 
+allTracks.df.raw <- read.csv(paste0(data.dir, track.filename)) 
 
 allTracks.df <- allTracks.df.raw %>% 
   rename(deployID = tagDeployId, lat = latitude, lon = longitude) %>%
@@ -106,7 +108,7 @@ allTracks.df <- allTracks.df.raw %>%
             dir = paste(dir, collapse=','))
         #    time_elapsed = paste(as.integer(round(difftime(as.POSIXct(ts1, origin = '1970-01-01'), as.POSIXct(ts2, origin = '1970-01-01'), units = 'hours'), collapse=','))))
 
-allTracks.df %>%  write.csv(paste0(dashboard.dir,'siteTrans_real2.csv'), row.names = F)
+allTracks.df %>%  write.csv(paste0(dashboard.dir,'siteTrans_real3.csv'), row.names = F)
 
 # Count how many routes use recevier IDs that are not a station ID
 which(!(allTracks.df %>% select(recv1, recv2) %>% unlist %>% unique) %in% stations.df$id) %>% length

@@ -113,7 +113,7 @@ var filters = {
 var dataTypes = ['Stations', 'Animals', 'Regions', 'Projects', 'Species']
 
 var default_startDate = new Date('2014-02-05'),
-	default_endDate = new Date('2021-04-20');
+	default_endDate = new Date('2021-11-15');
 var dtLims2;
 (function(){
 	dtLims2 = function(){
@@ -541,16 +541,38 @@ function exploreSummaryTabSelect(selectedTab) {
 
 				}).values())];
 
+			} else if (selectedTab == 'species') {
+
+				var tbl = [selectedTab,Array.from(motusData.species.map(function(d) {
+
+					var animals = d.animals.filter(onlyUnique);
+					var projects = d.projects.filter(onlyUnique);
+
+					return {
+						id: d.id,
+						english: d.english,
+						scientific: d.scientific,
+						group: d.group,
+						animals: {display:	animals.length > 0 ? `<a href='javascript:void(0);' onclick='viewTableStats('animals',["${animals.join('","')}"])'>${animals.length}</a>` : 0, order: animals.length},
+						projects: {display:	projects.length > 0 ? `<a href='javascript:void(0);' onclick='viewTableStats('projects',["${projects.join('","')}"])'>${projects.length}</a>` : 0, order: projects.length},
+						group: {display:	d.group != "" ? `<a href='javascript:void(0);' onclick='viewTableStats('speciesGroup',"${d.group}")'>${d.group}</a>` : "", order: d.group},
+						code: d.code,
+						sort: d.sort,
+					};
+
+				}).values())];
+
 			}
+
 
 			function loadTable(multi) {
 
 				var opts = {
-						select: {
+						/*select: {
 							style: multi?"multi+shift":"single"
-						},
+						},*/
 						order: [[ multi ? 1 : 0, 'asc' ]],
-						dom: '<"explore-table-header-controls"fi>lBpti',
+						dom: '<"explore-table-header-controls"f><"explore-table-header-center"Blip>t',
 		        buttons: [
 							'copyHtml5',
 							'excelHtml5',
@@ -572,21 +594,16 @@ function exploreSummaryTabSelect(selectedTab) {
 					opts.columns = [];
 
 					for (var i in cols) {
-
-						opts.columns.push({
-							data: cols[i],
-							title: dataColNames[selectedTab][cols[i]],
-							createdCell: cols[i] == 'animals' ? function(td, cdata, rdata){
-								$(td).html(`<a href='javascript:void(0);' class='tips' alt='View list of animals'>${rdata.animals.length}</a>`).css('text-align', 'center');
-								} : cols[i] == 'projects' ? function(td, cdata, rdata){
-								$(td).html(`<a href='javascript:void(0);' class='tips' alt='View list of projects'>${rdata.projects.filter(onlyUnique).length}</a>`).css('text-align', 'center');
-							} : null,
-							className: "",
-				      searchable: i != 6,
-	      			visible: !(i == 4 || i == 5 || i == 6),
-							orderable: !(i == 4 || i == 5),
-							orderData: i == 1 ? [6, 1] : i
-						});
+						opts.columns = [
+							{data: "english", title: dataColNames[selectedTab]["english"]},
+							{data: "scientific", title: dataColNames[selectedTab]["scientific"], orderData: [6, 1]},
+							{className: "dt-center", data: "animals", title: dataColNames[selectedTab]["animals"], "render": {_: "display", sort: "order"}},
+							{className: "dt-center", data: "projects", title: dataColNames[selectedTab]["projects"], "render": {_: "display", sort: "order"}},
+					//		{className: "dt-center", data: "stations", title: dataColNames[selectedTab]["english"], "render": {_: "display", sort: "order"}},
+							{className: "dt-center", data: "group", title: dataColNames[selectedTab]["group"], "render": {_: "display", sort: "order"}},
+							{data: "code", visible: false, orderable: false},
+							{data: "sort", visible: false, searchable: false},
+						];
 					}
 
 					console.log(opts.columns);
@@ -608,15 +625,16 @@ function exploreSummaryTabSelect(selectedTab) {
 					$(".explore-control-content .explore-summary-selections button.multiSelect_btn:visible").hide();
 
 				}
+
 				loadDataTable(
 					tbl,
 					cols,
 					opts,
-					[{event: 'select', fun: onSelect},
-					{event: 'deselect', fun: onSelect}]
+					//[{event: 'click', fun: exploreTableRowClick}]
+					/*[{event: 'select', fun: onSelect},
+					{event: 'deselect', fun: onSelect}]*/
 				);
 			}
-
 			loadTable(false);
 
 			$(".explore-control-content .explore-summary-selections button.multiSelect_btn").show();
@@ -668,7 +686,36 @@ function exploreSummaryTabSelect(selectedTab) {
 			});
 			$(".explore-summary-control-options .explore-table-header-controls").remove();
 			$(".explore-summary-" + selectedTab + "-control-options").append($(".explore-table-header-controls"));
+			$(".explore-table-header-controls .dataTables_filter").hide();
+			$(".explore-table-header-controls").append(`<button class='search_btn'>Search ${dataType}</button>`);
+			$(".explore-table-header-controls").append(`<button class='browse_btn'>Browse ${toSingular(dataType)} groups</button>`);
 
+			$(".explore-table-header-controls button").click(function(){
+
+				if ($(this).hasClass('search_btn')) {
+					$(".explore-table-header-controls .dataTables_filter").show();
+					$(this).hide();
+					if ($(".explore-table-header-controls .browse_btn").is(":hidden")) {
+						loadTable();
+						$(".explore-summary-" + selectedTab + "-control-options .explore-table-header-controls .dataTables_filter").remove();
+						$(".explore-summary-" + selectedTab + "-control-options .explore-table-header-controls").prepend($("#explore_table_wrapper .dataTables_filter"));
+						$("#explore_table_wrapper .explore-table-header-controls").remove();
+						$(".explore-table-header-controls .browse_btn").show();
+					}
+					$(".explore-table-header-controls .dataTables_filter input").focus();
+				} else {	// Browse project groups
+					$(".explore-table-header-controls .browse_btn").hide();
+					$(".explore-table-header-controls .dataTables_filter").hide();
+					$(".explore-table-header-controls .search_btn").show()
+					var [data,opts] = loadDataTypeGroupingTable();
+					loadDataTable(
+						[dataType, data],
+						Object.keys(data[0]),
+						opts
+					);
+				}
+
+			});
 			function onSelect(e, dt, t, i) {
 				var nSelected = $("#explore_table").DataTable().rows( {selected: true} ).count();
 				if (nSelected > 0 && $("#explore_table td.select-checkbox").length == 0) {
@@ -1515,8 +1562,8 @@ function loadDataTable(tbl, columns, options, onEvent) {
 	if ($("#explore_table").length == 0) {
 		$("#exploreContent").append('<div class="explore-table-wrapper"><table id="explore_table" style="width:100%"></table></div>');
 	}
-
-	if (dataType == 'projects') {
+console.log(options.columns);
+	if (dataType == 'projects' && typeof options.columns === 'undefined') {
 		options.order = [[1, 'asc']]
 		options.columns = [
 			{className: "explore-table-expandRow", data: null, orderable: false, defaultContent: ""},
@@ -1539,6 +1586,7 @@ function loadDataTable(tbl, columns, options, onEvent) {
 
 	}
 
+	console.log(options.columns);
 	if (typeof options.columns === "undefined") {
 		var columnNames = columns.filter(x=>x==="").concat(Object.keys(dataset[0]).filter(x => typeof columns === 'undefined' || columns.includes(x)));
 
@@ -1558,8 +1606,10 @@ function loadDataTable(tbl, columns, options, onEvent) {
 		$("#explore_table").DataTable().clear().destroy();
 	}
 
-	$("#explore_table").html("");
-	console.log(options);
+	$("#explore_table").on("init.dt", function(){
+		$("#xploreq")
+	}).html("");
+//	console.log(options);
 	if (typeof options.columns !== 'undefined') {
 		options = {
 			...{
@@ -1582,7 +1632,6 @@ function loadDataTable(tbl, columns, options, onEvent) {
 			columns: columns
 		};
 	}
-	console.log(options);
 
 	var table = $("#explore_table").DataTable(options);
 
@@ -1593,6 +1642,10 @@ function loadDataTable(tbl, columns, options, onEvent) {
 			table.on(onEvent.event, onEvent.fun);
 		}
 	}
+	$('#explore_table tbody').on('click', 'tr', function () {
+    var data = table.row( this ).data();
+		viewProfile(dataType + (typeof data.group !== 'undefined' ? "Group" : ""), [data.id])
+  });
 
 	if (exploreType != 'main') {
 		motusFilter[exploreType].forEach(function(f) {addProfile(f, tbl)});
@@ -1972,6 +2025,116 @@ function setFilter(e) {
 }
 
 
+function loadDataTypeGroupingTable() {
+	var groupedData = [];
+	var opts = {
+					order: [[0, 'asc']],
+					dom: '<"explore-table-header-controls"f><"explore-table-header-center"Blip>t',
+					buttons: [
+						'copyHtml5',
+						'excelHtml5',
+						'csvHtml5',
+						'pdfHtml5'
+					]
+				};
+
+	if (dataType == 'species') {
+		groupedData = d3.rollup(
+			motusData[dataType],
+			v => {
+				return {
+					sort: d3.min(v, d => d.sort ),
+					group: v[0].group,
+					id: v[0].group,
+					species: v.map( d => d.id ),
+					animals: v.map( d => d.animals ).flat(),
+					projects: v.map( d => d.projects ).flat().filter(onlyUnique),
+					stations: v.map( d => d.stations ).flat().filter(onlyUnique),
+					stationProjects: v.map( d => d.stationProjects ).flat().filter(onlyUnique)
+				};
+			},
+			x => x.group
+		);
+
+		opts.columns = [
+			{data: "sort", visible: false},
+			{data: "group", title: "Species group"},
+			{className: "dt-center", data: "projects", title: "Projects", "createdCell": function(td, cdata, rdata){
+				$(td).html(
+						`<a href='javascript:void(0);' onclick='viewProfile("projects", ["${cdata.join('","')}"]);'>${cdata.length}</a>`
+				);
+			}},
+			{className: "dt-center", data: "animals", title: "Animals tagged", "createdCell": function(td, cdata, rdata){
+				$(td).html(
+						`<a href='javascript:void(0);' onclick='viewProfile("projects", ["${cdata.join('","')}"]);'>${cdata.length}</a>`
+				);
+			}},
+			{className: "dt-center", data: "species", title: "Species tagged", "createdCell": function(td, cdata, rdata){
+				$(td).html(
+						`<a href='javascript:void(0);' onclick='viewProfile("projects", ["${cdata.join('","')}"]);'>${cdata.length}</a>`
+				);
+			}},
+			{className: "dt-center", data: "stations", title: "Stations Visited", "createdCell": function(td, cdata, rdata){
+				$(td).html(
+						`<a href='javascript:void(0);' onclick='viewProfile("projects", ["${cdata.join('","')}"]);'>${cdata.length}</a>`
+				);
+			}},
+			{className: "dt-center", data: "stationProjects", title: "Visited Station Projects", "createdCell": function(td, cdata, rdata){
+				$(td).html(
+						`<a href='javascript:void(0);' onclick='viewProfile("projects", ["${cdata.join('","')}"]);'>${cdata.length}</a>`
+				);
+			}}
+		];
+
+	} else if (dataType == 'projects') {
+
+	 groupedData = d3.rollup(
+			motusData[dataType],
+			v => {
+				var projects = v.map( d => d.id );
+				var stations = motusData.stations.filter( x => projects.includes(x.projID) ).map(x => x.id);
+				var animals = motusData.animals.filter(x => projects.includes(x.projID) );
+				var species = animals.length == 0 ? [] : animals.map( x => x.species ).filter(onlyUnique);
+				animals = animals.map(x => x.id);
+				return {
+					id: v[0].fee_id,
+					group: v[0].fee_id,
+					projects: projects,
+					animals: animals,
+					species: species,
+					stations: stations
+				};
+			},
+			x => x.fee_id
+		);
+
+		opts.columns = [
+			{data: "group", title: "Project group"},
+			{className: "dt-center", data: "projects", title: "Number of Projects", "createdCell": function(td, cdata, rdata){
+				$(td).html(
+						`<a href='javascript:void(0);' onclick='viewProfile("projects", ["${cdata.join('","')}"]);'>${cdata.length}</a>`
+				);
+			}},
+			{className: "dt-center", data: "animals", title: "Animals tagged", "createdCell": function(td, cdata, rdata){
+				$(td).html(
+						`<a href='javascript:void(0);' onclick='viewProfile("projects", ["${cdata.join('","')}"]);'>${cdata.length}</a>`
+				);
+			}},
+			{className: "dt-center", data: "species", title: "Species tagged", "createdCell": function(td, cdata, rdata){
+				$(td).html(
+						`<a href='javascript:void(0);' onclick='viewProfile("projects", ["${cdata.join('","')}"]);'>${cdata.length}</a>`
+				);
+			}},
+			{className: "dt-center", data: "stations", title: "Stations deployed", "createdCell": function(td, cdata, rdata){
+				$(td).html(
+						`<a href='javascript:void(0);' onclick='viewProfile("projects", ["${cdata.join('","')}"]);'>${cdata.length}</a>`
+				);
+			}}
+		];
+	}
+
+	return [Array.from(groupedData.values()), opts];
+}
 function updateData() {
 
 	if (exploreType != 'main') {

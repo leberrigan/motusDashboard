@@ -9,7 +9,7 @@ dashboard.dir <- "C:/wamp64/www/Motus/Dashboard/data/"
 
 recvDeps.df <- dir %>% paste0("recv-deps.csv") %>% read.csv
 
-siteTrans.df <- dashboard.dir %>% paste0("siteTrans_real2.csv") %>% read.csv
+siteTrans.df <- dashboard.dir %>% paste0("siteTrans_real3.csv") %>% read.csv
 
 recv1.df <- siteTrans.df %>% 
   group_by(recv1) %>%
@@ -22,8 +22,6 @@ recv2.df <- siteTrans.df %>%
   summarise(animals = paste(unique(animal), collapse=',', sep = ','),
             species = paste(unique(species), collapse=',', sep = ',')) %>%
   rename(recv = recv2)
-
-
 
 recvSummary.df <- recv1.df %>%
   bind_rows(recv2.df) %>%
@@ -86,6 +84,7 @@ recvDists.df <- dists.df %>%
   rename(deployID = recvDeployID)
 
 recvDeps2.df <- dashboard.dir %>% paste0("recv-deps.csv") %>% read.csv %>% dplyr::select(-localAnimals) %>%
+  rename(deployID = id) %>%
   left_join(recvDists.df)
 
 recvDeps2.df %>% rename(id = deployID) %>% write.csv(dashboard.dir %>% paste0("recv-deps.csv"), row.names = F)
