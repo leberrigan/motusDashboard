@@ -613,6 +613,39 @@ iframe#pdf_output {
 
 }
 
+
+/*----------------------------------
+
+	DATATABLE DEFAULTS
+
+-----------------------------------*/
+
+.dt-buttons {
+	display:inline-block;
+	padding: 0 10px;
+}
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_paginate,
+.dataTables_wrapper .dataTables_length {
+	float:none;
+	display:inline-block;
+	margin: 0 10px;
+}
+.explore-table-header-center {
+	text-align:center;
+}
+.explore-table-header-controls .dataTables_filter.hidden {
+	display: none;
+}
+.explore-table-header-controls button {
+	margin:0 10px;
+}
+
+/*----------------------------------
+
+	EXPLORE CARD PROFILES
+
+-----------------------------------*/
 .explore-card-profiles-tabs div > svg {
 	vertical-align:middle;
 	height:30px;
@@ -825,7 +858,8 @@ iframe#pdf_output {
 	grid-template:35px 35px / auto;
 }
 #explore_menu:not(.profiles) {
-	grid-template:35px / auto;
+	grid-template: 48px / auto;
+	overflow: hidden;
 }
 #explore_menu .explore-menu-item {
 	background-color: var(--theme-background-colour2);
@@ -1039,6 +1073,7 @@ iframe#pdf_output {
 #explore_controls .explore-summary-selections {
 	margin:5px 0px;
 	font-weight:bold;
+	display:none;
 }
 
 
@@ -1492,6 +1527,7 @@ div.explore-card {
 	height:calc(100% - 32px);
 	overflow-y:auto !important;
 	width: 100%;
+	margin-bottom: 100px;
 }
 .content-wrapper.profiles > .explore-card-wrapper > .explore-card-chart {
 	height:auto;
@@ -2370,7 +2406,7 @@ padding-top:10px;
 .content-wrapper.profiles .explore-card-wrapper {
 	display: grid;
 	grid-template-columns: 35vw auto;
-	grid-template-rows: 50px auto 45px 1fr;
+	grid-template-rows: 50px auto auto 45px 1fr;
 }
 .content-wrapper.profiles .explore-card-wrapper #explore_controls {
 	grid-row: 4 / 5;
@@ -2385,7 +2421,7 @@ padding-top:10px;
 	width:100%;
 }
 .content-wrapper.profiles .explore-card-wrapper #explore_card_profiles {
-	grid-row: 2/4;
+	grid-row: 3/4;
 	grid-column: 1/3;
 	width: 100%;
 	padding: 0;
@@ -3043,6 +3079,8 @@ background: rgba(0,0,0,0.5);
 }
 #explore_card_profile_group {
 	width:100%;
+	grid-row: 2 / 3;
+	grid-column: 1 / 3;
 }
 #explore_card_profiles.grouped .explore-card-profile:not(.expanded) .explore-card-name {
 	padding-top:0;

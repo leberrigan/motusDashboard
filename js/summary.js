@@ -259,7 +259,7 @@ function stationTable( cardID ) {
 		//headers.forEach( x => $(`#explore_card_${cardID} .explore-card-${cardID}-table thead tr`).append( $('<th></th>').text(x) ) );
 
 
-		var tableDom = motusData.selectedStations.length > 10 ? "ipt" : "t";
+		var tableDom = motusData.selectedStations.length > 10 ? "Blipt" : "Bt";
 
 		var color_dataType = 'regions' == dataType ? 'regions' : 'projects';
 		var color_dataVar = 'regions' == dataType ? 'country' : 'project';
@@ -302,6 +302,12 @@ function stationTable( cardID ) {
 				}}
 			],
 			dom: tableDom,
+			buttons: [
+				'copyHtml5',
+				'excelHtml5',
+				'csvHtml5',
+				'pdfHtml5'
+			],
 			autoWidth: false,
 			columnDefs: [ {
 				"targets": 0,
@@ -675,7 +681,7 @@ function speciesTable( cardID ) {
 		getSpeciesTableData();
 
 
-		var tableDom = motusData.speciesTableData.length > 10 ? "itp" : "t";
+		var tableDom = motusData.speciesTableData.length > 10 ? "Bitp" : "Bt";
 
 		$("#explore_card_" + cardID + " .explore-card-" + cardID + "-speciesTable").DataTable({
 			data: motusData.speciesTableData,
@@ -697,6 +703,12 @@ function speciesTable( cardID ) {
 				{data: "sort", visible: false, orderable: true}
 			],
 			dom: tableDom,
+			buttons: [
+				'copyHtml5',
+				'excelHtml5',
+				'csvHtml5',
+				'pdfHtml5'
+			],
 			autoWidth: false,
 			columnDefs: [ {
 				"targets": 0,
@@ -793,7 +805,7 @@ function animalsTable( cardID ) {
 
 		getAnimalsTableData();//3
 
-		var tableDom = motusData.animalsTableData.length > 10 ? "lipt" : "t";
+		var tableDom = motusData.animalsTableData.length > 10 ? "Blipt" : "Bt";
 
 		$("#explore_card_" + cardID + " .explore-card-" + cardID + "-animalsTable").DataTable({
 			data: motusData.animalsTableData,
@@ -819,6 +831,12 @@ function animalsTable( cardID ) {
 				{data: "sort", visible: false, orderable: true}
 			],
 			dom: tableDom,
+			buttons: [
+				'copyHtml5',
+				'excelHtml5',
+				'csvHtml5',
+				'pdfHtml5'
+			],
 			autoWidth: false,
 			columnDefs: [ {
 				"targets": 0,
