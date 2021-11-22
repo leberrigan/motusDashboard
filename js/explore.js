@@ -1157,7 +1157,8 @@ function exploreControls(el, opt) {
 						// Remove the HTML from the first row!
 						data: $("#explore_card_stationHits table.explore-card-stationHits-table").DataTable().rows().data().toArray()
 											.map(x => Object.values(x)
-												.filter((d,i) => [1,2,3,4,5,9].includes(i)) // Select which columns to use
+												.filter((d,i) => [0,8,9,13,14,17].includes(i)) // Select which columns to use
+												// name, dtStart, dtEnd, nAnimals, nSpecies, project
 												.map( (d, i) => i == 1 ? d.toISOString().substr(0,10) : (i == 2 ? `${(moment().diff(d, 'day') < 1 ? "Active" : "Ended on: " + d.toISOString().substr(0,10) )}` : d)
 												)
 											),

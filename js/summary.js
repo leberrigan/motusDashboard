@@ -1770,7 +1770,7 @@ function detectionTimeline( d, {
 				var dtsEnd = trackData.dtEndList;
 				var splitData = {
 					stations: trackData.route.split('.'),
-					projects: trackData.project,
+					projects: trackData.project.concat(trackData.recvProjs),
 					species: trackData.species,
 					animals: trackData.animal,
 					regions: motusFilter.selections
@@ -1781,11 +1781,12 @@ function detectionTimeline( d, {
 				var spp = [];
 				var animals = [];
 
+
 				trackData.dir.forEach((dir ,i) => {
 					if (( dataType == "projects" || motusFilter.projects.includes('all') || motusFilter.projects.includes(splitData.projects[i]) ) &&
 							( dataType == "species" || motusFilter.species.includes('all') || motusFilter.species.includes(trackData.species[i]) ) &&
 							( dataType == "animals" || motusFilter.animals.includes('all') || motusFilter.animals.includes(trackData.animal[i]) ) &&
-							( motusFilter.selections.includes( splitData[dataType][i] ))) {
+							( motusFilter.selections.some( x => splitData[dataType][i].includes(x) ))) {
 
 							if ( motusFilter.stations.includes('all') || motusFilter.stations.includes(splitData.stations[0]) ) {
 								dates.push( dir == 1 ? dtsStart[i] : dtsEnd[i] );
@@ -1848,6 +1849,7 @@ function detectionTimeline( d, {
 
 
 				var date_str;
+
 
 				for (var i = 0; i < data[0].length; i++) {
 					date_str = new Date( data[0][i] ).toISOString().substr(0, 10);

@@ -92,15 +92,16 @@ function getAnimalsTableData( reload = false ) {
 
 		var color_dataType = 'regions' == dataType ? 'country' : 'project';
 
-		motusData.animalsTableData = motusData.selectedAnimals.map(d => {
+		motusData.animalsTableData = motusData.selectedAnimals.filter( d => !isNaN(d.dtStart.valueOf()) ).map(d => {
 			var speciesMeta = motusData.species.filter( x => x.id == d.species);
+			
 			return {
 				id: d.id,
 				species: d.species,
 				sort: speciesMeta.length>0?speciesMeta[0].sort:9999,
 				name: speciesMeta.length>0?speciesMeta[0].english:"Undefined",
-				dtStart: new Date(d.dtStart).toISOString().substr(0,10),
-				dtEnd: ((new Date() - new Date(d.dtEnd))/(24 * 60 * 60 * 1000) < 1 ? "Active" : "Ended on:<br/>" + new Date(d.dtEnd).toISOString().substr(0,10)),
+				dtStart: d.dtStart.toISOString().substr(0,10),
+				dtEnd: ((new Date() - d.dtEnd)/(24 * 60 * 60 * 1000) < 1 ? "Active" : "Ended on:<br/>" + d.dtEnd.toISOString().substr(0,10)),
 				frequency: d.frequency,
 				country: d.country,
 				countryName: typeof motusData.regionByCode.get(d.country) !== 'undefined' ? motusData.regionByCode.get(d.country)[0].country : 'Not defined',
