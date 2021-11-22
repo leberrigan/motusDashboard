@@ -25,7 +25,7 @@ var projectGroupNames = {
 	1:'No affiliation',
 	2:'US Dept. of the Interior',
 	3:'Environment Canada',
-	8:'Wind development',
+	8:'Atlantic Offshore Wind development',
 	9:'Birds Canada'
 }
 var speciesGroupNames = {
@@ -107,7 +107,7 @@ function getAnimalsTableData( reload = false ) {
 				nStations: (motusData.tracksByAnimal[d.id]?[...new Set( motusData.tracksByAnimal[d.id].map(v=>v.split('.')).flat() )]:[]).length,
 				nDays: motusData.tracksByAnimal[d.id]?motusData.tracksByAnimal[d.id].length * 2:0,
 				project: d.projID,
-				projectName: typeof motusData.projects.filter(x => x.id == d.projID)[0] !== 'undefined' ? motusData.projects.filter(x => x.id == d.projID)[0].project_name : 'Not defined',
+				projectName: typeof motusData.projects.filter(x => x.id == d.projID)[0] !== 'undefined' ? motusData.projects.filter(x => x.id == d.projID)[0].name : 'Not defined',
 				colourName: d[color_dataType],
 				colourCode: motusMap.colourScale(d[color_dataType]),
 			}
@@ -197,7 +197,7 @@ function motusIndexedDB( motusDataTableNames = [] ) {
 		// Declare the database
 	  motusData.db = new Dexie("explore_motus");
 		//
-	  motusData.db.version(2).stores(
+	  motusData.db.version(3).stores(
 			Object.fromEntries(
 				Object.entries(	motusDataTables	)
 							.map( x => [ x[0], x[1].key ] )
@@ -308,10 +308,10 @@ function downloadMotusData(promises, fileList) {
   		motusData[f] = response[i];
 
   	});
-
+		console.log(fileList);
 
 		if (!window.location.hostname.includes('sandbox.motus.org')) {
-			if (typeof motusData.stations !== 'undefined') {
+			if (fileList.includes("stations") ) {
 
 			}
 
@@ -320,7 +320,7 @@ function downloadMotusData(promises, fileList) {
 			var currentDate = new Date();
 
 
-	  	if (typeof motusData.animals !== 'undefined') {
+	  	if (fileList.includes("animals")) {
 	  		motusData.animals.forEach(function(x){
 	  			x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
 
@@ -341,14 +341,14 @@ function downloadMotusData(promises, fileList) {
 	  		});
 
 	  	}
-	  	if (typeof motusData.projects !== 'undefined') {
+	  	if (fileList.includes("projects")) {
 	  		motusData.projects.forEach(function(x) {
-	  			x.fee_id = projectGroupNames[x.fee_id==""?1:x.fee_id];
-	  			x.name = x.project_name;
+	  			x.fee_id = projectGroupNames[x.fee_id==""||x.fee_id=="NA"||!x.fee_id?1:x.fee_id];
+	  			x.name = x.name;
 	  		});
 	  	}
 
-	  	if (typeof motusData.stationDeps !== 'undefined') {
+	  	if (fileList.includes("stationDeps")) {
 
 				motusData.stationDeps = motusData.stationDeps.filter(d => (!isNaN(+d.lat) && !isNaN(+d.lon) && d.frequency != 'NA'));
 
@@ -372,9 +372,10 @@ function downloadMotusData(promises, fileList) {
 
 	  		motusData.stationDepsByName = d3.group(motusData.stationDeps, x => x.name);
 	  	}
-	  	if (typeof motusData.stations !== 'undefined') {
+	  	if (fileList.includes("stations")) {
   		 	motusData.stations.forEach(function(x) {
-						x.project = x.projID;
+						x.project = x.projID.split(';')[0];
+						x.projID = x.projID.split(';')[0];
 						x.animals = x.animals.split(";");
 						x.localAnimals = x.localAnimals.split(";");
 						x.species = x.species.split(";");
@@ -394,7 +395,7 @@ function downloadMotusData(promises, fileList) {
 	  		});
 	  	}
 
-	  	if (typeof motusData.regions !== 'undefined') {
+	  	if (fileList.includes("regions")) {
 	  		filters.options.regions = {};
 	  		motusData.regions.forEach(function(x) {
 	  			if (x.both > 0) {filters.options.regions[x.ADM0_A3] = x.country;}
@@ -403,7 +404,7 @@ function downloadMotusData(promises, fileList) {
 	  	}
 
 
-			if (typeof motusData.species !== 'undefined') {
+			if (fileList.includes("species")) {
 				motusData.species.forEach(function(x) {
 					x.animals = x.animals.split(";");
 					x.projects = x.projects.split(";");
@@ -414,7 +415,7 @@ function downloadMotusData(promises, fileList) {
 			}
 
 
-			if (typeof motusData.polygons !== 'undefined') {
+			if (fileList.includes("polygons")) {
 				motusData.polygons = motusData.polygons.features
 				motusData.polygons.forEach( x => {
 					x.id = x.properties.adm0_a3;
@@ -422,7 +423,7 @@ function downloadMotusData(promises, fileList) {
 			}
 
 
-	  	if (typeof motusData.tracks !== 'undefined') {
+	  	if (fileList.includes("tracks")) {
 				testTimer.push([new Date(), "Start tracksByAnimal"]);
 	  		motusData.tracksByAnimal = [];
 
@@ -450,7 +451,8 @@ function downloadMotusData(promises, fileList) {
 
 		} else {
 
-	  	if (typeof motusData.animals !== 'undefined') {
+
+	  	if (fileList.includes("animals")) {
 
 	  		motusData.animals = motusData.animals.filter(d => d.tsStart.length > 0);
 
@@ -471,15 +473,15 @@ function downloadMotusData(promises, fileList) {
 
 	  	}
 
-	  	if (typeof motusData.projects !== 'undefined') {
+	  	if (fileList.includes("projects")) {
 	  		motusData.projects.forEach(function(x) {
-	  			x.fee_id = projectGroupNames[1];
-	  			x.name = x.Name;
+	  			x.fee_id = projectGroupNames[x.fee_id==""||!x.fee_id?1:x.fee_id];
+	  			x.name = x.name;
 					x.id = x.projectID;
 	  		});
 	  	}
 
-	  	if (typeof motusData.stationDeps !== 'undefined') {
+	  	if (fileList.includes("stationDeps")) {
 	  		motusData.stationDeps = motusData.stationDeps.filter(d => (!isNaN(+d.lat) && !isNaN(+d.lon) && d.frequency != 'NA'));
   		 	motusData.stationDeps.forEach(function(x) {
 
@@ -489,19 +491,20 @@ function downloadMotusData(promises, fileList) {
 	  		motusData.stationDepsByName = d3.group(motusData.stationDeps, d => d.name);
 	  	}
 
-	  	if (typeof motusData.stations !== 'undefined') {
+	  	if (fileList.includes("stations")) {
   		 	motusData.stations.forEach(function(x) {
-						x.project = x.projID;
+						x.project = x.projID.split(';')[0];
+						x.projID = x.projID.split(';')[0];;
 	  		});
 	  	}
 
-	  	if (typeof motusData.species !== 'undefined') {
+	  	if (fileList.includes("species")) {
 				motusData.species.forEach(function(x) {
 					x.id = x.speciesID;
 				});
 	  	}
 
-	  	if (typeof motusData.regions !== 'undefined') {
+	  	if (fileList.includes("regions")) {
 	  		filters.options.regions = {};
 	  		motusData.regions.forEach(function(x) {
 	  			if (x.both > 0) {filters.options.regions[x.ADM0_A3] = x.country;}
@@ -509,11 +512,11 @@ function downloadMotusData(promises, fileList) {
 	  		});
 	  	}
 
-	  	if (typeof motusData.polygons !== 'undefined') {
+	  	if (fileList.includes("polygons")) {
 	  		motusData.polygons = motusData.polygons.features
 	  	}
 
-	  	if (typeof motusData.tracks !== 'undefined') {
+	  	if (fileList.includes("tracks")) {
 
 	  		motusData.tracksByAnimal = [];
 
@@ -1107,6 +1110,9 @@ function getSelectedTrackData(selectedTracks, reload = false) {
 			var allTimes = [];
 			var animals = v.animal;
 			var species = v.species;
+			var frequency = v.frequency;
+			var project = v.project;
+			var dir = v.dir;
 
 			var origin = "visiting";
 
@@ -1124,8 +1130,13 @@ function getSelectedTrackData(selectedTracks, reload = false) {
 				dtEnd = dtEnd.filter((x,i) => selectedIndices.includes(i));
 				tsStart = tsStart.filter((x,i) => selectedIndices.includes(i));
 				tsEnd = tsEnd.filter((x,i) => selectedIndices.includes(i));
+			//	console.log("1: %i %o", animals.length,selectedIndices);
 				animals = animals.filter((x,i) => selectedIndices.includes(i));
 				species = species.filter((x,i) => selectedIndices.includes(i));
+				frequency = frequency.filter((x,i) => selectedIndices.includes(i));
+				project = project.filter((x,i) => selectedIndices.includes(i));
+				dir = dir.filter((x,i) => selectedIndices.includes(i));
+			//	console.log("2: %o - %i", animals, species.length);
 				allTimes = dtStart.concat(dtEnd);
 				origin = motusData.selectedStations.filter( x => x.localAnimals.some( k => animals.includes(k) ) ).map( x => x.id ).join("-");
 				origin = origin.length > 0 ? origin : 'visiting';
@@ -1217,27 +1228,25 @@ function getSelectedTrackData(selectedTracks, reload = false) {
 			} else {
 				var colourVal = ['projects','regions','stations'].includes(dataType) ? v.species[Math.floor(Math.random()*v.species.length)] : v.project[Math.floor(Math.random()*v.project.length)];
 			}
-
-
 			motusData.selectedTracks[v.route] = {
 				animal: animals,
-				species: v.species,
+				species: species,
 				type: v.type,
 				recv1: v.recv1,
 				recv2: v.recv2,
-				project: v.project,
-				projID: v.project,
+				project: project,
+				projID: project,
 				route: v.route,
 				dtStart: new Date(d3.min(allTimes)),
 				dtEnd: new Date(d3.max(allTimes)),
-				dtStartList: v.dtStartList,
-				dtEndList: v.dtEndList,
+				dtStartList: dtStart,
+				dtEndList: dtEnd,
 				origin: origin,
 				colourVal: colourVal,
-				frequency: v.frequency,
+				frequency: frequency,
 				coordinates: [ [v.lon1, v.lat1], [v.lon2, v.lat2]],
 				dist: v.dist,
-				dir: v.dir,
+				dir: dir,
 				recvProjs: v.recvProjs
 			};
 		});

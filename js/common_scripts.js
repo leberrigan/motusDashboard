@@ -366,7 +366,7 @@ var dataColNames = {
 		name: "Project name",
 		shortName: "Short name",
 		description: "Description",
-		project_name: "Project name",
+		name: "Project name",
 		project_code: "Project code",
 		description_short: "Short description",
 		fee_id: "Project type",
