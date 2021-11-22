@@ -531,7 +531,7 @@ function exploreSummaryTabSelect(selectedTab) {
 
 					return {
 						id: d.id,
-						name: d.project_name,
+						name: d.name,
 						created_dt: moment(d.created_dt).toISOString().substring(0,10),
 						fee_id: d.fee_id,
 						stations: {display:	stations.length > 0 ? `<a href='javascript:void(0);' onclick='viewTableStats('stations',["${stations.join('","')}"])'>${stations.length}</a>` : 0, order: stations.length},
@@ -581,7 +581,7 @@ function exploreSummaryTabSelect(selectedTab) {
 		        ]
 
 					};
-				var cols = selectedTab == 'projects' ? ['id', 'project_name', 'fee_id', 'stations', 'animals'] :
+				var cols = selectedTab == 'projects' ? ['id', 'name', 'fee_id', 'stations', 'animals'] :
 									(selectedTab == 'regionTable' ? ['country', 'stations', 'animals'] :
 																									['english', 'scientific', 'animals', 'projects', 'group', 'code', 'sort']);
 
@@ -779,7 +779,7 @@ function loadOverlayPane( profileName, dataVar, selection ) {
 		var cols = {'english':"header", 'scientific':"subheader", "group":"group"};
 
 	} else if (profileName == 'projects') {
-		var cols = {'project_name':"header", 'code':"subheader", 'created_dt':"data", 'fee_id':"group", 'description':"text"};
+		var cols = {'name':"header", 'code':"subheader", 'created_dt':"data", 'fee_id':"group", 'description':"text"};
 
 		selected_row.code = `CODE: "${selected_row.project_code}"`;
 
@@ -1401,7 +1401,7 @@ function populateSelectOptions() {
 	if (typeof motusData.projects !== 'undefined') {
 		motusData.projects.forEach(function(d){
 
-			filters.options.projects[d.id] = d.project_name;
+			filters.options.projects[d.id] = d.name;
 
 		});
 	}
@@ -1562,7 +1562,6 @@ function loadDataTable(tbl, columns, options, onEvent) {
 	if ($("#explore_table").length == 0) {
 		$("#exploreContent").append('<div class="explore-table-wrapper"><table id="explore_table" style="width:100%"></table></div>');
 	}
-console.log(options.columns);
 	if (dataType == 'projects' && typeof options.columns === 'undefined') {
 		options.order = [[1, 'asc']]
 		options.columns = [
@@ -1570,7 +1569,7 @@ console.log(options.columns);
 			{className: 'dt-center', data: "id", title: "Project ID"},
 			{data: "name", title: "Project", "createdCell": function(td, cdata, rdata){
 				$(td).html(
-						`<a href='javascript:void(0);' onclick='viewProfile("projects", ${rdata.id});'>${rdata.name}</a>`
+						`<a href='javascript:void(0);' onclick='viewProfile("projects", ${rdata.id});'>${cdata}</a>`
 				);
 			}},
 			{className: 'dt-center', data: "created_dt", title: "Start date"},
@@ -1579,13 +1578,14 @@ console.log(options.columns);
 			{className: "dt-center", data: "species", title: "Species tagged", "render": {_: "display", sort: "order"}},
 			{data: "fee_id", title: "Project group", "createdCell": function(td, cdata, rdata){
 				$(td).html(
-					`<a href='javascript:void(0);' onclick='viewProfile("projectsGroup", ["${rdata.fee_id}"]);'>${rdata.fee_id}</a>`
+					`<a href='javascript:void(0);' onclick='viewProfile("projectsGroup", ["${cdata}"]);'>${cdata}</a>`
 				);
 			}}
 		];
 
 	}
 
+	console.log(dataset);
 	console.log(options.columns);
 	if (typeof options.columns === "undefined") {
 		var columnNames = columns.filter(x=>x==="").concat(Object.keys(dataset[0]).filter(x => typeof columns === 'undefined' || columns.includes(x)));

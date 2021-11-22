@@ -113,7 +113,7 @@ body.dark2 {
 	--theme-highlight-red: #8f2525;
 	--theme-highlight-red-pale: #c43333;
 
-	--theme-link-colour: #EEF;
+	--theme-link-colour: #00F;
 
 }
 
@@ -1315,8 +1315,9 @@ input.filter_dates {
 
 #dateSlider {
 	height:43px;
-  background-color: var(--theme-background-colour2);
+  background-color: var(--theme-background-colour3);
   padding: 10px;
+	color: var(--theme-text-colour3);
 }
 #dateSlider .slider {
 	margin-bottom: -14px;
@@ -1335,7 +1336,7 @@ input.filter_dates {
 	content: " ";
 	height: 3px;
 	width: 100%;
-	background: var(--theme-text-colour2);
+	background: var(--theme-text-colour3);
 	display: block;
 	margin: 6px 0;
 }
@@ -1347,14 +1348,11 @@ input.filter_dates {
 }
 #dateSlider .ui-state-default,#dateSlider .ui-widget-content .ui-state-default,
 #dateSlider .ui-widget-content .ui-state-active, #dateSlider .ui-widget-content .ui-state-hover {
-	background: var(--theme-text-colour2);
+	background: var(--theme-text-colour3);
 	border:0px;
 	cursor:pointer;
 	height:17px;
 	width:10px;
-}
-#dateSlider {
-	color: var(--theme-text-colour2);
 }
 
 
@@ -3072,7 +3070,7 @@ background: rgba(0,0,0,0.5);
 
 
 /* PROFILE GROUP */
-
+/*
 #explore_card_profiles.grouped {
 	display:flex;
 	flex-flow: row wrap;
@@ -3099,7 +3097,7 @@ background: rgba(0,0,0,0.5);
 	width: max-content;
 	flex-grow:1;
 	border-left: solid 2px #000;
-}
+}*/
 
 
 

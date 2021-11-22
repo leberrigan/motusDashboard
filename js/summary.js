@@ -2,9 +2,9 @@ var detailedView = false;
 var exploreProfile_hasLoaded = false;
 
 var timeRange = {};
+var isGrouped = false;
 
 function exploreSummary({regionBin = "adm0_a3"} = {}) { // {summaryType: String, summaryID: Integer or String, summaryData: Object}
-
 
 
 	// All possible combinations of region codes (for colouring tracks)** should be removed
@@ -22,6 +22,12 @@ function exploreSummary({regionBin = "adm0_a3"} = {}) { // {summaryType: String,
 
 	// *** Above should be removed to '***'
 
+	// Check to see if this is a grouped profile
+	isGrouped = (typeof motusFilter.group !== 'undefined' && motusFilter.group.length > 0);
+	if (isGrouped) {
+		motusData.profiles = [];
+		motusData.groups = [];
+	}
 
 	// Set colour scale based on number of colour combos
 	motusMap.colourScale = d3.scaleOrdinal()
@@ -62,7 +68,7 @@ if (motusFilter.selections.length > 1) {
 
 
 	testTimer.push([new Date(), "Get selected track data"]);
-console.log(Object.keys(motusData.tracksByAnimal));
+	console.log(Object.keys(motusData.tracksByAnimal));
 	getSelectedTrackData( motusData.selectedTracks, reload = true );
 
 	testTimer.push([new Date(), "Set time limits"]);
@@ -77,6 +83,10 @@ console.log(Object.keys(motusData.tracksByAnimal));
 	// Get explore profile data
 	testTimer.push([new Date(), "Get explore profile data"]);
 	motusData[`selected${firstToUpper(dataType)}`].forEach(getExploreProfileData);
+
+	if (isGrouped) {
+		getGroupedExploreProfileData({id: Object.entries(projectGroupNames).filter( x => x[1] == motusFilter.group )[0][0], name: motusFilter.group, description: ""});
+	}
 
 	testTimer.push([new Date(), "Add explore tabs"]);
 	addExploreTabs();
@@ -170,7 +180,7 @@ function projectsTable( cardID, tableType ) {
 								`<a href='javascript:void(0);' onclick='viewProfile("projects", ${rdata.id});'>${rdata.name}</a>`
 						);
 					}},
-					{data: "created_dt", title: "Start date"},
+					{data: "dtCreated", title: "Start date"},
 					{className: "table_tips", data: "stations", title: "Stations deployed", "createdCell": function(td, cdata, rdata){
 						$(td).html(
 								`${rdata.stations.length} of ${rdata.allStations.length}`+
@@ -297,7 +307,7 @@ function stationTable( cardID ) {
 				}},
 				{data: "projID", title: "Project", "createdCell": function(td, cdata, rdata){
 					$(td).html(
-						`<a href='javascript:void(0);' onclick='viewProfile("projects", [${cdata.split(";").map( x => '"'+x+'"' ).join(',')}]);'>${cdata.split(";").map( x => motusData.projects.filter( p => p.id == x )[0].project_name ).join(", ")}</a>`
+						`<a href='javascript:void(0);' onclick='viewProfile("projects", [${cdata.split(";").map( x => '"'+x+'"' ).join(',')}]);'>${cdata.split(";").map( x => motusData.projects.filter( p => p.id == x )[0].name ).join(", ")}</a>`
 					);
 				}}
 			],
@@ -738,6 +748,8 @@ function speciesTable( cardID ) {
 
 				getAnimalsTableData();
 
+				tableDom = motusData.animalsTableData.filter( d => d.species == row.data().species ).length > 10 ? "Bitp" : "t";
+
 				row.child().find('.explore-species-table-animals table').DataTable({
 					data: motusData.animalsTableData.filter( d => d.species == row.data().species ),
 					columns: [
@@ -758,6 +770,12 @@ function speciesTable( cardID ) {
 						}}
 					],
 					dom: tableDom,
+					buttons: [
+						'copyHtml5',
+						'excelHtml5',
+						'csvHtml5',
+						'pdfHtml5'
+					],
 					autoWidth: false
 				});
 
@@ -854,6 +872,67 @@ function animalsTable( cardID ) {
 	}
 }
 
+function getGroupedExploreProfileData( g, profileIDs = [] ) {
+	var gProfiles = motusData.profiles.filter( d => profileIDs.length == 0 || profileIDs.includes( d.id ) );
+	var groupProfile = {id: g.id, name: g.name, description: "", photo: "", shortDescription: ""};
+	var val,i;
+
+
+	for (const k in gProfiles[0] ) {
+		if (k == 'dtStart') {
+			val = d3.min(gProfiles, d => d[k]);
+		} else if (k == 'dtEnd') {
+			val = d3.max(gProfiles, d => d[k]);
+		} else if (k == 'lastActivity' || k == 'lastDetection' || k == 'lastStationDeployment' || k == 'lastTagDeployment') {
+			// Needed for 'lastActivityType' to be selected correctly
+			const k_alt = k=='lastActivityType'?'lastActivity':k;
+			console.log(k_alt);
+			i = d3.maxIndex(gProfiles, d => typeof d[k_alt] === 'undefined' ? 0 : d[k_alt].dtEnd);
+			val = gProfiles[i][k];
+		} else if (k == 'summary') {
+			// Sums values for each property
+			val = gProfiles.reduce((a,c,i) => {
+					for (key in a) {
+						a[key] += c.summary[key];
+					}
+					return a;
+				}, Object.fromEntries(Object.keys(gProfiles[0].summary).map( d => [d, 0] ))
+			)
+		} else if (k == 'stats') {
+			// Sums values for each property
+			val = gProfiles.reduce((a,c,i) => {
+					for (key in a) {
+						a[key] += c.stats[key];
+					}
+					return a;
+				}, Object.fromEntries(Object.keys(gProfiles[0].stats).map( d => [d, 0] ))
+			)
+
+			/*
+			profile.stats = {
+				animalsTagged: animalsTagged.length,
+				speciesTagged: speciesTagged.length,
+				animalsDetected: stations.length > 0 ? animalsDetected.length : 0,
+				speciesDetected: stations.length > 0 ? speciesDetected.length : 0,
+				stations: stations.length,
+				countries: Array.from(stations.map(x => x.country).values()).concat(Array.from(motusData.selectedAnimals.map(x => x.country).values())).filter(onlyUnique).length,
+				detections: d3.sum(detections.map( x=> x.dtEndList.length ))
+			}
+			*/
+		} else {
+			val = false;
+		}
+			console.log("keys: %o, k: %s, val: %o", Object.keys(gProfiles[0]), k, val);
+
+		if (val !== false) {
+			groupProfile[k] = val;
+		}
+	}
+
+	motusData.groups.push(groupProfile);
+
+	addExploreProfile(groupProfile);
+}
 function getExploreProfileData(d) {
 
 		var profile = {
@@ -911,7 +990,7 @@ function getExploreProfileData(d) {
 						}, []);
 					const maxIndex = d3.maxIndex( maxDate, d => new Date(d) )
 					dtMax.push( new Date( maxDate[maxIndex] ) );
-//					console.log(x);
+					console.log(x);
 					lastDetectedAnimal.push( motusData.animals.filter( k => k.id == x.animal[maxIndex] )[0] );
 					lastDetectionSubIndex.push( maxIndex );
 					return new Date( maxDate[maxIndex] );
@@ -1147,7 +1226,9 @@ function getExploreProfileData(d) {
 
 			//	lastData: [Math.round( subset[subset.length-1].lastData )],
 		} else if (dataType == 'projects')  {
-			profile.subtitle = {text:`Created on ${new Date(d.created_dt).toISOString().substring(0, 10)}`, link: false};
+			console.log(d.dtCreated);
+
+			profile.subtitle = {text:`Created on ${new Date(d.dtCreated).toISOString().substring(0, 10)}`, link: false};
 
 			profile.leadUserId = d.lead_user_id;
 			profile.group = {name: d.fee_id, id: d.fee_id};
@@ -1160,7 +1241,7 @@ function getExploreProfileData(d) {
 			profile.shortDescription = d.description_short;
 			profile.description = d.description;
 
-			profile.dtStart = new Date(d.created_dt).toISOString().substring(0, 10);
+			profile.dtStart = new Date(d.dtCreated).toISOString().substring(0, 10);
 			profile.dtEnd = profile.lastActivity ? profile.lastActivity.dtEnd : false;
 
 			profile.summary = {
@@ -1241,7 +1322,12 @@ function getExploreProfileData(d) {
 //										"photos/stations/" + (stationPhotos[Math.round(Math.random()*(stationPhotos.length-1))]) :
 									"";
 
-			addExploreProfile(profile);
+
+			if (isGrouped) {
+				motusData.profiles.push(profile);
+			} else {
+				addExploreProfile(profile);
+			}
 		}
 
 }
@@ -1335,7 +1421,7 @@ function addExploreTabs() {
 function addExploreProfilesWrapper() {
 
 	// Grouped profiles have a different header and display multi-profiles differently
-	var isGrouped = (typeof motusFilter.group !== 'undefined' && motusFilter.group.length > 0) ;
+	isGrouped = (typeof motusFilter.group !== 'undefined' && motusFilter.group.length > 0);
 
 	//	Add profile container DOM
 	$("#exploreContent .explore-card-wrapper")

@@ -12,6 +12,9 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ## Updates
 
 ### Latest
+* [x] [2021-11-22] Add group profile summary.
+* [x] [2021-11-22] Tidy up group profiles.
+* [x] [2021-11-19] Fixed a bug where track selections were only filtered on some variables
 * [x] [2021-11-19] Any table can now be copied or download as csv
 * [x] [2021-11-19] Add toggle to view groups of projects or species
 * [x] [2021-11-19] Fixed table column sorting on main explore page
