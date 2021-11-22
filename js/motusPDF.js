@@ -67,6 +67,7 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 		var doc = new PDFDocument({pdf_config});
 		var stream = doc.pipe(blobStream());
 
+  //      doc["Title"] = "Motus Report" + (opts.selection?": "+opts.selection:"");
 
 		for (var file in files) {
 		  files[file].xhr = new XMLHttpRequest();
@@ -92,10 +93,10 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 		stream.on("finish", function() {
 		   // get a blob you can do whatever you like with
 		  blob = stream.toBlob("application/pdf");
-
 		  blobURL = stream.toBlobURL('application/pdf');
 
 		  $("#pdf_output").attr("src",blobURL);
+
 		  $(".pdf-output-wrapper .download_btn").click(download);
 		 // $(".pdf-output-wrapper .download_btn").click(download);
 
@@ -299,6 +300,7 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 				.attr({href: blobURL, download: fileName})
 				.get(0)
 				.click();
+
 		  window.URL.revokeObjectURL(blobURL);
 		}
 
@@ -392,7 +394,7 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 
         //  font size is large for first column only
 			  doc.fontSize(col_index > 0 ? 10 : 12);
-        
+
 				doc.text(d, x_pos, y + my - (doc.heightOfString(d, {width:colWidths[ col_index ] * width / n}) - 14.5), {width: colWidths[ col_index ] * width / n, align: "center"});
 
 			});
