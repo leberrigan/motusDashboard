@@ -202,7 +202,14 @@ function motusIndexedDB( motusDataTableNames = [] ) {
 				Object.entries(	motusDataTables	)
 							.map( x => [ x[0], x[1].key ] )
 			)
-		);
+		).upgrade((trans)=>{
+			console.log("Deleting tables: %o", trans.storeNames);
+
+			trans.storeNames.forEach(k => {
+				trans.db[k].clear();
+			});
+
+		});
 
 		console.log(`Initiating local Motus DB with ${Object.keys(motusDataTables).length} tables...`);
 
