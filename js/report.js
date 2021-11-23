@@ -93,6 +93,19 @@ var conservationStatus = {
 	EX: "Extinct"
 }
 
+var default_tableOpts = {
+	dom: "Bipt",
+	"language": {
+		"info": "Showing _TOTAL_ entries",
+		"infoEmpty": "Showing 0 entries",
+		"infoFiltered": "",
+	},
+	buttons: [
+		'copy',
+		'csv'
+	],
+}
+
 var icon_paths = {
 
 	stations:"M 8.95 3.625 L 8.95 2.2 L 7 2.2 L 7 3.175 L 6.75 3.175 L 6.75 2.2 L 4.925 2.2 L 4.925 5.268 L 7.0001 11.3826 L 6.8897 11.4752 L 5.8 8.2643 L 5.8 8.45 L 4.925 8.45 L 4.925 10.1247 L 4.675 10.1247 L 4.675 8.45 L 3.7502 8.45 L 2.7116 11.5002 L 2.5999 11.4068 L 4.675 5.3126 L 4.675 2.2 L 2.85 2.2 L 2.85 3.175 L 2.6 3.175 L 2.6 2.2 L 0.75 2.2 L 0.75 3.8 L 0.5 3.8 L 0.5 0.5 L 0.75 0.5 L 0.75 1.95 L 2.6 1.95 L 2.6 1 L 2.85 1 L 2.85 1.95 L 4.675 1.95 L 4.675 1.4253 L 4.925 1.4253 L 4.925 1.95 L 6.75 1.95 L 6.75 1 L 7 1 L 7 1.95 L 8.95 1.95 L 8.95 0.5 L 9.2 0.5 L 9.2 1.95 L 9.2 2.2 L 9.2 3.625 L 8.95 3.625 Z M 4.925 8.2 L 5.7782 8.2 L 4.925 5.686 L 4.925 8.2 Z M 4.675 5.7339 L 3.8353 8.2 L 4.675 8.2 L 4.675 5.7339 Z"
@@ -1148,8 +1161,8 @@ function displayReportPreview() {
 
 	var report = {
 		header: `Motus ${firstToUpper(toSingular(dataType))} Report`,
-		motusLogo: `<img src="${logos.motus}" alt="Motus Wildlife Tracking System" style="width:75px;float:left;">`,
-		birdsLogo: `<img src="${logos.birdsCanada}" alt="Birds Canada" style="width:75px;float:right;">`,
+		motusLogo: `<img src="${logos.motus}" alt="Motus Wildlife Tracking System" style="float:left;">`,
+		birdsLogo: `<img src="${logos.birdsCanada}" alt="Birds Canada" style="float:right;">`,
 		publicationDate: new Date().toISOString().substr(0, 10),
 		pageIndex: 1
 	}
@@ -1288,7 +1301,7 @@ function addReportSummaryPage(d, report, interval) {
 				<div class="report-stats"></div>
 				<div class="report-timeline"><h2>Detection timeline</h2></div>
 				<div class="report-table"><h2>${firstToUpper( toSingular( dataType ) )} summary</h2><table></table></div>
-				<div class="report-footer">Created on: ${report.publicationDate}</div>
+				<div class="report-footer">${report.motusLogo} Report created on: ${report.publicationDate} ${report.birdsLogo}</div>
 			</div>
 
 		</div>`
@@ -1347,6 +1360,8 @@ function addReportSummaryPage(d, report, interval) {
 		}));
 	$(`.report-page:eq(${report.pageIndex-1}) .report-timeline`).append(report.timeline);
 
+	console.log(motusData[`selected${firstToUpper(dataType)}`]);
+	console.log(`selected${firstToUpper(dataType)}`);
 
 	reportTable(`.report-page:eq(${report.pageIndex-1}) .report-table table`, motusData[`selected${firstToUpper(dataType)}`]);
 
@@ -1373,11 +1388,12 @@ function addReportSelectionPage(d, report, interval) {
 				<div class="report-title"><div class="report-subtitle"></div></div>
 				<div class="report-stats"></div>
 				<div class="report-timeline"><h2>Detection timeline</h2></div>
-				<div class="report-table"><h2>Detected species</h2><table></table></div>
+				<div class="report-table report-table-species"><h2>Detected species</h2><table></table></div>
 				<div class="report-footer">${report.motusLogo} Report created on: ${report.publicationDate} ${report.birdsLogo}</div>
 			</div>
 		</div>`
 	);
+
 
 	report = {
 			...report,
@@ -1395,7 +1411,10 @@ function addReportSelectionPage(d, report, interval) {
 						dataSource: "animals",
 						margin:{left:0,right:0},
 						setTimeline: true
-					})
+					}),
+				table: {
+					species: getReportSpeciesTableData(d)
+				}
 		}
 	};
 
@@ -1409,6 +1428,12 @@ function addReportSelectionPage(d, report, interval) {
 						</div>`;
 		}));
 	$(`.report-page:eq(${report.pageIndex-1}) .report-timeline`).append(report.timeline);
+	$(`.report-page:eq(${report.pageIndex-1}) .report-table-species table`).DataTable({
+		...default_tableOpts,
+		...{
+			data: report.table.species
+		}
+	});
 
 	report.pageIndex++;
 

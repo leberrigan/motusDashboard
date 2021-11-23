@@ -745,7 +745,7 @@ Loading overlay
 	font-weight:bold;
 	background-color: var(--theme-background-colour2);
 }
-.section-header:not(.selected):hover {
+.explore-report-control-wrapper .section-header:not(.selected):hover {
 	cursor:pointer;
 	font-weight:bold;
 	background-color: var(--theme-background-colour2);
@@ -1194,6 +1194,9 @@ Loading overlay
 	#exploreReport.small .report-page-wrapper:not(.zoomed) .report-table .dataTable td {
 		padding: 1%;
 	}
+	#exploreReport.small .report-page-wrapper:not(.zoomed) .report-footer img {
+		width: 13px;
+	}
 
 	#exploreReport.small .report-page-wrapper.zoomed {
 	}
@@ -1227,6 +1230,9 @@ Loading overlay
 		padding-top: 2%;
 		grid-area: footer;
 		border-top: solid 2px #000;
+	}
+	.report-page .report-footer img {
+		width: 75px;
 	}
 
 
