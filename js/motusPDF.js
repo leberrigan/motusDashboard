@@ -10,13 +10,15 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 
     let blob;
 
+    let locationPrefix = window.location.href.substring(0,window.location.href.lastIndexOf("/"));
+
 		var files = {
 
 			motusLogo: {
-				url: "http://localhost/Motus/Dashboard/images/motus-logo-lg.png"
+				url: locationPrefix + "/images/motus-logo-lg.png"
 			},
 			bcLogo: {
-				url: "http://localhost/Motus/Dashboard/images/birds-canada-logo.png"
+				url: locationPrefix + "/images/birds-canada-logo.png"
 			}
 
 		}
@@ -66,6 +68,11 @@ function makePDF(opts = {"type": "Data", "selection": false}) {
 
 		var doc = new PDFDocument({pdf_config});
 		var stream = doc.pipe(blobStream());
+    /*{
+    'Content-Type': 'application/pdf',
+    'Content-disposition': 'attachment;filename=motusDataReport-' + moment().format('DDMMMYYYY') + '.pdf'
+  };*/
+
 
   //      doc["Title"] = "Motus Report" + (opts.selection?": "+opts.selection:"");
 

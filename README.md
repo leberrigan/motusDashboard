@@ -12,6 +12,10 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ## Updates
 
 ### Latest
+* [x] [2021-11-23] Fix tables in report tool
+* [x] [2021-11-23] Adjust report tool step controls.
+* [x] [2021-11-23] Add download buttons to popup tables.
+* [x] [2021-11-23] Tidy up group profile summary.
 * [x] [2021-11-22] Add group profile summary.
 * [x] [2021-11-22] Tidy up group profiles.
 * [x] [2021-11-19] Fixed a bug where track selections were only filtered on some variables
