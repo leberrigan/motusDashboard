@@ -30,7 +30,7 @@ function exploreSummary({regionBin = "adm0_a3"} = {}) { // {summaryType: String,
 		// If it is, we're going to compute the group summary based on each individual one
 		// This is done on the client side so eats at the load time somewhat.
 		// Likely will be necessary to retain this until we come up with a Dexie
-		// solution and/or compute the summaries on the server. 
+		// solution and/or compute the summaries on the server.
 		motusData.profiles = [];
 		motusData.groups = [];
 	}
@@ -1795,6 +1795,8 @@ function detectionTimeline( d, {
 					animals: trackData.animal,
 					regions: motusFilter.selections
 				};
+				console.log(trackData)
+				console.log(splitData)
 
 //				if (ind%100 == 0) console.log(trackData)
 				var dates = [];
@@ -1806,7 +1808,12 @@ function detectionTimeline( d, {
 					if (( dataType == "projects" || motusFilter.projects.includes('all') || motusFilter.projects.includes(splitData.projects[i]) ) &&
 							( dataType == "species" || motusFilter.species.includes('all') || motusFilter.species.includes(trackData.species[i]) ) &&
 							( dataType == "animals" || motusFilter.animals.includes('all') || motusFilter.animals.includes(trackData.animal[i]) ) &&
-							( motusFilter.selections.some( x => splitData[dataType][i].includes(x) ))) {
+							( ( dataType == "stations" && (
+										motusFilter.selections.includes( splitData[dataType][0] ||
+										motusFilter.selections.includes( splitData[dataType][1]
+									) ) ) ||
+							  ( dataType != "stations" && motusFilter.selections.some( x => splitData[dataType][i].includes(x) ) )
+							))) {
 
 							if ( motusFilter.stations.includes('all') || motusFilter.stations.includes(splitData.stations[0]) ) {
 								dates.push( dir == 1 ? dtsStart[i] : dtsEnd[i] );
