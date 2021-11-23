@@ -524,19 +524,15 @@ function exploreSummaryTabSelect(selectedTab) {
 			} else if (selectedTab == 'projects') {
 
 				var tbl = [selectedTab,Array.from(motusData.projects.map(function(d) {
-
-					var stations = motusData.stations.filter( x => x.projID == d.id).map(x => x.id);
-					var animals = motusData.animals.filter(x => x.projID == d.id).map(x => x.id);
-					var species = animals.length == 0 ? [] : animals.map( x => x.species ).filter(onlyUnique);
-
+console.log(d.stations);
 					return {
 						id: d.id,
 						name: d.name,
-						created_dt: moment(d.created_dt).toISOString().substring(0,10),
+						dtCreated: moment(d.dtCreated).toISOString().substring(0,10),
 						fee_id: d.fee_id,
-						stations: {display:	stations.length > 0 ? `<a href='javascript:void(0);' onclick='viewTableStats('stations',["${stations.join('","')}"])'>${stations.length}</a>` : 0, order: stations.length},
-						animals: {display:	animals.length > 0 ? `<a href='javascript:void(0);' onclick='viewTableStats('animals',["${animals.join('","')}"])'>${animals.length}</a>` : 0, order: animals.length},
-						species: {display:	species.length > 0 ? `<a href='javascript:void(0);' onclick='viewTableStats('species',["${species.join('","')}"])'>${species.length}</a>` : 0, order: species.length}
+						stations: {display:	d.stations.length > 0 ? `<a href='javascript:void(0);' onclick="viewTableStats('stations',["${d.stations.join('","')}"])">${d.stations.length}</a>` : 0, order: d.stations.length},
+						animals: {display:	d.animals.length > 0 ? `<a href='javascript:void(0);' onclick="'"viewTableStats('animals',["${d.animals.join('","')}"])">${d.animals.length}</a>` : 0, order: d.animals.length},
+						species: {display:	d.species.length > 0 ? `<a href='javascript:void(0);' onclick="'"viewTableStats('species',["${d.species.join('","')}"])">${d.species.length}</a>` : 0, order: d.species.length}
 					};
 
 				}).values())];
@@ -779,7 +775,7 @@ function loadOverlayPane( profileName, dataVar, selection ) {
 		var cols = {'english':"header", 'scientific':"subheader", "group":"group"};
 
 	} else if (profileName == 'projects') {
-		var cols = {'name':"header", 'code':"subheader", 'created_dt':"data", 'fee_id':"group", 'description':"text"};
+		var cols = {'name':"header", 'code':"subheader", 'dtCreated':"data", 'fee_id':"group", 'description':"text"};
 
 		selected_row.code = `CODE: "${selected_row.project_code}"`;
 
@@ -1072,7 +1068,7 @@ function exploreControls(el, opt) {
 							$("body").css("overflow-y", "hidden");
 			var zoom = motusMap.map.getZoom();
 			var tab = $(".explore-card-profiles-tabs > .selected");
-			$(".explore-card-profiles-tabs .explore-card-tab:not(.explore-card-map-tab):not(.explore-card-profiles-download-pdf-tab)").click();
+			$(".explore-card-profiles-tabs .explore-card-tab:not(.expand-menu-btn):not(.explore-card-map-tab):not(.explore-card-profiles-download-pdf-tab)").click();
 			$(".explore-card-profiles-tabs .explore-card-map-tab").click();
 			motusMap.map.setZoom(2);
 			setTimeout(function(){
@@ -1573,7 +1569,7 @@ function loadDataTable(tbl, columns, options, onEvent) {
 						`<a href='javascript:void(0);' onclick='viewProfile("projects", ${rdata.id});'>${cdata}</a>`
 				);
 			}},
-			{className: 'dt-center', data: "created_dt", title: "Start date"},
+			{className: 'dt-center', data: "dtCreated", title: "Start date"},
 			{className: "dt-center", data: "stations", title: "Stations deployed", "render": {_: "display", sort: "order"}},
 			{className: "dt-center", data: "animals", title: "Animals tagged", "render": {_: "display", sort: "order"}},
 			{className: "dt-center", data: "species", title: "Species tagged", "render": {_: "display", sort: "order"}},

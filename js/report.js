@@ -76,6 +76,12 @@ var icons = {
 	zoom: '<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/><path d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z"/><path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5z"/></svg>'
 }
 
+var logos = {
+
+	motus: "images/motus-logo-lg.png",
+	birdsCanada: "images/birds-canada-logo.png"
+
+}
 var conservationStatus = {
 	DD: "Data deficient",
 	LC: "Least concern",
@@ -482,11 +488,11 @@ function exploreMapTableToggleView(showMap) {
 	$(".explore-report-control-wrapper .report-control-buttons small span").text(showMap?"map":"table");
 	console.log("LOADED: %s", showMap?"map":"table")
 	if (showMap) {
-		$(`#${motusTable.el}, #exploreTable`).hide();
+		$(`#${motusTable.el}, #exploreTable`).toggleClass("hidden", true);
 
 			if (typeof motusMap.svg !== 'undefined' && $(`#${motusMap.el} svg`).length > 0 ) {
 				console.log('show map');
-			  $(`#${motusMap.el}`).show();
+			  $(`#${motusMap.el}`).toggleClass("hidden", false).show();
 
 			} else {
 				console.log('create map');
@@ -496,7 +502,7 @@ function exploreMapTableToggleView(showMap) {
 		loadMapObjects();
 		$(".explore-report-control-wrapper .report-control-buttons .toggle_view").text("View a table instead");
 	} else {	// Show Table!
-		$(`#${motusMap.el}, #exploreMap`).hide();
+		$(`#${motusMap.el}, #exploreMap`).toggleClass("hidden", true);
 		exploreTable("exploreTable");
 		$(".explore-report-control-wrapper .report-control-buttons .toggle_view").text("View a map instead");
 	}
@@ -579,7 +585,14 @@ function addReportControls() {
 
 	});
 
+	////////////////////////////////////
+	// Section header
 
+	$(".section-header").click(function(){
+		if (!$(this).hasClass("selected")) {
+			loadReportStep( parseInt(this.classList[this.classList.length - 1].replace("report-step","")) );
+		}
+	})
 
 	////////////////////////////////////
 	// Control buttons
@@ -748,20 +761,39 @@ function addReportControls() {
 
 
 function nextReportStep() {
-	$(`.report-step`).css("display", "none");
+	// Deselect previous step header when going forwards
+//	$(`.report-step${reportStep}`).toggleClass("selected", false);
+	$(`.report-step:not(.section-header)`).css("display", "none");
+	$(`.section-header.report-step`).toggleClass("selected", false);
 	reportStep++;
 	$(`.report-step${reportStep}`).css("display", "");
+	$(`.section-header.report-step${reportStep}`).toggleClass("selected", true);
 }
 
 function prevReportStep() {
-	$(`.report-step`).css("display", "none");
+	// Hide the next step header when going backwards
+	$(`.report-step${reportStep}`).css("display", "none");
+	$(`.report-step:not(.section-header)`).css("display", "none");
+	$(`.section-header.report-step`).toggleClass("selected", false);
 	reportStep--;
+	$(`.section-header.report-step${reportStep}`).toggleClass("selected", true);
 	$(`.report-step${reportStep}`).css("display", "");
 }
 
 function loadReportStep( step ) {
-	$(`.report-step`).css("display", "none");
+	// Hide subsequent step headers when going backwards
+	if (step < reportStep) {
+		reportStep = step + 1;
+		while($(`.report-step${reportStep}`).length > 0) {
+			$(`.report-step${reportStep}`).css("display", "none");
+			reportStep++;
+		}
+	}
+	// Hide all steps
+	$(`.report-step:not(.section-header)`).css("display", "none");
+	$(`.section-header.report-step`).toggleClass("selected", false);
 	reportStep = step;
+	$(`.section-header.report-step${reportStep}`).toggleClass("selected", true);
 	$(`.report-step${step}`).css("display", "");
 }
 
@@ -789,7 +821,7 @@ function resetMotusFilter( options ) {
 	});
 
 	$(".explore-report-control.report-control-selections select").val(motusFilter.selections).trigger("change")
-	
+
 	updateData();
 
 }
@@ -801,6 +833,8 @@ function selectionStatusPopup( e ) {
 
 	var popupText = "";
 	var popupData = [];
+	if (!['selectedDtStart', 'selectedDtEnd'].includes(dataVar) && motusData[dataVar].length == 0)
+		return false;
 
 	filterPopup("Loading...", e)
 
@@ -836,7 +870,7 @@ function selectionStatusPopup( e ) {
 				select: {
 					style: "multi"
 				},
-				dom: "fi<'scroll-box't>B",
+				dom: "fiB<'scroll-box't>",
 		    "language": {
 		      "info": "Showing _TOTAL_ entries",
 					"infoEmpty": "Showing 0 entries",
@@ -856,9 +890,14 @@ function selectionStatusPopup( e ) {
 				],
 				scrollY: "40vh",
 				scrollCollapse: true,
-		    order: [[ 1, 'asc' ]],
-				initComplete: () => {this.api().rows().select();}
-			})
+		    order: [[ 1, 'asc' ]]
+			}).rows({ page: 'all'}).select();
+
+			setTimeout( function() {
+				$("#filterPopup table").DataTable()
+				 .rows().invalidate('data')
+				 .draw(false);
+			}, 100)
 		/*
 			$("#filterPopup tbody tr").click( function(e) {
 				e.stopPropagation();
@@ -874,21 +913,21 @@ function selectionStatusPopup( e ) {
 
 }
 
-function getSelectionQuickList( dataVar ) {
+function getSelectionQuickList( dataVar, data ) {
 
-	var data = motusData[dataVar];
+	data = typeof data === "undefined" ? motusData[dataVar] : data;
 	var toReturn = [];
 
-	if (dataVar.includes("Stations")) {
-		toReturn = data.map( d => ({id: d.id, name: d.name, firstDeployed: d.dtStart.toISOString().substr(0,10), project: d.projID, currentStatus: d.status}) );
-	} else if (dataVar.includes("Animals")) {
-		toReturn = data.map( d => ({deploymentID: d.id, tagID: d.tagID, name: d.name, firstDeployed: d.dtStart.toISOString().substr(0,10), project: d.projID, frequency: d.frequency}) );
-	} else if (dataVar.includes("Species")) {
-		toReturn = data.map( d => ({name: d.name, latin: d.scientific, group: d.group}) )
-	} else if (dataVar.includes("Projects")) {
-		toReturn = data.map( d => ({ID: d.id, name: d.name, created: new Date(d.created_dt).toISOString().substr(0,10), group: d.fee_id}) );
-	}
 
+	if (dataVar.toLowerCase().includes("stations")) {
+		toReturn = data.map( d => ({id: d.id, name: d.name, firstDeployed: d.dtStart.toISOString().substr(0,10), project: d.projID, currentStatus: d.status}) );
+	} else if (dataVar.toLowerCase().includes("animals")) {
+		toReturn = data.filter( d => d.dtStart && !isNaN(d.dtStart.valueOf()) ).map( d => ({deploymentID: d.id, tagID: d.tagID, name: d.name, firstDeployed: d.dtStart.toISOString().substr(0,10), project: d.projID, frequency: d.frequency}) );
+	} else if (dataVar.toLowerCase().includes("species")) {
+		toReturn = data.map( d => ({name: d[currLang], latin: d.scientific, group: d.group}) )
+	} else if (dataVar.toLowerCase().includes("projects")) {
+		toReturn = data.toLowerCase().map( d => ({ID: d.id, name: d.name, created: d.dtCreated, group: d.fee_id}) );
+	}
 
 	return toReturn;
 
@@ -1041,11 +1080,11 @@ function displayReportPreview() {
 
 		err = "You must make a selection first";
 
-	} else if (motusData.selectedStations.length == 0) {
+	}/* else if (motusData.selectedStations.length == 0) {
 
 		err = "There are no stations or detections associated with your selection";
 
-	} else if (motusData.selectedAnimals.length == 0) {
+	}*/ else if (motusData.selectedAnimals.length == 0) {
 
 		err = "There are no animals or detections associated with your selection";
 
@@ -1109,6 +1148,8 @@ function displayReportPreview() {
 
 	var report = {
 		header: `Motus ${firstToUpper(toSingular(dataType))} Report`,
+		motusLogo: `<img src="${logos.motus}" alt="Motus Wildlife Tracking System" style="width:75px;float:left;">`,
+		birdsLogo: `<img src="${logos.birdsCanada}" alt="Birds Canada" style="width:75px;float:right;">`,
 		publicationDate: new Date().toISOString().substr(0, 10),
 		pageIndex: 1
 	}
@@ -1333,7 +1374,7 @@ function addReportSelectionPage(d, report, interval) {
 				<div class="report-stats"></div>
 				<div class="report-timeline"><h2>Detection timeline</h2></div>
 				<div class="report-table"><h2>Detected species</h2><table></table></div>
-				<div class="report-footer">Report created on: ${report.publicationDate}</div>
+				<div class="report-footer">${report.motusLogo} Report created on: ${report.publicationDate} ${report.birdsLogo}</div>
 			</div>
 		</div>`
 	);
@@ -1343,7 +1384,7 @@ function addReportSelectionPage(d, report, interval) {
 			...{
 				title: d.name,
 				subtitle: ["stations","animals"].includes(dataType) ? `Lat: ${d.geometry.coordinates[1]}, lon: ${d.geometry.coordinates[0]}` :
-										dataType == "projects" ? d.fee_id :
+										dataType == "projects" ? (d.fee_id == projectGroupNames[1] ? "" : d.fee_id) :
 										dataType == "species" ? d.scientific :
 										/*dataType == "regions" ?*/ "",
 				stats: getReportStats(d),

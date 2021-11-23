@@ -228,7 +228,7 @@
 
 					if (typeof motusData.animalsTableData === 'undefined') {getAnimalsTableData();}
 
-					var tableDom = motusData.animalsTableData.filter( x => animals.includes( x.id ) ).length > 10 ? "itp" : "t";
+					var tableDom = motusData.animalsTableData.filter( x => animals.includes( x.id ) ).length > 10 ? "iBtp" : "Bt";
 
 					$('.popup .popup-content').html( "<table></table>" );
 
@@ -261,6 +261,12 @@
 								}}
 							],
 							dom: tableDom,
+			        buttons: [
+								'copyHtml5',
+								'excelHtml5',
+								'csvHtml5',
+								'pdfHtml5'
+			        ],
 							autoWidth: false,
 							columnDefs: [ {
 								targets: 0,

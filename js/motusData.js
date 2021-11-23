@@ -94,7 +94,7 @@ function getAnimalsTableData( reload = false ) {
 
 		motusData.animalsTableData = motusData.selectedAnimals.filter( d => !isNaN(d.dtStart.valueOf()) ).map(d => {
 			var speciesMeta = motusData.species.filter( x => x.id == d.species);
-			
+
 			return {
 				id: d.id,
 				species: d.species,
@@ -198,7 +198,7 @@ function motusIndexedDB( motusDataTableNames = [] ) {
 		// Declare the database
 	  motusData.db = new Dexie("explore_motus");
 		//
-	  motusData.db.version(3).stores(
+	  motusData.db.version(4).stores(
 			Object.fromEntries(
 				Object.entries(	motusDataTables	)
 							.map( x => [ x[0], x[1].key ] )
@@ -353,6 +353,9 @@ function downloadMotusData(promises, fileList) {
 	  		motusData.projects.forEach(function(x) {
 	  			x.fee_id = projectGroupNames[x.fee_id==""||x.fee_id=="NA"||!x.fee_id?1:x.fee_id];
 	  			x.name = x.name;
+					x.stations = x.stations.split(";");
+					x.animals = x.animals.split(";");
+					x.species = x.species.split(";");
 	  		});
 	  	}
 
@@ -1016,7 +1019,20 @@ async function getSelections({
 			motusData.db.animals
 				.where(selections.key)
 				.anyOf(selections.values)
-				.toArray() :
+				.toArray()
+				.then( x =>
+					x.map( d =>
+						{
+							let species = motusData.species.filter( sp => sp.id == d.species );
+							return {...d,
+											...{name: species.length > 0 ? species[0][currLang] : "Undefined species"
+												}
+											};
+						})
+						.filter( d =>
+							(typeof d.dtStart !== 'undefined') && !isNaN(d.dtStart.valueOf())
+						)
+				) :
 			motusData.db.animals.bulkGet(
 			typeof selections !== "object" ?
 				(

@@ -31,6 +31,7 @@ function exploreTable(containerID, dataset) {
   		var tableDom = dataset.length > 10 ? "Bipt" : "Bt";
   		var color_dataType = 'regions' == dataType ? 'country' : 'project';
 
+
   		motusTable.dt = $(`#${motusTable.el} table`).DataTable({
   			data: dataset,
   			dom: tableDom,
@@ -44,6 +45,7 @@ function exploreTable(containerID, dataset) {
   			autoWidth: false,
   			order: [[1, 'asc']]
   		});
+      $(`#${motusTable.el} table`).toggleClass("hidden", false).show();
 
     }
   }
@@ -93,9 +95,9 @@ function getTableData(dataset) {
 
   if (typeof dataset === 'string') {dataset = motusData[dataset];}
 
-  if (dataset == 'stations')
+  if (dataType == 'stations')
     return dataset;
-  else if (dataset == 'animals')
+  else if (dataType == 'animals')
     return dataset.map( d => {
       const sp = motusData.species.filter( x => x.id == d.species);
       return {
@@ -107,7 +109,7 @@ function getTableData(dataset) {
         }
       };
     });
-  else if (dataset == 'species')
+  else if (dataType == 'species')
     return dataset.map( d => ({
       ...d,
       ...{
@@ -116,9 +118,16 @@ function getTableData(dataset) {
         nProjects: typeof d.projects == 'string' ? d.projects.split(',').length : d.projects.length,
       }
     }));
-  else if (dataset == 'projects')
-    return dataset;
-  else if (dataset == 'regions')
+  else if (dataType == 'projects')
+    return dataset.map( d => ({
+      ...d,
+      ...{
+        nAnimals: {display: d.animals[0] != "NA" ? `<a href='javascript:void(0);' onclick="viewTableStats(event, 'animals',['${d.animals.join("','")}'])">${d.animals.length}</a>` : 0, order: d.animals.length},
+        nStations: {display: d.stations[0] != "NA" ? `<a href='javascript:void(0);' onclick="viewTableStats(event, 'stations',['${d.stations.join("','")}'])">${d.stations.length}</a>` : 0, order: d.stations.length},
+        nSpecies: {display: d.species[0] != "NA" ? `<a href='javascript:void(0);' onclick="viewTableStats(event, 'species',['${d.species.join("','")}'])">${d.species.length}</a>` : 0, order: d.species.length}
+      }
+    }));
+  else if (dataType == 'regions')
     return dataset.filter( d => d.both != 0 );
   else
     return dataset;
@@ -195,25 +204,10 @@ function getTableColumns() {
         );
       }},
       {data: "name", title: "Project"},
-      {data: "created_dt", title: "Start date"},
-      /*{className: "table_tips", data: "stations", title: "Stations deployed", "createdCell": function(td, cdata, rdata){
-        $(td).html(
-            `${rdata.stations.length} of ${rdata.allStations.length}`+
-            `${icons.help}<div class='tip_text'>Number of stations with detections of the total deployed in this project</div>`
-        );
-      }},
-      {className: "table_tips", data: "animals", title: "Animals tagged", "createdCell": function(td, cdata, rdata){
-        $(td).html(
-            `${rdata.animals.length} of ${rdata.allAnimals.length}`+
-            `${icons.help}<div class='tip_text'>Number of animals detected of the total deployed in this project</div>`
-        );
-      }},
-      {className: "table_tips", data: "species", title: "Species tagged", "createdCell": function(td, cdata, rdata){
-        $(td).html(
-            `${rdata.species.length} of ${rdata.allSpecies.length}`+
-            `${icons.help}<div class='tip_text'>Number of species detected of the total deployed in this project</div>`
-        );
-      }},*/
+      {data: "dtCreated", title: "Start date"},
+      {data: "nStations", title: "Stations deployed", "render": {_: "display", sort: "order"}},
+      {data: "nAnimals", title: "Animals tagged", "render": {_: "display", sort: "order"}},
+      {data: "nSpecies", title: "Species tagged", "render": {_: "display", sort: "order"}},
       {data: "fee_id", title: "Groups", "createdCell": function(td, cdata, rdata){
         $(td).html(
           `<a href='javascript:void(0);' onclick='viewProfile("projectsGroup", ["${rdata.fee_id}"]);return false;'>${rdata.fee_id}</a>`
@@ -227,4 +221,56 @@ function getTableColumns() {
 //    {data: "nProjects", title: "Tagging Projects"}
     ]
   };
+}
+
+function viewTableStats(e, dataVar, ids) {
+
+  	var popupText = "";
+  	var popupData = [];
+
+  	filterPopup("Loading...", e)
+
+  	setTimeout( function(ids, dataVar) {
+
+
+				popupData = getSelectionQuickList(dataVar, motusData[dataVar].filter( d => ids.includes(d.id) ) );
+
+				popupText = "<div class='report-"+dataVar+"'>"+
+											"<table>"+
+												"<thead><tr>" +
+													"<th>" + Object.keys(  popupData[0] ).map( x => camelToRegularText( x ).replace("I D", "ID") ).join("</th><th>") + "</th>"+
+												"</tr></thead>"+
+												"<tbody><tr>" +
+													popupData.map( d => "<td>" + Object.values( d ).join("</td><td>") + "</td>").join("</tr><tr>") +
+												"</tr></tbody>"+
+											"</table>"+
+										"</div>";
+
+  			showPopup(popupText, e);
+
+  			$(`.popup .report-${dataVar} table`).DataTable({
+  				paging:false,
+  				dom: "fiB<'scroll-box't>",
+  		    "language": {
+  		      "info": "Showing _TOTAL_ entries",
+  					"infoEmpty": "Showing 0 entries",
+  					"infoFiltered": "",
+  		    },
+  				buttons: [
+  					{
+  						extend:'copy',
+  						title: camelToRegularText( dataVar )
+  					},
+  					{
+  						extend:'csv',
+  						title: camelToRegularText( dataVar )
+  					}
+  				],
+  				scrollY: "40vh",
+  				scrollCollapse: true
+  			})
+
+  		//	showPopup(false, e)
+  	}, 10, ids, dataVar)
+
 }

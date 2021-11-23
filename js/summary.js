@@ -7,7 +7,8 @@ var isGrouped = false;
 function exploreSummary({regionBin = "adm0_a3"} = {}) { // {summaryType: String, summaryID: Integer or String, summaryData: Object}
 
 
-	// All possible combinations of region codes (for colouring tracks)** should be removed
+	// All possible combinations of region codes (for colouring tracks)
+	// *** should be removed
 	var selectionCombos = [];
 
 	for (var i = 0; i < motusFilter.selections.length - 1; i++) {
@@ -24,7 +25,12 @@ function exploreSummary({regionBin = "adm0_a3"} = {}) { // {summaryType: String,
 
 	// Check to see if this is a grouped profile
 	isGrouped = (typeof motusFilter.group !== 'undefined' && motusFilter.group.length > 0);
+
 	if (isGrouped) {
+		// If it is, we're going to compute the group summary based on each individual one
+		// This is done on the client side so eats at the load time somewhat.
+		// Likely will be necessary to retain this until we come up with a Dexie
+		// solution and/or compute the summaries on the server. 
 		motusData.profiles = [];
 		motusData.groups = [];
 	}
@@ -1246,7 +1252,9 @@ function getExploreProfileData(d) {
 
 			profile.summary = {
 				animalsTagged: animalsTagged.length,
+				speciesTagged: speciesTagged.length,
 				animalsDetected: stations.length > 0 ? animalsDetected.length : 0,
+				speciesDetected: stations.length > 0 ? speciesDetected.length : 0,
 				stations: stations.length
 			}
 
@@ -1425,9 +1433,6 @@ function addExploreProfilesWrapper() {
 
 	//	Add profile container DOM
 	$("#exploreContent .explore-card-wrapper")
-		.append(isGrouped?"<div id='explore_card_profile_group'>"+
-												`<h1>${firstToUpper(dataType)} group: <span style='font-size:20pt'>${motusFilter.group}</span></h1>`+
-											"</div>":"")
 		.append(`<div class='explore-card${isGrouped?' grouped':''}' id='explore_card_profiles'>`+
 							`<div class='explore-card-add explore-card-${dataType}' alt='Add a ${dataType=='species'?dataType:dataType.slice(0,-1)}'>`+
 								`<select class='explore-card-add-${dataType}' data-placeholder='Select a ${dataType=='species'?dataType:dataType.slice(0,-1)}'>`+
@@ -1489,6 +1494,14 @@ function addExploreProfile(profile) {
 								`<div class='explore-card-image tips enlarge' alt='Click to expand'><img src='' alt='Click to expand'/><div class='explore-card-image-bg'></div><div class='explore-card-image-icon'>${icons.camera}</div></div>`+
 						//	 	`<div class='explore-card-name'><div style='font-size:${24 - (Math.floor(profile.label.length/15)*2)}pt;'>${profile.label}</div></div>`+
 							 	`<div class='explore-card-name'>`+
+
+									(isGrouped ?
+									// GROUPED Profiles
+										"<div id='explore_card_profile_group'>"+
+											`<h1>${firstToUpper(toSingular(dataType))} group: <span style='font-size:20pt'>${motusFilter.group}</span></h1>`+
+										"</div>"
+										// UNGROUPED Profiles
+										:
 									`<div class='explore-card-name-text'>${profile.name} ${dataType=='animals'?'#'+profile.id:''}`+
 										`<div class='explore-profile-subtitle ${(profile.subtitle&&profile.subtitle.link)?'link':''}'>${profile.subtitle?profile.subtitle.text:''}</div>`+
 										`<div class='explore-profile-switch'>Switch ${dataType=='species'?dataType:dataType.slice(0,-1)}</div>`+
@@ -1498,6 +1511,8 @@ function addExploreProfile(profile) {
 									`</div>`+
 									(typeof profile.status !== 'undefined' ? `<div class='explore-profile-status explore-profile-status-${profile.status.toLowerCase()} tips' alt='${profile.status}'>${profile.status.toLowerCase()}</div>`:'')+
 								//	`<div class='btn add_btn explore-card-add tips' alt='Compare with another ${dataType=="species"?dataType:dataType.slice(0, -1)}'>${icons.remove}</div>`+
+									"")+
+									// END isGROUPED
 								`</div>`+
 								`<div class='explore-profile-summary-wrapper'>`+
 									Object.entries(profile.summary).map( (d,i) => {
@@ -1508,7 +1523,7 @@ function addExploreProfile(profile) {
 															`<div class='explore-profile-data-value ${icons[profileDataType]!=undefined? "" : "colspan2"}'>${typeof d[1] == "object" ? d[1].length :  d[1]}</div>`+
 														`</div>`;
 									}).join('')+
-									(dataType == 'projects' ?
+									(dataType == 'projects' && !isGrouped ?
 									`<div class='explore-profile-shortDescription'>${profile.shortDescription}</div>`
 									 : "")+
 								"</div>"+
@@ -1561,7 +1576,12 @@ function addExploreProfile(profile) {
 										}).join('')+
 									`</div><div class='explore-profile-info-section'><h4>Affiliations</h4>`+
 									`<div class='explore-profile-user'>Principal investigator: <a href="javascript:void(0);">User #${profile.leadUserId}</a></div>`+
-	 							 	'<div class="explore-profile-group">Group(s): ' + (profile.group!=undefined&&profile.group.name!=undefined?`<a href="#e=projects&d=projects&group=${profile.group.id}" onclick="viewProfile('projectsGroup','${profile.group.id}');return false;">${profile.group.name}</a>`:'None') +'</div>'+
+
+									( isGrouped ?
+											""
+											:
+											'<div class="explore-profile-group">Group(s): ' + (profile.group!=undefined&&profile.group.name!=undefined?`<a href="#e=projects&d=projects&group=${profile.group.id}" onclick="viewProfile('projectsGroup','${profile.group.id}');return false;">${profile.group.name}</a>`:'None') +'</div>'
+									)+
 									`</div><div class='explore-profile-info-section'><h4>Detailed Description</h4>`+
 									`<div class='explore-profile-description colspan2'>${profile.description}</div>`+
 									`</div>`
@@ -1630,7 +1650,7 @@ function addExploreProfile(profile) {
 		})
 
 		$("#explore_card_profile_" + profile.id + " .explore-card-name").click(function(e){
-			if (!$(e.target).hasClass("explore-profile-switch")) {
+			if (!$(e.target).hasClass("explore-profile-switch") && $("#explore_card_profiles").is(":not(.grouped)")) {
 				$(this).closest(".explore-card-profile").toggleClass('expanded');
 			}
 		})

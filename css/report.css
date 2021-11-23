@@ -113,12 +113,27 @@ body {
 	overflow-x:hidden;
 }
 
+.hidden {
+	display: none !important;
+}
+
 /*******************************************
 
 	General
 
 *******************************************/
 
+.dt-buttons {
+	display:inline-block;
+	padding: 0 10px;
+}
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_paginate,
+.dataTables_wrapper .dataTables_length {
+	float:none;
+	display:inline-block;
+	margin: 0 10px;
+}
 
 .explore-card-wrapper input[type=text], .explore-card-wrapper input[type=button],
 input[type=text], input[type=button], button {
@@ -668,7 +683,7 @@ Loading overlay
 	width:100%;
 	text-align:left;
 }
-.content-wrapper .explore-report-control-wrapper > div {
+.content-wrapper .explore-report-control-wrapper > div:not(.section-header) {
 		background-color: var(--theme-background-colour3);
 		font-size:16pt;
 		font-weight:bold;
@@ -714,17 +729,27 @@ Loading overlay
 .section-header {
 	background-color: var(--theme-background-colour3);
 	font-size:16pt;
-	font-weight:bold;
 	text-align:center;
 	padding: 10px 0;
+	font-weight:normal;
 	width: 100%;
+	padding: 10px 20px;
+	width: calc(100% - 40px);
+	transition: all 250ms;
 }
 .explore-report-selectionStatus .section-header {
 	margin-top: -10px;
 	margin-bottom: 10px;
 }
-
-
+.section-header.selected {
+	font-weight:bold;
+	background-color: var(--theme-background-colour2);
+}
+.section-header:not(.selected):hover {
+	cursor:pointer;
+	font-weight:bold;
+	background-color: var(--theme-background-colour2);
+}
 .explore-report-selectionStatus > .inter-text:first-child {
 	font-weight:bold;
 }
