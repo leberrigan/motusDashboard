@@ -842,7 +842,7 @@ function populateExploreControls() {
 																	"</select>") :
 																	("<button class='submit_btn' onclick='exploreControls(this);'>View deployments</button>")
 			} else if (x == 'pdf') {
-				controlContent += "<input type='button' onclick='exploreControls(this.parentElement);' value='Agree and Download' />";
+				controlContent += "<input type='button' onclick='exploreControls(this.parentElement);' value='Generate PDF' />";
 			} else if (x == 'timeline') {
 				controlContent += "<div id='dateSlider'>"+
 															"<div class='slider visible'><div id='custom-handle-1' class='ui-slider-handle'></div><div id='custom-handle-2' class='ui-slider-handle'></div></div>"+
