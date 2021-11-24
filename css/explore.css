@@ -2423,8 +2423,6 @@ padding-top:10px;
 	width: 100%;
 	padding: 0;
 	height: auto;
-	overflow-y: auto;
-	overflow-x: hidden;
 }
 .content-wrapper.profiles #explore_map {
 	height: 100%;
@@ -2810,7 +2808,7 @@ background: rgba(0,0,0,0.5);
 	display: block;
 	background-color: rgba(255,255,255,0.5);
 	align-content: center;
-	width:calc(100% - 10px);
+	width:calc(100% - 12px);
 	padding: 6px;
 	background: var(--theme-background-colour2);
 	color: var(--theme-text-colour2);

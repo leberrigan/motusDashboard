@@ -1413,7 +1413,7 @@ function addReportSelectionPage(d, report, interval) {
 						setTimeline: true
 					}),
 				table: {
-					species: getReportSpeciesTableData(d)
+					//species: getReportSpeciesTableData(d)
 				}
 		}
 	};
@@ -1428,12 +1428,12 @@ function addReportSelectionPage(d, report, interval) {
 						</div>`;
 		}));
 	$(`.report-page:eq(${report.pageIndex-1}) .report-timeline`).append(report.timeline);
-	$(`.report-page:eq(${report.pageIndex-1}) .report-table-species table`).DataTable({
+	/*$(`.report-page:eq(${report.pageIndex-1}) .report-table-species table`).DataTable({
 		...default_tableOpts,
 		...{
 			data: report.table.species
 		}
-	});
+	});*/
 
 	report.pageIndex++;
 
