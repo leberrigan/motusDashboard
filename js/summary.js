@@ -273,7 +273,7 @@ function stationTable( cardID ) {
 			)
 
 		//headers.forEach( x => $(`#explore_card_${cardID} .explore-card-${cardID}-table thead tr`).append( $('<th></th>').text(x) ) );
-
+		timeRange.range = timeRange.max - timeRange.min;
 
 		var tableDom = motusData.selectedStations.length > 10 ? "Blipt" : "Bt";
 
@@ -331,9 +331,18 @@ function stationTable( cardID ) {
 			}],
 			order: [[1, 'asc']]
 		}).on('draw.dt', function(){
-			$(`#explore_card_${cardID} .explore-card-${cardID}-table`).DataTable().rows().every(function(){
 
-				this.child( detectionTimeline( motusData.selectedStationDeps.filter( x => this.data().stationDeps.includes(x) ), { width: $(this.node() ).width() - 20 }  ) ).hide();
+			$(`#explore_card_${cardID} .explore-card-${cardID}-table`).DataTable().rows().every(function(){
+				let stationDeps = motusData.selectedStationDeps.filter( x => this.data().stationDeps.includes(x.id) );
+				this.child( detectionTimeline(
+						stationDeps,
+						{ width: $(this.node() ).width() - 20,
+					    timeLineRange: {
+								min:d3.min(stationDeps, x => x.dtStart),
+								max:d3.max(stationDeps, x => x.dtEnd),
+								range:d3.max(stationDeps, x => x.dtEnd) - d3.min(stationDeps, x => x.dtStart)
+							} }
+					) ).hide();
 	//			this.nodes().to$();//.addClass('shown');
 			});
 
@@ -347,6 +356,7 @@ function stationTable( cardID ) {
 					tr.removeClass('shown');
 				} else {
 					// Open this row
+
 					row.child.show();
 					tr.addClass('shown');
 				}
@@ -475,7 +485,8 @@ function animalMontlyTimeline( cardID ) {
 				}
 
 				Object.entries(motusData.selectionNames).forEach(function(k) {
-					if  (dataType == 'animals') {
+					//console.log("k[1] = %s, motusData['animalsBy'"+firstToUpper(dataType)+"] = %o", k[1], motusData["animalsBy"+firstToUpper(dataType)]);
+					if  (dataType == 'animals' || dataType == 'species') {
 						animalsByDayOfYear[ day ][ k[1] ] = animalsByDayOfYear[ day ][ k[1] ].concat(	d.local	);
 					} else if (motusData["animalsBy"+firstToUpper(dataType)] && typeof motusData["animalsBy"+firstToUpper(dataType)].get( k[0] ) !== 'undefined') {
 						animalsByDayOfYear[ day ][ k[1] ] = animalsByDayOfYear[ day ][ k[1] ].concat(
@@ -596,7 +607,7 @@ console.log("Hourly");
 					}
 
 					Object.entries(motusData.selectionNames).forEach(function(k) {
-						if  (dataType == 'animals') {
+						if  (dataType == 'animals' || dataType == 'species') {
 							animalsByHourOfDay[ i ][ k[1] ] = animalsByHourOfDay[ i ][ k[1] ].concat(	d.local	);
 						} else if (motusData["animalsBy"+firstToUpper(dataType)] && typeof motusData["animalsBy"+firstToUpper(dataType)].get( k[0] ) !== 'undefined') {
 							animalsByHourOfDay[ i ][ k[1] ] = animalsByHourOfDay[ i ][ k[1] ].concat(
@@ -1744,7 +1755,8 @@ function detectionTimeline( d, {
 															yAxis = false,
 															margin = {left: 40, right: 20},
 															zoomable = false,
-															setTimeline = false
+															setTimeline = false,
+															timeLineRange = timeRange
 														} = {} ) {
 
 	timeline.colourScale = colourScale;
@@ -1752,15 +1764,15 @@ function detectionTimeline( d, {
 
 	if (width > 0) {
 
-		timelineScale = d3.scaleLinear().domain([ timeRange.min, timeRange.max ]).range([margin.left, width-margin.right])
+		timelineScale = d3.scaleLinear().domain([ timeLineRange.min, timeLineRange.max ]).range([margin.left, width-margin.right])
 
 		dayWidth = dayWidth < 1 ? 1 : dayWidth;
 
-		var timeFormat = ( timeRange.range / (1000 * 60 * 60 * 24 * 365) ) * ( 300 / width ) > 2 ? "%Y" :
-							( ( timeRange.range / (1000 * 60 * 60 * 24 * 365) ) * ( 300 / width ) > 1 ? "%b %Y" : "%Y-%m-%d" );
+		var timeFormat = ( timeLineRange.range / (1000 * 60 * 60 * 24 * 365) ) * ( 300 / width ) > 2 ? "%Y" :
+							( ( timeLineRange.range / (1000 * 60 * 60 * 24 * 365) ) * ( 300 / width ) > 1 ? "%b %Y" : "%Y-%m-%d" );
 
 		var x_scale = d3.scaleTime()
-									.domain( [ new Date(timeRange.min), new Date(timeRange.max) ] )
+									.domain( [ new Date(timeLineRange.min), new Date(timeLineRange.max) ] )
 									.range( [margin.left, width-margin.right] );
 
 		var axis_x = d3.axisBottom( x_scale )
@@ -1795,8 +1807,8 @@ function detectionTimeline( d, {
 					animals: trackData.animal,
 					regions: motusFilter.selections
 				};
-				console.log(trackData)
-				console.log(splitData)
+		//		console.log(trackData)
+		//		console.log(splitData)
 
 //				if (ind%100 == 0) console.log(trackData)
 				var dates = [];
@@ -1805,15 +1817,21 @@ function detectionTimeline( d, {
 
 
 				trackData.dir.forEach((dir ,i) => {
-					if (( dataType == "projects" || motusFilter.projects.includes('all') || motusFilter.projects.includes(splitData.projects[i]) ) &&
-							( dataType == "species" || motusFilter.species.includes('all') || motusFilter.species.includes(trackData.species[i]) ) &&
-							( dataType == "animals" || motusFilter.animals.includes('all') || motusFilter.animals.includes(trackData.animal[i]) ) &&
-							( ( dataType == "stations" && (
-										motusFilter.selections.includes( splitData[dataType][0] ||
-										motusFilter.selections.includes( splitData[dataType][1]
-									) ) ) ||
-							  ( dataType != "stations" && motusFilter.selections.some( x => splitData[dataType][i].includes(x) ) )
-							))) {
+					if (
+								( dataType == "projects" || motusFilter.projects.includes('all') || motusFilter.projects.includes(splitData.projects[i]) ) &&
+								( dataType == "species" || motusFilter.species.includes('all') || motusFilter.species.includes(trackData.species[i]) ) &&
+								( dataType == "animals" || motusFilter.animals.includes('all') || motusFilter.animals.includes(trackData.animal[i]) ) &&
+								(
+									(
+										dataType == "stations" &&
+										(
+											motusFilter.selections.includes( splitData[dataType][0] ) ||
+											motusFilter.selections.includes( splitData[dataType][1] )
+										)
+									) ||
+								  ( dataType != "stations" && motusFilter.selections.some( x => splitData[dataType][i].includes(x) ) )
+								)
+							) {
 
 							if ( motusFilter.stations.includes('all') || motusFilter.stations.includes(splitData.stations[0]) ) {
 								dates.push( dir == 1 ? dtsStart[i] : dtsEnd[i] );
@@ -1837,7 +1855,6 @@ function detectionTimeline( d, {
 //				var dates = dtsStart.concat(dtsEnd);
 
 				var data = countInstances( dates.map(k => new Date(k).valueOf()) );
-
 				//var spp = {};
 
 				spp.forEach(function(k, i){
@@ -1892,8 +1909,8 @@ function detectionTimeline( d, {
 		} else {
 			d.forEach(function(v) {
 
-				var w = width * ((new Date(v.dtEnd).valueOf()) - (new Date(v.dtStart).valueOf())) / timeRange.range;
-				var x = width * ((new Date(v.dtStart).valueOf()) - timeRange.min) / timeRange.range;
+				var w = width * ((v.dtEnd.valueOf()) - (v.dtStart.valueOf())) / timeLineRange.range;
+				var x = width * ((v.dtStart.valueOf()) - timeLineRange.min) / timeLineRange.range;
 
 				svg
 					.append('rect')
@@ -1902,28 +1919,27 @@ function detectionTimeline( d, {
 					.attr('x', x)
 					.style('fill', '#CCCCCC');
 
-
 				var g = d3.select( timelineSVG[0] )
 					.append('g');
 
-				w = width * ( 24 * 60 * 60 * 3000 ) / timeRange.range;
+				w = width * ( 24 * 60 * 60 * 3000 ) / timeLineRange.range;
 
 				if (typeof motusData.tracksByStation[v.id] !== 'undefined') {
 
 					hasData = true;
-					console.log(v.id)
+				//	console.log("Track data for %s is %o", v.id, motusData.tracksByStation[v.id]);
 					motusData.tracksByStation[v.id].forEach(function(x){
 
 						var datePos = ( x.split('.')[0] == v.id ? 'dtStart' : 'dtEnd' ) + 'List';
 
 						var trackData = motusData.selectedTracks[x];
-
+					//	console.log("Selected track: %o", trackData)
 						if (typeof trackData[datePos] !== 'undefined') {
 
 							var dates = trackData[datePos];
 
 							var data = countInstances( dates.map(k => moment(k).valueOf()) );
-							const animals = trackData.animals;
+							const animals = trackData.animal;
 
 							trackData.species.forEach(function(k, i){
 
@@ -1976,6 +1992,7 @@ function detectionTimeline( d, {
 
 				} else {
 					// no data
+					console.log("No data for %s", v.id);
 				}
 
 			});
