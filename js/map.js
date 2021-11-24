@@ -263,7 +263,7 @@ function exploreMap({
 				e.preventDefault();
 			}
 			if (t == 'station') {
-				$('#explore-map-point-'+d.id).toggleClass('hover')
+				$('#explore_map_station_'+d.id).toggleClass('hover')
 			}
 			if (dir == 'in') {
 
@@ -951,7 +951,7 @@ function exploreMap({
 
 				motusMap.g.selectAll(".explore-map-station.explore-map-point")
 					.attr("d", motusMap.path)
-					.attr('id', (d) => 'explore-map-point-' + d.id)
+					.attr('id', (d) => 'explore_map_station_' + d.id)
 				//	.attr('class', 'leaflet-interactive explore-map-station explore-map-point')
 					.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
 					.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'station'))
@@ -1115,8 +1115,32 @@ function exploreMap({
 
 }
 
+L.Control.SelectionButtons = L.Control.extend({
+    onAdd: function(map) {
+        var div = L.DomUtil.create('div');
+
+        div.innerHTML = "<button class='explore-map-summarise-selections'>Summarise selections</button>"
+
+				div.onclick = ()=>{summariseMapSelection()};
+
+        return div;
+    },
+
+    onRemove: function(map) {
+        // Nothing to do here
+    }
+});
+
+L.control.selectionButtons = function(opts) {
+    return new L.Control.SelectionButtons(opts);
+}
 
 function addDrawControls() {
+
+	L.control.selectionButtons({ position: 'topright' }).addTo(motusMap.map);
+
+	// Hide the summarise button at first since there won't be any selections to begin with
+	$(".explore-map-summarise-selections").hide();
 
   var editableLayers = new L.FeatureGroup();
   motusMap.map.addLayer(editableLayers);
@@ -1128,21 +1152,21 @@ function addDrawControls() {
 				polygon: {
 						allowIntersection: false, // Restricts shapes to simple polygons
 						drawError: {
-								color: '#e1e100', // Color the shape will turn when intersects
+								color: '#8f2525', // Color the shape will turn when intersects
 								message: 'Lines are intersecting!' // Message that will show when intersect
 						},
 						shapeOptions: {
-								color: '#bada55'
+								color: '#85AF02'
 						}
 				},
 				circle:  {
 						shapeOptions: {
-								clickable: false
+								color: '#85AF02'
 						}
 				},
 				rectangle: {
 						shapeOptions: {
-								clickable: false
+								color: '#85AF02'
 						}
 				},
 				marker: false, // Turns off this drawing tool,
@@ -1158,17 +1182,158 @@ function addDrawControls() {
   var drawControl = new L.Control.Draw(options);
   motusMap.map.addControl(drawControl);
 
-  motusMap.map.on(L.Draw.Event.CREATED, function (e) {
-      var type = e.layerType,
-          layer = e.layer;
+  motusMap.map.on("draw:created",addToSelection);
+  motusMap.map.on("draw:deleted", removeSelection);
+  motusMap.map.on("draw:edited",editSelection);
 
-      if (type === 'polygon') {
-          layer.bindPopup('A popup!');
-					console.log(layer._latlngs[0]);
-      }
+	motusMap.selections = {};
 
-      editableLayers.addLayer(layer);
-  });
+	function removeSelection(e) {
+
+		e.layers.getLayers().forEach(function(layer) {
+
+			console.log(layer);
+			// Remove selections from edited shapes
+			removeFromSelection( layer._leaflet_id );
+		});
+
+	}
+	function editSelection(e) {
+		console.log(e);
+
+		if (e.type == "draw:editmove") {
+			console.log(e.layer);
+			// Remove selections from edited shapes
+			removeFromSelection( e.layer._leaflet_id );
+
+			// Add selections for edited shapes
+			addToSelection({
+				layerType: e.layer._mRadius ? "circle" : "polygon",
+				layer: e.layer
+			});
+		}
+		if (e.type == "draw:edited" || e.type == "draw:deletestop") {
+			// Loop through each layer that has been edited
+			e.layers.getLayers().forEach(function(layer) {
+
+				console.log(layer);
+				// Remove selections from edited shapes
+				removeFromSelection( layer._leaflet_id );
+
+				// Add selections for edited shapes
+				addToSelection({
+					layerType: layer._mRadius ? "circle" : "polygon",
+					layer: layer
+				});
+
+			});
+
+		}
+
+	}
+
+	function addToSelection(e) {
+
+		$(".explore-map-summarise-selections:hidden").show();
+
+    var type = e.layerType,
+        layer = e.layer;
+
+		if (type === 'polygon' || type == 'rectangle') {
+
+			// Restructure lat/lon for d3 function 'polygonContains'
+			var layerProps = {
+				latlng: layer._latlngs[0].map( x => [x.lng, x.lat] ),
+				id: L.stamp(layer)
+			};
+
+			console.log("Polygon is %o", layerProps);
+
+			motusMap.g.selectAll('.explore-map-station:not(.hidden)').nodes().forEach(function(station){
+				var stationInPolygon = d3.polygonContains( layerProps.latlng, station.__data__.geometry.coordinates );
+				if (stationInPolygon) {
+				// console.log( "Polygon contains \"%s\"", station.__data__.name );
+				// Add it to the list of selected stations
+				if (typeof motusMap.selections[station.__data__.id] === 'undefined')
+					motusMap.selections[station.__data__.id] = [layerProps.id];
+				else
+					motusMap.selections[station.__data__.id].push(layerProps.id);
+				// Highlight it on the map
+						$(station).toggleClass("selected", true);
+				}
+
+			});
+
+    } else if (type == 'circle') {
+
+			var layerProps = {
+				latlng: L.latLng(layer._latlng.lat, layer._latlng.lng),
+				radius: layer._mRadius,	// Radius in meters
+				id: L.stamp(layer)
+			};
+
+		//	console.log("Circle is %o", layerProps);
+		//	console.log("Circle layer is %o", layer);
+
+			motusMap.g.selectAll('.explore-map-station:not(.hidden)').nodes().forEach(function(station){
+//					console.log( "Distance: %s vs. Radius: %s", layerProps.latlng.distanceTo(station.__data__.geometry.coordinates), layerProps.radius)
+				var stationLatLng = L.latLng(station.__data__.geometry.coordinates[1],station.__data__.geometry.coordinates[0]);
+				var stationInPolygon = layerProps.latlng.distanceTo( stationLatLng ) < layerProps.radius;
+				if (stationInPolygon) {
+				 //console.log( "Circle %o #%s contains \"%s\"", layer, layerProps.id, station.__data__.name );
+					// Add it to the list of selected stations
+					if (typeof motusMap.selections[station.__data__.id] === 'undefined')
+						motusMap.selections[station.__data__.id] = [layerProps.id];
+					else
+						motusMap.selections[station.__data__.id].push(layerProps.id);
+					// Highlight it on the map
+						$(station).toggleClass("selected", true);
+				}
+
+			});
+
+
+		}
+
+		layer.bindPopup(`<button onclick="summariseMapSelection('${layerProps.id}')">Summarise these stations</button>`);
+
+    editableLayers.addLayer(layer);
+  }
+
+	function removeFromSelection(leafletLayerID) {
+
+		Object.entries(motusMap.selections).forEach(function(e) {
+
+			let [k, v]= e;
+
+			if ( v.includes(leafletLayerID) ) {
+
+				if (v.length > 1)
+					motusMap.selections[ k ].splice( v.indexOf(leafletLayerID), 1 );
+				else
+					delete motusMap.selections[ k ];
+
+				$(`#explore_map_station_${k}`).toggleClass("selected", false);
+			}
+		});
+		// Hide the summarise button if no selections exist
+		if (Object.keys(motusMap.selections).length == 0)
+			$(".explore-map-summarise-selections").hide();
+	}
+}
+
+function summariseMapSelection(layerID) {
+
+	// Don't do anything if there are no selections
+	if ( Object.keys(motusMap.selections).length == 0 )
+		return false;
+	// If no layer ID is provided, just summarise all selections
+	else if ( typeof layerID === "undefined" )
+		viewProfile("stations", Object.keys(motusMap.selections));
+	// If a layer ID is provided, only summarise selections from that layer
+	else
+		viewProfile("stations", Object.keys(motusMap.selections).filter( k => motusMap.selections[k].includes(parseInt(layerID)) ));
+
 }
 
 function loadMapObjects(callback) {
@@ -1187,6 +1352,7 @@ function loadMapObjects(callback) {
 			zoomDelta: dataType == 'regions' ? 0.25 : 0.5
 		});
 
+		if (exploreType != 'main' || dataType == 'stations')
 		addDrawControls();
 
 		if (dataType == 'stations' || dataType == 'animals' || exploreType != 'main') {motusMap.map.addLayer(new L.TileLayer(motusMap.tileLayer));}
@@ -1281,7 +1447,7 @@ function loadMapObjects(callback) {
 								.style('pointer-events', 'auto')
 								.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
 								.on('mouseout touchend', (e,d) => motusMap.dataHover(e, d, 'out', 'station'))
-								.on('mouseup', (e,d) => motusMap.dataClick(e, d, 'station'));
+								.on('click', (e,d) => motusMap.dataClick(e, d, 'station'));
 
 					motusMap.map.on("zoomend", reset);
 
@@ -1331,7 +1497,7 @@ function loadMapObjects(callback) {
 								.style('pointer-events', 'auto')
 								.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'animal'))
 								.on('mouseout touchend', (e,d) => motusMap.dataHover(e, d, 'out', 'animal'))
-								.on('mouseup', (e,d) => motusMap.dataClick(e, d, 'animal'));
+								.on('click', (e,d) => motusMap.dataClick(e, d, 'animal'));
 
 					motusMap.map.on("zoomend", reset);
 
@@ -1543,12 +1709,12 @@ function loadMapObjects(callback) {
 										.style('stroke', '#000')
 										.style("fill", d => motusMap.colourScale(d[motusMap.colourVar]))
 										.attr('class', 'leaflet-interactive explore-map-station explore-map-point')
-										.attr('id', (d) => 'explore-map-point-'+d.id)
+										.attr('id', (d) => 'explore_map_station_'+d.id)
 										.style('stroke-width', '1px')
 										.style('pointer-events', 'auto')
 										.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
 										.on('mouseout touchend', (e,d) => motusMap.dataHover(e, d, 'out', 'station'))
-										.on('mouseup', (e,d) => motusMap.dataClick(e, d, 'station'));
+										.on('click', (e,d) => motusMap.dataClick(e, d, 'station'));
 
 							motusMap.map.on("zoomend", reset);
 
@@ -2121,7 +2287,7 @@ function populateProfilesMap() {
 		.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
 		.on('mouseout touchmove', (e,d) => motusMap.dataHover(e, d, 'out', 'station'))
 		.on('touchend', (e) => e.preventDefault())
-		.on('mouseup', (e,d) => motusMap.dataClick(e, d, 'station'));
+		.on('click', (e,d) => motusMap.dataClick(e, d, 'station'));
 
 
 	var yesterday = new Date().addDays( -1 );
@@ -2142,7 +2308,7 @@ function populateProfilesMap() {
 		.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
 		.on('mouseout touchmove', (e,d) => motusMap.dataHover(e, d, 'out', 'station'))
 		.on('touchend', (e) => e.preventDefault())
-		.on('mouseup', (e,d) => motusMap.dataClick(e, d, 'station'));
+		.on('click', (e,d) => motusMap.dataClick(e, d, 'station'));
 
 	var stations_legend = motusMap.mapLegend.append('svg')
 			.attr('class', 'map-legend-stations')
@@ -2238,7 +2404,7 @@ function populateProfilesMap() {
 		.attr("d", motusMap.path)
 		.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'track'))
 		.on('mouseout touchend', (e,d) => motusMap.dataHover(e, d, 'out', 'track'))
-		.on('mouseup', (e,d) => motusMap.dataClick(e, d, 'track'));
+		.on('click', (e,d) => motusMap.dataClick(e, d, 'track'));
 
 	var h = 20;
 

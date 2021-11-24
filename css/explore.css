@@ -1090,7 +1090,7 @@ iframe#pdf_output {
 	left:calc(50vw - min(50vw, 150px));
 	max-width:300px;
 	z-index:1000;
-	position: relative;
+	position: absolute;
 }
 #exploreContent .explore-control-content.visible {
 	display:block;
@@ -1839,7 +1839,7 @@ line-height: 60px;
 css({height:"600px",maxHeight:"100vh", width: "calc(100vw - 300px)", minWidth: "600px", maxWidth:"100vh", margin: "20px auto", border: "solid 1px #000"})
 */
 .content-wrapper:not(.profiles) #explore_map {
-	height:calc(100vh - 200px);
+	height:calc(100vh - 230px);
 }
 
 
@@ -1997,6 +1997,9 @@ svg.leaflet-image-layer.leaflet-interactive path {
     pointer-events: auto;
 }
 
+#explore_map .explore-map-station.selected {
+	fill: #F00 !important;
+}
 .leaflet-overlay-pane .leaflet-loading-pane {
 	width:100vw;
 	position:absolute;
