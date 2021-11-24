@@ -1116,7 +1116,60 @@ function exploreMap({
 }
 
 
+function addDrawControls() {
 
+  var editableLayers = new L.FeatureGroup();
+  motusMap.map.addLayer(editableLayers);
+
+	var options = {
+		position: 'topright',
+		draw: {
+				polyline: false, // Turns off this drawing tool
+				polygon: {
+						allowIntersection: false, // Restricts shapes to simple polygons
+						drawError: {
+								color: '#e1e100', // Color the shape will turn when intersects
+								message: 'Lines are intersecting!' // Message that will show when intersect
+						},
+						shapeOptions: {
+								color: '#bada55'
+						}
+				},
+				circle:  {
+						shapeOptions: {
+								clickable: false
+						}
+				},
+				rectangle: {
+						shapeOptions: {
+								clickable: false
+						}
+				},
+				marker: false, // Turns off this drawing tool,
+				circlemarker: false // Turns off this drawing tool
+		},
+		edit: {
+				featureGroup: editableLayers //REQUIRED!!
+		}
+	};
+
+
+
+  var drawControl = new L.Control.Draw(options);
+  motusMap.map.addControl(drawControl);
+
+  motusMap.map.on(L.Draw.Event.CREATED, function (e) {
+      var type = e.layerType,
+          layer = e.layer;
+
+      if (type === 'polygon') {
+          layer.bindPopup('A popup!');
+					console.log(layer._latlngs[0]);
+      }
+
+      editableLayers.addLayer(layer);
+  });
+}
 
 function loadMapObjects(callback) {
 
@@ -1126,13 +1179,15 @@ function loadMapObjects(callback) {
 		motusMap.map = new L.Map(motusMap.el, {
 			center: motusMap.center,
 			zoom: motusMap.zoom,
-			maxZoom: 200,
-			maxNativeZoom: 200,
+			maxZoom: 16,
+			maxNativeZoom: 16,
 			fullscreenControl: true,
 			zoomControl: true,
 			zoomSnap: dataType == 'regions' ? 0 : 1,
-			zoomDelta: dataType == 'regions' ? 0.25 : 0.5,
+			zoomDelta: dataType == 'regions' ? 0.25 : 0.5
 		});
+
+		addDrawControls();
 
 		if (dataType == 'stations' || dataType == 'animals' || exploreType != 'main') {motusMap.map.addLayer(new L.TileLayer(motusMap.tileLayer));}
 

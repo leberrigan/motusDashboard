@@ -331,39 +331,38 @@ function stationTable( cardID ) {
 			}],
 			order: [[1, 'asc']]
 		}).on('draw.dt', function(){
-
 			$(`#explore_card_${cardID} .explore-card-${cardID}-table`).DataTable().rows().every(function(){
 				let stationDeps = motusData.selectedStationDeps.filter( x => this.data().stationDeps.includes(x.id) );
 				this.child( detectionTimeline(
 						stationDeps,
 						{ width: $(this.node() ).width() - 20,
-					    timeLineRange: {
+							timeLineRange: {
 								min:d3.min(stationDeps, x => x.dtStart),
 								max:d3.max(stationDeps, x => x.dtEnd),
 								range:d3.max(stationDeps, x => x.dtEnd) - d3.min(stationDeps, x => x.dtStart)
 							} }
 					) ).hide();
-	//			this.nodes().to$();//.addClass('shown');
-			});
-
-			$(`#explore_card_${cardID} .explore-card-${cardID}-table tbody`).on('click', `td.explore-table-expandRow`, function(){
-				var tr = $(this).closest('tr');
-				var row = $(this).closest('table').DataTable().row( tr );
-
-				if ( row.child.isShown() ) {
-					// This row is already open - close it
-					row.child.hide();
-					tr.removeClass('shown');
-				} else {
-					// Open this row
-
-					row.child.show();
-					tr.addClass('shown');
-				}
-
+			//				this.nodes().to$().addClass('shown');
 			});
 		});
 
+		$(`#explore_card_${cardID} .explore-card-${cardID}-table tbody`).on('click', `td.explore-table-expandRow`, function(){
+
+			var tr = $(this).closest('tr');
+			var row = $(this).closest('table').DataTable().row( tr );
+
+			if ( row.child.isShown() ) {
+				// This row is already open - close it
+				row.child.hide();
+				tr.removeClass('shown');
+			} else {
+				// Open this row
+
+				row.child.show();
+				tr.addClass('shown');
+			}
+
+		});
 	} else {
 
 		$(`#explore_card_${cardID} .explore-card-${cardID}-table`).parent().show();

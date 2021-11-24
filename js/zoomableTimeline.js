@@ -1,7 +1,7 @@
 function zoomableTimeline(data,{
 		width = 500,
 		height = 250,
-		margin = {top: 50, right: 20, bottom: 30, left: 30},
+		margin = {top: 50, right: 20, bottom: 30, left: 40},
 		focusHeight = 100,
 		svg = d3.create("svg")
       .attr("viewBox", [0, 0, width, focusHeight])
@@ -31,9 +31,18 @@ function zoomableTimeline(data,{
         .attr("text-anchor", "start")
         .text(title));
 
-	var xAxis = (g, x, height) => g
+	var xAxis = (g, x, height, title) => g
     .attr("transform", `translate(0,${height})`)
-    .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0));
+    .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0))
+		.call(g => g.selectAll(".title").data([title]).join("text")
+				.attr("class", "title")
+				.attr("x", (height / 2) - margin.bottom)
+				.attr("y", 15)
+				.attr("style", "font-size:10pt")
+				.attr("fill", "currentColor")
+				.attr("text-anchor", "middle")
+				.attr("transform", "rotate(-90)")
+				.text(title));
 
 	var y = d3.scaleLinear()
     .domain([0, d3.max(data, d => d.value)]).nice()
@@ -167,7 +176,7 @@ function zoomableTimeline(data,{
 					x_zoom = focusX
 //					x_zoom.domain(focusX.domain())
 
-		      gx.call(xAxis, focusX, plotHeight);
+		      gx.call(xAxis, focusX, plotHeight, "Number of detections");
 		      gy.call(yAxis, focusY, data.y);
 
 					dayWidth = focusX(day2) - focusX(data[0].date);
