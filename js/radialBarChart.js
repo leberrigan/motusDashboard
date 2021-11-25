@@ -42,8 +42,16 @@
 							.text(d => firstToUpper(d)))
 
 
+			var maxY = d3.max(data, d => {
+				return d3.sum(Object.entries(d), d2 => {
+					return ["hour", "month", "total", "local", "remote"].includes(d2[0]) ? 0 : d2[1].length;
+				});
+			});
+
+			console.log(maxY);
+
 			var y = d3.scaleRadial()
-				.domain([0, d3.max(data, d => d.total.length)])
+				.domain([0, maxY])
 				.range([innerRadius, outerRadius])
 
 			var x = d3.scaleBand()
@@ -138,7 +146,8 @@
 				.style('pointer-events', 'auto')
 				.style('opacity','0.8')
 				.style('stroke','#000')
-				.style('stroke-width','3px')
+				.style('stroke-width','2px')
+				.attr("stroke-opacity", "0.25")
 				.style('cursor','pointer')
 				.on('touchstart mouseover mousemove', (e,d) => dataHover(e, d, 'in'))
 				.on('touchend mouseout', (e,d) => dataHover(e, d, 'out'))

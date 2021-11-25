@@ -198,7 +198,7 @@ function motusIndexedDB( motusDataTableNames = [] ) {
 		// Declare the database
 	  motusData.db = new Dexie("explore_motus");
 		//
-	  motusData.db.version(4).stores(
+	  motusData.db.version(5).stores(
 			Object.fromEntries(
 				Object.entries(	motusDataTables	)
 							.map( x => [ x[0], x[1].key ] )
@@ -324,7 +324,6 @@ function downloadMotusData(promises, fileList) {
 			}
 
 
-			var maxDate = "2021-09-17";
 			var currentDate = new Date();
 
 
@@ -376,9 +375,9 @@ function downloadMotusData(promises, fileList) {
 					x.dtStart = new Date(x.dtStart);
 					x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
 
-					x.status = x.status == 'active' || x.dtEnd == maxDate ? 'active' : 'inactive';
-
 					x.lastData = Math.ceil((currentDate - x.dtEnd) / (24 * 60 * 60 * 1000)); // Days ago
+
+					x.status = x.status == 'active' || x.lastData < 1 ? 'active' : 'inactive';
 	  		} );
 
 	  		motusData.stationDepsByName = d3.group(motusData.stationDeps, x => x.name);
@@ -398,11 +397,11 @@ function downloadMotusData(promises, fileList) {
 						};
 
 						x.dtStart = new Date(x.dtStart);
-						x.dtEnd = new Date(x.dtEnd);
-
-						x.status = x.status == 'active' || x.dtEnd == maxDate ? 'active' : 'inactive';
+						x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
 
 						x.lastData = Math.ceil((currentDate - x.dtEnd) / (24 * 60 * 60 * 1000)); // Days ago
+
+						x.status = x.status == 'active' || x.lastData < 1 ? 'active' : 'inactive';
 	  		});
 	  	}
 

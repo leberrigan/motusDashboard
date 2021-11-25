@@ -156,7 +156,7 @@ function zoomableTimeline(data,{
 
 			 	tooltip_data_bar.attr("width", dayWidth)
 
-	      gx.call(xAxis, x_zoom, height - focusHeight);
+	      gx.call(xAxis, x_zoom, height - focusHeight, "Number of detections");
 
 				const brushExtent = x_zoom.range().map(t.invertX, t);
 
