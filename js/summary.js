@@ -75,6 +75,9 @@ if (motusFilter.selections.length > 1) {
 
 	testTimer.push([new Date(), "Get selected track data"]);
 	console.log(Object.keys(motusData.tracksByAnimal));
+	if (motusData[`selected${firstToUpper(dataType)}`].length > 3 && !isGrouped) {
+		$("#explore_card_profiles").addClass("greaterThan3");
+	}
 	getSelectedTrackData( motusData.selectedTracks, reload = true );
 
 	testTimer.push([new Date(), "Set time limits"]);
@@ -968,7 +971,9 @@ function getExploreProfileData(d) {
 			var stationDeps = motusData.selectedStationDeps.filter( x => d.stationDeps.includes(x.id) );
 					stationDeps.forEach( x => {x.dtStart = new Date(x.dtStart)});
 
-			var detections = motusData.tracksByStation[ d.id ].map( x => motusData.selectedTracks[x] );
+			var detections = [];
+			if (typeof motusData.tracksByStation[ d.id ] !== 'undefined')
+				var detections = motusData.tracksByStation[ d.id ].map( x => motusData.selectedTracks[x] );
 
 			var animalsDetected = motusData.selectedAnimals.filter( x => d.animals.includes(x.id) );
 			var speciesDetected = d.species.filter(onlyUnique);
@@ -1807,7 +1812,7 @@ function detectionTimeline( d, {
 					regions: motusFilter.selections
 				};
 		//		console.log(trackData)
-		//		console.log(splitData)
+				console.log(splitData)
 
 //				if (ind%100 == 0) console.log(trackData)
 				var dates = [];
@@ -1827,6 +1832,13 @@ function detectionTimeline( d, {
 											motusFilter.selections.includes( splitData[dataType][0] ) ||
 											motusFilter.selections.includes( splitData[dataType][1] )
 										)
+									) ||
+									(
+										dataType == "regions"
+										// We'll want to change this in the future since multi-region profiles will just have all data in each profile.
+										// We can choose to slit data based on:
+										//	- Station regions, based on start or end of track
+										//  - Tag deployment regions
 									) ||
 								  ( dataType != "stations" && motusFilter.selections.some( x => splitData[dataType][i].includes(x) ) )
 								)
