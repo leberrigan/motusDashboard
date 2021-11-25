@@ -2427,6 +2427,13 @@ padding-top:10px;
 	padding: 0;
 	height: auto;
 }
+#explore_card_profiles.greaterThan3 .explore-card-profile.expanded:not(.no-photo) .explore-card-image {
+  height: 0px;
+}
+#explore_card_profiles.greaterThan3 {
+  max-height:300px;
+	overflow-y: auto;
+}
 .content-wrapper.profiles #explore_map {
 	height: 100%;
 }
