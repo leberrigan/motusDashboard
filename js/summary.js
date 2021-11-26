@@ -42,12 +42,15 @@ function exploreSummary({regionBin = "adm0_a3"} = {}) { // {summaryType: String,
 
 if (motusFilter.selections.length > 1) {
 	motusData.tableColourScale = motusMap.colourScale;
+	motusMap.colourVar = dataType;
 } else {
 	motusData.tableColourScale = d3.scaleOrdinal()
 		.domain(['visiting'].concat( motusData.selectedProjects.map( x => x.id ) ))
 		.range(["#000000"].concat(customColourScale.jnnnnn.slice(0, motusData.selectedProjects.length + (dataType == 'regions'))));
 
 	motusMap.colourScale = motusData.tableColourScale;
+
+	motusMap.colourVar = "projects";
 }
 
 
@@ -68,7 +71,6 @@ if (motusFilter.selections.length > 1) {
 
 	if (typeof selectedTracks === "undefined") {
 	//	console.log(motusData.selectedAnimals);
-
 
 
 
@@ -1263,8 +1265,8 @@ function getExploreProfileData(d) {
 			profile.lastActivity = [lastTagDeployment, lastStationDeployment, lastDetection][lastActivityIndex];
 			profile.lastActivityType = ["Animal tagged", "Station deployed", "Tag detected"][lastActivityIndex];
 			profile.status = (new Date() - profile.lastActivity) < (24 * 60 * 60 * 1000) ? "Active" : "Inactive";
-			profile.shortDescription = d.description_short;
-			profile.description = d.description;
+			profile.shortDescription = typeof d.shortDescription === "undefined" ? "" : d.shortDescription;
+			profile.description = typeof d.description === "undefined" ? "" : d.description;
 
 			profile.dtStart = new Date(d.dtCreated).toISOString().substring(0, 10);
 			profile.dtEnd = profile.lastActivity ? profile.lastActivity.dtEnd : false;
@@ -1825,9 +1827,9 @@ function detectionTimeline( d, {
 					animals: trackData.animal,
 					regions: motusFilter.selections
 				};
-			console.log("test")
-			if (splitData.stations.some( x => motusFilter.selections.includes( x ) ))
-					console.log(splitData);
+
+			//if (splitData.stations.some( x => motusFilter.selections.includes( x ) ))
+			//		console.log(splitData);
 
 //				if (ind%100 == 0) console.log(trackData)
 				var dates = [];

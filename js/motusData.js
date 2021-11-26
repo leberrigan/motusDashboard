@@ -373,6 +373,7 @@ function downloadMotusData(promises, fileList) {
 					};
 
 					x.dtStart = new Date(x.dtStart);
+					x.frequency = x.frequency == "NA" ? "none" : x.frequency;
 					x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
 
 					x.lastData = Math.ceil((currentDate - x.dtEnd) / (24 * 60 * 60 * 1000)); // Days ago
@@ -391,6 +392,7 @@ function downloadMotusData(promises, fileList) {
 						x.species = x.species.split(";");
 						x.stationDeps = x.stationDeps.split(";");
 						x.type = "Feature";
+						x.frequency = x.frequency == "NA" ? "none" : x.frequency;
 						x.geometry = {
 							type: "Point",
 							coordinates: [+x.lon, +x.lat]
