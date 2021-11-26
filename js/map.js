@@ -659,7 +659,7 @@ function exploreMap({
 		},
 		highlightVal: '',
 		setColour: function(val) {
-
+/*
 			if (val != 'undefined') {
 
 				var hasLegend = $("#explore_map_legend svg").length > 0;
@@ -718,7 +718,7 @@ function exploreMap({
 				}
 			} else {
 				console.warn('motusMap.setColour(val = undefined): You must specify a colour!');
-			}
+			}*/
 		},
 		reset: function(dataset) {
 			var bounds = motusMap.path.bounds({type:"FeatureCollection", features: motusData.polygons}),
@@ -888,16 +888,55 @@ function exploreMap({
 			return nodes;
 		},
 		legendClick: function(){
-			var toggleEls = [
-				(this.classList.contains('selected') ? "hide" : "show"),
-				 (this.classList[0].split('-')[2] + "-" + this.classList[0].split('-')[3]).toLowerCase()
-			 ];
 
-			console.log(toggleEls);
+			let opts = {
+				toggle: (this.classList.contains('selected') ? "hide" : "show"),
+				type: this.classList[0].split('-')[2].toLowerCase(),
+				id: this.classList[0].split('-')[3].toLowerCase()
+			};
 
-			motusMap.setVisibility(false, toggleEls);
+			console.log(opts);
 
-			$(this).toggleClass( 'selected', !this.classList.contains('selected') );
+			motusMap.setVisibility(false, [opts.toggle, opts.type + "-" + opts.id]);
+
+			$(this).toggleClass( 'selected', opts.toggle == 'show' );
+
+			if (opts.toggle == 'hide') {
+				$(this).siblings(".selected").each(function(){
+
+					let opts = {
+						type: this.classList[0].split('-')[2].toLowerCase(),
+						id: this.classList[0].split('-')[3].toLowerCase()
+					};
+
+					motusMap.setVisibility(false, ["show", opts.type + "-" + opts.id]);
+
+				});
+			}
+
+			if (opts.type == 'track') {
+				motusMap.recolourTracks("legend");
+			}
+
+		},
+		recolourTracks: function(changeSource) {
+
+			// Track visiblilty can be set by either the legend toggles or a filter.
+			// changeSource tells us where this change in visibilty comes from.
+			if (changeSource == 'legend') {
+				// Get all the selected legend toggles
+				var visibleTracks = $(".map-legend-tracks > .selected").get().map( x => x.classList[0].split('-')[3] );
+				console.log(visibleTracks);
+
+				var colourBy = dataType == 'stations' ? 'recv1' : dataType == 'species' ? 'species' : "origin"
+
+				var colourVar = motusMap.colourVar == 'projects' ? "project" : "colourVal";
+
+				var colourVarSelections = visibleTracks;
+
+				motusMap.trackPaths.style('stroke', (d) => motusMap.colourScale(typeof d[colourVar] == 'object' ? d[colourVar].filter( x => colourVarSelections.includes(x) )[0] : d[colourVar]));
+			}
+
 		},
 		MercatorXofLongitude: function(lon) {
 			return lon * 20037508.34 / 180;
@@ -1049,7 +1088,8 @@ function exploreMap({
 					.data(trackDataByRouteBundled);
 				tracks_el.exit().remove();
 				tracks_el.enter().append("path")
-					.attr('class', "leaflet-zoom-hide explore-map-track explore-map-track")
+					.attr('class', (d) => "leaflet-zoom-hide explore-map-track explore-map-freq-"+
+					(d.frequency[0].includes('.')?d.frequency[0].substr(0, d.frequency[0].indexOf(".")) : d.frequency[0]))
 					.attr('id', (d) => ("explore-map-track-"+(d.recv1 < d.recv2 ? d.recv1 + '-' + d.recv2 : d.recv2 + '-' + d.recv1)))
 					.style('stroke', (d) => motusMap.colourScale(d.frequency[0]))
 					.style('stroke-width', (d) => 2+(Math.log(d.animals.length,3)))
@@ -1708,7 +1748,21 @@ function loadMapObjects(callback) {
 										.attr("d", motusMap.path.pointRadius(4))
 										.style('stroke', '#000')
 										.style("fill", d => motusMap.colourScale(d[motusMap.colourVar]))
-										.attr('class', 'leaflet-interactive explore-map-station explore-map-point')
+										.attr('class', d => {
+											if (d[motusMap.colourVar].includes(","))
+												var c = d[motusMap.colourVar].split(",");
+											else if (d[motusMap.colourVar].includes(";"))
+												var c = d[motusMap.colourVar].split(";");
+											else
+												var c = [ d[motusMap.colourVar] ];
+
+											if (c.includes('NA') && c.length == 1)
+												c = ['none'];
+
+											return 'leaflet-interactive explore-map-station explore-map-point explore-map-freq-' +
+												c.map( x => x.includes(".") ? x.substr(0, x.indexOf(".")) : x )
+												.join(" explore-map-freq-");
+										})
 										.attr('id', (d) => 'explore_map_station_'+d.id)
 										.style('stroke-width', '1px')
 										.style('pointer-events', 'auto')
@@ -2248,19 +2302,6 @@ function animateTrackStep(date, start) {
 function populateProfilesMap() {
 
 
-
-	motusMap.mapLegend = d3.create('div').attr("class", "explore-map-legend hidden")
-																	.attr("id", "explore_map_legend");
-	motusMap.mapLegend.append('div')
-						.attr("class", "explore-map-legend-header")
-						.on('click', function(){	$(this).closest('.explore-map-legend').toggleClass('hidden');	})
-							.append('span')
-							.text('Map legend')
-							.attr('class', 'showHide');
-
-	$('#explore_map').before("<div class='explore-map-controls'></div>")
-
-	d3.select(".explore-map-controls").append(()=>motusMap.mapLegend.node());
 	console.log(motusData);
 
 	if (dataType == 'regions') {
@@ -2273,15 +2314,17 @@ function populateProfilesMap() {
 			.style('fill', d => motusFilter.regions.includes(d.properties.adm0_a3) ? "#FFF" : "#CCC" )
 			.style('stroke-width', '1px');
 	}
+
+	var yesterday = new Date().addDays( -365 );
 // Other stations
 	motusMap.g.selectAll('stations')
 		.data( motusData.stations.filter( d => !motusFilter.selectedStationDeps.includes( d.id ) ).sort((a, b) => d3.ascending(a.id, b.id)) )
 		.enter().append("path")
 		.attr("d", motusMap.path.pointRadius(4))
 		.style('stroke', '#000')
-		.style('fill', '#FF0')
+		.style('fill', d => (d.dtEnd > yesterday ? '#BDB' : '#FCC'))
 		.attr('id', d => "explore_map_station_" + d.id)
-		.attr('class', 'explore-map-station explore-map-r4 leaflet-zoom-hide explore-map-station-other')
+		.attr('class', d => 'explore-map-station explore-map-r4 leaflet-zoom-hide explore-map-station-' + (d.dtEnd > yesterday ? 'otheractive' : 'otherinactive') )
 		.style('stroke-width', '1px')
 		.style('pointer-events', 'auto')
 		.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'station'))
@@ -2289,8 +2332,6 @@ function populateProfilesMap() {
 		.on('touchend', (e) => e.preventDefault())
 		.on('click', (e,d) => motusMap.dataClick(e, d, 'station'));
 
-
-	var yesterday = new Date().addDays( -1 );
 
 	testTimer.push([new Date(), "Set map bounds"]);
 
@@ -2300,7 +2341,7 @@ function populateProfilesMap() {
 		.enter().append("path")
 		.attr("d", motusMap.path.pointRadius(6))
 		.style('stroke', '#000')
-		.style('fill', '#0F0')
+		.style('fill', d => (d.dtEnd > yesterday ? '#0F0' : '#FA0'))
 		.attr('id', d => "explore_map_station_" + d.id)
 		.attr('class', d => 'explore-map-station leaflet-zoom-hide explore-map-station-' + (d.dtEnd > yesterday ? 'active' : 'inactive') )
 		.style('stroke-width', '1px')
@@ -2309,56 +2350,6 @@ function populateProfilesMap() {
 		.on('mouseout touchmove', (e,d) => motusMap.dataHover(e, d, 'out', 'station'))
 		.on('touchend', (e) => e.preventDefault())
 		.on('click', (e,d) => motusMap.dataClick(e, d, 'station'));
-
-	var stations_legend = motusMap.mapLegend.append('svg')
-			.attr('class', 'map-legend-stations')
-			.attr('viewBox', `0 0 150 60`)
-			.attr('width', '150')
-			.attr('height', `60`);
-
-	var g = stations_legend.append("g")
-												 .attr('class', 'map-legend-stations-active selected')
-												 .on('click', motusMap.legendClick);
-
-	g.append("circle")
-		.attr("cx", "10")
-		.attr("cy", "15")
-		.attr("r", 6)
-		.style('stroke', '#000')
-		.style('fill', '#0F0')
-		.style('stroke-width', '1px')
-		.style('pointer-events', 'auto');
-
-	g.append("path")
-		.attr('marker-end','url(#station_path)')
-		.attr("d", "M10,21 L10,20")
-		.style('stroke', '#000')
-		.style('fill', '#F00')
-		.style('stroke-width', '1px')
-		.style('pointer-events', 'auto');
-
-	g.append("text")
-			.attr("x", "20")
-			.attr("y", "20")
-			.text("Selected station");
-
-	var g = stations_legend.append("g")
-												 .attr('class', 'map-legend-stations-other selected')
-												 .on('click', motusMap.legendClick);
-
-	g.append("circle")
-			.attr("cx", "10")
-			.attr("cy", "35")
-			.attr("r", 3)
-			.style('stroke', '#000')
-			.style('fill', '#FF0')
-			.style('stroke-width', '1px')
-			.style('pointer-events', 'auto');
-
-	g.append("text")
-			.attr("x", "20")
-			.attr("y", "40")
-			.text("Other station");
 
 
 	testTimer.push([new Date(), "Set map bounds"]);
@@ -2393,70 +2384,228 @@ function populateProfilesMap() {
 
 	var colourBy = dataType == 'stations' ? 'recv1' : dataType == 'species' ? 'species' : "origin"
 
+	var colourVar = motusMap.colourVar == 'projects' ? "project" : "colourVal";
+//	var colourVar = "project";
+
+	var colourVarSelections = colourVar == 'project' ? motusData.selectedAnimalProjects.map( x => x.id ) : motusFilter.selections;
+
+
 	motusMap.trackPaths = motusMap.g.selectAll("tracks")
 		.data(Object.values(motusData.selectedTracks))
 		.enter().append("path")
-		.attr('class', (d) => "explore-map-track explore-map-species leaflet-zoom-hide " + [d.colourVal].map( x => "explore-map-track-" + ( `${x}`.toLowerCase() ) ).join(" ") )
+		.attr('class', (d) => {
+			// Remove values which are not part of the selection
+			if (typeof d[colourVar] === 'string' && d[colourVar].includes('-')) {
+				d[colourVar] = d[colourVar].split("-");
+				console.log(d[colourVar])
+			}
+			if (typeof d[colourVar] === 'object') {
+				var v = d[colourVar].filter( x => colourVarSelections.includes(x) )
+														.map( x => `explore-map-track-${x.toLowerCase()}` );
+				// If values exist which are not part of the selection, add the 'visiting' class
+				if (d[colourVar].filter( x => !colourVarSelections.includes(x) ).length > 0) {
+					v.push("explore-map-track-visiting");
+				}
+			} else {
+				var v = [];
+				v[0] = `explore-map-track-${d[colourVar].toLowerCase()}`;
+			}
+
+			return "explore-map-track explore-map-species leaflet-zoom-hide " + v.join(" ");
+		})
 		.attr("id", (d) => "explore-map-track-" + d.route.replace('.','-'))
-		.style('stroke', (d) => motusMap.colourScale(d.colourVal))
+		.style('stroke', (d) => motusMap.colourScale(typeof d[colourVar] == 'object' ? d[colourVar].filter( x => colourVarSelections.includes(x) )[0] : d[colourVar]))
 		.style('pointer-events', 'auto')
-		.style('stroke-width', '3px')
+		.style('stroke-width', '2px')
 		.attr("d", motusMap.path)
 		.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'track'))
 		.on('mouseout touchend', (e,d) => motusMap.dataHover(e, d, 'out', 'track'))
 		.on('click', (e,d) => motusMap.dataClick(e, d, 'track'));
 
-	var h = 20;
-
-	motusMap.mapLegend.append('div')
-		.style('font-weight','bold')
-		.text('Tagging location')
-
-	var tracks_svg = motusMap.mapLegend.append("svg")
-		.attr('class','map-legend-tracks');
-
-	var max_length = 0;
-
-	motusMap.colourScale.domain().forEach(function(x, i) {
-
-		var selectionColour = motusMap.colourScale.range()[i];
-		var selectionName = x == "remote" || x == 'other' || x == 'visiting' ? firstToUpper( x ) : motusData.selectionNames[ x ];
-
-		var g = tracks_svg.append("g");
-
-
-		g.append("path")
-			.attr("d", `M0,${10 + (i * h)} L30,${10 + (i * h)}`)
-			.style('stroke', selectionColour )
-			.style('stroke-width', '3px')
-			.style('pointer-events', 'auto');
-
-
-		g.append("text")
-			.attr("x", 40)
-			.attr("y", h * ( i + 0.75 ) )
-			.text( selectionName )
-			.style('pointer-events', 'auto');
-
-		var len = $("<div class='get-text-size'></div>").appendTo("body").css('font-size', '14pt').text( selectionName ).width();
-
-		max_length = max_length < len ? len : max_length;
-
-		g.attr("class","map-legend-track-" + x + " selected")
-			.style('pointer-events', 'auto')
-			.on('click', motusMap.legendClick);
-
-	});
-
-	tracks_svg.attr('viewBox', `0 0 ${50 + max_length} ${motusMap.colourScale.domain().length * h}`)
+/*
+	tracks_legend.attr('viewBox', `0 0 ${50 + max_length} ${motusMap.colourScale.domain().length * h}`)
 		.attr('width', 50 + max_length)
 		.attr('height', motusMap.colourScale.domain().length * h);
+*/
 
-
-
+	addMapLegend();
 
 	motusMap.map.on("zoomend", motusMap.reset);
 
 	// Reposition the SVG to cover the features.
 	motusMap.reset();
+}
+
+function addMapLegend() {
+
+	motusMap.mapLegend = d3.create('div').attr("class", "explore-map-legend hidden")
+																.attr("id", "explore_map_legend");
+	// Header button
+	motusMap.mapLegend.append('div')
+						.attr("class", "explore-map-legend-header")
+						.on('click', function(){	$(this).closest('.explore-map-legend').toggleClass('hidden');	})
+							.append('span')
+							.text('Map legend')
+							.attr('class', 'showHide');
+
+// Legend content
+	motusMap.mapLegendContent = motusMap.mapLegend.append('div')
+																								.attr("class", "map-legend-content");
+
+// Close button
+	motusMap.mapLegend.append('div')
+						.attr("class", "explore-map-legend-close")
+						.on('click', function(){	$(this).closest('.explore-map-legend').toggleClass('hidden');	})
+							.append('span')
+							.text('Close')
+							.attr('class', 'showHide');
+
+	$('#explore_map').before("<div class='explore-map-controls'></div>")
+
+	d3.select(".explore-map-controls").append(()=>motusMap.mapLegend.node());
+
+	if (exploreType == 'main') {
+
+		// Frequencies
+
+			motusMap.mapLegendContent.append('div')
+				.style('font-weight','bold')
+				.text('Frequency')
+
+			var freq_legend =motusMap.mapLegendContent.append("div")
+				.attr('class','map-legend-section map-legend-freq');
+
+		Object.entries(filters.options.frequencies).concat([["none", "Unknown"]]).forEach(d => {
+
+			let freq = d[0].includes(".") ? d[0].substr(0,d[0].indexOf(".")) : d[0];
+
+			div = freq_legend.append("div")
+							 .attr('class', `map-legend-freq-${freq} selected`)
+							 .on('click', motusMap.legendClick);
+
+			div.append("div")
+				.style('border', 'solid 1px #000')
+				.style('background-color', motusMap.colourScale( d[0] ))
+				.style('width', "15px")
+				.style('height', "15px");
+
+			div.append("div")
+				.text( d[1] );
+		});
+
+	} else {
+
+			var colourBy = dataType == 'stations' ? 'recv1' : dataType == 'species' ? 'species' : "origin"
+
+			var colourVar = motusMap.colourVar == 'projects' ? "project" : "colourVal";
+		//	var colourVar = "project";
+
+			var colourVarSelections = colourVar == 'project' ? motusData.selectedAnimalProjects.map( x => x.id ) : motusFilter.selections;
+
+
+		// stations
+
+			motusMap.mapLegendContent.append('div')
+				.style('font-weight','bold')
+				.text('Stations')
+
+			var stations_legend =motusMap.mapLegendContent.append("div")
+				.attr('class','map-legend-section map-legend-stations');
+
+			var stationsLegendItems = [
+				{
+					classSuffix: "active",
+					label: "Selected station (active)",
+					r: 6,
+					c: "#0F0"
+				},
+				{
+					classSuffix: "inactive",
+					label: "Selected station (inactive)",
+					r: 6,
+					c: "#FA0"
+				},
+				{
+					classSuffix: "otheractive",
+					label: "Other station (active)",
+					r: 4,
+					c: "#BDB"
+				},
+				{
+					classSuffix: "otherinactive",
+					label: "Other station (inactive)",
+					r: 4,
+					c: "#FCC"
+				}
+			]
+
+			stationsLegendItems.forEach( d => {
+
+			 	div = stations_legend.append("div")
+									 .attr('class', `map-legend-station-${d.classSuffix} selected`)
+									 .on('click', motusMap.legendClick);
+
+			 	div.append("div")
+			 		.style('border', 'solid 1px #000')
+			 		.style('border-radius', '50%')
+					.style('background-color', d.c)
+			 		.style('width', `${d.r * 2}px`)
+			 		.style('height', `${d.r * 2}px`);
+
+			 	div.append("div")
+			 		.text( d.label );
+
+			});
+
+
+
+		// tracks
+
+
+			motusMap.mapLegendContent.append('div')
+				.style('font-weight','bold')
+				.text(colourVar == 'colourVal' && dataType == 'stations' ? 'Tracks coloured by station nearest to tagging location' : 'Tagging ' + motusMap.colourVar)
+
+			var tracks_legend = motusMap.mapLegendContent.append("div")
+				.attr('class','map-legend-section map-legend-tracks');
+
+			var max_length = 0;
+
+			motusMap.colourScale.domain().forEach(function(x, i) {
+
+				var selectionColour = motusMap.colourScale.range()[i];
+				var selectionName;
+
+				if ( ['remote', 'other', 'visiting'].includes( x ) ) {
+					selectionName = firstToUpper( x );
+				} else if (motusMap.colourVar == dataType) {
+					selectionName = motusData.selectionNames[ x ];
+				} else if (motusMap.colourVar == 'projects') {
+					try {
+						selectionName = motusData.selectedAnimalProjects.filter( proj => proj.id == x )[0].name;
+					} catch {
+						selectionName = false;
+					}
+				}
+
+				// Don't add it to the legend if the selection doesn't exist
+				if (selectionName) {
+					var div = tracks_legend.append("div");
+
+					div.append("div")
+						.style('border-color', selectionColour );
+
+					div.append("div")
+						.text( selectionName );
+
+					div.attr("class","map-legend-track-" + x + " selected")
+						.style('pointer-events', 'auto')
+						.on('click', motusMap.legendClick);
+
+				}
+
+			});
+
+	}
+
 }

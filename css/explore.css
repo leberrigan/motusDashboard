@@ -1846,7 +1846,7 @@ css({height:"600px",maxHeight:"100vh", width: "calc(100vw - 300px)", minWidth: "
 .explore-map-controls {
 	position:absolute;
 	margin-top:150px;
-	z-index:999;
+	z-index:1000;
 	line-height:30px;
 	pointer-events: none;
 	text-align:center;
@@ -1854,15 +1854,28 @@ css({height:"600px",maxHeight:"100vh", width: "calc(100vw - 300px)", minWidth: "
 .explore-map-legend {
 	display:inline-block;
 	background-color:var(--theme-background-colour3);
-	box-shadow: 0px 0px 3px #555;
+	border: solid 1px #CCC;
+	border-width: 1px 1px 1px 0;
 	pointer-events: all;
 	padding: 10px;
+	padding-top:5px;
+	max-width: minmax(250px,20vw);
+	overflow-y:auto;
+}
+.explore-map-legend .map-legend-content {
+	width:100%;
+	max-height: calc(100vh - 276px);
+	overflow-y:auto;
+	overflow-x: hidden;
 }
 .explore-map-legend.hidden:hover {
 	background-color:var(--theme-background-colour-pale3);
 	color:var(--theme-text-colour3);
 }
 
+.explore-map-legend:not(.hidden)  {
+	margin-top:-150px;
+}
 .explore-map-legend.hidden  {
 	padding: 5px 10px;
 	background-color:var(--theme-background-colour3);
@@ -1871,6 +1884,60 @@ css({height:"600px",maxHeight:"100vh", width: "calc(100vw - 300px)", minWidth: "
 .explore-map-legend svg {
 	display:block;
 	margin:5px 0;
+}
+
+.explore-map-legend .map-legend-section {
+
+}
+.explore-map-legend .map-legend-section > div {
+	text-align:left;
+	width: calc(100% - 15px);
+	padding:5px;
+	margin:2px;
+	background:var(--theme-background-colour-pale3);
+	border:solid 2px var(--theme-background-colour-pale3);
+	cursor:pointer;
+	transition: all 250ms;
+}
+.explore-map-legend .map-legend-section > div:not(.selected) {
+	opacity:0.5;
+}
+.explore-map-legend .map-legend-section > div:hover {
+	border-color:var(--theme-background-colour2);
+	background-color:var(--theme-background-colour-pale3);
+}
+.explore-map-legend .map-legend-section > div > div:first-of-type::before {
+	content: " ";
+	border:solid 1px #AAA;
+	background-color:#DDD;
+	width:15px;
+	height:15px;
+	margin:5px 15px;
+	display: block;
+	line-height: 15px;
+	margin-left: -30px;
+	margin-top: -10px;
+}
+.explore-map-legend .map-legend-section > div.selected > div:first-of-type::before {
+	content: "\2714";
+	border:solid 1px #000;
+	background-color:#FFF;
+}
+.explore-map-legend .map-legend-section > div > div:first-of-type {
+	border-width: 3px 0 0 0;
+	border-style: solid;
+	width:75px;
+	height: 1px;
+	margin-right: 20px;
+	margin-left: 30px;
+	vertical-align: middle;
+}
+.explore-map-legend .map-legend-section > div > div:last-of-type {
+	text-align:left;
+}
+.explore-map-legend .map-legend-section > div > div {
+	display:inline-block;
+	max-width: 1933;
 }
 .explore-map-legend.hidden > :not(.explore-map-legend-header) {
 	display:none;
@@ -1916,23 +1983,35 @@ div.explore-species-table-animals {
 	overflow-y: auto;
 	border-bottom:solid 2px;
 }
+.explore-map-legend .explore-map-legend-close,
 .explore-map-legend .explore-map-legend-header {
 	vertical-align:middle;
 	cursor:pointer;
 	font-weight:bold;
-	margin: -10px;
-	padding: 10px;
+	margin: -5px -10px;
+	padding: 5px 10px;
 }
 .explore-map-legend .explore-map-legend-header:hover {
 	background-color:var(--theme-background-colour-pale2);
 }
-.explore-map-legend.hidden .explore-map-legend-header:hover {
-	margin: -5px -10px;
-	padding: 5px 10px;
+.explore-map-legend:not(.hidden) .explore-map-legend-close:hover,
+.explore-map-legend:not(.hidden) .explore-map-legend-header:hover {
+	background-color:var(--theme-background-colour-pale3);
 }
-.explore-map-legend.hidden .explore-map-legend-header .showHide
-.explore-map-legend .explore-map-legend-header .showHide:hover {text-decoration:underline;}
-
+.explore-map-legend:not(.hidden) .explore-map-legend-header {
+	margin-bottom:0;
+}
+.explore-map-legend .explore-map-legend-close {
+	margin-top:0;
+	margin-bottom:-10px;
+}
+.explore-map-legend:not(.hidden) .explore-map-legend-close,
+.explore-map-legend:not(.hidden) .explore-map-legend-header {
+		background-color:var(--theme-background-colour-pale2);
+}
+.explore-map-legend.hidden .explore-map-legend-close {
+	display:none;
+}
 .explore-map-legend svg:last-child::after {
   content:"Click on an item to toggle visibility";
 	display:block;

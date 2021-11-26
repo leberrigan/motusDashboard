@@ -1209,7 +1209,10 @@ function afterMapLoads() {
 		if ( ["regions", "projects", "species"].includes(dataType) ) {
 			console.log(dataType);
 			exploreSummaryTabSelect(dataType);
+		} else {
+			addMapLegend();
 		}
+
 /*
 		if (dataType == 'regions') {
 
