@@ -1458,7 +1458,7 @@ function loadMapObjects(callback) {
 
 			} else {
 
-				motusMap.colourScales.stations.frequency = d3.scaleOrdinal().domain(["166.38", "151.5", "150.1", "434", "none"]).range(["#66c2a5","#fc8d62","#8da0cb","#e78ac3","#999999"]);
+				motusMap.colourScales.stations.frequency = d3.scaleOrdinal().domain(["none","166.38", "151.5", "150.1", "434", "dual"]).range(["#999999"].concat(customColourScale.jnnnnn.slice(0, 6)));
 
 				motusMap.colourVar = "frequency";
 
@@ -1480,7 +1480,7 @@ function loadMapObjects(callback) {
 								.enter().append("path")
 								.attr("d", motusMap.path.pointRadius(4))
 								.style('stroke', '#000')
-								.style("fill", d => motusMap.colourScale(d[motusMap.colourVar]))
+								.style("fill", d => motusMap.colourScale(d[motusMap.colourVar].includes(',') ? "dual" : d[motusMap.colourVar]))
 								.attr('class', 'leaflet-interactive explore-map-station explore-map-point')
 								.attr('id', (d) => 'explore-map-station-'+d.id)
 								.style('stroke-width', '1px')
@@ -1712,7 +1712,8 @@ function loadMapObjects(callback) {
 	*/
 				if (exploreType == 'main') {
 
-					motusMap.colourScales.stations.frequency = d3.scaleOrdinal().domain(["166.38", "151.5", "150.1", "434", "none"]).range(["#66c2a5","#fc8d62","#8da0cb","#e78ac3","#999999"]);
+					motusMap.colourScales.stations.frequency = d3.scaleOrdinal().domain(["166.38", "151.5", "150.1", "434", "dual", "none"]).range(["#66c2a5","#fc8d62","#8da0cb","#e78ac3","#E5C494","#999999"]);
+//					motusMap.colourScales.stations.frequency = d3.scaleOrdinal().domain(["none","166.38", "151.5", "150.1", "434", "dual"]).range(["#999999"].concat(customColourScale.jnnnnn.slice(0, 6)));
 
 					motusMap.colourVar = "frequency";
 
@@ -2475,7 +2476,7 @@ function addMapLegend() {
 			var freq_legend =motusMap.mapLegendContent.append("div")
 				.attr('class','map-legend-section map-legend-freq');
 
-		Object.entries(filters.options.frequencies).concat([["none", "Unknown"]]).forEach(d => {
+		Object.entries(filters.options.frequencies).concat([ ["dual", "Dual mode"], ["none", "Unknown"]]).forEach(d => {
 
 			let freq = d[0].includes(".") ? d[0].substr(0,d[0].indexOf(".")) : d[0];
 
@@ -2485,7 +2486,7 @@ function addMapLegend() {
 
 			div.append("div")
 				.style('border', 'solid 1px #000')
-				.style('background-color', motusMap.colourScale( d[0] ))
+				.style('background-color', motusMap.colourScales.stations.frequency( d[0] ))
 				.style('width', "15px")
 				.style('height', "15px");
 
@@ -2564,13 +2565,16 @@ function addMapLegend() {
 
 			motusMap.mapLegendContent.append('div')
 				.style('font-weight','bold')
-				.text(colourVar == 'colourVal' && dataType == 'stations' ? 'Tracks coloured by station nearest to tagging location' : 'Tagging ' + motusMap.colourVar)
+				.text("Tracks");
+
+			motusMap.mapLegendContent.append('div')
+					.attr("class", "subtext")
+					.html(colourVar == 'colourVal' && dataType == 'stations' ? 'Coloured by station nearest to tagging location.<br> Visiting tags were deployed more than 10 KM away from any selected station.' : 'Coloured by tagging ' + motusMap.colourVar)
 
 			var tracks_legend = motusMap.mapLegendContent.append("div")
 				.attr('class','map-legend-section map-legend-tracks');
 
 			var max_length = 0;
-
 			motusMap.colourScale.domain().forEach(function(x, i) {
 
 				var selectionColour = motusMap.colourScale.range()[i];

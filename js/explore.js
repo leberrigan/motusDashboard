@@ -100,7 +100,7 @@ var filters = {
 		stations: {},
 		species: {},
 		animals: {},
-		frequencies: ["166.380","434", "151.5", "150.1"],
+		frequencies: ["166.380","434", "151.5", "150.1", "dual"],
 		regions: ["North America", "Latin America", "Europe", "Asia", "Australia", "Africa"],
 		models: ["NTQB2-1", "NTQB2-1-2", "NTQB2-2", "NTQB2-3-2", "NTQB2-4-2"],
 		status: ['Active','Inactive']

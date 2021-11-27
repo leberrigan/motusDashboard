@@ -198,7 +198,7 @@ function motusIndexedDB( motusDataTableNames = [] ) {
 		// Declare the database
 	  motusData.db = new Dexie("explore_motus");
 		//
-	  motusData.db.version(5).stores(
+	  motusData.db.version(6).stores(
 			Object.fromEntries(
 				Object.entries(	motusDataTables	)
 							.map( x => [ x[0], x[1].key ] )
@@ -392,7 +392,7 @@ function downloadMotusData(promises, fileList) {
 						x.species = x.species.split(";");
 						x.stationDeps = x.stationDeps.split(";");
 						x.type = "Feature";
-						x.frequency = x.frequency == "NA" ? "none" : x.frequency;
+						x.frequency = x.frequency == "NA" || x.frequency == ""? "none" : x.frequency.includes(',')  && x.frequency.includes('434')? "dual" : x.frequency;
 						x.geometry = {
 							type: "Point",
 							coordinates: [+x.lon, +x.lat]
