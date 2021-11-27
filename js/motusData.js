@@ -392,7 +392,7 @@ function downloadMotusData(promises, fileList) {
 						x.species = x.species.split(";");
 						x.stationDeps = x.stationDeps.split(";");
 						x.type = "Feature";
-						x.frequency = x.frequency == "NA" ? "none" : x.frequency;
+						x.frequency = x.frequency == "NA" || x.frequency == ""? "none" : x.frequency.includes(',')  && x.frequency.includes('434')? "dual" : x.frequency;
 						x.geometry = {
 							type: "Point",
 							coordinates: [+x.lon, +x.lat]

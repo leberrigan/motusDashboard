@@ -1886,8 +1886,12 @@ css({height:"600px",maxHeight:"100vh", width: "calc(100vw - 300px)", minWidth: "
 	margin:5px 0;
 }
 
-.explore-map-legend .map-legend-section {
-
+.explore-map-legend .subtext {
+	font-style:italic;
+	font-size: 10pt;
+	text-align: left;
+	line-height: 14pt;
+	margin-bottom: 5px;
 }
 .explore-map-legend .map-legend-section > div {
 	text-align:left;
