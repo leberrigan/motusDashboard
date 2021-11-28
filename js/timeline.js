@@ -183,7 +183,8 @@ function exploreTimeline({
 						timelineSVG: $("<svg height='"+height+"' style='width:100%;margin:-8px 0;cursor:pointer;'></svg>"),
 						dataSource: "animals",
 						margin:{left:0,right:0},
-						setTimeline: true
+						setTimeline: true,
+						colourScale: d3.scaleSequential(d3.interpolateCividis).domain([ 1, 10 ])
 					}));
 					console.log($(el).parent().find('svg'));
 			} else {

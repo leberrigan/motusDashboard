@@ -294,7 +294,7 @@ function stationTable( cardID ) {
 				{className: "explore-table-expandRow", data: null, orderable: false, defaultContent: icons.add+icons.addFilter},
 				{data: "name", title: "Station", "createdCell": function(td, cdata, rdata){
 
-					var dataVal = rdata[color_dataVar].split(";").map( x => motusData[color_dataType].filter( p => p.id == x )[0].name ).join(", ");
+					var dataVal = rdata[color_dataVar].split(",").map( x => motusData[color_dataType].filter( p => p.id == x )[0].name ).join(", ");
 
 					$(td).html(
 							`<div class='explore-card-table-legend-icon table_tips' style='border-color:${motusData.tableColourScale(rdata[color_dataVar])};background-color:${motusData.tableColourScale(rdata[color_dataVar])}'>`+
@@ -321,7 +321,7 @@ function stationTable( cardID ) {
 				}},
 				{data: "projID", title: "Project", "createdCell": function(td, cdata, rdata){
 					$(td).html(
-						`<a href='javascript:void(0);' onclick='viewProfile("projects", [${cdata.split(";").map( x => '"'+x+'"' ).join(',')}]);'>${cdata.split(";").map( x => motusData.projects.filter( p => p.id == x )[0].name ).join(", ")}</a>`
+						`<a href='javascript:void(0);' onclick='viewProfile("projects", [${cdata.split(",").map( x => '"'+x+'"' ).join(',')}]);'>${cdata.split(",").map( x => motusData.projects.filter( p => p.id == x )[0].name ).join(", ")}</a>`
 					);
 				}}
 			],
@@ -852,7 +852,11 @@ function animalsTable( cardID ) {
 		$("#explore_card_" + cardID + " .explore-card-" + cardID + "-animalsTable").DataTable({
 			data: motusData.animalsTableData,
 			columns: [
-				{data: "id", title: "Deployment ID"},
+				{data: "id", title: "Deployment ID", "createdCell": function(td, cdata, rdata){
+					$(td).html(
+											`<a href='javascript:void(0);' class='tips' alt='View animal profile' onclick='viewProfile("animals", [${rdata.id}]);'>#${rdata.id}</a>`
+										);
+				}},
 				{data: "name", title: "Species", "createdCell": function(td, cdata, rdata){
 					$(td).html(
 							`<div class='explore-card-table-legend-icon table_tips' style='border-color:${rdata.colourCode};background-color:${rdata.colourCode}'>`+
@@ -1191,7 +1195,7 @@ function getExploreProfileData(d) {
 			}
 		} else {
 
-
+			
 			var stations = motusData.selectedStations.filter( (x) => x[dataType].includes(d.id) );
 
 			if (dataType == 'animals'){
@@ -1768,7 +1772,7 @@ function detectionTimeline( d, {
 															height = 60,
 															timelineScale = d3.scaleLinear().domain([ timeRange.min, timeRange.max ]).range([ 0, width ]),
 															dayWidth = timelineScale( timeRange.min + (1 * 24 * 60 * 60 * 1000) ),
-															colourScale = d3.scaleSequential(d3.interpolateTurbo).domain([ 1, 10 ]),
+															colourScale = d3.scaleSequential(d3.interpolateSinebow).domain([ 1, 10 ]),
 															timelineSVG = $("<svg width='"+width+"' height='"+height+"' style='margin:-8px 0;cursor:pointer;'></svg>"),
 															resize = false,
 															dataSource = 'station',
@@ -1778,7 +1782,7 @@ function detectionTimeline( d, {
 															setTimeline = false,
 															timeLineRange = timeRange
 														} = {} ) {
-
+//	console.log(colourScale.range())
 	timeline.colourScale = colourScale;
 //	console.log("Station: %s, Timeline Range: %o", d[0]?d[0].name:d, timeLineRange)
 
@@ -2071,10 +2075,9 @@ function detectionTimeline( d, {
 										.domain([0, d3.max(stationHits, x => x.value)]).nice()
 										.range([0, height - 20]);
 
-			timeline.colourScale.domain(d3.extent(stationHits, x => x.colour.length));
+			colourScale.domain(d3.extent(stationHits, x => x.colour.length));
 
 		//	x_scale.domain(d3.extent(stationHits, x => x.date));
-
 			g.selectAll('rect')
 				.data(stationHits)
 				.enter()
@@ -2083,7 +2086,7 @@ function detectionTimeline( d, {
 						.attr('width', x_scale(new Date("2020-01-02")) - x_scale(new Date("2020-01-01")) ) // one day
 						.attr('height', (x) => y_scale(x.value) )
 						.attr('x', (x) => x_scale(x.date) )
-						.attr('fill', (x) => timeline.colourScale(x.animals.length) )
+						.attr('fill', (x) => colourScale(x.animals.length) )
 						.attr('transform', x => `translate(0 ${(height - 20) - y_scale(x.value)})`);
 	//					.attr('transform', translate);
 		//							.attr('class', 'hover-data')
@@ -2170,7 +2173,9 @@ function detectionTimeline( d, {
 		}
 		function resizeWidth() {
 
-			if (resize.length > 0 && width != resize.width()) {
+//			alert(`${resize.width()} - ${width}`);
+
+			if (resize.length > 0 && resize.width() > 0 && width != resize.width()) {
 
 
 				var width_el = resize;
@@ -2188,6 +2193,7 @@ function detectionTimeline( d, {
 						width:width,
 						timelineSVG: $("<svg height='"+height+"' style='width:100%;margin:-8px 0;cursor:pointer;'></svg>"),
 						dataSource: dataSource,
+						colourScale: d3.scaleSequential().domain([ 1, 10 ]).range(["#000000","#000000"]),
 						margin: margin
 					}) );
 				}
