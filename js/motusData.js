@@ -25,7 +25,7 @@ var projectGroupNames = {
 	1:'No affiliation',
 	2:'US Dept. of the Interior',
 	3:'Environment Canada',
-	8:'Atlantic Offshore Wind development',
+	8:'Atlantic Offshore Wind Assessment',
 	9:'Birds Canada'
 }
 var speciesGroupNames = {

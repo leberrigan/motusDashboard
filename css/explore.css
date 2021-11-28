@@ -1086,7 +1086,7 @@ iframe#pdf_output {
 	width: max-content;
 }
 
-#exploreContent:not(.profiles) .explore-control-content.visible {
+#exploreContent:not(.profiles) .explore-control-content.visible:not(.explore-control-timeline) {
 	left:calc(50vw - min(50vw, 150px));
 	max-width:300px;
 	z-index:1000;

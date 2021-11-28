@@ -94,9 +94,10 @@ function exploreMap({
 								exploreType == 'regions' ||
 								(motusFilter.stations.includes('all') &&	motusFilter.animals.includes('all')) ||
 								(dataType=='stations' && motusFilter.stations.includes(d.id) )||
-								(dataType=='animals' && motusFilter.animals.includes(d.id) )
+								(dataType=='animals' && (motusFilter.animals.includes(d.id)||typeof d.model === 'undefined') )
 							) && (
 								typeof d.animals == "undefined" ||
+								typeof d.model == "undefined" ||
 								typeof motusFilter.animals == "undefined" ||
 								motusFilter.animals.includes('all') ||
 								d.animals.some(r => motusFilter.animals.includes(r))
@@ -113,7 +114,6 @@ function exploreMap({
 		setVisibility: function(switchType, toggleEls) {
 
 			if (typeof toggleEls !== 'undefined') {
-
 				motusMap.svg.selectAll(".explore-map-" + toggleEls[1]).classed('hidden', toggleEls[0] == 'hide');
 
 			} else {
@@ -275,13 +275,13 @@ function exploreMap({
 						 // When request received, add the text
 						 $('.tooltip big').text(
 							 // If there are more than one animals, display the number of animals, but not the ID
-		 							(d.animal.length > 1 ? (d.animal.length + " " + (typeof sp === 'undefined' ? "Unknown species" : sp.english + "s") ):
-		 							(typeof sp === 'undefined' ? "Unknown species" : sp.english) + " #"+d.animal)
+		 							(d.animals.length > 1 ? (d.animals.length + " " + (typeof sp === 'undefined' ? "Unknown species" : sp.english + "s") ):
+		 							(typeof sp === 'undefined' ? "Unknown species" : sp.english) + " #"+d.animals)
 							 );
 					 });
 				 } else {
 						// If there are more than one species, list the number of species as well as the number of animals.
-						var species = `${d.animal.length} animals of ${d.species.filter(onlyUnique).length} species`;
+						var species = `${d.animals.length} animals of ${d.species.filter(onlyUnique).length} species`;
 				 }
 					$('.tooltip').html(
 						"<big>"+species+"</big>"+
@@ -327,14 +327,13 @@ function exploreMap({
 											"<center>Click to view profile</center>");
 
 				} else if (t == 'station') {
-
 					if (d.group > 1) {
 						$('.tooltip').html(
 							"<big>"+
 								d.group + " Stations"+
 							"</big>"+
 							"<br/>"+
-							`<em><b>${d.nAnimals} animal${d.nAnimals==1?"":"s"}</b></em> of <em><b>${d.nSpp} species</b></em> detected`+
+							`<em><b>${d.nAnimals} animal${d.nAnimals==1?"":"s"}</b></em> of <em><b>${d.nSpecies} species</b></em> detected`+
 							"</br>Click to zoom"
 						);
 					} else {
@@ -344,7 +343,7 @@ function exploreMap({
 
 
 												`<table style="width:100%;text-align:center;font-size:14pt;"><tbody>`+
-													`<tr><td>${d.nAnimals} ${icons.animals}</td><td style="padding-left: 10px;">${d.nSpp} ${icons.species}</td></tr>`+
+													`<tr><td>${d.nAnimals} ${icons.animals}</td><td style="padding-left: 10px;">${d.nSpecies} ${icons.species}</td></tr>`+
 													`<tr><td><b>Animal${d.nAnimals==1?"":"s"}</b></td><td style="padding-left: 10px;"><b>Species</b></td></tr>`+
 												`</tbody></table>`+
 												"<br/>"+
@@ -360,13 +359,13 @@ function exploreMap({
 													: "Click to view profile" )+
 												"</center>");
 					}
-				} else {
-
+				} else { // t == "tag deployment"
+					console.log("Data hover: %o", d);
 					var filterName = motusFilter.colour;
-					filterName = (dataType == 'species' && mapType != 'tracks') ? 'nSpp' : filterName;
+					filterName = (dataType == 'species' && mapType != 'tracks') ? 'nSpecies' : filterName;
 
 					var title = (dataType == 'species' && mapType != 'tracks') ?
-									(d.nSpp == 1 ? $("#filter_species option[value=" + d.species[0] + "]").text() : "Species: " + d.nSpp) + "</br>Animals: " + d.id.length
+									(d.nSpecies == 1 ? $("#filter_species option[value=" + d.species + "]").text() : "Species: " + d.name) + "</br>Animals: " + d.id.length
 								: d.name;
 
 
@@ -2319,7 +2318,19 @@ function populateProfilesMap() {
 	var yesterday = new Date().addDays( -365 );
 // Other stations
 	motusMap.g.selectAll('stations')
-		.data( motusData.stations.filter( d => !motusFilter.selectedStationDeps.includes( d.id ) ).sort((a, b) => d3.ascending(a.id, b.id)) )
+		.data( motusData.stations
+						.filter( d => !motusFilter.selectedStationDeps.includes( d.id ) )
+						.sort((a, b) => d3.ascending(a.id, b.id))
+					 	.map( d => {
+							return {
+								...d,
+								...{
+									animals: undefined,
+									species: undefined,
+									projects: undefined,
+								}
+							}	;
+						}))
 		.enter().append("path")
 		.attr("d", motusMap.path.pointRadius(4))
 		.style('stroke', '#000')
@@ -2417,7 +2428,7 @@ function populateProfilesMap() {
 		.attr("id", (d) => "explore-map-track-" + d.route.replace('.','-'))
 		.style('stroke', (d) => motusMap.colourScale(typeof d[colourVar] == 'object' ? d[colourVar].filter( x => colourVarSelections.includes(x) )[0] : d[colourVar]))
 		.style('pointer-events', 'auto')
-		.style('stroke-width', '2px')
+		.style('stroke-width', Object.keys(motusData.selectedTracks).length < 100 ? '4px' : '2px')
 		.attr("d", motusMap.path)
 		.on('mouseover touchstart', (e,d) => motusMap.dataHover(e, d, 'in', 'track'))
 		.on('mouseout touchend', (e,d) => motusMap.dataHover(e, d, 'out', 'track'))
