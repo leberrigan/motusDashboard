@@ -89,23 +89,31 @@ function exploreMap({
 									d.species.some(r => motusFilter.species.includes(r))
 								)
 							) && (
-								typeof d.name == "undefined" ||
+								(typeof d.station === "undefined" && typeof d.name === "undefined") ||
 								exploreType == 'species' ||
 								exploreType == 'regions' ||
 								(motusFilter.stations.includes('all') &&	motusFilter.animals.includes('all')) ||
 								(dataType=='stations' && motusFilter.stations.includes(d.id) )||
-								(dataType=='animals' && (motusFilter.animals.includes(d.id)||typeof d.model === 'undefined') )
+							//	(dataType=='animals' && (motusFilter.animals.includes(d.id)||typeof d.model === 'undefined') ) ||
+								(typeof d.recv1 !== "undefined" && (motusFilter.stations.includes('all') || motusFilter.stations.includes(d.recv1) || motusFilter.stations.includes(d.recv2)))
 							) && (
-								typeof d.animals == "undefined" ||
-								typeof d.model == "undefined" ||
+								typeof d.animal === "undefined" ||
+								typeof d.model === "undefined" ||
 								typeof motusFilter.animals == "undefined" ||
 								motusFilter.animals.includes('all') ||
-								d.animals.some(r => motusFilter.animals.includes(r))
+								d.animal.some(r => motusFilter.animals.includes(r))
 							)
 						)
 					)
 				);
 
+				//console.log(d.station.some( r => motusFilter.stations.includes(r) ));
+	/*			console.log("%s %s %s %s %s",typeof d.name === "undefined",
+				exploreType == 'species',
+				exploreType == 'regions',
+				(motusFilter.stations.includes('all') &&	motusFilter.animals.includes('all')),
+				(dataType=='stations' && motusFilter.stations.includes(d.id) ));
+*/
 		//	if (d.colourVal == "other") { console.log("End date: ", d.dtEnd.toISOString().substr(0,10)  );  console.log("Start date: ", d.dtStart.toISOString().substr(0,10) ); }
 
 			return !visibility;
@@ -144,7 +152,7 @@ function exploreMap({
 
 							motusMap.visible.animals = "";
 
-							motusMap.svg.selectAll(".explore-map-track:not(.hidden)").each((d)=>motusMap.visible.animals+=","+d.animals);
+							motusMap.svg.selectAll(".explore-map-track:not(.hidden)").each((d)=>motusMap.visible.animals+=","+d.animal);
 
 							var nTracks = motusMap.visible.animals.length;
 
@@ -275,13 +283,13 @@ function exploreMap({
 						 // When request received, add the text
 						 $('.tooltip big').text(
 							 // If there are more than one animals, display the number of animals, but not the ID
-		 							(d.animals.length > 1 ? (d.animals.length + " " + (typeof sp === 'undefined' ? "Unknown species" : sp.english + "s") ):
-		 							(typeof sp === 'undefined' ? "Unknown species" : sp.english) + " #"+d.animals)
+		 							(d.animal.length > 1 ? (d.animal.length + " " + (typeof sp === 'undefined' ? "Unknown species" : sp.english + "s") ):
+		 							(typeof sp === 'undefined' ? "Unknown species" : sp.english) + " #"+d.animal)
 							 );
 					 });
 				 } else {
 						// If there are more than one species, list the number of species as well as the number of animals.
-						var species = `${d.animals.length} animals of ${d.species.filter(onlyUnique).length} species`;
+						var species = `${d.animal.length} animals of ${d.species.filter(onlyUnique).length} species`;
 				 }
 					$('.tooltip').html(
 						"<big>"+species+"</big>"+
@@ -548,6 +556,7 @@ function exploreMap({
 
 				$(".explore-map-track").css({'opacity':0,'pointer-events':'none'});
 
+
 				allTracks.filter(onlyUnique).forEach(function(route){
 
 					if (exploreType == 'main') {
@@ -585,7 +594,7 @@ function exploreMap({
 							species: x,
 							animal: animals[i]
 						}
-					}), (v) => v.map(x => x.animal).join(','), x => x.species);
+					}), (v) => v.map(x => x.animal), x => x.species);
 				//spp.forEach(sp => speciesCounts[sp] = speciesCounts[sp] ? speciesCounts[sp] + 1 : 1);
 				var rows = (Array.from(species.keys()).map(function(sp, i){
 
@@ -597,6 +606,7 @@ function exploreMap({
 								 speciesName
 							 );
 					 });
+	 				console.log(species.get(sp))
 
 					return "<tr>" +
 									"<td class='species'>"+
@@ -606,13 +616,13 @@ function exploreMap({
 										(species.get(sp).length)+
 									"</td>"+
 									"<td>"+
-										((species.get(sp).length) > 3 ?
-											"<a href='#e=species&d=species&species="+sp+"&animals="+(species.get(sp))+"'>Animal profile</a>" :
-											"<a href='#e=animals&d=animals&animals="+(species.get(sp))+"'>Animal profile</a>")+
+										(//(species.get(sp).length) > 3 ?
+										//	"<a href='#e=species&d=species&species="+sp+"&animals="+(species.get(sp))+"'>Animal profile</a>" :
+											"<a href='#e=animals&d=animals&animals="+encodeURIComponent(species.get(sp))+"'>Animal profile</a>")+
 
 									"</td>"+
 									"<td>"+
-										"<a href='#e=species&d=species&species="+sp+"'>Species profile</a>"+
+										"<a href='#e=species&d=species&species="+encodeURIComponent(sp)+"'>Species profile</a>"+
 									"</td>"+
 								"</tr>";
 
@@ -1032,9 +1042,9 @@ function exploreMap({
 				var trackDataByRouteBundled = Array.from(d3.rollup(motusData.trackDataByRoute,
 				function(v) {
 					//		if (v[0][1].recv1 == '4555' || v[0][1].recv2 == '4555') {console.log(v);}
-					nVisible += v.map(x=>x[1].animals).flat().length;
+					nVisible += v.map(x=>x[1].animal).flat().length;
 					return {
-						animals: v.map(x=>x[1].animals),
+						animal: v.map(x=>x[1].animal).flat(),
 						species: v.map(x=>x[1].species).flat(),
 						frequency: v.map(x=>x[1].frequency).flat().filter(onlyUnique),
 						projID: v.map(x=>x[1].projID).flat().filter(onlyUnique),
@@ -1042,6 +1052,7 @@ function exploreMap({
 						dist: v[0][1].dist,
 						recv1: v[0][1].recv1,
 						recv2: v[0][1].recv2,
+						station: [v[0][1].recv1,v[0][1].recv2],
 						dtStart: new Date(d3.min(v.map(x=>x[1].dtStart))),
 						dtEnd: new Date(d3.max(v.map(x=>x[1].dtEnd))),
 						coordinates: v[0][1].coordinates
@@ -1091,8 +1102,8 @@ function exploreMap({
 					(d.frequency[0].includes('.')?d.frequency[0].substr(0, d.frequency[0].indexOf(".")) : d.frequency[0]))
 					.attr('id', (d) => ("explore-map-track-"+(d.recv1 < d.recv2 ? d.recv1 + '-' + d.recv2 : d.recv2 + '-' + d.recv1)))
 					.style('stroke', (d) => motusMap.colourScale(d.frequency[0]))
-					.style('stroke-width', (d) => 2+(Math.log(d.animals.length,3)))
-					.style('opacity', (d) => (2/(1-Math.log(scale)))*(1 + Math.log(d.animals.length)))
+					.style('stroke-width', (d) => 2+(Math.log(d.animal.length,3)))
+					.style('opacity', (d) => (2/(1-Math.log(scale)))*(1 + Math.log(d.animal.length)))
 					.style('pointer-events', 'auto')
 					.attr("d", motusMap.path)
 					.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'track'))
@@ -1857,8 +1868,8 @@ function loadMapObjects(callback) {
 							}
 						});
 						return {
-							animals: v[0].animal.join(','),
-							species: v[0].species.join(','),
+							animal: v[0].animal,
+							species: v[0].species,
 							type: v[0].type,
 							recv1: v[0].recv1,
 							recv2: v[0].recv2,
