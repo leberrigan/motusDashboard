@@ -985,13 +985,14 @@ function getExploreProfileData(d) {
 
 			var detections = [];
 			if (typeof motusData.tracksByStation[ d.id ] !== 'undefined')
-				var detections = motusData.tracksByStation[ d.id ].map( x => motusData.selectedTracks[x] );
+				detections = motusData.tracksByStation[ d.id ].map( x => motusData.selectedTracks[x] );
+
 
 			var animalsDetected = motusData.selectedAnimals.filter( x => d.animals.includes(x.id) );
 			var speciesDetected = d.species.filter(onlyUnique);
 			var project = motusData.projects.filter(x => x.id == d.projID)[0];
 
-			console.log("%s %o", d.projID, project)
+			console.log("detections for %s: %o", d.id, detections)
 
 			// Latest activity
 
@@ -1271,7 +1272,9 @@ function getExploreProfileData(d) {
 			profile.lastDetection = lastDetection;
 			profile.lastActivity = [lastTagDeployment, lastStationDeployment, lastDetection][lastActivityIndex];
 			profile.lastActivityType = ["Animal tagged", "Station deployed", "Tag detected"][lastActivityIndex];
-			profile.status = (new Date() - profile.lastActivity) < (24 * 60 * 60 * 1000) ? "Active" : "Inactive";
+			profile.status = (new Date() - profile.lastActivity) < (7 * 24 * 60 * 60 * 1000) ? "Active" : "Inactive";
+		//	console.log(d3.max(stations, x => x.dtEnd))
+			profile.status = profile.status == "Inactive" && (new Date() - d3.max(stations, x => x.dtEnd)) > (7 * 24 * 60 * 60 * 1000) ? "Inactive" : "Active";
 			profile.shortDescription = typeof d.shortDescription === "undefined" ? "" : d.shortDescription;
 			profile.description = typeof d.description === "undefined" ? "" : d.description;
 
