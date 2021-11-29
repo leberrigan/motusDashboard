@@ -985,13 +985,14 @@ function getExploreProfileData(d) {
 
 			var detections = [];
 			if (typeof motusData.tracksByStation[ d.id ] !== 'undefined')
-				var detections = motusData.tracksByStation[ d.id ].map( x => motusData.selectedTracks[x] );
+				detections = motusData.tracksByStation[ d.id ].map( x => motusData.selectedTracks[x] );
+
 
 			var animalsDetected = motusData.selectedAnimals.filter( x => d.animals.includes(x.id) );
 			var speciesDetected = d.species.filter(onlyUnique);
 			var project = motusData.projects.filter(x => x.id == d.projID)[0];
 
-			console.log("%s %o", d.projID, project)
+			console.log("detections for %s: %o", d.id, detections)
 
 			// Latest activity
 

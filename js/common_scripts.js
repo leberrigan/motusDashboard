@@ -217,6 +217,7 @@ function viewProfile(profileType, dataID) {
 			motusFilter.group = groupID;
 			motusFilter[profileType] = dataID;
 		} else {
+			motusFilter.group = undefined;
 			motusFilter[profileType] = dataID;
 		}
 

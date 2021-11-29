@@ -1606,9 +1606,7 @@ function loadDataTable(tbl, columns, options, onEvent) {
 		$("#explore_table").DataTable().clear().destroy();
 	}
 
-	$("#explore_table").on("init.dt", function(){
-		$("#xploreq")
-	}).html("");
+$("#explore_table").html("");
 //	console.log(options);
 	if (typeof options.columns !== 'undefined') {
 		options = {
@@ -1644,7 +1642,7 @@ function loadDataTable(tbl, columns, options, onEvent) {
 	}
 	$('#explore_table tbody').on('click', 'tr', function () {
     var data = table.row( this ).data();
-		viewProfile(dataType + (typeof data.group !== 'undefined' ? "Group" : ""), [data.id])
+		viewProfile(dataType + (typeof data.group !== 'undefined' && data.id == data.group ? "Group" : ""), [data.id])
   });
 
 	if (exploreType != 'main') {
