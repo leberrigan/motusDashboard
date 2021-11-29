@@ -1271,7 +1271,9 @@ function getExploreProfileData(d) {
 			profile.lastDetection = lastDetection;
 			profile.lastActivity = [lastTagDeployment, lastStationDeployment, lastDetection][lastActivityIndex];
 			profile.lastActivityType = ["Animal tagged", "Station deployed", "Tag detected"][lastActivityIndex];
-			profile.status = (new Date() - profile.lastActivity) < (24 * 60 * 60 * 1000) ? "Active" : "Inactive";
+			profile.status = (new Date() - profile.lastActivity) < (7 * 24 * 60 * 60 * 1000) ? "Active" : "Inactive";
+		//	console.log(d3.max(stations, x => x.dtEnd))
+			profile.status = profile.status == "Inactive" && (new Date() - d3.max(stations, x => x.dtEnd)) > (7 * 24 * 60 * 60 * 1000) ? "Inactive" : "Active";
 			profile.shortDescription = typeof d.shortDescription === "undefined" ? "" : d.shortDescription;
 			profile.description = typeof d.description === "undefined" ? "" : d.description;
 
