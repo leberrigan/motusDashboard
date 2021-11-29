@@ -921,21 +921,24 @@ function getGroupedExploreProfileData( g, profileIDs = [] ) {
 			// Sums values for each property
 			val = gProfiles.reduce((a,c,i) => {
 					for (key in a) {
-						a[key] += c.summary[key];
+						a[key] = a[key].concat(c.summary[key]);
 					}
 					return a;
-				}, Object.fromEntries(Object.keys(gProfiles[0].summary).map( d => [d, 0] ))
+				}, Object.fromEntries(Object.keys(gProfiles[0].summary).map( d => [d, [ ]] ))
 			)
+
+			val = Object.fromEntries(Object.entries(val).map( d => [d[0], [...new Set(d[1].filter( x => x!="NA"))].length]));
 		} else if (k == 'stats') {
 			// Sums values for each property
 			val = gProfiles.reduce((a,c,i) => {
 					for (key in a) {
-						a[key] += c.stats[key];
+						a[key] = a[key].concat(c.stats[key]);
 					}
 					return a;
-				}, Object.fromEntries(Object.keys(gProfiles[0].stats).map( d => [d, 0] ))
+				}, Object.fromEntries(Object.keys(gProfiles[0].stats).map( d => [d, [ ]] ))
 			)
 
+				val = Object.fromEntries(Object.entries(val).map( d => [d[0], [...new Set(d[1].filter( x => x!="NA"))].length]));
 			/*
 			profile.stats = {
 				animalsTagged: animalsTagged.length,
@@ -1275,22 +1278,44 @@ function getExploreProfileData(d) {
 			profile.dtStart = new Date(d.dtCreated).toISOString().substring(0, 10);
 			profile.dtEnd = profile.lastActivity ? profile.lastActivity.dtEnd : false;
 
-			profile.summary = {
-				animalsTagged: animalsTagged.length,
-				speciesTagged: speciesTagged.length,
-				animalsDetected: stations.length > 0 ? animalsDetected.length : 0,
-				speciesDetected: stations.length > 0 ? speciesDetected.length : 0,
-				stations: stations.length
-			}
+			if (isGrouped) {
 
-			profile.stats = {
-				animalsTagged: animalsTagged.length,
-				speciesTagged: speciesTagged.length,
-				animalsDetected: stations.length > 0 ? animalsDetected.length : 0,
-				speciesDetected: stations.length > 0 ? speciesDetected.length : 0,
-				stations: stations.length,
-				countries: Array.from(stations.map(x => x.country).values()).concat(Array.from(motusData.selectedAnimals.map(x => x.country).values())).filter(onlyUnique).length,
-				detections: d3.sum(detections.map( x=> x.dtEndList.length ))
+				profile.summary = {
+					animalsTagged: animalsTagged,
+					speciesTagged: speciesTagged,
+					animalsDetected: stations.length > 0 ? animalsDetected : [],
+					speciesDetected: stations.length > 0 ? speciesDetected : [],
+					stations: stations
+				}
+
+				profile.stats = {
+					animalsTagged: animalsTagged,
+					speciesTagged: speciesTagged,
+					animalsDetected: stations.length > 0 ? animalsDetected : [],
+					speciesDetected: stations.length > 0 ? speciesDetected : [],
+					stations: stations,
+					countries: Array.from(stations.map(x => x.country).values()).concat(Array.from(motusData.selectedAnimals.map(x => x.country).values())).filter(onlyUnique),
+					detections: detections
+				}
+			} else {
+
+				profile.summary = {
+					animalsTagged: animalsTagged.length,
+					speciesTagged: speciesTagged.length,
+					animalsDetected: stations.length > 0 ? animalsDetected.length : 0,
+					speciesDetected: stations.length > 0 ? speciesDetected.length : 0,
+					stations: stations.length
+				}
+
+				profile.stats = {
+					animalsTagged: animalsTagged.length,
+					speciesTagged: speciesTagged.length,
+					animalsDetected: stations.length > 0 ? animalsDetected.length : 0,
+					speciesDetected: stations.length > 0 ? speciesDetected.length : 0,
+					stations: stations.length,
+					countries: Array.from(stations.map(x => x.country).values()).concat(Array.from(motusData.selectedAnimals.map(x => x.country).values())).filter(onlyUnique).length,
+					detections: d3.sum(detections.map( x=> x.dtEndList.length ))
+				}
 			}
 
 		} else if (dataType == 'species') {
@@ -1381,7 +1406,7 @@ function addExploreTabs() {
 			type:'stationHits',
 			header: 'Stations',
 			tabs: {
-				[`${tabName}: ` + motusFilter.selectedStations.length] : stationTable
+				[`${tabName}: ` + motusData.selectedStations.length] : stationTable
 				//"Station detection timelines": detectionTimeline
 			},
 			defaultTab: 0,
@@ -1428,7 +1453,7 @@ function addExploreTabs() {
 				] : speciesTable,
 				[
 					(["animals", "species"].includes(dataType) ? "Tagged Animals" : "Animals detected") +
-					": " + motusFilter.selectedAnimals.length
+					": " + motusData.selectedAnimals.length
 				] : animalsTable
 			},
 			defaultTab: motusData.selectedSpecies.length > 1 ? 0 : 1,
@@ -1441,8 +1466,8 @@ function addExploreTabs() {
 	}
 
 	var nProjects = [
-		motusData.selectedProjects.filter(d => d.stations.filter( x => x!='NA').length > 0).length,
-		motusData.selectedProjects.filter(d => d.animals.filter( x => x!='NA').length > 0).length
+		motusData.selectedStationProjects.length,
+		motusData.selectedAnimalProjects.length
 	];
 
 	addExploreCard({
