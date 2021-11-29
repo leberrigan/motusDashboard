@@ -1195,7 +1195,7 @@ function getExploreProfileData(d) {
 			}
 		} else {
 
-			
+
 			var stations = motusData.selectedStations.filter( (x) => x[dataType].includes(d.id) );
 
 			if (dataType == 'animals'){
@@ -1530,10 +1530,12 @@ function addExploreProfile(profile) {
 						//	 	`<div class='explore-card-name'><div style='font-size:${24 - (Math.floor(profile.label.length/15)*2)}pt;'>${profile.label}</div></div>`+
 							 	`<div class='explore-card-name'>`+
 
-									(isGrouped ?
+								(isGrouped ?
 									// GROUPED Profiles
 										"<div id='explore_card_profile_group'>"+
-											`<h1>${firstToUpper(toSingular(dataType))} group: <span style='font-size:20pt'>${motusFilter.group}</span></h1>`+
+											`<h3>`+
+												`<span style="font-variant: small-caps;color: var(--theme-background-colour-pale2);opacity: 0.75; margin-left: 30px;margin-right: 15px;">`+
+													`${firstToUpper(toSingular(dataType))} group</span> <span style='font-size:30pt'>${motusFilter.group}</span></h3>`+
 										"</div>"
 										// UNGROUPED Profiles
 										:

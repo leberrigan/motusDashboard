@@ -78,7 +78,7 @@ body.dark {
 	--theme-background-colour: #142e40;
 	--theme-background-colour-pale: #274c67;
 	--theme-background-colour2: #142e40;
-	--theme-background-colour-pale2: #274c67;
+	--theme-background-colour-pale2: #bbd0e0;
 	--theme-background-colour3: #EEE;
 	--theme-background-colour-pale3: #FFF;
 
@@ -91,7 +91,7 @@ body.dark {
 	--theme-highlight-red: #8f2525;
 	--theme-highlight-red-pale: #c43333;
 
-	--theme-link-colour: #EEF;
+	--theme-link-colour: #22F;
 
 }
 
