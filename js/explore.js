@@ -100,7 +100,14 @@ var filters = {
 		stations: {},
 		species: {},
 		animals: {},
-		frequencies: ["166.380","434", "151.5", "150.1", "dual"],
+		frequencies: {
+			"150.1": "150.1 MHz",
+			"151.5": "151.5 MHz",
+			"166.38": "166.38 MHz",
+			"434": "434 MHz",
+			"dual": "Dual Mode",
+			"none": "Unknown",
+		},
 		regions: ["North America", "Latin America", "Europe", "Asia", "Australia", "Africa"],
 		models: ["NTQB2-1", "NTQB2-1-2", "NTQB2-2", "NTQB2-3-2", "NTQB2-4-2"],
 		status: ['Active','Inactive']
@@ -820,7 +827,7 @@ function populateExploreControls() {
 	} else if (dataType == 'stations') {
 		toAppend = ["filters", "timeline", "search", "edit", 'pdf', 'share'];
 	} else if (dataType == 'animals') {
-		toAppend = ["filters", "timeline", "search", "view", 'pdf', 'share'];
+		toAppend = ["filters", "animate", "timeline", "search", "view", 'pdf', 'share'];
 	}
 	toAppend.push('help');
 
@@ -907,11 +914,11 @@ function populateExploreControls() {
 
 //	$("#explore_controls .animate-play").click(function(){animateTimeline($("#dateSlider").get(0));});
 	$(".explore-control-content .animate-play").click(function(){
-		if (exploreType != 'main') {
+		//if (exploreType != 'main') {
 			if (!motusMap.animation.isAnimating) {animateTracks($(".explore-control-content .animate-duration").val() * 1000);}
-		} else {
+		/*} else {
 			animateTimeline( $("#dateSlider").get(0) );
-		}
+		}*/
 	});
 	$(".explore-control-content .animate-pause").click(function(){
 		motusMap.animation.pause = true;
@@ -1355,6 +1362,13 @@ function afterMapLoads() {
 
 	$('.explore-card-wrapper').animate({'opacity':1}, 500);
 
+
+	if (typeof deck !== 'undefined') {
+
+			deckGL_map();
+
+	}
+
 }
 function exploreTable(opts) {
 
@@ -1405,13 +1419,13 @@ function populateSelectOptions() {
 
 		});
 	}
-	if (typeof motusData.stationDeps !== 'undefined') {
+	if (typeof motusData.stations !== 'undefined') {
 
-		filters.options.stations = Object.fromEntries( motusData.stationDeps.map( d => [ d.id, [ d.name, ( d.status != 'active' ? 'inactive' : 'active' ) ] ] ) );
+		filters.options.stations = Object.fromEntries( motusData.stations.map( d => [ d.id, [ d.name, ( d.status != 'active' ? 'inactive' : 'active' ) ] ] ) );
 
-		filters.options.frequencies = {};
+	//	filters.options.frequencies = {};
 
-		(Array.from(motusData.stationDeps.map(d => d.frequency).values())).filter(onlyUnique).filter(d => d.length > 0 && d!="NA" && d.split(',').length == 1).forEach(d => filters.options.frequencies[`${d}`] = d + " MHz");
+	//	(Array.from(motusData.stations.map(d => d.frequency).values())).filter(onlyUnique).filter(d => d.length > 0 && d!="NA" && d.split(',').length == 1).forEach(d => filters.options.frequencies[`${d}`] = d + " MHz");
 	}
 	if (typeof motusData.species !== 'undefined') {
 		motusData.species.forEach(function(d){
@@ -1423,8 +1437,8 @@ function populateSelectOptions() {
 
 	if (typeof motusData.tagDeps !== 'undefined') {
 		filters.options.models = motusData.tagDeps.map(d => d.model).filter(onlyUnique).filter(d => d.length > 0);
-		filters.options.frequencies = {};
-		(Array.from(motusData.tagDeps.map(d => d.frequency).values())).filter(onlyUnique).filter(d => d.length > 0 && d!="NA" && d.split(',').length == 1).forEach(d => filters.options.frequencies[`${d}`] = d + " MHz");
+	//	filters.options.frequencies = {};
+	//	(Array.from(motusData.tagDeps.map(d => d.frequency).values())).filter(onlyUnique).filter(d => d.length > 0 && d!="NA" && d.split(',').length == 1).forEach(d => filters.options.frequencies[`${d}`] = d + " MHz");
 	}
 	if (typeof motusData.tracks !== 'undefined') {
 	//	filters.options.models = motusData.tracks.map(d => d.model).filter(onlyUnique).filter(d => d.length > 0);
@@ -2018,7 +2032,7 @@ function setFilter(e) {
 	} else {
 		$("#explore_filters").parent(":not(.active)").addClass('active');
 	}
-
+	if (typeof deck !== 'undefined') deckGL_renderMap();
 	return false;
 }
 

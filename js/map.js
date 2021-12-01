@@ -2487,7 +2487,7 @@ function addMapLegend() {
 
 	d3.select(".explore-map-controls").append(()=>motusMap.mapLegend.node());
 
-	if (exploreType == 'main') {
+	if (exploreType == 'main' || exploreType == 'report') {
 
 		// Frequencies
 

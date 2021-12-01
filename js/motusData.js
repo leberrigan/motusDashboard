@@ -169,9 +169,11 @@ function motusIndexedDB( motusDataTableNames = [] ) {
 		polygons: {file: filePrefix + "ne_50m_admin_0_countries.geojson", key: '++, id', get: true}, // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
 		animals: {file: filePrefix + "tag-deps.csv", key: 'id, project, country, species', get: true}, // All tag deployments, including deployment country
 		tracks: {file: filePrefix + "siteTrans_real3" + (window.location.hostname.indexOf('beta') != -1 ? '-2' : '') + ".csv", key: 'route, *animal', get: true}, // All site transitions
+		tracksLong: {file: filePrefix + "siteTrans_long2.csv", key: 'animal, *stations', get: true}, // All site transitions
 		species: {file: filePrefix + "spp.csv", key: 'id', get: true}, // List of all species and various names/codes
 		projects: {file: filePrefix + "projs.csv", key: 'id', get: true}, // All projects, their codes, and descriptions
-		tracksByAnimal: {file: false, key: 'id', get:false}, //
+		tracksByAnimal: {file: false, key: 'id', get: false}, //
+		tracksLongByAnimal: {file: false, key: 'id', get: 'tracksLong'}, //
 		stationsByRegion: {file: false, key: 'region, regionType', get:false}, //
 		animalsByRegion: {file: false, key: 'region, regionType', get:false} //
 	};
@@ -198,7 +200,7 @@ function motusIndexedDB( motusDataTableNames = [] ) {
 		// Declare the database
 	  motusData.db = new Dexie("explore_motus");
 		//
-	  motusData.db.version(6).stores(
+	  motusData.db.version(7).stores(
 			Object.fromEntries(
 				Object.entries(	motusDataTables	)
 							.map( x => [ x[0], x[1].key ] )
@@ -249,12 +251,11 @@ function checkTables() {
 	Object.keys(motusDataTables).filter( x => motusDataTables[x].get ).forEach(function(tableName, i){
 
 		if (motusDataTables[tableName].get) {
-
 			// Check whether IndexedDB is supported
 			if (indexedDB) {
 				motusData.db[tableName].count( count => {
 					testTimer.push([new Date(), "Get data: respond to count of "+tableName]);
-					if (count > 0 || !motusDataTables[tableName].file) {
+					if (count > 0) {
 
 				//		console.log(`Table '${tableName}' already populated.`);
 
@@ -281,8 +282,10 @@ function checkTables() {
 					} else {
 
 						console.log(`Table '${tableName}' needs to be downloaded.`);
-
-						motusDataTables[tableName].download = true;
+						if (motusDataTables[tableName].get === true)
+							motusDataTables[tableName].download = true;
+						else
+							motusDataTables[motusDataTables[tableName].get].download = true;
 					}
 
 					if (i+1 == Object.keys(motusDataTables).filter( x => motusDataTables[x].get ).length && Object.values(motusDataTables).some( x => x.download )) {
@@ -458,8 +461,26 @@ function downloadMotusData(promises, fileList) {
 				// Group routes together into tracks
 				motusData.tracksByAnimal = d3.rollup(motusData.tracksByAnimal, v => ({id: v[0].id, route: v.map( x => x.route )}), k => k.id );
 
-					testTimer.push([new Date(), "End tracksByAnimal"]);
+				testTimer.push([new Date(), "End tracksByAnimal"]);
 	  	}
+	  	if (fileList.includes("tracksLong")) {
+				motusData.tracksLong = motusData.tracksLong.filter( x => x.lat1 != 'NA' && x.lat != 0 );
+
+				motusData.tracksLongByAnimal = Array.from( d3.rollup(motusData.tracksLong,
+					v => ({
+						id: v[0].animal,
+						tracks: v.map((x,i) => ([+x.lon2, +x.lat2])),
+						ts: v.map(x => +x.ts2),
+						frequency:  v[0].frequency,
+						species:  v[0].species,
+						stations:  [ ...new Set( v.map(x => [x.station1, x.station2]).flat() ) ],
+						project:  v[0].project,
+						dist: v.map(x => +x.dist)
+					}),
+					d => d.animal
+				).values() );
+
+			}
 
 		} else {
 
@@ -559,11 +580,16 @@ function downloadMotusData(promises, fileList) {
   	console.log("Finished downloading " + response.length + " data set" + (response.length == 1 ? "" : "s"));
 
 		// Update the local database only once data has been downloaded and processed
-  	fileList.forEach(function(f, i){
+  	Object.keys(motusDataTables).forEach(function(f, i){
 
-			motusDataTables[f].done = true;
+			if (typeof motusData[f] !== 'undefined') {
 
-			updateMotusDB(f, motusData[f]);
+				motusDataTables[f].done = true;
+
+				updateMotusDB(f, motusData[f]);
+			} else {
+				console.warn("There was an issue loading ", f);
+			}
 
   	});
 
@@ -1282,4 +1308,10 @@ async function checkDataUsage() {
 	return navigator.storage.estimate().then((space)=>{
 		return space.usage / Math.pow(2, 20); // MB
 	});
+}
+// Returns the amount of space being used by indexeddb, in MB
+async function getTracksLong() {
+
+
+
 }
