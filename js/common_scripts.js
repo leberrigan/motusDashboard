@@ -194,6 +194,14 @@ function monthDiff(d1, d2) {
     months += d2.getMonth();
     return months <= 0 ? 0 : months;
 }
+
+function hexToRgb(hex) {
+  var res = hex.match(/[a-f0-9]{2}/gi);
+  return res && res.length === 3
+    ? res.map(function(v) { return parseInt(v, 16) })
+    : null;
+}
+
 function viewProfile(profileType, dataID) {
 
 	var group = profileType.includes('Group');

@@ -46,9 +46,7 @@ function exploreTimeline({
 			// Set slider position
 			timeline.setSlider([selectedVal, selectedVal + timeline.distance]);
 
-			// Set visiblity of data in maps
-			motusMap.setVisibility();
-
+			if (typeof deck === 'undefined') 	motusMap.setVisibility();
 			// If timeline is paused, record elapsed time in case it is resumed.
 			if (timeline.status == 'pause') {
 				timeline.timerElapsed = e;
@@ -70,7 +68,7 @@ function exploreTimeline({
 	//		$('#explore_filters').css({marginBottom:"-" + $('#explore_filters').innerHeight() + "px"});
 	//		$(".animate_timeline").removeClass('selected');
 			timeline.status = 'stop';
-			motusMap.setVisibility();
+			if (typeof deck === 'undefined') 	motusMap.setVisibility();
 		},
 		setSlider: function(position, moveSlider = false, setPicker = true, callback) {
 
@@ -303,8 +301,12 @@ function exploreTimeline({
 
 			$("#explore_filters").parent(":not(.active)").addClass('active');
 			timeline.position = $(this).dragslider("values");
-			timeline.setSlider(timeline.position);
-			motusMap.setVisibility();
+
+			if (typeof deck !== 'undefined') deckGL_renderMap();
+			else {
+				timeline.setSlider(timeline.position);
+				motusMap.setVisibility();
+			}
 		},
 		stop: updateURL
 	});
