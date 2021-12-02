@@ -175,7 +175,7 @@ function exploreTimeline({
 				timeRange.range = timeRange.max - timeRange.min;
 				$(timeline.el).dragslider("option","min",timeline.min).dragslider("option","max",timeline.max)
 
-				$(el).parent().append(detectionTimeline(Object.values(motusData.selectedTracks),{
+				$(el).parent().append(detectionTimeline(motusData.tracksLongByAnimal,{
 						width:width,
 						resize: $(el).parent(),
 						timelineSVG: $("<svg height='"+height+"' style='width:100%;margin:-8px 0;cursor:pointer;'></svg>"),

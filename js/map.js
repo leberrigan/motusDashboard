@@ -90,27 +90,6 @@ function exploreMap({
 			if (dir == 'in') {
 
 				if (t == 'track') {
-					if (d.species.length == 1) {
-						var species = "Loading...";
-					// Make a request to the database to find the species name
-					 motusData.db.species.get( d.species.toString() ).then( sp => {
-						 // When request received, add the text
-						 $('.tooltip big').text(
-							 // If there are more than one animals, display the number of animals, but not the ID
-		 							(d.animal.length > 1 ? (d.animal.length + " " + (typeof sp === 'undefined' ? "Unknown species" : sp.english + "s") ):
-		 							(typeof sp === 'undefined' ? "Unknown species" : sp.english) + " #"+d.animal)
-							 );
-					 });
-				 } else {
-						// If there are more than one species, list the number of species as well as the number of animals.
-						var species = `${d.animal.length} animals of ${d.species.filter(onlyUnique).length} species`;
-				 }
-					$('.tooltip').html(
-						"<big>"+species+"</big>"+
-						"</br>(Click to view)"
-					);
-
-				} else if (t == 'path') {
 
 					var species = "Loading...";
 					// Make a request to the database to find the species name
@@ -387,145 +366,25 @@ function exploreMap({
 			} else if (t == 'animal') {
 				viewProfile("animals", d.id)
 			} else if (t == 'track') {
-
-				// Highlight all the tracks that shares these animals
-				$(".popup").remove();
-				$("body").append("<div class='popup'><div class='popup-topbar'><div class='popup-topbar-close'>X</div></div><div class='popup-content'></div></div>");
-				$(".popup").draggable({handle: ".popup-topbar"});
-				$(".popup .popup-topbar .popup-topbar-close").click(function(){
-					$(".popup").remove();
-					$(".explore-map-track").css({'opacity':1,'pointer-events':'auto'});
-					motusMap.group_f = 20;
-					motusFilter.animals = motusFilter.animalsOld;
-				});
-				var allTracks = [];
-				motusFilter.animalsOld = motusFilter.animals;
-				motusFilter.animals = d.animal && d.animal.every(x=>x!="NA") ? d.animal : motusFilter.animals;
-				motusMap.group_f = false;
-
-				var animals = motusFilter.animals.forEach(function(a){
-
-					allTracks = allTracks.concat(motusData.tracksByAnimal[a]);
-
-				});
-
-
-				$(".explore-map-track").css({'opacity':0,'pointer-events':'none'});
-
-
-				allTracks.filter(onlyUnique).forEach(function(route){
-
-					if (exploreType == 'main') {
-						var recvs = route.split('.');
-						var recv1 = motusData.stationDepsBySubset[recvs[0]],
-							recv2 = motusData.stationDepsBySubset[recvs[1]];
-						recv1 = recv1 ? recv1 : recvs[0];
-						recv2 = recv2 ? recv2 : recvs[1];
-
-						recvs = ( recvs[0] < recvs[1] ? recvs[0] + "-" + recvs[1] : recvs[1] + "-" + recvs[0] );
-						if ($("#explore-map-track-" + recvs ).length == 0) {
-							recvs = ( recv1 < recvs[1] ? recv1 + "-" + recvs[1] : recvs[1] + "-" + recv1 );
-							if ($("#explore-map-track-" + recvs ).length == 0) {
-								recvs = ( recvs[0] < recv2 ? recvs[0] + "-" + recv2 : recv2 + "-" + recvs[0] );
-								if ($("#explore-map-track-" + recvs ).length == 0) {
-									recvs = ( recv1 < recv2 ? recv1 + "-" + recv2 : recv2 + "-" + recv1 );
-								}
-							}
-						}
-					} else {
-						var recvs = route.replace('.','-');
-					}
-					//$("#explore-map-track-" + ( recv1 < recv2 ? recv1 + "-" + recv2 : recv2 + "-" + recv1 ) ).removeClass('hidden');
-
-					$("#explore-map-track-" + recvs ).css({'opacity':1,'pointer-events':'auto'});
-
-				});
-			//	console.log(motusData.stationDepsBySubset);
-				// Make a table of species and their count and display a popup
-				var spp = d.species;
-				var animals = d.animal;
-
-				var species = d3.rollup( spp.map(function(x, i){
-						return {
-							species: x,
-							animal: animals[i]
-						}
-					}), (v) => v.map(x => x.animal), x => x.species);
-				//spp.forEach(sp => speciesCounts[sp] = speciesCounts[sp] ? speciesCounts[sp] + 1 : 1);
-				var rows = (Array.from(species.keys()).map(function(sp, i){
-
-					var speciesName = 'Unknown species';
-
-					 motusData.db.species.get( sp ).then( speciesMeta => {
-						 speciesName = typeof speciesMeta === 'undefined' ? "Unknown species" : speciesMeta[currLang];
-							 $(`.popup .popup-content tbody tr:eq(${i}) td.species`).text(
-								 speciesName
-							 );
-					 });
-	 				console.log(species.get(sp))
-
-					return "<tr>" +
-									"<td class='species'>"+
-										speciesName+
-									"</td>"+
-									"<td>"+
-										(species.get(sp).length)+
-									"</td>"+
-									"<td>"+
-										(//(species.get(sp).length) > 3 ?
-										//	"<a href='#e=species&d=species&species="+sp+"&animals="+(species.get(sp))+"'>Animal profile</a>" :
-											"<a href='#e=animals&d=animals&animals="+encodeURIComponent(species.get(sp))+"'>Animal profile</a>")+
-
-									"</td>"+
-									"<td>"+
-										"<a href='#e=species&d=species&species="+encodeURIComponent(sp)+"'>Species profile</a>"+
-									"</td>"+
-								"</tr>";
-
-				}));
-
-				$('.popup .popup-content').html(
-					"<table><thead><tr><th>Species</th><th>Count</th><th></th><th></th></tr></thead><tbody>"+
-					(rows.join(''))+//(await rows[0]).join("")+
-					"</tbody></table>"
-				)
-
-				if (e.pageX + 15 + $('.popup').outerWidth() > $(window).width()) {
-					$('.popup').css({top:e.pageY - 10, left:e.pageX - $('.popup').outerWidth() - 15});
-				} else {
-					$('.popup').css({top:e.pageY - 10, left:e.pageX + 15});
-				}
-
-				$('.popup:hidden').show();
-				$('.popup .popup-content table').DataTable({dom:"t", paging: false,
-					"columnDefs": [ {
-						"targets": 2,
-						"orderable": false
-					},
-					{
-			 			"targets": 3,
-			 			"orderable": false
-			 			}
-					]
-				});
+				viewProfile("animals", d.id)
 			}
 		},
 		legendClick: function(e, d){
 
-			console.log(d);
-			console.log(motusMap.mapLegendContent.selectAll("."+motusMap.colourDataType).data());
 
 			$(this).toggleClass( 'selected', !$(this).is(".selected") );
 
+			let legendData = motusMap.mapLegendContent.selectAll("."+motusMap.colourDataType).data();
+
 			let opts = {
 				type: this.classList[0],
-				selected: motusMap.mapLegendContent.selectAll(`.${this.classList[0]}.selected`).data().map( x => typeof x === 'object' ? x[0] : x )
+				selected: legendData.map( x => typeof x === 'object' ? x[0] : x )
 			};
 
-			console.log(opts);
+			if (legendData.length == opts.selected.length)
+				opts.selected = [];
 
-			$("#filter_"+motusMap.colourDataType).select2().val(opts.selected).trigger('change')
-
+			$("#filter_"+motusMap.colourDataType).select2().val(opts.selected).trigger('change');
 
 			if (opts.type == 'track') {
 				motusMap.recolourTracks("legend");
@@ -1373,8 +1232,8 @@ function getProfileMapLayers(load, layer) {
 				pickable: true,
 				opacity: 1,
 				autoHighlight:true,
-				onClick: ({object}, e) => motusMap.dataClick(e.srcEvent, object, 'path'),
-				onHover: ({object, picked}, e) => motusMap.dataHover(e.srcEvent, object, picked?'in':'out', 'path'),
+				onClick: ({object}, e) => motusMap.dataClick(e.srcEvent, object, 'track'),
+				onHover: ({object, picked}, e) => motusMap.dataHover(e.srcEvent, object, picked?'in':'out', 'track'),
 				getLineWidth: Object.keys(motusData.selectedTracks).length < 100 ? 3000 : 2000,
 				highlightColor: [255,0,0],
 				lineWidthMinPixels: 1,
@@ -1490,8 +1349,8 @@ function getExploreMapLayers(load, layer) {
 			pickable: true,
 			opacity: 1,
 			autoHighlight:true,
-			onClick: ({object}, e) => motusMap.dataClick(e.srcEvent, object, 'path'),
-			onHover: ({object, picked}, e) => motusMap.dataHover(e.srcEvent, object, picked?'in':'out', 'path'),
+			onClick: ({object}, e) => motusMap.dataClick(e.srcEvent, object, 'track'),
+			onHover: ({object, picked}, e) => motusMap.dataHover(e.srcEvent, object, picked?'in':'out', 'track'),
 			getLineWidth: 1000,
 			highlightColor: [255,0,0],
 			lineWidthMinPixels: 1,
@@ -1594,11 +1453,6 @@ function animateTracks(duration) {
 	var time;
 	if (!motusMap.animation.pause) {
 
-		if (exploreType == 'main')
-			getExploreMapLayers(false, 'stations');
-		else
-			getProfileMapLayers(false, 'stations');
-
 		if (typeof duration === 'undefined') {
 			motusMap.animation.duration = ANIMATION_LENGTH;
 		} else {
@@ -1668,54 +1522,72 @@ function animateTrackStep(currentTime, start) {
 		motusMap.animation.pause = false;
 		motusMap.animation.stop = false;
 
-	} else if (motusMap.animation.pause) {
+	}
+
+	if (motusMap.animation.pause) {
 
 			motusMap.animation.time = currentTime;
 			motusMap.animation.isAnimating = false;
 			clearInterval(motusMap.animation.timer);
 
+	} else {
+
+		if (exploreType == 'main')
+			getExploreMapLayers(false, 'stations');
+		else
+			getProfileMapLayers(false, 'stations');
+
+
+		timeline.position = [currentTime, currentTime];
+
+		deckGlLayers.tracksAnim = new deck.TripsLayer({
+			id: 'deckGL_tracks_anim',
+			data: motusData.tracksLongByAnimal,
+			// Styles
+			getFilterValue: d => {
+				return [
+					+(motusFilter.species[0] == 'all' || motusFilter.species.includes(d.species)) &&
+					+(motusFilter.stations[0] == 'all' || motusFilter.stations.some( x => d.stations.includes(x) )) &&
+			//		+(motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d.region1) || motusFilter.regions.includes(d.region2)) &&
+					+(motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.includes(d.frequency)) &&
+					+(motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.project))
+				]},
+			filterRange: [1,1],
+			extensions: [new deck.DataFilterExtension({filterSize: 1})],
+			getPath: d => d.tracks,
+			getTimestamps: d => d.ts,
+			getColor: d => hexToRgb(
+				motusMap.colourScale(
+					exploreType == "main" ?	d.frequency :
+					(typeof d[motusMap.colourVar] == 'object' ? d[motusMap.colourVar].filter( x => motusMap.colourVarSelections.includes(x) )[0] : d[motusMap.colourVar])
+				)
+			),
+			pickable: true,
+			onClick: ({object}, e) => motusMap.dataClick(e.srcEvent, object, 'track'),
+			onHover: ({object, picked}, e) => motusMap.dataHover(e.srcEvent, object, picked?'in':'out', 'track'),
+			autoHighlight:true,
+			highlightColor: [255,0,0],
+			widthMinPixels: 2,
+			opacity: 1,
+			rounded: true,
+			trailLength: ANIMATION_SPEED * (500/INTERVAL_LENGTH),
+			currentTime: currentTime,
+		})
+
+		motusMap.deckLayer.setProps({
+			layers:
+				exploreType == 'main' ?
+				[ deckGlLayers.stations
+				, deckGlLayers.tracksAnim ] : [
+			   deckGlLayers.otherStations
+				,deckGlLayers.selectedStations
+				,deckGlLayers.tracksAnim
+			]
+		});
+
+		timeline.setSlider([currentTime, currentTime], false, false);
+
 	}
-
-	timeline.position = [currentTime, currentTime];
-	motusMap.deckLayer.setProps({
-		layers: [
-			deckGlLayers.stations,
-			new deck.TripsLayer({
-				id: 'deckGL_tracks_anim',
-				data: motusData.tracksLongByAnimal,
-				// Styles
-				getFilterValue: d => {
-					return [
-						+(motusFilter.species[0] == 'all' || motusFilter.species.includes(d.species)) &&
-						+(motusFilter.stations[0] == 'all' || motusFilter.stations.some( x => d.stations.includes(x) )) &&
-				//		+(motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d.region1) || motusFilter.regions.includes(d.region2)) &&
-						+(motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.includes(d.frequency)) &&
-						+(motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.project))
-					]},
-				filterRange: [1,1],
-				extensions: [new deck.DataFilterExtension({filterSize: 1})],
-				getPath: d => d.tracks,
-				getTimestamps: d => d.ts,
-				getColor: d => hexToRgb(
-					motusMap.colourScale(
-						exploreType == "main" ?	d.frequency :
-						(typeof d[motusMap.colourVar] == 'object' ? d[motusMap.colourVar].filter( x => motusMap.colourVarSelections.includes(x) )[0] : d[motusMap.colourVar])
-					)
-				),
-				pickable: true,
-				onClick: info => console.log(info),
-				autoHighlight:true,
-				highlightColor: [255,0,0],
-				widthMinPixels: 2,
-				opacity: 1,
-				rounded: true,
-				trailLength: ANIMATION_SPEED * (500/INTERVAL_LENGTH),
-				currentTime: currentTime,
-			})
-		]
-	});
-
-	timeline.setSlider([currentTime, currentTime], false, false);
 
 
 }

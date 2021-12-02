@@ -406,7 +406,7 @@ function animalTimeline( cardID ) {
 
 		$(".explore-card-" + cardID + "-timeline").append(
 
-			detectionTimeline(Object.values(motusData.selectedTracks),{
+			detectionTimeline(motusData.tracksLongByAnimal,{
 					width:width,
 					height: height,
 		//			resize: $(".explore-card-" + cardID + "-timeline").parent(),
@@ -1822,7 +1822,7 @@ function detectionTimeline( d, {
 		dayWidth = dayWidth < 1 ? 1 : dayWidth;
 
 		var timeFormat = ( timeLineRange.range / (1000 * 60 * 60 * 24 * 365) ) * ( 300 / width ) > 2 ? "%Y" :
-							( ( timeLineRange.range / (1000 * 60 * 60 * 24 * 365) ) * ( 300 / width ) > 1 ? "%b %Y" : "%Y-%m-%d" );
+								( ( timeLineRange.range / (1000 * 60 * 60 * 24 * 365) ) * ( 300 / width ) > 1 ? "%b %Y" : "%Y-%m-%d" );
 
 		var x_scale = d3.scaleTime()
 									.domain( [ new Date(timeLineRange.min), new Date(timeLineRange.max) ] )
@@ -1845,67 +1845,38 @@ function detectionTimeline( d, {
 		}
 
 		var stationHits = {};
+
 		if (dataSource != 'station') {
 			if (d.length > 0) {
 				hasData = true;
 			}
-			d.forEach(function(trackData, ind) {
-
-				var dtsStart = trackData.dtStartList;
-				var dtsEnd = trackData.dtEndList;
-				var splitData = {
-					stations: trackData.route.split('.'),
-					projects: trackData.project.concat(trackData.recvProjs),
-					species: trackData.species,
-					animals: trackData.animal,
-					regions: motusFilter.selections
-				};
+			d.forEach(function({id, ts, stations, species, project, frequency}, ind) {
 
 			//if (splitData.stations.some( x => motusFilter.selections.includes( x ) ))
-			//		console.log(splitData);
 
 //				if (ind%100 == 0) console.log(trackData)
 				var dates = [];
 				var spp = [];
 				var animals = [];
 
-
-				trackData.dir.forEach((dir ,i) => {
-					if (
-								( dataType == "projects" || motusFilter.projects.includes('all') || motusFilter.projects.includes(splitData.projects[i]) ) &&
-								( dataType == "species" || motusFilter.species.includes('all') || motusFilter.species.includes(trackData.species[i]) ) &&
-								( dataType == "animals" || motusFilter.animals.includes('all') || motusFilter.animals.includes(trackData.animal[i]) ) &&
-								(
+				stations.forEach((station, i) => {
+						if (
+									( dataType == "projects" || motusFilter.projects.includes('all') || motusFilter.projects.includes( project ) ) &&
+									( motusFilter.frequencies.includes('all') || motusFilter.frequencies.includes( frequency ) ) &&
+									( dataType == "species" || motusFilter.species.includes('all') || motusFilter.species.includes( species ) ) &&
+									( dataType == "animals" || motusFilter.animals.includes('all') || motusFilter.animals.includes( id ) ) &&
+									( (dataType == "stations" && motusFilter.selections.includes( station )) || ( motusFilter.stations.includes('all') || motusFilter.stations.includes(station) ) ) &&
 									(
-										dataType == "stations" &&
-										(
-											motusFilter.selections.includes( splitData[dataType][0] ) ||
-											motusFilter.selections.includes( splitData[dataType][1] )
-										)
-									) ||
-									(
-										dataType == "regions"
-										// We'll want to change this in the future since multi-region profiles will just have all data in each profile.
-										// We can choose to slit data based on:
-										//	- Station regions, based on start or end of track
-										//  - Tag deployment regions
-									) ||
-								  ( dataType != "stations" && motusFilter.selections.some( x => splitData[dataType][i].includes(x) ) )
-								)
-							) {
+										dataType == "regions" || motusFilter.regions.includes('all') || true
+									)
+								) {
 
-							if ( motusFilter.stations.includes('all') || motusFilter.stations.includes(splitData.stations[0]) ) {
-								dates.push( dir == 1 ? dtsStart[i] : dtsEnd[i] );
-								spp.push(trackData.species[i]);
-								animals.push(trackData.animal[i]);
-							}
-							if ( motusFilter.stations.includes('all') || motusFilter.stations.includes(splitData.stations[1]) ) {
-								dates.push( dir == 1 ? dtsEnd[i] : dtsStart[i] );
-								spp.push(trackData.species[i]);
-								animals.push(trackData.animal[i]);
-							}
-					}
-				}, []);
+							dates.push( ts[i]*1000 );
+							spp.push( species );
+							animals.push( id );
+						}
+				})
+
 
 
 //				if (ind%100 == 0) console.log(dates)
@@ -2218,7 +2189,7 @@ function detectionTimeline( d, {
 				if (tmp_width != width) {
 					width = tmp_width;
 					resize.find("svg").remove();
-					resize.append( detectionTimeline( Object.values(motusData.selectedTracks), {
+					resize.append( detectionTimeline( motusData.tracksLongByAnimal, {
 						width:width,
 						timelineSVG: $("<svg height='"+height+"' style='width:100%;margin:-8px 0;cursor:pointer;'></svg>"),
 						dataSource: dataSource,
@@ -2243,8 +2214,7 @@ function detectionTimeline( d, {
 
 		}
 		if (!zoomable){
-
-				console.log("Station '%s' scale: %o",d[0].name, 	x_scale.domain())
+			console.log("Station '%s' scale: %o",d[0].name, x_scale.domain())
 			d3.select( timelineSVG[0] )
 				.append( 'g' )
 				.attr('class','axis-x')
