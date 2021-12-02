@@ -1865,18 +1865,9 @@ function detectionTimeline( d, {
 									( motusFilter.frequencies.includes('all') || motusFilter.frequencies.includes( frequency ) ) &&
 									( dataType == "species" || motusFilter.species.includes('all') || motusFilter.species.includes( species ) ) &&
 									( dataType == "animals" || motusFilter.animals.includes('all') || motusFilter.animals.includes( id ) ) &&
-									( dataType != "stations" || ( motusFilter.stations.includes('all') || motusFilter.stations.includes(station) ) ) &&
+									( (dataType == "stations" && motusFilter.selections.includes( station )) || ( motusFilter.stations.includes('all') || motusFilter.stations.includes(station) ) ) &&
 									(
-										(
-											dataType == "stations" && motusFilter.selections.includes( station )
-										) ||
-										(
-											dataType == "regions"
-											// We'll want to change this in the future since multi-region profiles will just have all data in each profile.
-											// We can choose to slit data based on:
-											//	- Station regions, based on start or end of track
-											//  - Tag deployment regions
-										)
+										dataType == "regions" || motusFilter.regions.includes('all') || true
 									)
 								) {
 
