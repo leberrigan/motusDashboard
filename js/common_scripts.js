@@ -223,10 +223,12 @@ function viewProfile(profileType, dataID) {
 				dataID = motusData[dataType].filter( d => dataID.includes(d.id) ).map( d => d.id )
 			}
 			motusFilter.group = groupID;
-			motusFilter[profileType] = dataID;
+		//	motusFilter[profileType] = dataID;
+			motusFilter.selections = dataID;
 		} else {
 			motusFilter.group = undefined;
-			motusFilter[profileType] = dataID;
+		//	motusFilter[profileType] = dataID;
+			motusFilter.selections = dataID;
 		}
 
 		updateURL(true);
