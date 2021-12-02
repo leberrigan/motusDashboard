@@ -1850,7 +1850,6 @@ function detectionTimeline( d, {
 			if (d.length > 0) {
 				hasData = true;
 			}
-										console.log(d);
 			d.forEach(function({id, ts, stations, species, project, frequency}, ind) {
 
 			//if (splitData.stations.some( x => motusFilter.selections.includes( x ) ))
@@ -1860,15 +1859,13 @@ function detectionTimeline( d, {
 				var spp = [];
 				var animals = [];
 
-				stations.shift();
-
 				stations.forEach((station, i) => {
 						if (
 									( dataType == "projects" || motusFilter.projects.includes('all') || motusFilter.projects.includes( project ) ) &&
 									( motusFilter.frequencies.includes('all') || motusFilter.frequencies.includes( frequency ) ) &&
 									( dataType == "species" || motusFilter.species.includes('all') || motusFilter.species.includes( species ) ) &&
 									( dataType == "animals" || motusFilter.animals.includes('all') || motusFilter.animals.includes( id ) ) &&
-									( dataType != "stations" && ( motusFilter.stations.includes('all') || motusFilter.stations.includes(station) ) ) &&
+									( dataType != "stations" || ( motusFilter.stations.includes('all') || motusFilter.stations.includes(station) ) ) &&
 									(
 										(
 											dataType == "stations" && motusFilter.selections.includes( station )
@@ -2226,8 +2223,7 @@ function detectionTimeline( d, {
 
 		}
 		if (!zoomable){
-
-				console.log("Station '%s' scale: %o",d[0].name, 	x_scale.domain())
+			console.log("Station '%s' scale: %o",d[0].name, x_scale.domain())
 			d3.select( timelineSVG[0] )
 				.append( 'g' )
 				.attr('class','axis-x')
