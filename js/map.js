@@ -512,20 +512,20 @@ function exploreMap({
 		},
 		legendClick: function(e, d){
 
-			console.log(d);
-			console.log(motusMap.mapLegendContent.selectAll("."+motusMap.colourDataType).data());
 
 			$(this).toggleClass( 'selected', !$(this).is(".selected") );
 
+			let legendData = motusMap.mapLegendContent.selectAll("."+motusMap.colourDataType).data();
+
 			let opts = {
 				type: this.classList[0],
-				selected: motusMap.mapLegendContent.selectAll(`.${this.classList[0]}.selected`).data().map( x => typeof x === 'object' ? x[0] : x )
+				selected: legendData.map( x => typeof x === 'object' ? x[0] : x )
 			};
 
-			console.log(opts);
+			if (legendData.length == opts.selected.length)
+				opts.selected = [];
 
-			$("#filter_"+motusMap.colourDataType).select2().val(opts.selected).trigger('change')
-
+			$("#filter_"+motusMap.colourDataType).select2().val(opts.selected).trigger('change');
 
 			if (opts.type == 'track') {
 				motusMap.recolourTracks("legend");
