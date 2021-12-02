@@ -802,14 +802,19 @@ function loadMapObjects(callback) {
 			maxZoom: 20
 		});
 
-		motusMap.baseLayers.USGS_USImageryTopo = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryTopo/MapServer/tile/{z}/{y}/{x}', {
-			maxZoom: 20,
-			attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
+
+		motusMap.baseLayers.mapTiler_satelliteHybrid = L.tileLayer('https://api.maptiler.com/maps/hybrid/{z}/{x}/{y}.jpg?key=X3ebwkW7C581goLJPKpC',{
+        tileSize: 512,
+        zoomOffset: -1,
+        minZoom: 1,
+				maxZoom: 20,
+        attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
+        crossOrigin: true
 		});
 
 		var baseMaps = {
-			"Dark": motusMap.baseLayers.USGS_USImageryTopo,
-			"Light": motusMap.baseLayers.OpenStreetMaps_default
+			"Light": motusMap.baseLayers.OpenStreetMaps_default,
+			"Satellite": motusMap.baseLayers.mapTiler_satelliteHybrid
 		}
 
 		motusMap.map = new L.Map(motusMap.el, {
