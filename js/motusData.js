@@ -163,6 +163,7 @@ function getSpeciesTableData( reload = false ) {
 function motusIndexedDB( motusDataTableNames = [] ) {
 
 	motusDataTables = {
+		// [TABLE_NAME]: {[FILE_LOCATION], [INDEXDB_KEY], [GET_TABLE_ON_LOAD]}
 		stations: {file: filePrefix + "stations.csv", key: 'id, project, country, *animals', get: true},	// All stations including station deployments (a.k.a. receiver deployments)
 		stationDeps: {file: filePrefix + "recv-deps.csv", key: 'id', get: true},	// All receiver deployments, including deployment country
 		regions: {file: filePrefix + "country-stats.csv", key: 'id', get: true}, // Number of projects, stations, and tag deployments in each country
@@ -173,7 +174,7 @@ function motusIndexedDB( motusDataTableNames = [] ) {
 		species: {file: filePrefix + "spp.csv", key: 'id', get: true}, // List of all species and various names/codes
 		projects: {file: filePrefix + "projs.csv", key: 'id', get: true}, // All projects, their codes, and descriptions
 		tracksByAnimal: {file: false, key: 'id', get: false}, //
-		tracksLongByAnimal: {file: false, key: 'id', get: 'tracksLong'}, //
+		tracksLongByAnimal: {file: false, key: 'id', get: dataType == 'animals' && exploreType == 'main', check: 'tracksLong'}, //
 		stationsByRegion: {file: false, key: 'region, regionType', get:false}, //
 		animalsByRegion: {file: false, key: 'region, regionType', get:false} //
 	};
@@ -250,12 +251,12 @@ function checkTables() {
 
 	Object.keys(motusDataTables).filter( x => motusDataTables[x].get ).forEach(function(tableName, i){
 
-		if (motusDataTables[tableName].get) {
+		if (motusDataTables[tableName].get || motusDataTables[tableName].check) {
 			// Check whether IndexedDB is supported
 			if (indexedDB) {
 				motusData.db[tableName].count( count => {
 					testTimer.push([new Date(), "Get data: respond to count of "+tableName]);
-					if (count > 0) {
+					if (count > 0 && motusDataTables[tableName].get) {
 
 				//		console.log(`Table '${tableName}' already populated.`);
 
@@ -269,23 +270,21 @@ function checkTables() {
 								motusData[tableName] = d;
 								motusDataTables[tableName].done = true;
 								// Proceed to load the dashboard only once all the data has been downloaded
-								if ( Object.values(motusDataTables).every( x => x.done || !x.get ) ) {
-
-									console.log(`Finished loading data.`);
-									console.log(`There were ${Object.values(motusDataTables).filter( x => x.downloaded ).length} tables downloaded and `+
-															`${Object.values(motusDataTables).filter( x => !x.downloaded ).length} tables loaded from the local database.`);
-									console.log("Loading dashboard content...");
-									loadDashboardContent();
-								}
+								checkIfFinished();
 							});
+
+					} else if (count > 0 && typeof motusDataTables[tableName].check === "string") {
+
+						console.log(`Table '${tableName}' exists, but won't be loaded entirely.`);
+						motusDataTables[tableName].done = true;
 
 					} else {
 
 						console.log(`Table '${tableName}' needs to be downloaded.`);
-						if (motusDataTables[tableName].get === true)
+						if (typeof motusDataTables[tableName].check !== "string")
 							motusDataTables[tableName].download = true;
 						else
-							motusDataTables[motusDataTables[tableName].get].download = true;
+							motusDataTables[motusDataTables[tableName].check].download = true;
 					}
 
 					if (i+1 == Object.keys(motusDataTables).filter( x => motusDataTables[x].get ).length && Object.values(motusDataTables).some( x => x.download )) {
@@ -308,6 +307,18 @@ function checkTables() {
 
 		}
 	});
+
+	function checkIfFinished() {
+
+		if ( Object.values(motusDataTables).every( x => x.done || !x.get ) ) {
+
+			console.log(`Finished loading data.`);
+			console.log(`There were ${Object.values(motusDataTables).filter( x => x.downloaded ).length} tables downloaded and `+
+									`${Object.values(motusDataTables).filter( x => !x.downloaded ).length} tables loaded from the local database.`);
+			console.log("Loading dashboard content...");
+			loadDashboardContent();
+		}
+	}
 }
 
 function downloadMotusData(promises, fileList) {
@@ -689,6 +700,7 @@ async function getSelections({
 
 			// Routes consist of tracks by local animals and visiting animals
 			motusData.tracksByAnimal = await getAnimalRoutes( motusFilter.selectedAnimals );
+			motusData.tracksLongByAnimal = await getSelectedTracksLongByAnimal( motusFilter.selectedAnimals );
 			motusData.selectedTracks = await getSelectedTracks( [...new Set(Object.values(motusData.tracksByAnimal).flat())] );
 
 			// Animal projects have tags deployed
@@ -762,6 +774,8 @@ async function getSelections({
 					motusData.tracksByAnimal = await getAnimalRoutes( motusFilter.selectedAnimals );
 					testTimer.push([new Date(), `Get selections - tracks from ${Object.keys(motusData.tracksByAnimal).length} animals`]);
 					motusData.selectedTracks = await getSelectedTracks( [...new Set(Object.values(motusData.tracksByAnimal).flat())] );
+					testTimer.push([new Date(), `Get selections - LONG animal paths from ${motusFilter.selectedAnimals.length} animals`]);
+					motusData.tracksLongByAnimal = await getSelectedTracksLongByAnimal( motusFilter.selectedAnimals );
 
 					testTimer.push([new Date(), "Get selections - regions"]);
 					// Animal regions have tags deployed
@@ -813,6 +827,7 @@ async function getSelections({
 			motusData.selectedSpecies = await getSelectedSpecies( motusData.selectedAnimals );
 
 			motusData.tracksByAnimal = await getAnimalRoutes( motusFilter.selectedAnimals );
+			motusData.tracksLongByAnimal = await getSelectedTracksLongByAnimal( motusFilter.selectedAnimals );
 			motusData.selectedTracks = await getSelectedTracks( [...new Set(Object.values(motusData.tracksByAnimal).flat())] );
 
 			motusData.selectedAnimalProjects = await getSelectedProjects( [...new Set(motusData.selectedAnimals.map( x => x.projID ))] );
@@ -833,6 +848,7 @@ async function getSelections({
 			motusFilter.selectedAnimals = await motusData.selectedAnimals.map( x => x.id );
 
 			motusData.tracksByAnimal = await getAnimalRoutes( motusFilter.selectedAnimals );
+			motusData.tracksLongByAnimal = await getSelectedTracksLongByAnimal( motusFilter.selectedAnimals );
 			motusData.selectedTracks = await getSelectedTracks( [...new Set(Object.values(motusData.tracksByAnimal).flat())] );
 
 			motusData.selectedStations = await getSelectedStations( [...new Set(motusData.selectedTracks.map( x => x.route.split('.') ).flat())] );
@@ -869,6 +885,7 @@ async function getSelections({
 			motusFilter.selectedAnimals = await motusData.selectedAnimals.map( x => x.id );
 
 			motusData.tracksByAnimal = await getAnimalRoutes( motusFilter.selectedAnimals );
+			motusData.tracksLongByAnimal = await getSelectedTracksLongByAnimal( motusFilter.selectedAnimals );
 			motusData.selectedTracks = await getSelectedTracks( [...new Set(Object.values(motusData.tracksByAnimal).flat())] );
 
 			motusData.selectedStations = await getSelectedStations( [...new Set(motusData.selectedTracks.map( x => x.route.split('.') ).flat())] );
@@ -1139,6 +1156,16 @@ async function getAnimalRoutes(animals) {
 
 }
 
+async function getSelectedTracksLongByAnimal( animals ) {
+
+	if (animals) {
+		let data = await motusData.db.tracksLongByAnimal.bulkGet( animals );
+		return data.filter(x => typeof x !== 'undefined' && x.species != 'NA' );
+	}	else {
+		return await motusData.db.tracksLongByAnimal.toArray();
+	}
+
+}
 
 function getSelectedTracks(routes) {
 	return motusData.db.tracks.bulkGet( routes );

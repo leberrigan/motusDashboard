@@ -220,7 +220,7 @@ function updateURL(reload) {
 		toEncode;
 
 	for (f in motusFilter) {
-		if (typeof motusFilter[f] !== 'undefined' && f != 'default') {
+		if (typeof motusFilter[f] !== 'undefined' && f != 'default' && !['detected','visiting','local'].some( x => f.toLowerCase().includes(x))) {
 			if (motusFilter[f][0] != 'all' &&
 				(!f.includes("selected")) &&
 				(f != 'dtStart' || motusFilter.dtStart.toISOString().substr(0,10) != default_startDate.toISOString().substr(0,10)) &&
@@ -312,9 +312,9 @@ function detectNavigation() {
 		colour: url_params.frequencies === undefined || url_params.frequencies.length == 0 ? [] : url_params.colour
 	};
 	if (motusFilter[dataType].includes('all') && motusFilter.selections.length > 0) {
-		motusFilter[dataType] = motusFilter.selections;
+//		motusFilter[dataType] = motusFilter.selections;
 	} else if ( !motusFilter.selections.every( x => motusFilter[dataType].includes(x))) {
-		motusFilter[dataType].concat( motusFilter.selections.filter( x => !motusFilter[dataType].includes(x) ) );
+//		motusFilter[dataType].concat( motusFilter.selections.filter( x => !motusFilter[dataType].includes(x) ) );
 	}
 	console.log(motusFilter);
 
@@ -375,12 +375,12 @@ $(document).ready(function(){
 						(
 							["animals","stations","regions","projects","species"].includes(dataType) ? (
 
-									(exploreType != 'main' || dataType == 'regions' ? "<div id='explore_card_map' class='explore-card explore-card-map'>" : "") +
-										"<div id='explore_map'></div>" +
-									(exploreType != 'main' || dataType == 'regions' ? "</div>" : "")
+								(exploreType != 'main' || dataType == 'regions' ? "<div id='explore_card_map' class='explore-card explore-card-map'>" : "") +
+									"<div id='explore_map'></div>" +
+								(exploreType != 'main' || dataType == 'regions' ? "</div>" : "")
 //									(exploreType != 'main'? `<div class='page-name'>${firstToUpper(dataType=='species'?dataType:dataType.substring(0, dataType.length - 1))} summary</div>` : "")
 
-								) :	""
+							) :	""
 						)+
 						(
 						/*	["projects","species","regions"].includes(dataType) ?*/ "<div class='explore-table-wrapper'><table class='hover' id='explore_table' style='width:100%;'></table></div>" //: ""
@@ -451,6 +451,7 @@ $(document).ready(function(){
 });
 
 function loadDashboardContent() {
+
 
 	motusData.stationDepsByRegions = d3.group(motusData.stationDeps, d => d.country);
 	motusData.stationDepsByProjects = d3.group(motusData.stationDeps, d => d.projID);
@@ -1312,9 +1313,7 @@ function afterMapLoads() {
 			}
 
 
-	//		dtLims.min = new Date( timeline.min );
-	//		dtLims.max = new Date( timeline.max );
-	console.log(dtLims);
+			console.log(dtLims);
 
 			exploreTimeline({ min: dtLims.min.valueOf() / 1000,
 												max: dtLims.max.valueOf() / 1000,
@@ -1362,8 +1361,7 @@ function afterMapLoads() {
 
 	$('.explore-card-wrapper').animate({'opacity':1}, 500);
 
-
-	if (typeof deck !== 'undefined') {
+	if (typeof deck !== 'undefined' && exploreType == 'main') {
 
 			deckGL_map();
 
@@ -2014,9 +2012,9 @@ function setFilter(e) {
 
 		if (filterName == dataType) {
 			if (motusFilter[dataType].includes('all') && motusFilter.selections.length > 0) {
-				motusFilter[dataType] = motusFilter.selections;
+		//		motusFilter[dataType] = motusFilter.selections;
 			} else if ( !motusFilter.selections.every( x => motusFilter[dataType].includes(x))) {
-				motusFilter[dataType].concat( motusFilter.selections.filter( x => !motusFilter[dataType].includes(x) ) );
+		//		motusFilter[dataType].concat( motusFilter.selections.filter( x => !motusFilter[dataType].includes(x) ) );
 			}
 		}
 

@@ -99,6 +99,8 @@ if (motusFilter.selections.length > 1) {
 		getGroupedExploreProfileData({id: Object.entries(projectGroupNames).filter( x => x[1] == motusFilter.group )[0][0], name: motusFilter.group, description: ""});
 	}
 
+
+
 	testTimer.push([new Date(), "Add explore tabs"]);
 	addExploreTabs();
 
@@ -125,8 +127,6 @@ if (motusFilter.selections.length > 1) {
 	} else {
 		motusData.selectedTracks = selectedTracks;
 	}
-
-
 
 }
 
@@ -1223,7 +1223,6 @@ function getExploreProfileData(d) {
 	 }
 
 	  if (dataType == 'stations') {
-
 			profile.summary = {
 				animalsDetected: animalsDetected,
 				speciesDetected: speciesDetected,
@@ -1722,11 +1721,11 @@ function addExploreProfile(profile) {
 
 		$("#explore_card_profile_" + profile.id + " .explore-card-remove").click(function(){removeExploreProfile(this, exploreType)});
 
-		if (motusFilter[exploreType][0] === 'all') {motusFilter[exploreType] = [];}
+		/*if (motusFilter[exploreType][0] === 'all') {motusFilter[exploreType] = [];}
 
 		motusFilter[exploreType].push(String(profile.id));
 		motusFilter[exploreType] = motusFilter[exploreType].filter(onlyUnique);
-
+*/
 		if ($("#exploreContent .explore-card-profile").length == 1) {
 	//		$(".explore-card-wrapper").addClass('solo-card');
 	//		$("#explore_card_profiles").addClass('solo-card');

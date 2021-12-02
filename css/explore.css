@@ -1430,7 +1430,7 @@ table.dataTable tr.selected th.select-checkbox:after {
 	margin-top:0px;
 }
 div.explore-card {
-	--explore-card-height: 100%;
+	--explore-card-height: --explore-card-height: calc(100vh - 230px);
 	--explore-card-padding: 0px;
 	display:block;
 	vertical-align:top;
@@ -2058,6 +2058,9 @@ table.dataTable tbody tr.odd {
 }
 
 
+.leaflet-zoom-animated {
+	text-align: left;
+}
 .leaflet-container {
 	background-color:#aad3df;
 }
