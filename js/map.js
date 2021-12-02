@@ -802,14 +802,14 @@ function loadMapObjects(callback) {
 			maxZoom: 20
 		});
 
-		motusMap.baseLayers.Stadia_AlidadeSmoothDark = new L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+		motusMap.baseLayers.USGS_USImageryTopo = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryTopo/MapServer/tile/{z}/{y}/{x}', {
 			maxZoom: 20,
-			attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+			attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
 		});
 
 		var baseMaps = {
-			"Light": motusMap.baseLayers.OpenStreetMaps_default,
-			"Dark": motusMap.baseLayers.Stadia_AlidadeSmoothDark
+			"Dark": motusMap.baseLayers.USGS_USImageryTopo,
+			"Light": motusMap.baseLayers.OpenStreetMaps_default
 		}
 
 		motusMap.map = new L.Map(motusMap.el, {
@@ -819,7 +819,7 @@ function loadMapObjects(callback) {
 			maxNativeZoom: 16,
 			fullscreenControl: true,
 			zoomControl: true,
-			layers: Object.values(baseMaps)
+			layers: [motusMap.baseLayers.OpenStreetMaps_default]
 		//	zoomSnap: dataType == 'regions' ? 0 : 1,
 		//	zoomDelta: dataType == 'regions' ? 0.25 : 0.5
 		});
