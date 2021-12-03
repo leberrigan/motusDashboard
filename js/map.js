@@ -1470,7 +1470,9 @@ function deckGL_map() {
 	motusMap.map.addLayer(motusMap.deckLayer);
 	$(".leaflet-overlay-pane .leaflet-zoom-animated").css('pointer-events', 'auto');
 
-	setTimeout(addMapLegend, 1);
+	if ( exploreType != 'main' || !["projects", "species"].includes(dataType) ) {
+		setTimeout(addMapLegend, 1);
+	}
 
 }
 
@@ -1527,8 +1529,9 @@ function animateTracks(duration) {
 function stopDeckAnimation() {
 	clearInterval(motusMap.animation.timer);
 	timeline.position = timeline.position_OLD;
-	timeline.setSlider(timeline.position, false, false);
+//	timeline.setSlider(timeline.position, false, false);
 	motusMap.animation.isAnimating = false;
+	timeline.highlightDate(false);
 	deckGL_renderMap();
 }
 
@@ -1610,7 +1613,7 @@ function animateTrackStep(currentTime, start) {
 			]
 		});
 
-		timeline.setSlider([currentTime, currentTime], false, false);
+		timeline.highlightDate( currentTime );
 
 	}
 

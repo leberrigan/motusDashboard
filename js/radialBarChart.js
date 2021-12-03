@@ -1,6 +1,10 @@
 
 
 (function () {
+
+	var gx;
+	var container;
+
 	d3.radialBarChart = function() {
 
 		var colourScale = null;
@@ -11,26 +15,28 @@
 			var gParentSize = gParent.node().getBoundingClientRect(); // the svg size
 			var gParentItem = d3.select(gParent.node()); // the svg
 
-			console.log(data);
-			console.log(gParentSize);
 		//	console.log(d3.max(data, d => d?d.total:d));
 
 			var outerRadius = Math.min(gParentSize.width, gParentSize.height) / 2,
 				width = gParentSize.width,
 				height = gParentSize.height,
-				innerRadius = Math.min(gParentSize.width, gParentSize.height) / 4;
+				innerRadius = Math.min(gParentSize.width, gParentSize.height) / 8;
 
-				console.log(width + ", " + height)
 		//	var grp = gParent.append("g").attr("class", "container");
 
 		//	grp.each(function(data, i) {
-
+			var zoom = d3.zoom()
+						.scaleExtent([1, 32])
+						.extent([[0,0], [gParentSize.width, gParentSize.height]])
+					//	.translateExtent([[0,0], [gParentSize.width, gParentSize.height]])
+						.on("zoom", zoomed);
 
 			var legend = g => g.append("g")
+					.attr('transform', `translate(${20-(gParentSize.width/2)},0)`)
 					.selectAll("g")
 					.data(data.columns.slice(1).reverse())
 					.join("g")
-						.attr("transform", (d, i) => `translate(-40,${(i - (data.columns.length - 1) / 2) * 20})`)
+						.attr("transform", (d, i) => `translate(0,${(i - (data.columns.length - 1) / 2) * 20})`)
 						.call(g => g.append("rect")
 							.attr("width", 18)
 							.attr("height", 18)
@@ -47,8 +53,6 @@
 					return ["hour", "month", "total", "local", "remote"].includes(d2[0]) ? 0 : d2[1].length;
 				});
 			});
-
-			console.log(maxY);
 
 			var y = d3.scaleRadial()
 				.domain([0, maxY])
@@ -126,13 +130,24 @@
 			//	.style("height", "calc(100% - 20px)")
 				.style("font", "10px sans-serif");
 
-			gParentItem.append("g")
+			container = gParentItem.append("g").call(zoom);
+
+			// Zoom events won't trigger on blank parts without this background
+			container.append("g")
+				.append("rect")
+				.attr('x', -gParentSize.width/2)
+				.attr('y', -gParentSize.height/2)
+				.attr('width', gParentSize.width)
+				.attr('height', gParentSize.height)
+				.style('fill', "#FFF")
+				.style('fill-opacity', "0.1");
+
+			// Add the X (theta) axis
+			container.append("g")
 				.call(xAxis);
 
-			gParentItem.append("g")
-				.call(yAxis);
 
-			gParentItem.append("g")
+			container.append("g")
 				.selectAll("g")
 				.data(d3.stack().keys(data.columns.slice(1)).value( (d, key) => d[key].length )(data))
 				.join("g")
@@ -145,19 +160,38 @@
 				.attr("d", arc)
 				.style('pointer-events', 'auto')
 				.style('opacity','0.8')
-				.style('stroke','#000')
-				.style('stroke-width','2px')
-				.attr("stroke-opacity", "0.25")
+		//		.style('stroke','#000')
+		//		.style('stroke-width','2px')
+		//		.attr("stroke-opacity", "0.25")
 				.style('cursor','pointer')
 				.on('touchstart mouseover mousemove', (e,d) => dataHover(e, d, 'in'))
 				.on('touchend mouseout', (e,d) => dataHover(e, d, 'out'))
 				.on('click', (e,d) => dataClick(e, d));
 
 
-			gParentItem.append("g")
+			container.append("g")
+				.call(yAxis);
+
+		// Theta axis title
+
+			var thetaText = dateFormat == "H" ? 'Hour of day' : 'Month of year';
+
+			container
 				.append('g')
+				.attr("transform", `translate(-50,-15)`)
+				.call(g => g.append("text")
+							.attr("x", 24)
+							.attr("y", 9)
+							.attr("dy", "0.35em")
+							.attr("font-weight", "bold")
+							.text(thetaText));
+
+			// Legend title
+			container.append("g")
 				.append('g')
-				.attr("transform", `translate(-40,${(-1 - (data.columns.length - 1) / 2) * 20})`)
+				.attr('transform', `translate(${20-(gParentSize.width/2)},0)`)
+				.append('g')
+				.attr("transform", `translate(0,${(-1 - (data.columns.length - 1) / 2) * 20})`)
 				.call(g => g.append("text")
 							.attr("x", 24)
 							.attr("y", 9)
@@ -165,11 +199,25 @@
 							.attr("font-weight", "bold")
 							.text('Origin'));
 
-			gParentItem.append("g")
+			container.append("g")
 				.call(legend);
 		//	});
 			return gParentItem.node();
 		};
+
+
+
+
+		function zoomed(event) {
+
+			var sourceEvent = event.sourceEvent
+
+			var t = event.transform;
+			console.log(t);
+			console.log(event);
+			container.attr("transform", "translate(" +t.x + "," + t.y + ")scale(" + t.k + ")");
+
+		}
 
 		function dataHover(e, data, dir) {
 				//							from: https://observablehq.com/@d3/line-chart-with-tooltip
