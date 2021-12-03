@@ -90,17 +90,21 @@ function exploreMap({
 			if (dir == 'in') {
 
 				if (t == 'track') {
-					console.log(d);
 
 					var species = "Loading...";
 					// Make a request to the database to find the species name
-					 motusData.db.species.get( d.species.toString() ).then( sp => {
+					 motusData.db.animals.get( d.id.toString() ).then( animal => {
+						// var animal = exploreType == 'main' ? motusData.animals.filter( x => x.id == d.id )[0] : motusData.selectedAnimals.filter( x => x.id == d.id )[0];
+						 let species = typeof animal.species === 'undefined' || animal.species == "NA" ? "Unknown species" : motusData.species.filter(x => x.id == animal.species)[0];
+						 species = typeof species === 'undefined' ? "Unknown species" : species[currLang];
+
 						 // When request received, add the text
-						 $('.tooltip').html(
-							 // If there are more than one animals, display the number of animals, but not the ID
-							 );
 	 						$('.tooltip').html("<center><h3>"+
-	 													icons.species + "&nbsp;&nbsp;&nbsp;" + (typeof sp === 'undefined' ? "Unknown species" : sp.english) +
+	 													icons.species + "&nbsp;&nbsp;&nbsp;" + (species) +
+														 "&nbsp;&nbsp;&nbsp;" +
+														`<a class='station-status station-status-${animal.status}'>`+
+															`${firstToUpper(animal.status)}`+
+														"</a>"+
 
 	 												"</h3></center>"+
 
@@ -110,7 +114,7 @@ function exploreMap({
 
 														`<div><b>Stations visited: </b>${icons.station}	${d.stations.length} </div>`+
 
-		 											  `<div><b>First deployed: </b>${new Date(d3.min(d.ts)*1000).toISOString().substr(0,10)}</div>`+
+		 											  `<div><b>First deployed: </b>${animal.dtStart.toISOString().substr(0,10)}</div>`+
 
 													  `<div><b>Last data: </b>${new Date(d3.max(d.ts)*1000).toISOString().substr(0,10)}</div>`+
 
@@ -193,26 +197,35 @@ function exploreMap({
 					} else {
 						$('.tooltip').html("<center><h3>"+
 													icons.station + "&nbsp;&nbsp;&nbsp;" + d.name +
+													"&nbsp;&nbsp;&nbsp;" +
+													`<a class='station-status station-status-${d.status}'>`+
+														`${firstToUpper(d.status)}`+
+													"</a>"+
 												"</h3></center>"+
 
+												`<div class='tooltip-grid'>`+
 
-												`<table style="width:100%;text-align:center;font-size:14pt;"><tbody>`+
-													`<tr><td>${d.nAnimals} ${icons.animals}</td><td style="padding-left: 10px;">${d.nSpecies} ${icons.species}</td></tr>`+
-													`<tr><td><b>Animal${d.nAnimals==1?"":"s"}</b></td><td style="padding-left: 10px;"><b>Species</b></td></tr>`+
-												`</tbody></table>`+
-												"<br/>"+
-											  `<b>First installed: </b>${(typeof d.dtStart === 'number' ? new Date(d.dtStart*1000) : d.dtStart).toISOString().substr(0,10)}`+
-												"<br/>"+
-											  `<b>Last data: </b>${d.lastData} days ago	`+
-												"<br/>"+
-												`<a class='station-status station-status-${d.status}'>`+
-													`${firstToUpper(d.status)}`+
-												"</a>"+
-												"<br/>Frequency: "+(d.frequency.join(", "))+
-												"<center>"+
-												( isMobile ? `<button class='submit_btn' onclick='motusMap.dataClick(false,{id: ${d.id}},"station")'>View station profile</button>`
-													: "Click to view profile" )+
-												"</center>");
+													`<div><b>Animals: </b>${icons.animals} ${d.nAnimals} </div>`+
+
+													`<div><b>Species: </b>${icons.species} ${d.nSpecies}</div>`+
+
+												  `<div><b>First installed: </b>${(typeof d.dtStart === 'number' ? new Date(d.dtStart*1000) : d.dtStart).toISOString().substr(0,10)}</div>`+
+
+												  `<div><b>Last data: </b>${d.lastData} days ago</div>`+
+
+													"<div><b>Frequency: </b>"+(d.frequency.join(", "))+"</div>"+
+
+													`<div><b>Station model: </b> --- </div>`+
+
+													`<div class='tooltip-grid-colspan2'><b>Project: </b>${motusData.projects.filter(x => x.id == d.projID)[0].name} (#${d.projID})</div>`+
+
+													"<div class='tooltip-grid-colspan2'>"+
+													( isMobile ? `<button class='submit_btn' onclick='motusMap.dataClick(false,{id: ${d.id}},"station")'>View station profile</button>`
+														: "Click to view profile" )+
+													"</div>"+
+
+												`</div>`
+											);
 					}
 				} else { // t == "tag deployment"
 					console.log("Data hover: %o", d);

@@ -208,6 +208,7 @@ body.touch .tooltip_bg {
 	display:grid;
 	grid-template-columns: auto auto;
 	justify-content: center;
+	max-width:425px;
 }
 .tooltip .tooltip-grid svg {
   height: 15px;
@@ -223,7 +224,6 @@ body.touch .tooltip_bg {
 .tooltip .station-status {
 	text-align:center;
 	margin:10px auto;
-	display:block;
 	padding: 3px 5px;
 	border: 0px;
 	font-weight:bold;

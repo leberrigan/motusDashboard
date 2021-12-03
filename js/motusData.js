@@ -473,6 +473,7 @@ function downloadMotusData(promises, fileList) {
 					v => ({
 						id: v[0].animal,
 						tracks: v.map(x => ([+x.lon2, +x.lat2])),
+						tsStart: d3.min(v, x => +x.ts1),
 						ts: v.map(x => +x.ts2),
 						frequency:  v[0].frequency,
 						species:  v[0].species,
