@@ -90,6 +90,7 @@ function exploreMap({
 			if (dir == 'in') {
 
 				if (t == 'track') {
+					console.log(d);
 
 					var species = "Loading...";
 					// Make a request to the database to find the species name
@@ -100,33 +101,44 @@ function exploreMap({
 							 );
 	 						$('.tooltip').html("<center><h3>"+
 	 													icons.species + "&nbsp;&nbsp;&nbsp;" + (typeof sp === 'undefined' ? "Unknown species" : sp.english) +
-		 												"<br/>"+
-														icons.animals + "&nbsp;&nbsp;&nbsp;#" + d.id +
+
 	 												"</h3></center>"+
 
-													`<b>Stations visited: </b>${icons.station}	${d.stations.length} `+
-	 												"<br/>"+
-	 											  `<b>First deployed: </b>${new Date(d3.min(d.ts)*1000).toISOString().substr(0,10)}`+
-	 												"<br/>"+
-	 											  `<b>Last data: </b>${new Date(d3.max(d.ts)*1000).toISOString().substr(0,10)}`+
-	 												"<br/>"+
-	 											  `<b>Distance travelled: </b>${Math.round(d3.sum(d.dist)/1000)} km`+
-	 												"<br/>"+
-	 											  `<b>Average speed: </b>${Math.round(36 * d3.sum(d.dist)/(d.ts[d.ts.length-1]-d.ts[0]))/10} km/h`+
-	 												"<br/>"+/*
-	 												`<a class='station-status station-status-${d.status}'>`+
-	 													`${firstToUpper(d.status)}`+
-	 												"</a>"+*/
-	 												"<br/>Frequency: "+d.frequency+
+													`<div class='tooltip-grid'>`+
+
+														`<div><b>Tag deployment: </b>${icons.animals}	#${d.id}</div>`+
+
+														`<div><b>Stations visited: </b>${icons.station}	${d.stations.length} </div>`+
+
+		 											  `<div><b>First deployed: </b>${new Date(d3.min(d.ts)*1000).toISOString().substr(0,10)}</div>`+
+
+													  `<div><b>Last data: </b>${new Date(d3.max(d.ts)*1000).toISOString().substr(0,10)}</div>`+
+
+		 											  `<div><b>Distance travelled: </b>${Math.round(d3.sum(d.dist)/1000)} km</div>`+
+
+													  `<div><b>Average speed: </b>${Math.round(36 * d3.sum(d.dist)/(d.ts[d.ts.length-1]-d.ts[0]))/10} km/h</div>`+
+
+														`<div><b>Frequency: </b>${d.frequency} MHz</div>`+
+
+														`<div><b>Tag model: </b> --- </div>`+
+
+														`<div class='tooltip-grid-colspan2'><b>Project: </b>${motusData.projects.filter(x => x.id == d.project)[0].name} (#${d.project})</div>`+
+
+														(
+															isMobile ?
+															`<div class='tooltip-grid-colspan2'><button class='submit_btn' onclick='motusMap.dataClick(false,{id: ${d.id}},"track")'>View station profile</button></div>`
+		 													: `<div class='tooltip-grid-colspan2'>Click to view profile</div>`
+														)+
+
+													`</div>`+
+
 	 												"<center>"+
-	 												( isMobile ? `<button class='submit_btn' onclick='motusMap.dataClick(false,{id: ${d.id}},"station")'>View station profile</button>`
-	 													: "Click to view profile" )+
 	 												"</center>");
 					 });
 
 					$('.tooltip').html(
 						"<big>"+species+"</big>"+
-						"</br>(Click to view)"
+						"</br>(Click to view profile)"
 					);
 
 				} else if (t == 'antenna') {
@@ -1236,7 +1248,7 @@ function getProfileMapLayers(load, layer) {
 				onHover: ({object, picked}, e) => motusMap.dataHover(e.srcEvent, object, picked?'in':'out', 'track'),
 				getLineWidth: Object.keys(motusData.selectedTracks).length < 100 ? 3000 : 2000,
 				highlightColor: [255,0,0],
-				lineWidthMinPixels: 1,
+				lineWidthMinPixels: 2,
 				lineWidthMaxPixels: 10,
 				updateTriggers: {
 					// This tells deck.gl to recalculate radius when `currentYear` changes
@@ -1353,7 +1365,7 @@ function getExploreMapLayers(load, layer) {
 			onHover: ({object, picked}, e) => motusMap.dataHover(e.srcEvent, object, picked?'in':'out', 'track'),
 			getLineWidth: 1000,
 			highlightColor: [255,0,0],
-			lineWidthMinPixels: 1,
+			lineWidthMinPixels: 2,
 			lineWidthMaxPixels: 10,
 			updateTriggers: {
 				// This tells deck.gl to recalculate radius when `currentYear` changes
