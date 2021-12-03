@@ -70,6 +70,16 @@ function exploreTimeline({
 			timeline.status = 'stop';
 			if (typeof deck === 'undefined') 	motusMap.setVisibility();
 		},
+		highlightDate: function(date) {
+			if (date) {
+				let xpos = $("#dateSlider").width() * ((date - timeline.min) / (timeline.max - timeline.min));
+				let elPos = $("#dateSlider").offset();
+
+				$("#dateHighlighter").show().css({left: xpos + elPos.left, top:50+elPos.top}).text( new Date(date * 1000).toISOString().substr(0,10) );
+			} else {
+				$("#dateHighlighter").hide()
+			}
+		},
 		setSlider: function(position, moveSlider = false, setPicker = true, callback) {
 
 			if (typeof position[0] === 'string') {

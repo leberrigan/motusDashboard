@@ -372,6 +372,7 @@ $(document).ready(function(){
 						"<div class='explore-controls' id='explore_controls'>"+
 							"<div class='explore-control-wrapper'></div>"+
 						"</div>"+
+						"<div id='dateHighlighter'></div> "+
 						(
 							["animals","stations","regions","projects","species"].includes(dataType) ? (
 

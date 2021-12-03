@@ -93,40 +93,56 @@ function exploreMap({
 
 					var species = "Loading...";
 					// Make a request to the database to find the species name
-					 motusData.db.species.get( d.species.toString() ).then( sp => {
+					 motusData.db.animals.get( d.id.toString() ).then( animal => {
+						// var animal = exploreType == 'main' ? motusData.animals.filter( x => x.id == d.id )[0] : motusData.selectedAnimals.filter( x => x.id == d.id )[0];
+						 let species = typeof animal.species === 'undefined' || animal.species == "NA" ? "Unknown species" : motusData.species.filter(x => x.id == animal.species)[0];
+						 species = typeof species === 'undefined' ? "Unknown species" : species[currLang];
+
 						 // When request received, add the text
-						 $('.tooltip').html(
-							 // If there are more than one animals, display the number of animals, but not the ID
-							 );
 	 						$('.tooltip').html("<center><h3>"+
-	 													icons.species + "&nbsp;&nbsp;&nbsp;" + (typeof sp === 'undefined' ? "Unknown species" : sp.english) +
-		 												"<br/>"+
-														icons.animals + "&nbsp;&nbsp;&nbsp;#" + d.id +
+	 													icons.species + "&nbsp;&nbsp;&nbsp;" + (species) +
+														 "&nbsp;&nbsp;&nbsp;" +
+														`<a class='station-status station-status-${animal.status}'>`+
+															`${firstToUpper(animal.status)}`+
+														"</a>"+
+
 	 												"</h3></center>"+
 
-													`<b>Stations visited: </b>${icons.station}	${d.stations.length} `+
-	 												"<br/>"+
-	 											  `<b>First deployed: </b>${new Date(d3.min(d.ts)*1000).toISOString().substr(0,10)}`+
-	 												"<br/>"+
-	 											  `<b>Last data: </b>${new Date(d3.max(d.ts)*1000).toISOString().substr(0,10)}`+
-	 												"<br/>"+
-	 											  `<b>Distance travelled: </b>${Math.round(d3.sum(d.dist)/1000)} km`+
-	 												"<br/>"+
-	 											  `<b>Average speed: </b>${Math.round(36 * d3.sum(d.dist)/(d.ts[d.ts.length-1]-d.ts[0]))/10} km/h`+
-	 												"<br/>"+/*
-	 												`<a class='station-status station-status-${d.status}'>`+
-	 													`${firstToUpper(d.status)}`+
-	 												"</a>"+*/
-	 												"<br/>Frequency: "+d.frequency+
+													`<div class='tooltip-grid'>`+
+
+														`<div><b>Tag deployment: </b>${icons.animals}	#${d.id}</div>`+
+
+														`<div><b>Stations visited: </b>${icons.station}	${d.stations.length} </div>`+
+
+		 											  `<div><b>First deployed: </b>${animal.dtStart.toISOString().substr(0,10)}</div>`+
+
+													  `<div><b>Last data: </b>${new Date(d3.max(d.ts)*1000).toISOString().substr(0,10)}</div>`+
+
+		 											  `<div><b>Distance travelled: </b>${Math.round(d3.sum(d.dist)/1000)} km</div>`+
+
+													  `<div><b>Average speed: </b>${Math.round(36 * d3.sum(d.dist)/(d.ts[d.ts.length-1]-d.ts[0]))/10} km/h</div>`+
+
+														`<div><b>Frequency: </b>${d.frequency} MHz</div>`+
+
+														`<div><b>Tag model: </b> --- </div>`+
+
+														`<div class='tooltip-grid-colspan2'><b>Project: </b>${motusData.projects.filter(x => x.id == d.project)[0].name} (#${d.project})</div>`+
+
+														(
+															isMobile ?
+															`<div class='tooltip-grid-colspan2'><button class='submit_btn' onclick='motusMap.dataClick(false,{id: ${d.id}},"track")'>View station profile</button></div>`
+		 													: `<div class='tooltip-grid-colspan2'>Click to view profile</div>`
+														)+
+
+													`</div>`+
+
 	 												"<center>"+
-	 												( isMobile ? `<button class='submit_btn' onclick='motusMap.dataClick(false,{id: ${d.id}},"station")'>View station profile</button>`
-	 													: "Click to view profile" )+
 	 												"</center>");
 					 });
 
 					$('.tooltip').html(
 						"<big>"+species+"</big>"+
-						"</br>(Click to view)"
+						"</br>(Click to view profile)"
 					);
 
 				} else if (t == 'antenna') {
@@ -181,26 +197,35 @@ function exploreMap({
 					} else {
 						$('.tooltip').html("<center><h3>"+
 													icons.station + "&nbsp;&nbsp;&nbsp;" + d.name +
+													"&nbsp;&nbsp;&nbsp;" +
+													`<a class='station-status station-status-${d.status}'>`+
+														`${firstToUpper(d.status)}`+
+													"</a>"+
 												"</h3></center>"+
 
+												`<div class='tooltip-grid'>`+
 
-												`<table style="width:100%;text-align:center;font-size:14pt;"><tbody>`+
-													`<tr><td>${d.nAnimals} ${icons.animals}</td><td style="padding-left: 10px;">${d.nSpecies} ${icons.species}</td></tr>`+
-													`<tr><td><b>Animal${d.nAnimals==1?"":"s"}</b></td><td style="padding-left: 10px;"><b>Species</b></td></tr>`+
-												`</tbody></table>`+
-												"<br/>"+
-											  `<b>First installed: </b>${(typeof d.dtStart === 'number' ? new Date(d.dtStart*1000) : d.dtStart).toISOString().substr(0,10)}`+
-												"<br/>"+
-											  `<b>Last data: </b>${d.lastData} days ago	`+
-												"<br/>"+
-												`<a class='station-status station-status-${d.status}'>`+
-													`${firstToUpper(d.status)}`+
-												"</a>"+
-												"<br/>Frequency: "+(d.frequency.join(", "))+
-												"<center>"+
-												( isMobile ? `<button class='submit_btn' onclick='motusMap.dataClick(false,{id: ${d.id}},"station")'>View station profile</button>`
-													: "Click to view profile" )+
-												"</center>");
+													`<div><b>Animals: </b>${icons.animals} ${d.nAnimals} </div>`+
+
+													`<div><b>Species: </b>${icons.species} ${d.nSpecies}</div>`+
+
+												  `<div><b>First installed: </b>${(typeof d.dtStart === 'number' ? new Date(d.dtStart*1000) : d.dtStart).toISOString().substr(0,10)}</div>`+
+
+												  `<div><b>Last data: </b>${d.lastData} days ago</div>`+
+
+													"<div><b>Frequency: </b>"+(d.frequency.join(", "))+"</div>"+
+
+													`<div><b>Station model: </b> --- </div>`+
+
+													`<div class='tooltip-grid-colspan2'><b>Project: </b>${motusData.projects.filter(x => x.id == d.projID)[0].name} (#${d.projID})</div>`+
+
+													"<div class='tooltip-grid-colspan2'>"+
+													( isMobile ? `<button class='submit_btn' onclick='motusMap.dataClick(false,{id: ${d.id}},"station")'>View station profile</button>`
+														: "Click to view profile" )+
+													"</div>"+
+
+												`</div>`
+											);
 					}
 				} else { // t == "tag deployment"
 					console.log("Data hover: %o", d);
@@ -1236,7 +1261,7 @@ function getProfileMapLayers(load, layer) {
 				onHover: ({object, picked}, e) => motusMap.dataHover(e.srcEvent, object, picked?'in':'out', 'track'),
 				getLineWidth: Object.keys(motusData.selectedTracks).length < 100 ? 3000 : 2000,
 				highlightColor: [255,0,0],
-				lineWidthMinPixels: 1,
+				lineWidthMinPixels: 2,
 				lineWidthMaxPixels: 10,
 				updateTriggers: {
 					// This tells deck.gl to recalculate radius when `currentYear` changes
@@ -1353,7 +1378,7 @@ function getExploreMapLayers(load, layer) {
 			onHover: ({object, picked}, e) => motusMap.dataHover(e.srcEvent, object, picked?'in':'out', 'track'),
 			getLineWidth: 1000,
 			highlightColor: [255,0,0],
-			lineWidthMinPixels: 1,
+			lineWidthMinPixels: 2,
 			lineWidthMaxPixels: 10,
 			updateTriggers: {
 				// This tells deck.gl to recalculate radius when `currentYear` changes
@@ -1445,7 +1470,9 @@ function deckGL_map() {
 	motusMap.map.addLayer(motusMap.deckLayer);
 	$(".leaflet-overlay-pane .leaflet-zoom-animated").css('pointer-events', 'auto');
 
-	setTimeout(addMapLegend, 1);
+	if ( exploreType != 'main' || !["projects", "species"].includes(dataType) ) {
+		setTimeout(addMapLegend, 1);
+	}
 
 }
 
@@ -1502,8 +1529,9 @@ function animateTracks(duration) {
 function stopDeckAnimation() {
 	clearInterval(motusMap.animation.timer);
 	timeline.position = timeline.position_OLD;
-	timeline.setSlider(timeline.position, false, false);
+//	timeline.setSlider(timeline.position, false, false);
 	motusMap.animation.isAnimating = false;
+	timeline.highlightDate(false);
 	deckGL_renderMap();
 }
 
@@ -1585,7 +1613,7 @@ function animateTrackStep(currentTime, start) {
 			]
 		});
 
-		timeline.setSlider([currentTime, currentTime], false, false);
+		timeline.highlightDate( currentTime );
 
 	}
 
