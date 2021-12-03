@@ -486,8 +486,6 @@ function loadDashboardContent() {
 		// References indexeddb
 		getSelections().then( () => {
 			// Set the default timeline date limits
-			timeRange.min = dtLims.min;
-			timeRange.max = dtLims.max;
 			// Load map objects (will be replaced?)
 			loadMapObjects();
 			// Add the tab menu item for the map
@@ -1313,8 +1311,8 @@ function afterMapLoads() {
 				dtLims = {min: motusFilter.dtStart, max: motusFilter.dtEnd}
 			}
 
+			dtLims.max = dtLims.max > new Date() ? new Date() : dtLims.max;
 
-			console.log(dtLims);
 
 			exploreTimeline({ min: dtLims.min.valueOf() / 1000,
 												max: dtLims.max.valueOf() / 1000,

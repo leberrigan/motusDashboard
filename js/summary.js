@@ -1,7 +1,6 @@
 var detailedView = false;
 var exploreProfile_hasLoaded = false;
 
-var timeRange = {};
 var isGrouped = false;
 
 function exploreSummary({regionBin = "adm0_a3"} = {}) { // {summaryType: String, summaryID: Integer or String, summaryData: Object}
@@ -83,8 +82,6 @@ if (motusFilter.selections.length > 1) {
 	getSelectedTrackData( motusData.selectedTracks, reload = true );
 
 	testTimer.push([new Date(), "Set time limits"]);
-	timeRange.min = new Date(d3.min(motusData.allTimes));
-	timeRange.max = new Date(d3.max(motusData.allTimes));
 	if (dtLims.min > new Date(d3.min(motusData.allTimes))) {dtLims.min = new Date(d3.min(motusData.allTimes));}
 	if (dtLims.max < new Date(d3.max(motusData.allTimes))) {dtLims.max = new Date(d3.max(motusData.allTimes));}
 
@@ -281,7 +278,7 @@ function stationTable( cardID ) {
 			)
 
 		//headers.forEach( x => $(`#explore_card_${cardID} .explore-card-${cardID}-table thead tr`).append( $('<th></th>').text(x) ) );
-		timeRange.range = timeRange.max - timeRange.min;
+		//timeRange.range = timeRange.max - timeRange.min;
 
 		var tableDom = motusData.selectedStations.length > 10 ? "Blipt" : "Bt";
 
@@ -1799,8 +1796,8 @@ function removeExploreProfile(el, filterType) {
 function detectionTimeline( d, {
 															width = 300,
 															height = 60,
-															timelineScale = d3.scaleLinear().domain([ timeRange.min, timeRange.max ]).range([ 0, width ]),
-															dayWidth = timelineScale( timeRange.min + (1 * 24 * 60 * 60 * 1000) ),
+															timelineScale = d3.scaleLinear().domain([ timeline.min, timeline.max ]).range([ 0, width ]),
+															dayWidth = timelineScale( (3 * 24 * 60 * 60 * 1000) ),
 															colourScale = d3.scaleSequential(d3.interpolateSinebow).domain([ 1, 10 ]),
 															timelineSVG = $("<svg width='"+width+"' height='"+height+"' style='margin:-8px 0;cursor:pointer;'></svg>"),
 															resize = false,
@@ -1809,23 +1806,23 @@ function detectionTimeline( d, {
 															margin = {left: 40, right: 20},
 															zoomable = false,
 															setTimeline = false,
-															timeLineRange = timeRange
+															timeLineRange = {min: new Date(timeline.min * 1000), max:new Date(timeline.max * 1000)}
 														} = {} ) {
+
 //	console.log(colourScale.range())
 	timeline.colourScale = colourScale;
 //	console.log("Station: %s, Timeline Range: %o", d[0]?d[0].name:d, timeLineRange)
 
 	if (width > 0) {
-
 		timelineScale = d3.scaleLinear().domain([ timeLineRange.min, timeLineRange.max ]).range([margin.left, width-margin.right])
-
+		timeLineRange.range = (timeLineRange.max - timeLineRange.min)
 		dayWidth = dayWidth < 1 ? 1 : dayWidth;
 
 		var timeFormat = ( timeLineRange.range / (1000 * 60 * 60 * 24 * 365) ) * ( 300 / width ) > 2 ? "%Y" :
 								( ( timeLineRange.range / (1000 * 60 * 60 * 24 * 365) ) * ( 300 / width ) > 1 ? "%b %Y" : "%Y-%m-%d" );
 
 		var x_scale = d3.scaleTime()
-									.domain( [ new Date(timeLineRange.min), new Date(timeLineRange.max) ] )
+									.domain( [ timeLineRange.min, timeLineRange.max ] )
 									.range( [margin.left, width-margin.right] );
 
 		var axis_x = d3.axisBottom( x_scale )
@@ -1833,6 +1830,7 @@ function detectionTimeline( d, {
 										.ticks( Math.round( width /  75 ) );
 
 		var hasData = false;
+
 
 		var svg = d3.select( timelineSVG[0] );
 		if (!zoomable) {
@@ -1942,7 +1940,7 @@ function detectionTimeline( d, {
 			d.forEach(function(v) {
 
 				var w = width * ((v.dtEnd.valueOf()) - (v.dtStart.valueOf())) / timeLineRange.range;
-				var x = width * ((v.dtStart.valueOf()) - timeLineRange.min) / timeLineRange.range;
+				var x = width * ((v.dtStart.valueOf()) - (timeLineRange.min - 1000)) / timeLineRange.range;
 
 				svg
 					.append('rect')
@@ -1955,6 +1953,7 @@ function detectionTimeline( d, {
 					.append('g');
 
 				w = width * ( 24 * 60 * 60 * 3000 ) / timeLineRange.range;
+
 
 				if (typeof motusData.tracksByStation[v.id] !== 'undefined') {
 
@@ -2070,7 +2069,8 @@ function detectionTimeline( d, {
 
 			stationHits = Object.values(stationHits).map(x => ({date: new Date(x.date), value: x.count, colour: x.animals, species: x.species, animals: x.animals}));
 
-						motusData.stationHits = stationHits;
+			motusData.stationHits = stationHits;
+
 			var y_scale = d3.scaleLinear()
 										.domain([0, d3.max(stationHits, x => x.value)]).nice()
 										.range([0, height - 20]);

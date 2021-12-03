@@ -747,8 +747,7 @@ function loadMapObjects(callback) {
 				}
 			});
 
-			timeline.min = d3.min(dateLimits.map(d => new Date(d.start).getTime())) / 1000;
-			timeline.max = d3.max(dateLimits.map(d => new Date(d.start).getTime())) / 1000;
+			timeline.setLimits(d3.min(dateLimits.map(d => new Date(d.start))), d3.max(dateLimits.map(d => new Date(d.start))));
 			timeline.position = [timeline.min, timeline.max];
 
 			dtLims.min = new Date( timeline.min );
@@ -1516,7 +1515,7 @@ function animateTracks(duration) {
   window.requestAnimationFrame(animate);
 
   function animate() {
-		console.log("Current time is: %s/%s", time, maxTime);
+		//console.log("Current time is: %s/%s", time, maxTime);
     time = Math.round(time + ANIMATION_SPEED);
 		if (time < maxTime && !motusMap.animation.stop)
     	window.requestAnimationFrame(animate);
@@ -1529,6 +1528,7 @@ function animateTracks(duration) {
 function stopDeckAnimation() {
 	clearInterval(motusMap.animation.timer);
 	timeline.position = timeline.position_OLD;
+	timeline.animating = false;
 //	timeline.setSlider(timeline.position, false, false);
 	motusMap.animation.isAnimating = false;
 	timeline.highlightDate(false);
@@ -1541,6 +1541,7 @@ function animateTrackStep(currentTime, start) {
 
 	if (start) {
 
+		timeline.animating = true;
 		console.log("Start");
 		motusMap.animation.startTime = moment();
 

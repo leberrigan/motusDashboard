@@ -19,6 +19,7 @@ function exploreTimeline({
 	timerElapsed = 0,
 	defaultValues = [ motusFilter.dtStart.valueOf() / 1000, motusFilter.dtEnd.valueOf() / 1000 ]
 } = {}) {
+
 	timeline = {
 		el: el,
 		timer: undefined,
@@ -72,15 +73,15 @@ function exploreTimeline({
 		},
 		highlightDate: function(date) {
 			if (date) {
-				let xpos = $("#dateSlider").width() * ((date - timeline.min) / (timeline.max - timeline.min));
+				let xpos = ($("#dateSlider").width() * ((date - timeline.min )/(timeline.max - timeline.min))) - ($("#dateHighlighter").width()/2);
 				let elPos = $("#dateSlider").offset();
-
 				$("#dateHighlighter").show().css({left: xpos + elPos.left, top:50+elPos.top}).text( new Date(date * 1000).toISOString().substr(0,10) );
 			} else {
 				$("#dateHighlighter").hide()
 			}
 		},
 		setSlider: function(position, moveSlider = false, setPicker = true, callback) {
+
 
 			if (typeof position[0] === 'string') {
 				position = [new Date( position[0] ), new Date( position[1] )];
@@ -96,7 +97,6 @@ function exploreTimeline({
 			if (typeof position[0] === 'number') {
 				position = [new Date( position[0] * 1000 ), new Date( position[1] * 1000 )];
 			}
-
 
 			// Set the Motus data filters
 			motusFilter.dtStart = position[0];
@@ -133,11 +133,9 @@ function exploreTimeline({
 
 		},
 		setLimits: function(min, max) {
-
 			if (Array.isArray(min) && min.length == 2) {
 				[min, max] = min;
 			}
-
 			min = typeof min == 'object' ? Math.round(min/1000) :
 						typeof min == 'string' && new Date(min).getTime( )? Math.round(new Date(min)/1000) :
 						typeof min != 'number' ? false :
@@ -147,22 +145,23 @@ function exploreTimeline({
 						typeof max == 'string' && new Date(max).getTime( )? Math.round(new Date(max)/1000) :
 						typeof max != 'number' ? false :
 						max  > 10e10 ? Math.round(max/1000) : max;
+			if (max > (+(new Date())/1000)) {max = +(new Date())/1000;}
 
 			if (!min && !max) {console.error("Min/max are of the wrong format");return false;}
 
 			if (!min) {console.error("Min is of the wrong format");}
 			else {
 				$("#dateSlider .slider").dragslider("option", "min", min)
-				timeRange.min = new Date(min * 1000);
+				timeline.min = min;
 			}
 
 			if (!max) {console.error("Max is of the wrong format");}
 			else {
 				$("#dateSlider .slider").dragslider("option", "max", max)
-				timeRange.max = new Date(min * 1000);
-			}
+				timeline.max = max;
+				}
 
-			timeRange.range = timeRange.max - timeRange.min;
+			timeline.range = timeline.max - timeline.min;
 
 			return [min, max];
 		},
@@ -180,9 +179,10 @@ function exploreTimeline({
 			console.log(height)
 
 			if (exploreType != 'main' && exploreType != 'report') {
-
-				timeRange = {min: timeRange.min.valueOf(), max: timeRange.max.valueOf()}
-				timeRange.range = timeRange.max - timeRange.min;
+	//			alert(timeline);
+				timeline.min = timeline.min.valueOf();
+				timeline.max = timeline.max.valueOf();
+				timeline.range = timeline.max - timeline.min;
 				$(timeline.el).dragslider("option","min",timeline.min).dragslider("option","max",timeline.max)
 
 				$(el).parent().append(detectionTimeline(motusData.tracksLongByAnimal,{
@@ -236,7 +236,6 @@ function exploreTimeline({
 
 
 	};
-
 
 	$(el+" .timeline").click(function(){
 
@@ -305,17 +304,16 @@ function exploreTimeline({
 		//	timeline.setSlider(timeline.position);
 		//	updateURL();
 			$(".ui-slider .ui-slider-handle").focus(function(){$(this).blur();});
-			if (motusMap.setVisibility) {motusMap.setVisibility();}
+
 		},
 		slide: function( event, ui ) {
 
 			$("#explore_filters").parent(":not(.active)").addClass('active');
 			timeline.position = $(this).dragslider("values");
 
-			if (typeof deck !== 'undefined') deckGL_renderMap();
-			else {
+			if (typeof deck !== 'undefined') {
+				deckGL_renderMap();
 				timeline.setSlider(timeline.position);
-				motusMap.setVisibility();
 			}
 		},
 		stop: updateURL
