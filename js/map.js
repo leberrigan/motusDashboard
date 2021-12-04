@@ -308,7 +308,8 @@ function exploreMap({
 				*/
 					motusMap.map.fitBounds(d.bounds, {padding:[0,0], maxZoom: 200});
 				} else {
-					viewProfile("stations", d.station)
+	//				viewProfile("stations", d.station)
+					motusMap.selectStation(d, {isDeployment: true});
 					/*
 					console.log(d)
 					var content = "<center><h3>"+
@@ -391,7 +392,9 @@ function exploreMap({
 			} else if (t == 'animal') {
 				viewProfile("animals", d.id)
 			} else if (t == 'track') {
-				viewProfile("animals", d.id)
+
+				motusMap.selectTrack(d);
+
 			}
 		},
 		legendClick: function(e, d){
@@ -429,6 +432,23 @@ function exploreMap({
 			}
 		},
 		highlightVal: '',
+		trackView: false,
+		selectStation: function(d, {isDeployment}) {
+
+			if (motusMap.trackView) {
+				modifyTrack({station: d.station});
+			} else {
+				viewProfile("stations", isDeployment ? d.station : d.id);
+			}
+
+		},
+		selectTrack: function(d) {
+			if (motusEditor.editMode) {
+				viewTrack(d.id);
+			} else {
+				viewProfile("animals", d.id);
+			}
+		},
 		setVisibility: function() {if (typeof motusMap.deckLayer !== 'undefined') deckGL_renderMap();},
 		mapmove: function(e) {
 
@@ -747,8 +767,7 @@ function loadMapObjects(callback) {
 				}
 			});
 
-			timeline.min = d3.min(dateLimits.map(d => new Date(d.start).getTime())) / 1000;
-			timeline.max = d3.max(dateLimits.map(d => new Date(d.start).getTime())) / 1000;
+			timeline.setLimits(d3.min(dateLimits.map(d => new Date(d.start))), d3.max(dateLimits.map(d => new Date(d.start))));
 			timeline.position = [timeline.min, timeline.max];
 
 			dtLims.min = new Date( timeline.min );
@@ -1130,13 +1149,14 @@ function getProfileMapLayers(load, layer) {
 				.sort((a, b) => d3.ascending(a.id, b.id))
 				.map(x => {
 					let station = motusData.stations.filter( d => d.stationDeps.includes(x.id) );
+					let animals = x.animals.split(";").filter( d => d != "NA" );
 					return {
 						...x,
 						...{
 							dtStart: +x.dtStart/1000,
 							dtEnd: +x.dtEnd/1000,
-							animals: x.animals.split(";"),
-							nAnimals: x.animals.split(";").length,
+							animals: animals,
+							nAnimals: animals.length,
 							species: x.species.split(";"),
 							nSpecies: x.species.split(";").length,
 							stationID: station.length > 0 ? station[0].id : x.id,
@@ -1150,23 +1170,33 @@ function getProfileMapLayers(load, layer) {
 			// Other stations
 			deckGlLayers.otherStations = new deck.GeoJsonLayer({
 				id: 'deckGL_otherStations',
-				data: {type: "FeatureCollection",features: motusData.stationDeps2.filter( d => !motusFilter.selectedStationDeps.includes( d.id ) ) },
+				data: {type: "FeatureCollection",features: motusData.stationDeps2},//.filter( d => !motusFilter.selectedStationDeps.includes( d.id ) ) },
 				filled: true,
 				getPointRadius: 15000,
 				getLineWidth: 1,
 				lineWidthUnits: 'pixels',
 				pointRadiusMinPixels: 3,
 				pointRadiusMaxPixels: 25,
-				getFillColor: d => hexToRgb(Object.keys(motusMap.selections).includes(d.station) ? "FF0000" : (+d.dtEnd > yesterday ? '#BBDDBB' : '#FFCCCC')),
+				getFillColor: d => {
+					return hexToRgb(
+					(!motusMap.trackView) ? (Object.keys(motusMap.selections).includes(d.station) ? "#FF0000" : (+d.dtEnd > yesterday ? '#BBDDBB' : '#FFCCCC'))
+					:  "#000000"
+					);
+				},
 		  	getFilterValue: d => {
 					return [
-						+d.dtStart <= timeline.position[1] &&
-						+d.dtEnd >= timeline.position[0] &&
-						+(motusFilter.species[0] == 'all' || motusFilter.species.some( x => d.species.includes(x) )) &&
-						+(motusFilter.stations[0] == 'all' || motusFilter.stations.includes(d.stationID) || dataType == 'stations') &&
-						+(dataType == 'regions' || motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d[motusFilter.regionType])) &&
-						+(motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.some( x => d.frequency.includes( x ) )) &&
-						+(motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.projID))
+						+((
+						//	!motusMap.trackView &&
+							d.dtStart <= timeline.position[1] &&
+							d.dtEnd >= timeline.position[0] &&
+							(motusFilter.species[0] == 'all' || motusFilter.species.some( x => d.species.includes(x) )) &&
+							(motusFilter.stations[0] == 'all' || motusFilter.stations.includes(d.stationID) || dataType == 'stations') &&
+							(dataType == 'regions' || motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d[motusFilter.regionType])) &&
+							(motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.some( x => d.frequency.includes( x ) )) &&
+							(motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.projID))
+						) || (
+							false
+						))
 					]},
 				filterRange: [1,1],
 				extensions: [new deck.DataFilterExtension({filterSize: 1})],
@@ -1178,44 +1208,52 @@ function getProfileMapLayers(load, layer) {
 				highlightColor: [255,0,0],
 		    updateTriggers: {
 		      // This tells deck.gl to recalculate radius when `currentYear` changes
+					getFillColor: [motusFilter.animals,  motusMap.trackView, motusMap.selections],
 		      getFilterValue: [timeline.position, motusFilter.frequencies, motusFilter.species, motusFilter.projects, motusFilter.stations, motusFilter.regions, motusMap.selections]
 		    }
 			});
 
 			// Selected stations
 			deckGlLayers.selectedStations = new deck.GeoJsonLayer({
-					id: 'deckGL_selectedStations',
-					data: {type: "FeatureCollection",features: motusData.stationDeps2.filter( d => motusFilter.selectedStationDeps.includes( d.id ) ) },
-					filled: true,
-					getPointRadius: 15000,
-					getLineWidth: 1,
-					lineWidthUnits: 'pixels',
-					pointRadiusMinPixels: 5,
-					pointRadiusMaxPixels: 25,
-					getFillColor: d => hexToRgb(Object.keys(motusMap.selections).includes(d.station) ? "FF0000" : (+d.dtEnd > yesterday ? '#00FF00' : '#FFAA00')),
-			  	getFilterValue: d => {
-						return [
-							+d.dtStart <= timeline.position[1] &&
-							+d.dtEnd >= timeline.position[0] &&
-							+(motusFilter.species[0] == 'all' || motusFilter.species.some( x => d.species.includes(x) )) &&
-							+(motusFilter.stations[0] == 'all' || motusFilter.stations.includes(d.stationID) || dataType == 'stations') &&
-							+(dataType == 'regions' || motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d[motusFilter.regionType])) &&
-							+(motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.some( x => d.frequency.includes( x ) )) &&
-							+(motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.projID))
-						]},
-					filterRange: [1,1],
-					extensions: [new deck.DataFilterExtension({filterSize: 1})],
-					pickable: true,
-					onClick: ({object}, e) => motusMap.dataClick(e.srcEvent, object, 'station'),
-					onHover: ({object, picked}, e) => motusMap.dataHover(e.srcEvent, object, picked?'in':'out', 'station'),
-					opacity: dataType == "stations" ? 0.7 : 0.3,
-					autoHighlight: true,
-					highlightColor: [255,0,0],
-			    updateTriggers: {
-			      // This tells deck.gl to recalculate radius when `currentYear` changes
-			      getFilterValue: [timeline.position, motusFilter.frequencies, motusFilter.species, motusFilter.projects, motusFilter.stations, motusFilter.regions, motusMap.selections]
-			    }
-				});
+				id: 'deckGL_selectedStations',
+				data: {type: "FeatureCollection",features: motusData.stationDeps2},//.filter( d => motusFilter.selectedStationDeps.includes( d.id ) ) },
+				filled: true,
+				getPointRadius: 15000,
+				getLineWidth: 1,
+				lineWidthUnits: 'pixels',
+				pointRadiusMinPixels: 5,
+				pointRadiusMaxPixels: 25,
+				getFillColor: d => hexToRgb(Object.keys(motusMap.selections).includes(d.station) ? "FF0000" : (+d.dtEnd > yesterday ? '#00FF00' : '#FFAA00')),
+		  	getFilterValue: d => {
+					return [
+						+(
+							(
+								motusFilter.selectedStationDeps.includes( d.id ) &&
+								!motusMap.trackView &&
+								d.dtStart <= timeline.position[1] &&
+								d.dtEnd >= timeline.position[0] &&
+								(motusFilter.species[0] == 'all' || motusFilter.species.some( x => d.species.includes(x) )) &&
+								(motusFilter.stations[0] == 'all' || motusFilter.stations.includes(d.stationID) || dataType == 'stations') &&
+								(dataType == 'regions' || motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d[motusFilter.regionType])) &&
+								(motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.some( x => d.frequency.includes( x ) )) &&
+								(motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.projID))
+							) ||
+							( motusMap.trackView &&	d.animals.includes(motusFilter.animals[0]) )
+						)
+					]},
+				filterRange: [1,1],
+				extensions: [new deck.DataFilterExtension({filterSize: 1})],
+				pickable: true,
+				onClick: ({object}, e) => motusMap.dataClick(e.srcEvent, object, 'station'),
+				onHover: ({object, picked}, e) => motusMap.dataHover(e.srcEvent, object, picked?'in':'out', 'station'),
+				opacity: dataType == "stations" ? 0.7 : 0.3,
+				autoHighlight: true,
+				highlightColor: [255,0,0],
+		    updateTriggers: {
+		      // This tells deck.gl to recalculate radius when `currentYear` changes
+		      getFilterValue: [motusMap.trackView, timeline.position, motusFilter.frequencies, motusFilter.species, motusFilter.projects, motusFilter.stations, motusFilter.regions, motusMap.selections]
+		    }
+			});
 		}
 
 		if (!layer || layer == 'tracks') {
@@ -1241,12 +1279,22 @@ function getProfileMapLayers(load, layer) {
 					}
 				},
 				// Styles
-				getLineColor: d => hexToRgb( motusMap.colourScale( typeof d[motusMap.colourVar] == 'object' ? d[motusMap.colourVar].filter( x => motusMap.colourVarSelections.includes(x) )[0] : d[motusMap.colourVar] ) ),
+				getLineColor: d => {
+					return hexToRgb(
+						(!motusMap.trackView) ?
+							motusMap.colourScale(
+									typeof d[motusMap.colourVar] == 'object' ?
+									d[motusMap.colourVar].filter( x => motusMap.colourVarSelections.includes(x) )[0] :
+									d[motusMap.colourVar]
+							) : "#FF0000"
+					);
+				},
 				getFilterValue: d => {
 					return [
 						+(d3.max(d.ts) >= timeline.position[0]) &&
 						+(d3.min(d.ts) <= timeline.position[1]) &&
 						+(motusFilter.species[0] == 'all' || motusFilter.species.includes(d.species)) &&
+						+(motusFilter.animals[0] == 'all' || motusFilter.animals.includes(d.id)) &&
 						+(motusFilter.stations[0] == 'all' || motusFilter.stations.some( x => d.stations.includes(x) )) &&
 				//		+(motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d.region1) || motusFilter.regions.includes(d.region2)) &&
 						+(motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.includes(d.frequency)) &&
@@ -1265,7 +1313,8 @@ function getProfileMapLayers(load, layer) {
 				lineWidthMaxPixels: 10,
 				updateTriggers: {
 					// This tells deck.gl to recalculate radius when `currentYear` changes
-					getFilterValue: [timeline.position, motusFilter.frequencies, motusFilter.species, motusFilter.projects, motusFilter.stations, motusFilter.regions]
+					getLineColor: motusMap.trackView,
+					getFilterValue: [timeline.position, motusFilter.frequencies, motusFilter.animals, motusFilter.species, motusFilter.projects, motusFilter.stations, motusFilter.regions]
 				}
 			});
 
@@ -1364,6 +1413,7 @@ function getExploreMapLayers(load, layer) {
 					+(d3.max(d.ts) >= timeline.position[0]) &&
 					+(d3.min(d.ts) <= timeline.position[1]) &&
 					+(motusFilter.species[0] == 'all' || motusFilter.species.includes(d.species)) &&
+					+(motusFilter.animals[0] == 'all' || motusFilter.animals.includes(d.id)) &&
 					+(motusFilter.stations[0] == 'all' || motusFilter.stations.some( x => d.stations.includes(x) )) &&
 			//		+(motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d.region1) || motusFilter.regions.includes(d.region2)) &&
 					+(motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.includes(d.frequency)) &&
@@ -1382,7 +1432,7 @@ function getExploreMapLayers(load, layer) {
 			lineWidthMaxPixels: 10,
 			updateTriggers: {
 				// This tells deck.gl to recalculate radius when `currentYear` changes
-				getFilterValue: [timeline.position, motusFilter.frequencies, motusFilter.species, motusFilter.projects, motusFilter.stations, motusFilter.regions]
+				getFilterValue: [timeline.position, motusFilter.frequencies, motusFilter.animals, motusFilter.species, motusFilter.projects, motusFilter.stations, motusFilter.regions]
 			}
 		});
 
@@ -1516,7 +1566,7 @@ function animateTracks(duration) {
   window.requestAnimationFrame(animate);
 
   function animate() {
-		console.log("Current time is: %s/%s", time, maxTime);
+		//console.log("Current time is: %s/%s", time, maxTime);
     time = Math.round(time + ANIMATION_SPEED);
 		if (time < maxTime && !motusMap.animation.stop)
     	window.requestAnimationFrame(animate);
@@ -1529,6 +1579,7 @@ function animateTracks(duration) {
 function stopDeckAnimation() {
 	clearInterval(motusMap.animation.timer);
 	timeline.position = timeline.position_OLD;
+	timeline.animating = false;
 //	timeline.setSlider(timeline.position, false, false);
 	motusMap.animation.isAnimating = false;
 	timeline.highlightDate(false);
@@ -1541,6 +1592,7 @@ function animateTrackStep(currentTime, start) {
 
 	if (start) {
 
+		timeline.animating = true;
 		console.log("Start");
 		motusMap.animation.startTime = moment();
 
@@ -1576,6 +1628,7 @@ function animateTrackStep(currentTime, start) {
 				return [
 					+(motusFilter.species[0] == 'all' || motusFilter.species.includes(d.species)) &&
 					+(motusFilter.stations[0] == 'all' || motusFilter.stations.some( x => d.stations.includes(x) )) &&
+					+(motusFilter.animals[0] == 'all' || motusFilter.animals.includes(d.id)) &&
 			//		+(motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d.region1) || motusFilter.regions.includes(d.region2)) &&
 					+(motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.includes(d.frequency)) &&
 					+(motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.project))
@@ -1624,13 +1677,14 @@ function animateTrackStep(currentTime, start) {
 // To filter categorical variables, turn them into booleans and select only true values
 // See: https://github.com/visgl/deck.gl/issues/4943#issuecomment-694129024
 
-function deckGL_renderMap() {
+function deckGL_renderMap(reloadData = true) {
 
-	if (exploreType == 'main')
-		getExploreMapLayers();
-	else
-		getProfileMapLayers();
-
+	if (reloadData) {
+		if (exploreType == 'main')
+			getExploreMapLayers();
+		else
+			getProfileMapLayers();
+	}
 
   motusMap.deckLayer.setProps({
 	  layers: exploreType == 'main' ? (dataType == "animals" ? [
