@@ -1110,7 +1110,7 @@ iframe#pdf_output {
 }
 #exploreContent .explore-control-content.visible {
 	display:block;
-	z-index:1000;
+	z-index:1001;
 	position:relative;
 	background-color:var(--theme-background-colour-pale2);
 	text-align: center;
@@ -1123,7 +1123,7 @@ iframe#pdf_output {
 	padding: 0;
 }
 #exploreContent .explore-control-content.explore-control-timeline {
-	z-index: 1000;
+	z-index: 1001;
 	grid-column: 1 / 3;
 	grid-row: 6/7;
 	left: 0;
@@ -1192,7 +1192,7 @@ button:not([disabled=disabled]):hover {
 	background-color:  var(--theme-button-background-hover);
 	cursor:pointer;
 }
-button.submit_btn,
+button.submit_btn:not([disabled=disabled]),
 button.multiSelect_btn,
 button.toggleButton.selected,
 input[type=button].submit_btn {
@@ -1200,7 +1200,7 @@ input[type=button].submit_btn {
 	color: var(--theme-text-colour);
 	font-weight:bold;
 }
-button.submit_btn:hover,
+button.submit_btn:not([disabled=disabled]):hover,
 button.multiSelect_btn:hover,
 button.toggleButton.selected:hover,
 input[type=button].submit_btn:hover {
@@ -1395,6 +1395,74 @@ input.filter_dates {
 }
 
 
+
+/*----------------------------------
+
+	Map panel
+
+-----------------------------------*/
+.map-panel-wrapper {
+	position:absolute;
+	z-index:1000;
+	max-width: 1600px;
+	width: 100%;
+}
+.map-panel {
+	position:absolute;
+	right:0;
+	top: 0;
+	width:300px;
+	height: calc(100vh - 415px);
+	min-height: calc(100vh - 259px);
+  background-color: var(--theme-background-colour3);
+	color: var(--theme-text-colour3);
+	overflow-y:auto;
+	border-left:solid 1px #333;
+}
+
+
+.map-panel-wrapper .map-panel-controls {
+	display:block;
+}
+
+.map-panel .map-panel-track {
+	display:grid;
+	grid-template-columns: 220px 60px;
+	border-bottom: dotted 1px #AAA;
+	border:solid 2px var(--theme-background-colour3);
+}
+
+.map-panel .map-panel-track.highlighted {
+	border:solid 2px var(--theme-highlight-red-pale);
+}
+.map-panel .map-panel-track-species {
+	font-size:12pt;
+	font-weight:bold;
+	grid-column:1/2;
+	grid-row:1/2;
+}
+.map-panel .map-panel-track-id {
+	font-size:12pt;
+	font-weight:bold;
+	grid-column:1/2;
+	grid-row:2/3;
+}
+.map-panel .map-panel-track-stations {
+	font-size:12pt;
+	font-weight:bold;
+	grid-column:2/3;
+	grid-row:2/3;
+}
+.map-panel .map-panel-track-dates {
+	font-size:10pt;
+	grid-column:1/3;
+	grid-row:4/5;
+}
+.map-panel .map-panel-track-rate {
+	font-size:10pt;
+	grid-column:1/3;
+	grid-row:3/4;
+}
 
 /*----------------------------------
 

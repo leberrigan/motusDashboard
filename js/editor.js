@@ -1,6 +1,14 @@
 var editorStationRange;
+var motusEditor = {
+  editMode: false
+};
 
-function exploreMapEditor() {
+function exploreMapEditor( show ) {
+  motusEditor.editMode = true;
+  $("body").removeClass("dark");
+  if (show) {
+    $("svg.explore-map-edit-btn").trigger("click");
+  }
 
   if (  $(".explore-map-editor-wrapper .add-station-range").children().length == 0) {
 

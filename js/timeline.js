@@ -101,6 +101,7 @@ function exploreTimeline({
 			// Set the Motus data filters
 			motusFilter.dtStart = position[0];
 			motusFilter.dtEnd = position[1];
+			timeline.position = [+position[0]/1000, +position[1]/1000];
 			// Set the text in the slider handles
 		//	$('#filter_dates').text(( motusFilter.dtStart.toISOString().substr(0,10)) + " - " + ( motusFilter.dtEnd.toISOString().substr(0,10)));
 
