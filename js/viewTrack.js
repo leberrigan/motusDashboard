@@ -3,9 +3,10 @@
 function viewTrack(animalID, opts = {noScroll: false}) {
   if ($("#exploreTracks").length == 0)
     makeExploreTracksContainer();
-  else
+  else {
     $("#exploreTracks .map-panel-track.highlighted").removeClass("highlighted");
-
+    $("#exploreTracks").show();
+  }
   if (animalID) {
 
     motusMap.trackView = true;
@@ -31,7 +32,6 @@ function viewTrack(animalID, opts = {noScroll: false}) {
     motusFilter.animals = [animalID];
 
     getModifiedTrackLayer();
-    // Re-render the map without reloading the layers first
     deckGL_renderMap();
 
   //  $("#filter_animals").select2().val(opts.selected).trigger('change');
@@ -43,7 +43,20 @@ function viewTrack(animalID, opts = {noScroll: false}) {
   }
 
 }
+
+function closeTrackViewer() {
+  motusEditor.editMode = false;
+  motusMap.trackView = false;
+  $("body").addClass("dark");
+  $("#exploreTracks").hide();
+
+  motusFilter.animals = motusFilter.animalsOLD;
+  getProfileMapLayers();
+  deckGL_renderMap();
+
+}
 function modifyTrack({station, animal, undo}) {
+
   if (station) {
     animal = motusFilter.animals[0];
     var removedTracks = motusData.removed_tracksLongByAnimal.filter( x=>x.id == animal )[0];
@@ -73,7 +86,7 @@ function modifyTrack({station, animal, undo}) {
     //  console.log(station);
       if (motusData.stations.filter( x=> x.id == station)[0]) {
         motusData.stations.filter( x=> x.id == station)[0].stationDeps.forEach( x => {
-          motusData.modifiedTracks = motusData.modifiedTracks.filter( d => d.tagDep != animal && d.stationDep != x);
+          motusData.modifiedTracks = motusData.modifiedTracks.filter( d => d.tagDep != animal || d.stationDep != x);
         });
       }
       motusData.removed_tracksLongByAnimal = motusData.removed_tracksLongByAnimal.filter( x => x.id != animal );
@@ -135,7 +148,7 @@ function modifyTrack({station, animal, undo}) {
 
 function makeExploreTracksContainer() {
 
-  if (!motusData.modifiedTracks) {
+  if (typeof motusData.modifiedTracks === 'undefined') {
     motusData.modifiedTracks = [];
     motusData.removed_tracksLongByAnimal = [];
   }
@@ -188,7 +201,7 @@ function makeExploreTracksContainer() {
 function getModifiedTrackLayer() {
 
 	deckGlLayers.tracks =	new deck.GeoJsonLayer({
-		id: 'deckGL_tracks',
+		id: 'deckGL_tracksModify',
 		data: motusData.tracksLongByAnimal.filter( d => d.id == motusFilter.animals[0] ),
 		dataTransform: d => {
 			return {

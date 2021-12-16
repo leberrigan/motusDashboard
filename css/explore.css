@@ -313,6 +313,7 @@ body.touch .tooltip_bg {
 	padding: 5px 10px;
 	display: inline-block;
 	background-color: var(--theme-highlight-red);
+	color:#FFF;
 }
 .popup .popup-topbar .popup-topbar-close:hover {
 	background-color: var(--theme-highlight-red-pale);
