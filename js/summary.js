@@ -177,7 +177,7 @@ function projectsTable( cardID, tableType ) {
 				)
 
 
-			var tableDom = projectsTableData.length > 10 ? "Bipt" : "Bt";
+			var tableDom = motusData.animalsTableData.length > 10 ? "Blipt" : "Bt";
 			var color_dataType = 'regions' == dataType ? 'country' : 'id';
 
 			$(`#explore_card_${cardID} .explore-card-${cardID}-${tableType}-table`).DataTable({
@@ -712,7 +712,7 @@ function speciesTable( cardID ) {
 		getSpeciesTableData();
 
 
-		var tableDom = motusData.speciesTableData.length > 10 ? "Bitp" : "Bt";
+		var tableDom = motusData.animalsTableData.length > 10 ? "Blipt" : "Bt";
 
 		$("#explore_card_" + cardID + " .explore-card-" + cardID + "-speciesTable").DataTable({
 			data: motusData.speciesTableData,

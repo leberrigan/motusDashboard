@@ -4,10 +4,12 @@ var motusEditor = {
 };
 
 function exploreMapEditor( show ) {
-  motusEditor.editMode = true;
-  $("body").removeClass("dark");
   if (show) {
-    $("svg.explore-map-edit-btn").trigger("click");
+    motusEditor.editMode = true;
+    $("body").removeClass("dark");
+    $(".explore-control-content.explore-control-edit").hide();
+  } else {
+    closeTrackViewer();
   }
 
   if (  $(".explore-map-editor-wrapper .add-station-range").children().length == 0) {
