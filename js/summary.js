@@ -1433,7 +1433,10 @@ function addExploreTabs() {
 			//	"Animals in this region": animalTable,,
 				"Detection timeline": animalTimeline,
 				"Detections by Hour of Day": animalHourlyTimeline,
-				"Detections by Month of Year": animalMontlyTimeline
+				"Detections by Month of Year": animalMontlyTimeline,
+				"Latitude by Julian Date": function(x){motusPlot(motusData.tracksLongByAnimal,{plotType:"latByJDate", cardID: x})},
+				"Longitude by Julian Date": function(x){motusPlot(motusData.tracksLongByAnimal,{plotType:"lonByJDate", cardID: x})},
+				"Detection Table": detectionsTable
 			},
 			defaultTab: 0,
 			attachEl: ".explore-card-map",
@@ -2377,4 +2380,95 @@ function selectNewProfile() {
 
 	$('.popup:hidden').show();
 	$('.popup_bg:hidden').show();
+}
+
+
+function detectionsTable( cardID ) {
+
+
+	$(`#explore_card_${cardID} .explore-card-${cardID}-timeline`).parent().hide();
+
+	if ($(`#explore_card_${cardID} .explore-card-${cardID}-table`).length == 0) {
+
+		var headers = ["Detection Date", "Species", "Deployment ID", "Station ID", "Tag Project ID", "Latitude", "Longitude"];
+
+		$(`#explore_card_${cardID}`)
+			.append( $("<table></table>")
+				.attr('class', `explore-card-${cardID}-table`)
+				.append( $('<thead></thead>')
+					.append( $('<tr></tr>')	)
+				)
+				.append( $('<tbody></tbody>') )
+			)
+
+	 if (motusData.tracksFlatByAnimal === undefined) {
+		 motusData.tracksFlatByAnimal = motusData.tracksLongByAnimal.map( val => {
+			 return val.ts.map( (x,i) => {
+				 return {
+					 date: x,
+					 species: val.species,
+					 id: val.id,
+					 station: val.stations[i],
+					 dist: val.dist[i],
+					 project: val.project,
+					 coords: val.tracks[i]
+				 };
+			 });
+		 }).flat();
+	 }
+
+
+		var tableDom = motusData.tracksFlatByAnimal.length > 10 ? "Blipt" : "Bt";
+
+		$(`#explore_card_${cardID} .explore-card-${cardID}-table`).DataTable({
+			data: motusData.tracksFlatByAnimal,
+			columns: [
+				{data: "date", title: "Detection date", "createdCell": function(td, cdata, rdata){
+						$(td).html( new Date(cdata*1000).toISOString().substr(0,10) );
+				}},
+				{data: "species", title: "Species", "createdCell": function(td, cdata, rdata){
+					var val;
+					try {val = motusData.species.filter( p => p.id == cdata )[0][currLang];}catch{val = "Unknown species";}
+						$(td).html(
+							`<a href='javascript:void(0);' onclick='viewProfile("species", [${cdata}]);'>${val}</a>`
+						 );
+				}},
+				{data: "id", title: "Deployment ID", "createdCell": function(td, cdata, rdata){
+						$(td).html(
+							`<a href='javascript:void(0);' onclick='viewProfile("animals", [${cdata}]);'>${cdata}</a>`
+						  );
+				}},
+				{data: "station", title: "Station", "createdCell": function(td, cdata, rdata){
+					var val;
+					try {val = motusData.stations.filter( p => p.id == cdata )[0].name;}catch{val = "Unknown station";}
+					$(td).html(
+						`<a href='javascript:void(0);' onclick='viewProfile("stations", [${cdata}]);'>${val}</a>`
+					 );
+				}},
+				{data: "coords", title: "Coordinates", "createdCell": function(td, cdata, rdata){
+						$(td).html( `(${cdata.join(', ')})` );
+				}},
+				{data: "project", title: "Project", "createdCell": function(td, cdata, rdata){
+					var val;
+					try {val = motusData.projects.filter( p => p.id == cdata )[0].name;}catch{val = "Unknown project";}
+					$(td).html(
+						`<a href='javascript:void(0);' onclick='viewProfile("projects", [${cdata}]);'>${val}</a>`
+					);
+				}}
+			],
+			dom: tableDom,
+			buttons: [
+				'copyHtml5',
+				'excelHtml5',
+				'csvHtml5',
+				'pdfHtml5'
+			]
+		});
+
+	} else {
+
+	$(`#explore_card_${cardID} .explore-card-${cardID}-table`).parent().show();
+
+	}
+
 }
