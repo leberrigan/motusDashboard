@@ -74,7 +74,7 @@ function getMotusData(motusDataTableNames = []) {
 		//	tracksLong: {file: filePrefix + "siteTrans_long2.csv", key: '++, animal', get: true}, // All site transitions
 		};
 
-	// Are there
+	// load the indexedDB
 	motusIndexedDB( motusDataTableNames );
 
 }
@@ -84,7 +84,6 @@ const DB_VERSION = 8;
 
 function motusIndexedDB( motusDataTableNames = [] ) {
 
-
 	if (motusDataTableNames && motusDataTableNames.length > 0) {
 		motusDataTables = Object.fromEntries( Object.entries(motusDataTables).map( x => [x[0], {file: x[1].file, key: x[1].key, get: motusDataTableNames.includes(x[0]) && x[1].get }]) );
 	}
@@ -93,14 +92,15 @@ function motusIndexedDB( motusDataTableNames = [] ) {
 
 	Object.keys(motusDataTables).forEach(function(f){
 
-			var url = motusDataTables[f].file;
+		var url = motusDataTables[f].file;
 
-			if (url) {
-				motusDataTables[f].promise = url.substr(url.lastIndexOf('.') + 1, url.length) == 'csv' || url.substr(url.lastIndexOf('=') + 1, url.length) == 'csv' ?
-					d3.csv : d3.json;
-			}
+		if (url) {
+			motusDataTables[f].promise = url.substr(url.lastIndexOf('.') + 1, url.length) == 'csv' || url.substr(url.lastIndexOf('=') + 1, url.length) == 'csv' ?
+				d3.csv : d3.json;
+		}
 
 	});
+
 	testTimer.push([new Date(), "Get data: declare the database"]);
 	// Check whether IndexedDB is supported
 	if (indexedDB) {
@@ -127,16 +127,17 @@ function motusIndexedDB( motusDataTableNames = [] ) {
 	  motusData.db.open()
     	.catch ('MissingApiError',function(error){// If IndexedDB is NOT supported
 					console.log(error);
+					alert("indexedDB not supported!");
 					var tableToDownload = Object.entries(motusDataTables).filter( x => x[1].get );
+					indexedDB = false;
 					downloadMotusData( tableToDownload.map( x => x[1].promise( x[1].file ) ), tableToDownload.map( x => x[0] ) );
-					indexedDB=false;
 			}).catch (function (error) {
 	        // Show e.message to user
 					console.log("Some other error: ");
 					console.log(error);
 					var tableToDownload = Object.entries(motusDataTables).filter( x => x[1].get );
+					indexedDB = false;
 					downloadMotusData( tableToDownload.map( x => x[1].promise( x[1].file ) ), tableToDownload.map( x => x[0] ) );
-					indexedDB=false;
 	    });
 
 	  motusData.db.on('ready', checkTables);
@@ -1030,33 +1031,36 @@ async function getSelections({
 	}
 
 	function getSelectedAnimals(selections) {
-
-		return typeof selections === 'object' && typeof selections.key !== 'undefined' ?
-			motusData.db.animals
-				.where(selections.key)
-				.anyOf(selections.values)
-				.toArray()
-				.then( x =>
-					x.map( d =>
-						{
-							let species = motusData.species.filter( sp => sp.id == d.species );
-							return {...d,
-											...{name: species.length > 0 ? species[0][currLang] : "Undefined species"
-												}
-											};
-						})
-						.filter( d =>
-							(typeof d.dtStart !== 'undefined') && !isNaN(d.dtStart.valueOf())
-						)
-				) :
-			motusData.db.animals.bulkGet(
-			typeof selections !== "object" ?
-				(
-					dataType == 'animals' ?
-					motusFilter.selections :
-					motusFilter.stations
-				) : selections
-			).then( x => x.filter( x => typeof x !== 'undefined') )
+		if (indexedDB) {
+			return typeof selections === 'object' && typeof selections.key !== 'undefined' ?
+				motusData.db.animals
+					.where(selections.key)
+					.anyOf(selections.values)
+					.toArray()
+					.then( x =>
+						x.map( d =>
+							{
+								let species = motusData.species.filter( sp => sp.id == d.species );
+								return {...d,
+												...{name: species.length > 0 ? species[0][currLang] : "Undefined species"
+													}
+												};
+							})
+							.filter( d =>
+								(typeof d.dtStart !== 'undefined') && !isNaN(d.dtStart.valueOf())
+							)
+					) :
+				motusData.db.animals.bulkGet(
+				typeof selections !== "object" ?
+					(
+						dataType == 'animals' ?
+						motusFilter.selections :
+						motusFilter.stations
+					) : selections
+				).then( x => x.filter( x => typeof x !== 'undefined') )
+		} else {
+			return undefined;
+		}
 
 	}
 
@@ -1083,64 +1087,76 @@ async function getAnimalRoutes(animals) {
 			animals :
 			[ animals ];
 
-	return motusData.db.tracksByAnimal.bulkGet(animals).then( d => {
+	if (indexedDB) {
+		return motusData.db.tracksByAnimal.bulkGet(animals).then( d => {
 
-		// Return animals which don't have tracks in the db
-		var animalsToSearch = animals.filter( (a,i) => !d[i] );
-		// If there are animals that need tracks
-		if (animalsToSearch.length > 0)	{
-			// Create a new empty array that will later be added to the db
-			var newTracksByAnimal = [];
-			//
-			motusData.tracks.forEach( t => {
+			// Return animals which don't have tracks in the db
+			var animalsToSearch = animals.filter( (a,i) => !d[i] );
+			// If there are animals that need tracks
+			if (animalsToSearch.length > 0)	{
+				// Create a new empty array that will later be added to the db
+				var newTracksByAnimal = [];
+				//
+				motusData.tracks.forEach( t => {
 
-				t.animal.filter( a => animalsToSearch.includes(a) ).forEach( a => {
+					t.animal.filter( a => animalsToSearch.includes(a) ).forEach( a => {
 
-					newTracksByAnimal.push({id: a, route: t.route});
+						newTracksByAnimal.push({id: a, route: t.route});
+
+					});
 
 				});
 
-			});
+				newTracksByAnimal = Array.from(d3.rollup(newTracksByAnimal, v => ({id: v[0].id, route: v.map( x => x.route )}), k => k.id ).values());
 
-			newTracksByAnimal = Array.from(d3.rollup(newTracksByAnimal, v => ({id: v[0].id, route: v.map( x => x.route )}), k => k.id ).values());
+				var newTrackAnimalIDs = newTracksByAnimal.map( x => x.id );
 
-			var newTrackAnimalIDs = newTracksByAnimal.map( x => x.id );
+	//			console.log(animalsToSearch.filter( a => !newTrackAnimalIDs.includes(a) ));
 
-//			console.log(animalsToSearch.filter( a => !newTrackAnimalIDs.includes(a) ));
-
-			animalsToSearch.filter( a => !newTrackAnimalIDs.includes(a) ).forEach( a => {
-				newTracksByAnimal.push({id: a, route: []});
-			})
+				animalsToSearch.filter( a => !newTrackAnimalIDs.includes(a) ).forEach( a => {
+					newTracksByAnimal.push({id: a, route: []});
+				})
 
 
-			// Update the local database with the new tracks
-			motusData.db.tracksByAnimal.bulkPut(newTracksByAnimal).then(()=>{console.log(`Added ${newTracksByAnimal.length} rows to 'tracksByAnimal' table.`);})
+				// Update the local database with the new tracks
+				motusData.db.tracksByAnimal.bulkPut(newTracksByAnimal).then(()=>{console.log(`Added ${newTracksByAnimal.length} rows to 'tracksByAnimal' table.`);})
 
 
-			// Combine the new tracks with the ones taken from the database.
-			d = d.filter( x => typeof x !== 'undefined' ).concat(newTracksByAnimal);
+				// Combine the new tracks with the ones taken from the database.
+				d = d.filter( x => typeof x !== 'undefined' ).concat(newTracksByAnimal);
 
 
-		}
-		return Object.fromEntries( d.map( x => Object.values(x) ) );
+			}
+			return Object.fromEntries( d.map( x => Object.values(x) ) );
 
-	});
+		});
+	} else {
+		return undefined;
+	}
 
 }
 
 async function getSelectedTracksLongByAnimal( animals ) {
+	if (indexedDB) {
+		if (animals) {
+			let data = await motusData.db.tracksLongByAnimal.bulkGet( animals );
+			return data.filter(x => typeof x !== 'undefined' );
+		}	else {
+			return await motusData.db.tracksLongByAnimal.toArray();
+		}
+	} else {
 
-	if (animals) {
-		let data = await motusData.db.tracksLongByAnimal.bulkGet( animals );
-		return data.filter(x => typeof x !== 'undefined' );
-	}	else {
-		return await motusData.db.tracksLongByAnimal.toArray();
 	}
 
 }
 
 function getSelectedTracks(routes) {
-	return motusData.db.tracks.bulkGet( routes );
+	if (indexedDB) {
+		return motusData.db.tracks.bulkGet( routes );
+	} else {
+		return undefined;
+	}
+
 }
 
 function getSelectedTrackData(selectedTracks, reload = false) {

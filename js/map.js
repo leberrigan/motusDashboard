@@ -852,26 +852,29 @@ function populateProfilesMap() {
 		motusMap.map.fitBounds( [ [motusMap.regionBounds[0][1], motusMap.regionBounds[0][0]], [motusMap.regionBounds[1][1], motusMap.regionBounds[1][0]]]);
 	} else if (dataType == 'stations' ){
 
-		if (motusData.selectedStations.length == 1) {
-
 			motusData.selectionBounds = motusData.selectedStations[0].geometry.coordinates;
+			var stationBounds = {
+					lons: Object.values(motusData.selectedStations).map( x => x.geometry.coordinates[0] ).flat(),
+					lats: Object.values(motusData.selectedStations).map( x => x.geometry.coordinates[1] ).flat()
+				}
+			var trackBounds = {
+					lons: Object.values(motusData.selectedTracks).map( x => x.coordinates.map( y => y[0]) ).flat(),
+					lats: Object.values(motusData.selectedTracks).map( x => x.coordinates.map( y => y[1]) ).flat()
+				}
 
-			motusMap.map.setView(  [motusData.selectionBounds[1], motusData.selectionBounds[0]], 9);
+			motusData.selectionBounds = [
+				d3.extent( stationBounds.lons.concat(trackBounds.lons) ),
+				d3.extent( stationBounds.lats.concat(trackBounds.lats) )
+			];
 
-		} else { // If there are more than one points, get the extent of the bounds and fit them.
-
-			var lats = motusData.selectedStations.map( x => x.geometry.coordinates[1]);
-			var lons = motusData.selectedStations.map( x => x.geometry.coordinates[0]);
-			motusData.selectionBounds = [ d3.extent(lons), d3.extent(lats)];
 
 			motusMap.map.fitBounds( [ [motusData.selectionBounds[1][0], motusData.selectionBounds[0][0]], [motusData.selectionBounds[1][1], motusData.selectionBounds[0][1]]]);
 
-		}
-
 	}
-		$('.explore-card-wrapper').css({'opacity':1});
 
-		deckGL_map();
+	$('.explore-card-wrapper').css({'opacity':1});
+
+	deckGL_map();
 
 }
 
@@ -1167,10 +1170,30 @@ function getProfileMapLayers(load, layer) {
 		}
 
 		if (!layer || layer == 'stations') {
+
+			const ICON_MAPPING = {
+			  selectedStation: {x: 250, y: 0, width: 250, height: 250, mask: false},
+			  activeStation: {x: 0, y: 250, width: 250, height: 250, mask: false},
+			  inactiveStation: {x: 250, y: 250, width: 250, height: 250, mask: false},
+			  otherStation: {x: 0, y: 0, width: 250, height: 250, mask: false}
+			};
 			// Other stations
 			deckGlLayers.otherStations = new deck.GeoJsonLayer({
 				id: 'deckGL_otherStations',
-				data: {type: "FeatureCollection",features: motusData.stationDeps2},//.filter( d => !motusFilter.selectedStationDeps.includes( d.id ) ) },
+				data: {type: "FeatureCollection",features: motusData.stationDeps2},//.filter( d => !motusFilter.selectedStationDeps.includes( d.id ) ) }
+
+				pointType: 'icon',
+				iconAtlas: "images/station_icon_atlas.png",
+				iconMapping: ICON_MAPPING,
+				getIconSize: d => 20000,
+				getIcon: d => (!motusMap.trackView) ? (Object.keys(motusMap.selections).includes(d.station) ? "activeStation" : (+d.dtEnd > yesterday ? 'inactiveStation' : 'activeStation'))
+				:  "otherStation",
+				iconSizeScale: 1,
+				iconSizeUnits: "meters",
+				iconSizeMinPixels: 12,
+				iconSizeMaxPixels: 128,
+				getFillColor: d => "#EEEEEE",
+				/*,
 				filled: true,
 				getPointRadius: 15000,
 				getLineWidth: 1,
@@ -1183,10 +1206,12 @@ function getProfileMapLayers(load, layer) {
 					:  "#000000"
 					);
 				},
+				*/
 		  	getFilterValue: d => {
 					return [
-						+((
+						+(
 						//	!motusMap.trackView &&
+							(!motusFilter.selectedStationDeps.includes( d.id )) &&
 							d.dtStart <= timeline.position[1] &&
 							d.dtEnd >= timeline.position[0] &&
 							(motusFilter.species[0] == 'all' || motusFilter.species.some( x => d.species.includes(x) )) &&
@@ -1194,9 +1219,7 @@ function getProfileMapLayers(load, layer) {
 							(dataType == 'regions' || motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d[motusFilter.regionType])) &&
 							(motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.some( x => d.frequency.includes( x ) )) &&
 							(motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.projID))
-						) || (
-							false
-						))
+						)
 					]},
 				filterRange: [1,1],
 				extensions: [new deck.DataFilterExtension({filterSize: 1})],
@@ -1217,13 +1240,28 @@ function getProfileMapLayers(load, layer) {
 			deckGlLayers.selectedStations = new deck.GeoJsonLayer({
 				id: 'deckGL_selectedStations',
 				data: {type: "FeatureCollection",features: motusData.stationDeps2},//.filter( d => motusFilter.selectedStationDeps.includes( d.id ) ) },
+
+				pointType: 'icon',
+				iconAtlas: "images/station_icon_atlas.png",
+				iconMapping: ICON_MAPPING,
+				getIconSize: d => 20000,
+				getIcon: d => "selectedStation",
+				iconSizeScale: 1,
+				iconSizeUnits: "meters",
+				iconSizeMinPixels: 12,
+				iconSizeMaxPixels: 128,
+				getFillColor: d => "#000000",
+			//	getIconColor: d => hexToRgb(Object.keys(motusMap.selections).includes(d.station) ? "FF0000" : (+d.dtEnd > yesterday ? '#00FF00' : '#FFAA00')),
+				/*pointType: 'circle',
 				filled: true,
 				getPointRadius: 15000,
+				pointType: 'circle',
 				getLineWidth: 1,
 				lineWidthUnits: 'pixels',
 				pointRadiusMinPixels: 5,
 				pointRadiusMaxPixels: 25,
 				getFillColor: d => hexToRgb(Object.keys(motusMap.selections).includes(d.station) ? "FF0000" : (+d.dtEnd > yesterday ? '#00FF00' : '#FFAA00')),
+				*/
 		  	getFilterValue: d => {
 					return [
 						+(
@@ -1254,6 +1292,20 @@ function getProfileMapLayers(load, layer) {
 		      getFilterValue: [motusMap.trackView, timeline.position, motusFilter.frequencies, motusFilter.species, motusFilter.projects, motusFilter.stations, motusFilter.regions, motusMap.selections]
 		    }
 			});
+/*
+			deckGlLayers.selectedStationIcons = new deck.IconLayer({
+				id: 'deckGL_selectedStations',
+				data: motusData.stationDeps2,//.filter( d => motusFilter.selectedStationDeps.includes( d.id ) ) },
+		    pickable: true,
+				iconAtlas: "SVG/station3_sm.png",
+				iconMapping: ICON_MAPPING,
+				getPosition: d => d.geometry.coordinates,
+				getSize: d => 32,
+				getIcon: d => "selectedStation",
+				sizeScale: 1,
+				getFillColor: d => '#000000',
+			});
+			*/
 		}
 
 		if (!layer || layer == 'tracks') {
@@ -1513,6 +1565,7 @@ function deckGL_map() {
 		]) : [
 	    deckGlLayers.otherStations
 			,deckGlLayers.selectedStations
+			,deckGlLayers.selectedStationIcons
 			,deckGlLayers.tracks
 	  ],
 		getCursor: ({isHovering}) => isHovering ? "pointer" : "grab"
@@ -1662,6 +1715,7 @@ function animateTrackStep(currentTime, start) {
 				, deckGlLayers.tracksAnim ] : [
 			   deckGlLayers.otherStations
 				,deckGlLayers.selectedStations
+				,deckGlLayers.selectedStationIcons
 				,deckGlLayers.tracksAnim
 			]
 		});
@@ -1699,6 +1753,7 @@ function deckGL_renderMap(reloadData = true) {
 		]) : [
 	    deckGlLayers.otherStations
 			, deckGlLayers.selectedStations
+			, deckGlLayers.selectedStationIcons
 			, deckGlLayers.tracks
 	  ]
   });

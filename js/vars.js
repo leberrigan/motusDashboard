@@ -101,8 +101,12 @@ const icon_paths = {
 
 
 // VARIABLES
+
+// All Motus data loaded into memory is stored in this object
 var motusData = {};
 
+// These are possible options for filters in the toolbar
+// This could probably be better named
 var filters = {
 	options: {
 		projects: {},
@@ -126,9 +130,46 @@ var filters = {
 	},
 	data: {}
 }
+
+// All 5 data categories
 var dataTypes = ['Stations', 'Animals', 'Regions', 'Projects', 'Species'];
 
 var default_startDate = new Date('2014-02-05'),
     default_endDate = new Date();
 
+// Date limits are set to the default dates at the start
 var dtLims = {min: default_startDate, max: default_endDate};
+
+// This defines the current filter settings for the loaded data.
+// The idea is to eliminate page refreshes and load data dynamically as the filters changes
+// However, this may still require occasional page refreshes due to memory usage
+var motusFilter = {
+	dtStart: default_startDate,
+	dtEnd: default_endDate,
+	species: ["all"],
+	regions: ["all"],
+	projects: ["all"],
+	stations: ["all"],
+	status: ["all"],
+	frequencies: ["all"],
+	selections: [],
+	colour: ''
+};
+
+// Is the client on a mobile device? Will be set by function after initiation.
+var isMobile = false;
+
+// Language defaults to English
+var currLang = 'english';
+
+// I probably don't need all these - just dataType and exploreType
+var exploreType,
+//		mapType,
+		dataType; // 'stations' or 'species'
+
+// This is provide a URL for accessing data
+var filePrefix;
+var mapFilePrefix;
+
+// Used to compare the length of time needed for different operations
+var testTimer=[];

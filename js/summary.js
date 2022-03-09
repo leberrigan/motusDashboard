@@ -2217,7 +2217,7 @@ function detectionTimeline( d, {
 
 		}
 		if (!zoomable){
-			console.log("Station '%s' scale: %o",d[0].name, x_scale.domain())
+//			console.log("Station '%s' scale: %o",d[0].name, x_scale.domain())
 			d3.select( timelineSVG[0] )
 				.append( 'g' )
 				.attr('class','axis-x')

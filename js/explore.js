@@ -1,31 +1,4 @@
 
-var motusFilter = {
-	dtStart: default_startDate,
-	dtEnd: default_endDate,
-	species: ["all"],
-	regions: ["all"],
-	projects: ["all"],
-	stations: ["all"],
-	status: ["all"],
-	frequencies: ["all"],
-	selections: [],
-	colour: ''
-};
-
-// Is the client on a mobile device? Will be set by function after initiation.
-var isMobile = false;
-
-// Language defaults to English
-var currLang = 'english';
-
-// I probably don't need all these - just dataType and exploreType
-var exploreType,
-//		mapType,
-		dataType; // 'stations' or 'species'
-
-var filePrefix;
-var mapFilePrefix;
-var testTimer=[];
 
 $(document).ready(function(){
 
@@ -119,7 +92,7 @@ $(document).ready(function(){
 
 			// Empty the motus filters
 			// We should probably have an option here to maintain filters. #change
-			motusFilter={};
+			motusFilter = {};
 
 			// Update the url
 			updateURL( refresh );
@@ -144,10 +117,12 @@ $(document).ready(function(){
 
 	});
 
-	$("#explore_menu .explore-menu-overlay").click(function(){$("#explore_menu").removeClass('expanded');})
+	$("#explore_menu .explore-menu-overlay").click(function(){
+		$("#explore_menu").removeClass('expanded');
+	});
+
 	// Load the data
 	//	Now that we know what content to load and we have the dom to put it in, read in the required datasets
-		testTimer.push([new Date(), "Get data"]);
 	getMotusData();
 
 });
