@@ -42,47 +42,112 @@ var speciesGroupNames = {
 	'REPTILES': 'Reptiles'
 }
 
-var motusDataTables;
+
+var motusDataTables = {};
+// Used to time events
 var testTimer = [];
 
+// Generic function called at the start when loading any 'explore' page.
+// A way to increase efficiency is to only request data that is required for the given page, but
+//	in the end that doesn't save us a whole lot since most pages will be referencing data from
+// 	all metadata tables anyways.
+// I've included 'motusDataTableNames' here as a placeholder in case we chose to only load certain tables at first.
 function getMotusData(motusDataTableNames = []) {
 
 	testTimer.push([new Date(), "Get data"]);
-  // List of all the files
-  // This will have to change to include API calls
-/*	var allFiles = {
-		stations: filePrefix + "stations.csv",	// All stations including station deployments (a.k.a. receiver deployments)
-		stationDeps: filePrefix + "recv-deps.csv",	// All receiver deployments, including deployment country
-		regions: filePrefix + "country-stats.csv", // Number of projects, stations, and tag deployments in each country
-		polygons: filePrefix + "ne_50m_admin_0_countries.geojson", // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
-		animals: filePrefix + "tag-deps.csv", // All tag deployments, including deployment country
-		tracks: filePrefix + "siteTrans_real2" + (window.location.hostname.indexOf('beta') != -1 ? '-2' : '') + ".csv", // All site transitions
-		species: filePrefix + "spp.csv", // List of all species and various names/codes
-		projects: filePrefix + "projs.csv" // All projects, their codes, and descriptions
-	};
 
-
-	if (window.location.hostname.includes('sandbox.motus.org')) {
-	// This will have to change to include API calls
-		var allFiles = {
-			// missing: country, continent, animals, species, localAnimals
-			stations: "https://sandbox.motus.org/data/dashboard/stationDeployments?fmt=csv", // All station deployments, including photo url
-			stationDeps: filePrefix + "recv-deps.csv",	// All receiver deployments, including deployment country
-			// good
-			antennaDeps: "https://sandbox.motus.org/data/dashboard/antennaDeployments?fmt=csv", // All antenna deployments, including deployment country
-			regions: filePrefix + "country-stats.csv", // Number of projects, stations, and tag deployments in each country
-			polygons: "https://sandbox.motus.org/wp-content/themes/dashboard_template/ne_50m_admin_0_countries.geojson.txt", // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
-			tracks: filePrefix + "siteTrans_real2" + (window.location.hostname.indexOf('beta') != -1 ? '-2' : '') + ".csv", // All site transitions
-			// missing: country, continent, frequency
-			animals: "https://sandbox.motus.org/data/dashboard/tagDeployments?fmt=csv", // List of all species and various names/codes
-			// good
-			species: "https://sandbox.motus.org/data/dashboard/species?fmt=csv", // List of all species and various names/codes
-			// missing fee_id
-			projects: "https://sandbox.motus.org/data/dashboard/projects?fmt=csv" // All projects, their codes, and descriptions
+	// These are all the tables I store in the local db along with their URLs.
+	motusDataTables = {
+			// [TABLE_NAME]: {[FILE_LOCATION], [INDEXDB_KEY], [GET_TABLE_ON_LOAD]}
+			stations: 					{file: filePrefix + "stations.csv", 												key: 'id, project, country, *animals', 	get: true},	// All stations including station deployments (a.k.a. receiver deployments)
+			stationDeps: 				{file: filePrefix + "recv-deps.csv", 												key: 'id', 															get: true},	// All receiver deployments, including deployment country
+			regions: 						{file: filePrefix + "country-stats.csv", 										key: 'id', 															get: true}, // Number of projects, stations, and tag deployments in each country
+			polygons: 					{file: mapFilePrefix + "ne_50m_admin_0_countries.geojson", 	key: '++, id', 													get: true}, // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
+			animals:					 	{file: filePrefix + "tag-deps.csv", 												key: 'id, project, country, species', 	get: true}, // All tag deployments, including deployment country
+			tracks: 						{file: filePrefix + "siteTrans_real3.csv", 									key: 'route, *animal', 									get: true}, // All site transitions
+			species: 						{file: filePrefix + "spp.csv",															key: 'id',															get: true}, // List of all species and various names/codes
+			projects: 					{file: filePrefix + "projs.csv", 														key: 'id',															get: true}, // All projects, their codes, and descriptions
+			tracksByAnimal: 		{file: false, 																							key: 'id', 															get: false}, //
+			tracksLongByAnimal: {file: filePrefix + "siteTrans_long2.csv", 									key: 'id', 															get: dataType == 'animals' && exploreType == 'main'}, //
+			stationsByRegion: 	{file: false, 																							key: 'region, regionType', 							get:false}, //
+			animalsByRegion: 		{file: false, 																							key: 'region, regionType', 							get:false} //
+		//	tracksLong: {file: filePrefix + "siteTrans_long2.csv", key: '++, animal', get: true}, // All site transitions
 		};
-	}*/
 
+	// Are there
 	motusIndexedDB( motusDataTableNames );
+
+}
+
+// The latest database version
+const DB_VERSION = 8;
+
+function motusIndexedDB( motusDataTableNames = [] ) {
+
+
+	if (motusDataTableNames && motusDataTableNames.length > 0) {
+		motusDataTables = Object.fromEntries( Object.entries(motusDataTables).map( x => [x[0], {file: x[1].file, key: x[1].key, get: motusDataTableNames.includes(x[0]) && x[1].get }]) );
+	}
+
+	var promises = [];
+
+	Object.keys(motusDataTables).forEach(function(f){
+
+			var url = motusDataTables[f].file;
+
+			if (url) {
+				motusDataTables[f].promise = url.substr(url.lastIndexOf('.') + 1, url.length) == 'csv' || url.substr(url.lastIndexOf('=') + 1, url.length) == 'csv' ?
+					d3.csv : d3.json;
+			}
+
+	});
+	testTimer.push([new Date(), "Get data: declare the database"]);
+	// Check whether IndexedDB is supported
+	if (indexedDB) {
+		// Declare the database
+	  motusData.db = new Dexie("explore_motus");
+		//
+	  motusData.db.version( DB_VERSION ).stores(
+			Object.fromEntries(
+				Object.entries(	motusDataTables	)
+							.map( x => [ x[0], x[1].key ] )
+			)
+		).upgrade((trans)=>{
+			console.log("Deleting tables: %o", trans.storeNames);
+
+			trans.storeNames.forEach(k => {
+				trans.db[k].clear();
+			});
+
+		});
+
+		console.log(`Initiating local Motus DB with ${Object.keys(motusDataTables).length} tables...`);
+
+
+	  motusData.db.open()
+    	.catch ('MissingApiError',function(error){// If IndexedDB is NOT supported
+					console.log(error);
+					var tableToDownload = Object.entries(motusDataTables).filter( x => x[1].get );
+					downloadMotusData( tableToDownload.map( x => x[1].promise( x[1].file ) ), tableToDownload.map( x => x[0] ) );
+					indexedDB=false;
+			}).catch (function (error) {
+	        // Show e.message to user
+					console.log("Some other error: ");
+					console.log(error);
+					var tableToDownload = Object.entries(motusDataTables).filter( x => x[1].get );
+					downloadMotusData( tableToDownload.map( x => x[1].promise( x[1].file ) ), tableToDownload.map( x => x[0] ) );
+					indexedDB=false;
+	    });
+
+	  motusData.db.on('ready', checkTables);
+
+	} else { // If IndexedDB is NOT supported
+
+		var tableToDownload = Object.entries(motusDataTables).filter( x => x[1].get );
+		downloadMotusData( tableToDownload.map( x => x[1].promise( x[1].file ) ), tableToDownload.map( x => x[0] ) )
+
+	}
+
 
 }
 
@@ -158,92 +223,6 @@ function getSpeciesTableData( reload = false ) {
 
 
 
-const DB_VERSION = 8;
-
-function motusIndexedDB( motusDataTableNames = [] ) {
-
-	motusDataTables = {
-		// [TABLE_NAME]: {[FILE_LOCATION], [INDEXDB_KEY], [GET_TABLE_ON_LOAD]}
-		stations: {file: filePrefix + "stations.csv", key: 'id, project, country, *animals', get: true},	// All stations including station deployments (a.k.a. receiver deployments)
-		stationDeps: {file: filePrefix + "recv-deps.csv", key: 'id', get: true},	// All receiver deployments, including deployment country
-		regions: {file: filePrefix + "country-stats.csv", key: 'id', get: true}, // Number of projects, stations, and tag deployments in each country
-		polygons: {file: mapFilePrefix + "ne_50m_admin_0_countries.geojson", key: '++, id', get: true}, // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
-		animals: {file: filePrefix + "tag-deps.csv", key: 'id, project, country, species', get: true}, // All tag deployments, including deployment country
-		tracks: {file: filePrefix + "siteTrans_real3" + (window.location.hostname.indexOf('beta') != -1 ? '-2' : '') + ".csv", key: 'route, *animal', get: true}, // All site transitions
-	//	tracksLong: {file: filePrefix + "siteTrans_long2.csv", key: '++, animal', get: true}, // All site transitions
-		species: {file: filePrefix + "spp.csv", key: 'id', get: true}, // List of all species and various names/codes
-		projects: {file: filePrefix + "projs.csv", key: 'id', get: true}, // All projects, their codes, and descriptions
-		tracksByAnimal: {file: false, key: 'id', get: false}, //
-		tracksLongByAnimal: {file: filePrefix + "siteTrans_long2.csv", key: 'id', get: dataType == 'animals' && exploreType == 'main'}, //
-		stationsByRegion: {file: false, key: 'region, regionType', get:false}, //
-		animalsByRegion: {file: false, key: 'region, regionType', get:false} //
-	};
-
-	if (motusDataTableNames && motusDataTableNames.length > 0) {
-		motusDataTables = Object.fromEntries( Object.entries(motusDataTables).filter( x => motusDataTableNames.includes(x[0]) ) );
-	}
-
-	var promises = [];
-
-	Object.keys(motusDataTables).forEach(function(f){
-
-			var url = motusDataTables[f].file;
-
-			if (url) {
-				motusDataTables[f].promise = url.substr(url.lastIndexOf('.') + 1, url.length) == 'csv' || url.substr(url.lastIndexOf('=') + 1, url.length) == 'csv' ?
-					d3.csv : d3.json;
-			}
-
-	});
-	testTimer.push([new Date(), "Get data: declare the database"]);
-	// Check whether IndexedDB is supported
-	if (indexedDB) {
-		// Declare the database
-	  motusData.db = new Dexie("explore_motus");
-		//
-	  motusData.db.version( DB_VERSION ).stores(
-			Object.fromEntries(
-				Object.entries(	motusDataTables	)
-							.map( x => [ x[0], x[1].key ] )
-			)
-		).upgrade((trans)=>{
-			console.log("Deleting tables: %o", trans.storeNames);
-
-			trans.storeNames.forEach(k => {
-				trans.db[k].clear();
-			});
-
-		});
-
-		console.log(`Initiating local Motus DB with ${Object.keys(motusDataTables).length} tables...`);
-
-
-	  motusData.db.open()
-    	.catch ('MissingApiError',function(error){// If IndexedDB is NOT supported
-					console.log(error);
-					var tableToDownload = Object.entries(motusDataTables).filter( x => x[1].get );
-					downloadMotusData( tableToDownload.map( x => x[1].promise( x[1].file ) ), tableToDownload.map( x => x[0] ) );
-					indexedDB=false;
-			}).catch (function (error) {
-	        // Show e.message to user
-					console.log("Some other error: ");
-					console.log(error);
-					var tableToDownload = Object.entries(motusDataTables).filter( x => x[1].get );
-					downloadMotusData( tableToDownload.map( x => x[1].promise( x[1].file ) ), tableToDownload.map( x => x[0] ) );
-					indexedDB=false;
-	    });
-
-	  motusData.db.on('ready', checkTables);
-
-	} else { // If IndexedDB is NOT supported
-
-		var tableToDownload = Object.entries(motusDataTables).filter( x => x[1].get );
-		downloadMotusData( tableToDownload.map( x => x[1].promise( x[1].file ) ), tableToDownload.map( x => x[0] ) )
-
-	}
-
-
-}
 
 function checkTables() {
 

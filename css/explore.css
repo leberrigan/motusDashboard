@@ -52,7 +52,6 @@ body {
 	--theme-link-colour: #0000ff;
 	--theme-edge-colour: #999999;
 
-
 }
 
 
@@ -135,7 +134,34 @@ body {
 	overflow-y:auto;
 	overflow-x:hidden;
 }
+.loader {
+	position:absolute;
+	width: var(--content-width);
+	height:100%;
+	background:#FFF;
+	z-index:9999;
+	transition:opacity 250ms;
+}
+.loader.hidden {
+	opacity:0;
+	pointer-events: none;
+}
+.loader > .loader-animation {
+  border: 16px solid var(--theme-background-colour-pale2); /* Light grey */
+  border-top: 16px solid var(--theme-background-colour2); /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+	margin: 0 auto;
+	top: calc(50% - 60px);
+	position: relative;
+}
 
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
 
 .link {
@@ -516,11 +542,12 @@ iframe#pdf_output {
 
 *******************************************/
 .page-wrapper {
+	--content-width: min(100vw, 1600px);
 	min-height:100%;
 	display:grid;
-	grid-template-columns: min(100vw, 1600px);
+	grid-template-columns: var(--content-width);
 	grid-template-rows: var(--header-height) auto var(--footer-height);
-	max-width:1600px;
+	width: var(--content-width);
 	box-shadow:0 0 5px var(--theme-edge-colour);
 	margin:0 auto;
 	background-color:var(--theme-background-colour-pale3);

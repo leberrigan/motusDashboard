@@ -117,7 +117,7 @@ if (motusFilter.selections.length > 1) {
 		}
 	});
 
-
+		$(".loader").addClass("hidden");
 
 		testTimer.push([new Date(), "Add summary content"]);
 

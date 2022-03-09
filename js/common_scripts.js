@@ -111,6 +111,119 @@ var getUrlParameter = function getUrlParameter(sParam) {
     }
 };
 
+function updateURL(reload) {
+
+	var stateToPush = 'e=' + (exploreType) + '&d=' + (dataType),
+		toEncode;
+
+	for (f in motusFilter) {
+		if (typeof motusFilter[f] !== 'undefined' && f != 'default' && !['detected','visiting','local'].some( x => f.toLowerCase().includes(x))) {
+			if (motusFilter[f][0] != 'all' &&
+				(!f.includes("selected")) &&
+				(f != 'dtStart' || motusFilter.dtStart.toISOString().substr(0,10) != default_startDate.toISOString().substr(0,10)) &&
+				(f != 'dtEnd' || motusFilter.dtEnd.toISOString().substr(0,10) != default_endDate.toISOString().substr(0,10))
+				) {
+				if (['dtStart','dtEnd'].includes(f)) {
+					toEncode = motusFilter[f].toISOString().substr(0,10);
+				} else  {
+					toEncode = motusFilter[f];
+				}
+				if ( f == 'selections' ||
+						( motusFilter.default && motusFilter.default[f] != motusFilter[f] && ['dtStart','dtEnd', 'colour'].includes(f) ) ||
+						!( !['dtStart','dtEnd', 'colour', 'group'].includes(f) && motusFilter.default && motusFilter.default[f] && motusFilter.default[f].sort().join(',') == motusFilter[f].sort().join(',') )
+						) {
+					stateToPush+='&'+f+'='+encodeURIComponent(toEncode.constructor.name == "Array" ? toEncode.filter(onlyUnique) : toEncode);
+				}
+			}
+		}
+
+	}
+//	console.log("URL length: ", stateToPush.length);
+//	stateToPush = (compressString(stateToPush));
+//	console.log("URL length: ", stateToPush.length);
+//	stateToPush = encodeURIComponent((stateToPush));
+//	console.log("URL length: ", stateToPush.length);
+
+	stateToPush = "#" + stateToPush;
+
+	if (reload === true) {
+		window.location.href = stateToPush;
+		$('.explore-card-wrapper').animate({'opacity':0}, 500, function(){location.reload();});
+
+	}
+	else {
+		window.history.pushState("", document.title, stateToPush);
+	}
+
+
+}
+
+function detectNavigation() {
+
+	var reload = false;
+	var url_params = getSearchParameters( window.location.hash.substr(1) );
+
+	if (typeof exploreType === "undefined") {
+		// Define the explore view
+		//  exploreType defaults to "main" if not present in expected set of values
+		exploreType = url_params.e === undefined ? "main" : ["regions", "animals", "species", "stations", "projects"].includes(url_params.e) ? url_params.e : "main";
+	}
+
+	if (typeof dataType === "undefined") {
+		// Define the main dataset being explore
+		//  dataType defaults to null if not present in expected set of values
+		dataType = url_params.d !== undefined && dataTypes.includes(firstToUpper(url_params.d)) ? url_params.d : 'stations';
+	}
+
+	if ( 	(typeof url_params.e !== 'undefined' && url_params.e !== exploreType)	||
+				(typeof url_params.d !== 'undefined' && url_params.d !== dataType )				) {
+
+		reload = true;
+
+	} else if (	url_params.d === undefined 																									||
+							!dataTypes.includes(firstToUpper(url_params.d))															||
+							url_params.e === undefined 																									||
+							(!dataTypes.includes(firstToUpper(url_params.e)) && url_params.e != 'main')			) {
+
+		window.location.href=`#e=${exploreType}&d=${dataType}`;
+		reload = true;
+
+	} else if (url_params.d != url_params.e && url_params.e != 'main') {
+
+		window.location.href=`#e=main&d=${dataType}`;
+		reload = true;
+	}
+
+	motusFilter = {
+		dtStart: url_params.dtStart === undefined || url_params.dtStart.length == 0 ? motusFilter.dtStart : moment(url_params.dtStart),
+		dtEnd: url_params.dtEnd === undefined || url_params.dtEnd.length == 0 ? motusFilter.dtEnd : moment(url_params.dtEnd),
+		species: url_params.species === undefined || url_params.species.length == 0 ? ["all"] : url_params.species.split(','),
+		animals: url_params.animals === undefined || url_params.animals.length == 0 ? ["all"] : url_params.animals.split(','),
+		regions: url_params.regions === undefined || url_params.regions.length == 0 ? ["all"] : url_params.regions.split(','),
+		projects: url_params.projects === undefined || url_params.projects.length == 0 ? ["all"] : url_params.projects.split(','),
+		stations: url_params.stations === undefined || url_params.stations.length == 0 ? ["all"] : url_params.stations.split(','),
+		status: url_params.status === undefined || url_params.status.length == 0 ? ["all"] : url_params.status.split(','),
+		selections: url_params.selections === undefined || url_params.selections.length == 0 ? url_params[dataType] === undefined ? [] : url_params[dataType].split(',') : url_params.selections.split(','),
+		frequencies: url_params.frequencies === undefined || url_params.frequencies.length == 0 ? ["all"] : url_params.frequencies.split(','),
+		group: url_params.group === undefined || url_params.group.length == 0 ? [] : url_params.group,
+		colour: url_params.frequencies === undefined || url_params.frequencies.length == 0 ? [] : url_params.colour
+	};
+	if (motusFilter[dataType].includes('all') && motusFilter.selections.length > 0) {
+//		motusFilter[dataType] = motusFilter.selections;
+	} else if ( !motusFilter.selections.every( x => motusFilter[dataType].includes(x))) {
+//		motusFilter[dataType].concat( motusFilter.selections.filter( x => !motusFilter[dataType].includes(x) ) );
+	}
+	console.log(motusFilter);
+
+	if (motusMap.setVisibility) {
+		motusMap.setVisibility();
+	}
+	if (reload) {
+		$('.explore-card-wrapper').animate({'opacity':0}, 500, function(){location.reload();});
+		$(".loader").removeClass("hidden");
+	}
+}
+
 function getSearchParameters(prmstr = window.location.hash.substr(1)) {
     return prmstr != null && prmstr != "" ? transformToAssocArray(prmstr) : {};
 }
@@ -229,7 +342,11 @@ function viewProfile(profileType, dataID) {
 			motusFilter.group = undefined;
 		//	motusFilter[profileType] = dataID;
 			motusFilter.selections = dataID;
-		}
+	}
+
+
+		$(".loader").removeClass("hidden");
+
 
 		updateURL(true);
 

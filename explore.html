@@ -69,11 +69,12 @@
     	<script src="js/dexie.js"></script>
 
 			<!-- deck.gl standalone bundle -->
-<script src="https://unpkg.com/deck.gl@latest/dist.min.js"></script>
+			<script src="https://unpkg.com/deck.gl@latest/dist.min.js"></script>
 			<!-- deck.gl-leaflet -->
 			<script src="https://unpkg.com/deck.gl-leaflet@latest/dist/deck.gl-leaflet.min.js"></script>
 
 			<script src="js/common_scripts.js"></script>
+			<script src="js/vars.js"></script>
 			<script src="js/timeline.js"></script>
 			<script src="js/zoomableTimeline.js"></script>
 			<script src="js/help.js"></script>
@@ -128,6 +129,9 @@
 
 			<div class='content-wrapper' id='exploreContent'>
 
+				<div class='loader'>
+								<div class='loader-animation'></div>
+				</div>
 
 			</div>
 
@@ -142,14 +146,14 @@
 		</div>
 
 		<!-- Load Facebook SDK for JavaScript -->
-			<div id="fb-root"></div>
-			<script>(function(d, s, id) {
-			var js, fjs = d.getElementsByTagName(s)[0];
-			if (d.getElementById(id)) return;
-			js = d.createElement(s); js.id = id;
-			js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
-			fjs.parentNode.insertBefore(js, fjs);
-			}(document, 'script', 'facebook-jssdk'));</script>
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) return;
+		js = d.createElement(s); js.id = id;
+		js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+		fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
 		<!-- End your code here -->
 	</body>
 </html>
