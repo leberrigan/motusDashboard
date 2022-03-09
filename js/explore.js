@@ -324,6 +324,7 @@ function detectNavigation() {
 }
 
 var filePrefix;
+var mapFilePrefix;
 var testTimer=[];
 
 $(document).ready(function(){
@@ -342,8 +343,8 @@ $(document).ready(function(){
 
 	// For Development:
 	// get file prefix
-	filePrefix = window.location.hostname == 'localhost' || window.location.hostname == 'leberrigan.github.io' ? 'data/' : window.location.hostname.includes('motus.org') ? "https://" + window.location.hostname + "/wp-content/uploads/2021/09/" : "https://" + window.location.hostname + "/wp-content/uploads/";
-
+	filePrefix = 'data/' : window.location.hostname.includes('motus.org') ? "https://" + window.location.hostname + "/wp-content/uploads/2021/09/" : "https://" + window.location.hostname + "/wp-content/uploads/";
+	mapFilePrefix = window.location.hostname == 'localhost' || window.location.hostname == 'leberrigan.github.io' ? 'data/' : 'maps/';
 	// Change the document title based on the view and data type
 	document.title = "Motus - " + (exploreType == 'main' ? ( "Explore " + firstToUpper(dataType) ) : ( firstToUpper(exploreType) + " summary" ) );
 

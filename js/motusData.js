@@ -167,7 +167,7 @@ function motusIndexedDB( motusDataTableNames = [] ) {
 		stations: {file: filePrefix + "stations.csv", key: 'id, project, country, *animals', get: true},	// All stations including station deployments (a.k.a. receiver deployments)
 		stationDeps: {file: filePrefix + "recv-deps.csv", key: 'id', get: true},	// All receiver deployments, including deployment country
 		regions: {file: filePrefix + "country-stats.csv", key: 'id', get: true}, // Number of projects, stations, and tag deployments in each country
-		polygons: {file: filePrefix + "ne_50m_admin_0_countries.geojson", key: '++, id', get: true}, // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
+		polygons: {file: mapFilePrefix + "ne_50m_admin_0_countries.geojson", key: '++, id', get: true}, // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
 		animals: {file: filePrefix + "tag-deps.csv", key: 'id, project, country, species', get: true}, // All tag deployments, including deployment country
 		tracks: {file: filePrefix + "siteTrans_real3" + (window.location.hostname.indexOf('beta') != -1 ? '-2' : '') + ".csv", key: 'route, *animal', get: true}, // All site transitions
 	//	tracksLong: {file: filePrefix + "siteTrans_long2.csv", key: '++, animal', get: true}, // All site transitions

@@ -181,7 +181,7 @@ function viewProspectiveStations() {
 
 	} else {
 
-		var load = Promise.all( [d3.json( filePrefix + "prospective_stations.geojson" )] ).then(function(response){
+		var load = Promise.all( [d3.json( mapFilePrefix + "prospective_stations.geojson" )] ).then(function(response){
 
 				console.log('test')
 			motusData.prospectiveStations = response[0];
@@ -218,7 +218,7 @@ function viewRegionalCoordinationGroups() {
 	} else {
 
 
-		var load = Promise.all( [d3.json( filePrefix + "motus-regional-collaboratives.geojson" )] ).then(function(response){
+		var load = Promise.all( [d3.json( mapFilePrefix + "motus-regional-collaboratives.geojson" )] ).then(function(response){
 
 			motusData.regionalGroups = response[0];
 
