@@ -115,10 +115,12 @@ const motusFrequencies = ["166.38","150.1","151.5","434","dual","none"];
 
 
 const STATION_ICON_MAPPING = {
-	selectedStation: {x: 250, y: 0, width: 250, height: 250, mask: false},
-	activeStation: {x: 0, y: 250, width: 250, height: 250, mask: false},
-	inactiveStation: {x: 250, y: 250, width: 250, height: 250, mask: false},
-	otherStation: {x: 0, y: 0, width: 250, height: 250, mask: false},
+	selectedStation: {x: 0, y: 0, width: 250, height: 250, mask: false},
+	selectedActiveStation: {x: 0, y: 0, width: 250, height: 250, mask: false},
+	selectedInactiveStation: {x: 250, y: 0, width: 250, height: 250, mask: false},
+	otherInactiveStation: {x: 250, y: 250, width: 250, height: 250, mask: false},
+	otherActiveStation: {x: 0, y: 250, width: 250, height: 250, mask: false},
+	otherStation: {x: 250, y: 1000, width: 250, height: 250, mask: false},
 	Lotek_Americas: {x: 0, y: 500, width: 250, height: 250, mask: false},
 	Lotek_Europe_Africa: {x: 250, y: 500, width: 250, height: 250, mask: false},
 	Lotek_Australia_Asia: {x: 0, y: 750, width: 250, height: 250, mask: false},

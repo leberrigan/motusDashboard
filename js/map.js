@@ -1200,6 +1200,11 @@ function getProfileMapLayers(load, layer) {
 
 		var yesterday = +(new Date().addDays( -30 ))/1000;
 
+		if (typeof layer === "object" && layer.length > 0) {
+			var layers = layer;
+			layer = layers.shift();
+		}
+
 		//	STATIONS
 		if (load) {
 			motusData.stationDeps2 = motusData.stationDeps
@@ -1227,31 +1232,16 @@ function getProfileMapLayers(load, layer) {
 			deckGlLayers.otherStations = new deck.GeoJsonLayer({
 				id: 'deckGL_otherStations',
 				data: {type: "FeatureCollection",features: motusData.stationDeps2},//.filter( d => !motusFilter.selectedStationDeps.includes( d.id ) ) }
-
 				pointType: 'icon',
 				iconAtlas: "images/station_icon_atlas.png",
 				iconMapping: STATION_ICON_MAPPING,
 				getIconSize: d => 20000,
-				getIcon: d => (motusMap.trackView) ? (Object.keys(motusMap.selections).includes(d.station) ? "activeStation" : (+d.dtEnd > yesterday ? 'inactiveStation' : 'activeStation')) : "otherStation",
+				getIcon: d => motusMap.trackView ? ( Object.keys(motusMap.selections).includes(d.station) ? "otherActiveStation" : "otherStation" ) : (+d.dtEnd > yesterday ? 'otherInactiveStation' : 'otherActiveStation'),
 				iconSizeScale: 1,
 				iconSizeUnits: "meters",
 				iconSizeMinPixels: 12,
 				iconSizeMaxPixels: 128,
 				getFillColor: d => "#EEEEEE",
-				/*,
-				filled: true,
-				getPointRadius: 15000,
-				getLineWidth: 1,
-				lineWidthUnits: 'pixels',
-				pointRadiusMinPixels: 3,
-				pointRadiusMaxPixels: 25,
-				getFillColor: d => {
-					return hexToRgb(
-					(!motusMap.trackView) ? (Object.keys(motusMap.selections).includes(d.station) ? "#FF0000" : (+d.dtEnd > yesterday ? '#BBDDBB' : '#FFCCCC'))
-					:  "#000000"
-					);
-				},
-				*/
 		  	getFilterValue: d => {
 					return [
 						+(
@@ -1276,7 +1266,7 @@ function getProfileMapLayers(load, layer) {
 				highlightColor: [255,0,0],
 		    updateTriggers: {
 		      // This tells deck.gl to recalculate radius when `currentYear` changes
-					getFillColor: [motusFilter.animals,  motusMap.trackView, motusMap.selections],
+//					getFillColor: [motusFilter.animals,  motusMap.trackView, motusMap.selections],
 		      getFilterValue: [timeline.position, motusFilter.frequencies, motusFilter.species, motusFilter.projects, motusFilter.stations, motusFilter.regions, motusMap.selections]
 		    }
 			});
@@ -1291,10 +1281,11 @@ function getProfileMapLayers(load, layer) {
 					iconAtlas: "images/station_icon_atlas.png",
 					iconMapping: STATION_ICON_MAPPING,
 					getIconSize: d => 20000,
-					getIcon: d => "selectedStation",
+//					getIcon: d => Object.keys(motusMap.selections).includes(d.station) ? "selectedStation" : (+d.dtEnd > yesterday ? 'selectedActiveStation' : 'selectedInactiveStation'),
+					getIcon: d => motusMap.trackView ? ( Object.keys(motusMap.selections).includes(d.station) ? "selectedActiveStation" : "selectedInactiveStation" ) : (+d.dtEnd > yesterday ? 'selectedInactiveStation' : 'selectedActiveStation'),
 					iconSizeScale: 1,
 					iconSizeUnits: "meters",
-					iconSizeMinPixels: 32,
+					iconSizeMinPixels: 25,
 					iconSizeMaxPixels: 125,
 					getFillColor: d => "#000000",
 				//	getIconColor: d => hexToRgb(Object.keys(motusMap.selections).includes(d.station) ? "FF0000" : (+d.dtEnd > yesterday ? '#00FF00' : '#FFAA00')),
@@ -1351,24 +1342,13 @@ function getProfileMapLayers(load, layer) {
 					pointType: 'icon',
 					iconAtlas: "images/animal_icon_atlas.png",
 					iconMapping: ANIMAL_ICON_MAPPING,
-					getIconSize: d => 20000,
+					getIconSize: d => 1000,
 					getIcon: d => "selectedAnimal",
 					iconSizeScale: 1,
 					iconSizeUnits: "meters",
-					iconSizeMinPixels: 32,
-					iconSizeMaxPixels: 125,
+					iconSizeMinPixels: 25,
+					iconSizeMaxPixels: 75,
 					getFillColor: d => "#000000",
-				//	getIconColor: d => hexToRgb(Object.keys(motusMap.selections).includes(d.station) ? "FF0000" : (+d.dtEnd > yesterday ? '#00FF00' : '#FFAA00')),
-					/*pointType: 'circle',
-					filled: true,
-					getPointRadius: 15000,
-					pointType: 'circle',
-					getLineWidth: 1,
-					lineWidthUnits: 'pixels',
-					pointRadiusMinPixels: 5,
-					pointRadiusMaxPixels: 25,
-					getFillColor: d => hexToRgb(Object.keys(motusMap.selections).includes(d.station) ? "FF0000" : (+d.dtEnd > yesterday ? '#00FF00' : '#FFAA00')),
-					*/
 					getFilterValue: d => {
 						return [
 							+(
@@ -1390,12 +1370,12 @@ function getProfileMapLayers(load, layer) {
 					pickable: true,
 					onClick: ({object}, e) => motusMap.dataClick(e.srcEvent, object, 'animal'),
 					onHover: ({object, picked}, e) => motusMap.dataHover(e.srcEvent, object, picked?'in':'out', 'animal'),
-					opacity: dataType == "stations" ? 0.7 : 0.3,
+					opacity: 1,
 					autoHighlight: true,
 					highlightColor: [255,0,0],
 					updateTriggers: {
 						// This tells deck.gl to recalculate radius when `currentYear` changes
-						getFilterValue: [motusMap.trackView, timeline.position, motusFilter.frequencies, motusFilter.species, motusFilter.projects, motusFilter.stations, motusFilter.regions, motusMap.selections]
+						getFilterValue: [motusMap.trackView, timeline.position, motusFilter.frequencies, motusFilter.species, motusFilter.projects, motusMap.selections]
 					}
 				});
 		}
@@ -1462,6 +1442,10 @@ function getProfileMapLayers(load, layer) {
 				}
 			});
 
+		}
+
+		if (typeof layers === "object" && layers.length > 0) {
+			getProfileMapLayers(false, layers);
 		}
 
 }
@@ -1669,9 +1653,9 @@ function deckGL_map() {
 			deckGlLayers.stations
 		]) : [
 	    deckGlLayers.otherStations
+			, deckGlLayers.selectedAnimals
 			,deckGlLayers.tracks
 			,deckGlLayers.selectedStations
-			, deckGlLayers.selectedAnimals
 	  ],
 		getCursor: ({isHovering}) => isHovering ? "pointer" : "grab"
 	});
@@ -1770,11 +1754,13 @@ function animateTrackStep(currentTime, start) {
 
 	} else {
 
-		if (exploreType == 'main')
+		if (exploreType == 'main') {
 			getExploreMapLayers(false, 'stations');
-		else
+		} else {
 			getProfileMapLayers(false, 'stations');
-
+//			getProfileMapLayers(false, 'animals');
+//			getProfileMapLayers(false, ['stations', 'animals']);
+		}
 
 		timeline.position = [currentTime, currentTime];
 
@@ -1819,8 +1805,8 @@ function animateTrackStep(currentTime, start) {
 				[ deckGlLayers.stations
 				, deckGlLayers.tracksAnim ] : [
 			   deckGlLayers.otherStations
+ 				,deckGlLayers.selectedAnimals
 				,deckGlLayers.selectedStations
-				,deckGlLayers.selectedAnimals
 				,deckGlLayers.tracksAnim
 			]
 		});
@@ -1857,9 +1843,9 @@ function deckGL_renderMap(reloadData = true) {
 			deckGlLayers.stations
 		]) : [
 	    deckGlLayers.otherStations
+			, deckGlLayers.selectedAnimals
 			, deckGlLayers.tracks
 			, deckGlLayers.selectedStations
-			, deckGlLayers.selectedAnimals
 	  ]
   });
 
