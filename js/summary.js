@@ -1206,6 +1206,7 @@ function getExploreProfileData(d) {
 				var animals = motusData.selectedAnimals.filter( x => x.id == d.id)[0];
 
 				var species = motusData.species.filter( x => x.id == animals.species)[0];
+				species = typeof species==="undefined"?NULL_SPECIES:species;
 				var project = motusData.projects.filter(x => x.id == d.projID)[0];
 
 		 } else { // dataType == 'species'
@@ -1213,6 +1214,7 @@ function getExploreProfileData(d) {
 				var detections = Object.values( motusData.selectedTracks ).filter( (x) => x[dataType].includes(d.id) );
 
 				var species = motusData.species.filter( x => x.id == d.id)[0];
+				species = typeof species==="undefined"?NULL_SPECIES:species;
 				var animals = species.animals;
 				animals = typeof animals === 'string' ? animals.split(',') : animals;
 
@@ -1363,7 +1365,7 @@ function getExploreProfileData(d) {
 				detections: detections,
 				"iNaturalist": `<a href="https://www.inaturalist.org/taxa/${encodeURIComponent(species.scientific)}" target="_blank"><img src='images/inaturalist_logo_sm.png' alt='iNaturalist Logo'></a>`,
 				"IUCN Red List": `<a href="https://apiv3.iucnredlist.org/api/v3/website/${encodeURIComponent(species.scientific)}" target="_blank" class='explore-status-conservation explore-conservation-${conservationStatusRandom} tips' alt='${conservationStatus[conservationStatusRandom]}'>${conservationStatusRandom}</a>`,
-				"eBird": (motusData.species.filter( x => x.id == d.species)[0].group == 'BIRDS' ? `<a href="https://www.allaboutbirds.org/guide/${encodeURIComponent(species.english.replace(' ', '_').replace("'",""))}" target="_blank"><img src='images/eBird_logo.png' alt='eBird Logo'></a>` : false)
+				"eBird": (species.group == 'BIRDS' ? `<a href="https://www.allaboutbirds.org/guide/${encodeURIComponent(species.english.replace(' ', '_').replace("'",""))}" target="_blank"><img src='images/eBird_logo.png' alt='eBird Logo'></a>` : false)
 			}
 
 		}
