@@ -97,7 +97,44 @@ const conservationStatus = {
 
 const icon_paths = {
 	stations:"M 8.95 3.625 L 8.95 2.2 L 7 2.2 L 7 3.175 L 6.75 3.175 L 6.75 2.2 L 4.925 2.2 L 4.925 5.268 L 7.0001 11.3826 L 6.8897 11.4752 L 5.8 8.2643 L 5.8 8.45 L 4.925 8.45 L 4.925 10.1247 L 4.675 10.1247 L 4.675 8.45 L 3.7502 8.45 L 2.7116 11.5002 L 2.5999 11.4068 L 4.675 5.3126 L 4.675 2.2 L 2.85 2.2 L 2.85 3.175 L 2.6 3.175 L 2.6 2.2 L 0.75 2.2 L 0.75 3.8 L 0.5 3.8 L 0.5 0.5 L 0.75 0.5 L 0.75 1.95 L 2.6 1.95 L 2.6 1 L 2.85 1 L 2.85 1.95 L 4.675 1.95 L 4.675 1.4253 L 4.925 1.4253 L 4.925 1.95 L 6.75 1.95 L 6.75 1 L 7 1 L 7 1.95 L 8.95 1.95 L 8.95 0.5 L 9.2 0.5 L 9.2 1.95 L 9.2 2.2 L 9.2 3.625 L 8.95 3.625 Z M 4.925 8.2 L 5.7782 8.2 L 4.925 5.686 L 4.925 8.2 Z M 4.675 5.7339 L 3.8353 8.2 L 4.675 8.2 L 4.675 5.7339 Z"
-}
+};
+const NULL_SPECIES = {
+	id: -1,
+	english: "Unlisted Species",
+	french: "Espèce indéfinie",
+	scientific: "Unlisted Species",
+	code: -1,
+	group: "Unlisted Species",
+	projects: [],
+	stations: [],
+	stationProjects: [],
+	animals: []
+};
+
+const motusFrequencies = ["166.38","150.1","151.5","434","dual","none"];
+
+
+const STATION_ICON_MAPPING = {
+	selectedStation: {x: 250, y: 0, width: 250, height: 250, mask: false},
+	activeStation: {x: 0, y: 250, width: 250, height: 250, mask: false},
+	inactiveStation: {x: 250, y: 250, width: 250, height: 250, mask: false},
+	otherStation: {x: 0, y: 0, width: 250, height: 250, mask: false},
+	Lotek_Americas: {x: 0, y: 500, width: 250, height: 250, mask: false},
+	Lotek_Europe_Africa: {x: 250, y: 500, width: 250, height: 250, mask: false},
+	Lotek_Australia_Asia: {x: 0, y: 750, width: 250, height: 250, mask: false},
+	CTT_Global: {x: 250, y: 750, width: 250, height: 250, mask: false},
+	dual: {x: 0, y: 1000, width: 250, height: 250, mask: false}
+};
+
+const ANIMAL_ICON_MAPPING = {
+	selectedAnimal: {x: 250, y: 0, width: 250, height: 250, mask: false},
+	raptor: {x: 0, y: 250, width: 250, height: 250, mask: false},
+	warbler: {x: 250, y: 250, width: 250, height: 250, mask: false},
+	otherAnimal: {x: 0, y: 0, width: 250, height: 250, mask: false}
+};
+
+
+
 
 
 // VARIABLES
@@ -114,12 +151,12 @@ var filters = {
 		species: {},
 		animals: {},
 		frequencies: {
+			"166.38": "166.38 MHz",
 			"150.1": "150.1 MHz",
 			"151.5": "151.5 MHz",
-			"166.38": "166.38 MHz",
 			"434": "434 MHz",
 			"dual": "Dual Mode",
-			"none": "Unknown",
+			"none": "Unknown"
 		},
 		regions: ["North America", "Latin America", "Europe", "Asia", "Australia", "Africa"],
 		models: ["NTQB2-1", "NTQB2-1-2", "NTQB2-2", "NTQB2-3-2", "NTQB2-4-2"],

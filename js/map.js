@@ -57,8 +57,8 @@ function exploreMap({
 			.domain([100000, 1000000, 10000000, 30000000, 100000000, 500000000])
 			.range(d3.schemeReds[7]),
 		colourScales: {
-			frequency:	d3.scaleOrdinal().domain(["166.38", "151.5", "150.1", "434", "dual", "none"]).range(["#1b9e77","#d95f02","#7570b3","#e7298a","#E5C494","#999999"]),
-			frequencies:	d3.scaleOrdinal().domain(["166.38", "151.5", "150.1", "434", "dual", "none"]).range(["#1b9e77","#d95f02","#7570b3","#e7298a","#E5C494","#999999"]),
+			frequency:	d3.scaleOrdinal().domain(["166.38", "150.1", "151.5", "434", "dual", "none"]).range(["#1b9e77","#d95f02","#7570b3","#e7298a","#E5C494","#999999"]),
+			frequencies:	d3.scaleOrdinal().domain(["166.38", "150.1", "151.5", "434", "dual", "none"]).range(["#1b9e77","#d95f02","#7570b3","#e7298a","#E5C494","#999999"]),
 			stations: d3.scaleOrdinal().range(customColourScale.jnnnnn),
 			animals: d3.scaleOrdinal().range(customColourScale.jnnnnn),
 			tracks: {
@@ -124,7 +124,7 @@ function exploreMap({
 
 														`<div><b>Frequency: </b>${d.frequency} MHz</div>`+
 
-														`<div><b>Tag model: </b> --- </div>`+
+														`<div><b>Tag model: </b> ${d.model} </div>`+
 
 														`<div class='tooltip-grid-colspan2'><b>Project: </b>${motusData.projects.filter(x => x.id == d.project)[0].name} (#${d.project})</div>`+
 
@@ -227,8 +227,8 @@ function exploreMap({
 												`</div>`
 											);
 					}
-				} else { // t == "tag deployment"
-					console.log("Data hover: %o", d);
+				} else { // t == "animal"
+/*					console.log("Data hover: %o", d);
 					var filterName = motusFilter.colour;
 					filterName = (dataType == 'species' && mapType != 'tracks') ? 'nSpecies' : filterName;
 
@@ -245,7 +245,56 @@ function exploreMap({
 						"</br>Start: " + moment( d.dtStart ).toISOString().substr(0,10)+
 						(d.status == 'active' ? ("</br><div class='green'>Active</div>") : ("</br>End: " + moment( d.dtEnd ).toISOString().substr(0,10) + "</br><div class='red'>Terminated</div>"))
 					);
+					*/
+						var species = "Loading...";
+						// Make a request to the database to find the species name
+						 motusData.db.animals.get( d.id.toString() ).then( animal => {
+							// var animal = exploreType == 'main' ? motusData.animals.filter( x => x.id == d.id )[0] : motusData.selectedAnimals.filter( x => x.id == d.id )[0];
+							 let species = typeof animal.species === 'undefined' || animal.species == "NA" ? "Unknown species" : motusData.species.filter(x => x.id == animal.species)[0];
+							 species = typeof species === 'undefined' ? "Unknown species" : species[currLang];
 
+							 // When request received, add the text
+		 						$('.tooltip').html("<center><h3>"+
+		 													icons.species + "&nbsp;&nbsp;&nbsp;" + (species) +
+															 "&nbsp;&nbsp;&nbsp;" +
+															`<a class='station-status station-status-${animal.status}'>`+
+																`${firstToUpper(animal.status)}`+
+															"</a>"+
+
+		 												"</h3></center>"+
+
+														`<div class='tooltip-grid'>`+
+
+															`<div><b>Tag deployment: </b>${icons.animals}	#${d.id}</div>`+
+
+															`<div><b>Tagging site: </b><a href="https://www.google.ca/maps/search/${d.lat},${d.lon}" target="_blank">(${d.lat}, ${d.lon})</a></div>`+
+
+			 											  `<div><b>First deployed: </b>${d.dtStart.toISOString().substr(0,10)}</div>`+
+
+		 											  	`<div><b>Calculated end date: </b>${d.dtEnd.toISOString().substr(0,10)}</div>`+
+
+															`<div><b>Frequency: </b>${d.frequency} MHz</div>`+
+
+															`<div><b>Tag model: </b> ${d.manufacturer} ${d.model} </div>`+
+
+															`<div class='tooltip-grid-colspan2'><b>Project: </b>${motusData.projects.filter(x => x.id == d.project)[0].name} (#${d.project})</div>`+
+
+															(
+																isMobile ?
+																`<div class='tooltip-grid-colspan2'><button class='submit_btn' onclick='motusMap.dataClick(false,{id: ${d.id}},"track")'>View station profile</button></div>`
+			 													: `<div class='tooltip-grid-colspan2'>Click to view profile</div>`
+															)+
+
+														`</div>`+
+
+		 												"<center>"+
+		 												"</center>");
+						 });
+
+						$('.tooltip').html(
+							"<big>"+species+"</big>"+
+							"</br>(Click to view profile)"
+						);
 				}
 				if (typeof e.touches !== 'undefined') {
 					if ($(document).width() < 600) {
@@ -309,7 +358,7 @@ function exploreMap({
 					motusMap.map.fitBounds(d.bounds, {padding:[0,0], maxZoom: 200});
 				} else {
 	//				viewProfile("stations", d.station)
-					motusMap.selectStation(d, {isDeployment: true});
+					motusMap.selectStation(d, {isDeployment: true, button: e.button});
 					/*
 					console.log(d)
 					var content = "<center><h3>"+
@@ -391,9 +440,11 @@ function exploreMap({
 
 			} else if (t == 'animal') {
 				viewProfile("animals", d.id)
+				motusMap.selectAnimal(d, {isDeployment: true, button: e.button});
 			} else if (t == 'track') {
 
-				motusMap.selectTrack(d);
+//				motusMap.selectTrack(d);
+				motusMap.selectAnimal(d, {isDeployment: false, button: e.button});
 
 			}
 		},
@@ -433,19 +484,19 @@ function exploreMap({
 		},
 		highlightVal: '',
 		trackView: false,
-		selectStation: function(d, {isDeployment}) {
+		selectStation: function(d, {isDeployment, button}) {
 
-			if (motusMap.trackView) {
+			if (motusEditor.editMode) {
 				modifyTrack({station: d.station});
-			} else {
+			} else if (button == 0) {
 				viewProfile("stations", isDeployment ? d.station : d.id);
 			}
 
 		},
-		selectTrack: function(d) {
-			if (motusEditor.editMode) {
-				viewTrack(d.id);
-			} else {
+		selectAnimal: function(d, {isDeployment, button}) {
+			if (!isDeployment && motusEditor.editMode) {
+					viewTrack(d.id);
+			} else if (button == 0) {
 				viewProfile("animals", d.id);
 			}
 		},
@@ -1116,7 +1167,7 @@ function setMapColourScale() {
 
 
 	// Set the colour variable to singlar word (to match variable names in data tables)
-	motusMap.colourVar = motusMap.colourVar != "id" && motusMap.colourVar != "stations" ? toSingular(motusMap.colourVar) : motusMap.colourVar;
+	motusMap.colourVar = !["id", "stations", "frequency"].includes(motusMap.colourVar) ? toSingular(motusMap.colourVar) : motusMap.colourVar;
 
 	// Get the domain for the colours scale
 	motusMap.colourVarSelections = motusMap.colourVar == 'project' && ['animals', 'species'].includes(dataType) ? motusData.selectedAnimals.map( x => x.project ) :
@@ -1125,17 +1176,20 @@ function setMapColourScale() {
 																	motusMap.colourVar == 'species' && dataType == 'stations' ? motusData.selectedStations.map( x => x.species ).flat() :
 																	motusMap.colourVar == 'project' && ['projects', 'regions'].includes(dataType) ? motusData.selectedStationProjects.map( x => x.id ).concat(motusData.selectedAnimalProjects.map( x => x.id )) :
 																	motusMap.colourVar == 'species' && ['projects', 'regions'].includes(dataType) ? motusData.selectedAnimalProjects.map( x => x.species ).flat() :
-																																		motusFilter.selections;
+																	motusMap.colourVar == "frequency" ? motusFrequencies : motusFilter.selections;
+
 
 	// Remove duplicates and NAs
  	motusMap.colourVarSelections = [...new Set(motusMap.colourVarSelections)].filter( x => x != "NA" );
+
+
+	// Set the colour scale
+	motusMap.colourScale = motusMap.colourScales[ motusMap.colourDataType ].domain( motusMap.colourVarSelections );
 
 	if (typeof motusMap.deckLayer !== 'undefined')
 		deckGL_renderMap();
 
 
-	// Set the colour scale
-	motusMap.colourScale = motusMap.colourScales[ motusMap.colourDataType ].domain( motusMap.colourVarSelections );
 
 
 
@@ -1168,15 +1222,7 @@ function getProfileMapLayers(load, layer) {
 					};
 				});
 		}
-
 		if (!layer || layer == 'stations') {
-
-			const ICON_MAPPING = {
-			  selectedStation: {x: 250, y: 0, width: 250, height: 250, mask: false},
-			  activeStation: {x: 0, y: 250, width: 250, height: 250, mask: false},
-			  inactiveStation: {x: 250, y: 250, width: 250, height: 250, mask: false},
-			  otherStation: {x: 0, y: 0, width: 250, height: 250, mask: false}
-			};
 			// Other stations
 			deckGlLayers.otherStations = new deck.GeoJsonLayer({
 				id: 'deckGL_otherStations',
@@ -1184,10 +1230,9 @@ function getProfileMapLayers(load, layer) {
 
 				pointType: 'icon',
 				iconAtlas: "images/station_icon_atlas.png",
-				iconMapping: ICON_MAPPING,
+				iconMapping: STATION_ICON_MAPPING,
 				getIconSize: d => 20000,
-				getIcon: d => (!motusMap.trackView) ? (Object.keys(motusMap.selections).includes(d.station) ? "activeStation" : (+d.dtEnd > yesterday ? 'inactiveStation' : 'activeStation'))
-				:  "otherStation",
+				getIcon: d => (motusMap.trackView) ? (Object.keys(motusMap.selections).includes(d.station) ? "activeStation" : (+d.dtEnd > yesterday ? 'inactiveStation' : 'activeStation')) : "otherStation",
 				iconSizeScale: 1,
 				iconSizeUnits: "meters",
 				iconSizeMinPixels: 12,
@@ -1236,76 +1281,123 @@ function getProfileMapLayers(load, layer) {
 		    }
 			});
 
-			// Selected stations
-			deckGlLayers.selectedStations = new deck.GeoJsonLayer({
-				id: 'deckGL_selectedStations',
-				data: {type: "FeatureCollection",features: motusData.stationDeps2},//.filter( d => motusFilter.selectedStationDeps.includes( d.id ) ) },
+				// Selected stations should appear ABOVE the tracks
+				// Selected stations
+				deckGlLayers.selectedStations = new deck.GeoJsonLayer({
+					id: 'deckGL_selectedStations',
+					data: {type: "FeatureCollection",features: motusData.stationDeps2},//.filter( d => motusFilter.selectedStationDeps.includes( d.id ) ) },
 
-				pointType: 'icon',
-				iconAtlas: "images/station_icon_atlas.png",
-				iconMapping: ICON_MAPPING,
-				getIconSize: d => 20000,
-				getIcon: d => "selectedStation",
-				iconSizeScale: 1,
-				iconSizeUnits: "meters",
-				iconSizeMinPixels: 12,
-				iconSizeMaxPixels: 128,
-				getFillColor: d => "#000000",
-			//	getIconColor: d => hexToRgb(Object.keys(motusMap.selections).includes(d.station) ? "FF0000" : (+d.dtEnd > yesterday ? '#00FF00' : '#FFAA00')),
-				/*pointType: 'circle',
-				filled: true,
-				getPointRadius: 15000,
-				pointType: 'circle',
-				getLineWidth: 1,
-				lineWidthUnits: 'pixels',
-				pointRadiusMinPixels: 5,
-				pointRadiusMaxPixels: 25,
-				getFillColor: d => hexToRgb(Object.keys(motusMap.selections).includes(d.station) ? "FF0000" : (+d.dtEnd > yesterday ? '#00FF00' : '#FFAA00')),
-				*/
-		  	getFilterValue: d => {
-					return [
-						+(
-							(
-								motusFilter.selectedStationDeps.includes( d.id ) &&
-								!motusMap.trackView &&
-								d.dtStart <= timeline.position[1] &&
-								d.dtEnd >= timeline.position[0] &&
-								(motusFilter.species[0] == 'all' || motusFilter.species.some( x => d.species.includes(x) )) &&
-								(motusFilter.stations[0] == 'all' || motusFilter.stations.includes(d.stationID) || dataType == 'stations') &&
-								(dataType == 'regions' || motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d[motusFilter.regionType])) &&
-								(motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.some( x => d.frequency.includes( x ) )) &&
-								(motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.projID))
-							) ||
-							( motusMap.trackView &&	d.animals.includes(motusFilter.animals[0]) )
-						)
-					]},
-				filterRange: [1,1],
-				extensions: [new deck.DataFilterExtension({filterSize: 1})],
-				pickable: true,
-				onClick: ({object}, e) => motusMap.dataClick(e.srcEvent, object, 'station'),
-				onHover: ({object, picked}, e) => motusMap.dataHover(e.srcEvent, object, picked?'in':'out', 'station'),
-				opacity: dataType == "stations" ? 0.7 : 0.3,
-				autoHighlight: true,
-				highlightColor: [255,0,0],
-		    updateTriggers: {
-		      // This tells deck.gl to recalculate radius when `currentYear` changes
-		      getFilterValue: [motusMap.trackView, timeline.position, motusFilter.frequencies, motusFilter.species, motusFilter.projects, motusFilter.stations, motusFilter.regions, motusMap.selections]
-		    }
-			});
-/*
-			deckGlLayers.selectedStationIcons = new deck.IconLayer({
-				id: 'deckGL_selectedStations',
-				data: motusData.stationDeps2,//.filter( d => motusFilter.selectedStationDeps.includes( d.id ) ) },
-		    pickable: true,
-				iconAtlas: "SVG/station3_sm.png",
-				iconMapping: ICON_MAPPING,
-				getPosition: d => d.geometry.coordinates,
-				getSize: d => 32,
-				getIcon: d => "selectedStation",
-				sizeScale: 1,
-				getFillColor: d => '#000000',
-			});
-			*/
+					pointType: 'icon',
+					iconAtlas: "images/station_icon_atlas.png",
+					iconMapping: STATION_ICON_MAPPING,
+					getIconSize: d => 20000,
+					getIcon: d => "selectedStation",
+					iconSizeScale: 1,
+					iconSizeUnits: "meters",
+					iconSizeMinPixels: 32,
+					iconSizeMaxPixels: 125,
+					getFillColor: d => "#000000",
+				//	getIconColor: d => hexToRgb(Object.keys(motusMap.selections).includes(d.station) ? "FF0000" : (+d.dtEnd > yesterday ? '#00FF00' : '#FFAA00')),
+					/*pointType: 'circle',
+					filled: true,
+					getPointRadius: 15000,
+					pointType: 'circle',
+					getLineWidth: 1,
+					lineWidthUnits: 'pixels',
+					pointRadiusMinPixels: 5,
+					pointRadiusMaxPixels: 25,
+					getFillColor: d => hexToRgb(Object.keys(motusMap.selections).includes(d.station) ? "FF0000" : (+d.dtEnd > yesterday ? '#00FF00' : '#FFAA00')),
+					*/
+					getFilterValue: d => {
+						return [
+							+(
+								(
+									motusFilter.selectedStationDeps.includes( d.id ) &&
+									!motusMap.trackView &&
+									d.dtStart <= timeline.position[1] &&
+									d.dtEnd >= timeline.position[0] &&
+									(motusFilter.species[0] == 'all' || motusFilter.species.some( x => d.species.includes(x) )) &&
+									(motusFilter.stations[0] == 'all' || motusFilter.stations.includes(d.stationID) || dataType == 'stations') &&
+									(dataType == 'regions' || motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d[motusFilter.regionType])) &&
+									(motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.some( x => d.frequency.includes( x ) )) &&
+									(motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.projID))
+								) ||
+								( motusMap.trackView &&	d.animals.includes(motusFilter.animals[0]) )
+							)
+						]},
+					filterRange: [1,1],
+					extensions: [new deck.DataFilterExtension({filterSize: 1})],
+					pickable: true,
+					onClick: ({object}, e) => motusMap.dataClick(e.srcEvent, object, 'station'),
+					onHover: ({object, picked}, e) => motusMap.dataHover(e.srcEvent, object, picked?'in':'out', 'station'),
+					opacity: dataType == "stations" ? 0.7 : 0.3,
+					autoHighlight: true,
+					highlightColor: [255,0,0],
+					updateTriggers: {
+						// This tells deck.gl to recalculate radius when `currentYear` changes
+						getFilterValue: [motusMap.trackView, timeline.position, motusFilter.frequencies, motusFilter.species, motusFilter.projects, motusFilter.stations, motusFilter.regions, motusMap.selections]
+					}
+				});
+
+		}
+
+		if (!layer || layer == 'animals') {
+
+				// Selected animals should appear ABOVE the tracks
+				// Selected animals
+				deckGlLayers.selectedAnimals = new deck.GeoJsonLayer({
+					id: 'deckGL_selectedAnimals',
+					data: {type: "FeatureCollection",features: motusData.animals},//.filter( d => motusFilter.selectedStationDeps.includes( d.id ) ) }
+					pointType: 'icon',
+					iconAtlas: "images/animal_icon_atlas.png",
+					iconMapping: ANIMAL_ICON_MAPPING,
+					getIconSize: d => 20000,
+					getIcon: d => "selectedAnimal",
+					iconSizeScale: 1,
+					iconSizeUnits: "meters",
+					iconSizeMinPixels: 32,
+					iconSizeMaxPixels: 125,
+					getFillColor: d => "#000000",
+				//	getIconColor: d => hexToRgb(Object.keys(motusMap.selections).includes(d.station) ? "FF0000" : (+d.dtEnd > yesterday ? '#00FF00' : '#FFAA00')),
+					/*pointType: 'circle',
+					filled: true,
+					getPointRadius: 15000,
+					pointType: 'circle',
+					getLineWidth: 1,
+					lineWidthUnits: 'pixels',
+					pointRadiusMinPixels: 5,
+					pointRadiusMaxPixels: 25,
+					getFillColor: d => hexToRgb(Object.keys(motusMap.selections).includes(d.station) ? "FF0000" : (+d.dtEnd > yesterday ? '#00FF00' : '#FFAA00')),
+					*/
+					getFilterValue: d => {
+						return [
+							+(
+								(
+									motusFilter.selectedAnimals.includes( d.id ) &&
+									!motusMap.trackView &&
+									(+d.dtStart/1000) <= timeline.position[1] &&
+									(+d.dtEnd/1000) >= timeline.position[0] &&
+									(motusFilter.species[0] == 'all' || motusFilter.species.includes( d.species )) &&
+									(dataType == 'regions' || motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d[motusFilter.regionType])) &&
+									(motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.some( x => d.frequency.includes( x ) )) &&
+									(motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.projID))
+								) ||
+								( motusMap.trackView &&	motusFilter.animals.includes( d.id ) )
+							)
+						]},
+					filterRange: [1,1],
+					extensions: [new deck.DataFilterExtension({filterSize: 1})],
+					pickable: true,
+					onClick: ({object}, e) => motusMap.dataClick(e.srcEvent, object, 'animal'),
+					onHover: ({object, picked}, e) => motusMap.dataHover(e.srcEvent, object, picked?'in':'out', 'animal'),
+					opacity: dataType == "stations" ? 0.7 : 0.3,
+					autoHighlight: true,
+					highlightColor: [255,0,0],
+					updateTriggers: {
+						// This tells deck.gl to recalculate radius when `currentYear` changes
+						getFilterValue: [motusMap.trackView, timeline.position, motusFilter.frequencies, motusFilter.species, motusFilter.projects, motusFilter.stations, motusFilter.regions, motusMap.selections]
+					}
+				});
 		}
 
 		if (!layer || layer == 'tracks') {
@@ -1397,18 +1489,31 @@ function getExploreMapLayers(load, layer) {
 					};
 				});
 		}
-
 		if (!layer || layer == 'stations') {
 
 			deckGlLayers.stations = new deck.GeoJsonLayer({
 			id: 'deckGL_stations',
 			data: {type:"FeatureCollection",features:motusData.stationDeps2},
+
+			pointType: 'icon',
+			iconAtlas: "images/station_icon_atlas.png",
+			iconMapping: STATION_ICON_MAPPING,
+			getIconSize: d => 20000,
+			getIcon: d => d.frequency.length > 1 ? "dual" :
+											d.frequency[0] == "166.38" ? "Lotek_Americas" :
+											d.frequency[0] == "150.1" ? "Lotek_Europe_Africa" :
+											d.frequency[0] == "151.5" ? "Lotek_Australia_Asia" : "CTT_Global",
+			iconSizeScale: 1,
+			iconSizeUnits: "meters",
+			iconSizeMinPixels: 12,
+			iconSizeMaxPixels: 64,
+			/*
 			filled: true,
 			getPointRadius: 15000,
 			getLineWidth: 1,
 			lineWidthUnits: 'pixels',
 			pointRadiusMinPixels: 3,
-			pointRadiusMaxPixels: 25,
+			pointRadiusMaxPixels: 25,*/
 			getFillColor: d => hexToRgb(Object.keys(motusMap.selections).includes(d.station) ? "FF0000" : motusMap.colourScale( d.frequency.length > 1 ? "dual" : d.frequency[0] )),
 	  	getFilterValue: d => {
 				return [
@@ -1564,9 +1669,9 @@ function deckGL_map() {
 			deckGlLayers.stations
 		]) : [
 	    deckGlLayers.otherStations
-			,deckGlLayers.selectedStations
-			,deckGlLayers.selectedStationIcons
 			,deckGlLayers.tracks
+			,deckGlLayers.selectedStations
+			, deckGlLayers.selectedAnimals
 	  ],
 		getCursor: ({isHovering}) => isHovering ? "pointer" : "grab"
 	});
@@ -1715,7 +1820,7 @@ function animateTrackStep(currentTime, start) {
 				, deckGlLayers.tracksAnim ] : [
 			   deckGlLayers.otherStations
 				,deckGlLayers.selectedStations
-				,deckGlLayers.selectedStationIcons
+				,deckGlLayers.selectedAnimals
 				,deckGlLayers.tracksAnim
 			]
 		});
@@ -1752,9 +1857,9 @@ function deckGL_renderMap(reloadData = true) {
 			deckGlLayers.stations
 		]) : [
 	    deckGlLayers.otherStations
-			, deckGlLayers.selectedStations
-			, deckGlLayers.selectedStationIcons
 			, deckGlLayers.tracks
+			, deckGlLayers.selectedStations
+			, deckGlLayers.selectedAnimals
 	  ]
   });
 
