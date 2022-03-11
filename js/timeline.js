@@ -37,6 +37,15 @@ function exploreTimeline({
 		timerElapsed: timerElapsed,
 		defaultValues: defaultValues,
 		animationStartVals: defaultValues,
+		setPosition: function(position) {
+			if (typeof position !== 'undefined')
+				timeline.position = position;
+			if (timeline.position[0] < timeline.min)
+				timeline.position[0] = timeline.min;
+			if (timeline.position[1] > timeline.max)
+				timeline.position[1] = timeline.max;
+			return timeline.position;
+		},
 		animate: function(e) {
 			// So we can pause and restart the animation
 			e += timeline.timerElapsed;
@@ -158,12 +167,13 @@ function exploreTimeline({
 
 			if (!max) {console.error("Max is of the wrong format");}
 			else {
-				$("#dateSlider .slider").dragslider("option", "max", max)
+				$("#dateSlider .slider").dragslider("option", "max", max);
 				timeline.max = max;
 				}
 
 			timeline.range = timeline.max - timeline.min;
 
+			timeline.setPosition();
 			return [min, max];
 		},
 		createLegend: function () {
@@ -185,7 +195,7 @@ function exploreTimeline({
 				timeline.max = timeline.max.valueOf();
 				timeline.range = timeline.max - timeline.min;
 				$(timeline.el).dragslider("option","min",timeline.min).dragslider("option","max",timeline.max)
-
+				timeline.setPosition();
 				$(el).parent().append(detectionTimeline(motusData.tracksLongByAnimal,{
 						width:width,
 						resize: $(el).parent(),
@@ -323,6 +333,7 @@ function exploreTimeline({
 	timeline.range = $(el).dragslider('option', 'max') - $(el).dragslider('option', 'min');
 
 }
+
 
 
 
