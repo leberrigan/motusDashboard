@@ -909,8 +909,8 @@ function populateProfilesMap() {
 					lats: Object.values(motusData.selectedStations).map( x => x.geometry.coordinates[1] ).flat()
 				}
 			var trackBounds = {
-					lons: Object.values(motusData.selectedTracks).map( x => x.coordinates.map( y => y[0]) ).flat(),
-					lats: Object.values(motusData.selectedTracks).map( x => x.coordinates.map( y => y[1]) ).flat()
+					lons: Object.values(motusData.selectedTracks).map( x => x.coordinates.map( y => +y[0]) ).flat(),
+					lats: Object.values(motusData.selectedTracks).map( x => x.coordinates.map( y => +y[1]) ).flat()
 				}
 
 			motusData.selectionBounds = [
@@ -918,8 +918,12 @@ function populateProfilesMap() {
 				d3.extent( stationBounds.lats.concat(trackBounds.lats) )
 			];
 
+			var bounds = [
+				[ motusData.selectionBounds[1][0], motusData.selectionBounds[0][0] ],
+				[ motusData.selectionBounds[1][1], motusData.selectionBounds[0][1] ]
+			];
 
-			motusMap.map.fitBounds( [ [motusData.selectionBounds[1][0], motusData.selectionBounds[0][0]], [motusData.selectionBounds[1][1], motusData.selectionBounds[0][1]]]);
+			motusMap.map.fitBounds( bounds );
 
 	}
 

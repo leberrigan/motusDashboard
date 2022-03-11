@@ -1186,8 +1186,8 @@ function getSelectedTrackData(selectedTracks, reload = false) {
 				var selectedRecv1 = true;
 				var selectedRecv2 = true;
 			} else {
-				var selectedRecv1 = motusFilter.selectedStations.includes(v.recv1);
-				var selectedRecv2 = motusFilter.selectedStations.includes(v.recv2);
+				var selectedRecv1 = motusFilter.selectedStationDeps.includes(v.recv1);
+				var selectedRecv2 = motusFilter.selectedStationDeps.includes(v.recv2);
 			}
 
 			if (dataType == 'stations') {
