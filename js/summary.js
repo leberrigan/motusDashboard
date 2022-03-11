@@ -161,9 +161,12 @@ function projectsTable( cardID, tableType ) {
 			(tableType == 'tags' && d.animals.length > 0)
 		);
 
-		console.log(projectsTableData);
 		if (projectsTableData.length > -1 ) {
 
+
+			getAnimalsTableData();
+
+			getSpeciesTableData();
 
 			var headers = ["Project #", "Project Name", "Start Date", "Stations Deployed", "Animals tagged", "Species tagged", "Groups"];
 
