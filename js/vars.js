@@ -125,14 +125,21 @@ const STATION_ICON_MAPPING = {
 	Lotek_Europe_Africa: {x: 250, y: 500, width: 250, height: 250, mask: false},
 	Lotek_Australia_Asia: {x: 0, y: 750, width: 250, height: 250, mask: false},
 	CTT_Global: {x: 250, y: 750, width: 250, height: 250, mask: false},
-	dual: {x: 0, y: 1000, width: 250, height: 250, mask: false}
+	dual: {x: 0, y: 1000, width: 250, height: 250, mask: false},
+	highlighted: {x: 0, y: 0, width: 250, height: 250, mask: true}
 };
 
 const ANIMAL_ICON_MAPPING = {
 	selectedAnimal: {x: 250, y: 0, width: 250, height: 250, mask: false},
+	otherAnimal: {x: 0, y: 0, width: 250, height: 250, mask: false},
 	raptor: {x: 0, y: 250, width: 250, height: 250, mask: false},
 	warbler: {x: 250, y: 250, width: 250, height: 250, mask: false},
-	otherAnimal: {x: 0, y: 0, width: 250, height: 250, mask: false}
+	gull: {x: 0, y: 500, width: 250, height: 250, mask: false},
+	swallow: {x: 250, y: 500, width: 250, height: 250, mask: false},
+	shorebird: {x: 0, y: 750, width: 250, height: 250, mask: false},
+	dragonfly: {x: 250, y: 750, width: 250, height: 250, mask: false},
+	bat: {x: 0, y: 1000, width: 250, height: 250, mask: false},
+	monarch: {x: 250, y: 1000, width: 250, height: 250, mask: false}
 };
 
 
