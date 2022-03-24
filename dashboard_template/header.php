@@ -32,6 +32,7 @@
 			<link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/css/daterangepicker.css" />
 			<link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/css/leaflet.css" />
 			<link href='<?php bloginfo('template_url'); ?>/css/leaflet.fullscreen.css' rel='stylesheet' />
+			<link href='<?php bloginfo('template_url'); ?>/css/leaflet.draw.css' rel='stylesheet' />
 			<!--link rel='stylesheet' href='style.css'/-->
 			<link rel='stylesheet' href='<?php bloginfo('template_url'); ?>/css/explore.css'/>
 			<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
