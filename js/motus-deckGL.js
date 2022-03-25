@@ -194,7 +194,7 @@ function getExploreMapLayers(load, layer) {
 			data: {type:"FeatureCollection",features:motusData.stationDeps2},
 
 			pointType: 'icon',
-			iconAtlas: "images/station_icon_atlas.png",
+			iconAtlas: "images/station_icon_atlas4.png",
 			iconMapping: STATION_ICON_MAPPING,
 			getIconSize: d => 20000,
   			getIcon: d =>  Object.keys(motusMap.selections).includes(d.stationID) ? "selectedInactiveStation" :
@@ -581,7 +581,7 @@ function getStationsLayer() {
     id: 'deckGL_stations',
     data: {type: "FeatureCollection",features: motusData.stationDeps2},//.filter( d => !motusFilter.selectedStationDeps.includes( d.id ) ) }
     pointType: 'icon',
-    iconAtlas: "images/station_icon_atlas.png",
+    iconAtlas: "images/station_icon_atlas4.png",
     iconMapping: STATION_ICON_MAPPING,
     getIconSize: d => 20000,
     getIcon: d => "otherStation",
@@ -630,7 +630,7 @@ function getOtherStationsLayer() {
 
     /*
     pointType: 'icon',
-    iconAtlas: "images/station_icon_atlas.png",
+    iconAtlas: "images/station_icon_atlas4.png",
     iconMapping: STATION_ICON_MAPPING,
     getIconSize: d => 20000,
   //					getIcon: d => Object.keys(motusMap.selections).includes(d.station) ? "selectedStation" : (+d.dtEnd > yesterday ? 'selectedActiveStation' : 'selectedInactiveStation'),
@@ -687,7 +687,7 @@ function getSelectedStationsLayer() {
     data: {type: "FeatureCollection",features: motusData.selectedStationDeps2},//
   /*
     pointType: 'icon',
-    iconAtlas: "images/station_icon_atlas.png",
+    iconAtlas: "images/station_icon_atlas4.png",
     iconMapping: STATION_ICON_MAPPING,
     getIconSize: d => 20000,
   //					getIcon: d => Object.keys(motusMap.selections).includes(d.station) ? "selectedStation" : (+d.dtEnd > yesterday ? 'selectedActiveStation' : 'selectedInactiveStation'),
