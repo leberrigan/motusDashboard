@@ -115,24 +115,34 @@ const motusFrequencies = ["166.38","150.1","151.5","434","dual","none"];
 
 
 const STATION_ICON_MAPPING = {
-	selectedStation: {x: 0, y: 0, width: 250, height: 250, mask: false},
-	selectedActiveStation: {x: 0, y: 0, width: 250, height: 250, mask: false},
-	selectedInactiveStation: {x: 250, y: 0, width: 250, height: 250, mask: false},
-	otherInactiveStation: {x: 250, y: 250, width: 250, height: 250, mask: false},
-	otherActiveStation: {x: 0, y: 250, width: 250, height: 250, mask: false},
-	otherStation: {x: 250, y: 1000, width: 250, height: 250, mask: false},
-	Lotek_Americas: {x: 0, y: 500, width: 250, height: 250, mask: false},
-	Lotek_Europe_Africa: {x: 250, y: 500, width: 250, height: 250, mask: false},
-	Lotek_Australia_Asia: {x: 0, y: 750, width: 250, height: 250, mask: false},
-	CTT_Global: {x: 250, y: 750, width: 250, height: 250, mask: false},
-	dual: {x: 0, y: 1000, width: 250, height: 250, mask: false}
+	selectedStation: {x: 0, y: 0, width: 125, height: 125, mask: false},
+	selectedActiveStation: {x: 0, y: 0, width: 125, height: 125, mask: false},
+	selectedInactiveStation: {x: 125, y: 0, width: 125, height: 125, mask: false},
+	otherInactiveStation: {x: 125, y: 125, width: 125, height: 125, mask: false},
+	otherActiveStation: {x: 0, y: 125, width: 125, height: 125, mask: false},
+	otherStation: {x: 0, y: 125, width: 125, height: 125, mask: false},
+	Lotek_Americas: {x: 0, y: 0, width: 125, height: 125, mask: false},
+	Lotek_Europe_Africa: {x: 125, y: 0, width: 125, height: 125, mask: false},
+	Lotek_Australia_Asia: {x: 0, y: 125, width: 125, height: 125, mask: false},
+	CTT_Global: {x: 125, y: 125, width: 125, height: 125, mask: false},
+	dual: {x: 0, y: 250, width: 125, height: 125, mask: false},
+	dual_Americas: {x: 0, y: 250, width: 125, height: 125, mask: false},
+	dual_Europe_Africa: {x: 125, y: 250, width: 125, height: 125, mask: false},
+	dual_Australia_Asia: {x: 0, y: 375, width: 125, height: 125, mask: false},
+	highlighted: {x: 0, y: 0, width: 125, height: 125, mask: true}
 };
 
 const ANIMAL_ICON_MAPPING = {
 	selectedAnimal: {x: 250, y: 0, width: 250, height: 250, mask: false},
+	otherAnimal: {x: 0, y: 0, width: 250, height: 250, mask: false},
 	raptor: {x: 0, y: 250, width: 250, height: 250, mask: false},
 	warbler: {x: 250, y: 250, width: 250, height: 250, mask: false},
-	otherAnimal: {x: 0, y: 0, width: 250, height: 250, mask: false}
+	gull: {x: 0, y: 500, width: 250, height: 250, mask: false},
+	swallow: {x: 250, y: 500, width: 250, height: 250, mask: false},
+	shorebird: {x: 0, y: 750, width: 250, height: 250, mask: false},
+	dragonfly: {x: 250, y: 750, width: 250, height: 250, mask: false},
+	bat: {x: 0, y: 1000, width: 250, height: 250, mask: false},
+	monarch: {x: 250, y: 1000, width: 250, height: 250, mask: false}
 };
 
 

@@ -455,17 +455,21 @@ function exploreMap({
 
 			let legendData = motusMap.mapLegendContent.selectAll("."+motusMap.colourDataType).data();
 
+			let opt_type = this.classList[0];
+
+			let opts_selected = motusMap.mapLegendContent.selectAll("."+motusMap.colourDataType+".selected").data().map( x => typeof x === 'object' ? x[0] : x );
+/*
 			let opts = {
-				type: this.classList[0],
+				type: ,
 				selected: legendData.map( x => typeof x === 'object' ? x[0] : x )
 			};
+*/
+			if (legendData.length == opts_selected)
+				opts_selected = [];
 
-			if (legendData.length == opts.selected.length)
-				opts.selected = [];
+			$("#filter_"+motusMap.colourDataType).select2().val(opts_selected).trigger('change');
 
-			$("#filter_"+motusMap.colourDataType).select2().val(opts.selected).trigger('change');
-
-			if (opts.type == 'track') {
+			if (opt_type == 'track') {
 				motusMap.recolourTracks("legend");
 			}
 
@@ -664,7 +668,7 @@ function addDrawControls() {
 				// Add it to the list of selected stations
 				if (typeof motusMap.selections[station] === 'undefined')
 					motusMap.selections[station] = [layerProps.id];
-				else
+				else if (!motusMap.selections[station].includes(layerProps.id))
 					motusMap.selections[station].push(layerProps.id);
 				// Highlight it on the map
 				//		$(station).toggleClass("selected", true);
@@ -680,11 +684,10 @@ function addDrawControls() {
 				id: L.stamp(layer)
 			};
 
-		//	console.log("Circle is %o", layerProps);
-		//	console.log("Circle layer is %o", layer);
 
+		// This should be a filtered dataset with only visible stations.
 			motusData.stationDeps.forEach(function({station, geometry}){
-//					console.log( "Distance: %s vs. Radius: %s", layerProps.latlng.distanceTo(station.__data__.geometry.coordinates), layerProps.radius)
+
 				var stationLatLng = L.latLng(geometry.coordinates[1], geometry.coordinates[0]);
 				var stationInPolygon = layerProps.latlng.distanceTo( stationLatLng ) < layerProps.radius;
 				if (stationInPolygon) {
@@ -692,7 +695,7 @@ function addDrawControls() {
 					// Add it to the list of selected stations
 					if (typeof motusMap.selections[station] === 'undefined')
 						motusMap.selections[station] = [layerProps.id];
-					else
+					else if (!motusMap.selections[station].includes(layerProps.id))
 						motusMap.selections[station].push(layerProps.id);
 					// Highlight it on the map
 					//	$(station).toggleClass("selected", true);
@@ -714,7 +717,7 @@ function addDrawControls() {
 
 		Object.entries(motusMap.selections).forEach(function(e) {
 
-			let [k, v]= e;
+			let [k, v] = e;
 
 			if ( v.includes(leafletLayerID) ) {
 
@@ -935,6 +938,8 @@ function populateProfilesMap() {
 
 function addMapLegend() {
 
+	setMapColourScale();
+	
 	if (typeof motusMap.mapLegend === 'undefined')
 		motusMap.mapLegend = d3.create('div').attr("class", "explore-map-legend hidden")
 																.attr("id", "explore_map_legend");
@@ -979,8 +984,9 @@ function addMapLegend() {
 		let freq_legend_els = freq_legend.selectAll('div')
 			.data(Object.entries(filters.options.frequencies))
 			.enter().append("div")
-				.attr('class', d => `frequencies${motusFilter.frequencies.includes(d[0])?' selected':''}`)
+				.attr('class', d => `frequencies${motusFilter[motusMap.colourDataType].includes( 'all' ) || motusFilter.frequencies.includes(d[0])?' selected':''}`)
 				.on('click', motusMap.legendClick);
+
 
 		freq_legend_els.append("div")
 					.style('border', 'solid 1px #000')
@@ -1168,7 +1174,6 @@ function setMapColourScale() {
 														dataType == 'projects' ? "species" : "projects";
 
 	motusMap.colourDataType = motusMap.colourVar == 'id' ? dataType : motusMap.colourVar == 'frequency' ? 'frequencies' : motusMap.colourVar;
-
 
 	// Set the colour variable to singlar word (to match variable names in data tables)
 	motusMap.colourVar = !["id", "stations", "frequency"].includes(motusMap.colourVar) ? toSingular(motusMap.colourVar) : motusMap.colourVar;
