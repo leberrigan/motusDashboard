@@ -2,7 +2,7 @@
 				<div class='footer'>
 
 					<div>The Motus Wildlife Tracking System is a program of </div>
-					<img src='images/birds-canada-logo-invert.png' alt="Visit Birds Canada" class='birds-canada-logo tips' />
+					<img src='../dashboard/images/birds-canada-logo-invert.png' alt="Visit Birds Canada" class='birds-canada-logo tips' />
 
 				</div>
 			</div>

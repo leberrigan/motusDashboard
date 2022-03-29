@@ -222,3 +222,21 @@ var mapFilePrefix;
 
 // Used to compare the length of time needed for different operations
 var testTimer=[];
+
+// List which tabels need to be loaded for each view to make things more efficient
+var requiredTables = {
+	main: {
+		stations: ["stations","stationDeps", "species", "projects"],
+		animals: ["stations","stationDeps", "animals","tracks", "tracksLongByAnimal", "species", "projects"],
+		regions: ["stations","stationDeps", "regions", "polygons", "species", "projects"],
+		projects: ["stations","stationDeps", "stations","stationDeps", "species", "projects"],
+		species: ["stations","stationDeps", "species", "projects"]
+	},
+	summary: {
+		stations: ["stations", "stationDeps", "animals", "regions", "polygons", "tracks", "species", "projects"],
+		animals: ["stations", "stationDeps", "animals", "regions", "polygons", "tracks", "species", "projects"],
+		regions: ["stations", "stationDeps", "animals", "regions", "polygons", "tracks", "species", "projects"],
+		projects: ["stations", "stationDeps", "animals", "regions", "polygons", "tracks", "species", "projects"],
+		species: ["stations", "stationDeps", "animals", "regions", "polygons", "tracks", "species", "projects"]
+	}
+}

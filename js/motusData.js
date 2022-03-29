@@ -85,7 +85,10 @@ const DB_VERSION = 8;
 function motusIndexedDB( motusDataTableNames = [] ) {
 
 	if (motusDataTableNames && motusDataTableNames.length > 0) {
-		motusDataTables = Object.fromEntries( Object.entries(motusDataTables).map( x => [x[0], {file: x[1].file, key: x[1].key, get: motusDataTableNames.includes(x[0]) && x[1].get }]) );
+		Object.entries(motusDataTables).forEach(x => {
+			x[1].get = motusDataTableNames.includes(x[0]);
+		})
+//		motusDataTables = Object.fromEntries( Object.entries(motusDataTables).map( x => [x[0], {file: x[1].file, key: x[1].key, get: motusDataTableNames.includes(x[0]) && x[1].get }]) );
 	}
 
 	var promises = [];
@@ -113,7 +116,7 @@ function motusIndexedDB( motusDataTableNames = [] ) {
 							.map( x => [ x[0], x[1].key ] )
 			)
 		).upgrade((trans)=>{
-			console.log("Deleting tables: %o", trans.storeNames);
+			logMessage("Deleting tables: %o", trans.storeNames);
 
 			trans.storeNames.forEach(k => {
 				trans.db[k].clear();
@@ -121,20 +124,20 @@ function motusIndexedDB( motusDataTableNames = [] ) {
 
 		});
 
-		console.log(`Initiating local Motus DB with ${Object.keys(motusDataTables).length} tables...`);
+		logMessage(`Initiating local Motus DB with ${Object.keys(motusDataTables).length} tables...`);
 
 
 	  motusData.db.open()
     	.catch ('MissingApiError',function(error){// If IndexedDB is NOT supported
-					console.log(error);
+					logMessage(error);
 					alert("indexedDB not supported!");
 					var tableToDownload = Object.entries(motusDataTables).filter( x => x[1].get );
 					indexedDB = false;
 					downloadMotusData( tableToDownload.map( x => x[1].promise( x[1].file ) ), tableToDownload.map( x => x[0] ) );
 			}).catch (function (error) {
 	        // Show e.message to user
-					console.log("Some other error: ");
-					console.log(error);
+					logMessage("Some other error: ");
+					logMessage(error);
 					var tableToDownload = Object.entries(motusDataTables).filter( x => x[1].get );
 					indexedDB = false;
 					downloadMotusData( tableToDownload.map( x => x[1].promise( x[1].file ) ), tableToDownload.map( x => x[0] ) );
@@ -223,21 +226,20 @@ function getSpeciesTableData( reload = false ) {
 }
 
 
-
-
 function checkTables() {
 
-	console.log("DB Ready. Checking tables...");
+	logMessage("DB Ready. Checking tables...");
 
-	Object.keys(motusDataTables).filter( x => motusDataTables[x].get || typeof motusDataTables[x].file === "string" ).forEach(function(tableName, i){
+
+	Object.keys(motusDataTables).filter( x => motusDataTables[x].get /*|| typeof motusDataTables[x].file === "string" */).forEach(function(tableName, i){
 
 			// Check whether IndexedDB is supported
 			if (indexedDB) {
-				console.log(`Checking table '${tableName}'...`);
+				logMessage(`Checking table '${tableName}'...`);
 				motusData.db[tableName].count( count => {
 					testTimer.push([new Date(), "Get data: respond to count of "+tableName]);
 					if (count > 0 && motusDataTables[tableName].get) {
-						console.log(`Table '${tableName}' exists.`);
+						logMessage(`Table '${tableName}' exists.`);
 
 						motusData.db[tableName]
 							.toArray()
@@ -247,29 +249,44 @@ function checkTables() {
 					//			console.log(`Table '${tableName}' loaded from local database.`);
 								motusData[tableName] = d;
 								motusDataTables[tableName].done = true;
+
+								if (tableName == "stationDeps") {
+									motusData.stationDepsByRegions = d3.group(motusData.stationDeps, d => d.country);
+									motusData.stationDepsByProjects = d3.group(motusData.stationDeps, d => d.projID);
+								}
+								if (tableName == "animals") {
+									motusData.animalsByRegions = d3.group(motusData.animals, d => d.country, d => d.id);
+									motusData.animalsByProjects = d3.group(motusData.animals, d => d.projID, d => d.id);
+								}
+								if (tableName == "regions") {
+									motusData.regionByCode = d3.group(motusData.regions,  d => d.ADM0_A3);
+								}
 								// Proceed to load the dashboard only once all the data has been downloaded
 								checkIfFinished();
 							});
 
 					} else if (count > 0 && typeof motusDataTables[tableName].file === "string") {
 
-						console.log(`Table '${tableName}' exists, but won't be loaded entirely.`);
+						logMessage(`Table '${tableName}' exists, but won't be loaded entirely.`);
 						motusDataTables[tableName].done = true;
 
 					} else {
 
-						console.log(`Table '${tableName}' needs to be downloaded.`);
+						logMessage(`Table '${tableName}' needs to be downloaded.`);
 						motusDataTables[tableName].download = true;
 					}
 
-					if (i+1 == Object.keys(motusDataTables).filter( x => motusDataTables[x].get || typeof motusDataTables[x].file === "string" ).length && Object.values(motusDataTables).some( x => x.download )) {
+// This is poorly written - needs to be fixed
+
+//					if (i+1 == Object.keys(motusDataTables).filter( x => motusDataTables[x].get || typeof motusDataTables[x].file === "string" ).length && Object.values(motusDataTables).some( x => x.download )) {
+					if (i+1 == Object.keys(motusDataTables).filter( x => motusDataTables[x].get ).length && Object.values(motusDataTables).some( x => x.download )) {
 						testTimer.push([new Date(), "Get data: downloading data"]);
 
-						console.log(`Downloading...`);
+						logMessage(`Downloading...`);
 
 						var tableToDownload = Object.entries(motusDataTables).filter( x => x[1].download );
 
-						console.log(`Downloading data for ${tableToDownload.length} tables.`);
+						logMessage(`Downloading data for ${tableToDownload.length} tables.`);
 
 						downloadMotusData(tableToDownload.map( x => x[1].promise( x[1].file ) ), tableToDownload.map( x => x[0] ))
 
@@ -282,12 +299,13 @@ function checkTables() {
 
 	function checkIfFinished() {
 
-		if ( Object.values(motusDataTables).every( x => x.done || (!x.get && !x.file) ) ) {
+		if ( Object.values(motusDataTables).every( x => x.done || !x.get ) ) {
+		//if ( Object.values(motusDataTables).every( x => x.done || (!x.get && !x.file) ) ) {
 
-			console.log(`Finished loading data.`);
-			console.log(`There were ${Object.values(motusDataTables).filter( x => x.downloaded ).length} tables downloaded and `+
+			logMessage(`Finished loading data.`);
+			logMessage(`There were ${Object.values(motusDataTables).filter( x => x.downloaded ).length} tables downloaded and `+
 									`${Object.values(motusDataTables).filter( x => !x.downloaded ).length} tables loaded from the local database.`);
-			console.log("Loading dashboard content...");
+			logMessage("Loading dashboard content...");
 			loadDashboardContent();
 		}
 	}
@@ -295,7 +313,7 @@ function checkTables() {
 
 function downloadMotusData(promises, fileList) {
 
-	Promise.all(promises).then(function(response) {
+	Promise.all(promises).then(async function(response) {
 
   	fileList.forEach(function(f, i){
 
@@ -304,265 +322,32 @@ function downloadMotusData(promises, fileList) {
   	});
 		console.log(fileList);
 
+		if (fileList.includes("stationDeps")) {
+		motusData.stationDepsByRegions = d3.group(motusData.stationDeps, d => d.country);
+		motusData.stationDepsByProjects = d3.group(motusData.stationDeps, d => d.projID);
+		}
+		if (fileList.includes("animals")) {
+		motusData.animalsByRegions = d3.group(motusData.animals, d => d.country, d => d.id);
+		motusData.animalsByProjects = d3.group(motusData.animals, d => d.projID, d => d.id);
+		}
+		if (fileList.includes("regions")) {
+		motusData.regionByCode = d3.group(motusData.regions,  d => d.ADM0_A3);
+		}
 		if (!window.location.hostname.includes('sandbox.motus.org')) {
-			if (fileList.includes("stations") ) {
-
+//			downloadCSV(fileList);
+			for (i in fileList) {
+				var file = fileList[i]
+				motusData[ file ] = await downloadMotusData_v2( file );
 			}
-
-
-			var currentDate = new Date();
-
-
-	  	if (fileList.includes("animals")) {
-	  		motusData.animals.forEach(function(x){
-	  			x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
-
-					var colourVal = dataType == 'projects' ? x.projID : dataType == 'regions' ? x.country : dataType == 'stations' ? "other" : dataType == 'species' ? x.species : x.animal;
-
-					x.dtStart = new Date(x.dtStart);
-					x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
-
-	  			x.status = new Date() - new Date(x.dtEnd) > (2 * 24 * 60 * 60 * 1000) ? 'inactive' : 'active';
-	  			x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
-					x.colourVal = colourVal;
-					x.type = "Feature";
-
-					x.project = x.projID;
-					x.projects = x.projects.split(";");
-					x.stations = x.stations.split(";");
-
-	  		});
-
-	  	}
-	  	if (fileList.includes("projects")) {
-	  		motusData.projects.forEach(function(x) {
-	  			x.fee_id = projectGroupNames[x.fee_id==""||x.fee_id=="NA"||!x.fee_id?1:x.fee_id];
-	  			x.name = x.name;
-					x.stations = x.stations.split(";");
-					x.animals = x.animals.split(";");
-					x.species = x.species.split(";");
-	  		});
-	  	}
-
-	  	if (fileList.includes("stationDeps")) {
-
-				motusData.stationDeps = motusData.stationDeps.filter(d => (!isNaN(+d.lat) && !isNaN(+d.lon) && d.frequency != 'NA'));
-
-  		 	motusData.stationDeps.forEach(function(x) {
-
-				//	x.dtEnd = x.tsEnd.length == 0 ? moment().toISOString().substr(0, 10) : moment(+x.tsEnd * 1000).toISOString().substr(0, 10);
-
-					x.type = "Feature";
-					x.geometry = {
-						type: "Point",
-						coordinates: [+x.lon, +x.lat]
-					};
-
-					x.dtStart = new Date(x.dtStart);
-					x.frequency = x.frequency == "NA" ? "none" : x.frequency;
-					x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
-
-					x.lastData = Math.ceil((currentDate - x.dtEnd) / (24 * 60 * 60 * 1000)); // Days ago
-
-					x.status = x.status == 'active' || x.lastData < 1 ? 'active' : 'inactive';
-	  		} );
-
-	  		motusData.stationDepsByName = d3.group(motusData.stationDeps, x => x.name);
-	  	}
-	  	if (fileList.includes("stations")) {
-  		 	motusData.stations.forEach(function(x) {
-						x.project = x.projID.split(';')[0];
-						x.projID = x.projID.split(';')[0];
-						x.animals = x.animals.split(";");
-						x.localAnimals = x.localAnimals.split(";");
-						x.species = x.species.split(";");
-						x.stationDeps = x.stationDeps.split(";");
-						x.type = "Feature";
-						x.frequency = x.frequency == "NA" || x.frequency == ""? "none" : x.frequency.includes(',')  && x.frequency.includes('434')? "dual" : x.frequency;
-						x.geometry = {
-							type: "Point",
-							coordinates: [+x.lon, +x.lat]
-						};
-
-						x.dtStart = new Date(x.dtStart);
-						x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
-
-						x.lastData = Math.ceil((currentDate - x.dtEnd) / (24 * 60 * 60 * 1000)); // Days ago
-
-						x.status = x.status == 'active' || x.lastData < 1 ? 'active' : 'inactive';
-	  		});
-	  	}
-
-	  	if (fileList.includes("regions")) {
-	  		filters.options.regions = {};
-	  		motusData.regions.forEach(function(x) {
-	  			if (x.both > 0) {filters.options.regions[x.ADM0_A3] = x.country;}
-					x.id = x.ADM0_A3;
-	  		});
-	  	}
-
-
-			if (fileList.includes("species")) {
-				motusData.species.forEach(function(x) {
-					x.animals = x.animals.split(";");
-					x.projects = x.projects.split(";");
-					x.stations = x.stations.split(";");
-	  			x.group = speciesGroupNames[x.group==""?1:x.group];
-					x.stationProjects = x.stationProjects.split(";");
-				});
-			}
-
-
-			if (fileList.includes("polygons")) {
-				motusData.polygons = motusData.polygons.features
-				motusData.polygons.forEach( x => {
-					x.id = x.properties.adm0_a3;
-				});
-			}
-
-
-	  	if (fileList.includes("tracks")) {
-				testTimer.push([new Date(), "Start tracksByAnimal"]);
-	  		motusData.tracksByAnimal = [];
-
-				motusData.tracks.forEach( (x, i) => {
-
-					x.animal = x.animal.split(',')
-					x.species = x.species.split(',')
-					x.dir = x.dir.split(',')
-					x.dtStartList = x.dtStart.split(',')
-					x.dtStart = d3.max( x.dtStartList );
-					x.dtEndList = x.dtEnd.split(',')
-					x.dtEnd = d3.max( x.dtEndList );
-					x.tsStart = x.tsStart.split(',')
-					x.tsEnd = x.tsEnd.split(',')
-					x.recvProjs = x.recvProjs.split(',')
-					x.project = x.project.split(',')
-					x.frequency = x.frequency.split(',')
-
-				});
-				// Group routes together into tracks
-				motusData.tracksByAnimal = d3.rollup(motusData.tracksByAnimal, v => ({id: v[0].id, route: v.map( x => x.route )}), k => k.id );
-
-				testTimer.push([new Date(), "End tracksByAnimal"]);
-	  	}
-	  	if (fileList.includes("tracksLongByAnimal")) {
-				motusData.tracksLongByAnimal = motusData.tracksLongByAnimal.filter( x => x.lat1 != 'NA' && x.lat != 0 );
-
-				motusData.tracksLongByAnimal = Array.from( d3.rollup(motusData.tracksLongByAnimal,
-					v => ({
-						id: v[0].animal,
-						tracks: v.map(x => ([+x.lon2, +x.lat2])),
-						tsStart: d3.min(v, x => +x.ts1),
-						ts: v.map(x => +x.ts2),
-						frequency:  v[0].frequency,
-						species:  v[0].species,
-						//stations:  v.map(x => [x.station1, x.station2]).flat(),
-						stations:  v.map(x => x.station2),
-						project:  v[0].project,
-						dist: v.map(x => +x.dist)
-					}),
-					d => d.animal
-				).values() );
-
-			}
-
 		} else {
-
-
-	  	if (fileList.includes("animals")) {
-
-	  		motusData.animals = motusData.animals.filter(d => d.tsStart.length > 0);
-
-	  		motusData.animals.forEach(function(x){
-
-					var colourVal = dataType == 'projects' ? x.projID : dataType == 'regions' ? 'other' : dataType == 'stations' ? "other" : dataType == 'species' ? x.species : x.animal;
-
-	  			x.dtStart = new Date(+x.tsStart * 1000).toISOString().substr(0, 10);
-	  			x.dtEnd = x.tsEnd.length == 0 ? new Date().toISOString().substr(0, 10) : new Date(+x.tsEnd * 1000).toISOString().substr(0, 10);
-	  			x.status = new Date() - new Date(x.dtEnd) > (2 * 24 * 60 * 60 * 1000) ? 'inactive' : 'active';
-	  			x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
-					x.colourVal = colourVal;
-					x.type = "Feature";
-
-					x.project = x.projID;
-
-	  		});
-
-	  	}
-
-	  	if (fileList.includes("projects")) {
-	  		motusData.projects.forEach(function(x) {
-	  			x.fee_id = projectGroupNames[x.fee_id==""||!x.fee_id?1:x.fee_id];
-	  			x.name = x.name;
-					x.id = x.projectID;
-	  		});
-	  	}
-
-	  	if (fileList.includes("stationDeps")) {
-	  		motusData.stationDeps = motusData.stationDeps.filter(d => (!isNaN(+d.lat) && !isNaN(+d.lon) && d.frequency != 'NA'));
-  		 	motusData.stationDeps.forEach(function(x) {
-
-				//	x.dtEnd = x.tsEnd.length == 0 ? moment().toISOString().substr(0, 10) : moment(+x.tsEnd * 1000).toISOString().substr(0, 10);
-					x.dtEnd = x.dtEnd == "NA" ? moment().toISOString().substr(0, 10) : x.dtEnd;
-	  		});
-	  		motusData.stationDepsByName = d3.group(motusData.stationDeps, d => d.name);
-	  	}
-
-	  	if (fileList.includes("stations")) {
-  		 	motusData.stations.forEach(function(x) {
-						x.project = x.projID.split(';')[0];
-						x.projID = x.projID.split(';')[0];;
-	  		});
-	  	}
-
-	  	if (fileList.includes("species")) {
-				motusData.species.forEach(function(x) {
-					x.id = x.speciesID;
-				});
-	  	}
-
-	  	if (fileList.includes("regions")) {
-	  		filters.options.regions = {};
-	  		motusData.regions.forEach(function(x) {
-	  			if (x.both > 0) {filters.options.regions[x.ADM0_A3] = x.country;}
-					x.id = x.ADM0_A3;
-	  		});
-	  	}
-
-	  	if (fileList.includes("polygons")) {
-	  		motusData.polygons = motusData.polygons.features
-	  	}
-
-	  	if (fileList.includes("tracks")) {
-
-	  		motusData.tracksByAnimal = [];
-
-				motusData.tracks.forEach( (x, i) => {
-
-					x.animal = x.animal.split(',')
-					x.species = x.species.split(',')
-					x.dir = x.dir.split(',')
-					x.dtStart = x.dtStart.split(',')
-					x.dtEnd = x.dtEnd.split(',')
-					x.tsStart = x.tsStart.split(',')
-					x.tsEnd = x.tsEnd.split(',')
-
-					motusData.animals.filter( a => x.animal.includes( a.id ) ).forEach( a => {
-
-						motusData.tracksByAnimal.push({id: a.id, route: x.route});
-
-					});
-
-				});
-
-	  	}
-
+			for (i in fileList) {
+				var file = fileList[i]
+				motusData[ file ] = await downloadMotusData_v2( file );
+			}
 		}
 
 
-
-  	console.log("Finished downloading " + response.length + " data set" + (response.length == 1 ? "" : "s"));
+  	logMessage("Finished downloading " + response.length + " data set" + (response.length == 1 ? "" : "s"));
 
 		// Update the local database only once data has been downloaded and processed
   	Object.keys(motusDataTables).forEach(function(f, i){
@@ -580,10 +365,10 @@ function downloadMotusData(promises, fileList) {
 		// Proceed to load the dashboard only once all the data has been downloaded
 		if ( Object.values(motusDataTables).every( x => x.done || !x.get ) ) {
 
-			console.log(`Finished loading data.`)
-			console.log(`There were ${Object.values(motusDataTables).filter( x => x.downloaded ).length} tables downloaded and `+
+			logMessage(`Finished loading data.`)
+			logMessage(`There were ${Object.values(motusDataTables).filter( x => x.downloaded ).length} tables downloaded and `+
 									`${Object.values(motusDataTables).filter( x => !x.downloaded ).length} tables loaded from the local database.`)
-			console.log("Loading dashboard content...")
+			logMessage("Loading dashboard content...")
 
 			loadDashboardContent();
 		}
@@ -594,12 +379,12 @@ function downloadMotusData(promises, fileList) {
 
 function updateMotusDB(tableName, tableData) {
 
-		console.log(`Adding '${tableName}'...`);
+		logMessage(`Adding '${tableName}'...`);
 		console.log(tableData);
 		motusData.db[tableName].bulkPut(tableData).then(function(lastKey) {
-			console.log(`Done adding '${tableName}' table.`);
+			logMessage(`Done adding '${tableName}' table.`);
 		}).catch(Dexie.BulkError, function (e) {
-			console.log(`Error adding ${e.failures.length} of ${tableData.length} rows to '${tableName}' table.`);
+			logMessage(`Error adding ${e.failures.length} of ${tableData.length} rows to '${tableName}' table.`);
 		});
 
 }
@@ -731,7 +516,7 @@ async function getSelections({
 					motusData.localSpecies = await getSelectedSpecies( localAnimals );
 					testTimer.push([new Date(), "Get selections: visiting species"]);
 					motusData.visitingSpecies = await getSelectedSpecies( visitingAnimals );
-					console.log(getSelectedSpecies( visitingAnimals ));
+				//	console.log(getSelectedSpecies( visitingAnimals ));
 					testTimer.push([new Date(), "Get selections: all species"]);
 					motusData.selectedSpecies = await getSelectedSpecies( motusData.selectedAnimals );
 
@@ -1119,7 +904,7 @@ async function getAnimalRoutes(animals) {
 
 
 				// Update the local database with the new tracks
-				motusData.db.tracksByAnimal.bulkPut(newTracksByAnimal).then(()=>{console.log(`Added ${newTracksByAnimal.length} rows to 'tracksByAnimal' table.`);})
+				motusData.db.tracksByAnimal.bulkPut(newTracksByAnimal).then(()=>{logMessage(`Added ${newTracksByAnimal.length} rows to 'tracksByAnimal' table.`);})
 
 
 				// Combine the new tracks with the ones taken from the database.
@@ -1165,7 +950,7 @@ function getSelectedTrackData(selectedTracks, reload = false) {
 
 		motusData.selectedTracks = {};
 
-		console.log(`Processing ${selectedTracks.length} tracks...`)
+		logMessage(`Processing ${selectedTracks.length} tracks...`)
 
 		selectedTracks.forEach(function(v) {
 
@@ -1318,9 +1103,497 @@ function getSelectedTrackData(selectedTracks, reload = false) {
 		});
 	}
 }
+
+
+// Get all or some of the station data
+async function getStationData( stationID ) {
+
+	// Get the results for a single station
+	if (typeof stationID === "number") {
+
+		if (indexedDB) {
+			return motusData.db.stations.get( stationID.toString() );
+		} else {
+			// Dexie is not enabled
+			console.warn("Dexie is not enabled");
+
+			if (typeof motusData.stations === 'undefined' || motusData.stations.length == 0) {
+				await downloadMotusData_v2( "stations" );
+			}
+
+			return motusData.stations.filter( x => x.id == stationID );
+		}
+
+	} else if (typeof stationID === "object") {
+
+		if (indexedDB) {
+			return motusData.db.stations.bulkGet( stationID.map(String) );
+		} else {
+			// Dexie is not enabled
+			console.warn("Dexie is not enabled");
+
+			if (typeof motusData.stations === 'undefined' || motusData.stations.length == 0) {
+				await downloadMotusData_v2( "stations" );
+			}
+
+			return motusData.stations.filter( x => stationID.includes( x.id ) );
+		}
+
+	}	else { // Get all stations
+
+		if (indexedDB) {
+			return motusData.db.stations.toArray();
+		} else {
+			// Dexie is not enabled
+			console.warn("Dexie is not enabled");
+
+			if (typeof motusData.stations === 'undefined' || motusData.stations.length == 0) {
+				await downloadMotusData_v2( "stations" );
+			}
+
+			return motusData.stations;
+		}
+
+	}
+
+}
+async function downloadMotusData_v2( tableName ) {
+
+	logMessage(`Downloading ${tableName} data...`);
+
+	var downloadedData = await motusDataTables[tableName].promise( motusDataTables[tableName].file );
+
+	logMessage("Processing data...");
+
+	return processRawData( downloadedData, tableName );
+
+}
+
+function processRawData( data, tableName ) {
+
+	if (tableName == 'stations') {
+		data.forEach(function(x) {
+				x.project = x.projID.split(';')[0];
+				x.projID = x.projID.split(';')[0];
+				x.animals = x.animals.split(";");
+				x.localAnimals = x.localAnimals.split(";");
+				x.species = x.species.split(";");
+				x.stationDeps = x.stationDeps.split(";");
+				x.type = "Feature";
+				x.frequency = x.frequency == "NA" || x.frequency == ""? "none" : x.frequency.includes(',')  && x.frequency.includes('434')? "dual" : x.frequency;
+				x.geometry = {
+					type: "Point",
+					coordinates: [+x.lon, +x.lat]
+				};
+
+				x.dtStart = new Date(x.dtStart);
+				x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
+
+				x.lastData = Math.ceil((new Date() - x.dtEnd) / (24 * 60 * 60 * 1000)); // Days ago
+
+				x.status = x.status == 'active' || x.lastData < 1 ? 'active' : 'inactive';
+		});
+	} else if (tableName == 'stationDeps') {
+		data = data.filter(d => (!isNaN(+d.lat) && !isNaN(+d.lon) && d.frequency != 'NA'));
+
+		data.forEach(function(x) {
+			x.type = "Feature";
+			x.geometry = {
+				type: "Point",
+				coordinates: [+x.lon, +x.lat]
+			};
+
+			x.dtStart = new Date(x.dtStart);
+			x.frequency = x.frequency == "NA" ? "none" : x.frequency;
+			x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
+
+			x.lastData = Math.ceil((new Date() - x.dtEnd) / (24 * 60 * 60 * 1000)); // Days ago
+
+			x.status = x.status == 'active' || x.lastData < 1 ? 'active' : 'inactive';
+		} );
+
+	} else if (tableName == 'projects') {
+		data.forEach(function(x) {
+			x.fee_id = projectGroupNames[x.fee_id==""||x.fee_id=="NA"||!x.fee_id?1:x.fee_id];
+			x.name = x.name;
+			x.stations = x.stations.split(";");
+			x.animals = x.animals.split(";");
+			x.species = x.species.split(";");
+		});
+	} else if (tableName == 'regions') {
+		data.forEach(function(x) {
+			if (x.both > 0) {filters.options.regions[x.ADM0_A3] = x.country;}
+			x.id = x.ADM0_A3;
+		});
+	} else if (tableName == 'animals') {
+		data.forEach(function(x){
+			x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
+
+			var colourVal = dataType == 'projects' ? x.projID : dataType == 'regions' ? x.country : dataType == 'stations' ? "other" : dataType == 'species' ? x.species : x.animal;
+
+			x.dtStart = new Date(x.dtStart);
+			x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
+
+			x.status = new Date() - new Date(x.dtEnd) > (2 * 24 * 60 * 60 * 1000) ? 'inactive' : 'active';
+			x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
+			x.colourVal = colourVal;
+			x.type = "Feature";
+
+			x.project = x.projID;
+			x.projects = x.projects.split(";");
+			x.stations = x.stations.split(";");
+		});
+	} else if (tableName == 'species') {
+		data.forEach(function(x) {
+			x.animals = x.animals.split(";");
+			x.projects = x.projects.split(";");
+			x.stations = x.stations.split(";");
+			x.group = speciesGroupNames[x.group==""?1:x.group];
+			x.stationProjects = x.stationProjects.split(";");
+		});
+	} else if (tableName == 'polygons') {
+		data = data.features
+		data.forEach( x => {
+			x.id = x.properties.adm0_a3;
+		});
+	} else if (tableName == 'tracks') {
+
+		testTimer.push([new Date(), "Start tracksByAnimal"]);
+		data.forEach( (x, i) => {
+
+			x.animal = x.animal.split(',')
+			x.species = x.species.split(',')
+			x.dir = x.dir.split(',')
+			x.dtStartList = x.dtStart.split(',')
+			x.dtStart = d3.max( x.dtStartList );
+			x.dtEndList = x.dtEnd.split(',')
+			x.dtEnd = d3.max( x.dtEndList );
+			x.tsStart = x.tsStart.split(',')
+			x.tsEnd = x.tsEnd.split(',')
+			x.recvProjs = x.recvProjs.split(',')
+			x.project = x.project.split(',')
+			x.frequency = x.frequency.split(',')
+
+		});
+		// Group routes together into tracks
+		testTimer.push([new Date(), "End tracksByAnimal"]);
+
+	} else if (tableName == 'tracksLongByAnimal') {
+			data = data.filter( x => x.lat1 != 'NA' && x.lat != 0 );
+
+			data = Array.from( d3.rollup(data,
+				v => ({
+					id: v[0].animal,
+					tracks: v.map(x => ([+x.lon2, +x.lat2])),
+					tsStart: d3.min(v, x => +x.ts1),
+					ts: v.map(x => +x.ts2),
+					frequency:  v[0].frequency,
+					species:  v[0].species,
+					//stations:  v.map(x => [x.station1, x.station2]).flat(),
+					stations:  v.map(x => x.station2),
+					project:  v[0].project,
+					dist: v.map(x => +x.dist)
+				}),
+				d => d.animal
+			).values() );
+	}
+
+	console.log(`Done processing ${tableName} data...`);
+
+	return data;
+
+}
+
+
 // Returns the amount of space being used by indexeddb, in MB
 async function checkDataUsage() {
 	return navigator.storage.estimate().then((space)=>{
 		return space.usage / Math.pow(2, 20); // MB
 	});
+}
+
+
+function downloadCSV(fileList) {
+
+
+	var currentDate = new Date();
+
+
+	if (fileList.includes("animals")) {
+		motusData.animals.forEach(function(x){
+			x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
+
+			var colourVal = dataType == 'projects' ? x.projID : dataType == 'regions' ? x.country : dataType == 'stations' ? "other" : dataType == 'species' ? x.species : x.animal;
+
+			x.dtStart = new Date(x.dtStart);
+			x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
+
+			x.status = new Date() - new Date(x.dtEnd) > (2 * 24 * 60 * 60 * 1000) ? 'inactive' : 'active';
+			x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
+			x.colourVal = colourVal;
+			x.type = "Feature";
+
+			x.project = x.projID;
+			x.projects = x.projects.split(";");
+			x.stations = x.stations.split(";");
+
+		});
+
+	}
+	if (fileList.includes("projects")) {
+		motusData.projects.forEach(function(x) {
+			x.fee_id = projectGroupNames[x.fee_id==""||x.fee_id=="NA"||!x.fee_id?1:x.fee_id];
+			x.name = x.name;
+			x.stations = x.stations.split(";");
+			x.animals = x.animals.split(";");
+			x.species = x.species.split(";");
+		});
+	}
+
+	if (fileList.includes("stationDeps")) {
+
+		motusData.stationDeps = motusData.stationDeps.filter(d => (!isNaN(+d.lat) && !isNaN(+d.lon) && d.frequency != 'NA'));
+
+		motusData.stationDeps.forEach(function(x) {
+
+		//	x.dtEnd = x.tsEnd.length == 0 ? moment().toISOString().substr(0, 10) : moment(+x.tsEnd * 1000).toISOString().substr(0, 10);
+
+			x.type = "Feature";
+			x.geometry = {
+				type: "Point",
+				coordinates: [+x.lon, +x.lat]
+			};
+
+			x.dtStart = new Date(x.dtStart);
+			x.frequency = x.frequency == "NA" ? "none" : x.frequency;
+			x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
+
+			x.lastData = Math.ceil((currentDate - x.dtEnd) / (24 * 60 * 60 * 1000)); // Days ago
+
+			x.status = x.status == 'active' || x.lastData < 1 ? 'active' : 'inactive';
+		} );
+
+		motusData.stationDepsByName = d3.group(motusData.stationDeps, x => x.name);
+	}
+	if (fileList.includes("stations")) {
+		motusData.stations.forEach(function(x) {
+				x.project = x.projID.split(';')[0];
+				x.projID = x.projID.split(';')[0];
+				x.animals = x.animals.split(";");
+				x.localAnimals = x.localAnimals.split(";");
+				x.species = x.species.split(";");
+				x.stationDeps = x.stationDeps.split(";");
+				x.type = "Feature";
+				x.frequency = x.frequency == "NA" || x.frequency == ""? "none" : x.frequency.includes(',')  && x.frequency.includes('434')? "dual" : x.frequency;
+				x.geometry = {
+					type: "Point",
+					coordinates: [+x.lon, +x.lat]
+				};
+
+				x.dtStart = new Date(x.dtStart);
+				x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
+
+				x.lastData = Math.ceil((currentDate - x.dtEnd) / (24 * 60 * 60 * 1000)); // Days ago
+
+				x.status = x.status == 'active' || x.lastData < 1 ? 'active' : 'inactive';
+		});
+	}
+
+	if (fileList.includes("regions")) {
+		filters.options.regions = {};
+		motusData.regions.forEach(function(x) {
+			if (x.both > 0) {filters.options.regions[x.ADM0_A3] = x.country;}
+			x.id = x.ADM0_A3;
+		});
+	}
+
+
+	if (fileList.includes("species")) {
+		motusData.species.forEach(function(x) {
+			x.animals = x.animals.split(";");
+			x.projects = x.projects.split(";");
+			x.stations = x.stations.split(";");
+			x.group = speciesGroupNames[x.group==""?1:x.group];
+			x.stationProjects = x.stationProjects.split(";");
+		});
+	}
+
+
+	if (fileList.includes("polygons")) {
+		motusData.polygons = motusData.polygons.features
+		motusData.polygons.forEach( x => {
+			x.id = x.properties.adm0_a3;
+		});
+	}
+
+
+	if (fileList.includes("tracks")) {
+		testTimer.push([new Date(), "Start tracksByAnimal"]);
+		motusData.tracksByAnimal = [];
+
+		motusData.tracks.forEach( (x, i) => {
+
+			x.animal = x.animal.split(',')
+			x.species = x.species.split(',')
+			x.dir = x.dir.split(',')
+			x.dtStartList = x.dtStart.split(',')
+			x.dtStart = d3.max( x.dtStartList );
+			x.dtEndList = x.dtEnd.split(',')
+			x.dtEnd = d3.max( x.dtEndList );
+			x.tsStart = x.tsStart.split(',')
+			x.tsEnd = x.tsEnd.split(',')
+			x.recvProjs = x.recvProjs.split(',')
+			x.project = x.project.split(',')
+			x.frequency = x.frequency.split(',')
+
+		});
+		// Group routes together into tracks
+		motusData.tracksByAnimal = d3.rollup(motusData.tracksByAnimal, v => ({id: v[0].id, route: v.map( x => x.route )}), k => k.id );
+
+		testTimer.push([new Date(), "End tracksByAnimal"]);
+	}
+	if (fileList.includes("tracksLongByAnimal")) {
+		motusData.tracksLongByAnimal = motusData.tracksLongByAnimal.filter( x => x.lat1 != 'NA' && x.lat != 0 );
+
+		motusData.tracksLongByAnimal = Array.from( d3.rollup(motusData.tracksLongByAnimal,
+			v => ({
+				id: v[0].animal,
+				tracks: v.map(x => ([+x.lon2, +x.lat2])),
+				tsStart: d3.min(v, x => +x.ts1),
+				ts: v.map(x => +x.ts2),
+				frequency:  v[0].frequency,
+				species:  v[0].species,
+				//stations:  v.map(x => [x.station1, x.station2]).flat(),
+				stations:  v.map(x => x.station2),
+				project:  v[0].project,
+				dist: v.map(x => +x.dist)
+			}),
+			d => d.animal
+		).values() );
+
+	}
+
+}
+
+// A list of all tables accessible from the API
+var API_TABLES = [
+	"antennaDeployments",
+	"gps",
+	"projects",
+	"receivers",
+	"species",
+	"stations",
+	"stationDeployments",
+	"stationTags",
+	"tags",
+	"tagDeployments"
+];
+
+async function requestDataAPI( req_table, req_id, req_page, req_count ) {
+
+	var req_prefix = "https://sandbox.motus.org/data/dashboard/";
+
+	var req_url = req_prefix + (req_count?"count/":"") + req_table + (req_id?"?deviceId=" + req_id:"") + (req_page?"&page=" + req_page:"");
+
+	var response = await d3.json(req_url);
+
+	processDataAPI(response, req_table, {deviceId: req_id, page: req_page} );
+
+}
+
+function processDataAPI(response, tableName, params = {}) {
+
+
+		if (tableName == "gps") {
+			console.log(response);
+			motusData[tableName][params.deviceId] = response
+		}
+		if (tableName == "animals") {
+
+			motusData.animals = motusData.animals.filter(d => d.tsStart.length > 0);
+
+			motusData.animals.forEach(function(x){
+
+				var colourVal = dataType == 'projects' ? x.projID : dataType == 'regions' ? 'other' : dataType == 'stations' ? "other" : dataType == 'species' ? x.species : x.animal;
+
+				x.dtStart = new Date(+x.tsStart * 1000).toISOString().substr(0, 10);
+				x.dtEnd = x.tsEnd.length == 0 ? new Date().toISOString().substr(0, 10) : new Date(+x.tsEnd * 1000).toISOString().substr(0, 10);
+				x.status = new Date() - new Date(x.dtEnd) > (2 * 24 * 60 * 60 * 1000) ? 'inactive' : 'active';
+				x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
+				x.colourVal = colourVal;
+				x.type = "Feature";
+
+				x.project = x.projID;
+
+			});
+
+		}
+
+		if (tableName == "projects") {
+			motusData.projects.forEach(function(x) {
+				x.fee_id = projectGroupNames[x.fee_id==""||!x.fee_id?1:x.fee_id];
+				x.name = x.name;
+				x.id = x.projectID;
+			});
+		}
+
+		if (tableName == "stationDeps") {
+			motusData.stationDeps = motusData.stationDeps.filter(d => (!isNaN(+d.lat) && !isNaN(+d.lon) && d.frequency != 'NA'));
+			motusData.stationDeps.forEach(function(x) {
+
+			//	x.dtEnd = x.tsEnd.length == 0 ? moment().toISOString().substr(0, 10) : moment(+x.tsEnd * 1000).toISOString().substr(0, 10);
+				x.dtEnd = x.dtEnd == "NA" ? moment().toISOString().substr(0, 10) : x.dtEnd;
+			});
+			motusData.stationDepsByName = d3.group(motusData.stationDeps, d => d.name);
+		}
+
+		if (tableName == "stations") {
+			motusData.stations.forEach(function(x) {
+					x.project = x.projID.split(';')[0];
+					x.projID = x.projID.split(';')[0];;
+			});
+		}
+
+		if (tableName == "species") {
+			motusData.species.forEach(function(x) {
+				x.id = x.speciesID;
+			});
+		}
+
+		if (tableName == "regions") {
+			filters.options.regions = {};
+			motusData.regions.forEach(function(x) {
+				if (x.both > 0) {filters.options.regions[x.ADM0_A3] = x.country;}
+				x.id = x.ADM0_A3;
+			});
+		}
+
+		if (tableName == "polygons") {
+			motusData.polygons = motusData.polygons.features
+		}
+
+		if (tableName == "tracks") {
+
+			motusData.tracksByAnimal = [];
+
+			motusData.tracks.forEach( (x, i) => {
+
+				x.animal = x.animal.split(',')
+				x.species = x.species.split(',')
+				x.dir = x.dir.split(',')
+				x.dtStart = x.dtStart.split(',')
+				x.dtEnd = x.dtEnd.split(',')
+				x.tsStart = x.tsStart.split(',')
+				x.tsEnd = x.tsEnd.split(',')
+
+				motusData.animals.filter( a => x.animal.includes( a.id ) ).forEach( a => {
+
+					motusData.tracksByAnimal.push({id: a.id, route: x.route});
+
+				});
+
+			});
+
+		}
+
 }

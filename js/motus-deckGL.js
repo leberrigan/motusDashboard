@@ -54,7 +54,7 @@ function getProfileMapLayers(load, layer) {
 					id: 'deckGL_selectedAnimals',
 					data: {type: "FeatureCollection",features: motusData.animals},//.filter( d => motusFilter.selectedStationDeps.includes( d.id ) ) }
 					pointType: 'icon',
-					iconAtlas: "images/animal_icon_atlas.png",
+					iconAtlas: imagePrefix + "animal_icon_atlas.png",
 					iconMapping: ANIMAL_ICON_MAPPING,
 					getIconSize: d => 1000,
 					getIcon: d => "selectedAnimal",
@@ -194,7 +194,7 @@ function getExploreMapLayers(load, layer) {
 			data: {type:"FeatureCollection",features:motusData.stationDeps2},
 
 			pointType: 'icon',
-			iconAtlas: "images/station_icon_atlas4.png",
+			iconAtlas: imagePrefix + "station_icon_atlas4.png",
 			iconMapping: STATION_ICON_MAPPING,
 			getIconSize: d => 20000,
   			getIcon: d =>  Object.keys(motusMap.selections).includes(d.stationID) ? "selectedInactiveStation" :
@@ -581,7 +581,7 @@ function getStationsLayer() {
     id: 'deckGL_stations',
     data: {type: "FeatureCollection",features: motusData.stationDeps2},//.filter( d => !motusFilter.selectedStationDeps.includes( d.id ) ) }
     pointType: 'icon',
-    iconAtlas: "images/station_icon_atlas4.png",
+    iconAtlas: imagePrefix + "station_icon_atlas4.png",
     iconMapping: STATION_ICON_MAPPING,
     getIconSize: d => 20000,
     getIcon: d => "otherStation",

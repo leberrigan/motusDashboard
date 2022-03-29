@@ -158,6 +158,23 @@ function updateURL(reload) {
 
 }
 
+
+function logMessage(msg, severity) {
+
+	$(".loader .loader-text").text( msg );
+
+	if (severity == "error") {
+		console.error(msg);
+	}
+	if (severity == "warn") {
+		console.warn(msg);
+	} else {
+		console.log(msg);
+	}
+
+}
+
+
 function detectNavigation() {
 
 	var reload = false;
@@ -213,7 +230,7 @@ function detectNavigation() {
 	} else if ( !motusFilter.selections.every( x => motusFilter[dataType].includes(x))) {
 //		motusFilter[dataType].concat( motusFilter.selections.filter( x => !motusFilter[dataType].includes(x) ) );
 	}
-	console.log(motusFilter);
+	logMessage(motusFilter);
 
 	if (motusMap.setVisibility) {
 		motusMap.setVisibility();

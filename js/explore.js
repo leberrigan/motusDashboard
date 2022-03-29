@@ -16,7 +16,12 @@ $(document).ready(function(){
 
 	// For Development:
 	// get file prefix
+
 	filePrefix =  window.location.hostname.includes('motus.org') ? "https://" + window.location.hostname + "/dashboard/data/" : "data/";
+	imagePrefix =  window.location.hostname.includes('motus.org') ?
+										window.location.pathname.includes("dashboard-beta") ?
+											"https://" + window.location.hostname + "/wp-content/themes/dashboard_template/images/" :
+												"https://" + window.location.hostname + "/dashboard/images/" : "images/";
 	mapFilePrefix = window.location.hostname == 'localhost' || window.location.hostname == 'leberrigan.github.io' ? 'data/' : "https://" + window.location.hostname + "/dashboard/maps/";
 	// Change the document title based on the view and data type
 	document.title = "Motus - " + (exploreType == 'main' ? ( "Explore " + firstToUpper(dataType) ) : ( firstToUpper(exploreType) + " summary" ) );
@@ -123,18 +128,13 @@ $(document).ready(function(){
 
 	// Load the data
 	//	Now that we know what content to load and we have the dom to put it in, read in the required datasets
-	getMotusData();
+	getMotusData( requiredTables[exploreType == "main"?exploreType:"summary"][dataType] );
 
 });
 
 function loadDashboardContent() {
 
 
-	motusData.stationDepsByRegions = d3.group(motusData.stationDeps, d => d.country);
-	motusData.stationDepsByProjects = d3.group(motusData.stationDeps, d => d.projID);
-	motusData.animalsByRegions = d3.group(motusData.animals, d => d.country, d => d.id);
-	motusData.animalsByProjects = d3.group(motusData.animals, d => d.projID, d => d.id);
-	motusData.regionByCode = d3.group(motusData.regions,  d => d.ADM0_A3);
 
 	testTimer.push([new Date(), "Load dashboard content"]);
 
