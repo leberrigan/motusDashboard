@@ -43,80 +43,74 @@ var speciesGroupNames = {
 }
 
 
-var motusDataTables = {};
 // Used to time events
 var testTimer = [];
+
+// The latest database version
+const DB_VERSION = 1;
 
 // Generic function called at the start when loading any 'explore' page.
 // A way to increase efficiency is to only request data that is required for the given page, but
 //	in the end that doesn't save us a whole lot since most pages will be referencing data from
 // 	all metadata tables anyways.
 // I've included 'motusDataTableNames' here as a placeholder in case we chose to only load certain tables at first.
-function getMotusData(motusDataTableNames = []) {
+
+function getMotusData(motusDataTableNames = [], opts = {}) {
 
 	testTimer.push([new Date(), "Get data"]);
 
-	// These are all the tables I store in the local db along with their URLs.
-	motusDataTables = {
-			// [TABLE_NAME]: {[FILE_LOCATION], [INDEXDB_KEY], [GET_TABLE_ON_LOAD]}
-			stations: 					{file: filePrefix + "stations.csv", 												key: 'id, project, country, *animals', 	get: true},	// All stations including station deployments (a.k.a. receiver deployments)
-			stationDeps: 				{file: filePrefix + "recv-deps.csv", 												key: 'id', 															get: true},	// All receiver deployments, including deployment country
-			regions: 						{file: filePrefix + "country-stats.csv", 										key: 'id', 															get: true}, // Number of projects, stations, and tag deployments in each country
-			polygons: 					{file: mapFilePrefix + "ne_50m_admin_0_countries.geojson", 	key: '++, id', 													get: true}, // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
-			animals:					 	{file: filePrefix + "tag-deps.csv", 												key: 'id, project, country, species', 	get: true}, // All tag deployments, including deployment country
-			tracks: 						{file: filePrefix + "siteTrans_real3.csv", 									key: 'route, *animal', 									get: true}, // All site transitions
-			species: 						{file: filePrefix + "spp.csv",															key: 'id',															get: true}, // List of all species and various names/codes
-			projects: 					{file: filePrefix + "projs.csv", 														key: 'id',															get: true}, // All projects, their codes, and descriptions
-			tracksByAnimal: 		{file: false, 																							key: 'id', 															get: false}, //
-			tracksLongByAnimal: {file: filePrefix + "siteTrans_long2.csv", 									key: 'id', 															get: dataType == 'animals' && exploreType == 'main'}, //
-			stationsByRegion: 	{file: false, 																							key: 'region, regionType', 							get:false}, //
-			animalsByRegion: 		{file: false, 																							key: 'region, regionType', 							get:false} //
-		//	tracksLong: {file: filePrefix + "siteTrans_long2.csv", key: '++, animal', get: true}, // All site transitions
-		};
+	if (typeof motusDataTableNames === 'string') motusDataTableNames = [motusDataTableNames];
 
-	// load the indexedDB
-	motusIndexedDB( motusDataTableNames );
+	if (motusDataTableNames && motusDataTableNames.length > 0) {
+		motusDataTableNames.forEach(x => {
+			indexedDBTables[x].get = true;
+		});
+	}
+
+	// If indexedDB hasn't been loaded
+	if (typeof motusData.db === 'undefined') {
+		// load the indexedDB
+		initiateIndexedDB( );
+	} if (typeof motusData.db === 'object' && typeof motusData.db.idbdb == null) {
+		// Indexed DB has been disabled (incognito?)
+		loadWithoutIndexedDB();
+	} else {
+		// We can't add any new tables into the indexed DB after it has been created so we'll just load anything new into memory
+	//	requestDataAPI();
+	}
 
 }
 
-// The latest database version
-const DB_VERSION = 8;
-
-function motusIndexedDB( motusDataTableNames = [] ) {
-
-	if (motusDataTableNames && motusDataTableNames.length > 0) {
-		Object.entries(motusDataTables).forEach(x => {
-			x[1].get = motusDataTableNames.includes(x[0]);
-		})
-//		motusDataTables = Object.fromEntries( Object.entries(motusDataTables).map( x => [x[0], {file: x[1].file, key: x[1].key, get: motusDataTableNames.includes(x[0]) && x[1].get }]) );
-	}
+function initiateIndexedDB() {
 
 	var promises = [];
 
-	Object.keys(motusDataTables).forEach(function(f){
+	Object.keys(indexedDBTables).forEach(function(f){
 
-		var url = motusDataTables[f].file;
+		var url = indexedDBTables[f].file;
 
 		if (url) {
-			motusDataTables[f].promise = url.substr(url.lastIndexOf('.') + 1, url.length) == 'csv' || url.substr(url.lastIndexOf('=') + 1, url.length) == 'csv' ?
-				d3.csv : d3.json;
+			indexedDBTables[f].promise = API_AVAILABLE && indexedDBTables.API ? d3.json :
+																		url.substr(url.lastIndexOf('.') + 1, url.length) == 'csv' ||
+																		url.substr(url.lastIndexOf('=') + 1, url.length) == 'csv' ? d3.csv : d3.json;
 		}
 
 	});
 
-	testTimer.push([new Date(), "Get data: declare the database"]);
+
+	logMessage("IndexedDB: initiate");
 	// Check whether IndexedDB is supported
 	if (indexedDB) {
 		// Declare the database
-	  motusData.db = new Dexie("explore_motus");
+	  motusData.db = new Dexie("dashboard");
 		//
 	  motusData.db.version( DB_VERSION ).stores(
 			Object.fromEntries(
-				Object.entries(	motusDataTables	)
-							.map( x => [ x[0], x[1].key ] )
+				Object.entries( indexedDBTables ).map( x => [ x[0], x[1].key ] )
 			)
 		).upgrade((trans)=>{
-			logMessage("Deleting tables: %o", trans.storeNames);
+			logMessage("IndexedDB: upgrade");
+			logMessage("IndexedDB: deleting tables: %o", trans.storeNames);
 
 			trans.storeNames.forEach(k => {
 				trans.db[k].clear();
@@ -124,265 +118,280 @@ function motusIndexedDB( motusDataTableNames = [] ) {
 
 		});
 
-		logMessage(`Initiating local Motus DB with ${Object.keys(motusDataTables).length} tables...`);
-
+		logMessage(`IndexedDB: Initiating local Motus DB with ${Object.keys(indexedDBTables).length} tables...`);
 
 	  motusData.db.open()
     	.catch ('MissingApiError',function(error){// If IndexedDB is NOT supported
-					logMessage(error);
-					alert("indexedDB not supported!");
-					var tableToDownload = Object.entries(motusDataTables).filter( x => x[1].get );
-					indexedDB = false;
-					downloadMotusData( tableToDownload.map( x => x[1].promise( x[1].file ) ), tableToDownload.map( x => x[0] ) );
+					logMessage("IndexedDB: indexedDB not supported!", "error");
+					logMessage(error, "error");
+					loadWithoutIndexedDB();
 			}).catch (function (error) {
 	        // Show e.message to user
-					logMessage("Some other error: ");
-					logMessage(error);
-					var tableToDownload = Object.entries(motusDataTables).filter( x => x[1].get );
-					indexedDB = false;
-					downloadMotusData( tableToDownload.map( x => x[1].promise( x[1].file ) ), tableToDownload.map( x => x[0] ) );
+					logMessage("IndexedDB: Some other error: ", "error");
+					logMessage(error, "error");
+					loadWithoutIndexedDB();
 	    });
 
-	  motusData.db.on('ready', checkTables);
+	  motusData.db.on('ready', checkIndexedDBTables);
 
 	} else { // If IndexedDB is NOT supported
 
-		var tableToDownload = Object.entries(motusDataTables).filter( x => x[1].get );
-		downloadMotusData( tableToDownload.map( x => x[1].promise( x[1].file ) ), tableToDownload.map( x => x[0] ) )
+		loadWithoutIndexedDB();
 
 	}
-
-
 }
 
-function getAnimalsTableData( reload = false ) {
 
-	if (reload || typeof motusData.animalsTableData === 'undefined' || motusData.animalsTableData.length == 0) {
+function loadWithoutIndexedDB() {
 
-		var color_dataType = 'regions' == dataType ? 'country' : 'project';
+	indexedDB = false;
 
-		motusData.animalsTableData = motusData.selectedAnimals.filter( d => !isNaN(d.dtStart.valueOf()) ).map(d => {
-			var speciesMeta = motusData.species.filter( x => x.id == d.species);
+	Object.entries(indexedDBTables).filter( x => x[1].get ).forEach(x => {
+		logMessage(`IndexedDB: Downloading ${x[0]}`);
+		downloadMotusData( x[0] ).then((response)=>{afterDataLoads(response, x[0], false);});
+	});
+}
 
-			return {
-				id: d.id,
-				species: d.species,
-				sort: speciesMeta.length>0?speciesMeta[0].sort:9999,
-				name: speciesMeta.length>0?speciesMeta[0].english:"Undefined",
-				dtStart: d.dtStart.toISOString().substr(0,10),
-				dtEnd: ((new Date() - d.dtEnd)/(24 * 60 * 60 * 1000) < 1 ? "Active" : "Ended on:<br/>" + d.dtEnd.toISOString().substr(0,10)),
-				frequency: d.frequency,
-				country: d.country,
-				countryName: typeof motusData.regionByCode.get(d.country) !== 'undefined' ? motusData.regionByCode.get(d.country)[0].country : 'Not defined',
-				nStations: (motusData.tracksByAnimal[d.id]?[...new Set( motusData.tracksByAnimal[d.id].map(v=>v.split('.')).flat() )]:[]).length,
-				nDays: motusData.tracksByAnimal[d.id]?motusData.tracksByAnimal[d.id].length * 2:0,
-				project: d.projID,
-				projectName: typeof motusData.projects.filter(x => x.id == d.projID)[0] !== 'undefined' ? motusData.projects.filter(x => x.id == d.projID)[0].name : 'Not defined',
-				colourName: d[color_dataType],
-				colourCode: motusMap.colourScale(d[color_dataType]),
+
+async function checkIndexedDBTables() {
+
+	logMessage("IndexedDB: DB Ready. Checking tables...");
+	testTimer.push([new Date(), "IndexedDB: Checking tables..."]);
+
+	await getIndexedDBTable("motusTables");
+
+	if (motusData.motusTables) {
+		motusData.motusTables = Object.fromEntries(motusData.motusTables.map( x => ([[x.name],x])));
+		for (k in motusData.motusTables) {
+			indexedDBTables[k] = {...indexedDBTables[k], ...motusData.motusTables[k]};
+		}
+	}
+	await Promise.all( Object.keys(indexedDBTables).filter( x => indexedDBTables[x].get ).map( async x => getIndexedDBTable(x) ) );
+
+	logMessage("IndexedDB: Finished checking tables");
+
+	testTimer.push([new Date(), "IndexedDB: finish checking tables "]);
+
+
+	if ( Object.values(indexedDBTables).some( x => x.download ) ) {
+
+		testTimer.push([new Date(), "IndexedDB: downloading data"]);
+
+		var tablesToDownload = Object.fromEntries(Object.entries(indexedDBTables).filter( x => x[1].download ));
+
+		logMessage(`IndexedDB: Downloading data for ${Object.values(tablesToDownload).length} tables.`);
+
+		logMessage(Object.values(tablesToDownload));
+
+		if (motusData.motusTables) {
+			if (NEW_DOWNLOAD_AGE < (new Date() - d3.max(motusData.motusTables, x => x.downloadDate))/(24*36e5)) {
+				logMessage(`Downloading data for the first time in a ${NEW_DOWNLOAD_AGE} days <br/> this may take a few seconds...`, "title");
+				logMessage(`IndexedDB: Downloading ${Object.values(tablesToDownload).length} tables...`);
+			} else if (NEW_DOWNLOAD_AGE > (new Date() - d3.min(motusData.motusTables, x => x.downloadDate))/(24*36e5)) {
+				logMessage(`Local database is up to date`, "title");
+				logMessage(`IndexedDB: Downloading ${Object.values(tablesToDownload).length} tables...`);
 			}
-		});
+		} else {
+			logMessage("Downloading data for the first time <br/> this may take a few seconds...", "title");
+			logMessage(`IndexedDB: Downloading ${Object.values(tablesToDownload).length} tables...`);
+		}
+
+
+		// Download local tables
+		if (Object.values(tablesToDownload).some( x => !x.API ) ) {
+			Object.entries(tablesToDownload).filter( x => !x[1].API ).forEach(x => {
+				logMessage(`IndexedDB: Downloading table ${x[0]} locally...`);
+				downloadMotusData( x[0] ).then(response => {afterDataLoads(response, x[0], true);});
+			});
+		}
+
+		// Download API tabls
+		if (Object.values(tablesToDownload).some( x => x.API ) ) {
+			// Download files sequentially
+			(async () => {
+				for (k in Object.fromEntries(Object.entries(tablesToDownload).filter( x => x[1].API ))) {
+					logMessage(`IndexedDB: Downloading table ${k} via Dashboard API...`);
+					await requestDataAPI( tablesToDownload[k].API );
+					logMessage(`IndexedDB: finished downloading ${k}.`);
+					await afterDataLoads(false, k, true);
+				}
+			})();
+
+		}
 	}
-}
-function getSpeciesTableData( reload = false ) {
 
-	if (reload || typeof motusData.animalsTableData === 'undefined' || motusData.animalsTableData.length == 0) {
-		getAnimalsTableData();
-	}
-
-	if (reload || typeof motusData.speciesTableData === 'undefined' || motusData.speciesTableData.length == 0) {
-
-		var color_dataType = 'regions' == dataType ? 'country' : 'project';
-
-		motusData.speciesTableData = Array.from(
-										d3.rollup(
-											motusData.animalsTableData,
-											(v) => {
-												var speciesMeta = motusData.species.filter( x => x.id == v[0].species)[0];
-												var stations = (motusData.tracksBySpecies[v[0].species]?Array.from(motusData.tracksBySpecies[v[0].species].map(x=>x.split('.')).values()).flat().filter(onlyUnique):[]);
-												var project = v.reduce( function(a, c) { a.push( c.project ); return a; }, [ ]).filter(onlyUnique);
-												return {
-													id: ( Array.from( v.map( d => d.id ).values() ) ).join(','),
-													species: v[0].species,
-													name: v[0].name,
-													dtStart: d3.min(v, d => d.dtStart),
-													dtEnd: d3.max(v, d => d.dtEnd),
-													nAnimals: v.length,
-													animals: Array.from( v.map( d => d.id ).values() ),
-													stations: stations,
-													nStations: stations.length,
-													country: v.reduce( function(a, c) { a.push( c.country ); return a; }, [ ]).filter(onlyUnique),
-													project: project,
-													colourName: ['project', 'country'].includes(color_dataType) ? v.reduce( function(a, c) { a.push( c[color_dataType + "Name"] ); return a; }, [ ]).filter(onlyUnique) : v.reduce( function(a, c) { a.push( c[color_dataType] ); return a; }, [ ]).filter(onlyUnique),
-													colourCode: v.reduce( function(a, c) { a.push( motusMap.colourScale( c[color_dataType] ) ); return a; }, [ ]).filter(onlyUnique),
-													sort: speciesMeta?speciesMeta.sort:999999,
-													group: speciesMeta?speciesMeta.group:"Unknown"
-												}
-											},
-											d => d.name
-										).values()
-									);
-	}
 }
 
+function afterDataLoads(response, tableName, updateIndexedDB) {
 
-function checkTables() {
+	if (response) {
+		motusData[tableName] = response;
+	}
+	indexedDBTables[tableName].done = true;
 
-	logMessage("DB Ready. Checking tables...");
+	if ( ["stationRecentData", "stationLocalTags", "stationDetectedTags"].includes(tableName) ) {
+		var indexVar = tableName == 'stationDetectedTags' ? "deploymentID" : "stationID";
+		motusData[tableName+"_indexed"] =  d3.index(motusData[tableName], x => x[indexVar]);
+		if (updateIndexedDB) {
+			updateMotusDB("stationDeps", motusData.stationDeps);
+		}
+	}
+
+	if (tableName == "stationDeps") {
+		motusData.stationDepsByRegions = d3.group(motusData.stationDeps, d => d.country);
+		motusData.stationDepsByProjects = d3.group(motusData.stationDeps, d => d.project);
+	} else if (tableName == "stations") {
+		motusData.stationsByProject = d3.group(motusData.stations, x => x.project);
+		motusData.stations_indexed = d3.index(motusData.stations, x => x.id);
+		if (updateIndexedDB) {
+		  motusData.stations.forEach( (d, k, arr) => {
+		    let stationDeps = motusData.stationDeps.filter( x => x.stationID == d.id );
+		    d.nDeps = stationDeps.length;
+		    if (stationDeps.length > 0) {
+		      d.stationDeps = stationDeps.map( x => x.id );
+		      d.animals = stationDeps.map( x => x.animals ).flat();
+		      d.species = stationDeps.map( x => x.species ).flat();
+		      d.nAnimals = [...new Set(d.animals)].length;
+		      d.nSpecies = [...new Set(d.species)].length;
+		      d.dtStart = d3.min(stationDeps, x => x.dtStart );
+		      d.dtEnd = d3.max(stationDeps, x => x.dtEnd );
+
+		      // Add coordinates to station deployments
+		      stationDeps.forEach( (x, key, a) => {
+		          a[key].geometry = d.geometry;
+		          a[key].project = d.project;
+		          a[key].name = d.name;
+		        //  a[key] = { ...d, ...x};
+		      });
+
+		      arr[k] = { ...stationDeps[0], ...d};
+		    } else {
+		      d.stationDeps = [];
+		      d.localAnimals = [];
+		      d.lastData = false;
+		      d.animals = [];
+		      d.species = [];
+		      arr[k] = { ...Object.fromEntries(Object.keys(motusData.stationDeps[0]).map(x => [x,""])), ...d}
+		    }
+		  });
+			updateMotusDB("stationDeps", motusData.stationDeps);
+		}
+
+	} else if (tableName == "tags") {
+		 motusData.tags_indexed = d3.index(motusData[tableName], x => x.id);
+	} else if (tableName == "animals") {
+		if (updateIndexedDB) {
+		  motusData.animals.forEach( (d, k, arr) => {
+		    let tag = motusData.tags_indexed.get( d.tagID );
+		    if (typeof tag !== 'undefined') {
+		      arr[k] = { ...tag, ...d};
+		    } else {
+		      arr[k] = { ...Object.fromEntries(Object.keys(motusData.tags.entries().next().value[1]).map(x => [x,""])), ...d}
+		  //      logMessage("No data for station " + d.id, "warn");
+		    }
+		  });
+		}
+	  motusData.animals_indexed = d3.index( motusData.animals, x => x.id );
+		motusData.animalsByRegions = d3.group(motusData.animals, d => d.country, d => d.id);
+		motusData.animalsByProjects = d3.group(motusData.animals, d => d.project, d => d.id);
+	  motusData.animalsByProject = d3.group(motusData.animals, x => x.project);
+	} else if (tableName == "species" && updateIndexedDB) {
+	  motusData.species.forEach( (d, k, arr) => {
+	    let animals = motusData.animals.filter( x => x.species == d.id );
+	    arr[k].animals = animals.map( x => x.id );
+	    arr[k].stations = [...new Set( animals.map( x => x.stations ).flat() )];
+	    arr[k].projects = animals.map( x => x.project );
+	  });
+	} else if (tableName == "regions") {
+		motusData.regionByCode = d3.group(motusData.regions,  d => d.ADM0_A3);
+	}
+
+	if (updateIndexedDB)	updateMotusDB(tableName, motusData[tableName]);
+
+	// Proceed to load the dashboard only once all the data has been downloaded
+	return checkIfFinished();
+}
+
+function checkIfFinished() {
+
+	if ( Object.values(indexedDBTables).every( x => x.done || !(x.get  || x.download) ) ) {
+	//if ( Object.values(indexedDBTables).every( x => x.done || (!x.get && !x.file) ) ) {
+		logMessage("", "title");
+		logMessage(`Finished loading data.`);
+		logMessage(`There were ${Object.values(indexedDBTables).filter( x => x.downloaded ).length} tables downloaded and `+
+								`${Object.values(indexedDBTables).filter( x => !x.downloaded ).length} tables loaded from the local database.`);
+		logMessage("Loading dashboard content...");
+
+		loadDashboardContent();
+
+	} else {
+
+		return;
+
+	}
+}
+
+async function getIndexedDBTable(tableName, forceDownload = false) {
+
+	logMessage(`IndexedDB: Checking table '${tableName}'...`);
 
 
-	Object.keys(motusDataTables).filter( x => motusDataTables[x].get /*|| typeof motusDataTables[x].file === "string" */).forEach(function(tableName, i){
+	let count = await motusData.db[tableName].count();
 
-			// Check whether IndexedDB is supported
-			if (indexedDB) {
-				logMessage(`Checking table '${tableName}'...`);
-				motusData.db[tableName].count( count => {
-					testTimer.push([new Date(), "Get data: respond to count of "+tableName]);
-					if (count > 0 && motusDataTables[tableName].get) {
-						logMessage(`Table '${tableName}' exists.`);
+//		testTimer.push([new Date(), "Get data: respond to count of "+tableName]);
+	console.log("TIME OF LAST DOWNLOAD: ", indexedDBTables[tableName].downloadDate);
+	let daysSinceLastDownload = (new Date() - new Date(indexedDBTables[tableName].downloadDate))/(24*36e5);
+	console.log("DAYS SINCE LAST DOWNLOAD: ", daysSinceLastDownload);
+	if (count > 0 && indexedDBTables[tableName].get && (tableName == 'motusTables' || daysSinceLastDownload < NEW_DOWNLOAD_AGE) && !forceDownload ) {
+		logMessage(`Table '${tableName}' exists and is up to date.`);
 
-						motusData.db[tableName]
-							.toArray()
-							.then( d => {
-								testTimer.push([new Date(), "Get data: store table "+tableName+" with "+d.length+" rows in memory"]);
+		let data = await motusData.db[tableName].toArray()
 
-					//			console.log(`Table '${tableName}' loaded from local database.`);
-								motusData[tableName] = d;
-								motusDataTables[tableName].done = true;
+		indexedDBTables[tableName].done = true;
+		afterDataLoads(data, tableName, false);
 
-								if (tableName == "stationDeps") {
-									motusData.stationDepsByRegions = d3.group(motusData.stationDeps, d => d.country);
-									motusData.stationDepsByProjects = d3.group(motusData.stationDeps, d => d.projID);
-								}
-								if (tableName == "animals") {
-									motusData.animalsByRegions = d3.group(motusData.animals, d => d.country, d => d.id);
-									motusData.animalsByProjects = d3.group(motusData.animals, d => d.projID, d => d.id);
-								}
-								if (tableName == "regions") {
-									motusData.regionByCode = d3.group(motusData.regions,  d => d.ADM0_A3);
-								}
-								// Proceed to load the dashboard only once all the data has been downloaded
-								checkIfFinished();
-							});
+	} else if (count > 0 && typeof indexedDBTables[tableName].file === "string" && !indexedDBTables[tableName].get && !forceDownload) {
 
-					} else if (count > 0 && typeof motusDataTables[tableName].file === "string") {
+		logMessage(`IndexedDB: Table '${tableName}' exists, but won't be loaded entirely.`);
+		indexedDBTables[tableName].done = true;
 
-						logMessage(`Table '${tableName}' exists, but won't be loaded entirely.`);
-						motusDataTables[tableName].done = true;
-
-					} else {
-
-						logMessage(`Table '${tableName}' needs to be downloaded.`);
-						motusDataTables[tableName].download = true;
-					}
+	} else {
+		if (forceDownload) {
+			logMessage(`IndexedDB: forcing download of ${tableName}.`, "info");
+			indexedDBTables[tableName].get = true;
+		}
+		if (indexedDBTables[tableName].file) {
+			logMessage(`IndexedDB: Table '${tableName}' needs to be downloaded.`);
+			indexedDBTables[tableName].download = true;
+		}
+		if (tableName == "animals") {
+			indexedDBTables.tags.download = true;
+			indexedDBTables.tags.get = true;
+		}
+		if (tableName == "stationDeps") {
+			["antennas","stations", "stationDetectedTags", "stationLocalTags", "stationRecentData"].forEach( x => {
+				indexedDBTables[x].download = true;
+				indexedDBTables[x].get = true;
+			})
+		}
+	}
 
 // This is poorly written - needs to be fixed
 
-//					if (i+1 == Object.keys(motusDataTables).filter( x => motusDataTables[x].get || typeof motusDataTables[x].file === "string" ).length && Object.values(motusDataTables).some( x => x.download )) {
-					if (i+1 == Object.keys(motusDataTables).filter( x => motusDataTables[x].get ).length && Object.values(motusDataTables).some( x => x.download )) {
-						testTimer.push([new Date(), "Get data: downloading data"]);
-
-						logMessage(`Downloading...`);
-
-						var tableToDownload = Object.entries(motusDataTables).filter( x => x[1].download );
-
-						logMessage(`Downloading data for ${tableToDownload.length} tables.`);
-
-						downloadMotusData(tableToDownload.map( x => x[1].promise( x[1].file ) ), tableToDownload.map( x => x[0] ))
-
-					}
-
-				});
-			}
-
-	});
-
-	function checkIfFinished() {
-
-		if ( Object.values(motusDataTables).every( x => x.done || !x.get ) ) {
-		//if ( Object.values(motusDataTables).every( x => x.done || (!x.get && !x.file) ) ) {
-
-			logMessage(`Finished loading data.`);
-			logMessage(`There were ${Object.values(motusDataTables).filter( x => x.downloaded ).length} tables downloaded and `+
-									`${Object.values(motusDataTables).filter( x => !x.downloaded ).length} tables loaded from the local database.`);
-			logMessage("Loading dashboard content...");
-			loadDashboardContent();
-		}
-	}
+	return tableName;
 }
-
-function downloadMotusData(promises, fileList) {
-
-	Promise.all(promises).then(async function(response) {
-
-  	fileList.forEach(function(f, i){
-
-  		motusData[f] = response[i];
-
-  	});
-		console.log(fileList);
-
-		if (fileList.includes("stationDeps")) {
-		motusData.stationDepsByRegions = d3.group(motusData.stationDeps, d => d.country);
-		motusData.stationDepsByProjects = d3.group(motusData.stationDeps, d => d.projID);
-		}
-		if (fileList.includes("animals")) {
-		motusData.animalsByRegions = d3.group(motusData.animals, d => d.country, d => d.id);
-		motusData.animalsByProjects = d3.group(motusData.animals, d => d.projID, d => d.id);
-		}
-		if (fileList.includes("regions")) {
-		motusData.regionByCode = d3.group(motusData.regions,  d => d.ADM0_A3);
-		}
-		if (!window.location.hostname.includes('sandbox.motus.org')) {
-//			downloadCSV(fileList);
-			for (i in fileList) {
-				var file = fileList[i]
-				motusData[ file ] = await downloadMotusData_v2( file );
-			}
-		} else {
-			for (i in fileList) {
-				var file = fileList[i]
-				motusData[ file ] = await downloadMotusData_v2( file );
-			}
-		}
-
-
-  	logMessage("Finished downloading " + response.length + " data set" + (response.length == 1 ? "" : "s"));
-
-		// Update the local database only once data has been downloaded and processed
-  	Object.keys(motusDataTables).forEach(function(f, i){
-
-			if (typeof motusData[f] !== 'undefined') {
-
-				motusDataTables[f].done = true;
-				updateMotusDB(f, motusData[f]);
-			} else {
-				console.warn("There was an issue loading ", f);
-			}
-
-  	});
-
-		// Proceed to load the dashboard only once all the data has been downloaded
-		if ( Object.values(motusDataTables).every( x => x.done || !x.get ) ) {
-
-			logMessage(`Finished loading data.`)
-			logMessage(`There were ${Object.values(motusDataTables).filter( x => x.downloaded ).length} tables downloaded and `+
-									`${Object.values(motusDataTables).filter( x => !x.downloaded ).length} tables loaded from the local database.`)
-			logMessage("Loading dashboard content...")
-
-			loadDashboardContent();
-		}
-
-  });
-
-}
-
 function updateMotusDB(tableName, tableData) {
 
 		logMessage(`Adding '${tableName}'...`);
 		console.log(tableData);
 		motusData.db[tableName].bulkPut(tableData).then(function(lastKey) {
 			logMessage(`Done adding '${tableName}' table.`);
+			delete indexedDBTables[tableName].promise;
+			delete indexedDBTables[tableName].get;
+			delete indexedDBTables[tableName].download;
+			delete indexedDBTables[tableName].done;
+			console.log({...indexedDBTables[tableName],...({name: tableName, downloadDate: new Date()})});
+			motusData.db.motusTables.put( {...indexedDBTables[tableName],...({name: tableName, downloadDate: new Date()})} )
 		}).catch(Dexie.BulkError, function (e) {
 			logMessage(`Error adding ${e.failures.length} of ${tableData.length} rows to '${tableName}' table.`);
 		});
@@ -397,14 +406,10 @@ async function getSelections({
 	selectedStations = false,
 	selectedAnimals = false
 } = {}) {
-/*
-	if (selectedRegions || selectedProjects || selectedSpecies || selectedStations || selectedAnimals) {
-
-	} else {*/
 
 	motusData.tracksByAnimal = {};
 	motusData.tracksBySpecies = {};
-	motusData.tracksByStation = {};
+//	motusData.tracksByStation = {};
 	motusData.stationHits = {};
 	motusData.animalsByDayOfYear = [...Array(367).fill(0).map(x => ({local: [], remote: [], visiting: []}))];
 	motusData.animalsByHourOfDay = [...Array(24).fill(0).map(x => ({local: [], remote: [], visiting: []}))];
@@ -458,14 +463,15 @@ async function getSelections({
 
 			// Routes consist of tracks by local animals and visiting animals
 			motusData.tracksByAnimal = await getAnimalRoutes( motusFilter.selectedAnimals );
+			motusData.tracksLong = (await getTracksLong( motusFilter.selectedAnimals )).filter( x => typeof x !== 'undefined' );
 			motusData.tracksLongByAnimal = await getSelectedTracksLongByAnimal( motusFilter.selectedAnimals );
-			motusData.selectedTracks = await getSelectedTracks( [...new Set(Object.values(motusData.tracksByAnimal).flat())] );
+		//	motusData.selectedTracks = await getSelectedTracks( [...new Set(Object.values(motusData.tracksByAnimal).flat())] );
 
 			// Animal projects have tags deployed
-			motusData.selectedAnimalProjects = await getSelectedProjects( [...new Set(motusData.selectedAnimals.map( x => x.projID ))] );
+			motusData.selectedAnimalProjects = await getSelectedProjects( [...new Set(motusData.selectedAnimals.map( x => x.project ))] );
 			// Station projects have stations deployed
-			motusData.selectedStationProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.projID ))] );
-			motusData.selectedProjects = await getSelectedProjects( motusData.selectedStations.map( x => x.projID ).concat(motusData.selectedAnimals.map( x => x.projID )).filter(onlyUnique) );
+			motusData.selectedStationProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.project ))] );
+			motusData.selectedProjects = await getSelectedProjects( motusData.selectedStations.map( x => x.project ).concat(motusData.selectedAnimals.map( x => x.project )).filter(onlyUnique) );
 
 			motusFilter.selectedAnimalsDtStart = await d3.min( motusData.selectedAnimals, x => x.dtStart );
 			motusFilter.selectedAnimalsDtEnd = await d3.max( motusData.selectedAnimals, x => x.dtEnd );
@@ -531,18 +537,20 @@ async function getSelections({
 					testTimer.push([new Date(), `Get selections - animal paths from ${motusFilter.selectedAnimals.length} animals`]);
 					motusData.tracksByAnimal = await getAnimalRoutes( motusFilter.selectedAnimals );
 					testTimer.push([new Date(), `Get selections - tracks from ${Object.keys(motusData.tracksByAnimal).length} animals`]);
-					motusData.selectedTracks = await getSelectedTracks( [...new Set(Object.values(motusData.tracksByAnimal).flat())] );
+					motusData.tracksLong = (await getTracksLong( motusFilter.selectedAnimals )).filter( x => typeof x !== 'undefined' );
+				//	motusData.selectedTracks = await getSelectedTracks( [...new Set(Object.values(motusData.tracksByAnimal).flat())] );
 					testTimer.push([new Date(), `Get selections - LONG animal paths from ${motusFilter.selectedAnimals.length} animals`]);
 					motusData.tracksLongByAnimal = await getSelectedTracksLongByAnimal( motusFilter.selectedAnimals );
 
-					testTimer.push([new Date(), "Get selections - regions"]);
+			//		testTimer.push([new Date(), "Get selections - regions"]);
 					// Animal regions have tags deployed
-					motusData.selectedAnimalRegions = getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedAnimals.map( x => x.country ))] });
+			//		motusData.selectedAnimalRegions = getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedAnimals.map( x => x.country ))] });
 					// Station projects have stations deployed
-					motusData.selectedStationRegions = getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
-					motusData.selectedRegions = getSelectedRegions({ key: "adm0_a3", values: motusData.selectedStations.map( x => x.country ).concat( [...new Set(motusData.selectedAnimals.map( x => x.country ) )] ) });
+			//		motusData.selectedStationRegions = getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
+			//		motusData.selectedRegions = getSelectedRegions({ key: "adm0_a3", values: motusData.selectedStations.map( x => x.country ).concat( [...new Set(motusData.selectedAnimals.map( x => x.country ) )] ) });
 
 
+					testTimer.push([new Date(), "Get selections - dates"]);
 					motusFilter.selectedAnimalsDtStart = await d3.min( motusData.selectedAnimals, x => x.dtStart );
 					motusFilter.selectedAnimalsDtEnd = await d3.max( motusData.selectedAnimals, x => x.dtEnd );
 
@@ -552,6 +560,7 @@ async function getSelections({
 					motusFilter.selectedDtStart = await d3.min( [motusFilter.selectedAnimalsDtStart, motusFilter.selectedStationsDtStart] );
 					motusFilter.selectedDtEnd = await d3.max( [motusFilter.selectedAnimalsDtEnd , motusFilter.selectedStationsDtEnd] );
 
+					testTimer.push([new Date(), "Get selections - done"]);
 					return visitingAnimals;
 
 				});
@@ -561,9 +570,9 @@ async function getSelections({
 			});
 
 			// Animal projects have tags deployed
-			motusData.selectedAnimalProjects = await getSelectedProjects( [...new Set(motusData.localAnimals.map( x => x.projID ))] );
+			motusData.selectedAnimalProjects = await getSelectedProjects( [...new Set(motusData.localAnimals.map( x => x.project ))] );
 			// Station projects have stations deployed
-			motusData.selectedStationProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.projID ))] );
+			motusData.selectedStationProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.project ))] );
 
 		} else if (dataType == 'stations') {
 
@@ -585,16 +594,17 @@ async function getSelections({
 			motusData.selectedSpecies = await getSelectedSpecies( motusData.selectedAnimals );
 
 			motusData.tracksByAnimal = await getAnimalRoutes( motusFilter.selectedAnimals );
+			motusData.tracksLong = (await getTracksLong( motusFilter.selectedAnimals )).filter( x => typeof x !== 'undefined' );
 			motusData.tracksLongByAnimal = await getSelectedTracksLongByAnimal( motusFilter.selectedAnimals );
-			motusData.selectedTracks = await getSelectedTracks( [...new Set(Object.values(motusData.tracksByAnimal).flat())] );
+			motusData.selectedTracks = motusData.tracksLong.filter( x => motusFilter.selections.includes(x.station1) | motusFilter.selections.includes(x.station2) );
 
-			motusData.selectedAnimalProjects = await getSelectedProjects( [...new Set(motusData.selectedAnimals.map( x => x.projID ))] );
-			motusData.selectedStationProjects = getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.projID ))] );
-			motusData.selectedProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.projID ).concat(motusData.selectedAnimals.map( x => x.projID )))] );
+			motusData.selectedAnimalProjects = await getSelectedProjects( [...new Set(motusData.selectedAnimals.map( x => x.project ))] );
+			motusData.selectedStationProjects = getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.project ))] );
+			motusData.selectedProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.project ).concat(motusData.selectedAnimals.map( x => x.project )))] );
 
-			motusData.selectedAnimalRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedAnimals.map( x => x.country ))] });
-			motusData.selectedStationRegions = getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
-			motusData.selectedRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ).concat(motusData.selectedAnimals.map( x => x.country )))] });
+	//		motusData.selectedAnimalRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedAnimals.map( x => x.country ))] });
+	//		motusData.selectedStationRegions = getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
+	//		motusData.selectedRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ).concat(motusData.selectedAnimals.map( x => x.country )))] });
 
 			motusFilter.selectedDtStart = await d3.min( motusData.selectedStations, x => x.dtStart );
 			motusFilter.selectedDtEnd = await d3.max( motusData.selectedStations, x => x.dtEnd );
@@ -606,21 +616,22 @@ async function getSelections({
 			motusFilter.selectedAnimals = await motusData.selectedAnimals.map( x => x.id );
 
 			motusData.tracksByAnimal = await getAnimalRoutes( motusFilter.selectedAnimals );
+			motusData.tracksLong = (await getTracksLong( motusFilter.selectedAnimals )).filter( x => typeof x !== 'undefined' );
 			motusData.tracksLongByAnimal = await getSelectedTracksLongByAnimal( motusFilter.selectedAnimals );
-			motusData.selectedTracks = await getSelectedTracks( [...new Set(Object.values(motusData.tracksByAnimal).flat())] );
+	//		motusData.selectedTracks = await getSelectedTracks( [...new Set(Object.values(motusData.tracksByAnimal).flat())] );
 
-			motusData.selectedStations = await getSelectedStations( [...new Set(motusData.selectedTracks.map( x => x.route.split('.') ).flat())] );
+			motusData.selectedStations = await getSelectedStations( [...new Set(motusData.tracksLong.map(x => x.stations).flat())] );
 			motusData.selectedStationDeps = await getSelectedStationDeps();
 			motusFilter.selectedStations = await motusData.selectedStations.map( x => x.id );
 			motusFilter.selectedStationDeps = await motusData.selectedStationDeps.map( x => x.id );
 
-			motusData.selectedAnimalProjects = getSelectedProjects( [...new Set(motusData.selectedAnimals.map( x => x.projID ))] );
-			motusData.selectedStationProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.projID ))] );
-			motusData.selectedProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.projID ).concat(motusData.selectedAnimals.map( x => x.projID )))] );
+			motusData.selectedAnimalProjects = getSelectedProjects( [...new Set(motusData.selectedAnimals.map( x => x.project ))] );
+			motusData.selectedStationProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.project ))] );
+			motusData.selectedProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.project ).concat(motusData.selectedAnimals.map( x => x.project )))] );
 
-			motusData.selectedAnimalRegions = getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedAnimals.map( x => x.country ))] });
-			motusData.selectedStationRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
-			motusData.selectedRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ).concat(motusData.selectedAnimals.map( x => x.country )))] });
+	//		motusData.selectedAnimalRegions = getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedAnimals.map( x => x.country ))] });
+	//		motusData.selectedStationRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
+	//		motusData.selectedRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ).concat(motusData.selectedAnimals.map( x => x.country )))] });
 
 			// Species don't have a sensible concept of 'local' and 'visiting' animals
 			// But we still need to create the variables for the scripts to work.
@@ -643,21 +654,22 @@ async function getSelections({
 			motusFilter.selectedAnimals = await motusData.selectedAnimals.map( x => x.id );
 
 			motusData.tracksByAnimal = await getAnimalRoutes( motusFilter.selectedAnimals );
+			motusData.tracksLong = (await getTracksLong( motusFilter.selectedAnimals )).filter( x => typeof x !== 'undefined' );
 			motusData.tracksLongByAnimal = await getSelectedTracksLongByAnimal( motusFilter.selectedAnimals );
-			motusData.selectedTracks = await getSelectedTracks( [...new Set(Object.values(motusData.tracksByAnimal).flat())] );
+		//	motusData.selectedTracks = await getSelectedTracks( [...new Set(Object.values(motusData.tracksByAnimal).flat())] );
 
-			motusData.selectedStations = await getSelectedStations( [...new Set(motusData.selectedTracks.map( x => x.route.split('.') ).flat())] );
+			motusData.selectedStations = await getSelectedStations( [...new Set(motusData.tracksLong.map(x => x.stations).flat())] );
 			motusData.selectedStationDeps = await getSelectedStationDeps();
 			motusFilter.selectedStations = await motusData.selectedStations.map( x => x.id );
 			motusFilter.selectedStationDeps = await motusData.selectedStationDeps.map( x => x.id );
 
-			motusData.selectedAnimalProjects = await getSelectedProjects( [...new Set(motusData.selectedAnimals.map( x => x.projID ))] );
-			motusData.selectedStationProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.projID ))] );
-			motusData.selectedProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.projID ).concat(motusData.selectedAnimals.map( x => x.projID )))] );
+			motusData.selectedAnimalProjects = await getSelectedProjects( [...new Set(motusData.selectedAnimals.map( x => x.project ))] );
+			motusData.selectedStationProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.project ))] );
+			motusData.selectedProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.project ).concat(motusData.selectedAnimals.map( x => x.project )))] );
 
-			motusData.selectedAnimalRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedAnimals.map( x => x.country ))] });
-			motusData.selectedStationRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
-			motusData.selectedRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ).concat(motusData.selectedAnimals.map( x => x.country )))] });
+	//		motusData.selectedAnimalRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedAnimals.map( x => x.country ))] });
+//			motusData.selectedStationRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
+	//		motusData.selectedRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ).concat(motusData.selectedAnimals.map( x => x.country )))] });
 
 			// Like species, animals don't have a sensible concept of 'local' and 'visiting' animals
 			// But we still need to create the variables for the scripts to work.
@@ -675,13 +687,24 @@ async function getSelections({
 
 		}
 
+		motusData.tracksByStationDepartures = d3.group(motusData.tracksLong, x => x.station1);
+		motusData.tracksByStationArrivals = d3.group(motusData.tracksLong, x => x.station2);
 
+	//	getSelectedTrackData( motusData.selectedTracks, reload = true );
+		motusData.tracksIndexedByAnimal = d3.index(motusData.tracksLongByAnimal, x => x.id);
+
+		motusData.tracksByAnimal = d3.index(motusData.tracksLongByAnimal, x => x.id)
+		motusData.tracksByAnimal = d3.index(motusData.tracksLongByAnimal, x => x.id)
+	  motusData.animalsIndexed = d3.index( motusData.animals, x => x.id );
+	  motusData.speciesIndexed = d3.index( motusData.species, x => x.id );
 
 		if (typeof selectionNames === "undefined") {
 			motusData.selectionNames = Object.fromEntries( motusData["selected" + firstToUpper(dataType)].map( x => [x.id, x.name] ) );
 		} else {
 			motusData.selectionNames = selectionNames;
 		}
+
+		getDetectionsByTimeStep()
 //}
 
 	function getSelectedRegions(selections) {
@@ -873,7 +896,7 @@ async function getAnimalRoutes(animals) {
 			[ animals ];
 
 	if (indexedDB) {
-		return motusData.db.tracksByAnimal.bulkGet(animals).then( d => {
+		return motusData.db.tracksByAnimal.bulkGet(animals);/*.then( d => {
 
 			// Return animals which don't have tracks in the db
 			var animalsToSearch = animals.filter( (a,i) => !d[i] );
@@ -882,6 +905,7 @@ async function getAnimalRoutes(animals) {
 				// Create a new empty array that will later be added to the db
 				var newTracksByAnimal = [];
 				//
+
 				motusData.tracks.forEach( t => {
 
 					t.animal.filter( a => animalsToSearch.includes(a) ).forEach( a => {
@@ -904,17 +928,19 @@ async function getAnimalRoutes(animals) {
 
 
 				// Update the local database with the new tracks
-				motusData.db.tracksByAnimal.bulkPut(newTracksByAnimal).then(()=>{logMessage(`Added ${newTracksByAnimal.length} rows to 'tracksByAnimal' table.`);})
+			//	motusData.db.tracksByAnimal.bulkPut(newTracksByAnimal).then(()=>{logMessage(`Added ${newTracksByAnimal.length} rows to 'tracksByAnimal' table.`);})
 
 
+				console.log("TEST: %o", d)
 				// Combine the new tracks with the ones taken from the database.
 				d = d.filter( x => typeof x !== 'undefined' ).concat(newTracksByAnimal);
 
 
 			}
+			console.log("TEST: %o", d)
 			return Object.fromEntries( d.map( x => Object.values(x) ) );
 
-		});
+		});*/
 	} else {
 		return undefined;
 	}
@@ -930,12 +956,12 @@ async function getSelectedTracksLongByAnimal( animals ) {
 			return await motusData.db.tracksLongByAnimal.toArray();
 		}
 	} else {
-
+		// Get it from the canned supply
 	}
 
 }
 
-function getSelectedTracks(routes) {
+function getSelectedTracks( routes ) {
 	if (indexedDB) {
 		return motusData.db.tracks.bulkGet( routes );
 	} else {
@@ -944,6 +970,53 @@ function getSelectedTracks(routes) {
 
 }
 
+function getTracksLong( animals ) {
+	if (indexedDB) {
+		return motusData.db.tracksByAnimal.bulkGet( animals );
+	} else {
+		return undefined;
+	}
+
+}
+
+function getDetectionsByTimeStep() {
+	// Local animals first
+	motusFilter.localAnimals.forEach( animalID => {
+
+		let tracks = motusData.tracksIndexedByAnimal.get( animalID );
+
+		if (typeof tracks !== 'undefined') {
+			tracks.ts.forEach( (ts, i) => {
+				if (dataType != 'stations' || motusFilter.selectedStations.includes( tracks.stations[i] ) ) {
+					motusData.animalsByDayOfYear[moment(ts * 1000).dayOfYear()].local.push( animalID );
+					motusData.animalsByHourOfDay[moment(ts * 1000).format("H")].local.push( animalID );
+				} else {
+					motusData.animalsByDayOfYear[moment(ts * 1000).dayOfYear()].remote.push( animalID );
+					motusData.animalsByHourOfDay[moment(ts * 1000).format("H")].remote.push( animalID );
+				}
+			});
+		}
+
+	});
+
+	motusFilter.visitingAnimals.forEach( animalID => {
+
+		let tracks = motusData.tracksIndexedByAnimal.get( animalID );
+		if (typeof tracks !== 'undefined') {
+			tracks.ts.forEach( (ts, i) => {
+				if (dataType != 'stations' || motusFilter.selectedStations.includes( tracks.stations[i] ) ) {
+					motusData.animalsByDayOfYear[moment(ts * 1000).dayOfYear()].visiting.push( animalID );
+					motusData.animalsByHourOfDay[moment(ts * 1000).format("H")].visiting.push( animalID );
+				}
+			});
+		}
+
+	});
+
+	motusData.allTimes =  motusData.tracksLongByAnimal.map( x => x.ts).flat();
+}
+
+
 function getSelectedTrackData(selectedTracks, reload = false) {
 
 	if (reload || typeof motusData.selectedTracks === 'undefined' || Object.values(motusData.selectedTracks).length == 0) {
@@ -951,6 +1024,8 @@ function getSelectedTrackData(selectedTracks, reload = false) {
 		motusData.selectedTracks = {};
 
 		logMessage(`Processing ${selectedTracks.length} tracks...`)
+
+		console.log(selectedTracks);
 
 		selectedTracks.forEach(function(v) {
 
@@ -994,7 +1069,7 @@ function getSelectedTrackData(selectedTracks, reload = false) {
 			}
 
 			if (selectedRecv1 || selectedRecv2) {
-
+/*
 				if (!motusData.tracksByStation[v.recv1]) {
 					motusData.tracksByStation[v.recv1] = [v.route];
 				} else {
@@ -1005,7 +1080,7 @@ function getSelectedTrackData(selectedTracks, reload = false) {
 				} else {
 					motusData.tracksByStation[v.recv2].push(v.route);
 				}
-
+*/
 				motusData.nTracks += animals.length;
 
 			}
@@ -1086,7 +1161,7 @@ function getSelectedTrackData(selectedTracks, reload = false) {
 				recv1: v.recv1,
 				recv2: v.recv2,
 				project: project,
-				projID: project,
+				project: project,
 				route: v.route,
 				dtStart: new Date(d3.min(allTimes)),
 				dtEnd: new Date(d3.max(allTimes)),
@@ -1104,6 +1179,79 @@ function getSelectedTrackData(selectedTracks, reload = false) {
 	}
 }
 
+function getAnimalsTableData( reload = false ) {
+
+	if (reload || typeof motusData.animalsTableData === 'undefined' || motusData.animalsTableData.length == 0) {
+
+		var color_dataType = 'regions' == dataType ? 'country' : 'project';
+
+		motusData.animalsTableData = motusData.selectedAnimals.filter( d => !isNaN(d.dtStart.valueOf()) ).map(d => {
+			var speciesMeta = motusData.species.filter( x => x.id == d.species);
+			var tracks = motusData.tracksByAnimal.get(d.id);
+					tracks = typeof tracks !== 'undefined' ? tracks : Object.fromEntries(Object.entries(motusData.tracksLongByAnimal[0]).map(x => [x[0],typeof x[1] === 'object' ? [] : ""]));
+//			console.log(tracks);
+			return {
+				id: d.id,
+				species: d.species,
+				sort: speciesMeta.length>0?speciesMeta[0].sort:9999,
+				name: speciesMeta.length>0?speciesMeta[0].english:"Undefined",
+				dtStart: d.dtStart.toISOString().substr(0,10),
+				dtEnd: ((new Date() - d.dtEnd)/(24 * 60 * 60 * 1000) < 1 ? "Active" : "Ended on:<br/>" + d.dtEnd.toISOString().substr(0,10)),
+				frequency: d.frequency,
+				country: d.country,
+				countryName: typeof motusData.regionByCode.get(d.country) !== 'undefined' ? motusData.regionByCode.get(d.country)[0].country : 'Not defined',
+				nStations: [...new Set( tracks.stations )].length,
+				nDays: [...new Set( tracks.ts.map( x => new Date(x).toISOString().substr(0,10) ) )].length,
+				project: d.project,
+				projectName: typeof motusData.projects.filter(x => x.id == d.project)[0] !== 'undefined' ? motusData.projects.filter(x => x.id == d.project)[0].name : 'Not defined',
+				colourName: d[color_dataType],
+				colourCode: motusMap.colourScale(d[color_dataType]),
+			}
+		});
+	}
+}
+function getSpeciesTableData( reload = false ) {
+
+	if (reload || typeof motusData.animalsTableData === 'undefined' || motusData.animalsTableData.length == 0) {
+		getAnimalsTableData();
+	}
+
+	if (reload || typeof motusData.speciesTableData === 'undefined' || motusData.speciesTableData.length == 0) {
+
+		var color_dataType = 'regions' == dataType ? 'country' : 'project';
+
+		motusData.speciesTableData = Array.from(
+										d3.rollup(
+											motusData.animalsTableData,
+											(v) => {
+												var speciesMeta = motusData.species.filter( x => x.id == v[0].species)[0];
+												var stations = (motusData.tracksBySpecies[v[0].species]?Array.from(motusData.tracksBySpecies[v[0].species].map(x=>x.split('.')).values()).flat().filter(onlyUnique):[]);
+												var project = v.reduce( function(a, c) { a.push( c.project ); return a; }, [ ]).filter(onlyUnique);
+												return {
+													id: ( Array.from( v.map( d => d.id ).values() ) ).join(','),
+													species: v[0].species,
+													name: v[0].name,
+													dtStart: d3.min(v, d => d.dtStart),
+													dtEnd: d3.max(v, d => d.dtEnd),
+													nAnimals: v.length,
+													animals: Array.from( v.map( d => d.id ).values() ),
+													stations: stations,
+													nStations: stations.length,
+													country: v.reduce( function(a, c) { a.push( c.country ); return a; }, [ ]).filter(onlyUnique),
+													project: project,
+													colourName: ['project', 'country'].includes(color_dataType) ? v.reduce( function(a, c) { a.push( c[color_dataType + "Name"] ); return a; }, [ ]).filter(onlyUnique) : v.reduce( function(a, c) { a.push( c[color_dataType] ); return a; }, [ ]).filter(onlyUnique),
+													colourCode: v.reduce( function(a, c) { a.push( motusMap.colourScale( c[color_dataType] ) ); return a; }, [ ]).filter(onlyUnique),
+													sort: speciesMeta?speciesMeta.sort:999999,
+													group: speciesMeta?speciesMeta.group:"Unknown"
+												}
+											},
+											d => d.name
+										).values()
+									);
+	}
+}
+
+
 
 // Get all or some of the station data
 async function getStationData( stationID ) {
@@ -1118,7 +1266,7 @@ async function getStationData( stationID ) {
 			console.warn("Dexie is not enabled");
 
 			if (typeof motusData.stations === 'undefined' || motusData.stations.length == 0) {
-				await downloadMotusData_v2( "stations" );
+				await downloadMotusData( "stations" );
 			}
 
 			return motusData.stations.filter( x => x.id == stationID );
@@ -1133,7 +1281,7 @@ async function getStationData( stationID ) {
 			console.warn("Dexie is not enabled");
 
 			if (typeof motusData.stations === 'undefined' || motusData.stations.length == 0) {
-				await downloadMotusData_v2( "stations" );
+				await downloadMotusData( "stations" );
 			}
 
 			return motusData.stations.filter( x => stationID.includes( x.id ) );
@@ -1148,7 +1296,7 @@ async function getStationData( stationID ) {
 			console.warn("Dexie is not enabled");
 
 			if (typeof motusData.stations === 'undefined' || motusData.stations.length == 0) {
-				await downloadMotusData_v2( "stations" );
+				await downloadMotusData( "stations" );
 			}
 
 			return motusData.stations;
@@ -1157,14 +1305,11 @@ async function getStationData( stationID ) {
 	}
 
 }
-async function downloadMotusData_v2( tableName ) {
+async function downloadMotusData( tableName ) {
 
-	logMessage(`Downloading ${tableName} data...`);
-
-	var downloadedData = await motusDataTables[tableName].promise( motusDataTables[tableName].file );
-
+	logMessage(`Downloading ${tableName} data locally...`);
+	var downloadedData = await indexedDBTables[tableName].promise( indexedDBTables[tableName].file );
 	logMessage("Processing data...");
-
 	return processRawData( downloadedData, tableName );
 
 }
@@ -1172,9 +1317,9 @@ async function downloadMotusData_v2( tableName ) {
 function processRawData( data, tableName ) {
 
 	if (tableName == 'stations') {
-		data.forEach(function(x) {
-				x.project = x.projID.split(';')[0];
-				x.projID = x.projID.split(';')[0];
+		data.forEach(function(x,k,arr) {
+				x.project = x.project.split(',')[0];
+				//x.project = x.projectID.split(',')[0];
 				x.animals = x.animals.split(";");
 				x.localAnimals = x.localAnimals.split(";");
 				x.species = x.species.split(";");
@@ -1188,10 +1333,14 @@ function processRawData( data, tableName ) {
 
 				x.dtStart = new Date(x.dtStart);
 				x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
-
+				x.statProv = "NA";
+				x.group = "0";
+				x.stationID = "0";
 				x.lastData = Math.ceil((new Date() - x.dtEnd) / (24 * 60 * 60 * 1000)); // Days ago
 
 				x.status = x.status == 'active' || x.lastData < 1 ? 'active' : 'inactive';
+				delete x.lat;
+				delete x.lon;
 		});
 	} else if (tableName == 'stationDeps') {
 		data = data.filter(d => (!isNaN(+d.lat) && !isNaN(+d.lon) && d.frequency != 'NA'));
@@ -1202,10 +1351,15 @@ function processRawData( data, tableName ) {
 				type: "Point",
 				coordinates: [+x.lon, +x.lat]
 			};
+			renameObjectKey(x, "project", "project");
+			renameObjectKey(x, "station", "stationID");
+			x.animals = x.animals.split(";");
+			x.localAnimals = x.localAnimals.split(";");
+			x.species = x.species.split(";");
 
 			x.dtStart = new Date(x.dtStart);
 			x.frequency = x.frequency == "NA" ? "none" : x.frequency;
-			x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
+			x.dtEnd = x.dtEnd == "NA" ? null : new Date(x.dtEnd);
 
 			x.lastData = Math.ceil((new Date() - x.dtEnd) / (24 * 60 * 60 * 1000)); // Days ago
 
@@ -1229,7 +1383,7 @@ function processRawData( data, tableName ) {
 		data.forEach(function(x){
 			x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
 
-			var colourVal = dataType == 'projects' ? x.projID : dataType == 'regions' ? x.country : dataType == 'stations' ? "other" : dataType == 'species' ? x.species : x.animal;
+			var colourVal = dataType == 'projects' ? x.project : dataType == 'regions' ? x.country : dataType == 'stations' ? "other" : dataType == 'species' ? x.species : x.animal;
 
 			x.dtStart = new Date(x.dtStart);
 			x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
@@ -1239,7 +1393,7 @@ function processRawData( data, tableName ) {
 			x.colourVal = colourVal;
 			x.type = "Feature";
 
-			x.project = x.projID;
+			x.project = x.project;
 			x.projects = x.projects.split(";");
 			x.stations = x.stations.split(";");
 		});
@@ -1296,6 +1450,53 @@ function processRawData( data, tableName ) {
 				}),
 				d => d.animal
 			).values() );
+	} else if (tableName == "antennas") {
+
+		data = {type: "FeatureCollection", features: data.map(function(d){
+
+        var station = motusData.stationDeps.filter( v => v.id == d.recvDeployID );
+
+        if (station.length != 0 && station[0].lat && station[0].lon && +station[0].lat != 0 && +station[0].lon != 0 ) {
+
+          var coordinates = getAntennaShape({lat: +station[0].lat, lon: +station[0].lon, antennaType: d.antennaType, bearing: d.bearing});
+
+          // If it's a polygon, close the path
+          if (coordinates.length > 1) {coordinates.push(coordinates[coordinates.length - 1])}
+
+        }  else {
+
+          var coordinates = [];
+
+        }
+        return {
+          id: d.recvDeployID,
+          type: "Feature",
+          properties: {
+						stationID: station.length == 0 ? 0 : station[0].station,
+						species: station.length == 0 ? [] : station[0].species,
+						frequency: station.length == 0 ? 0 : station[0].frequency,
+						project: station.length == 0 ? 0 : station[0].project,
+						species: station.length == 0 ? [] : station[0].species,
+						continent: station.length == 0 ? "NA" : station[0].continent,
+						country: station.length == 0 ? "NA" : station[0].country,
+            type: d.antennaType,
+            bearing: d.bearing,
+            port: d.port,
+            height: d.heightMeters,
+            dongle: d.dongle_type,
+            freq: d.frequency,
+            status: d.deploymentStatus,
+						dtStart: station.length == 0 ? new Date() : station[0].dtStart,
+						dtEnd:  station.length == 0 ? new Date() : station[0].dtEnd
+          },
+          geometry: {
+            type: coordinates.length == 1 ? "Point" : "Polygon",
+            coordinates: coordinates.length == 1 ? coordinates[0] : [coordinates]
+          }
+        };
+
+      }).filter( d => d.geometry.coordinates.length > 0)
+    };
 	}
 
 	console.log(`Done processing ${tableName} data...`);
@@ -1310,290 +1511,4 @@ async function checkDataUsage() {
 	return navigator.storage.estimate().then((space)=>{
 		return space.usage / Math.pow(2, 20); // MB
 	});
-}
-
-
-function downloadCSV(fileList) {
-
-
-	var currentDate = new Date();
-
-
-	if (fileList.includes("animals")) {
-		motusData.animals.forEach(function(x){
-			x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
-
-			var colourVal = dataType == 'projects' ? x.projID : dataType == 'regions' ? x.country : dataType == 'stations' ? "other" : dataType == 'species' ? x.species : x.animal;
-
-			x.dtStart = new Date(x.dtStart);
-			x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
-
-			x.status = new Date() - new Date(x.dtEnd) > (2 * 24 * 60 * 60 * 1000) ? 'inactive' : 'active';
-			x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
-			x.colourVal = colourVal;
-			x.type = "Feature";
-
-			x.project = x.projID;
-			x.projects = x.projects.split(";");
-			x.stations = x.stations.split(";");
-
-		});
-
-	}
-	if (fileList.includes("projects")) {
-		motusData.projects.forEach(function(x) {
-			x.fee_id = projectGroupNames[x.fee_id==""||x.fee_id=="NA"||!x.fee_id?1:x.fee_id];
-			x.name = x.name;
-			x.stations = x.stations.split(";");
-			x.animals = x.animals.split(";");
-			x.species = x.species.split(";");
-		});
-	}
-
-	if (fileList.includes("stationDeps")) {
-
-		motusData.stationDeps = motusData.stationDeps.filter(d => (!isNaN(+d.lat) && !isNaN(+d.lon) && d.frequency != 'NA'));
-
-		motusData.stationDeps.forEach(function(x) {
-
-		//	x.dtEnd = x.tsEnd.length == 0 ? moment().toISOString().substr(0, 10) : moment(+x.tsEnd * 1000).toISOString().substr(0, 10);
-
-			x.type = "Feature";
-			x.geometry = {
-				type: "Point",
-				coordinates: [+x.lon, +x.lat]
-			};
-
-			x.dtStart = new Date(x.dtStart);
-			x.frequency = x.frequency == "NA" ? "none" : x.frequency;
-			x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
-
-			x.lastData = Math.ceil((currentDate - x.dtEnd) / (24 * 60 * 60 * 1000)); // Days ago
-
-			x.status = x.status == 'active' || x.lastData < 1 ? 'active' : 'inactive';
-		} );
-
-		motusData.stationDepsByName = d3.group(motusData.stationDeps, x => x.name);
-	}
-	if (fileList.includes("stations")) {
-		motusData.stations.forEach(function(x) {
-				x.project = x.projID.split(';')[0];
-				x.projID = x.projID.split(';')[0];
-				x.animals = x.animals.split(";");
-				x.localAnimals = x.localAnimals.split(";");
-				x.species = x.species.split(";");
-				x.stationDeps = x.stationDeps.split(";");
-				x.type = "Feature";
-				x.frequency = x.frequency == "NA" || x.frequency == ""? "none" : x.frequency.includes(',')  && x.frequency.includes('434')? "dual" : x.frequency;
-				x.geometry = {
-					type: "Point",
-					coordinates: [+x.lon, +x.lat]
-				};
-
-				x.dtStart = new Date(x.dtStart);
-				x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
-
-				x.lastData = Math.ceil((currentDate - x.dtEnd) / (24 * 60 * 60 * 1000)); // Days ago
-
-				x.status = x.status == 'active' || x.lastData < 1 ? 'active' : 'inactive';
-		});
-	}
-
-	if (fileList.includes("regions")) {
-		filters.options.regions = {};
-		motusData.regions.forEach(function(x) {
-			if (x.both > 0) {filters.options.regions[x.ADM0_A3] = x.country;}
-			x.id = x.ADM0_A3;
-		});
-	}
-
-
-	if (fileList.includes("species")) {
-		motusData.species.forEach(function(x) {
-			x.animals = x.animals.split(";");
-			x.projects = x.projects.split(";");
-			x.stations = x.stations.split(";");
-			x.group = speciesGroupNames[x.group==""?1:x.group];
-			x.stationProjects = x.stationProjects.split(";");
-		});
-	}
-
-
-	if (fileList.includes("polygons")) {
-		motusData.polygons = motusData.polygons.features
-		motusData.polygons.forEach( x => {
-			x.id = x.properties.adm0_a3;
-		});
-	}
-
-
-	if (fileList.includes("tracks")) {
-		testTimer.push([new Date(), "Start tracksByAnimal"]);
-		motusData.tracksByAnimal = [];
-
-		motusData.tracks.forEach( (x, i) => {
-
-			x.animal = x.animal.split(',')
-			x.species = x.species.split(',')
-			x.dir = x.dir.split(',')
-			x.dtStartList = x.dtStart.split(',')
-			x.dtStart = d3.max( x.dtStartList );
-			x.dtEndList = x.dtEnd.split(',')
-			x.dtEnd = d3.max( x.dtEndList );
-			x.tsStart = x.tsStart.split(',')
-			x.tsEnd = x.tsEnd.split(',')
-			x.recvProjs = x.recvProjs.split(',')
-			x.project = x.project.split(',')
-			x.frequency = x.frequency.split(',')
-
-		});
-		// Group routes together into tracks
-		motusData.tracksByAnimal = d3.rollup(motusData.tracksByAnimal, v => ({id: v[0].id, route: v.map( x => x.route )}), k => k.id );
-
-		testTimer.push([new Date(), "End tracksByAnimal"]);
-	}
-	if (fileList.includes("tracksLongByAnimal")) {
-		motusData.tracksLongByAnimal = motusData.tracksLongByAnimal.filter( x => x.lat1 != 'NA' && x.lat != 0 );
-
-		motusData.tracksLongByAnimal = Array.from( d3.rollup(motusData.tracksLongByAnimal,
-			v => ({
-				id: v[0].animal,
-				tracks: v.map(x => ([+x.lon2, +x.lat2])),
-				tsStart: d3.min(v, x => +x.ts1),
-				ts: v.map(x => +x.ts2),
-				frequency:  v[0].frequency,
-				species:  v[0].species,
-				//stations:  v.map(x => [x.station1, x.station2]).flat(),
-				stations:  v.map(x => x.station2),
-				project:  v[0].project,
-				dist: v.map(x => +x.dist)
-			}),
-			d => d.animal
-		).values() );
-
-	}
-
-}
-
-// A list of all tables accessible from the API
-var API_TABLES = [
-	"antennaDeployments",
-	"gps",
-	"projects",
-	"receivers",
-	"species",
-	"stations",
-	"stationDeployments",
-	"stationTags",
-	"tags",
-	"tagDeployments"
-];
-
-async function requestDataAPI( req_table, req_id, req_page, req_count ) {
-
-	var req_prefix = "https://sandbox.motus.org/data/dashboard/";
-
-	var req_url = req_prefix + (req_count?"count/":"") + req_table + (req_id?"?deviceId=" + req_id:"") + (req_page?"&page=" + req_page:"");
-
-	var response = await d3.json(req_url);
-
-	processDataAPI(response, req_table, {deviceId: req_id, page: req_page} );
-
-}
-
-function processDataAPI(response, tableName, params = {}) {
-
-
-		if (tableName == "gps") {
-			console.log(response);
-			motusData[tableName][params.deviceId] = response
-		}
-		if (tableName == "animals") {
-
-			motusData.animals = motusData.animals.filter(d => d.tsStart.length > 0);
-
-			motusData.animals.forEach(function(x){
-
-				var colourVal = dataType == 'projects' ? x.projID : dataType == 'regions' ? 'other' : dataType == 'stations' ? "other" : dataType == 'species' ? x.species : x.animal;
-
-				x.dtStart = new Date(+x.tsStart * 1000).toISOString().substr(0, 10);
-				x.dtEnd = x.tsEnd.length == 0 ? new Date().toISOString().substr(0, 10) : new Date(+x.tsEnd * 1000).toISOString().substr(0, 10);
-				x.status = new Date() - new Date(x.dtEnd) > (2 * 24 * 60 * 60 * 1000) ? 'inactive' : 'active';
-				x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
-				x.colourVal = colourVal;
-				x.type = "Feature";
-
-				x.project = x.projID;
-
-			});
-
-		}
-
-		if (tableName == "projects") {
-			motusData.projects.forEach(function(x) {
-				x.fee_id = projectGroupNames[x.fee_id==""||!x.fee_id?1:x.fee_id];
-				x.name = x.name;
-				x.id = x.projectID;
-			});
-		}
-
-		if (tableName == "stationDeps") {
-			motusData.stationDeps = motusData.stationDeps.filter(d => (!isNaN(+d.lat) && !isNaN(+d.lon) && d.frequency != 'NA'));
-			motusData.stationDeps.forEach(function(x) {
-
-			//	x.dtEnd = x.tsEnd.length == 0 ? moment().toISOString().substr(0, 10) : moment(+x.tsEnd * 1000).toISOString().substr(0, 10);
-				x.dtEnd = x.dtEnd == "NA" ? moment().toISOString().substr(0, 10) : x.dtEnd;
-			});
-			motusData.stationDepsByName = d3.group(motusData.stationDeps, d => d.name);
-		}
-
-		if (tableName == "stations") {
-			motusData.stations.forEach(function(x) {
-					x.project = x.projID.split(';')[0];
-					x.projID = x.projID.split(';')[0];;
-			});
-		}
-
-		if (tableName == "species") {
-			motusData.species.forEach(function(x) {
-				x.id = x.speciesID;
-			});
-		}
-
-		if (tableName == "regions") {
-			filters.options.regions = {};
-			motusData.regions.forEach(function(x) {
-				if (x.both > 0) {filters.options.regions[x.ADM0_A3] = x.country;}
-				x.id = x.ADM0_A3;
-			});
-		}
-
-		if (tableName == "polygons") {
-			motusData.polygons = motusData.polygons.features
-		}
-
-		if (tableName == "tracks") {
-
-			motusData.tracksByAnimal = [];
-
-			motusData.tracks.forEach( (x, i) => {
-
-				x.animal = x.animal.split(',')
-				x.species = x.species.split(',')
-				x.dir = x.dir.split(',')
-				x.dtStart = x.dtStart.split(',')
-				x.dtEnd = x.dtEnd.split(',')
-				x.tsStart = x.tsStart.split(',')
-				x.tsEnd = x.tsEnd.split(',')
-
-				motusData.animals.filter( a => x.animal.includes( a.id ) ).forEach( a => {
-
-					motusData.tracksByAnimal.push({id: a.id, route: x.route});
-
-				});
-
-			});
-
-		}
-
 }

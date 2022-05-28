@@ -1,6 +1,6 @@
 # Motus Dashboard
 
-To be released 2021. An upgrade for Motus Explore Data tool.
+To be released June 2022. An upgrade for Motus Explore Data tool.
 
 ### **[DEMO](https://leberrigan.github.io/motusDashboard/explore.html)**
 ### **[REPORTS](https://leberrigan.github.io/motusDashboard/report.html#e=report&d=stations)**
@@ -12,6 +12,7 @@ To be released 2021. An upgrade for Motus Explore Data tool.
 ## Updates
 
 ### Latest
+* [x] [2022-05-28] Lots of new uplades - syncing with motus sandbox
 * [x] [2021-12-02] Introducing DeckGL: graphics library for mapping.
 * [x] [2021-11-23] Make selections using polygons
 * [x] [2021-11-23] Fix tables in report tool

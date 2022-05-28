@@ -154,6 +154,14 @@ body {
 	text-align: center;
 	width: 100%;
 	margin-top: 60px;
+	font-style:italic;
+}
+.loader > .loader-text-title {
+	position: absolute;
+	top: calc(50% - 80px);
+	font-size: 12pt;
+	text-align: center;
+	width: 100%;
 }
 .loader > .loader-animation {
   border: 8px solid var(--theme-background-colour-pale2); /* Light grey */
@@ -640,6 +648,10 @@ iframe#pdf_output {
 
 .header .header-menu > div:not(.selected) {
 	cursor:not-allowed;
+}
+.header .header-menu > div:not(.selected) > a {
+	text-decoration: inherit;
+	color: inherit;
 }
 .header .header-menu > div.selected,
 .header .header-menu > div:hover {

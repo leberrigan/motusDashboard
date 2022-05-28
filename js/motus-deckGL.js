@@ -23,7 +23,7 @@ function getProfileMapLayers(load, layer) {
 				.sort((a, b) => d3.ascending(a.id, b.id))
 				.map(x => {
 					let station = motusData.stations.filter( d => d.stationDeps.includes(x.id) );
-					let animals = x.animals.split(";").filter( d => d != "NA" );
+					let animals = x.animals.filter( d => d != "NA" );
 					return {
 						...x,
 						...{
@@ -31,8 +31,8 @@ function getProfileMapLayers(load, layer) {
 							dtEnd: +x.dtEnd/1000,
 							animals: animals,
 							nAnimals: animals.length,
-							species: x.species.split(";"),
-							nSpecies: x.species.split(";").length,
+							species: x.species,
+							nSpecies: x.species.length,
 							stationID: station.length > 0 ? station[0].id : x.id,
 							frequency: x.frequency.split(",")
 						}
@@ -74,7 +74,7 @@ function getProfileMapLayers(load, layer) {
 									(motusFilter.species[0] == 'all' || motusFilter.species.includes( d.species )) &&
 									(dataType == 'regions' || motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d[motusFilter.regionType])) &&
 									(motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.some( x => d.frequency.includes( x ) )) &&
-									(motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.projID))
+									(motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.project))
 								) ||
 								( motusMap.trackView &&	motusFilter.animals.includes( d.id ) )
 							)
@@ -145,7 +145,7 @@ function getProfileMapLayers(load, layer) {
 				autoHighlight:true,
 				onClick: ({object}, e) => motusMap.dataClick(e.srcEvent, object, 'track'),
 				onHover: ({object, picked}, e) => motusMap.dataHover(e.srcEvent, object, picked?'in':'out', 'track'),
-				getLineWidth: Object.keys(motusData.selectedTracks).length < 100 ? 3000 : 2000,
+				getLineWidth: Object.keys(motusData.tracksLongByAnimal.map(x => x.tracks).flat()).length < 100 ? 3000 : 2000,
 				highlightColor: [255,0,0],
 				lineWidthMinPixels: 2,
 				lineWidthMaxPixels: 10,
@@ -163,7 +163,14 @@ function getProfileMapLayers(load, layer) {
 		}
 
 }
-
+// Placeholder
+function getReportMapLayers(load, layer) {
+	if (dataType == 'animals') {
+		getProfileMapLayers(load, layer);
+	}	else {
+		getExploreMapLayers(load, layer);
+	}
+}
 
 function getExploreMapLayers(load, layer) {
 		//	STATIONS
@@ -177,10 +184,10 @@ function getExploreMapLayers(load, layer) {
 						...{
 							dtStart: +x.dtStart/1000,
 							dtEnd: +x.dtEnd/1000,
-							animals: x.animals.split(";"),
-							nAnimals: x.animals.split(";").length,
-							species: x.species.split(";"),
-							nSpecies: x.species.split(";").length,
+							animals: x.animals,
+							nAnimals: x.animals.length,
+							species: x.species,
+							nSpecies: x.species.length,
 							stationID: station.length > 0 ? station[0].id : x.id,
 							frequency: x.frequency.split(",")
 						}
@@ -198,10 +205,14 @@ function getExploreMapLayers(load, layer) {
 			iconMapping: STATION_ICON_MAPPING,
 			getIconSize: d => 20000,
   			getIcon: d =>  Object.keys(motusMap.selections).includes(d.stationID) ? "selectedInactiveStation" :
-                      d.frequency.length > 1 ? "dual" :
-											d.frequency[0] == "166.38" ? "Lotek_Americas" :
-											d.frequency[0] == "150.1" ? "Lotek_Europe_Africa" :
-											d.frequency[0] == "151.5" ? "Lotek_Australia_Asia" : "CTT_Global",
+                      (
+	                      ( d.frequency.length > 1 ? "dual_" : ( d.frequency[0] == "434.00" ? "CTT_Global" : "Lotek_" )  ) +
+												(
+													d.frequency.includes("166.38") ? "Americas" :
+													d.frequency.includes("150.10") ? "Europe_Africa" :
+													d.frequency.includes("151.50") ? "Australia_Asia" : ""
+												)
+											),
 			iconSizeScale: 1,
 			iconSizeUnits: "meters",
 			iconSizeMinPixels: 12,
@@ -215,12 +226,12 @@ function getExploreMapLayers(load, layer) {
 	  	getFilterValue: d => {
 				return [
 					+d.dtStart <= timeline.position[1] &&
-					+d.dtEnd >= timeline.position[0] &&
+					+(d.dtEnd >= timeline.position[0] || d.dtEnd === 0) &&
 					+(motusFilter.species[0] == 'all' || motusFilter.species.some( x => d.species.includes(x) )) &&
 					+(motusFilter.stations[0] == 'all' || motusFilter.stations.includes(d.stationID)) &&
 					+(motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d[motusFilter.regionType])) &&
 					+(motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.some( x => d.frequency.includes( x ) )) &&
-					+(motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.projID))
+					+(motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.project))
 				]},
 			filterRange: [1,1],
 			extensions: [new deck.DataFilterExtension({filterSize: 1})],
@@ -309,7 +320,7 @@ function getExploreMapLayers(load, layer) {
 						+(motusFilter.stations[0] == 'all' || motusFilter.stations.includes(d.stationID)) &&
 						+(motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d[motusFilter.regionType])) &&
 						+(motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.some( x => d.frequency.includes( x ) )) &&
-						+(motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.projID))
+						+(motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.project))
 					]},
 				filterRange: [1,1],
 				extensions: [new deck.DataFilterExtension({filterSize: 1})],*/
@@ -326,6 +337,85 @@ function getExploreMapLayers(load, layer) {
 			});
 
 		}
+
+    if ( layer == "antennaRanges" ) {
+  		deckGlLayers.antennaRanges = new deck.GeoJsonLayer({
+  			id: 'deckGL_antennaRanges',
+  			data: {type:"FeatureCollection",features: motusData.antennas.features},
+  			filled: true,
+  			getLineWidth: 1,
+  			lineWidthUnits: 'pixels',
+  			getFillColor: d => hexToRgb( motusMap.antennaColourScale( d.properties.type ) ),
+  			getFilterValue: d => {
+  				return [
+  					+d.properties.dtStart <= +motusFilter.dtEnd &&
+  					+d.properties.dtEnd >= +motusFilter.dtStart &&
+  					+(motusFilter.species[0] == 'all' || motusFilter.species.some( x => d.properties.species.includes(x) )) &&
+  					+(motusFilter.stations[0] == 'all' || motusFilter.stations.includes(d.properties.stationID)) &&
+  					+(motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d.properties[motusFilter.regionType])) &&
+  					+(motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.some( x => d.properties.frequency.includes( x ) )) &&
+  					+(motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.properties.project))
+  				]},
+  			filterRange: [1,1],
+  			extensions: [new deck.DataFilterExtension({filterSize: 1})],
+  			pickable: true,
+  			onClick: ({object}, e) => motusMap.dataClick(e.srcEvent, object, 'antenna'),
+  			onHover: ({object, picked}, e) => motusMap.dataHover(e.srcEvent, object, picked?'in':'out', 'antenna'),
+  			opacity: dataType == "antennas" ? 0.7 : 0.3,
+  			autoHighlight: true,
+  			highlightColor: [255,0,0],
+  		  updateTriggers: {
+  		    // This tells deck.gl to recalculate radius when `currentYear` changes
+  		    getFilterValue: [timeline.position, motusFilter.frequencies, motusFilter.species, motusFilter.projects, motusFilter.stations, motusFilter.regions]
+  		  }
+  		});
+    }
+
+    if ( layer == "coordinationRegions" ) {
+  		deckGlLayers.coordinationRegions = new deck.GeoJsonLayer({
+  			id: 'deckGL_coordinationRegions',
+  			data: {type:"FeatureCollection",features: motusData.coordinationRegions.features},
+  			filled: true,
+  			getLineWidth: 1,
+  			lineWidthUnits: 'pixels',
+  			getFillColor: d => hexToRgb( motusMap.regionalColourScale( d.id ) ),
+  			pickable: true,
+  			onClick: ({object}, e) => motusMap.dataClick(e.srcEvent, object, 'coordination-region'),
+  			onHover: ({object, picked}, e) => motusMap.dataHover(e.srcEvent, object, picked?'in':'out', 'coordination-region'),
+  			opacity: 0.7,
+  			autoHighlight: true,
+  			highlightColor: [255,0,0]
+  		});
+    }
+
+    if ( layer == "prospectiveStations" ) {
+  		deckGlLayers.prospectiveStations = new deck.GeoJsonLayer({
+  			id: 'deckGL_prospectiveStations',
+  			data: {type:"FeatureCollection",features: motusData.prospectiveStations.features},
+  			filled: true,
+  			getLineWidth: d => d.geometry.type == 'Point' ? 10 : 1,
+  			lineWidthUnits: 'pixels',
+//  			getFillColor: d => hexToRgb( motusMap.regionalColourScale	( d.id ) ),
+  			pickable: true,
+  			onClick: ({object}, e) => motusMap.dataClick(e.srcEvent, object, 'prospective-station'),
+  			onHover: ({object, picked}, e) => motusMap.dataHover(e.srcEvent, object, picked?'in':'out', 'prospective-station'),
+  			autoHighlight: true,
+  			highlightColor: [255,0,0]
+  		});
+    }
+}
+
+function getEditorMapLayers( layer ) {
+	if (!layer) {
+		if (typeof motusData.prospectiveStations !== 'undefined')
+    	getExploreMapLayers(false, "prospectiveStations")
+		if (typeof motusData.coordinationRegions !== 'undefined')
+    	getExploreMapLayers(false, "coordinationRegions")
+		if (typeof motusData.antennas !== 'undefined')
+    	getExploreMapLayers(false, "antennaRanges")
+
+  	getExploreMapLayers(false, "stations")
+	}
 }
 
 var ANIMATION_LENGTH = 10; // Seconds
@@ -344,6 +434,8 @@ function deckGL_map() {
 
 	if (exploreType == 'main')
 		getExploreMapLayers(true);
+	else if (exploreType == 'report')
+		getReportMapLayers(true);
 	else
 		getProfileMapLayers(true);
 
@@ -354,7 +446,7 @@ function deckGL_map() {
 	      repeat: false
 	    })
 	  ],
-	  layers: exploreType == 'main' ? (dataType == "animals" ? [
+	  layers: exploreType == 'main' || exploreType == 'report' ? (dataType == "animals" ? [
       deckGlLayers.stations,
 			 deckGlLayers.tracks
 	  ] : dataType == "stations" ? [
@@ -467,9 +559,9 @@ function animateTrackStep(currentTime, start) {
 	} else {
 
 		if (exploreType == 'main') {
-    //  if (dataType != 'animals') {
-  			getExploreMapLayers(false, 'stations');
-    //  }
+			getExploreMapLayers(false, 'stations');
+	} else if (exploreType == 'report') {
+			getReportMapLayers(false, 'stations');
 		} else {
 			getProfileMapLayers(false, 'stations');
 //			getProfileMapLayers(false, 'animals');
@@ -515,7 +607,7 @@ function animateTrackStep(currentTime, start) {
 
 		motusMap.deckLayer.setProps({
 			layers:
-				exploreType == 'main' ?(dataType == "animals" ? [
+				exploreType == 'main' || exploreType == 'report' ?(dataType == "animals" ? [
     	    deckGlLayers.stations,
     			 deckGlLayers.tracksAnim
     	  ] : dataType == "stations" ? [
@@ -544,31 +636,42 @@ function animateTrackStep(currentTime, start) {
 // See: https://github.com/visgl/deck.gl/issues/4943#issuecomment-694129024
 
 function deckGL_renderMap(reloadData = true) {
+	
+	if ($("#explore_card_map,#explore_map").is(":visible")) {
 
-	if (reloadData) {
-		if (exploreType == 'main')
-			getExploreMapLayers(false);
-		else
-			getProfileMapLayers();
+		logMessage("Rendering map...");
+
+		if (reloadData) {
+			if (exploreType == 'main' && motusEditor.editMode)
+				getEditorMapLayers(false);
+			if (exploreType == 'main')
+				getExploreMapLayers(false);
+			else if (exploreType == 'report')
+				getReportMapLayers(false);
+			else
+				getProfileMapLayers();
+		}
+	  motusMap.deckLayer.setProps({
+		  layers: exploreType == 'main' || exploreType == 'report' ? (dataType == "animals" ? [
+	      deckGlLayers.stations,
+				 deckGlLayers.tracks
+		  ] : dataType == "stations" ? (
+				motusEditor.editMode ? getEditorDeckglLayers() : [
+					deckGlLayers.stations
+				]
+			) : dataType == "regions" ? [
+				deckGlLayers.regions
+			] : [
+				deckGlLayers.stations
+			]) : [
+				deckGlLayers.selectedAnimals
+				, deckGlLayers.selectedStations
+				, deckGlLayers.stations
+				, deckGlLayers.tracks
+		  ]
+	  });
+
 	}
-
-  motusMap.deckLayer.setProps({
-	  layers: exploreType == 'main' ? (dataType == "animals" ? [
-      deckGlLayers.stations,
-			 deckGlLayers.tracks
-	  ] : dataType == "stations" ? [
-			deckGlLayers.stations
-		] : dataType == "regions" ? [
-			deckGlLayers.regions
-		] : [
-			deckGlLayers.stations
-		]) : [
-			deckGlLayers.selectedAnimals
-			, deckGlLayers.selectedStations
-			, deckGlLayers.stations
-			, deckGlLayers.tracks
-	  ]
-  });
 
 }
 
@@ -596,12 +699,12 @@ function getStationsLayer() {
         +(
         //	!motusMap.trackView &&
           d.dtStart <= timeline.position[1] &&
-          d.dtEnd >= timeline.position[0] &&
+					(d.dtEnd >= timeline.position[0] || d.dtEnd === 0) &&
           (motusFilter.species[0] == 'all' || motusFilter.species.some( x => d.species.includes(x) )) &&
           (motusFilter.stations[0] == 'all' || motusFilter.stations.includes(d.stationID) || dataType == 'stations') &&
           (dataType == 'regions' || motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d[motusFilter.regionType])) &&
           (motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.some( x => d.frequency.includes( x ) )) &&
-          (motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.projID))
+          (motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.project))
         )
       ]},
     filterRange: [1,1],
@@ -656,12 +759,12 @@ function getOtherStationsLayer() {
           (
             !motusMap.trackView &&
             d.dtStart <= timeline.position[1] &&
-            d.dtEnd >= timeline.position[0] &&
+						(d.dtEnd >= timeline.position[0] || d.dtEnd === 0) &&
             (motusFilter.species[0] == 'all' || motusFilter.species.some( x => d.species.includes(x) )) &&
             (motusFilter.stations[0] == 'all' || motusFilter.stations.includes(d.stationID) || dataType == 'stations') &&
             (dataType == 'regions' || motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d[motusFilter.regionType])) &&
             (motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.some( x => d.frequency.includes( x ) )) &&
-            (motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.projID))
+            (motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.project))
           ) ||
           ( motusMap.trackView &&	d.animals.includes(motusFilter.animals[0]) )
         )
@@ -717,12 +820,12 @@ function getSelectedStationsLayer() {
           (
           //  motusFilter.selectedStationDeps.includes( d.id ) &&
             d.dtStart <= timeline.position[1] &&
-            d.dtEnd >= timeline.position[0] &&
+						(d.dtEnd >= timeline.position[0] || d.dtEnd === 0) &&
             (motusFilter.species[0] == 'all' || motusFilter.species.some( x => d.species.includes(x) )) &&
             (motusFilter.stations[0] == 'all' || motusFilter.stations.includes(d.stationID) || dataType == 'stations') &&
             (dataType == 'regions' || motusFilter.regions[0] == 'all' || motusFilter.regions.includes(d[motusFilter.regionType])) &&
             (motusFilter.frequencies[0] == 'all' || motusFilter.frequencies.some( x => d.frequency.includes( x ) )) &&
-            (motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.projID))
+            (motusFilter.projects[0] == 'all' || motusFilter.projects.includes(d.project))
           ) ||
           ( motusMap.trackView &&	d.animals.includes(motusFilter.animals[0]) )
         )

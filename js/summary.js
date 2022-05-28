@@ -5,6 +5,8 @@ var isGrouped = false;
 
 function exploreSummary({regionBin = "adm0_a3"} = {}) { // {summaryType: String, summaryID: Integer or String, summaryData: Object}
 
+// Move this later
+ if (dataType == "stations")	getStationActivity();
 
 	// All possible combinations of region codes (for colouring tracks)
 	// *** should be removed
@@ -68,18 +70,12 @@ if (motusFilter.selections.length > 1) {
 	*/
 	// Create some empty data objects to be populated
 
-	if (typeof selectedTracks === "undefined") {
-	//	console.log(motusData.selectedAnimals);
+  testTimer.push([new Date(), "Get selected track data"]);
 
-
-
-
-	testTimer.push([new Date(), "Get selected track data"]);
-	console.log(Object.keys(motusData.tracksByAnimal));
 	if (motusData[`selected${firstToUpper(dataType)}`].length > 3 && !isGrouped) {
 		$("#explore_card_profiles").addClass("greaterThan3");
 	}
-	getSelectedTrackData( motusData.selectedTracks, reload = true );
+
 
 	testTimer.push([new Date(), "Set time limits"]);
 	if (dtLims.min > new Date(d3.min(motusData.allTimes))) {dtLims.min = new Date(d3.min(motusData.allTimes));}
@@ -117,13 +113,9 @@ if (motusFilter.selections.length > 1) {
 		}
 	});
 
-		$(".loader").addClass("hidden");
+	$(".loader").addClass("hidden");
 
-		testTimer.push([new Date(), "Add summary content"]);
-
-	} else {
-		motusData.selectedTracks = selectedTracks;
-	}
+	testTimer.push([new Date(), "Add summary content"]);
 
 }
 
@@ -146,12 +138,12 @@ function projectsTable( cardID, tableType ) {
 
 
 		motusData.selectedProjects.forEach(function(v){
-					v.animals = Array.from( motusData.selectedAnimals.filter( d => d.projID == v.id ).map( d => d.id ).values() )
-					v.allAnimals = Array.from( motusData.animals.filter( d => d.projID == v.id ).map( d => d.id ).values() )
-					v.species = Array.from( motusData.selectedAnimals.filter( d => d.projID == v.id ).map( d => d.species ).values() ).filter(onlyUnique);
-					v.allSpecies = Array.from( motusData.animals.filter( d => d.projID == v.id ).map( d => d.species ).values() ).filter(onlyUnique);
-					v.stations = Array.from( motusData.selectedStations.filter( d => d.projID == v.id ).map( d => d.id ).values() )
-					v.allStations = Array.from( motusData.stations.filter( d => d.projID == v.id ).map( d => d.id ).values() )
+					v.animals = Array.from( motusData.selectedAnimals.filter( d => d.project == v.id ).map( d => d.id ).values() )
+					v.allAnimals = Array.from( motusData.animals.filter( d => d.project == v.id ).map( d => d.id ).values() )
+					v.species = Array.from( motusData.selectedAnimals.filter( d => d.project == v.id ).map( d => d.species ).values() ).filter(onlyUnique);
+					v.allSpecies = Array.from( motusData.animals.filter( d => d.project == v.id ).map( d => d.species ).values() ).filter(onlyUnique);
+					v.stations = Array.from( motusData.selectedStations.filter( d => d.project == v.id ).map( d => d.id ).values() )
+					v.allStations = Array.from( motusData.stations.filter( d => d.project == v.id ).map( d => d.id ).values() )
 				});
 
 
@@ -182,6 +174,7 @@ function projectsTable( cardID, tableType ) {
 
 			var tableDom = motusData.animalsTableData.length > 10 ? "Blipt" : "Bt";
 			var color_dataType = 'regions' == dataType ? 'country' : 'id';
+      var downloadFileName = `Motus Project ${firstToUpper(tableType)} data for ${toSingular(dataType)} #${motusFilter.selections[0]} - Downloaded ${(new Date()).toISOString().substring(0,10)}`;
 
 			$(`#explore_card_${cardID} .explore-card-${cardID}-${tableType}-table`).DataTable({
 				data: projectsTableData,
@@ -221,10 +214,22 @@ function projectsTable( cardID, tableType ) {
 				],
 				dom: tableDom,
 				buttons: [
-					'copyHtml5',
-					'excelHtml5',
-					'csvHtml5',
-					'pdfHtml5'
+          {
+              extend: 'csvHtml5',
+              title: downloadFileName
+          },
+          {
+              extend: 'copyHtml5',
+              title: downloadFileName
+          },
+          {
+              extend: 'excelHtml5',
+              title: downloadFileName
+          },
+          {
+                extend: 'pdfHtml5',
+                title: downloadFileName
+          }
 				],
 				autoWidth: false,
 				columnDefs: [ {
@@ -287,11 +292,14 @@ function stationTable( cardID ) {
 
 		var color_dataType = 'regions' == dataType ? 'regions' : 'projects';
 		var color_dataVar = 'regions' == dataType ? 'country' : 'project';
+    var downloadFileName = `Motus stations associated with ${toSingular(dataType)} #${motusFilter.selections[0]} - Downloaded ${(new Date()).toISOString().substring(0,10)}`;
+
 
 		$(`#explore_card_${cardID} .explore-card-${cardID}-table`).DataTable({
 			data: motusData.selectedStations,
 			columns: [
 				{className: "explore-table-expandRow", data: null, orderable: false, defaultContent: icons.add+icons.addFilter},
+				{data: "id", title: "ID #"},
 				{data: "name", title: "Station", "createdCell": function(td, cdata, rdata){
 
 					var dataVal = rdata[color_dataVar].split(",").map( x => motusData[color_dataType].filter( p => p.id == x )[0].name ).join(", ");
@@ -304,22 +312,28 @@ function stationTable( cardID ) {
 					);
 				}},
 				{data: "dtStart", title: "Start date", "createdCell": function(td, cdata, rdata){
-					$(td).html( cdata.toISOString().substr(0,10) );
+          let dtStart = cdata == null || cdata.length == 0 ? "Pending" : cdata.toISOString().substr(0,10);
+					$(td).html( dtStart );
 				}},
 				{data: "dtEnd", title: "Status", "createdCell": function(td, cdata, rdata){
-					$(td).html( `${(moment().diff(cdata, 'day') < 1 ? "Active" : "Ended on:<br/>" + cdata.toISOString().substr(0,10) )}` );
+          let dtEnd = cdata == null || cdata.length == 0 ? new Date() : cdata;
+					$(td).html( `${(moment().diff(dtEnd, 'day') < 1 ? "Active" : "Ended on:<br/>" + dtEnd.toISOString().substr(0,10) )}` );
 				}},
-				{data: "nAnimals", title: "Number of Animals", "createdCell": function(td, cdata, rdata){
+				{data: "animals", title: "Number of Animals", "createdCell": function(td, cdata, rdata){
 					$(td).html(
-						`<a href='javascript:void(0);' onclick='viewProfile("animals", [${rdata.animals.map( x => '"'+x+'"' ).join(',')}]);'>${cdata}</a>`
+						`<a href='javascript:void(0);' onclick='viewProfile("animals", [${rdata.animals.map( x => '"'+x+'"' ).join(',')}]);'>${rdata.animals.length}</a>`
 					);
-				}},
-				{data: "nSpecies", title: "Number of Species", "createdCell": function(td, cdata, rdata){
+				}, render: (data, type) => {
+          return data.length;
+        }},
+				{data: "species", title: "Number of Species", "createdCell": function(td, cdata, rdata){
 					$(td).html(
-						`<a href='javascript:void(0);' onclick='viewProfile("species", [${rdata.species.map( x => '"'+x+'"' ).join(',')}]);'>${cdata}</a>`
+						`<a href='javascript:void(0);' onclick='viewProfile("species", [${cdata.map( x => '"'+x+'"' ).join(',')}]);'>${[...new Set(cdata)].length}</a>`
 					);
-				}},
-				{data: "projID", title: "Project", "createdCell": function(td, cdata, rdata){
+				}, render: (data, type) => {
+          return [...new Set(data)].length;
+        }},
+				{data: "project", title: "Project", "createdCell": function(td, cdata, rdata){
 					$(td).html(
 						`<a href='javascript:void(0);' onclick='viewProfile("projects", [${cdata.split(",").map( x => '"'+x+'"' ).join(',')}]);'>${cdata.split(",").map( x => motusData.projects.filter( p => p.id == x )[0].name ).join(", ")}</a>`
 					);
@@ -327,10 +341,22 @@ function stationTable( cardID ) {
 			],
 			dom: tableDom,
 			buttons: [
-				'copyHtml5',
-				'excelHtml5',
-				'csvHtml5',
-				'pdfHtml5'
+        {
+            extend: 'csvHtml5',
+            title: downloadFileName
+        },
+        {
+            extend: 'copyHtml5',
+            title: downloadFileName
+        },
+        {
+            extend: 'excelHtml5',
+            title: downloadFileName
+        },
+        {
+              extend: 'pdfHtml5',
+              title: downloadFileName
+        }
 			],
 			autoWidth: false,
 			columnDefs: [ {
@@ -340,14 +366,15 @@ function stationTable( cardID ) {
 			order: [[1, 'asc']]
 		}).on('draw.dt', function(){
 			$(`#explore_card_${cardID} .explore-card-${cardID}-table`).DataTable().rows().every(function(){
-				let stationDeps = motusData.selectedStationDeps.filter( x => this.data().stationDeps.includes(x.id) );
+			//	let stationDeps = motusData.selectedStationDeps.filter( x => this.data().stationDeps.includes(x.id) );
 				this.child( detectionTimeline(
-						stationDeps,
+						motusData.tracksLongByAnimal,
 						{ width: $(this.node() ).width() - 20,
+              selectedStation: this.data().id,
 							timeLineRange: {
-								min:d3.min(stationDeps, x => x.dtStart),
-								max:d3.max(stationDeps, x => x.dtEnd),
-								range:d3.max(stationDeps, x => x.dtEnd) - d3.min(stationDeps, x => x.dtStart)
+								min:this.data().dtStart,
+								max:this.data().dtEnd,
+								range:this.data().dtEnd - this.data().dtStart
 							} }
 					) ).hide();
 			//				this.nodes().to$().addClass('shown');
@@ -709,6 +736,7 @@ function speciesTable( cardID ) {
 
 
 		var color_dataType = 'regions' == dataType ? 'country' : 'project';
+    var downloadFileName = `Motus species associated with ${toSingular(dataType)} #${motusFilter.selections[0]} - Downloaded ${(new Date()).toISOString().substring(0,10)}`;
 
 		getAnimalsTableData();
 
@@ -738,10 +766,22 @@ function speciesTable( cardID ) {
 			],
 			dom: tableDom,
 			buttons: [
-				'copyHtml5',
-				'excelHtml5',
-				'csvHtml5',
-				'pdfHtml5'
+        {
+            extend: 'csvHtml5',
+            title: downloadFileName
+        },
+        {
+            extend: 'copyHtml5',
+            title: downloadFileName
+        },
+        {
+            extend: 'excelHtml5',
+            title: downloadFileName
+        },
+        {
+              extend: 'pdfHtml5',
+              title: downloadFileName
+        }
 			],
 			autoWidth: false,
 			columnDefs: [ {
@@ -795,10 +835,22 @@ function speciesTable( cardID ) {
 					],
 					dom: tableDom,
 					buttons: [
-						'copyHtml5',
-						'excelHtml5',
-						'csvHtml5',
-						'pdfHtml5'
+            {
+                extend: 'csvHtml5',
+                title: downloadFileName
+            },
+            {
+                extend: 'copyHtml5',
+                title: downloadFileName
+            },
+            {
+                extend: 'excelHtml5',
+                title: downloadFileName
+            },
+            {
+                  extend: 'pdfHtml5',
+                  title: downloadFileName
+            }
 					],
 					autoWidth: false
 				});
@@ -829,7 +881,7 @@ function animalsTable( cardID ) {
 
 		//$("#explore_card_stationHits .explore-card-header").text("Stations in th" + ( motusFilter.regions.length > 1 ? "ese" : "is") + " region" + ( motusFilter.regions.length > 1 ? "s" : ""));
 
-		var headers = ["Deployment ID", "Species", "Stations Visited", "Days detected", "Tagging date", "Status", "Project"];
+		var headers = ["Species", "Deployment ID", "Stations Visited", "Days detected", "Tagging date", "Status", "Project"];
 
 		$("#explore_card_" + cardID)
 			.append( $("<table></table>")
@@ -844,6 +896,7 @@ function animalsTable( cardID ) {
 
 
 		var color_dataType = 'regions' == dataType ? 'country' : 'project';
+    var downloadFileName = `Motus animals associated with ${toSingular(dataType)} #${motusFilter.selections[0]} - Downloaded ${(new Date()).toISOString().substring(0,10)}`;
 
 		getAnimalsTableData();//3
 
@@ -852,11 +905,6 @@ function animalsTable( cardID ) {
 		$("#explore_card_" + cardID + " .explore-card-" + cardID + "-animalsTable").DataTable({
 			data: motusData.animalsTableData,
 			columns: [
-				{data: "id", title: "Deployment ID", "createdCell": function(td, cdata, rdata){
-					$(td).html(
-											`<a href='javascript:void(0);' class='tips' alt='View animal profile' onclick='viewProfile("animals", [${rdata.id}]);'>#${rdata.id}</a>`
-										);
-				}},
 				{data: "name", title: "Species", "createdCell": function(td, cdata, rdata){
 					$(td).html(
 							`<div class='explore-card-table-legend-icon table_tips' style='border-color:${rdata.colourCode};background-color:${rdata.colourCode}'>`+
@@ -864,6 +912,11 @@ function animalsTable( cardID ) {
 								`</div>`+
 						`<a href='javascript:void(0);' class='tips' alt='View species profile' onclick='viewProfile("species", [${rdata.species}]);'>${cdata}</a>`
 					);
+				}},
+				{data: "id", title: "Deployment ID", "createdCell": function(td, cdata, rdata){
+					$(td).html(
+											`<a href='javascript:void(0);' class='tips' alt='View animal profile' onclick='viewProfile("animals", [${rdata.id}]);'>#${rdata.id}</a>`
+										);
 				}},
 				{data: "nStations", title: "Stations visited"},
 				{data: "nDays", title: "Days detected"},
@@ -884,10 +937,6 @@ function animalsTable( cardID ) {
 				'pdfHtml5'
 			],
 			autoWidth: false,
-			columnDefs: [ {
-				"targets": 0,
-				"orderable": false
-			}],
 			order: [[4, 'asc']]
 		});
 
@@ -977,118 +1026,82 @@ function getExploreProfileData(d) {
 		if (dataType == 'stations') {
 			var station = d;
 
-			// Some stations are shared among multiple projects. Select just the first project here.
-			station.projID = station.projID.split(',')[0];
-
 			var stationDeps = motusData.selectedStationDeps.filter( x => d.stationDeps.includes(x.id) );
 					stationDeps.forEach( x => {x.dtStart = new Date(x.dtStart)});
 
-			var detections = [];
-			if (typeof motusData.tracksByStation[ d.id ] !== 'undefined')
-				detections = motusData.tracksByStation[ d.id ].map( x => motusData.selectedTracks[x] );
-
+      var stationDepartures = motusData.tracksByStationDepartures.get( station.id );
+          stationDepartures = typeof stationDepartures === 'undefined' ? [] : stationDepartures;
+      var stationArrivals = motusData.tracksByStationArrivals.get( station.id );
+          stationArrivals = typeof stationArrivals === 'undefined' ? [] : stationArrivals;
+			var detections = stationDepartures.concat( stationArrivals );
 
 			var animalsDetected = motusData.selectedAnimals.filter( x => d.animals.includes(x.id) );
 			var speciesDetected = d.species.filter(onlyUnique);
-			var project = motusData.projects.filter(x => x.id == d.projID)[0];
+			var project = motusData.projects.filter(x => x.id == d.project)[0];
 
 			console.log("detections for %s: %o", d.id, detections)
 
 			// Latest activity
 
-			var lastDataProcessed = d.dtEnd;
+			var lastDataProcessed = new Date(d.lastData);
 
-			// Why is this so complicated? Because we have nested data within each 'detection'
-			// Each detection is actually a track segment with a list of events within it.
-			// Further, route ID contains the two receiver IDs which make the connection, with the smaller number first
-			// This way I can group tracks in either direction together. However,
-			// This also means I must pay attention to the direction when looking
-			// At the dates since whether I use the start or end dates will depend on the direction.
-			// The function below loops through each event and selects either the start or end dates based on
-			// the direction and which receiver ID matches.
 			var lastDetectionSubIndex = [];
 			var dtMax = [];
-			var lastDetectedAnimal = [];
 
-			var lastDetectionIndex = detections.length > 0 ? d3.maxIndex( detections, (x) => {
-					const dir = x.dir;
-					const recvs = x.route.split('.');
-					const maxDate = dir.reduce( (a, dir, i) => {
-							if ((dir == -1 && recvs[0] == d.id) ||
-									(dir == 1 && recvs[1] == d.id)) {
-								a.push(x.dtEndList[i]);
-							}
-							else if ((dir == 1 && recvs[0] == d.id) ||
-											 (dir == -1 && recvs[1] == d.id)) {
-								a.push(x.dtStartList[i])
-							}
-							return a;
-						}, []);
-					const maxIndex = d3.maxIndex( maxDate, d => new Date(d) )
-					dtMax.push( new Date( maxDate[maxIndex] ) );
+      var lastStationDeparture = stationDepartures.length == 0 ? {ts2: 0} : stationDepartures[d3.maxIndex(stationDepartures, x => x.ts2 )];
+      var lastStationArrival = stationArrivals.length == 0 ? {ts1: 0} : stationArrivals[d3.maxIndex(stationArrivals, x => x.ts1 )];
 
-					lastDetectedAnimal.push( motusData.animals.filter( k => k.id == x.animal[maxIndex] )[0] );
-					lastDetectionSubIndex.push( maxIndex );
-					return new Date( maxDate[maxIndex] );
-				} ) : false;
-			var lastDetection = detections.length > 0 ? detections[lastDetectionIndex] : false;
+      var lastDetectionDirection = lastStationDeparture.ts2 > lastStationDeparture.ts1 ? 2 : 1;
+      var lastDetection = lastStationDeparture.ts2 > lastStationArrival.ts1 ? lastStationDeparture : lastStationArrival;
+			var lastDetectedAnimal = motusData.animalsIndexed.get(lastDetection.id);
+          lastDetectedAnimal = typeof lastDetectedAnimal === 'undefined' ?
+                            Object.fromEntries(Object.keys(motusData.animals[0]).map(x => [x,""])) :
+                            lastDetectedAnimal;
+      var lastDetectedAnimalName = motusData.speciesIndexed.get(lastDetectedAnimal.species);
+          lastDetectedAnimalName = typeof lastDetectedAnimalName === 'undefined' ? "" : lastDetectedAnimalName[currLang]
 
-			//console.log("lastDetection: %o, lastDetectionIndex: %s, lastDetectionSubIndex: %s, dtMax: %s", lastDetection, lastDetectionIndex, lastDetectionSubIndex, dtMax);
+      var lastDetection = lastDetection["ts"+lastDetectionDirection] > 0 ?
+            ({
+              ...({
+                lastDetectedAnimal: lastDetectedAnimal,
+                dtMax:              lastDetection["ts"+lastDetectionDirection].toISOString().substring(0, 10),
+                dtEnd:              lastDetection["ts"+lastDetectionDirection],
+                name:               lastDetectedAnimalName
+              }),
+              ...lastDetection
+            }) : false;
 
-			if (lastDetection) {
-						lastDetectionSubIndex = lastDetectionSubIndex[lastDetectionIndex];
-			//			console.log(lastDetectionSubIndex);
-			//			console.log(lastDetectedAnimal);
-						lastDetection.lastDetectedAnimal = [lastDetectedAnimal[lastDetectionIndex]];
-						lastDetection.dtMax = dtMax[lastDetectionIndex].toISOString().substring(0, 10);
-
-/*
-
-				var lastDetectionIndex = [];
-
-				lastDetection.lastDetectedAnimal = [];
-				lastDetection.dir.split(',').forEach( (dir, i) => {
-					const recvs = lastDetection.route.split('.');
-						if (((dir == -1 && recvs[0] == d.id) ||
-								(dir == 1 && recvs[1] == d.id)) &&
-								lastDetection.dtEndList.split(',')[i] == dtMax) {
-
-							lastDetection.lastDetectedAnimal.push( motusData.animals.filter( k => k.id == lastDetection.animals.split(',')[i] )[0] );
-							lastDetectionIndex.push(i);
-						} else if (((dir == 1 && recvs[0] == d.id) ||
-										 (dir == -1 && recvs[1] == d.id)) &&
-			 								lastDetection.dtStartList.split(',')[i] == dtMax) {
-
-							lastDetection.lastDetectedAnimal.push( motusData.animals.filter( k => k.id == lastDetection.animals.split(',')[i] )[0] );
-							lastDetectionIndex.push(i);
-
-						}
-				});
-*/
-				//lastDetection.lastDetectionIndex = lastDetectionIndex;
-
-			}
+      console.log("Last detection: %o", lastDetection);
 			var lastStationDeployment = stationDeps.length > 1 ? stationDeps[d3.maxIndex( stationDeps, x => x.dtStart )] : stationDeps[0];
 			var lastActivityIndex = d3.maxIndex([lastStationDeployment?lastStationDeployment.dtStart:-1, lastDetection?lastDetection.dtEnd:-1]);
 
-
 		} else if (["regions", "projects"].includes(dataType)){
 
-			var dataVar = dataType == "projects" ? "projID" : "country";
+      var regionType = "country";
+			var dataVar = dataType == "projects" ? "project" : regionType;
 
 
 			//	Deployments
 
 
-			var stations = motusData.selectedStations.filter( x => x[dataVar] == d.id);
 
-			var	animalsTagged = motusData.selectedAnimals.filter( x => x[dataVar] == d.id);
+      var stations = dataType == 'project' ? motusData.stationDepsByProjects.get( d.id ) : motusData.stationDepsByRegions.get( d.id );
+          stations = typeof stations === "undefined" ? [] : stations;
 
-			animalsTagged.forEach(x=>{x.dtStart = new Date(x.dtStart); x.dtEnd = new Date(x.dtEnd);});
+      var animalsTagged = dataType == 'projects' ? motusData.animalsByProjects.get( d.id ) : motusData.animalsByRegions.get( d.id );
+          animalsTagged = typeof animalsTagged === "undefined" ? [] : Array.from( animalsTagged.values() );
 
-			var	speciesTagged = animalsTagged.map( (x) => x.species ).filter( onlyUnique );
+      var speciesTagged = [...new Set( animalsTagged.map( x => x.species ) )].map( x => motusData.speciesIndexed.get( x ) );
+          speciesTagged = typeof speciesTagged === "undefined" ? [] : speciesTagged;
+
+
+      var project = dataType == 'project' ?
+            motusData.projects.filter(x => x.id == d.id)[0] :
+            [...new Set( stations.map( x => x.project ).concat( animalsTagged.map( x => x.project ) ) )];
 
 			// 	Detections
+
+      // Project or region station information
 
 			var	animalsDetected = stations.length > 0 ?
 															stations.map( x => x.animals ).flat().filter(onlyUnique) :
@@ -1097,106 +1110,55 @@ function getExploreProfileData(d) {
 			var	speciesDetected = stations.length > 0 ?
 															stations.map( x => x.species ).flat().filter(onlyUnique) :
 															[];
-			// Station detections
-			var tracksByStations = stations.map( (x) => motusData.tracksByStation[ x.id ] ).flat().filter(onlyUnique);
 
-			var detections = Object.values( motusData.selectedTracks ).filter( x => tracksByStations.includes( x.route ) );
-			// Tag detections
-//			var detections = Object.values( motusData.selectedTracks ).filter( x => x.projID.includes( d.id ) );
-			var tracksByAnimals = animalsTagged.map( (x) => motusData.tracksByAnimal[ x.id ] ).flat().filter(onlyUnique);
+      var animalDetections = motusData.tracksLong.filter( x => d.animals.includes(x) ).filter( x => typeof x !== 'undefined' );
 
-			var animalDetections = Object.values( motusData.selectedTracks ).filter( x => tracksByAnimals.includes( x.route ) );
+      var stationDepartures = d.stations.map( x => motusData.tracksByStationDepartures.get( x ) ).flat().filter( x => typeof x !== 'undefined' );
+      var stationArrivals = d.stations.map( x => motusData.tracksByStationArrivals.get( x ) ).flat().filter( x => typeof x !== 'undefined' );
+      var stationDetections = stationDepartures.concat( stationArrivals );
 
-			console.log(d);
+      var detections = animalDetections.concat( stationDetections );
 
-			// Last activity
+      console.log("Animal detections for %s: %o", d.id, animalDetections)
+      console.log("Station detections for %s: %o", d.id, stationDetections)
 
-			var lastActiveTag = animalsTagged.length > 0 ? d3.max( animalsTagged, x => x.dtEnd ) : false;
-			var lastActiveStation = stations.length > 0 ? d3.max( stations, x => x.dtEnd ) : false;
-		//	var lastDetection = detections.length > 0 ? detections[d3.maxIndex( detections, x => x.dtEnd )] : false;
+      // Latest activity
 
-			//							getLastDetection(detections, matchID = [], matchType = 'stations', getIndex = false)
-			if (detections.length > 0) {
+      var lastDataProcessed = new Date(d.lastData);
 
-				if (dataType == 'projects') {
+      var lastDetectionSubIndex = [];
+      var dtMax = [];
 
-					//var lastDetections = detections.map(x => getLastDetection(x, d.id, matchType = 'projects', getIndex = false));
-					//	console.log(lastDetections);
+      var lastStationDeparture = typeof stationDepartures === 'undefined' || stationDepartures.length == 0 ? {ts2: 0} : stationDepartures[d3.maxIndex(stationDepartures, x => x.ts2 )];
+      var lastStationArrival = typeof lastStationArrival === 'undefined' || lastStationArrival.length == 0 ? {ts1: 0} : stationArrivals[d3.maxIndex(stationArrivals, x => x.ts1 )];
 
-					var lastDetection = detections.length > 0 ? detections[d3.maxIndex( detections,
-										x => getLastDetection(x, d.id, {matchType: 'projects', getIndex: false})
-									)] : false;
+      var lastDetectionDirection = lastStationDeparture.ts2 > lastStationDeparture.ts1 ? 2 : 1;
+      var lastDetection = lastStationDeparture.ts2 > lastStationDeparture.ts1 ? lastStationDeparture : lastStationArrival;
+      var lastDetectedAnimal = motusData.animalsIndexed.get(lastDetection.id);
+          lastDetectedAnimal = typeof lastDetectedAnimal === 'undefined' ?
+                            Object.fromEntries(Object.keys(motusData.animals[0]).map(x => [x,""])) :
+                            lastDetectedAnimal;
+      var lastDetectedAnimalName = motusData.speciesIndexed.get(lastDetectedAnimal.species);
+          lastDetectedAnimalName = typeof lastDetectedAnimalName === 'undefined' ? "" : lastDetectedAnimalName[currLang]
 
-					var [lastDetectionDir, lastDetectionIndex] = lastDetection ? getLastDetection(lastDetection, d.id, {matchType: 'projects', getIndex: true, getDirection: true}) : false;
+      lastDetection = lastDetection["ts"+lastDetectionDirection] > 0 ?
+        ({
+          ...({
+            lastDetectedAnimal: lastDetectedAnimal,
+            dtMax:              lastDetection["ts"+lastDetectionDirection].toISOString().substring(0, 10),
+            dtEnd:              lastDetection["ts"+lastDetectionDirection],
+            name:               lastDetectedAnimalName
+          }),
+          ...lastDetection
+        }) : false;
 
-					var dtMax = lastDetectionIndex ? lastDetection[lastDetectionDir[lastDetectionIndex]==1?'dtEndList':'dtStartList'][lastDetectionIndex] : false;
+      var lastStationDeployment = stations.length > 1 ? stations[d3.maxIndex( stations, x => x.dtStart )] : stations[0];
+      var lastActivityIndex = d3.maxIndex([lastStationDeployment?lastStationDeployment.dtStart:-1, lastDetection?lastDetection.dtEnd:-1]);
 
-				} else if (dataType == 'regions') {
-					var lastDetection = detections.length > 0 ? detections[d3.maxIndex( detections,
-										x => getLastDetection(x, d.id, {matchType: 'stations', getIndex: false})
-									)] : false;
+      var lastActiveTag = animalsTagged.length > 0 ? d3.max( animalsTagged, x => x.dtEnd ) : false;
+      var lastActiveStation = stations.length > 0 ? d3.max( stations, x => x.dtEnd ) : false;
+      var lastTagDeployment = animalsTagged.length > 0 ? animalsTagged[d3.maxIndex( animalsTagged, x => x.dtStart )] : false;
 
-					var dtMax = detections.length > 0 ? d3.max( detections,
-										x => getLastDetection(x, d.id, {matchType: 'stations', getIndex: false})
-									) : false;
-				}
-				dtMax = dtMax ? new Date(dtMax).toISOString().substring(0, 10) : false;
-
-				if (lastDetection) {
-
-					var lastDetectionIndex = [];
-
-					lastDetection.lastDetectedAnimal = [];
-					lastDetection.dir.forEach( (dir, i) => {
-						const recvProjs = lastDetection.recvProjs;
-							if (((dir == -1 && recvProjs[0] == d.id) ||
-									(dir == 1 && recvProjs[1] == d.id)) &&
-									lastDetection.dtEndList[i] == dtMax) {
-
-								lastDetection.lastDetectedAnimal.push( motusData.animals.filter( k => k.id == lastDetection.animal[i] )[0] );
-								lastDetectionIndex.push(i);
-							} else if (((dir == 1 && recvProjs[0] == d.id) ||
-												 (dir == -1 && recvProjs[1] == d.id)) &&
-				 								lastDetection.dtStartList[i] == dtMax) {
-
-								lastDetection.lastDetectedAnimal.push( motusData.animals.filter( k => k.id == lastDetection.animal[i] )[0] );
-								lastDetectionIndex.push(i);
-
-							}
-					});
-
-	/*				detections.forEach(	x => {
-						var detectionData = getLastDetection(x, d.id, {matchType: 'projects', dtMax: dtMax, getIndex: true, getLastAnimal: true});
-					//	console.log(detectionData)
-						lastDetectionIndex.push( detectionData[0] )
-						lastDetection.lastDetectedAnimal.push( motusData.animals.filter( a => detectionData[1].includes(a.id) )[0] )
-					});*/
-
-					lastDetection.lastDetectedAnimal.forEach( x => {
-						const sp = motusData.species.filter( spp => spp.id == x.species )[0]
-						x.species = typeof sp === 'undefined' ? 'Unknown Species:' + x.species : sp[currLang];
-					});
-
-					const lastDetectionStation = lastDetection.recvProjs[1] == d.id && (lastDetection.recvProjs[0] != d.id || lastDetection.dir[lastDetectionIndex[0]] == 1) ? lastDetection.recv2 : lastDetection.recv1;
-					lastDetection.lastDetectionIndex = lastDetectionIndex;
-					lastDetection.lastDetectionStation = motusData.selectedStations.filter(x => {
-						return x.stationDeps.includes(lastDetectionStation);
-					})[0];
-
-				}
-				var lastTagDeployment = animalsDetected.length > 0 ? animalsTagged[d3.maxIndex( animalsTagged, x => x.dtStart )] : false;
-				if (lastTagDeployment) {
-					var sp = motusData.species.filter( spp => spp.id == lastTagDeployment.species )[0];
-					lastTagDeployment.species = typeof sp === 'undefined' ? 'Unknown Species:' + lastTagDeployment.species : sp[currLang];
-	//				lastTagDeployment.species = motusData.species.filter( spp => spp.id == lastTagDeployment.species )[0][currLang];
-				}
-
-				var lastStationDeployment = stations.length > 0 ? stations[d3.maxIndex( stations, x => x.dtStart )] : false;
-				if (lastStationDeployment) {
-					lastStationDeployment.status = lastStationDeployment.status == 'not active' ? 'inactive' : lastStationDeployment.status;
-				}
-				var lastActivityIndex = d3.maxIndex([lastTagDeployment?lastTagDeployment.dtStart:-1, lastStationDeployment?lastStationDeployment.dtStart:-1, lastDetection?lastDetection.dtEnd:-1]);
-			}
 		} else {
 
 
@@ -1204,22 +1166,23 @@ function getExploreProfileData(d) {
 
 			if (dataType == 'animals'){
 
-				var detections = Object.values( motusData.selectedTracks ).filter( (x) => x.animal.includes(d.id) );
+	      var detections = motusData.tracksIndexedByAnimal.get( d.id );
 
 				var animals = motusData.selectedAnimals.filter( x => x.id == d.id)[0];
 
 				var species = motusData.species.filter( x => x.id == animals.species)[0];
 				species = typeof species==="undefined"?NULL_SPECIES:species;
-				var project = motusData.projects.filter(x => x.id == d.projID)[0];
+				var project = motusData.projects.filter(x => x.id == d.project)[0];
 
 		 } else { // dataType == 'species'
 
-				var detections = Object.values( motusData.selectedTracks ).filter( (x) => x[dataType].includes(d.id) );
 
-				var species = motusData.species.filter( x => x.id == d.id)[0];
+				var species = motusData.speciesIndexed.get( d.id );
 				species = typeof species==="undefined"?NULL_SPECIES:species;
-				var animals = species.animals;
+				var animals = motusData.selectedAnimals.filter( x => x.species == d.id ).map( x => x.id );
+        console.log(animals);
 				animals = typeof animals === 'string' ? animals.split(',') : animals;
+	      var detections = animals.map( x => motusData.tracksIndexedByAnimal.get( x.id ) ).flat();
 
 		 }
 	 }
@@ -1228,7 +1191,7 @@ function getExploreProfileData(d) {
 			profile.summary = {
 				animalsDetected: animalsDetected,
 				speciesDetected: speciesDetected,
-				projects: animalsDetected.map(x => x.projID).filter(onlyUnique),
+				projects: animalsDetected.map(x => x.project).filter( onlyUnique ),
 				countries: animalsDetected.map(x => x.country).filter(onlyUnique),
 				detections: detections
 			}
@@ -1238,7 +1201,7 @@ function getExploreProfileData(d) {
 			profile.project = project;
 
 			profile.status = d.status=='not active'?'inactive':d.status;
-
+      profile.lastActivityIndex = lastActivityIndex;
 			profile.lastData = d.lastData;
 			profile.lastStationDeployment = lastStationDeployment;
 			profile.lastDetection = lastDetection;
@@ -1255,7 +1218,7 @@ function getExploreProfileData(d) {
 				speciesTagged: speciesTagged.length,
 				animalsDetected: motusData.selectedStationDeps.length > 0 ? animalsDetected.length : 0,
 				speciesDetected: motusData.selectedStationDeps.length > 0 ? speciesDetected.length : 0,
-				projects: Array.from(stations.map(x => x.projID).values()).concat(Array.from(animalsTagged.map(x => x.projID).values())).filter(onlyUnique).length,
+				projects: Array.from(stations.map(x => x.project).values()).concat(Array.from(animalsTagged.map(x => x.project).values())).filter(onlyUnique).length,
 				stations: stations.length,
 				detections: detections
 			}
@@ -1318,7 +1281,7 @@ function getExploreProfileData(d) {
 					speciesDetected: stations.length > 0 ? speciesDetected.length : 0,
 					stations: stations.length,
 					countries: Array.from(stations.map(x => x.country).values()).concat(Array.from(motusData.selectedAnimals.map(x => x.country).values())).filter(onlyUnique).length,
-					detections: d3.sum(detections.map( x=> x.dtEndList.length ))
+					detections: detections.length
 				}
 			}
 
@@ -1336,7 +1299,7 @@ function getExploreProfileData(d) {
 			profile.summary = {
 				AnimalsTagged: animals,
 				Stations: stations,
-				Projects: Array.from(stations.map(x => x.projID).values()).concat(Array.from(motusData.selectedAnimals.map(x => x.projID).values())).filter(onlyUnique),
+				Projects: Array.from(stations.map(x => x.project).values()).concat(Array.from(motusData.selectedAnimals.map(x => x.project).values())).filter(onlyUnique),
 				Countries: Array.from(stations.map(x => x.country).values()).concat(Array.from(motusData.selectedAnimals.map(x => x.country).values())).filter(onlyUnique),
 				Detections: detections,
 				"iNaturalist": `<a href="https://www.inaturalist.org/taxa/${encodeURIComponent(species.scientific)}" target="_blank"><img src='images/inaturalist_logo_sm.png' alt='iNaturalist Logo'></a>`,
@@ -1363,7 +1326,7 @@ function getExploreProfileData(d) {
 
 			profile.summary = {
 				stations: stations,
-				projects: Array.from(stations.map(x => x.projID).values()).concat(Array.from(motusData.selectedAnimals.map(x => x.projID).values())).filter(onlyUnique),
+				projects: Array.from(stations.map(x => x.project).values()).concat(Array.from(motusData.selectedAnimals.map(x => x.project).values())).filter(onlyUnique),
 				countries: Array.from(stations.map(x => x.country).values()).concat(Array.from(motusData.selectedAnimals.map(x => x.country).values())).filter(onlyUnique),
 				detections: detections,
 				"iNaturalist": `<a href="https://www.inaturalist.org/taxa/${encodeURIComponent(species.scientific)}" target="_blank"><img src='images/inaturalist_logo_sm.png' alt='iNaturalist Logo'></a>`,
@@ -1398,14 +1361,14 @@ function addExploreTabs() {
 
 	if (dataType != 'stations' || motusFilter.selections.length > 1) {
 
-	var tabName = dataType != 'stations' ? ("Stations " +
+		var tabName = dataType != 'stations' ? ("Stations " +
 			(
 				dataType != 'species' && dataType != 'animals' ? 'in this ' + dataType.substring(0, dataType.length - 1) :
 				"visited by this " + (dataType != 'species' ? 'animal' : dataType)
 			)) : "Station timelines";
 
 	//	Add the card dom element to contain the chart
-	addExploreCard({
+		addExploreCard({
 			data:'tabs',
 			type:'stationHits',
 			header: 'Stations',
@@ -1418,6 +1381,32 @@ function addExploreTabs() {
 			attachMethod:"after"
 		});
 
+	} else if (window.location.hostname.includes("motus.org") && $("#explore_card_stationStatus").length == 0) {
+
+    if (typeof motusData.gps !== "undefined" && Object.keys(motusData.gps).length > 0) {
+
+		  motusData.selectedPulses = Object.values(motusData.antPulse).flat();
+		  motusData.selectedGPS = Object.values(motusData.gps).flat();
+
+  		addExploreCard({
+  			data:'tabs',
+  			type:'stationStatus',
+  			header: 'Status',
+  			tabs: {
+  				"GPS and Antenna Activity": function(x){
+            motusPlot(
+              {gps: motusData.selectedGPS, pulses: motusData.selectedPulses},
+              {plotType:"hourlyActivity", cardID: x}
+            );
+          },
+  				//"Station detection timelines": detectionTimeline
+  			},
+  			defaultTab: 0,
+  			attachEl:".explore-card-map",
+  			attachMethod:"after"
+  		});
+
+    }
 	}
 	/**********************************************
 										Animals
@@ -1428,7 +1417,7 @@ function addExploreTabs() {
 	//	addExploreCard({data:'chart', type:'tagHits'});
 
 
-	if (motusFilter.animals.length > 0) {
+	if (motusFilter.animals.length > 0 && $("#explore_card_speciesHits").length == 0) {
 
 	addExploreCard({
 			data:'tabs',
@@ -1472,25 +1461,28 @@ function addExploreTabs() {
 
 	}
 
-	var nProjects = [
-		motusData.selectedStationProjects.length,
-		motusData.selectedAnimalProjects.length
-	];
-
-	addExploreCard({
-		data:'tabs',
-		type:'projectsTable',
-		header: 'Projects',
-		tabs: {
-		//	"Animals in this region": animalTable,
-			["Projects with stations: " + nProjects[0]]: function(cardID) {projectsTable(cardID, 'stations');},
-			["Projects with tag deployments: " + nProjects[1]] : function(cardID) {projectsTable(cardID, 'tags');}
-		},
-		defaultTab: d3.sum(motusData.selectedProjects, d => d.stations.filter( x => x!='NA').length ) > 0 ? 0 : 1,
-		attachEl: ".explore-card-map",
-		attachMethod: "after"
-	});
-
+  /**********************************************
+                    Projects
+  **********************************************/
+  if ( $("#explore_card_projectsTable").length == 0 && dataType != 'projects' ) {
+  	var nProjects = [
+  		motusData.selectedStationProjects.length,
+  		motusData.selectedAnimalProjects.length
+  	];
+  	addExploreCard({
+  		data:'tabs',
+  		type:'projectsTable',
+  		header: 'Projects',
+  		tabs: {
+  		//	"Animals in this region": animalTable,
+  			["Projects with stations: " + nProjects[0]]: function(cardID) {projectsTable(cardID, 'stations');},
+  			["Projects with tag deployments: " + nProjects[1]] : function(cardID) {projectsTable(cardID, 'tags');}
+  		},
+  		defaultTab: d3.sum(motusData.selectedProjects, d => d.stations.filter( x => x!='NA').length ) > 0 ? 0 : 1,
+  		attachEl: ".explore-card-map",
+  		attachMethod: "after"
+  	});
+  }
 
 }
 function addExploreProfilesWrapper() {
@@ -1548,10 +1540,13 @@ function addExploreProfile(profile) {
 
 
 
-		if (typeof profile.dtStart !== 'undefined' && typeof profile.dtEnd !== 'undefined') {
+		if (false && typeof profile.dtStart !== 'undefined' && typeof profile.dtEnd !== 'undefined') {
 		//	timeline.setSlider([profile.dtStart, profile.dtEnd]);
-			motusFilter.dtStart = new Date(profile.dtStart);
-			motusFilter.dtEnd = new Date(profile.dtEnd);
+//			motusFilter.dtStart = new Date(profile.dtStart);
+//			motusFilter.dtEnd = new Date(profile.dtEnd);
+      timeline.setSlider([
+        profile.dtStart,
+        profile.dtEnd > +motusFilter.dtEnd ? new Date(profile.dtEnd) : motusFilter.dtEnd]);
 		}
 
 		//	Add Explore Profile HTML
@@ -1618,7 +1613,7 @@ function addExploreProfile(profile) {
 									)+
 										(profile.lastTagDeployment?
 											`<div style='font-size:10pt;'>Tag deployed: `+
-											`<div class='explore-status-button' onclick='showProfileData("${profile.lastTagDeployment.id}", "animals")'>${profile.lastTagDeployment.species} #${profile.lastStationDeployment.id} `+
+											`<div class='explore-status-button' onclick='showProfileData("${profile.lastTagDeployment.id}", "animals")'>${profile.lastTagDeployment.species} #${profile.lastTagDeployment.id} `+
 											`<div class='explore-status-icon explore-status-icon-${profile.lastTagDeployment.status.toLowerCase()} tips' alt='${profile.lastTagDeployment.status}'> </div>`+
 											`</div> on <b>${profile.lastTagDeployment.dtStart.toISOString().substring(0, 10).replace("T", " @ ")}</b></div>`
 											:''
@@ -1630,6 +1625,13 @@ function addExploreProfile(profile) {
 											`<div class='explore-status-icon explore-status-icon-${profile.lastStationDeployment.status.toLowerCase()} tips' alt='${profile.lastStationDeployment.status}'> </div>`+
 											`</div> on <b>${profile.lastStationDeployment.dtStart.toISOString().substring(0, 10).replace("T", " @ ")}</b></div>`
 											:	''
+										)+
+										(profile.lastDetection?
+											`<div style='font-size:10pt;'>Tag detected: `+
+											`<div class='explore-status-button' onclick='showProfileData("${profile.lastDetection.id}", "animals")'>${profile.lastDetection.name} #${profile.lastDetection.id} `+
+											`<div class='explore-status-icon explore-status-icon-${profile.lastDetection.lastDetectedAnimal.status.toLowerCase()} tips' alt='${profile.lastDetection.lastDetectedAnimal.status}'> </div>`+
+											`</div> on <b>${profile.lastDetection.dtEnd.toISOString().replace("T", " @ ")}</b></div>`
+											:''
 										)+
 								`</div>`+
 
@@ -1800,459 +1802,6 @@ function removeExploreProfile(el, filterType) {
 }
 
 
-
-function detectionTimeline( d, {
-															width = 300,
-															height = 60,
-															timelineScale = d3.scaleLinear().domain([ timeline.min, timeline.max ]).range([ 0, width ]),
-															dayWidth = timelineScale( (3 * 24 * 60 * 60 * 1000) ),
-															colourScale = d3.scaleSequential(d3.interpolateSinebow).domain([ 1, 10 ]),
-															timelineSVG = $("<svg width='"+width+"' height='"+height+"' style='margin:-8px 0;cursor:pointer;'></svg>"),
-															resize = false,
-															dataSource = 'station',
-															yAxis = false,
-															margin = {left: 40, right: 20},
-															zoomable = false,
-															setTimeline = false,
-															timeLineRange = {min: new Date(timeline.min * 1000), max:new Date(timeline.max * 1000)}
-														} = {} ) {
-
-//	console.log(colourScale.range())
-	timeline.colourScale = colourScale;
-//	console.log("Station: %s, Timeline Range: %o", d[0]?d[0].name:d, timeLineRange)
-
-	if (width > 0) {
-		timelineScale = d3.scaleLinear().domain([ timeLineRange.min, timeLineRange.max ]).range([margin.left, width-margin.right])
-		timeLineRange.range = (timeLineRange.max - timeLineRange.min)
-		dayWidth = dayWidth < 1 ? 1 : dayWidth;
-
-		var timeFormat = ( timeLineRange.range / (1000 * 60 * 60 * 24 * 365) ) * ( 300 / width ) > 2 ? "%Y" :
-								( ( timeLineRange.range / (1000 * 60 * 60 * 24 * 365) ) * ( 300 / width ) > 1 ? "%b %Y" : "%Y-%m-%d" );
-
-		var x_scale = d3.scaleTime()
-									.domain( [ timeLineRange.min, timeLineRange.max ] )
-									.range( [margin.left, width-margin.right] );
-
-		var axis_x = d3.axisBottom( x_scale )
-										.tickFormat( d3.timeFormat( timeFormat ) )
-										.ticks( Math.round( width /  75 ) );
-
-		var hasData = false;
-
-
-		var svg = d3.select( timelineSVG[0] );
-		if (!zoomable) {
-			svg
-				.on("touchstart touchmove mousemove", dataHover)
-				.on("touchend mouseleave", function(e) {dataHover(e, "out");})
-				.call(d3.zoom().scaleExtent([.5, 20])  // This control how much you can unzoom (x0.5) and zoom (x20)
-					.extent([[0, 0], [width, 0]])
-					.on("zoom", updateChart));
-		}
-
-		var stationHits = {};
-
-		if (dataSource != 'station') {
-			if (d.length > 0) {
-				hasData = true;
-			}
-			d.forEach(function({id, ts, stations, species, project, frequency}, ind) {
-
-			//if (splitData.stations.some( x => motusFilter.selections.includes( x ) ))
-
-//				if (ind%100 == 0) console.log(trackData)
-				var dates = [];
-				var spp = [];
-				var animals = [];
-
-				stations.forEach((station, i) => {
-						if (
-									( dataType == "projects" || motusFilter.projects.includes('all') || motusFilter.projects.includes( project ) ) &&
-									( motusFilter.frequencies.includes('all') || motusFilter.frequencies.includes( frequency ) ) &&
-									( dataType == "species" || motusFilter.species.includes('all') || motusFilter.species.includes( species ) ) &&
-									( dataType == "animals" || motusFilter.animals.includes('all') || motusFilter.animals.includes( id ) ) &&
-									( (dataType == "stations" && motusFilter.selections.includes( station )) || ( motusFilter.stations.includes('all') || motusFilter.stations.includes(station) ) ) &&
-									(
-										dataType == "regions" || motusFilter.regions.includes('all') || true
-									)
-								) {
-
-							dates.push( ts[i]*1000 );
-							spp.push( species );
-							animals.push( id );
-						}
-				})
-
-
-
-//				if (ind%100 == 0) console.log(dates)
-
-				//var dates = trackData.dir.split(',')
-
-//				console.log(trackData);
-//				var dates = dtsStart.concat(dtsEnd);
-
-				var data = countInstances( dates.map(k => new Date(k).valueOf()) );
-				//var spp = {};
-
-				spp.forEach(function(k, i){
-
-		//			if ( spp.length != 0 && typeof data[2] !== 'undefined' && data[2][data[2].length - 1] == dates[i]) {
-
-					if ( typeof data[2] !== 'undefined' && data[0][data[2].length - 1] == dates[i]) {
-
-						data[2][i].push(k);
-
-					} else if ( typeof data[2] !== 'undefined' ) {
-
-						data[2].push([k]);
-
-					} else {
-
-						data[2] = [[k]];
-
-					}
-
-					if ( typeof data[3] !== 'undefined' && data[0][data[3].length - 1] == dates[i]) {
-
-						data[3][i].push(animals[i]);
-
-					} else if ( typeof data[3] !== 'undefined' ) {
-
-						data[3].push([animals[i]]);
-
-					} else {
-
-						data[3] = [[animals[i]]];
-
-					}
-
-				});
-
-
-				var date_str;
-
-
-				for (var i = 0; i < data[0].length; i++) {
-					date_str = new Date( data[0][i] ).toISOString().substr(0, 10);
-					if ( typeof stationHits[ date_str ] !== 'undefined' ) {
-						stationHits[ date_str ].count += data[1][i];
-						stationHits[ date_str ].species = stationHits[ date_str ].species.concat(data[2][i]).filter(onlyUnique);
-						stationHits[ date_str ].animals = stationHits[ date_str ].animals.concat(data[3][i]).filter(onlyUnique);
-					} else {
-						stationHits[ date_str ] = {date: data[0][i], count: data[1][i], species: data[2][i].filter(onlyUnique), animals: data[3][i].filter(onlyUnique)};
-					}
-				}
-			});
-		} else {
-			d.forEach(function(v) {
-
-				var w = width * ((v.dtEnd.valueOf()) - (v.dtStart.valueOf())) / timeLineRange.range;
-				var x = width * ((v.dtStart.valueOf()) - (timeLineRange.min - 1000)) / timeLineRange.range;
-
-				svg
-					.append('rect')
-					.attr('width', w)
-					.attr('height', height)
-					.attr('x', x)
-					.style('fill', '#CCCCCC');
-
-				var g = d3.select( timelineSVG[0] )
-					.append('g');
-
-				w = width * ( 24 * 60 * 60 * 3000 ) / timeLineRange.range;
-
-
-				if (typeof motusData.tracksByStation[v.id] !== 'undefined') {
-
-					hasData = true;
-				//	console.log("Track data for %s is %o", v.id, motusData.tracksByStation[v.id]);
-					motusData.tracksByStation[v.id].forEach(function(x){
-
-						var datePos = ( x.split('.')[0] == v.id ? 'dtStart' : 'dtEnd' ) + 'List';
-
-						var trackData = motusData.selectedTracks[x];
-					//	console.log("Selected track: %o", trackData)
-						if (typeof trackData[datePos] !== 'undefined') {
-
-							var dates = trackData[datePos];
-
-							var data = countInstances( dates.map(k => moment(k).valueOf()) );
-							const animals = trackData.animal;
-
-							trackData.species.forEach(function(k, i){
-
-					//			if ( spp.length != 0 && typeof data[2] !== 'undefined' && data[2][data[2].length - 1] == dates[i]) {
-
-								if ( typeof data[2] !== 'undefined' && data[0][data[2].length - 1] == dates[i]) {
-
-									data[2][i].push(k);
-
-								} else if ( typeof data[2] !== 'undefined' ) {
-
-									data[2].push([k]);
-
-								} else {
-
-									data[2] = [[k]];
-
-								}
-
-								if ( typeof data[3] !== 'undefined' && data[0][data[3].length - 1] == dates[i]) {
-
-									data[3][i].push(animals[i]);
-
-								} else if ( typeof data[3] !== 'undefined' ) {
-
-									data[3].push([animals[i]]);
-
-								} else {
-
-									data[3] = [[animals[i]]];
-
-								}
-
-							});
-							var date_str;
-
-							for (var i = 0; i < data[0].length; i++) {
-								date_str = new Date( data[0][i] ).toISOString().substr(0, 10);
-								if ( typeof stationHits[ date_str ] !== 'undefined' ) {
-									stationHits[ date_str ].count += data[1][i];
-									stationHits[ date_str ].species = stationHits[ date_str ].species.concat(data[2][i]).filter(onlyUnique);
-									stationHits[ date_str ].animals = stationHits[ date_str ].animals.concat(data[3][i]).filter(onlyUnique);
-								} else {
-									stationHits[ date_str ] = {date: data[0][i], count: data[1][i], species: data[2][i].filter(onlyUnique), animals: data[3][i].filter(onlyUnique)};
-								}
-							}
-						}
-
-					});
-
-				} else {
-					// no data
-					console.log("No data for %s", v.id);
-				}
-
-			});
-		}
-
-
-		if (zoomable) {
-
-			motusData.stationHits = stationHits;
-			stationHits = Object.values(stationHits).map(x => ({date: new Date(x.date), value: x.count, colour: x.animals, species: x.species, animals: x.animals}));
-
-			var stationHitsExpanded = d3.sort(stationHits, (a,b) => a.date > b.date).reduce( (a,c,i,arr) => {
-					if (i > 0 && c.date - arr[i-1].date > (1000*60*60*24)) {
-						var newDate = arr[i-1].date.addDays(1);
-						while (c.date - newDate > (1000*60*60*24) ) {
-							a.push({date: newDate, value: 0, colour: [], species: [], animals: []});
-							newDate = newDate.addDays(1);
-						}
-					}
-					a.push({date: c.date, value: c.value, colour: c.colour, species: c.species, animals: c.animals});
-
-					return a;
-				}, []);
-			var colourVals = stationHits.map(x => x.colour).flat().filter(onlyUnique);
-		//	motusMap.colourScale = d3.scaleOrdinal().domain(colourVals).range(["#000000"].concat(customColourScale.jnnnnn.slice(0, colourVals.length-1)))
-			console.log(colourVals);
-			motusData.stationHitsExpanded = stationHitsExpanded;
-//			console.log(motusMap.colourScale.range());
-		//	var tmp = zoomableTimeline(stationHitsExpanded, {height: height, width: width, motusMap.colourScale: motusMap.colourScale, colourVals: colourVals });
-
-
-			zoomableTimeline(stationHitsExpanded, {height: height, width: width, svg: svg, colourScale: timeline.colourScale, colourVals: colourVals });
-
-		} else {
-
-			var maxCount = d3.max(Object.values(stationHits), x => x.count);
-
-			var maxSpp = d3.max(Object.values(stationHits), x => x.species.length);
-
-			var g = d3.select( timelineSVG[0] )
-				.append('g')
-				.attr('class','hits');
-
-			stationHits = Object.values(stationHits).map(x => ({date: new Date(x.date), value: x.count, colour: x.animals, species: x.species, animals: x.animals}));
-
-			motusData.stationHits = stationHits;
-
-			var y_scale = d3.scaleLinear()
-										.domain([0, d3.max(stationHits, x => x.value)]).nice()
-										.range([0, height - 20]);
-
-			colourScale.domain(d3.extent(stationHits, x => x.colour.length));
-
-		//	x_scale.domain(d3.extent(stationHits, x => x.date));
-			g.selectAll('rect')
-				.data(stationHits)
-				.enter()
-					.append('rect')
-						//.attr('width', 3 ) // Three days
-						.attr('width', x_scale(new Date("2020-01-02")) - x_scale(new Date("2020-01-01")) ) // one day
-						.attr('height', (x) => y_scale(x.value) )
-						.attr('x', (x) => x_scale(x.date) )
-						.attr('fill', (x) => colourScale(x.animals.length) )
-						.attr('transform', x => `translate(0 ${(height - 20) - y_scale(x.value)})`);
-	//					.attr('transform', translate);
-		//							.attr('class', 'hover-data')
-		//							.on('mouseover', (e,d) => dataHover(e, d, 'in'))
-		//							.on('mouseout', (e,d) => dataHover(e, d, 'out'));
-
-			var tooltip_data_bar = d3.select( timelineSVG[0] )
-																.append('g')
-																	.style('display', 'none');
-			tooltip_data_bar.append('rect')
-											.attr('width', dayWidth)
-											.attr('height', height)
-											.attr('fill', '#000')
-											.attr('x', 0)
-											.attr('y', 0);
-
-		}
-
-		if (setTimeline) {
-			timeline.setLimits(d3.extent( stationHits.map( x => x.date ) ));
-		}
-
-		function updateChart(event) {
-
-			// recover the new scale
-			var newX = event.transform.rescaleX(x_scale);
-
-			console.log("newX: %s, newY: %s", newX);
-
-		}
-		if (typeof resize !== 'undefined') {
-			window.addEventListener("resize", resizeWidth);
-		}
-
-		function bisect(mx) {
-			const bisect = d3.bisector( d => d.date ).left;
-
-			const date = x_scale.invert(mx);
-			const index = bisect(Object.values(stationHits), date, 1);
-			const a = Object.values(stationHits)[index - 1];
-			const b = Object.values(stationHits)[index];
-			return b && (date - a.date > b.date - date) ? b : a;
-		}
-
-		function dataHover(e, dir = 'in') {
-			//							from: https://observablehq.com/@d3/line-chart-with-tooltip
-			if (dir == 'in') {
-				const x_pos = d3.pointer(e, this)[0];
-				const date =  x_scale.invert( x_pos );//.toISOString().substr(0, 10);
-				const d = stationHits.filter( x => Math.abs(date - x.date) < (24*60*60*1000) )[ 0 ];
-
-				$('.tooltip').html(
-					"<center><h3>"+
-						( date.toISOString().substr(0, 10) )+
-					"</h3></center>"+
-					(d ?
-						`<table style="width:100%;text-align:center;font-size:14pt;"><tbody>`+
-							`<tr><td colspan="2">${d.value} detections</td></tr>`+
-							`<tr><td>${d.animals.length} ${icons.animals}</td><td style="padding-left: 10px;">${d.species.length} ${icons.species}</td></tr>`+
-							`<tr><td><b>Animal${d.animals.length==1?"":"s"}</b></td><td style="padding-left: 10px;"><b>Species</b></td></tr>`+
-						`</tbody></table>`
-					: "") +
-					"</div>"
-				);
-
-				if (e.pageX + 15 + $('.tooltip').outerWidth() > $(window).width()) {
-					$('.tooltip').css({top:e.pageY - 10, left:e.pageX - $('.tooltip').outerWidth() - 15});
-				} else {
-					$('.tooltip').css({top:e.pageY - 10, left:e.pageX + 15});
-				}
-				tooltip_data_bar.attr('transform', `translate(${x_pos},0)`).style('display', null)
-				$('.tooltip:hidden').show();
-			} else {
-				$('.tooltip').hide();
-				tooltip_data_bar.style('display', 'none');
-			}
-		}
-		function dataHeight(x) {
-			return 2 + ( ( height - 25 ) * x.count / maxCount);
-		}
-
-		function translate(x) {
-			return "translate(0, " + (((height - 25) - dataHeight(x))/2) + ")";
-		}
-		function resizeWidth() {
-
-//			alert(`${resize.width()} - ${width}`);
-
-			if (resize.length > 0 && resize.width() > 0 && width != resize.width()) {
-
-
-				var width_el = resize;
-				var tmp_width = 0;
-
-				while(tmp_width == 0 && width_el.get(0).tagName != "BODY") {
-					tmp_width = width_el.width();
-					width_el = width_el.parent();
-				}
-
-				if (tmp_width != width) {
-					width = tmp_width;
-					resize.find("svg").remove();
-					resize.append( detectionTimeline( motusData.tracksLongByAnimal, {
-						width:width,
-						timelineSVG: $("<svg height='"+height+"' style='width:100%;margin:-8px 0;cursor:pointer;'></svg>"),
-						dataSource: dataSource,
-						colourScale: d3.scaleSequential().domain([ 1, 10 ]).range(["#000000","#000000"]),
-						margin: margin
-					}) );
-				}
-			}
-		}
-
-		if (!hasData) {
-
-			d3.select( timelineSVG[0] )
-				.append('text')
-				.attr('dy', '.3em')
-				.attr('text-anchor', 'middle')
-				.attr('x', (width / 2) )
-				.attr('y', (height / 2) )
-				.attr('class','no-data-text')
-				.style('font-weight', '600')
-				.text("NO DETECTIONS");
-
-		}
-		if (!zoomable){
-//			console.log("Station '%s' scale: %o",d[0].name, x_scale.domain())
-			d3.select( timelineSVG[0] )
-				.append( 'g' )
-				.attr('class','axis-x')
-				.attr('transform', `translate(0 ${height - 20})`)
-	//			.attr('transform', `translate(0 20)`)
-				.call(axis_x);
-
-			if (yAxis) {
-
-				var y_scale = d3.scaleLinear()
-											.domain( [maxCount, 0] )
-											.range( [0, height - 20] );
-
-				var axis_y = d3.axisLeft( y_scale )
-												//.tickFormat( d3.timeFormat( timeFormat ) )
-												.ticks( Math.round( height /  75 ) );
-
-				d3.select( timelineSVG[0] )
-					.append( 'g' )
-					.attr('class','axis-y')
-					.attr('transform', `translate(${margin.left} 0)`)
-					.call(axis_y);
-			}
-		}
-	}
-
-
-	return timelineSVG[0];
-
-}
 
 
 // In an array of track segments, it can be complicated to find the date

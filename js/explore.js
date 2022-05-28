@@ -16,13 +16,6 @@ $(document).ready(function(){
 
 	// For Development:
 	// get file prefix
-
-	filePrefix =  window.location.hostname.includes('motus.org') ? "https://" + window.location.hostname + "/dashboard/data/" : "data/";
-	imagePrefix =  window.location.hostname.includes('motus.org') ?
-										window.location.pathname.includes("dashboard-beta") ?
-											"https://" + window.location.hostname + "/wp-content/themes/dashboard_template/images/" :
-												"https://" + window.location.hostname + "/dashboard/images/" : "images/";
-	mapFilePrefix = window.location.hostname == 'localhost' || window.location.hostname == 'leberrigan.github.io' ? 'data/' : "https://" + window.location.hostname + "/dashboard/maps/";
 	// Change the document title based on the view and data type
 	document.title = "Motus - " + (exploreType == 'main' ? ( "Explore " + firstToUpper(dataType) ) : ( firstToUpper(exploreType) + " summary" ) );
 
@@ -132,59 +125,64 @@ $(document).ready(function(){
 
 });
 
-function loadDashboardContent() {
+var dashboard_loaded = false;
+function loadDashboardContent( reload = false ) {
+
+	if (!dashboard_loaded || reload) {
+
+		testTimer.push([new Date(), "Load dashboard content"]);
+
+		populateExploreControls();
+
+		initiateTooltip();
+
+		initiatePopup();
+
+		initiateLightbox();
 
 
+		populateSelectOptions();
 
-	testTimer.push([new Date(), "Load dashboard content"]);
+		exploreMap({containerID: 'explore_map'});
 
-	populateExploreControls();
+		motusMap.regionColours = d3.scaleOrdinal().domain(["166.380 MHz", "151.50 MHz", "150.10 MHz", "none"]).range(["#66c2a5","#fc8d62","#8da0cb","#999999"]);
 
-	initiateTooltip();
+		if (exploreType != 'main') {
 
-	initiatePopup();
+			addExploreProfilesWrapper();
 
-	initiateLightbox();
+			testTimer.push([new Date(), "Get selections"]);
 
+			// References indexeddb
+			getSelections().then( () => {
+				// Set the default timeline date limits
+				// Load map objects (will be replaced?)
+				loadMapObjects();
+				// Add the tab menu item for the map
+				addExploreTab('explore-card-map', 'Map', {selected: true, icon: icons.map});
+				// Add the explore profiles
+				exploreSummary();
 
-	populateSelectOptions();
+			} );
 
-	exploreMap({containerID: 'explore_map'});
-
-	motusMap.regionColours = d3.scaleOrdinal().domain(["166.380 MHz", "151.50 MHz", "150.10 MHz", "none"]).range(["#66c2a5","#fc8d62","#8da0cb","#999999"]);
-
-	if (exploreType != 'main') {
-
-		addExploreProfilesWrapper();
-
-		testTimer.push([new Date(), "Get selections"]);
-
-		// References indexeddb
-		getSelections().then( () => {
-			// Set the default timeline date limits
-			// Load map objects (will be replaced?)
+		} else {
 			loadMapObjects();
-			// Add the tab menu item for the map
-			addExploreTab('explore-card-map', 'Map', {selected: true, icon: icons.map});
-			// Add the explore profiles
-			exploreSummary();
+			$(".loader").addClass("hidden");
 
-		} );
+		}
 
+		if (["stations","animals","regions", "species", "projects"].includes(dataType)) {
+		} else {
+			exploreTable({containerID: 'explore_table', name: dataType, data: motusData[dataType]});
+		}
+		dashboard_loaded = true;
 	} else {
-		loadMapObjects();
-		$(".loader").addClass("hidden");
-
+		logMessage("Load content: Dashboard already initialized!", "error");
 	}
-
-	if (["stations","animals","regions", "species", "projects"].includes(dataType)) {
-	} else {
-		exploreTable({containerID: 'explore_table', name: dataType, data: motusData[dataType]});
-	}
-
 	// Hide the loading animation
 
 }
+
 function exploreSummaryTabSelect(selectedTab) {
 
 	$(".explore-control-content .explore-summary-selections span").text(`Select one or more ${selectedTab} below`);
@@ -210,7 +208,7 @@ function exploreSummaryTabSelect(selectedTab) {
 			} else if (selectedTab == 'projects') {
 
 				var tbl = [selectedTab,Array.from(motusData.projects.map(function(d) {
-console.log(d.stations);
+console.log(d.species);
 					return {
 						id: d.id,
 						name: d.name,
@@ -218,7 +216,7 @@ console.log(d.stations);
 						fee_id: d.fee_id,
 						stations: {display:	d.stations.length > 0 ? `<a href='javascript:void(0);' onclick="viewTableStats('stations',["${d.stations.join('","')}"])">${d.stations.length}</a>` : 0, order: d.stations.length},
 						animals: {display:	d.animals.length > 0 ? `<a href='javascript:void(0);' onclick="'"viewTableStats('animals',["${d.animals.join('","')}"])">${d.animals.length}</a>` : 0, order: d.animals.length},
-						species: {display:	d.species.length > 0 ? `<a href='javascript:void(0);' onclick="'"viewTableStats('species',["${d.species.join('","')}"])">${d.species.length}</a>` : 0, order: d.species.length}
+						species: {display:	d.species.length > 0 ? `<a href='javascript:void(0);' onclick="'"viewTableStats('species',["${d.species.filter(onlyUnique).join('","')}"])">${d.species.filter(onlyUnique).length}</a>` : 0, order: d.species.filter(onlyUnique).length}
 					};
 
 				}).values())];
@@ -574,8 +572,8 @@ function populateExploreControls() {
 													"<select id='explore_controls_plan_layer_select' style='width:200px' multiple='multiple'>"+
 															"<option selected='selected'>Active stations</option><option>Prospective stations</option><option>Coordination regions</option><option>Antenna ranges</option>"+
 													"</select>"+
-													"<button onclick='$(this).siblings(\"select\").select2(\"open\");'>Add layer</button>"+
-													"<button onclick='exploreMapAddStation()' class='submit_btn'>Add a prospective station</button>";
+													"<button onclick='$(this).siblings(\"select\").select2(\"open\");'>Add layer</button>";
+//													"<button onclick='exploreMapAddStation()' class='submit_btn'>Add a prospective station</button>";
 			}
 
 			controlContent += "</div>";
@@ -668,8 +666,24 @@ function populateExploreControls() {
 		if (controlName == 'add' && $(".explore-control-add").is(':visible')) {
 			$(".explore-control-add select").select2('open');
 		}
-		if ($(this).parent().hasClass(`explore-map-${dataType}-edit`)) {
+		if (exploreType != 'main' && $(this).parent().hasClass(`explore-map-${dataType}-edit`)) {
 			exploreMapEditor( $(this).parent().hasClass('selected') );
+		}
+		if (controlName == 'edit') {
+
+			if ($(".explore-control-edit").is(":hidden")) {
+
+	 			motusEditor.editMode = false;
+				deckGL_renderMap( true );
+
+			} else {
+				motusEditor.editMode = true;
+				if (motusMap.layers.length > 1 | !motusMap.layers.includes('stations') )  {
+					deckGL_renderMap( true );
+				} else {
+//					deckGL_renderMap( true );
+				}
+			}
 		}
 
 	});
@@ -679,12 +693,13 @@ function exploreControls(el, opt) {
 	opt = typeof opt === 'undefined' ? $(el).closest('div').attr('class').replace('explore-control-content ','').split(' ')[0].split('-').pop() : opt;
 	console.log(el);
 	console.log(opt);
+
 	if (opt == 'help') {
 
 			exploreHelp();
 
 	} else	if (opt == 'edit') {
-	//	console.log(el.value);
+
 		if (dataType == 'stations') {
 			/*  Change point type
 			motusMap.groupData = el.value.toLowerCase() == 'rectangles' ? 'rect' : (
@@ -692,30 +707,24 @@ function exploreControls(el, opt) {
 			);
 			motusMap.map.fire('moveend');
 			*/
-
-			if ($(el).val() == "Prospective stations" || ( typeof $(el).val() == 'object' && $(el).val().includes("Prospective stations") ) ) {
-				viewProspectiveStations();
-			} else {
-				motusMap.g.selectAll('.explore-map-prospective-station').classed('hidden', true);
+			var editorLayers = [];
+			if ( $(el).val().includes("Prospective stations") ) {
+				editorLayers.push("prospectiveStations");
 			}
 
-			if ($(el).val() == "Antenna ranges" || ( typeof $(el).val() == 'object' && $(el).val().includes("Antenna ranges") ) ) {
-				viewAntennaRanges();
-			} else {
-				motusMap.g.selectAll('.explore-map-antenna-range').classed('hidden', true);
+			if ( $(el).val().includes("Antenna ranges") ) {
+				editorLayers.push("antennaRanges");
+			}
+			if ( $(el).val().includes("Coordination regions") ) {
+				editorLayers.push("coordinationRegions");
+			}
+			if ( $(el).val().includes("Active stations") ) {
+				editorLayers.push("stations");
 			}
 
-			if ($(el).val() == "Coordination regions" || ( typeof $(el).val() == 'object' && $(el).val().includes("Coordination regions") ) ) {
-				viewRegionalCoordinationGroups();
-			} else {
-				motusMap.g.selectAll('.explore-map-regional-groups').classed('hidden', true);
-			}
+			motusMap.layers = editorLayers; // Keep only unique values
+			editorMapLayers();
 
-			if ($(el).val() == "Active stations" || ( typeof $(el).val() == 'object' && $(el).val().includes("Active stations") ) ) {
-				motusMap.setVisibility();
-			} else {
-				motusMap.g.selectAll('.explore-map-station:not(.disable-filter)').classed('hidden', true);
-			}
 		}
 	} else if (opt == 'animate') {
 
@@ -990,7 +999,8 @@ function afterMapLoads() {
 				dtLims = {min: motusFilter.dtStart, max: motusFilter.dtEnd}
 			}
 
-			dtLims.max = dtLims.max > new Date() ? new Date() : dtLims.max;
+			dtLims.min = typeof dtLims.min === 'undefined' ? motusFilter.dtStart : dtLims.min;
+			dtLims.max = typeof dtLims.max === 'undefined' || dtLims.max > new Date() ? new Date() : dtLims.max;
 
 
 			exploreTimeline({ min: dtLims.min.valueOf() / 1000,
@@ -1616,6 +1626,10 @@ function addExploreTab(el, header, opts = {}) {
 					console.log('Redrawing table')
 					$(`#${elID} table`).DataTable().columns.adjust().draw();
 				}
+				// Redraw tables on subsequent clicks
+				if ($(`#${elID} #explore_map`).length > 0) {
+					deckGL_renderMap();
+				}
 			}
 		});
 	} else {
@@ -1636,7 +1650,7 @@ function addExploreTab(el, header, opts = {}) {
 	}
 	if (opts.selected) {tab.trigger('click');}
 }
-
+/*
 
 function setCardColours(colourFun) {
 
@@ -1652,7 +1666,7 @@ function setCardColours(colourFun) {
 	});
 
 }
-
+*/
 function setFilter(e) {
 
 	if ( $(this).parent().hasClass('explore-card-profiles-toggles') ) {
@@ -1703,6 +1717,7 @@ function setFilter(e) {
 
 	}
 	//console.log(motusFilter);
+
 	if (Object.keys(motusFilter).every(function(k) {return ['dtStart', 'dtEnd', 'colour', 'regions'].includes(k) || motusFilter[k].includes('all');}) && motusFilter.dtStart == default_startDate && motusFilter.dtEnd == default_endDate) {
 		$("#explore_filters").parent(".active").removeClass('active');
 	} else {
@@ -1780,8 +1795,8 @@ function loadDataTypeGroupingTable() {
 			motusData[dataType],
 			v => {
 				var projects = v.map( d => d.id );
-				var stations = motusData.stations.filter( x => projects.includes(x.projID) ).map(x => x.id);
-				var animals = motusData.animals.filter(x => projects.includes(x.projID) );
+				var stations = motusData.stations.filter( x => projects.includes(x.project) ).map(x => x.id);
+				var animals = motusData.animals.filter(x => projects.includes(x.project) );
 				var species = animals.length == 0 ? [] : animals.map( x => x.species ).filter(onlyUnique);
 				animals = animals.map(x => x.id);
 				return {
