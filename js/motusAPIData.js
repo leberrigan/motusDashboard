@@ -300,7 +300,7 @@ async function API_stationActivity(count = true, table = false) {
 // Maximum number of results per table (10k)
 const API_RESULTS_MAX = 1e4;
 
-const API_AVAILABLE = !['localhost','github.com'].includes(window.location.hostname);
+const API_AVAILABLE = !['localhost','leberrigan.github.io'].includes(window.location.hostname);
 
 const AVAILABLE_TABLES = API_AVAILABLE ? API_TABLES : LOCAL_TABLES;
 
