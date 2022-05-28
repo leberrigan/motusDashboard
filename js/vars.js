@@ -19,7 +19,7 @@ const icons = {
 	download: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 100 100"><g transform="translate(0,-77.196699)"><path style="stroke-width:0.22810185" d="M 71.184445,127.20913 H 58.681499 v -22.92514 c 0,-0.60812 -0.196624,-1.10698 -0.586906,-1.49794 -0.388685,-0.38983 -0.888457,-0.58577 -1.495664,-0.58577 H 44.093702 c -0.607663,0 -1.107206,0.19594 -1.497945,0.58577 -0.390967,0.39119 -0.586222,0.88982 -0.586222,1.49794 v 22.92423 H 29.50522 c -0.954834,0 -1.606293,0.43454 -1.95392,1.30224 -0.347627,0.82596 -0.194799,1.58462 0.455976,2.2801 l 20.840068,20.83962 c 0.478101,0.39028 0.976961,0.58554 1.497945,0.58554 0.5203,0 1.019843,-0.19526 1.498402,-0.58554 l 20.774831,-20.77392 c 0.433849,-0.52076 0.650318,-1.0438 0.650318,-1.56296 0,-0.6072 -0.195027,-1.10697 -0.586906,-1.49862 -0.389826,-0.39052 -0.889369,-0.58555 -1.497489,-0.58555 z" /><path d="m 10.924903,167.89927 80.108917,0.42385" style="fill:none;stroke:#000000;stroke-width:9.12407398;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:1;stroke-dasharray:none;stroke-opacity:1" /></g></svg>',
 	detections: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" stroke-width="20" stroke="currentColor" viewBox="0 0 100 100">  <defs> <clipPath id="clipPath4716" clipPathUnits="userSpaceOnUse"> <path d="M 376.06161,376.06303 V 1.8911244 H 363.86239 L 189.05379,176.69972 14.245251,1.8911244 H 1.8897865 V 376.06303 H 14.089005 L 189.05379,201.09819 364.01863,376.06303 Z" style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.99999994;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"></path> </clipPath> </defs><g style="display:inline"></g> <g style="display:inline" transform="translate(-49.999997,-147)"> <circle r="12.5" cy="197" cx="100" style="fill:;fill-opacity:1;stroke-width:0.50107378;stroke-miterlimit:4;stroke-dasharray:none"></circle> <path clip-path="url(#clipPath4716)" id="path815-5" transform="matrix(0.26458333,0,0,0.26458333,49.999997,147)" d="M 188.97656,9.4570312 A 179.51911,179.5191 0 0 0 9.4570312,188.97656 179.51911,179.5191 0 0 0 188.97656,368.49609 179.51911,179.5191 0 0 0 368.49609,188.97656 179.51911,179.5191 0 0 0 188.97656,9.4570312 Z m 0,70.8574218 A 108.66142,108.66142 0 0 1 297.63867,188.97656 108.66142,108.66142 0 0 1 188.97656,297.63867 108.66142,108.66142 0 0 1 80.314453,188.97656 108.66142,108.66142 0 0 1 188.97656,80.314453 Z" style="fill:none;fill-opacity:1;stroke-width:18.91456032;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"></path> </g></svg>',
 	expand:'<svg xmlns="http://www.w3.org/2000/svg" width="16" height="15" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16"><path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>',
-	edit: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" class="explore-map-edit-btn tips" alt="Open station planner">'+
+	edit: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" class="explore-map-edit-btn tips" alt="Advanced">'+
 	  '<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>'+
 	  '<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>'+
 	'</svg>',
@@ -51,7 +51,8 @@ const icons = {
 	tags: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFFFFF" stroke="currentColor" stroke-width="20" viewBox="125 -10 250 500"><path d="m 307.38806,152.71231 v 163.57 c 0,8.284 -6.716,15 -15,15 -41.28149,-0.71533 -47.28327,1.62781 -80,0 -8.284,0 -15,-6.716 -15,-15 v -164.459 c -16.587,-15.09 -27,-36.85 -27,-61.041001 0,-45.563 36.937,-82.5 82.5,-82.5 45.563,0 82.5,36.937 82.5,82.5 0,24.672001 -10.834,46.811001 -28,61.930001 z" /><path d="M 251.05287,334.93644 V 488.58051"/></svg>',
 	target: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" stroke="currentColor" stroke-width="20" viewBox="0 0 225 225"><?xml version="1.0" encoding="UTF-8" standalone="no"?> <!-- Created with Inkscape (http://www.inkscape.org/) --> <svg xmlns="http://www.w3.org/2000/svg" width="58.208347mm" height="58.20834mm" viewBox="0 0 58.208347 58.20834" version="1.1" stroke="currentColor" id="svg8"> <g transform="translate(-2.645827,-3.3125006)"> <circle style="fill:none;fill-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" id="path4518" cx="32.178452" cy="32.628746" r="20.894449" /> <path style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="M 31.75,21.833333 V 3.3125006" id="path4522"/> </g> <g transform="translate(-2.645827,-3.3125006)"> <path style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 42.333333,32.416667 h 18.52084" id="path4522-1" /> <path style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="M 31.75,43 V 61.52084" id="path4522-1-2"/> <path style="fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 2.645827,32.416667 h 18.52084" id="path4522-1-5"/> </g> </svg> ',
 	timeline: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="explore-timeline-btn tips" alt="Timeline" viewBox="0 0 16 16"><path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/><path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/><path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/></svg>',
-	track: '<svg   xmlns:dc="http://purl.org/dc/elements/1.1/"   xmlns:cc="http://creativecommons.org/ns#"   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   version="1.1"   viewBox="0 0 23.052618 41.573452"   height="23"   width="18">  <defs     id="defs2">    <marker       style="overflow:visible"       id="marker1384"       refX="0"       refY="0"       orient="auto">      <path         transform="matrix(0.4,0,0,0.4,2.96,0.4)"         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"         id="path1382" />    </marker>    <marker       style="overflow:visible"       id="DotM"       refX="0"       refY="0"       orient="auto">      <path         transform="matrix(0.4,0,0,0.4,2.96,0.4)"         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"         id="path910" />    </marker>    <marker       style="overflow:visible"       id="DotL"       refX="0"       refY="0"       orient="auto">      <path         transform="matrix(0.8,0,0,0.8,5.92,0.8)"         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"         id="path907" />    </marker>  </defs>  <g     transform="translate(-32.112052,-59.290716)"     id="layer1">    <path       d="M 34.395833,98.5625 52.916666,61.520831"       style="fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:3.29999995;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#DotM);marker-end:url(#marker1384)" />  </g></svg>'
+	track: '<svg   xmlns:dc="http://purl.org/dc/elements/1.1/"   xmlns:cc="http://creativecommons.org/ns#"   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"   xmlns:svg="http://www.w3.org/2000/svg"   xmlns="http://www.w3.org/2000/svg"   version="1.1"   viewBox="0 0 23.052618 41.573452"   height="23"   width="18">  <defs     id="defs2">    <marker       style="overflow:visible"       id="marker1384"       refX="0"       refY="0"       orient="auto">      <path         transform="matrix(0.4,0,0,0.4,2.96,0.4)"         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"         id="path1382" />    </marker>    <marker       style="overflow:visible"       id="DotM"       refX="0"       refY="0"       orient="auto">      <path         transform="matrix(0.4,0,0,0.4,2.96,0.4)"         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"         id="path910" />    </marker>    <marker       style="overflow:visible"       id="DotL"       refX="0"       refY="0"       orient="auto">      <path         transform="matrix(0.8,0,0,0.8,5.92,0.8)"         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"         id="path907" />    </marker>  </defs>  <g     transform="translate(-32.112052,-59.290716)"     id="layer1">    <path       d="M 34.395833,98.5625 52.916666,61.520831"       style="fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:3.29999995;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#DotM);marker-end:url(#marker1384)" />  </g></svg>',
+	zoom: '<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/><path d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z"/><path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5z"/></svg>'
 }
 
 const conservationStatus = {
@@ -180,6 +181,22 @@ var filters = {
 	data: {}
 }
 
+const TEXT_FRAGMENTS = {
+//	KEY:	{english: "", fr: "",	es: ""}
+	month_1:	{english: "Jan", fr: "jan",	es: "ene"},
+	month_2:	{english: "Feb", fr: "fev",	es: "feb"},
+	month_3:	{english: "Mar", fr: "mar",	es: "mar"},
+	month_4:	{english: "Apr", fr: "avr",	es: "abr"},
+	month_5:	{english: "May", fr: "mai",	es: "mai"},
+	month_6:	{english: "Jun", fr: "jun",	es: "jun"},
+	month_7:	{english: "Jul", fr: "jul",	es: "jul"},
+	month_8:	{english: "Aug", fr: "aou",	es: "ago"},
+	month_9:	{english: "Sep", fr: "sep",	es: "sep"},
+	month_10:	{english: "Oct", fr: "oct",	es: "oct"},
+	month_11:	{english: "Nov", fr: "nov",	es: "nov"},
+	month_12:	{english: "Dec", fr: "dec",	es: "dec"}
+}
+
 // All 5 data categories
 var dataTypes = ['Stations', 'Animals', 'Regions', 'Projects', 'Species'];
 
@@ -202,8 +219,21 @@ var motusFilter = {
 	status: ["all"],
 	frequencies: ["all"],
 	selections: [],
-	colour: ''
-};
+	colour: '',
+	default: {
+		dtStart: default_startDate,
+		dtEnd: default_endDate,
+		species: ["all"],
+		regions: ["all"],
+		projects: ["all"],
+		stations: ["all"],
+		status: ["all"],
+		frequencies: ["all"],
+		selections: [],
+		regionType: 'continent',
+		colour: ''
+	}
+}
 
 // Is the client on a mobile device? Will be set by function after initiation.
 var isMobile = false;
@@ -217,8 +247,217 @@ var exploreType,
 		dataType; // 'stations' or 'species'
 
 // This is provide a URL for accessing data
-var filePrefix;
-var mapFilePrefix;
+const	filePrefix =  window.location.hostname.includes('motus.org') ? "https://" + window.location.hostname + "/dashboard/data/" : "data/";
+const	imagePrefix =  window.location.hostname.includes('motus.org') ?
+										window.location.pathname.includes("dashboard-beta") ?
+											"https://" + window.location.hostname + "/wp-content/themes/dashboard_template/images/" :
+												"https://" + window.location.hostname + "/dashboard/images/" : "images/";
+const	mapFilePrefix = window.location.hostname == 'localhost' || window.location.hostname == 'leberrigan.github.io' ? 'data/' : "https://" + window.location.hostname + "/dashboard/maps/";
+
 
 // Used to compare the length of time needed for different operations
 var testTimer=[];
+
+// List which tabels need to be loaded for each view to make things more efficient
+var requiredTables = {
+	main: {
+		stations: ["stations","stationDeps", "animals", "species", "projects"],
+		animals: ["stations","stationDeps", "animals", "tracksLongByAnimal", "species", "projects"],
+		regions: ["stations","stationDeps", "regions", "polygons", "species", "projects"],
+		projects: ["stations","stationDeps", "animals", "species", "projects"],
+		species: ["stations","stationDeps", "species", "projects"]
+	},
+	summary: {
+		stations: ["stations", "stationDeps", "animals", "regions", "polygons", "species", "projects", "tracksLongByAnimal"],
+		animals: ["stations", "stationDeps", "animals", "regions", "polygons", "species", "projects", "tracksLongByAnimal"],
+		regions: ["stations", "stationDeps", "animals", "regions", "polygons", "species", "projects", "tracksLongByAnimal"],
+		projects: ["stations", "stationDeps", "animals", "regions", "species", "projects", "tracksLongByAnimal"],
+		species: ["stations", "stationDeps", "animals", "regions", "polygons", "species", "projects", "tracksLongByAnimal"]
+	}
+}
+
+
+// A list of all tables accessible from the API
+const API_TABLES = [
+	"antennaDeployments",
+	"gps",
+	"antPulse",
+	"projects",
+	"receivers",
+	"species",
+	"stations",
+	"station/recent",
+	"stationDeployments",
+	"stationTags",
+	"tags",
+	"tags/local",
+	"tagDeployments"
+];
+
+// A list of all tables accessible from the local demo (for testing only)
+const LOCAL_TABLES = [
+	"antennaDeployments",
+	"projects",
+	"receivers",
+	"species",
+	"stations",
+	"station/recent",
+	"stationDeployments",
+	"stationTags",
+	"tracks",
+	"tags",
+	"tags/local",
+	"tagDeployments"
+];
+
+/* Order in which tables must be loaded
+
+		antennas
+		stationDeps
+		stationDetectedTags
+		stationLocalTags
+		stationRecentData
+		stations
+		tags
+		animals
+		species
+		trackLongByAnimal
+		tracksByAnimal
+		projects
+
+*/
+
+var NEW_DOWNLOAD_AGE = 7; // Number of days before we download a new file
+
+	// These are all the tables I store in the local db along with their URLs.
+var indexedDBTables = {
+	motusTables: 				{key: "name", get: true, done: true},
+	antennas: 					{file: filePrefix + "API_antenna-deployments.csv",					key: 'id', 															API: "antennaDeployments"},	// All receiver deployments, including deployment country
+	stationDeps: 				{file: filePrefix + "API_station_deployments.csv", 					key: 'id', 															API: "stationDeployments"},	// All receiver deployments, including deployment country
+	stationDetectedTags:{file: filePrefix + "API_station_tags.csv", 								key: 'deploymentID', 										API: "stationTags"}, //
+	stationLocalTags: 	{file: filePrefix + "API_tags_local.csv",										key: 'stationID', 											API: "tags/local"}, //
+	stationRecentData: 	{file: filePrefix + "API_station_recent.csv",								key: 'stationID', 											API: "station/recent", get: true}, //
+	stations: 					{file: filePrefix + "API_stations.csv", 										key: 'id, project, country, *animals', 	API: "stations"},	// All stations including station deployments (a.k.a. receiver deployments)
+	tags:					 			{file: filePrefix + "API_tags.csv", 												key: 'id', 															API: "tags"}, // All tag deployments, including deployment country
+	animals:					 	{file: filePrefix + "API_tag_deployments.csv", 							key: 'id, project, country, species', 	API: "tagDeployments"}, // All tag deployments, including deployment country
+	//tracks: 						{file: filePrefix + "siteTrans_real3.csv", 									key: 'route, *animal', 									API: false}, // All site transitions
+	species: 						{file: filePrefix + "API_species.csv",											key: 'id',															API: "species"}, // List of all species and various names/codes
+	tracksLongByAnimal: {file: filePrefix + "API_tracks.csv", 											key: 'id', 															API: "tracks"}, //
+	tracksByAnimal: 		{file: false, 																							key: 'id', 															API: false}, //
+	projects: 					{file: filePrefix + "API_projects.csv", 										key: 'id',															API: "projects"}, // All projects, their codes, and descriptions
+	polygons: 					{file: mapFilePrefix + "ne_50m_admin_0_countries.geojson", 	key: '++, id', 													API: false}, // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
+	regions: 						{file: filePrefix + "country-stats.csv", 										key: 'id', 															API: false}, // Number of projects, stations, and tag deployments in each country
+	prospectiveStations:{file: mapFilePrefix + "prospective_stations.geojson", 			key: 'id', 															API: false}, // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
+	coordinationRegions:{file: mapFilePrefix + "motus-regional-collaboratives.geojson", 	key: '++, id', 										API: false}, // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
+	antPulses:		 			{file: false, 																							key: 'id', 															API: "antPulses"}, //
+	gpsHits: 						{file: false, 																							key: 'id', 															API: "gps"}, //
+	stationsByRegion: 	{file: false, 																							key: 'region, regionType', 							API: false}, //
+	animalsByRegion: 		{file: false, 																							key: 'region, regionType', 							API: false} //
+}
+// A list of all tables accessible from the API
+var MOTUS_TABLES = {
+	"antennaDeployments": {
+    english: "Antennas",
+    api: true,
+    local: true,
+    get: false,
+    key: "id",
+		update: "check"
+  },
+	"gps": {
+    english: "GPS Hits",
+    api: true,
+    local: true,
+    get: false,
+    key: "id",
+		update: "check"
+  },
+	"antPulse": {
+    english: "Pulse Counts",
+    api: true,
+    local: true,
+    get: false,
+    key: "id",
+		update: "check"
+  },
+	"projects": {
+    english: "Motus Projects",
+    api: true,
+    local: true,
+    get: true,
+    key: "id",
+		update: "check"
+  },
+	"receivers": {
+    english: "Receiver devices",
+    api: true,
+    local: true,
+    get: false,
+    key: "id",
+		update: "check"
+  },
+	"species": {
+    english: "Species tagged",
+    api: true,
+    local: true,
+    get: true,
+    key: "id",
+		update: "check"
+  },
+	"stations": {
+    english: "Motus stations",
+    api: true,
+    local: true,
+    get: true,
+    key: "id",
+		update: "check"
+  },
+	"station/recent": {
+    english: "Recent data",
+    api: true,
+    local: true,
+    get: false,
+    key: "id",
+		update: "always"
+  },
+	"stationDeployments": {
+    english: "Station deployments",
+    api: true,
+    local: true,
+    get: true,
+    key: "id",
+		update: "check"
+  },
+	"stationTags": {
+    english: "Tags detected at each station",
+    api: true,
+    local: true,
+    get: false,
+    key: "id",
+		update: "check"
+  },
+	"tags": {
+    english: "Motus tags",
+    api: true,
+    local: true,
+    get: false,
+    key: "id",
+		update: "check"
+  },
+	"tags/local": {
+    english: "Tags deployed locally at each station",
+    api: true,
+    local: true,
+    get: false,
+    key: "id",
+		update: "check"
+  },
+	"tagDeployments": {
+    english: "Animals",
+    api: true,
+    local: true,
+    get: false,
+    key: "id",
+		update: "check"
+  }
+};

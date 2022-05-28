@@ -1,0 +1,238 @@
+speciesID,scientific,english,french,code,sort,photo,group
+230,Branta canadensis,Canada Goose,Bernache du Canada,cangoo,154,NULL,BIRDS
+2160,Hydrobates leucorhoa/socorroensis/cheimomnestes,Leach's/Townsend's/Ainley's Storm-Petrel,Océanite cul-blanc, O. de Townsend ou O. d'Ainley,y00939,3675,NULL,BIRDS
+2510,Ixobrychus exilis,Least Bittern,Petit Blongios,leabit,4001,NULL,BIRDS
+2720,Nycticorax nycticorax,Black-crowned Night-Heron,Bihoreau gris,bcnher,4096,NULL,BIRDS
+2810,Platalea ajaja,Roseate Spoonbill,Spatule rosée,rosspo1,4161,NULL,BIRDS
+2850,Cathartes aura,Turkey Vulture,Urubu à tête rouge,turvul,4167,NULL,BIRDS
+3062,Circus pygargus,Montagu's Harrier,Busard cendré,monhar1,4353,NULL,BIRDS
+3330,Buteo swainsoni,Swainson's Hawk,Buse de Swainson,swahaw,4530,NULL,BIRDS
+3440,Aquila chrysaetos,Golden Eagle,Aigle royal,goleag,4309,NULL,BIRDS
+3570,Falco sparverius,American Kestrel,Crécerelle d'Amérique,amekes,6183,NULL,BIRDS
+3580,Falco columbarius,Merlin,Faucon émerillon,merlin,6203,NULL,BIRDS
+3680,Coturnicops noveboracensis,Yellow Rail,Râle jaune,yelrai,2838,NULL,BIRDS
+3751,Rallus crepitans,Clapper Rail,Râle tapageur,clarai11,2647,NULL,BIRDS
+3761,Rallus elegans,King Rail,Râle élégant,kinrai4,2643,NULL,BIRDS
+3770,Rallus limicola,Virginia Rail,Râle de Virginie,virrai,2657,NULL,BIRDS
+3830,Porzana carolina,Sora,Marouette de Caroline,SORA,2734,NULL,BIRDS
+4070,Pluvialis squatarola,Black-bellied Plover,Pluvier argenté,bkbplo,2957,NULL,BIRDS
+4100,Pluvialis dominica,American Golden-Plover,Pluvier bronzé,amgplo,2959,NULL,BIRDS
+4110,Pluvialis fulva,Pacific Golden-Plover,Pluvier fauve,pagplo,2960,NULL,BIRDS
+4160,Charadrius wilsonia,Wilson's Plover,Pluvier de Wilson,wilplo,3022,NULL,BIRDS
+4180,Charadrius semipalmatus,Semipalmated Plover,Pluvier semipalmé,semplo,3024,NULL,BIRDS
+4190,Charadrius melodus,Piping Plover,Pluvier siffleur,pipplo,3027,NULL,BIRDS
+4260,Haematopus palliatus,American Oystercatcher,Huîtrier d'Amérique,ameoys,2948,NULL,BIRDS
+4280,Himantopus himantopus,Black-winged Stilt,Échasse blanche,bkwsti,2918,NULL,BIRDS
+4400,Tringa brevipes,Gray-tailed Tattler,Chevalier de Sibérie,gyttat1,3218,NULL,BIRDS
+4450,Tringa flavipes,Lesser Yellowlegs,Petit Chevalier,lesyel,3229,NULL,BIRDS
+4460,Tringa stagnatilis,Marsh Sandpiper,Chevalier stagnatile,marsan,3231,NULL,BIRDS
+4530,Numenius phaeopus,Whimbrel,Courlis corlieu,whimbr,3077,NULL,BIRDS
+4600,Limosa haemastica,Hudsonian Godwit,Barge hudsonienne,hudgod,3100,NULL,BIRDS
+4630,Arenaria interpres,Ruddy Turnstone,Tournepierre à collier,rudtur,3104,NULL,BIRDS
+4660,Calidris tenuirostris,Great Knot,Bécasseau de l'Anadyr,grekno,3110,NULL,BIRDS
+4670,Calidris canutus,Red Knot,Bécasseau maubèche,redkno,3111,NULL,BIRDS
+4680,Calidris alba,Sanderling,Bécasseau sanderling,sander,3125,NULL,BIRDS
+4690,Calidris pusilla,Semipalmated Sandpiper,Bécasseau semipalmé,semsan,3154,NULL,BIRDS
+4700,Calidris mauri,Western Sandpiper,Bécasseau d'Alaska,wessan,3155,NULL,BIRDS
+4730,Calidris temminckii,Temminck's Stint,Bécasseau de Temminck,temsti,3121,NULL,BIRDS
+4750,Calidris minutilla,Least Sandpiper,Bécasseau minuscule,leasan,3146,NULL,BIRDS
+4760,Calidris fuscicollis,White-rumped Sandpiper,Bécasseau à croupion blanc,whrsan,3147,NULL,BIRDS
+4780,Calidris melanotos,Pectoral Sandpiper,Bécasseau à poitrine cendrée,pecsan,3151,NULL,BIRDS
+4800,Calidris maritima,Purple Sandpiper,Bécasseau violet,pursan,3140,NULL,BIRDS
+4820,Calidris alpina,Dunlin,Bécasseau variable,dunlin,3126,NULL,BIRDS
+4870,Calidris subruficollis,Buff-breasted Sandpiper,Bécasseau roussâtre,bubsan,3149,NULL,BIRDS
+4890,Limnodromus griseus,Short-billed Dowitcher,Bécassin roux,shbdow,3160,NULL,BIRDS
+4980,Scolopax minor,American Woodcock,Bécasse d'Amérique,amewoo,3174,NULL,BIRDS
+4990,Phalaropus tricolor,Wilson's Phalarope,Phalarope de Wilson,wilpha,3206,NULL,BIRDS
+5000,Phalaropus lobatus,Red-necked Phalarope,Phalarope à bec étroit,renpha,3207,NULL,BIRDS
+5010,Phalaropus fulicarius,Red Phalarope,Phalarope à bec large,redpha1,3208,NULL,BIRDS
+5170,Larus argentatus,Herring Gull,Goéland argenté,hergul,3411,NULL,BIRDS
+5210,Larus fuscus,Lesser Black-backed Gull,Goéland brun,lbbgul,3438,NULL,BIRDS
+5280,Larus marinus,Great Black-backed Gull,Goéland marin,gbbgul,3463,NULL,BIRDS
+5460,Sternula antillarum,Least Tern,Petite Sterne,leater1,3496,NULL,BIRDS
+5520,Chlidonias niger,Black Tern,Guifette noire,blkter,3513,NULL,BIRDS
+5570,Sterna hirundo,Common Tern,Sterne pierregarin,comter,3523,NULL,BIRDS
+5580,Sterna paradisaea,Arctic Tern,Sterne arctique,arcter,3528,NULL,BIRDS
+5650,Rynchops niger,Black Skimmer,Bec-en-ciseaux noir,blkski,3563,NULL,BIRDS
+5970,Columba livia (Feral Pigeon),Rock Pigeon (Feral Pigeon),Pigeon biset (forme domestique),rocpig1,962,NULL,BIRDS
+7060,Coccyzus americanus,Yellow-billed Cuckoo,Coulicou à bec jaune,yebcuc,1635,NULL,BIRDS
+7100,Coccyzus erythropthalmus,Black-billed Cuckoo,Coulicou à bec noir,bkbcuc,1640,NULL,BIRDS
+7680,Aegolius acadicus,Northern Saw-whet Owl,Petite Nyctale,nswowl,4916,NULL,BIRDS
+7720,Chordeiles minor,Common Nighthawk,Engoulevent d'Amérique,comnig,1784,NULL,BIRDS
+7871,Antrostomus vociferus,Eastern Whip-poor-will,Engoulevent bois-pourri,easwpw1,1840,NULL,BIRDS
+8040,Chaetura pelagica,Chimney Swift,Martinet ramoneur,chiswi,1948,NULL,BIRDS
+10030,Melanerpes lewis,Lewis's Woodpecker,Pic de Lewis,lewwoo,5807,NULL,BIRDS
+10220,Sphyrapicus varius,Yellow-bellied Sapsucker,Pic maculé,yebsap,5794,NULL,BIRDS
+10370,Picoides arcticus,Black-backed Woodpecker,Pic à dos noir,bkbwoo,5847,NULL,BIRDS
+12150,Empidonax alnorum/traillii,Alder/Willow Flycatcher (Traill's Flycatcher),Moucherolle des aulnes ou M. des saules,y00324,8555,NULL,BIRDS
+12160,Empidonax alnorum,Alder Flycatcher,Moucherolle des aulnes,aldfly,8550,NULL,BIRDS
+12170,Empidonax traillii,Willow Flycatcher,Moucherolle des saules,wilfly,8551,NULL,BIRDS
+12190,Empidonax minimus,Least Flycatcher,Moucherolle tchébec,leafly,8557,NULL,BIRDS
+12200,Empidonax hammondii,Hammond's Flycatcher,Moucherolle de Hammond,hamfly,8558,NULL,BIRDS
+12220,Empidonax oberholseri,Dusky Flycatcher,Moucherolle sombre,dusfly,8560,NULL,BIRDS
+12310,Sayornis saya,Say's Phoebe,Moucherolle à ventre roux,saypho,8577,NULL,BIRDS
+13210,Lanius ludovicianus,Loggerhead Shrike,Pie-grièche migratrice,logshr,10315,NULL,BIRDS
+13240,Vireo griseus,White-eyed Vireo,Viréo aux yeux blancs,whevir,9474,NULL,BIRDS
+13380,Vireo flavifrons,Yellow-throated Vireo,Viréo à gorge jaune,yetvir,9497,NULL,BIRDS
+13420,Vireo solitarius,Blue-headed Vireo,Viréo à tête bleue,buhvir,9503,NULL,BIRDS
+13460,Vireo gilvus,Warbling Vireo,Viréo mélodieux,warvir,9514,NULL,BIRDS
+13640,Cyanocitta cristata,Blue Jay,Geai bleu,blujay,10408,NULL,BIRDS
+14040,Eremophila alpestris,Horned Lark,Alouette hausse-col,horlar,10884,NULL,BIRDS
+14050,Progne subis,Purple Martin,Hirondelle noire,purmar,11445,NULL,BIRDS
+14120,Tachycineta bicolor,Tree Swallow,Hirondelle bicolore,treswa,11464,NULL,BIRDS
+14230,Petrochelidon pyrrhonota,Cliff Swallow,Hirondelle à front blanc,cliswa,11546,NULL,BIRDS
+14250,Hirundo rustica,Barn Swallow,Hirondelle rustique,barswa,11499,NULL,BIRDS
+14280,Poecile atricapillus,Black-capped Chickadee,Mésange à tête noire,bkcchi,10715,NULL,BIRDS
+14320,Poecile hudsonicus,Boreal Chickadee,Mésange à tête brune,borchi2,10725,NULL,BIRDS
+14780,Troglodytes aedon,House Wren,Troglodyte familier,houwre,12783,NULL,BIRDS
+15050,Phylloscopus inornatus,Yellow-browed Warbler,Pouillot à grands sourcils,yebwar3,11818,NULL,BIRDS
+15270,Luscinia svecica,Bluethroat,Gorgebleue à miroir,blueth,13786,NULL,BIRDS
+15550,Catharus fuscescens,Veery,Grive fauve,veery,13267,NULL,BIRDS
+15560,Catharus minimus,Gray-cheeked Thrush,Grive à joues grises,gycthr,13268,NULL,BIRDS
+15570,Catharus bicknelli,Bicknell's Thrush,Grive de Bicknell,bicthr,13269,NULL,BIRDS
+15580,Catharus ustulatus,Swainson's Thrush,Grive à dos olive,swathr,13272,NULL,BIRDS
+15590,Catharus guttatus,Hermit Thrush,Grive solitaire,herthr,13275,NULL,BIRDS
+15600,Hylocichla mustelina,Wood Thrush,Grive des bois,woothr,13280,NULL,BIRDS
+15650,Turdus iliacus,Redwing,Grive mauvis,redwin,13337,NULL,BIRDS
+15651,Turdus philomelos,Song Thrush,Grive musicienne,sonthr1,13331,NULL,BIRDS
+15830,Ixoreus naevius,Varied Thrush,Grive à collier,varthr,13252,NULL,BIRDS
+15900,Dumetella carolinensis,Gray Catbird,Moqueur chat,grycat,13128,NULL,BIRDS
+15970,Toxostoma rufum,Brown Thrasher,Moqueur roux,brnthr,13142,NULL,BIRDS
+16140,Sturnus vulgaris,European Starling,Étourneau sansonnet,eursta,13016,NULL,BIRDS
+16250,Anthus trivialis,Tree Pipit,Pipit des arbres,trepip,14896,NULL,BIRDS
+16290,Anthus rubescens,American Pipit,Pipit d'Amérique,amepip,14913,NULL,BIRDS
+16330,Bombycilla cedrorum,Cedar Waxwing,Jaseur d'Amérique,cedwax,14026,NULL,BIRDS
+16420,Vermivora chrysoptera,Golden-winged Warbler,Paruline à ailes dorées,gowwar,15869,NULL,BIRDS
+16460,Leiothlypis peregrina,Tennessee Warbler,Paruline obscure,tenwar,15880,NULL,BIRDS
+16470,Leiothlypis celata,Orange-crowned Warbler,Paruline verdâtre,orcwar,15881,NULL,BIRDS
+16480,Leiothlypis ruficapilla,Nashville Warbler,Paruline à joues grises,naswar,15889,NULL,BIRDS
+16560,Setophaga petechia,Yellow Warbler,Paruline jaune,yelwar,15958,NULL,BIRDS
+16580,Setophaga magnolia,Magnolia Warbler,Paruline à tête cendrée,magwar,15953,NULL,BIRDS
+16600,Setophaga caerulescens,Black-throated Blue Warbler,Paruline bleue,btbwar,15972,NULL,BIRDS
+16610,Setophaga coronata,Yellow-rumped Warbler,Paruline à croupion jaune,yerwar,15983,NULL,BIRDS
+16620,Setophaga coronata coronata,Yellow-rumped Warbler (Myrtle),Paruline à croupion jaune (coronata),myrwar,15984,NULL,BIRDS
+16690,Setophaga fusca,Blackburnian Warbler,Paruline à gorge orangée,bkbwar,15956,NULL,BIRDS
+16700,Setophaga dominica,Yellow-throated Warbler,Paruline à gorge jaune,yetwar,15992,NULL,BIRDS
+16770,Setophaga kirtlandii,Kirtland's Warbler,Paruline de Kirtland,kirwar,15936,NULL,BIRDS
+16780,Setophaga discolor,Prairie Warbler,Paruline des prés,prawar,15999,NULL,BIRDS
+16801,Setophaga palmarum palmarum,Palm Warbler (Western),Paruline à couronne rousse (palmarum),palwar3,15977,NULL,BIRDS
+16810,Setophaga castanea,Bay-breasted Warbler,Paruline à poitrine baie,babwar,15955,NULL,BIRDS
+16820,Setophaga striata,Blackpoll Warbler,Paruline rayée,bkpwar,15969,NULL,BIRDS
+16890,Setophaga ruticilla,American Redstart,Paruline flamboyante,amered,15935,NULL,BIRDS
+16900,Protonotaria citrea,Prothonotary Warbler,Paruline orangée,prowar,15876,NULL,BIRDS
+16910,Helmitheros vermivorum,Worm-eating Warbler,Paruline vermivore,woewar1,15863,NULL,BIRDS
+16920,Limnothlypis swainsonii,Swainson's Warbler,Paruline de Swainson,swawar,15877,NULL,BIRDS
+16930,Seiurus aurocapilla,Ovenbird,Paruline couronnée,ovenbi1,15862,NULL,BIRDS
+16940,Parkesia noveboracensis,Northern Waterthrush,Paruline des ruisseaux,norwat,15866,NULL,BIRDS
+16950,Parkesia motacilla,Louisiana Waterthrush,Paruline hochequeue,louwat,15865,NULL,BIRDS
+16960,Geothlypis formosa,Kentucky Warbler,Paruline du Kentucky,kenwar,15909,NULL,BIRDS
+16970,Oporornis agilis,Connecticut Warbler,Paruline à gorge grise,conwar,15897,NULL,BIRDS
+16980,Geothlypis philadelphia,Mourning Warbler,Paruline triste,mouwar,15904,NULL,BIRDS
+17000,Geothlypis trichas,Common Yellowthroat,Paruline masquée,comyel,15919,NULL,BIRDS
+17130,Setophaga citrina,Hooded Warbler,Paruline à capuchon,hoowar,15934,NULL,BIRDS
+17150,Cardellina canadensis,Canada Warbler,Paruline du Canada,canwar,16078,NULL,BIRDS
+17310,Icteria virens,Yellow-breasted Chat,Ictérie polyglotte,yebcha,15681,NULL,BIRDS
+17670,Piranga rubra,Summer Tanager,Piranga vermillon,sumtan,16117,NULL,BIRDS
+17680,Piranga olivacea,Scarlet Tanager,Piranga écarlate,scatan,16119,NULL,BIRDS
+18570,Pipilo erythrophthalmus,Eastern Towhee,Tohi à flancs roux,eastow,15604,NULL,BIRDS
+18760,Spizelloides arborea,American Tree Sparrow,Bruant hudsonien,amtspa,15476,NULL,BIRDS
+18780,Spizella pallida,Clay-colored Sparrow,Bruant des plaines,clcspa,15428,NULL,BIRDS
+18800,Spizella pusilla,Field Sparrow,Bruant des champs,fiespa,15431,NULL,BIRDS
+18840,Chondestes grammacus,Lark Sparrow,Bruant à joues marron,larspa,15442,NULL,BIRDS
+18870,Calamospiza melanocorys,Lark Bunting,Bruant noir et blanc,larbun,15443,NULL,BIRDS
+18880,Passerculus sandwichensis,Savannah Sparrow,Bruant des prés,savspa,15551,NULL,BIRDS
+18890,Passerculus sandwichensis princeps,Savannah Sparrow (Ipswich),Bruant des prés (princeps),ipsspa,15553,NULL,BIRDS
+18900,Ammodramus savannarum,Grasshopper Sparrow,Bruant sauterelle,graspa,15415,NULL,BIRDS
+18910,Centronyx bairdii,Baird's Sparrow,Bruant de Baird,baispa,15557,NULL,BIRDS
+18940,Ammospiza nelsoni,Nelson's Sparrow,Bruant de Nelson,nstspa,15543,NULL,BIRDS
+18950,Ammospiza caudacuta,Saltmarsh Sparrow,Bruant à queue aiguë,sstspa,15547,NULL,BIRDS
+18960,Ammospiza maritima,Seaside Sparrow,Bruant maritime,seaspa,15538,NULL,BIRDS
+18961,Ammospiza nelsoni/caudacuta,Nelson's/Saltmarsh Sparrow (Sharp-tailed Sparrow),Bruant de Nelson ou B. à queue aiguë,shtspa,15549,NULL,BIRDS
+18990,Melospiza melodia,Song Sparrow,Bruant chanteur,sonspa,15562,NULL,BIRDS
+19000,Melospiza lincolnii,Lincoln's Sparrow,Bruant de Lincoln,linspa,15572,NULL,BIRDS
+19010,Melospiza georgiana,Swamp Sparrow,Bruant des marais,swaspa,15574,NULL,BIRDS
+19030,Zonotrichia albicollis,White-throated Sparrow,Bruant à gorge blanche,whtspa,15522,NULL,BIRDS
+19050,Zonotrichia leucophrys,White-crowned Sparrow,Bruant à couronne blanche,whcspa,15509,NULL,BIRDS
+19250,Plectrophenax nivalis,Snow Bunting,Plectrophane des neiges,snobun,15307,NULL,BIRDS
+19440,Passerina caerulea,Blue Grosbeak,Guiraca bleu,blugrb1,16196,NULL,BIRDS
+19460,Passerina cyanea,Indigo Bunting,Passerin indigo,indbun,16198,NULL,BIRDS
+19500,Passerina ciris,Painted Bunting,Passerin nonpareil,paibun,16205,NULL,BIRDS
+19510,Spiza americana,Dickcissel,Dickcissel d'Amérique,dickci,16209,NULL,BIRDS
+19550,Agelaius tricolor,Tricolored Blackbird,Carouge de Californie,tribla,15797,NULL,BIRDS
+19600,Sturnella magna,Eastern Meadowlark,Sturnelle des prés,easmea,15687,NULL,BIRDS
+19620,Xanthocephalus xanthocephalus,Yellow-headed Blackbird,Carouge à tête jaune,yehbla,15684,NULL,BIRDS
+19650,Euphagus carolinus,Rusty Blackbird,Quiscale rouilleux,rusbla,15816,NULL,BIRDS
+19760,Molothrus ater,Brown-headed Cowbird,Vacher à tête brune,bnhcow,15809,NULL,BIRDS
+19850,Icterus spurius,Orchard Oriole,Oriole des vergers,orcori,15744,NULL,BIRDS
+20110,Fringilla montifringilla,Brambling,Pinson du Nord,brambl,14957,NULL,BIRDS
+20310,Pinicola enucleator,Pine Grosbeak,Durbec des sapins,pingro,15090,NULL,BIRDS
+20420,Spinus pinus,Pine Siskin,Tarin des pins,pinsis,15271,NULL,BIRDS
+20570,Coccothraustes vespertinus,Evening Grosbeak,Gros-bec errant,evegro,15005,NULL,BIRDS
+31383,Haematopus leucopodus,Magellanic Oystercatcher,Huîtrier de Garnot,magoys1,2952,NULL,BIRDS
+32874,Caprimulgus europaeus,Eurasian Nightjar,Engoulevent d'Europe,eurnig1,1854,NULL,BIRDS
+33274,Eriocnemis cupreoventris,Coppery-bellied Puffleg,Érione à ventre cuivré,cobpuf1,2282,NULL,BIRDS
+34797,Rupicola peruvianus,Andean Cock-of-the-rock,Coq-de-roche péruvien,andcot1,8053,NULL,BIRDS
+35407,Riparia riparia,Bank Swallow,Hirondelle de rivage,banswa,11483,NULL,BIRDS
+35912,Prunella modularis,Dunnock,Accenteur mouchet,dunnoc1,14743,NULL,BIRDS
+36271,Acrocephalus schoenobaenus,Sedge Warbler,Phragmite des joncs,sedwar1,11260,NULL,BIRDS
+36307,Iduna pallida,Eastern Olivaceous Warbler,Hypolaïs pâle,eaowar1,11244,NULL,BIRDS
+36308,Iduna opaca,Western Olivaceous Warbler,Hypolaïs obscure,weowar1,11245,NULL,BIRDS
+36311,Hippolais polyglotta,Melodious Warbler,Hypolaïs polyglotte,melwar1,11252,NULL,BIRDS
+36466,Sylvia atricapilla,Eurasian Blackcap,Fauvette à tête noire,blackc1,12018,NULL,BIRDS
+36467,Sylvia borin,Garden Warbler,Fauvette des jardins,garwar1,12019,NULL,BIRDS
+36475,Curruca communis,Greater Whitethroat,Fauvette grisette,grewhi1,12066,NULL,BIRDS
+36644,Luscinia luscinia,Thrush Nightingale,Rossignol progné,thrnig1,13780,NULL,BIRDS
+36704,Phoenicurus phoenicurus,Common Redstart,Rougequeue à front blanc,comred2,13890,NULL,BIRDS
+38789,Poephila personata,Masked Finch,Diamant masqué,masfin1,14536,NULL,BIRDS
+38790,Poephila acuticauda,Long-tailed Finch,Diamant à longue queue,lotfin1,14539,NULL,BIRDS
+38804,Chloebia gouldiae,Gouldian Finch,Diamant de Gould,goufin3,14596,NULL,BIRDS
+40372,Calidris alpina hudsonia,Dunlin (hudsonia),Bécasseau variable (hudsonia),dunlin2,3128,NULL,BIRDS
+40615,Vireo gilvus gilvus,Warbling Vireo (Eastern),Viréo mélodieux (gilvus),eawvir1,9515,NULL,BIRDS
+40718,Oenanthe oenanthe leucorhoa,Northern Wheatear (Greenland),Traquet motteux (leucorhoa),norwhe2,13974,NULL,BIRDS
+40726,Catharus ustulatus [swainsoni Group],Swainson's Thrush (Olive-backed),Grive à dos olive (groupe swainsoni),swathr2,13274,NULL,BIRDS
+40753,Leiothlypis celata orestera,Orange-crowned Warbler (orestera),Paruline verdâtre (orestera),orcwar2,15884,NULL,BIRDS
+40853,Zonotrichia leucophrys gambelii,White-crowned Sparrow (Gambel's),Bruant à couronne blanche (gambelii),gwcspa,15513,NULL,BIRDS
+41203,Gallinula galeata,Common Gallinule,Gallinule d'Amérique,comgal1,2743,NULL,BIRDS
+41384,Vireo olivaceus,Red-eyed Vireo,Viréo aux yeux rouges,reevir1,9519,NULL,BIRDS
+41600,Charadrius nivosus,Snowy Plover,Pluvier neigeux,snoplo5,3017,NULL,BIRDS
+42067,Oenanthe oenanthe,Northern Wheatear,Traquet motteux,norwhe,13973,NULL,BIRDS
+42068,Oenanthe oenanthe oenanthe/libanotica,Northern Wheatear (Eurasian),Traquet motteux (oenanthe/libanotica),norwhe1,13975,NULL,BIRDS
+42218,Junco hyemalis,Dark-eyed Junco,Junco ardoisé,daejun,15483,NULL,BIRDS
+45376,Hydrobates leucorhous,Leach's Storm-Petrel,Océanite cul-blanc,lcspet,3667,NULL,BIRDS
+45581,Falco peregrinus,Peregrine Falcon,Faucon pèlerin,perfal,6225,NULL,BIRDS
+45843,Erithacus rubecula,European Robin,Rougegorge familier,eurrob1,13711,NULL,BIRDS
+45874,Turdus merula,Eurasian Blackbird,Merle noir,eurbla,13341,NULL,BIRDS
+46507,Acrocephalus scirpaceus,Eurasian Reed Warbler,Rousserolle effarvatte,eurwar1,11271,NULL,BIRDS
+100190,Eptesicus fuscus,Big Brown Bat,grande chauve-souris brune ,EPFU,100190,NULL,BATS
+100230,Lasionycteris noctivagans,Silver-haired Bat,chauve-souris argentée,LANO,100230,NULL,BATS
+100250,Lasiurus borealis,Eastern Red Bat,chauve-souris rousse,LABO,100250,NULL,BATS
+100270,Lasiurus cinereus,Hoary Bat,chauve-souris cendrée,LACI,100270,NULL,BATS
+100280,Lasiurus cinereus cinereus,American Hoary Bat,NULL,NULL,100280,NULL,BATS
+100320,Lasiurus seminolus,Seminole Bat,NULL,LASE,100320,NULL,BATS
+100380,Myotis ciliolabrum,Western Small-footed Bat,NULL,MYCI,100380,NULL,BATS
+100390,Myotis evotis,Long-eared Bat,NULL,MYEV,100390,NULL,BATS
+100420,Myotis leibii,Eastern Small-footed Bat,chauve-souris pygmée,MYLE,100420,NULL,BATS
+100430,Myotis lucifugus,Little Brown Bat,petite chauve-souris brune,MYLU,100430,NULL,BATS
+100450,Myotis septentrionalis,Northern Long-eared Bat,vespertilion nordique,MYSE,100450,NULL,BATS
+100460,Myotis sodalis,Indiana Bat,NULL,MYSO,100460,NULL,BATS
+100520,Myotis volans,Long-legged Bat,chauve-souris à longues pattes,MYVO,100520,NULL,BATS
+100580,Perimyotis subflavus,Eastern Pipistrelle,pipistrelle de l’Est,PESU,100580,NULL,BATS
+110930,Dasyurus hallucatus,Northern Quoll,NULL,NULL,110930,NULL,MAMMALS
+119680,Taphozous georgianus,Common Sheath-tailed (Sharp-nosed) Bat,NULL,NULL,119680,NULL,MAMMALS
+119940,Macroderma gigas,Ghost Bat, Giant False Vampire Bat,NULL,NULL,119940,NULL,MAMMALS
+121310,Rhinonicteris aurantia,Orange Horseshoe Bat,NULL,NULL,121310,NULL,MAMMALS
+123620,Eptesicus nilssoni,Northern Bat (Nilsson's Serotine),NULL,NULL,123620,NULL,MAMMALS
+123940,Lasionycteris noctivagans,Silver-haired Bat,chauve-souris argentée,NULL,123940,NULL,MAMMALS
+124180,Myotis brandti,Brandt's Bat,NULL,NULL,124180,NULL,MAMMALS
+124190,Myotis californicus,California Myotis Bat,NULL,NULL,124190,NULL,MAMMALS
+124240,Myotis dasycneme,Pond Bat,NULL,NULL,124240,NULL,MAMMALS
+124290,Myotis evotis,Long-eared Myotis Bat,NULL,NULL,124290,NULL,MAMMALS
+124430,Myotis leibii,Small-footed Myotis,chauve-souris pygmée,NULL,124430,NULL,MAMMALS
+124470,Myotis lucifugus,Little Brown Bat (Myotis),petite chauve-souris brune,NULL,124470,NULL,MAMMALS
+124960,Nyctalus noctula,Noctule Bat,NULL,NULL,124960,NULL,MAMMALS
+125480,Pipistrellus nathusii,Nathusius' Pipistrelle,NULL,NULL,125480,NULL,MAMMALS
+125950,Vespertilio murinus,Parti-colored Bat,NULL,NULL,125950,NULL,MAMMALS
+252456,Danaus plexippus,Monarch,Monarque,NULL,252456,NULL,BUTTERFL
+257048,Aeshna canadensis,Canada Darner,NULL,NULL,257048,NULL,ODONATA
+257058,Aeshna interrupta,Variable Darner,NULL,NULL,257058,NULL,ODONATA
+257061,Anax junius,Common Green Darner,NULL,NULL,257061,NULL,ODONATA

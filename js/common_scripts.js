@@ -128,9 +128,21 @@ function updateURL(reload) {
 				} else  {
 					toEncode = motusFilter[f];
 				}
-				if ( f == 'selections' ||
-						( motusFilter.default && motusFilter.default[f] != motusFilter[f] && ['dtStart','dtEnd', 'colour'].includes(f) ) ||
-						!( !['dtStart','dtEnd', 'colour', 'group'].includes(f) && motusFilter.default && motusFilter.default[f] && motusFilter.default[f].sort().join(',') == motusFilter[f].sort().join(',') )
+				if (
+						motusFilter[f].length > 0 &&
+						(
+							['dtStart','dtEnd', 'colour', 'group', 'selections'].includes(f) ||
+						 	!(
+								typeof motusFilter.default === 'object' &&
+									(
+	 										(
+	 										 typeof motusFilter.default[f] === 'object' && motusFilter.default[f].every( x => motusFilter[f].includes(x) )
+									 	) || (
+											 typeof motusFilter.default[f] === 'string' && motusFilter.default[f] == motusFilter[f]
+											)
+									)
+								)
+							)
 						) {
 					stateToPush+='&'+f+'='+encodeURIComponent(toEncode.constructor.name == "Array" ? toEncode.filter(onlyUnique) : toEncode);
 				}
@@ -158,41 +170,104 @@ function updateURL(reload) {
 
 }
 
+
+function logMessage(msg, severity) {
+	if (severity == "title") {
+		$(".loader .loader-text-title").html( msg );
+	} else {
+		$(".loader .loader-text").text( msg );
+		switch (severity) {
+			case "error":
+				console.error(msg);
+				break;
+			case "warn":
+				console.warn(msg);
+				break;
+			case "info":
+				console.info(msg);
+				break;
+			case "debug":
+				console.debug(msg);
+				break;
+			default:
+				console.log(msg);
+				break;
+		}
+	}
+}
+
+
 function detectNavigation() {
 
 	var reload = false;
 	var url_params = getSearchParameters( window.location.hash.substr(1) );
+	var page_url = window.location.pathname.split("/")[window.location.pathname.split("/").length-1]; // "explore.html" or "report.html"
 
-	if (typeof exploreType === "undefined") {
-		// Define the explore view
-		//  exploreType defaults to "main" if not present in expected set of values
-		exploreType = url_params.e === undefined ? "main" : ["regions", "animals", "species", "stations", "projects"].includes(url_params.e) ? url_params.e : "main";
+	if (page_url == "report.html") {
+		if (typeof exploreType === "undefined") {
+			// Define the explore view
+			//  exploreType defaults to "main" if not present in expected set of values
+			exploreType = "report";
+		}
+
+		if (typeof dataType === "undefined") {
+			// Define the main dataset being explore
+			//  dataType defaults to null if not present in expected set of values
+			dataType = url_params.d !== undefined && dataTypes.includes(firstToUpper(url_params.d)) ? url_params.d : 'stations';
+		}
+
+		if ( 	(typeof url_params.e !== 'undefined' && url_params.e !== exploreType)	||
+					(typeof url_params.d !== 'undefined' && url_params.d !== dataType )				) {
+
+			$('.explore-card-wrapper').animate({'opacity':0}, 500, function(){location.reload();});
+
+		} else if (	url_params.d === undefined 																									||
+								!dataTypes.includes(firstToUpper(url_params.d))															||
+								url_params.e === undefined 																									||
+								(!dataTypes.includes(firstToUpper(url_params.e)) && url_params.e != 'main' && url_params.e != 'report')			) {
+
+			window.location.href=`#e=${exploreType}&d=${dataType}`;
+			$('.explore-card-wrapper').animate({'opacity':0}, 500, function(){location.reload();});
+
+		} else if (url_params.d != url_params.e && url_params.e != 'main' && url_params.e != 'report') {
+
+			window.location.href=`#e=report&d=${dataType}`;
+			$('.explore-card-wrapper').animate({'opacity':0}, 500, function(){location.reload();});
+
+		}
+	} else {
+		if (typeof exploreType === "undefined") {
+			// Define the explore view
+			//  exploreType defaults to "main" if not present in expected set of values
+			exploreType = url_params.e === undefined ? "main" : ["regions", "animals", "species", "stations", "projects"].includes(url_params.e) ? url_params.e : "main";
+		}
+
+		if (typeof dataType === "undefined") {
+			// Define the main dataset being explore
+			//  dataType defaults to null if not present in expected set of values
+			dataType = url_params.d !== undefined && dataTypes.includes(firstToUpper(url_params.d)) ? url_params.d : 'stations';
+		}
+
+		if ( 	(typeof url_params.e !== 'undefined' && url_params.e !== exploreType)	||
+					(typeof url_params.d !== 'undefined' && url_params.d !== dataType )				) {
+
+			reload = true;
+
+		} else if (	url_params.d === undefined 																									||
+								!dataTypes.includes(firstToUpper(url_params.d))															||
+								url_params.e === undefined 																									||
+								(!dataTypes.includes(firstToUpper(url_params.e)) && url_params.e != 'main')			) {
+
+			window.location.href=`#e=${exploreType}&d=${dataType}`;
+			reload = true;
+
+		} else if (url_params.d != url_params.e && url_params.e != 'main') {
+
+			window.location.href=`#e=main&d=${dataType}`;
+			reload = true;
+		}
 	}
 
-	if (typeof dataType === "undefined") {
-		// Define the main dataset being explore
-		//  dataType defaults to null if not present in expected set of values
-		dataType = url_params.d !== undefined && dataTypes.includes(firstToUpper(url_params.d)) ? url_params.d : 'stations';
-	}
-
-	if ( 	(typeof url_params.e !== 'undefined' && url_params.e !== exploreType)	||
-				(typeof url_params.d !== 'undefined' && url_params.d !== dataType )				) {
-
-		reload = true;
-
-	} else if (	url_params.d === undefined 																									||
-							!dataTypes.includes(firstToUpper(url_params.d))															||
-							url_params.e === undefined 																									||
-							(!dataTypes.includes(firstToUpper(url_params.e)) && url_params.e != 'main')			) {
-
-		window.location.href=`#e=${exploreType}&d=${dataType}`;
-		reload = true;
-
-	} else if (url_params.d != url_params.e && url_params.e != 'main') {
-
-		window.location.href=`#e=main&d=${dataType}`;
-		reload = true;
-	}
 
 	motusFilter = {
 		dtStart: url_params.dtStart === undefined || url_params.dtStart.length == 0 ? motusFilter.dtStart : moment(url_params.dtStart),
@@ -206,14 +281,15 @@ function detectNavigation() {
 		selections: url_params.selections === undefined || url_params.selections.length == 0 ? url_params[dataType] === undefined ? [] : url_params[dataType].split(',') : url_params.selections.split(','),
 		frequencies: url_params.frequencies === undefined || url_params.frequencies.length == 0 ? ["all"] : url_params.frequencies.split(','),
 		group: url_params.group === undefined || url_params.group.length == 0 ? [] : url_params.group,
-		colour: url_params.frequencies === undefined || url_params.frequencies.length == 0 ? [] : url_params.colour
+		colour: url_params.frequencies === undefined || url_params.frequencies.length == 0 ? [] : url_params.colour,
+		default: motusFilter.default
 	};
 	if (motusFilter[dataType].includes('all') && motusFilter.selections.length > 0) {
 //		motusFilter[dataType] = motusFilter.selections;
 	} else if ( !motusFilter.selections.every( x => motusFilter[dataType].includes(x))) {
 //		motusFilter[dataType].concat( motusFilter.selections.filter( x => !motusFilter[dataType].includes(x) ) );
 	}
-	console.log(motusFilter);
+	logMessage(motusFilter);
 
 	if (motusMap.setVisibility) {
 		motusMap.setVisibility();
@@ -352,13 +428,7 @@ function viewProfile(profileType, dataID) {
 
 	} else {
 		//motusFilter.selections = dataID;
-
-		if ($(`#explore-map-${toSingular(profileType)}-${dataID}`).hasClass("selected")) {
-			$(".report-control-selections select").val($(".report-control-selections select").val().filter( x => x!=dataID )).trigger("change");
-		} else {
-			$(".report-control-selections select").val($(".report-control-selections select").val().concat(dataID)).trigger("change");
-		}
-
+		reportAddSelection(profileType, dataID);
 	}
 
 }
@@ -744,4 +814,9 @@ function sortArrays(arrays, comparator = (a, b) => (a < b) ? -1 : (a > b) ? 1 : 
         });
         return sortedArrays;
     }
+}
+
+// Allows me to rename an object keys
+function renameObjectKey(o, oldKey, newKey) {
+  delete Object.assign(o, {[newKey]: o[oldKey] })[oldKey];
 }

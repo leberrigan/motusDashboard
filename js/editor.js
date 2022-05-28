@@ -51,7 +51,7 @@ function exploreMapAddStation(e) {
 
     // Hide station antenna ranges
     if (!$("#explore_controls_plan_layer_select").val().includes("Antenna ranges")) {
-    	motusMap.g.selectAll('.explore-map-antenna-range').classed('hidden', true);
+//    	motusMap.g.selectAll('.explore-map-antenna-range').classed('hidden', true);
     }
 
 
@@ -74,7 +74,7 @@ function exploreMapAddStation(e) {
       } else {
         motusData.addedStations.push(newStation);
       }
-
+/*
       motusMap.addedStations = motusMap.g.selectAll('.explore-map-station-added')
   			.data(motusData.addedStations)
   			.enter().append("path")
@@ -87,7 +87,7 @@ function exploreMapAddStation(e) {
         .on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'prospective-stations'))
         .on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'prospective-stations'))
         .on('click', (e,d) => motusMap.dataClick(e, d, 'prospective-stations'));
-
+*/
       motusMap.dataClick(e.originalEvent, newStation, 'prospective-stations');
 
       $('.popup .edit_btn').last().click();
@@ -173,157 +173,66 @@ function getPixelMetersByZoomLevel( meters, pixels ) {
   else  {return metersPerPixel;}
 }
 
-function viewProspectiveStations() {
-	console.log('test')
-	if (typeof motusData.prospectiveStations !== "undefined") {
+async function viewProspectiveStations() {
 
-		motusMap.g.selectAll('.explore-map-prospective-station.hidden').classed('hidden', false);
+	if (typeof motusData.prospectiveStations === "undefined") {
+    motusMap.loadingPane("Loading prospective Stations...");
 
-	} else {
+		motusData.prospectiveStations = await downloadMotusData("prospectiveStations");
 
-		var load = Promise.all( [d3.json( mapFilePrefix + "prospective_stations.geojson" )] ).then(function(response){
+    getExploreMapLayers(false, "prospectiveStations");
 
-				console.log('test')
-			motusData.prospectiveStations = response[0];
+	}
 
-			motusMap.g.selectAll('.explore-map-prospective-station')
-				.data(motusData.prospectiveStations.features)
-				.enter().append("path")
-				.attr("d", (d) => d.geometry.type == 'Point' ? motusMap.path.pointRadius(4)(d) : motusMap.path(d))
-				.style('stroke', '#000')
-				.style('fill', d => d.geometry.type == 'Point' ? '#FF0' : "none")
-				.attr('class', d => 'explore-map-station leaflet-zoom-hide explore-map-prospective-station disable-filter' + (d.geometry.type == 'Point' ? "" : " explore-map-station-line"))
-				.style('stroke-width', d => d.geometry.type == 'Point' ? '1px' : '10px')
-				.style('pointer-events', 'auto')
-				.on('touchstart', (e) => e.preventDefault())
-				.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'prospective-stations'))
-				.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'prospective-stations'))
-				.on('click', (e,d) => motusMap.dataClick(e, d, 'prospective-stations'));
+}
 
-			motusMap.map.fire('zoomend');
 
-		});
+async function viewCoordinationRegions() {
+
+	if (typeof motusData.coordinationRegions === "undefined") {
+
+    motusMap.loadingPane("Loading coordination regions...");
+
+		motusData.coordinationRegions = await downloadMotusData("coordinationRegions");
+
+		motusMap.regionalColourScale = d3.scaleOrdinal().domain(motusData.coordinationRegions.features.map(x => x.id)).range(customColourScale.jnnnnn.slice(0, motusData.coordinationRegions.features.length));
+
+    getExploreMapLayers(false, "coordinationRegions");
+
 	}
 
 
 }
 
+async function viewAntennaRanges() {
 
-function viewRegionalCoordinationGroups() {
+	if (typeof motusData.antennas === "undefined") {
 
-	if (typeof motusData.regionalGroups !== "undefined") {
-
-		motusMap.g.selectAll('.explore-map-regional-groups.hidden').classed('hidden', false);
-
-	} else {
-
-
-		var load = Promise.all( [d3.json( mapFilePrefix + "motus-regional-collaboratives.geojson" )] ).then(function(response){
-
-			motusData.regionalGroups = response[0];
-
-			var regionalColourScale = d3.scaleOrdinal().domain(motusData.regionalGroups.features.map(x => x.id)).range(customColourScale.jnnnnn.slice(0, motusData.regionalGroups.features.length));
-
-			motusMap.g.selectAll('.explore-map-regional-groups')
-				.data(motusData.regionalGroups.features)
-				.enter().append("path")
-				.attr("d", d => motusMap.path(d))
-				.style('stroke', '#000')
-				.style('opacity', '0.5')
-				.style('fill', d => regionalColourScale(d.id))
-				.attr('class', 'leaflet-zoom-hide explore-map-region explore-map-regional-groups disable-filter')
-				.style('stroke-width', '1 px')
-				.style('pointer-events', 'auto')
-				.on('touchstart', (e) => e.preventDefault())
-				.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'regional-group'))
-				.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'regional-group'))
-				.on('click', (e,d) => motusMap.dataClick(e, d, 'regional-group'));
-
-			motusMap.map.fire('zoomend');
-
-		});
-	}
-
-
-}
-
-function viewAntennaRanges(callback) {
-
-	if (typeof motusData.antennas !== "undefined") {
-
-		motusMap.g.selectAll('.explore-map-antenna-range.hidden').classed('hidden', false);
-
-	} else {
-
-    // Load the antenna ranges
-
-    // Create an loading overlay
     motusMap.loadingPane("Loading antenna ranges...");
 
-		var load = Promise.all( [d3.csv( filePrefix + "antenna-deployments.csv" )] ).then(function(response){
+		motusData.antennas = await downloadMotusData("antennas");
 
-			motusData.antennas = {type: "FeatureCollection", features:
-        response[0]/*.filter( d => d.deploymentStatus != 'terminated' )*/.map(function(d){
+    motusMap.antennaColourScale = d3.scaleOrdinal().domain(motusData.antennas.features.map(x => x.properties.type)).range(customColourScale.jnnnnn.slice(0, motusData.antennas.features.length));
 
-          var station = motusData.stationDeps.filter( v => v.id == d.recvDeployID );
-
-          if (station.length != 0 && station[0].lat && station[0].lon && +station[0].lat != 0 && +station[0].lon != 0 ) {
-
-            var coordinates = getAntennaShape({lat: +station[0].lat, lon: +station[0].lon, antennaType: d.antennaType, bearing: d.bearing});
-
-            // If it's a polygon, close the path
-            if (coordinates.length > 1) {coordinates.push(coordinates[coordinates.length - 1])}
-
-          }  else {
-
-            var coordinates = [];
-
-          }
-          return {
-            id: d.recvDeployID,
-            type: "Feature",
-            properties: {
-              type: d.antennaType,
-              bearing: d.bearing,
-              port: d.port,
-              height: d.heightMeters,
-              dongle: d.dongle_type,
-              freq: d.frequency,
-              status: d.deploymentStatus
-            },
-            geometry: {
-              type: coordinates.length == 1 ? "Point" : "LineString",
-              coordinates: coordinates.length == 1 ? coordinates[0] : coordinates
-            }
-          };
-
-        }).filter( d => d.geometry.coordinates.length > 0)
-      };
-
-			var antennaColourScale = d3.scaleOrdinal().domain(motusData.antennas.features.map(x => x.properties.type)).range(customColourScale.jnnnnn.slice(0, motusData.antennas.features.length));
-
-			motusMap.g.selectAll('.explore-map-antenna-range')
-				.data(motusData.antennas.features)
-				.enter().append("path")
-				.attr("d", d => motusMap.path(d))
-				.style('stroke', '#000')
-				.style('opacity', '0.5')
-				.style('fill', d => antennaColourScale(d.properties.type))
-				.attr('class', 'leaflet-zoom-hide explore-map-antenna explore-map-antenna-range')
-				.style('stroke-width', '1 px')
-				.style('pointer-events', 'auto')
-				.on('mouseover', (e,d) => motusMap.dataHover(e, d, 'in', 'antenna'))
-				.on('mouseout', (e,d) => motusMap.dataHover(e, d, 'out', 'antenna'));
-
-			motusMap.map.fire('zoomend');
-
-      // Hide the loading pane
-      motusMap.loadingPane();
-      if (typeof callback !== 'undefined') {callback();}
-
-		});
+    getExploreMapLayers(false, "antennaRanges");
 	}
 
-  motusMap.setVisibility();
+}
 
+async function editorMapLayers( ) {
+
+  motusEditor.editMode = true;
+
+  if (motusMap.layers.includes("antennaRanges")) {await viewAntennaRanges();}
+  if (motusMap.layers.includes("coordinationRegions")) {await viewCoordinationRegions();}
+  if (motusMap.layers.includes("prospectiveStations")) {await viewProspectiveStations();}
+
+  deckGL_renderMap( true );
+  // Hide the loading pane
+  motusMap.loadingPane();
+
+}
+
+function getEditorDeckglLayers() {
+  return Object.entries(deckGlLayers).filter(x => motusMap.layers.includes(x[0])).map( x => x[1] );
 }

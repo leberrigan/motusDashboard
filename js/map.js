@@ -31,6 +31,7 @@ function exploreMap({
 	motusMap = {
 		el: map_el,
 		animation: {},
+		layers: ["stations"],
 		containerID: containerID,
 		mapButtons: mapButtons,
 		dims: {
@@ -98,6 +99,7 @@ function exploreMap({
 						 let species = typeof animal.species === 'undefined' || animal.species == "NA" ? "Unknown species" : motusData.species.filter(x => x.id == animal.species)[0];
 						 species = typeof species === 'undefined' ? "Unknown species" : species[currLang];
 
+					 	 let project = motusData.projects.filter(x => x.id == animal.project);
 						 // When request received, add the text
 	 						$('.tooltip').html("<center><h3>"+
 	 													icons.species + "&nbsp;&nbsp;&nbsp;" + (species) +
@@ -126,8 +128,7 @@ function exploreMap({
 
 														`<div><b>Tag model: </b> ${d.model} </div>`+
 
-														`<div class='tooltip-grid-colspan2'><b>Project: </b>${motusData.projects.filter(x => x.id == d.project)[0].name} (#${d.project})</div>`+
-
+														`<div class='tooltip-grid-colspan2'><b>Project: </b>${project.length > 0?project[0].name:""} (#${animal.project})</div>`+
 														(
 															isMobile ?
 															`<div class='tooltip-grid-colspan2'><button class='submit_btn' onclick='motusMap.dataClick(false,{id: ${d.id}},"track")'>View station profile</button></div>`
@@ -161,7 +162,7 @@ function exploreMap({
 									`Status: ${(d.properties.status?d.properties["contact.name"]:"Prospective</a>")}`+
 								"</a>"
 						);
-				} else if (t == 'regional-group') {
+				} else if (t == 'coordination-region') {
 						$('.tooltip').html(
 							"<center><h3 style='margin:0 10px;'>"+
 								d.properties.name+
@@ -195,6 +196,7 @@ function exploreMap({
 							"</br>Click to zoom"
 						);
 					} else {
+						var project = motusData.projects.filter(x => x.id == d.project);
 						$('.tooltip').html("<center><h3>"+
 													icons.station + "&nbsp;&nbsp;&nbsp;" + d.name +
 													"&nbsp;&nbsp;&nbsp;" +
@@ -217,7 +219,7 @@ function exploreMap({
 
 													`<div><b>Station model: </b> --- </div>`+
 
-													`<div class='tooltip-grid-colspan2'><b>Project: </b>${motusData.projects.filter(x => x.id == d.projID)[0].name} (#${d.projID})</div>`+
+													`<div class='tooltip-grid-colspan2'><b>Project: </b>${project.length > 0?project[0].name:""} (#${d.project})</div>`+
 
 													"<div class='tooltip-grid-colspan2'>"+
 													( isMobile ? `<button class='submit_btn' onclick='motusMap.dataClick(false,{id: ${d.id}},"station")'>View station profile</button>`
@@ -488,12 +490,13 @@ function exploreMap({
 		},
 		highlightVal: '',
 		trackView: false,
+		selections: {},
 		selectStation: function(d, {isDeployment, button}) {
 
 			if (motusEditor.editMode) {
-				modifyTrack({station: d.station});
+				modifyTrack({station: d.stationID });
 			} else if (button == 0) {
-				viewProfile("stations", isDeployment ? d.station : d.id);
+				viewProfile("stations", isDeployment ? d.stationID : d.id);
 			}
 
 		},
@@ -595,6 +598,8 @@ function addDrawControls() {
   motusMap.map.on("draw:created",addToSelection);
   motusMap.map.on("draw:deleted", removeSelection);
   motusMap.map.on("draw:edited",editSelection);
+
+//	alert(1)
 
 	motusMap.selections = {};
 
@@ -752,7 +757,7 @@ function summariseMapSelection(layerID) {
 function loadMapObjects(callback) {
 
 
-	if (typeof motusMap.svg === 'undefined') {
+	if (typeof motusMap.baseLayers === 'undefined') {
 
 		motusMap.baseLayers = {};
 
@@ -911,9 +916,10 @@ function populateProfilesMap() {
 					lons: Object.values(motusData.selectedStations).map( x => x.geometry.coordinates[0] ).flat(),
 					lats: Object.values(motusData.selectedStations).map( x => x.geometry.coordinates[1] ).flat()
 				}
+				
 			var trackBounds = {
-					lons: Object.values(motusData.selectedTracks).map( x => x.coordinates.map( y => +y[0]) ).flat(),
-					lats: Object.values(motusData.selectedTracks).map( x => x.coordinates.map( y => +y[1]) ).flat()
+					lons: Object.values(motusData.tracksLongByAnimal).map( x => x.tracks.map( y => +y[0]) ).flat(),
+					lats: Object.values(motusData.tracksLongByAnimal).map( x => x.tracks.map( y => +y[1]) ).flat()
 				}
 
 			motusData.selectionBounds = [
@@ -939,7 +945,7 @@ function populateProfilesMap() {
 function addMapLegend() {
 
 	setMapColourScale();
-	
+
 	if (typeof motusMap.mapLegend === 'undefined')
 		motusMap.mapLegend = d3.create('div').attr("class", "explore-map-legend hidden")
 																.attr("id", "explore_map_legend");
@@ -1097,13 +1103,13 @@ function addMapLegend() {
 					selectionName = motusData.selectionNames[ d ];
 				} else if (motusMap.colourVar == 'project') {
 					try {
-						selectionName = motusData.selectedProjects.filter( proj => proj.id == d )[0].name;
+						selectionName = motusData.projects.filter( proj => proj.id == d )[0].name;
 					} catch {
 						selectionName = "";
 					}
 				} else if (motusMap.colourVar == 'species') {
 					try {
-						selectionName = motusData.selectedSpecies.filter( spp => spp.id == d )[0].english;
+						selectionName = motusData.species.filter( spp => spp.id == d )[0].english;
 					} catch {
 						selectionName = "";
 					}
@@ -1166,7 +1172,7 @@ function addMapLegend() {
 
 function setMapColourScale() {
 
-	motusMap.colourVar = 	exploreType == 'main' ? 'frequency' :
+	motusMap.colourVar = 	exploreType == 'main' ||  exploreType == 'report' ? 'frequency' :
 													motusFilter.selections.length > 1 ? (
 														dataType == "animals" ? 'id' :
 														dataType == "regions" ? motusFilter.regionVar : dataType

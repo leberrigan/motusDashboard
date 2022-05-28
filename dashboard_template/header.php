@@ -69,7 +69,7 @@
     	<script src="<?php bloginfo('template_url'); ?>/js/dexie.js"></script>
 
 			<!-- deck.gl standalone bundle -->
-			<script src="<?php bloginfo('template_url'); ?>/js/deckGL.8.7.2.dist.min.js"></script>
+			<script src="<?php bloginfo('template_url'); ?>/js/deckGL.8.7.2.min.js"></script>
 			<!-- deck.gl-leaflet -->
 			<script src="<?php bloginfo('template_url'); ?>/js/deck.gl-leaflet.1.2.1.min.js"></script>
 

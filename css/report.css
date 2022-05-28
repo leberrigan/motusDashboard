@@ -1,234 +1,6 @@
-/*
-Theme Name: MotusDashboardProfile
-Theme URI: NA
-Author: Lucas Berrigan
-Author URI: NA
-Description: None
-Version: 1.0
-License: GNU General Public License v2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: blank
-Tags: motus
-*/
 
-
-/*	Default theme	*/
-body {
-
-	--header-height: 40px;
-	--footer-height: min-content;
-	/*
-	--theme-background-colour2: #25628f;
-	--theme-background-colour-pale2: #3387c4;
-	*/
-	/*		--theme-background-colour2: #333;
-	--theme-background-colour-pale2: #555;
-	--theme-background-colour: #25628f;
-	--theme-background-colour-pale: #3387c4;
-	*/
-	--theme-background-colour: #142e40;
-	--theme-background-colour-pale: #274c67;
-	--theme-background-colour2: #c5d1da;
-	--theme-background-colour-pale2: #edf8ff;
-	--theme-background-colour-pale2-2: #d7ebf8;
-	--theme-background-colour3: #EEE;
-	--theme-background-colour-pale3: #FFF;
-
-	--theme-body-background-colour: #FAFAFA;
-
-		--theme-text-colour: #FFF;
-		--theme-text-colour2: #000000;
-		--theme-text-colour3: #000000;
-
-	--theme-highlight-green: #A5CF3F;
-	--theme-highlight-green-pale: #BBE653;
-	--theme-highlight-red: #CF3F3F;
-	--theme-highlight-red-pale: #E65353;
-
-	--theme-button-background: #d7ebf8;
-	--theme-button-background-hover: #edf8ff;
-
-	--theme-link-colour: #0000ff;
-	--theme-edge-colour: #999999;
-
-
-}
-
-
-body.light {
-
-	--theme-background-colour: #b3cbdc;
-	--theme-background-colour-pale: #c0ddf2;
-	--theme-background-colour2: #c5d1da;
-	--theme-background-colour-pale2: #edf8ff;
-
-	--theme-text-colour: #000000;
-	--theme-text-colour2: #000000;
-
-	--theme-highlight-green: #85AF02;
-	--theme-highlight-green-pale: #A5CF3F;
-	--theme-highlight-red: #8f2525;
-	--theme-highlight-red-pale: #c43333;
-
-}
-
-body.dark {
-
-	--theme-background-colour: #142e40;
-	--theme-background-colour-pale: #274c67;
-	--theme-background-colour2: #142e40;
-	--theme-background-colour-pale2: #bbd0e0;
-	--theme-background-colour3: #EEE;
-	--theme-background-colour-pale3: #FFF;
-
-		--theme-text-colour: #FFF;
-		--theme-text-colour2: #EEE;
-		--theme-text-colour3: #000;
-
-	--theme-highlight-green: #85AF02;
-	--theme-highlight-green-pale: #A5CF3F;
-	--theme-highlight-red: #8f2525;
-	--theme-highlight-red-pale: #c43333;
-
-	--theme-link-colour: #EEF;
-
-}
-
-
-body, html {
-	font-family:sans-serif;
-	width:100%;
-	height:100%;
-	margin: 0;
-	padding: 0;
-	background-color:#FFF;
-	background: radial-gradient(#F0F0F0 15%, transparent 16%) 0 0, radial-gradient(#F0F0F0 15%, transparent 16%) 9px 10px, radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px, radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 9px 10px;
-	background-color: rgba(0, 0, 0, 0);
-	background-size: auto, auto, auto, auto;
-	background-color: #FAFAFA;
-	background-size: 5px 5px;
-}
-body {
-	overflow-y:auto;
-	overflow-x:hidden;
-}
-
-.hidden {
-	display: none !important;
-}
-
-/*******************************************
-
-	General
-
-*******************************************/
-
-.dt-buttons {
-	display:inline-block;
-	padding: 0 10px;
-}
-.dataTables_wrapper .dataTables_info,
-.dataTables_wrapper .dataTables_paginate,
-.dataTables_wrapper .dataTables_length {
-	float:none;
-	display:inline-block;
-	margin: 0 10px;
-}
-
-.explore-card-wrapper input[type=text], .explore-card-wrapper input[type=button],
-input[type=text], input[type=button], button {
-	border: solid 1px var(--theme-edge-colour);
-	background-color: var(--theme-button-background);
-	padding: 0 13px;
-	height: 30px;
-	margin: 5px 0;
-}
-.explore-card-wrapper input[type=button]:hover,
-input[type=button]:hover,
-button:not([disabled=disabled]):hover {
-	background-color:  var(--theme-button-background-hover);
-	cursor:pointer;
-}
-button.submit_btn,
-button.multiSelect_btn,
-button.dark_btn,
-button.toggleButton.selected,
-input[type=button].submit_btn {
-	background-color:var(--theme-background-colour);
-	color: var(--theme-text-colour);
-	font-weight:bold;
-}
-button.submit_btn:hover,
-button.multiSelect_btn:hover,
-button.dark_btn:hover,
-button.toggleButton.selected:hover,
-input[type=button].submit_btn:hover {
-	background-color:var(--theme-background-colour-pale);
-}
-button.close_btn,
-button.reset_btn,
-button.red_btn,
-input[type=button].close_btn,
-input[type=button].reset_btn {
-	background-color:var(--theme-highlight-red);
-	color: var(--theme-text-colour);
-	font-weight:bold;
-	text-shadow: 0 0 2px #000;
-}
-button.close_btn:hover,
-button.reset_btn:hover,
-button.red_btn:hover,
-input[type=button].close_btn:hover,
-input[type=button].reset_btn:hover {
-	background-color:var(--theme-highlight-red-pale);
-}
-button.green_btn {
-	background-color:var(--theme-highlight-green);
-	color: var(--theme-text-colour);
-	font-weight:bold;
-	text-shadow: 0 0 2px #000;
-}
-
-button.green_btn:hover {
-	background-color:var(--theme-highlight-green-pale);
-}
-
-input[type=number] {
-	border:solid 1px var(--theme-edge-colour);
-	box-shadow:0 0 3px var(--theme-edge-colour);
-		background-color:var(--theme-background-colour-pale3);
-}
-
-button.toggleButton::before {
-	content: "";
-	display:inline-block;
-	border:solid 1px #999;
-	background-color: var(--theme-background-colour-pale3);
-	width: 10px;
-	height: 10px;
-	margin-right: 7px;
-	margin-left: 3px;
-}
-button.toggleButton.partial::before {
-  content: "✓";
-  line-height: 9px;
-  color: #999;
-}
-button.toggleButton.selected::before {
-  content: "✓";
-  line-height: 9px;
-  color: #000;
-}
-button.toggleButton:disabled {
-	background-color: var(--theme-background-colour3);
-}
-
-button.toggleButton:disabled::before {
-	background-color: var(--theme-background-colour3);
-}
-
-.icon {
-	width: 20px;
+.report-step.hidden {
+	display:none;
 }
 
 /*******************************************
@@ -237,11 +9,11 @@ button.toggleButton:disabled::before {
 
 *******************************************/
 .page-wrapper {
-	min-height:100%;
+	--content-width: min(100vw, 1600px);
 	display:grid;
-	grid-template-columns: min(100vw, 1600px);
+	grid-template-columns: var(--content-width);
 	grid-template-rows: var(--header-height) auto var(--footer-height);
-	max-width:1600px;
+	width: var(--content-width);
 	box-shadow:0 0 5px var(--theme-edge-colour);
 	margin:0 auto;
 	background-color:var(--theme-background-colour-pale3);
@@ -255,7 +27,6 @@ button.toggleButton:disabled::before {
 	grid-row: 2 / 3;
 	height:100%;
 	width:100%;
-	text-align: center;
 }
 .footer {
 	grid-row: 3 / 4;
@@ -796,57 +567,6 @@ Loading overlay
 }
 
 
-
-/*----------------------------------
-
-	Date slider (timeline)
-
------------------------------------*/
-
-#dateSlider {
-	height:43px;
-  background-color: var(--theme-background-colour2);
-  padding: 10px;
-}
-#dateSlider .slider {
-	margin-bottom: -14px;
-  position: relative;
-  top: 5px;
-	background:transparent;
-	border:0px;
-	max-width: 100%;
-}
-#activityTimeline {
-	padding:5px 0;
-	height:150px;
-	width:100%;
-}
-#dateSlider .ui-slider-horizontal .ui-slider-range::after {
-	content: " ";
-	height: 3px;
-	width: 100%;
-	background: #000;
-	display: block;
-	margin: 6px 0;
-}
-#dateSlider .ui-slider-horizontal .ui-slider-range  {
-	height: 15px;
-	background: transparent;
-	margin-top: -4px;
-	cursor: ew-resize;
-}
-#dateSlider .ui-state-default,#dateSlider .ui-widget-content .ui-state-default,
-#dateSlider .ui-widget-content .ui-state-active, #dateSlider .ui-widget-content .ui-state-hover {
-	background:#000;
-	border:0px;
-	cursor:pointer;
-	height:17px;
-	width:10px;
-}
-
-
-
-
 /****************************************************************************/
 /****************************************************************************
 							Explore report
@@ -863,6 +583,7 @@ Loading overlay
 	font-size:12pt;
 	--report-page-padding: 5.88%;
 	padding-bottom: 20px;
+	text-align:center;
 }
 .report-controls {
 	display:block;
@@ -886,16 +607,17 @@ Loading overlay
 	border:solid 1px;
 	display: grid;
 	grid-template-columns: 1fr 6.67%;
-	grid-template-rows: 5% repeat(3, max-content) auto 5%;
+	grid-template-rows: 5% 2% 5% 10% 58% 15% 5%/*5% repeat(3, max-content) min(max-content, 50%) auto 5%*/;
 	grid-template-areas:
 		"header page"
 		"title title"
+		"subtitle subtitle"
 		"stats stats"
-		"timeline timeline"
 		"table table"
+		"timeline timeline"
 		"footer checkbox";
 	padding:var(--report-page-padding);
-	font-size: 100%;
+	font-size: 75%;
 }
 .report-page .report-checkbox {
 	width:100%;
@@ -931,15 +653,14 @@ Loading overlay
 }
 
 .report-page .report-header {
-	font-size: 150%;
+	font-size: 125%;
 	grid-area: header;
-	align-self:start;
+	align-self:end;
+	text-align:left;
 	width:100%;
-	margin-bottom: 5%;
 }
 .report-page .report-pageIndex {
-	margin: 0 5%;
-	align-self:start;
+	justify-self: end;
 	font-size: 100%;
 	grid-area: page;
 	width: max-content;
@@ -950,33 +671,35 @@ Loading overlay
 }
 
 .report-page .report-season {
-	font-size: 150%;
-	grid-area: header;
-	align-self:end;
-	text-align:left;
+	font-size: 100%;
+	line-height: 150%;
+	grid-area: title;
+	align-self:start;
+	text-align:right;
 	font-weight:bold;
-	justify-self:start;
-	margin-bottom: 5%;
 }
 .report-page .report-title {
 	font-size: 150%;
 	grid-area: title;
 	align-self:start;
 	justify-self:start;
-	border-bottom: solid 2px;
+	border-top: solid 2px;
 	text-align:left;
 	width: 100%;
+	font-weight:bold;
 }
 .report-page .report-subtitle {
-	display: inline-block;
-	font-size: 50%;
+	display: block;
+	grid-area: subtitle;
 	width: max-content;
-	margin-left:5%;
+	align-self: start;
+	justify-self: center;
+	margin-top: 15px;
 }
 .report-page h2 {
 	width: 100%;
 	display:block;
-	margin:2.5% 0px;
+	margin-top:4%;
 	padding:0;
 	border-bottom:solid 1px;
 	text-align: left;
@@ -989,16 +712,16 @@ Loading overlay
 	align-self:center;
 	grid-area: stats;
 	height: 100%;
-	margin-top:2%;
+	padding-top: 2%;
 }
 .report-stat {
 	width: 15%;
 	display: inline-grid;
 	background:var(--theme-background-colour3);
 	margin:0 0.5%;
-	height: 100%;
+	height: 90%;
 	vertical-align: top;
-	padding-top: 2%;
+	padding: 1% 0;
 	grid-template-columns: auto minmax(min-content, 50%);
 }
 .report-stat-value {
@@ -1029,22 +752,21 @@ Loading overlay
 	max-height: 50%;
 }
 .report-timeline {
-	align-self:center;
+	align-self:start;
 	grid-area: timeline;
-	margin-top:2.5%;
 }
 
 .report-table {
 	align-self:center;
 	grid-area: table;
 	height: 100%;
-	margin-top:10%;
+	overflow: hidden;
 }
 
 
 
 .report-refine {
-	width:max-content;
+/*	width:max-content;*/
 }
 .report-refine table {
 	width:max-content;
@@ -1128,7 +850,7 @@ Loading overlay
 	display: inline-block;
 	color: #777;
 	padding-top: 2%;
-	grid-area: footer;
+	grid-area: footer / footer / checkbox / checkbox;
 	border-top: solid 2px #000;
 }
 
@@ -1186,7 +908,7 @@ Loading overlay
 		margin: 0;
 		align-self:start;
 		font-size: 100%;
-		grid-area: footer;
+		grid-area: footer / footer / checkbox / checkbox;
 		width: 20px;
 		height:20px;
 		position:absolute;
@@ -1244,7 +966,7 @@ Loading overlay
 		font-weight: bold;
 		border: solid 1px;
 		border-width: 0 0 1px 1px;
-		margin: -9px -9px 0 0;
+		margin: -11px -11px -5px 0;
 		padding: 5px;
 	}
 	@media (max-width: 8.5in) {
@@ -1330,4 +1052,18 @@ Loading overlay
 		position:static;
 	}
 
+}
+
+
+/*
+
+		FILTER TABLE
+
+*/
+#filterTable .filter_dates {
+	margin:0.5em auto;
+	display:block;
+	padding:0.5em 1em;
+	font-size:40pt;
+	font-weight: 500;
 }

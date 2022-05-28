@@ -208,7 +208,7 @@ function exploreTimeline({
 					console.log($(el).parent().find('svg'));
 			} else {
 
-				$(el).parent().append(`<svg id='activityTimeline' viewbox='0 0 ${width + 30} ${height - 10}'></svg>`);
+				$(el).parent().append(`<svg id='activityTimeline'></svg>`);
 				var timeLineRange = [
 						{
 							label: "",
