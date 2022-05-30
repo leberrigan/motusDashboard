@@ -3,11 +3,26 @@ var exploreProfile_hasLoaded = false;
 
 var isGrouped = false;
 
-function exploreSummary({regionBin = "adm0_a3"} = {}) { // {summaryType: String, summaryID: Integer or String, summaryData: Object}
+function exploreSummary({regionBin = "iso_a2"} = {}) { // {summaryType: String, summaryID: Integer or String, summaryData: Object}
 
-// Move this later
- if (dataType == "stations")	getStationActivity();
-
+  // Move this later
+  if (dataType == "stations") {
+    if (API_AVAILABLE) {
+      getStationActivity().then( x => {
+        if (Object.values(motusData.testVar ).some( v => Object.values(v).some( j => j.some( k => k ) ) ) ) {
+          logMessage(`Summary: Station activity data loaded successfully.`, "info");
+        } else {
+          logMessage(`Summary: Failed to load station activity data!`, "warn");
+        }
+    //    logMessage(`Summary: Finished loading station activity`, "info");
+        motusData.testVar = x;
+        addExploreTabs();
+      });
+    } else {
+      logMessage(`Summary: Won't try to load station activity data because API isn't available`, "info");
+      addExploreTabs();
+    }
+  }
 	// All possible combinations of region codes (for colouring tracks)
 	// *** should be removed
 	var selectionCombos = [];

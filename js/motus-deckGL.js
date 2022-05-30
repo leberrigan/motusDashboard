@@ -33,6 +33,7 @@ function getProfileMapLayers(load, layer) {
 							nAnimals: animals.length,
 							species: x.species,
 							nSpecies: x.species.length,
+							stationStatus: station.length > 0 ? station[0].status : x.status,
 							stationID: station.length > 0 ? station[0].id : x.id,
 							frequency: x.frequency.split(",")
 						}
@@ -42,7 +43,7 @@ function getProfileMapLayers(load, layer) {
 		}
 		if (!layer || layer == 'stations') {
 			// Other stations
-      deckGlLayers.stations = getStationsLayer();
+      deckGlLayers.stations = getOtherStationsLayer();
       deckGlLayers.selectedStations = getSelectedStationsLayer();
 		}
 
@@ -636,7 +637,7 @@ function animateTrackStep(currentTime, start) {
 // See: https://github.com/visgl/deck.gl/issues/4943#issuecomment-694129024
 
 function deckGL_renderMap(reloadData = true) {
-	
+
 	if ($("#explore_card_map,#explore_map").is(":visible")) {
 
 		logMessage("Rendering map...");
@@ -665,8 +666,8 @@ function deckGL_renderMap(reloadData = true) {
 				deckGlLayers.stations
 			]) : [
 				deckGlLayers.selectedAnimals
-				, deckGlLayers.selectedStations
 				, deckGlLayers.stations
+				, deckGlLayers.selectedStations
 				, deckGlLayers.tracks
 		  ]
 	  });
@@ -752,7 +753,7 @@ function getOtherStationsLayer() {
     lineWidthUnits: 'pixels',
     pointRadiusMinPixels: 3,
     pointRadiusMaxPixels: 15,
-    getFillColor: [150, 255, 150],
+    getFillColor: d => d.stationStatus == 'inactive' ? [240, 189, 173] : d.stationStatus == 'pending' ? [239, 242, 145] : [187, 221, 187],
     getFilterValue: d => {
       return [
         +(
@@ -813,7 +814,8 @@ function getSelectedStationsLayer() {
     lineWidthUnits: 'pixels',
     pointRadiusMinPixels: 5,
     pointRadiusMaxPixels: 25,
-    getFillColor: [0, 255, 0],
+  //  getFillColor: [0, 255, 0],
+    getFillColor: d => d.stationStatus == 'inactive' ? [255, 170, 0] : d.stationStatus == 'pending' ? [255, 255, 0] : [0, 255, 0],
     getFilterValue: d => {
       return [
         +(

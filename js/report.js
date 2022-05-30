@@ -278,7 +278,7 @@ function loadDashboardContent() {
 	motusData.stationDepsByProjects = d3.group(motusData.stationDeps, d => d.project);
 	motusData.animalsByRegions = d3.group(motusData.animals, d => d.country, d => d.id);
 	motusData.animalsByProjects = d3.group(motusData.animals, d => d.project, d => d.id);
-	motusData.regionByCode = d3.group(motusData.regions,  d => d.ADM0_A3);
+	motusData.regionByCode = d3.group(motusData.regions,  d => d.adm0_a2);
 
 	motusTable.el = "exploreTable";
 
@@ -1956,7 +1956,7 @@ function exploreControls(el, opt) {
 							.attr('class', 'explore-map-regions leaflet-zoom-hide')
 							.style('stroke', '#000')
 						//	.style('fill', '#FFF')
-							.style('fill', d => motusFilter.regions.includes(d.properties.adm0_a3) ? "#FFF" : "#CCC" )
+							.style('fill', d => motusFilter.regions.includes(d.properties.adm0_a2) ? "#FFF" : "#CCC" )
 							.style('stroke-width', '1px');
 
 

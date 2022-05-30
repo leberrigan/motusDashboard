@@ -208,7 +208,7 @@ function exploreSummaryTabSelect(selectedTab) {
 			} else if (selectedTab == 'projects') {
 
 				var tbl = [selectedTab,Array.from(motusData.projects.map(function(d) {
-console.log(d.species);
+
 					return {
 						id: d.id,
 						name: d.name,
@@ -286,7 +286,6 @@ console.log(d.species);
 						];
 					}
 
-					console.log(opts.columns);
 				}
 
 				if (multi) {
@@ -351,7 +350,7 @@ console.log(d.species);
 				default_startDate = dtLims.min;
 				default_endDate = dtLims.max;
 
-				var dataVar = dataType == 'regions' ? 'ADM0_A3' : 'id';
+				var dataVar = dataType == 'regions' ? 'iso_a2' : 'id';
 
 				var selection = [];
 
@@ -402,7 +401,7 @@ console.log(d.species);
 
 			        var data = dt.rows( {selected: true} ).data();
 
-					var dataVar = dataType != 'species' ? dataType != 'projects' ? 'ADM0_A3' : 'id' : 'id';
+					var dataVar = dataType != 'species' ? dataType != 'projects' ? 'iso_a2' : 'id' : 'id';
 
 					var selection = data[0][dataVar];
 
@@ -443,7 +442,7 @@ function loadOverlayPane( profileName, dataVar, selection ) {
 	if ($("#explore_overlay_bg").length == 0) {
 		$('body').append('<div id="explore_overlay_bg"></div>');
 		$("#explore_overlay_bg").click(closeExploreOverlay);
-		console.log( profileName );
+		logMessage( "Loading profile: "+ profileName );
 	}
 	$("#explore_overlay_bg").fadeIn(100);
 
@@ -452,7 +451,7 @@ function loadOverlayPane( profileName, dataVar, selection ) {
 	if (profileName == 'regions') {
 		var cols = {'country':"header", 'code':'subheader', 'stations':"stat", 'animals':"stat"};
 
-		selected_row.code = `CODE: "${selected_row.ADM0_A3}"`;
+		selected_row.code = `CODE: "${selected_row.iso_a2}"`;
 
 	} else if (profileName == 'species') {
 
@@ -466,8 +465,6 @@ function loadOverlayPane( profileName, dataVar, selection ) {
 	}
 
 	var vals = {};
-
-	console.log(cols);
 
 	Object.entries(cols).forEach(function(d){
 
@@ -691,9 +688,6 @@ function populateExploreControls() {
 }
 function exploreControls(el, opt) {
 	opt = typeof opt === 'undefined' ? $(el).closest('div').attr('class').replace('explore-control-content ','').split(' ')[0].split('-').pop() : opt;
-	console.log(el);
-	console.log(opt);
-
 	if (opt == 'help') {
 
 			exploreHelp();
@@ -810,7 +804,7 @@ function exploreControls(el, opt) {
 							.attr('class', 'explore-map-regions leaflet-zoom-hide')
 							.style('stroke', '#000')
 						//	.style('fill', '#FFF')
-							.style('fill', d => motusFilter.regions.includes(d.properties.adm0_a3) ? "#FFF" : "#CCC" )
+							.style('fill', d => motusFilter.regions.includes(d.properties.iso_a2) ? "#FFF" : "#CCC" )
 							.style('stroke-width', '1px');
 
 
