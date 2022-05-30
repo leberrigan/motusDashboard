@@ -1,46 +1,6 @@
 // Motus Wildlife Tracking System
 // Lucas Berrigan
-// 02 September 2021
-
-var continentFreqs = {
-	"North America":"166.380 MHz",
-	"South America":"166.380 MHz",
-	"Europe":"150.10 MHz",
-	"Asia":"151.50 MHz",
-	"Oceania":"151.50 MHz",
-	"Africa":"150.10 MHz",
-	"Antarctica":"none"
-}
-
-var regionFreqs = {
-	"Americas":"166.380 MHz",
-	"Europe":"150.10 MHz",
-	"Asia":"151.50 MHz",
-	"Oceania":"151.50 MHz",
-	"Africa":"150.10 MHz",
-	"Antarctica":"none"
-}
-
-var projectGroupNames = {
-	1:'No affiliation',
-	2:'US Dept. of the Interior',
-	3:'Environment Canada',
-	8:'Atlantic Offshore Wind',
-	9:'Birds Canada'
-}
-var speciesGroupNames = {
-	1: 'Not defined',
-	'BATS': 'Bats',
-	'BEETLES': 'Insects',
-	'BIRDS': 'Birds',
-	'BUTTERFL': 'Insects',
-	'HYMENOPTERA': 'Insects',
-	'MAMMALS': 'Mammals',
-	'MOTHS': 'Insects',
-	'ODONATA': 'Insects',
-	'ORTHOPTERA': 'Insects',
-	'REPTILES': 'Reptiles'
-}
+// 29 May 2022
 
 
 // Used to time events
@@ -57,7 +17,7 @@ const DB_VERSION = 1;
 
 function getMotusData(motusDataTableNames = [], opts = {}) {
 
-	testTimer.push([new Date(), "Get data"]);
+	logMessage("Get Motus Data", "info", "Startup");
 
 	if (typeof motusDataTableNames === 'string') motusDataTableNames = [motusDataTableNames];
 
@@ -70,18 +30,20 @@ function getMotusData(motusDataTableNames = [], opts = {}) {
 	// If indexedDB hasn't been loaded
 	if (typeof motusData.db === 'undefined') {
 		// load the indexedDB
-		initiateIndexedDB( );
+		initiateIndexedDB(motusDataTableNames );
 	} if (typeof motusData.db === 'object' && typeof motusData.db.idbdb == null) {
 		// Indexed DB has been disabled (incognito?)
-		loadWithoutIndexedDB();
+		loadWithoutIndexedDB(motusDataTableNames);
 	} else {
 		// We can't add any new tables into the indexed DB after it has been created so we'll just load anything new into memory
 	//	requestDataAPI();
+		logMessage("Database already initialized", "info", "IndexedDB");
+
 	}
 
 }
 
-function initiateIndexedDB() {
+function initiateIndexedDB(tablesToDownload) {
 
 	var promises = [];
 
@@ -98,7 +60,7 @@ function initiateIndexedDB() {
 	});
 
 
-	logMessage("IndexedDB: initiate");
+	logMessage("Initiate", "info", "IndexedDB");
 	// Check whether IndexedDB is supported
 	if (indexedDB) {
 		// Declare the database
@@ -109,8 +71,9 @@ function initiateIndexedDB() {
 				Object.entries( indexedDBTables ).map( x => [ x[0], x[1].key ] )
 			)
 		).upgrade((trans)=>{
-			logMessage("IndexedDB: upgrade");
-			logMessage("IndexedDB: deleting tables: %o", trans.storeNames);
+
+			logMessage(`Upgrading database to latest version (${DB_VERSION})`, "info", "IndexedDB");
+			logMessage(`Deleting tables: (${trans.storeNames.join(", ")})`, "info", "IndexedDB");
 
 			trans.storeNames.forEach(k => {
 				trans.db[k].clear();
@@ -118,17 +81,17 @@ function initiateIndexedDB() {
 
 		});
 
-		logMessage(`IndexedDB: Initiating local Motus DB with ${Object.keys(indexedDBTables).length} tables...`);
+		logMessage(`Initiating local Motus DB with ${Object.keys(indexedDBTables).length} tables...`, "info", "IndexedDB");
 
 	  motusData.db.open()
     	.catch ('MissingApiError',function(error){// If IndexedDB is NOT supported
-					logMessage("IndexedDB: indexedDB not supported!", "error");
-					logMessage(error, "error");
+					logMessage("indexedDB not supported!", "error", "IndexedDB");
+					logMessage(error, "error", "IndexedDB");
 					loadWithoutIndexedDB();
 			}).catch (function (error) {
 	        // Show e.message to user
-					logMessage("IndexedDB: Some other error: ", "error");
-					logMessage(error, "error");
+					logMessage("Some other error: ", "error", "IndexedDB");
+					logMessage(error, "error", "IndexedDB");
 					loadWithoutIndexedDB();
 	    });
 
@@ -136,98 +99,256 @@ function initiateIndexedDB() {
 
 	} else { // If IndexedDB is NOT supported
 
-		loadWithoutIndexedDB();
+		loadWithoutIndexedDB(tablesToDownload);
+
+	}
+}
+
+async function loadWithoutIndexedDB(tablesToDownload) {
+
+	indexedDB = false;
+
+	// Download file-based tables
+	if (Object.values(tablesToDownload).some( x => !x.API ) ) {
+		Object.entries(tablesToDownload).filter( x => !x[1].API ).forEach(x => {
+			logMessage(`Downloading table ${x[0]} locally...`, "info", "Local DB");
+			downloadMotusData( x[0] ).then(response => {afterDataLoads(response, x[0], false);});
+		});
+	}
+
+	// Download API tabls
+	if (Object.values(tablesToDownload).some( x => x.API ) ) {
+		// Download files sequentially
+		(async () => {
+			for (k in Object.fromEntries(Object.entries(tablesToDownload).filter( x => x[1].API ))) {
+				logMessage(`Downloading table ${k} via Dashboard API...`, "info", "Local DB");
+				await requestDataAPI( tablesToDownload[k].API );
+				logMessage(`Finished downloading ${k}.`, "info", "Local DB");
+				await afterDataLoads(false, k, false);
+			}
+		})();
 
 	}
 }
 
 
-function loadWithoutIndexedDB() {
-
-	indexedDB = false;
-
-	Object.entries(indexedDBTables).filter( x => x[1].get ).forEach(x => {
-		logMessage(`IndexedDB: Downloading ${x[0]}`);
-		downloadMotusData( x[0] ).then((response)=>{afterDataLoads(response, x[0], false);});
-	});
-}
-
-
 async function checkIndexedDBTables() {
 
-	logMessage("IndexedDB: DB Ready. Checking tables...");
-	testTimer.push([new Date(), "IndexedDB: Checking tables..."]);
+	// Check to see which tables need to be downloaded
 
+	logMessage("DB Ready. Checking tables...", "info", "IndexedDB");
+
+	// Start by loading a information about each table, including dates of last download
 	await getIndexedDBTable("motusTables");
 
+	// Update 'indexedDBTables' object with stored table information (if it exists)
 	if (motusData.motusTables) {
 		motusData.motusTables = Object.fromEntries(motusData.motusTables.map( x => ([[x.name],x])));
 		for (k in motusData.motusTables) {
 			indexedDBTables[k] = {...indexedDBTables[k], ...motusData.motusTables[k]};
 		}
 	}
-	await Promise.all( Object.keys(indexedDBTables).filter( x => indexedDBTables[x].get ).map( async x => getIndexedDBTable(x) ) );
 
-	logMessage("IndexedDB: Finished checking tables");
+	//	Get the tables from indexedDB if the exist and return true for each instance that is successful.
+	var tableStatus = await Promise.all( Object.keys(indexedDBTables).filter( x => indexedDBTables[x].get ).map( x => getIndexedDBTable(x) ) );
 
-	testTimer.push([new Date(), "IndexedDB: finish checking tables "]);
+	logMessage("Finished checking tables", "info", "IndexedDB");
 
-
-	if ( Object.values(indexedDBTables).some( x => x.download ) ) {
-
-		testTimer.push([new Date(), "IndexedDB: downloading data"]);
+	if (tableStatus.every(x => x)) {
+		logMessage("All data is up to date", "info", "IndexedDB");
+		return true;
+	} else if ( Object.values(indexedDBTables).some( x => x.download ) ) {
 
 		var tablesToDownload = Object.fromEntries(Object.entries(indexedDBTables).filter( x => x[1].download ));
 
-		logMessage(`IndexedDB: Downloading data for ${Object.values(tablesToDownload).length} tables.`);
-
-		logMessage(Object.values(tablesToDownload));
+		logMessage(`Downloading data for ${Object.values(tablesToDownload).length} tables: ${Object.keys(tablesToDownload)}`, "info", "IndexedDB");
 
 		if (motusData.motusTables) {
 			if (NEW_DOWNLOAD_AGE < (new Date() - d3.max(motusData.motusTables, x => x.downloadDate))/(24*36e5)) {
-				logMessage(`Downloading data for the first time in a ${NEW_DOWNLOAD_AGE} days <br/> this may take a few seconds...`, "title");
-				logMessage(`IndexedDB: Downloading ${Object.values(tablesToDownload).length} tables...`);
+				logMessage(`Your Motus database is out of date (more than ${NEW_DOWNLOAD_AGE} days old).<br/> Downloading a new database. This may take several seconds...`, "title");
+				logMessage(`Downloading ${Object.values(tablesToDownload).length} tables...`, "info", "IndexedDB");
 			} else if (NEW_DOWNLOAD_AGE > (new Date() - d3.min(motusData.motusTables, x => x.downloadDate))/(24*36e5)) {
 				logMessage(`Local database is up to date`, "title");
-				logMessage(`IndexedDB: Downloading ${Object.values(tablesToDownload).length} tables...`);
+				logMessage(`Downloading ${Object.values(tablesToDownload).length} tables...`, "info", "IndexedDB");
 			}
 		} else {
-			logMessage("Downloading data for the first time <br/> this may take a few seconds...", "title");
-			logMessage(`IndexedDB: Downloading ${Object.values(tablesToDownload).length} tables...`);
+			logMessage("Downloading data for the first time.<br/>This may take several seconds...", "title");
+			logMessage(`Downloading ${Object.values(tablesToDownload).length} tables...`, "info", "IndexedDB");
 		}
 
 
-		// Download local tables
-		if (Object.values(tablesToDownload).some( x => !x.API ) ) {
-			Object.entries(tablesToDownload).filter( x => !x[1].API ).forEach(x => {
-				logMessage(`IndexedDB: Downloading table ${x[0]} locally...`);
-				downloadMotusData( x[0] ).then(response => {afterDataLoads(response, x[0], true);});
-			});
+		// Download file-based tables
+		if (Object.values(tablesToDownload).some( x => !x.API && !x.derived ) ) {
+			Promise.all(
+				Object.entries(tablesToDownload).filter( x => !x[1].API && !x.derived ).map(x => {
+					logMessage(`Downloading table ${x[0]} locally...`, "info", "IndexedDB");
+					downloadMotusData( x[0] ).then(response => {afterDataLoads(response, x[0], true);});
+				})
+			);
 		}
 
-		// Download API tabls
+		// Download API tables
 		if (Object.values(tablesToDownload).some( x => x.API ) ) {
-			// Download files sequentially
-			(async () => {
+			// Download files sequentially in case they depend on each other
+			await (async () => {
 				for (k in Object.fromEntries(Object.entries(tablesToDownload).filter( x => x[1].API ))) {
-					logMessage(`IndexedDB: Downloading table ${k} via Dashboard API...`);
+					logMessage(`Downloading table ${k} via Dashboard API...`, "info", "IndexedDB");
 					await requestDataAPI( tablesToDownload[k].API );
-					logMessage(`IndexedDB: finished downloading ${k}.`);
+					logMessage(`Finished downloading ${k}.`, "info", "IndexedDB");
 					await afterDataLoads(false, k, true);
 				}
 			})();
-
 		}
+
+		// Get derived tables
+		if (Object.values(tablesToDownload).some( x => x.derived ) ) {
+			// Get files sequentially in case they depend on each other
+			(async () => {
+				for (k in Object.fromEntries(Object.entries(tablesToDownload).filter( x => x[1].derived && x[0] != "motusTables" ))) {
+					logMessage(`Deriving table ${k}...`, "info", "IndexedDB");
+					await getDerivedTable( k );
+					logMessage(`Finished deriving data for table ${k}.`, "info", "IndexedDB");
+					await afterDataLoads(false, k, true);
+				}
+			})();
+		}
+
+	} else {
+		logMessage("There was an error while loading the data!", "error", "IndexedDB");
 	}
 
 }
 
-function afterDataLoads(response, tableName, updateIndexedDB) {
+async function getIndexedDBTable(tableName, forceDownload = false) {
 
-	if (response) {
-		motusData[tableName] = response;
+	logMessage(`Getting table '${tableName}' via indexed DB...`, "info", "IndexedDB");
+
+	var DB_COUNT = await motusData.db[tableName].count();
+
+	var API_COUNT = (indexedDBTables[tableName].API && API_AVAILABLE) ?
+										(await countDataAPI( indexedDBTables[tableName].API )).results[0].nrec :
+										false;
+
+	var daysSinceLastDownload = (new Date() - new Date(indexedDBTables[tableName].downloadDate))/(24*36e5);
+
+	if (API_COUNT) logMessage(`Counted ${API_COUNT} rows`, "info", "Dashboard API");
+
+	var IS_RECENT = (tableName == 'motusTables' || (daysSinceLastDownload < NEW_DOWNLOAD_AGE && !isNaN(daysSinceLastDownload)) ) ;
+	var HAS_ROWS = DB_COUNT > 0 && (!API_COUNT || API_COUNT == DB_COUNT);
+	var IS_REQUESTED = indexedDBTables[tableName].get || forceDownload;
+	var IS_SOURCED = typeof indexedDBTables[tableName].file === "string" || indexedDBTables[tableName].API;// Table isn't derived from other tables, but sourced from API or a file.
+
+	if (HAS_ROWS && IS_RECENT && IS_REQUESTED) {
+
+		logMessage(`Table '${tableName}' exists and is up to date.`, "info", "IndexedDB");
+
+		let tableData = await motusData.db[tableName].toArray();
+
+		logMessage(`Table '${tableName}' has been loaded from IndexedDB.`, "info", "IndexedDB");
+
+		indexedDBTables[tableName].done = true;
+
+		afterDataLoads(tableData, tableName, false);
+
+	} else if (HAS_ROWS && IS_SOURCED && !IS_REQUESTED) {
+
+		logMessage(`Table '${tableName}' exists, but won't be loaded entirely.`, "info", "IndexedDB");
+		indexedDBTables[tableName].done = true;
+
+	} else {
+		if (forceDownload) {
+			logMessage(`Forcing download of ${tableName}.`, "info","IndexedDB");
+			indexedDBTables[tableName].get = true;
+		} else if (IS_REQUESTED) {
+			logMessage(`Requesting download of ${tableName}.`, "info","IndexedDB");
+		}
+		if (IS_SOURCED) {
+			if (!IS_RECENT) {
+				logMessage(`Table '${tableName}' is older than ${NEW_DOWNLOAD_AGE} days and needs to be downloaded again.`, "info", "IndexedDB");
+			} else {
+				logMessage(`Table '${tableName}' doesn't exist and needs to be downloaded.`, "info", "IndexedDB");
+			}
+		} else {
+			indexedDBTables[tableName].derived = true;
+		}
+		indexedDBTables[tableName].download = true;
+		if (tableName == "regions") {
+			var success = await Promise.all(["stationDeps", "animals", "polygons"].map( async x => {
+					if (!indexedDBTables[x].get) {
+						logMessage(`Table '${x}' is missing and needs to be downloaded.`, "info", "IndexedDB");
+						indexedDBTables[x].get = true;
+						if (!motusData[x] || motusData[x].length == 0) return getIndexedDBTable(x);
+					}
+				})
+			);
+			console.log(success);
+		}
+		if (tableName == "species") {
+			indexedDBTables.animals.get = true;
+			if (!motusData.animals || motusData.animals.length == 0) await getIndexedDBTable("animals");
+		}
+		if (tableName == "animals") {
+			indexedDBTables.tags.download = true;
+			indexedDBTables.tags.get = true;
+		}
+		if (tableName == "stationDeps") {
+			["antennas","stations", "stationDetectedTags", "stationLocalTags", "stationRecentData"].forEach( x => {
+				if (!indexedDBTables[x].get) {
+					indexedDBTables[x].get = true;
+					if (!motusData[x] || motusData[x].length == 0) return getIndexedDBTable(x);
+				}
+			})
+		}
 	}
+
+	return indexedDBTables[tableName].done;
+}
+async function downloadMotusData( tableName ) {
+
+	logMessage(`Downloading ${tableName} data locally...`);
+	var downloadedData = await indexedDBTables[tableName].promise( indexedDBTables[tableName].file );
+	logMessage("Processing data...");
+	return processRawData( downloadedData, tableName );
+
+}
+
+async function getDerivedTable(tableName, forceDownload = false) {
+
+	if (tableName == "regions") {
+
+		indexedDBTables[tableName].done = await getRegionData(); // Returns true based if successful
+
+	}
+
+	return checkIfFinished();
+
+}
+
+function afterDataLoads(data, tableName, updateIndexedDB) {
+
+	//	Write the data to the motusData global object (if data exist)
+	//		API calls handle this separately so `data` will be false.
+	if (data) {
+		motusData[tableName] = data;
+	}
+
+	// Indicate that the table has loaded
 	indexedDBTables[tableName].done = true;
+
+	// Some tables are linked together (contain data from one another) so here I'm
+	//	inserting data from/into different tables after each one loads, based on parameters in 'indexedDBTables'
+	handleLinkedTables( tableName, updateIndexedDB );
+
+	// indexedDB only gets updated here
+	if (updateIndexedDB)	updateMotusDB(tableName, motusData[tableName]);
+
+	// Proceed to load the dashboard only once all the requested data has been loaded
+	return checkIfFinished();
+}
+
+
+// Each table has a set of required tables from which data is derived.
+function handleLinkedTables( tableName, updateIndexedDB ) {
 
 	if ( ["stationRecentData", "stationLocalTags", "stationDetectedTags"].includes(tableName) ) {
 		var indexVar = tableName == 'stationDetectedTags' ? "deploymentID" : "stationID";
@@ -237,6 +358,11 @@ function afterDataLoads(response, tableName, updateIndexedDB) {
 		}
 	}
 
+	if (tableName == "antennas") {
+		motusData.antennaDeploymentsByStationDeployment = d3.group(
+			motusData.antennas, x => x.id
+		)
+	}
 	if (tableName == "stationDeps") {
 		motusData.stationDepsByRegions = d3.group(motusData.stationDeps, d => d.country);
 		motusData.stationDepsByProjects = d3.group(motusData.stationDeps, d => d.project);
@@ -244,72 +370,70 @@ function afterDataLoads(response, tableName, updateIndexedDB) {
 		motusData.stationsByProject = d3.group(motusData.stations, x => x.project);
 		motusData.stations_indexed = d3.index(motusData.stations, x => x.id);
 		if (updateIndexedDB) {
-		  motusData.stations.forEach( (d, k, arr) => {
-		    let stationDeps = motusData.stationDeps.filter( x => x.stationID == d.id );
-		    d.nDeps = stationDeps.length;
-		    if (stationDeps.length > 0) {
-		      d.stationDeps = stationDeps.map( x => x.id );
-		      d.animals = stationDeps.map( x => x.animals ).flat();
-		      d.species = stationDeps.map( x => x.species ).flat();
-		      d.nAnimals = [...new Set(d.animals)].length;
-		      d.nSpecies = [...new Set(d.species)].length;
-		      d.dtStart = d3.min(stationDeps, x => x.dtStart );
-		      d.dtEnd = d3.max(stationDeps, x => x.dtEnd );
+			motusData.stations.forEach( (d, k, arr) => {
+				let stationDeps = motusData.stationDeps.filter( x => x.stationID == d.id );
+				d.nDeps = stationDeps.length;
+				if (stationDeps.length > 0) {
+					d.stationDeps = stationDeps.map( x => x.id );
+					d.animals = stationDeps.map( x => x.animals ).flat();
+					d.species = stationDeps.map( x => x.species ).flat();
+					d.nAnimals = [...new Set(d.animals)].length;
+					d.nSpecies = [...new Set(d.species)].length;
+					d.dtStart = d3.min(stationDeps, x => x.dtStart );
+					d.dtEnd = d3.max(stationDeps, x => x.dtEnd == null ? new Date() : x.dtEnd );
 
-		      // Add coordinates to station deployments
-		      stationDeps.forEach( (x, key, a) => {
-		          a[key].geometry = d.geometry;
-		          a[key].project = d.project;
-		          a[key].name = d.name;
-		        //  a[key] = { ...d, ...x};
-		      });
+					// Add coordinates to station deployments
+					stationDeps.forEach( (x, key, a) => {
+							a[key].geometry = d.geometry;
+							a[key].project = d.project;
+							a[key].name = d.name;
+						//  a[key] = { ...d, ...x};
+					});
 
-		      arr[k] = { ...stationDeps[0], ...d};
-		    } else {
-		      d.stationDeps = [];
-		      d.localAnimals = [];
-		      d.lastData = false;
-		      d.animals = [];
-		      d.species = [];
-		      arr[k] = { ...Object.fromEntries(Object.keys(motusData.stationDeps[0]).map(x => [x,""])), ...d}
-		    }
-		  });
+					arr[k] = { ...stationDeps[0], ...d};
+				} else {
+					d.stationDeps = [];
+					d.localAnimals = [];
+					d.lastData = false;
+					d.animals = [];
+					d.species = [];
+					arr[k] = { ...Object.fromEntries(Object.keys(motusData.stationDeps[0]).map(x => [x,""])), ...d}
+				}
+			});
 			updateMotusDB("stationDeps", motusData.stationDeps);
 		}
-
 	} else if (tableName == "tags") {
 		 motusData.tags_indexed = d3.index(motusData[tableName], x => x.id);
 	} else if (tableName == "animals") {
 		if (updateIndexedDB) {
-		  motusData.animals.forEach( (d, k, arr) => {
-		    let tag = motusData.tags_indexed.get( d.tagID );
-		    if (typeof tag !== 'undefined') {
-		      arr[k] = { ...tag, ...d};
-		    } else {
-		      arr[k] = { ...Object.fromEntries(Object.keys(motusData.tags.entries().next().value[1]).map(x => [x,""])), ...d}
-		  //      logMessage("No data for station " + d.id, "warn");
-		    }
-		  });
+			motusData.animals.forEach( (d, k, arr) => {
+				let tag = motusData.tags_indexed.get( d.tagID );
+				if (typeof tag !== 'undefined') {
+					arr[k] = { ...tag, ...d};
+				} else {
+					arr[k] = { ...Object.fromEntries(Object.keys(motusData.tags.entries().next().value[1]).map(x => [x,""])), ...d}
+			//      logMessage("No data for station " + d.id, "warn");
+				}
+			});
 		}
-	  motusData.animals_indexed = d3.index( motusData.animals, x => x.id );
+		motusData.animals_indexed = d3.index( motusData.animals, x => x.id );
 		motusData.animalsByRegions = d3.group(motusData.animals, d => d.country, d => d.id);
 		motusData.animalsByProjects = d3.group(motusData.animals, d => d.project, d => d.id);
-	  motusData.animalsByProject = d3.group(motusData.animals, x => x.project);
+		motusData.animalsByProject = d3.group(motusData.animals, x => x.project);
 	} else if (tableName == "species" && updateIndexedDB) {
-	  motusData.species.forEach( (d, k, arr) => {
-	    let animals = motusData.animals.filter( x => x.species == d.id );
-	    arr[k].animals = animals.map( x => x.id );
-	    arr[k].stations = [...new Set( animals.map( x => x.stations ).flat() )];
-	    arr[k].projects = animals.map( x => x.project );
-	  });
+		motusData.species.forEach( (d, k, arr) => {
+			let animals = motusData.animals.filter( x => x.species == d.id );
+			arr[k].animals = animals.map( x => x.id );
+			arr[k].stations = [...new Set( animals.map( x => x.stations ).flat() )];
+			arr[k].projects = animals.map( x => x.project );
+		});
 	} else if (tableName == "regions") {
-		motusData.regionByCode = d3.group(motusData.regions,  d => d.ADM0_A3);
+		logMessage("Process data: Getting regions by code");
+		motusData.regionByCode = d3.group(motusData.regions,  d => d.iso_a2);
 	}
 
-	if (updateIndexedDB)	updateMotusDB(tableName, motusData[tableName]);
+	//	return tableLinks[tableName];
 
-	// Proceed to load the dashboard only once all the data has been downloaded
-	return checkIfFinished();
 }
 
 function checkIfFinished() {
@@ -317,83 +441,35 @@ function checkIfFinished() {
 	if ( Object.values(indexedDBTables).every( x => x.done || !(x.get  || x.download) ) ) {
 	//if ( Object.values(indexedDBTables).every( x => x.done || (!x.get && !x.file) ) ) {
 		logMessage("", "title");
-		logMessage(`Finished loading data.`);
+		logMessage(`Finished loading data.`, 'info', 'IndexedDB');
 		logMessage(`There were ${Object.values(indexedDBTables).filter( x => x.downloaded ).length} tables downloaded and `+
-								`${Object.values(indexedDBTables).filter( x => !x.downloaded ).length} tables loaded from the local database.`);
-		logMessage("Loading dashboard content...");
+								`${Object.values(indexedDBTables).filter( x => !x.downloaded ).length} tables loaded from the local database.`, 'info', 'IndexedDB');
+		logMessage("Loading dashboard content...", 'info', 'IndexedDB');
 
 		loadDashboardContent();
+		return true;
 
 	} else {
 
-		return;
+		// Not yet finished
+		return false;
 
 	}
 }
 
-async function getIndexedDBTable(tableName, forceDownload = false) {
 
-	logMessage(`IndexedDB: Checking table '${tableName}'...`);
-
-
-	let count = await motusData.db[tableName].count();
-
-//		testTimer.push([new Date(), "Get data: respond to count of "+tableName]);
-	console.log("TIME OF LAST DOWNLOAD: ", indexedDBTables[tableName].downloadDate);
-	let daysSinceLastDownload = (new Date() - new Date(indexedDBTables[tableName].downloadDate))/(24*36e5);
-	console.log("DAYS SINCE LAST DOWNLOAD: ", daysSinceLastDownload);
-	if (count > 0 && indexedDBTables[tableName].get && (tableName == 'motusTables' || daysSinceLastDownload < NEW_DOWNLOAD_AGE) && !forceDownload ) {
-		logMessage(`Table '${tableName}' exists and is up to date.`);
-
-		let data = await motusData.db[tableName].toArray()
-
-		indexedDBTables[tableName].done = true;
-		afterDataLoads(data, tableName, false);
-
-	} else if (count > 0 && typeof indexedDBTables[tableName].file === "string" && !indexedDBTables[tableName].get && !forceDownload) {
-
-		logMessage(`IndexedDB: Table '${tableName}' exists, but won't be loaded entirely.`);
-		indexedDBTables[tableName].done = true;
-
-	} else {
-		if (forceDownload) {
-			logMessage(`IndexedDB: forcing download of ${tableName}.`, "info");
-			indexedDBTables[tableName].get = true;
-		}
-		if (indexedDBTables[tableName].file) {
-			logMessage(`IndexedDB: Table '${tableName}' needs to be downloaded.`);
-			indexedDBTables[tableName].download = true;
-		}
-		if (tableName == "animals") {
-			indexedDBTables.tags.download = true;
-			indexedDBTables.tags.get = true;
-		}
-		if (tableName == "stationDeps") {
-			["antennas","stations", "stationDetectedTags", "stationLocalTags", "stationRecentData"].forEach( x => {
-				indexedDBTables[x].download = true;
-				indexedDBTables[x].get = true;
-			})
-		}
-	}
-
-// This is poorly written - needs to be fixed
-
-	return tableName;
-}
 function updateMotusDB(tableName, tableData) {
 
-		logMessage(`Adding '${tableName}'...`);
+		logMessage(`Adding '${tableName}'...`, 'info', 'IndexedDB');
 		console.log(tableData);
 		motusData.db[tableName].bulkPut(tableData).then(function(lastKey) {
-			logMessage(`Done adding '${tableName}' table.`);
-			delete indexedDBTables[tableName].promise;
-			delete indexedDBTables[tableName].get;
-			delete indexedDBTables[tableName].download;
-			delete indexedDBTables[tableName].done;
+			logMessage(`Done adding '${tableName}' table.`, 'info'	, 'IndexedDB');
+			// Delete vars that shouldn't be stored
+			["promise","get","download","API","FILE","done"].forEach(k => {delete indexedDBTables[tableName][k];});
 			console.log({...indexedDBTables[tableName],...({name: tableName, downloadDate: new Date()})});
 			motusData.db.motusTables.put( {...indexedDBTables[tableName],...({name: tableName, downloadDate: new Date()})} )
 		}).catch(Dexie.BulkError, function (e) {
-			logMessage(`Error adding ${e.failures.length} of ${tableData.length} rows to '${tableName}' table.`);
+			logMessage(`Error adding ${e.failures.length} of ${tableData.length} rows to '${tableName}' table.`, 'error', 'IndexedDB');
 		});
 
 }
@@ -457,9 +533,9 @@ async function getSelections({
 
 
 			// Animal regions have tags deployed
-			motusData.selectedAnimalRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.localAnimals.map( x => x.country ))] });
+			motusData.selectedAnimalRegions = await getSelectedRegions({ key: "iso_a2", values: [...new Set(motusData.localAnimals.map( x => x.country ))] });
 			// Station projects have stations deployed
-			motusData.selectedStationRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
+			motusData.selectedStationRegions = await getSelectedRegions({ key: "iso_a2", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
 
 			// Routes consist of tracks by local animals and visiting animals
 			motusData.tracksByAnimal = await getAnimalRoutes( motusFilter.selectedAnimals );
@@ -544,10 +620,10 @@ async function getSelections({
 
 			//		testTimer.push([new Date(), "Get selections - regions"]);
 					// Animal regions have tags deployed
-			//		motusData.selectedAnimalRegions = getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedAnimals.map( x => x.country ))] });
+			//		motusData.selectedAnimalRegions = getSelectedRegions({ key: "iso_a2", values: [...new Set(motusData.selectedAnimals.map( x => x.country ))] });
 					// Station projects have stations deployed
-			//		motusData.selectedStationRegions = getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
-			//		motusData.selectedRegions = getSelectedRegions({ key: "adm0_a3", values: motusData.selectedStations.map( x => x.country ).concat( [...new Set(motusData.selectedAnimals.map( x => x.country ) )] ) });
+			//		motusData.selectedStationRegions = getSelectedRegions({ key: "iso_a2", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
+			//		motusData.selectedRegions = getSelectedRegions({ key: "iso_a2", values: motusData.selectedStations.map( x => x.country ).concat( [...new Set(motusData.selectedAnimals.map( x => x.country ) )] ) });
 
 
 					testTimer.push([new Date(), "Get selections - dates"]);
@@ -602,9 +678,9 @@ async function getSelections({
 			motusData.selectedStationProjects = getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.project ))] );
 			motusData.selectedProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.project ).concat(motusData.selectedAnimals.map( x => x.project )))] );
 
-	//		motusData.selectedAnimalRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedAnimals.map( x => x.country ))] });
-	//		motusData.selectedStationRegions = getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
-	//		motusData.selectedRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ).concat(motusData.selectedAnimals.map( x => x.country )))] });
+	//		motusData.selectedAnimalRegions = await getSelectedRegions({ key: "iso_a2", values: [...new Set(motusData.selectedAnimals.map( x => x.country ))] });
+	//		motusData.selectedStationRegions = getSelectedRegions({ key: "iso_a2", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
+	//		motusData.selectedRegions = await getSelectedRegions({ key: "iso_a2", values: [...new Set(motusData.selectedStations.map( x => x.country ).concat(motusData.selectedAnimals.map( x => x.country )))] });
 
 			motusFilter.selectedDtStart = await d3.min( motusData.selectedStations, x => x.dtStart );
 			motusFilter.selectedDtEnd = await d3.max( motusData.selectedStations, x => x.dtEnd );
@@ -629,9 +705,9 @@ async function getSelections({
 			motusData.selectedStationProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.project ))] );
 			motusData.selectedProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.project ).concat(motusData.selectedAnimals.map( x => x.project )))] );
 
-	//		motusData.selectedAnimalRegions = getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedAnimals.map( x => x.country ))] });
-	//		motusData.selectedStationRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
-	//		motusData.selectedRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ).concat(motusData.selectedAnimals.map( x => x.country )))] });
+	//		motusData.selectedAnimalRegions = getSelectedRegions({ key: "iso_a2", values: [...new Set(motusData.selectedAnimals.map( x => x.country ))] });
+	//		motusData.selectedStationRegions = await getSelectedRegions({ key: "iso_a2", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
+	//		motusData.selectedRegions = await getSelectedRegions({ key: "iso_a2", values: [...new Set(motusData.selectedStations.map( x => x.country ).concat(motusData.selectedAnimals.map( x => x.country )))] });
 
 			// Species don't have a sensible concept of 'local' and 'visiting' animals
 			// But we still need to create the variables for the scripts to work.
@@ -667,9 +743,9 @@ async function getSelections({
 			motusData.selectedStationProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.project ))] );
 			motusData.selectedProjects = await getSelectedProjects( [...new Set(motusData.selectedStations.map( x => x.project ).concat(motusData.selectedAnimals.map( x => x.project )))] );
 
-	//		motusData.selectedAnimalRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedAnimals.map( x => x.country ))] });
-//			motusData.selectedStationRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
-	//		motusData.selectedRegions = await getSelectedRegions({ key: "adm0_a3", values: [...new Set(motusData.selectedStations.map( x => x.country ).concat(motusData.selectedAnimals.map( x => x.country )))] });
+	//		motusData.selectedAnimalRegions = await getSelectedRegions({ key: "iso_a2", values: [...new Set(motusData.selectedAnimals.map( x => x.country ))] });
+//			motusData.selectedStationRegions = await getSelectedRegions({ key: "iso_a2", values: [...new Set(motusData.selectedStations.map( x => x.country ))] });
+	//		motusData.selectedRegions = await getSelectedRegions({ key: "iso_a2", values: [...new Set(motusData.selectedStations.map( x => x.country ).concat(motusData.selectedAnimals.map( x => x.country )))] });
 
 			// Like species, animals don't have a sensible concept of 'local' and 'visiting' animals
 			// But we still need to create the variables for the scripts to work.
@@ -712,12 +788,12 @@ async function getSelections({
 		return (typeof selections !== "object" ?
 			motusData.polygons.filter(
 				x =>
-				motusFilter.selections.includes(x.properties.adm0_a3)
+				motusFilter.selections.includes(x.properties.iso_a2)
 			).map(
 				x => ({
 					geometry:x.geometry,
 					properties: x.properties,
-					id: x.properties.adm0_a3,
+					id: x.properties.iso_a2,
 					name: x.properties.name,
 					type: x.type
 				})
@@ -737,12 +813,12 @@ async function getSelections({
 				) :
 				motusData.polygons.filter(
 					x =>
-					selections.includes(x.properties.adm0_a3)
+					selections.includes(x.properties.iso_a2)
 				).map(
 					x => ({
 						geometry:x.geometry,
 						properties: x.properties,
-						id: x.properties.adm0_a3,
+						id: x.properties.iso_a2,
 						name: x.properties.name,
 						type: x.type
 					})
@@ -1305,14 +1381,111 @@ async function getStationData( stationID ) {
 	}
 
 }
-async function downloadMotusData( tableName ) {
 
-	logMessage(`Downloading ${tableName} data locally...`);
-	var downloadedData = await indexedDBTables[tableName].promise( indexedDBTables[tableName].file );
-	logMessage("Processing data...");
-	return processRawData( downloadedData, tableName );
+function getRegionData() {
+
+	var HAS_REQUIRED_DATA = ["polygons", "animals", "stationDeps"].every( x => (typeof motusData[x] !== 'undefined' && motusData[x].length > 0) );
+
+	if (HAS_REQUIRED_DATA) {
+
+		motusData.animalsByStateProv = d3.rollup(motusData.animals, d => ({animals: d.map( v => v.id )}), x => x.stateProv );
+		motusData.animalsByCountry = d3.rollup(motusData.animals, d => ({animals: d.map( v => v.id )}), x => x.country );
+		motusData.animalsByContinent = d3.rollup(motusData.animals, d => ({animals: d.map( v => v.id )}), x => x.continent );
+
+		motusData.stationsByStateProv = d3.rollup(motusData.stations, d => ({stations: d.map( v => v.id )}), x => x.stateProv );
+		motusData.stationsByCountry = d3.rollup(motusData.stations, d => ({stations: d.map( v => v.id )}), x => x.country );
+		motusData.stationsByContinent = d3.rollup(motusData.stations, d => ({stations: d.map( v => v.id )}), x => x.continent );
+
+//		motusData.polygons // countries
+
+		motusData.stateProv = Array.from(d3.rollup([...motusData.animalsByStateProv].concat([...motusData.stationsByStateProv]), v => ({id: v[0][0], iso_a2: v[0][0], stations: v[0][1].stations?v[0][1].stations:v[1]&&v[1][1].stations?v[1][1].stations:[],animals: v[0][1].animals?v[0][1].animals:v[1]&&v[1][1].animals?v[1][1].animals:[]}), d => d[0]).values());
+		motusData.country = Array.from(d3.rollup([...motusData.animalsByCountry].concat([...motusData.stationsByCountry]), v => ({id: v[0][0], iso_a2: v[0][0], stations: v[0][1].stations?v[0][1].stations:v[1]&&v[1][1].stations?v[1][1].stations:[],animals: v[0][1].animals?v[0][1].animals:v[1]&&v[1][1].animals?v[1][1].animals:[]}), d => d[0]).values());
+		motusData.continent = Array.from(d3.rollup([...motusData.animalsByContinent].concat([...motusData.stationsByContinent]), v => ({id: v[0][0], iso_a2: v[0][0], stations: v[0][1].stations?v[0][1].stations:v[1]&&v[1][1].stations?v[1][1].stations:[],animals: v[0][1].animals?v[0][1].animals:v[1]&&v[1][1].animals?v[1][1].animals:[]}), d => d[0]).values());
+
+		motusData.regions = motusData.country.map( x => ({...x, ...{both: x.animals.length + x.stations.length }}) );
+
+		motusData.stationRegions = [
+			{type: "stateProv", regions: motusData.stationsByStateProv},
+			{type: "country", regions: motusData.stationsByCountry},
+			{type: "continent", regions: motusData.stationsByContinent}
+		];
+
+		return true;
+
+	} else {
+		logMessage("Cannot generate regions table: Missing required data! " + ["polygons", "animals", "stationDeps"].filter( x => !(typeof motusData[x] !== 'undefined' && motusData[x].length > 0) ), "error", "Motus Data");
+		return false;
+	}
 
 }
+
+async function getStationActivity() {
+
+	var selectedStations = motusFilter.selectedStations;
+
+	// Check if any activity data exists in the DB for each station.
+	// Return an object for each activity table with an array of booleans indicating whether data exist for that station/table combo.
+	var indexedDB_success = Object.fromEntries(
+		await Promise.all(
+			["gpsHits", "antPulses"].map(async (tableName) => {
+				var data = await motusData.db[tableName].bulkGet( selectedStations );
+				return [
+					tableName, selectedStations.map( (stationID, i) => {
+						if (typeof data[i] !== 'undefined') {
+							motusData[tableName][stationID] = data;
+							logMessage(`Successfully loaded ${tableName} for #${stationID}`, "info", "IndexedDB");
+							return true;
+						} else {
+							logMessage(`Failed to load ${tableName} for #${stationID}`, "warn", "IndexedDB");
+							return false;
+						}
+					})
+				];
+			})
+		)
+	);
+	// For stations which don't have data in the db, see if they can be downloaded via API
+	var download_success = Object.fromEntries(
+		await Promise.all(
+			["gpsHits", "antPulses"].map(async (tableName) => {
+				return [
+					tableName, selectedStations.map( stationID => {
+						if (indexedDB_success[tableName][stationID]) {
+							return false;
+						} else {
+							var response = requestDataAPI( indexedDBTables[tableName].API, stationID );
+							if (response.status == 'success') logMessage(`Successfully loaded ${tableName} for #${stationID}`, "info", "Dashboard API");
+							else logMessage(`Failed to load ${tableName} for #${stationID}`, "warn", "Dashboard API");
+							return response.status == 'success';
+						}
+					})
+				];
+			})
+		)
+	);
+/*
+	var download_success = await selectedStations.map( async x => {
+		logMessage(`Motus Data: Loading activity data for station #${x}...`, "info");
+
+		var response = await Promise.all([requestDataAPI( "gps", x ), requestDataAPI( "antPulse", x )]);
+
+		if (response[0].status == 'success' || response[1].status == 'success') logMessage(`Dashboard API: Successfully loaded activity for #${x}`, "info");
+		else logMessage(`Dashboard API: Failed to load activity for #${x}`, "warn");
+
+		return {[x]: (response[0].status == 'success' || response[1].status == 'success')};
+	});
+*/
+	// Check each table to see if it's been populated and update the motusDB accordingly.
+	["gpsHits", "antPulses"].forEach((tableName) => {
+		if (typeof motusData[tableName] !== 'undefined' && motusData[tableName].length > 0 && download_success[tableName].some( x => x ) ) {
+			updateMotusDB(tableName, motusData[tableName]);
+		}
+	});
+
+  return {indexedDB: indexedDB_success, download: download_success};
+
+}
+
 
 function processRawData( data, tableName ) {
 
@@ -1332,7 +1505,7 @@ function processRawData( data, tableName ) {
 				};
 
 				x.dtStart = new Date(x.dtStart);
-				x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
+				x.dtEnd = x.dtEnd == null ? new Date() : new Date(x.dtEnd);
 				x.statProv = "NA";
 				x.group = "0";
 				x.stationID = "0";
@@ -1376,8 +1549,8 @@ function processRawData( data, tableName ) {
 		});
 	} else if (tableName == 'regions') {
 		data.forEach(function(x) {
-			if (x.both > 0) {filters.options.regions[x.ADM0_A3] = x.country;}
-			x.id = x.ADM0_A3;
+			if (x.both > 0) {filters.options.regions[x.iso_a2] = x.country;}
+			x.id = x.iso_a2;
 		});
 	} else if (tableName == 'animals') {
 		data.forEach(function(x){
@@ -1386,7 +1559,7 @@ function processRawData( data, tableName ) {
 			var colourVal = dataType == 'projects' ? x.project : dataType == 'regions' ? x.country : dataType == 'stations' ? "other" : dataType == 'species' ? x.species : x.animal;
 
 			x.dtStart = new Date(x.dtStart);
-			x.dtEnd = x.dtEnd == "NA" ? new Date() : new Date(x.dtEnd);
+			x.dtEnd = x.dtEnd == "NULL" || x.dtEnd == null  ? new Date() : new Date(x.dtEnd);
 
 			x.status = new Date() - new Date(x.dtEnd) > (2 * 24 * 60 * 60 * 1000) ? 'inactive' : 'active';
 			x.geometry = {coordinates: [+x.lon, +x.lat], type: "Point"};
@@ -1408,7 +1581,7 @@ function processRawData( data, tableName ) {
 	} else if (tableName == 'polygons') {
 		data = data.features
 		data.forEach( x => {
-			x.id = x.properties.adm0_a3;
+			x.id = x.properties.iso_a2;
 		});
 	} else if (tableName == 'tracks') {
 

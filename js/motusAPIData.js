@@ -1,31 +1,20 @@
 // This file is to help me develp a new data flow for the API MaximumConnectionsError
-
+/*
 
 async function API_stations() {
 
-/*
 
-  Station data needs to be pulled from:
-  "species",
-  "stations",
-	"receivers",
-  "station/recent",
-  "stationDeployments",
-	"tags/local",
-  "stationTags"
-
-*/
   let timer = new Date();
 
-//  logMessage("Get tag data");
+//  logMessage("Dashboard API: Get tag data");
 //  await API_tags();
-  logMessage("Get stations");
+  logMessage("Dashboard API: Get stations");
   await requestDataAPI( "stations" )
-  logMessage("Get antenna deployments");
+  logMessage("Dashboard API: Get antenna deployments");
   await requestDataAPI( "antennaDeployments" )
-  logMessage("Get station deployments");
+  logMessage("Dashboard API: Get station deployments");
   await requestDataAPI( "stationDeployments" )
-  logMessage("Get station deployment info");
+  logMessage("Dashboard API: Get station deployment info");
   await Promise.all([
     requestDataAPI( "receivers" ),
     requestDataAPI( "stationTags" ),
@@ -61,7 +50,7 @@ async function API_stations() {
       d.animals = [];
       d.species = [];
       arr[k] = { ...Object.fromEntries(Object.keys(motusData.stationDeployments[0]).map(x => [x,""])), ...d}
-//      logMessage("No data for station " + d.id, "warn");
+//      logMessage("Dashboard API: No data for station " + d.id, "warn");
     }
   });
 
@@ -69,49 +58,26 @@ async function API_stations() {
 
   motusData.stationDeps = motusData.stationDeployments;
   motusData.stations_indexed = d3.index(motusData.stations, x => x.id);
-  /*
-  Promise.all([
-    requestDataAPI( "species" ),
-    requestDataAPI( "receivers" ),
-    requestDataAPI( "stationTags" ),
-    requestDataAPI( "tags/local" ),
-    requestDataAPI( "station/recent" ),
-  ]).then(()=>{
-  });*/
-  logMessage("Finished in " + ((new Date() - timer) / 1000) + " seconds");
+
+  logMessage("Dashboard API: Finished in " + ((new Date() - timer) / 1000) + " seconds");
 
   return true;
 }
 
 function API_antennas() {
 
-  /*
-
-    Antenna deployments only depend on a single entry point:
-    	"antennaDeployments"
-
-  */
 }
 
 async function API_tags() {
 
-/*
 
-  Tag data needs to be pulled from:
-	"tags",
-	"tagDeployments",
-	"species",
-	"tags/local",
-	"stationTags"
-
-*/
   let timer = new Date();
 
-  logMessage("Get species meta");
+  logMessage("Dashboard API: Get species meta");
   await requestDataAPI( "species" );
-  logMessage("Get tag meta");
+  logMessage("Dashboard API: Get tag meta");
   await requestDataAPI( "tags" );
-  logMessage("Get tag deployments");
+  logMessage("Dashboard API: Get tag deployments");
   await requestDataAPI( "tagDeployments" );
 
   motusData.tagDeployments.forEach( (d, k, arr) => {
@@ -120,7 +86,7 @@ async function API_tags() {
       arr[k] = { ...tag, ...d};
     } else {
       arr[k] = { ...Object.fromEntries(Object.keys(motusData.tags.entries().next().value[1]).map(x => [x,""])), ...d}
-  //      logMessage("No data for station " + d.id, "warn");
+  //      logMessage("Dashboard API: No data for station " + d.id, "warn");
     }
   });
 
@@ -136,66 +102,35 @@ async function API_tags() {
     arr[k].projects = animals.map( x => x.project );
   });
 
-  logMessage("Finished in " + ((new Date() - timer) / 1000) + " seconds");
+  logMessage("Dashboard API: Finished in " + ((new Date() - timer) / 1000) + " seconds");
 
   return true;
 
 }
 async function API_tracks() {
 
-/*
-
-  Tracks data depend on two entry points:
-  	"tracks",
-    "stations"
-
-  This is going to be the most time consuming part by far.
-  Optimize by keeping track of date of last download.
-  If date is within a certain threshold (1 month, perhaps) or if deployEnd has passed, don't update the track.
-
-*/
 
   let timer = new Date();
-//  logMessage("Get station data");
-//  await API_stations( );
-//  logMessage("Get tag data");
-//  await API_tags( );
-  logMessage("Get tracks data");
+
+  logMessage("Dashboard API: Get tracks data");
   await requestDataAPI( "tracks" );
 
-  logMessage("Finished loading track data in " + ((new Date() - timer) / 1000) + " seconds");
+  logMessage("Dashboard API: Finished loading track data in " + ((new Date() - timer) / 1000) + " seconds");
 
   return true;
 }
 
 async function API_projects() {
 
-/*
-
-  Data needs to be pulled from:
-	 "projects"
-
-*/
   let timer = new Date();
 
-  logMessage("Get project meta");
+  logMessage("Dashboard API: Get project meta");
   await requestDataAPI("projects");
 
-  logMessage("Finished loading project meta in " + ((new Date() - timer) / 1000) + " seconds");
+  logMessage("Dashboard API: Finished loading project meta in " + ((new Date() - timer) / 1000) + " seconds");
 
   return true;
 }
-/* Order in which tables must be loaded
-stationDeps
-stations
-antennas
-animals
-species
-trackLongByAnimal
-tracksByAnimal
-projects
-
-*/
 
 
 async function API_data(option = -1) {
@@ -222,18 +157,18 @@ async function API_data(option = -1) {
       break;
     default:
       let timer = new Date();
-      logMessage("Get all data");
+      logMessage("Dashboard API: Get all data");
       await API_data(0);
       await API_data(1);
       await API_data(2);
       await API_data(3);
-      logMessage("Finished loading all data in " + ((new Date() - timer) / 1000) + " seconds");
+      logMessage("Dashboard API: Finished loading all data in " + ((new Date() - timer) / 1000) + " seconds");
       break;
   }
 
   return true;
 }
-/*
+
 async function API_data(tablesToLoad) {
 
   if (!tablesToLoad) {
@@ -267,11 +202,6 @@ async function API_data(tablesToLoad) {
 }
 */
 
-function getStationActivity() {
-
-  API_stationActivity();
-
-}
 
 async function API_stationActivity(count = true, table = false) {
 
@@ -283,12 +213,6 @@ async function API_stationActivity(count = true, table = false) {
 
 */
 
-	motusFilter.selectedStations.forEach( x => {
-		Promise.all([requestDataAPI( "gps", x ), requestDataAPI( "antPulse", x )]).then((response) => {
-			if (response[0].status == 'success' || response[1].status == 'success') addExploreTabs();
-			else logMessage("Failed to load station activity!", "warn");
-		});
-	});
 
 }
 
@@ -304,6 +228,13 @@ const API_AVAILABLE = !['localhost','leberrigan.github.io'].includes(window.loca
 
 const AVAILABLE_TABLES = API_AVAILABLE ? API_TABLES : LOCAL_TABLES;
 
+
+async function countDataAPI( req_table, req_id ) {
+
+  return await requestDataAPI( req_table, req_id, false, true );
+
+}
+
 async function requestDataAPI( req_table, req_id, req_page, req_count ) {
 
 	var req_prefix =  API_AVAILABLE ? `https://${window.location.hostname}/data/dashboard/` : "data/";
@@ -313,8 +244,8 @@ async function requestDataAPI( req_table, req_id, req_page, req_count ) {
       var API_EXCEPTION = true;
       req_prefix = `https://${window.location.hostname}/wp-content/uploads/2022/05/`;
     } else {
-      logMessage("Invalid table: " + req_table, "error");
-		  return false;
+      logMessage("Dashboard API: Invalid table '" + req_table + "'", "error");
+		  return {status: "failed"};
     }
 	}
 
@@ -328,15 +259,27 @@ async function requestDataAPI( req_table, req_id, req_page, req_count ) {
   if (API_AVAILABLE && !API_EXCEPTION) {
   	var req_url = req_prefix + (req_count?"count/":"") + req_table + (req_id?"?stationId=" + req_id + "&":"?") + (req_page?"page=" + req_page:"");
 
-    logMessage("Request URL: " + req_url)
+    logMessage("Request URL = " + req_url, "info", "Dashboard API")
 
-    var response = await d3.json(req_url);
+    var response = await d3.json(req_url).catch((error) => {
+      logMessage("An error occurred while trying to download from: " + req_url, "error", "Dashboard API");
+      console.log(error);
+      return (req_count || typeof req_count === "undefined") ? {
+        request: "/" + req_table,
+        status: "error",
+        results: [{nrec: 0}]
+      } : {
+        request: "/" + req_table,
+        status: "error",
+        results: []
+      };
+    });
 
   } else { // NO API
 
   	var req_url = req_prefix + "API_" + req_table.replace("/","_").replace(/D/, "_d").replace(/T/, "_t") + ".csv";
 
-    logMessage("Request URL: " + req_url)
+    logMessage("Request URL = " + req_url, "info", "Dashboard API")
 
     var response = (req_count || typeof req_count === "undefined") ? {
       request: "/" + req_table,
@@ -352,34 +295,36 @@ async function requestDataAPI( req_table, req_id, req_page, req_count ) {
 
   }
 
+  console.log("Response: ", response);
+
 
   if (req_count) {
 
-  	logMessage("Counting data");
+  	logMessage("Counting data", "info", "Dashboard API");
 
     return response;
 
   } else if (typeof req_count === "undefined") {
 
-  	logMessage("Checking if any new records exist");
+  	logMessage("Checking if any new records exist", "info", "Dashboard API");
 
     if (response.status == 'success') {
-      logMessage("Request succeeded! Request: " + response.request);
+      logMessage("Request succeeded! Request: " + response.request, "info", "Dashboard API");
       if (typeof motusData[req_table.replace("/","_")] === 'undefined' || response.results[0].nrec != motusData[req_table.replace("/","_")].length) {
-        logMessage("Requesting new "+req_table+" data...");
+        logMessage("Requesting new "+req_table+" data...", "info", "Dashboard API");
         return await requestDataAPI( req_table, req_id, req_page, false );
       } else {
-        logMessage("Data is up to date!");
+        logMessage("Data is up to date!", "info", "Dashboard API");
         return response;
       }
     } else {
-      logMessage("Request failed! Request: " + response.request, "error");
+      logMessage("Request failed! Request: " + response.request, "error", "Dashboard API");
       return response;
     }
 
   } else {
 
-    logMessage("Loading data from: " + req_url);
+    logMessage("Loading data from: " + req_url, "info", "Dashboard API");
 
 //  	var response = await processDataAPI( response );
 
@@ -397,19 +342,19 @@ async function API_updateMotusDB(response, tableName = false) {
 
   if (typeof motusData.db[tableName] !== 'undefined') {
 
-  	logMessage(`Adding '${tableName}'...`);
+  	logMessage(`Adding '${tableName}'...`, "info", "Dashboard API");
   	console.log(tableData);
   	var lastKey = await motusData.db[tableName].bulkPut(tableData).catch(Dexie.BulkError, function (e) {
-  		logMessage(`Error adding ${e.failures.length} of ${tableData.length} rows to '${tableName}' table.`, "error");
+  		logMessage(`Error adding ${e.failures.length} of ${tableData.length} rows to '${tableName}' table.`, "error", "Dashboard API");
   	});
 
     if (lastKey) {
-  	   logMessage(`Done adding '${tableName}' table.`);
+  	   logMessage(`Done adding '${tableName}' table.`, "info", "Dashboard API");
     }
 
   } else {
 
-    logMessage(`Table '${tableName}' doesn't exist within IndexedDB`, "warn");
+    logMessage(`Table '${tableName}' doesn't exist within IndexedDB`, "warn", "Dashboard API");
 
   }
 
@@ -422,10 +367,10 @@ function processDataAPI(response) {
   var tblName = response.request.substr(1).replace("/", "_");
 
 	if (response.status != 'success') {
-		logMessage("Download failed: " + response.status, 'error');
+		logMessage("Download failed: " + response.status, 'error', "Dashboard API");
 		return false;
 	}
-	logMessage("Data loaded successfully");
+	logMessage("Data loaded successfully", "info", "Dashboard API");
 
 	if (!motusData[tblName] && response.request != "/gps")
 		motusData[tblName] = [];
@@ -447,7 +392,7 @@ function processDataAPI(response) {
 				})
 			);
 
-    logMessage(motusData[tblName][0]);
+    logMessage(motusData[tblName][0], "info", "Dashboard API");
 
     // If we're at the last page
     if (response.csv || typeof response.page === 'undefined' || (response.page > 0 && response.results.length != API_RESULTS_MAX)) {
@@ -489,6 +434,7 @@ function processDataAPI(response) {
 				renameObjectKey(x, "tagID", "id");
 				renameObjectKey(x, "projectID", "project");
 				renameObjectKey(x, "burstInterval", "tagBI");
+        x.frequency = x.frequency === "NULL" ? null : (Math.round(x.frequency * 100) / 100).toString(); // Rounded to the nearest 0.01 MHz
         x.manufacturer = x.model == null ? "UNKNOWN" : x.model.includes("LIFE") ? "CTT" : "Lotek";
 				return x;
 			})
@@ -645,8 +591,8 @@ function processDataAPI(response) {
   	} else if (response.request == "/regions") {
   		filters.options.regions = {};
   		motusData.regions.forEach(function(x) {
-  			if (x.both > 0) {filters.options.regions[x.ADM0_A3] = x.country;}
-  			x.id = x.ADM0_A3;
+  			if (x.both > 0) {filters.options.regions[x.adm0_a2] = x.country;}
+  			x.id = x.adm0_a2;
   		});
   	} else if (response.request == "/polygons") {
   		motusData.polygons = motusData.polygons.features

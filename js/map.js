@@ -172,23 +172,30 @@ function exploreMap({
 						);
 				} else if (t == 'region') {
 
-					var region = motusData.regionByCode.get(d.properties.adm0_a3)[0];
+					var region = motusData.regionByCode.get(d.properties.iso_a2);
+							region = typeof region !== 'undefined' ? region[0] : false;
 
-					$('.tooltip').html("<center><h3>"+
-												d.properties.name+
-											"</h3></center>"+
-											`<table style="width:100%;text-align:center;font-size:14pt;"><tbody>`+
-												`<tr><td>${region.animals} ${icons.animals}</td><td style="padding-left: 10px;">${region.stations} ${icons.station}</td></tr>`+
-												`<tr><td><b>Animal${region.animals==1?"":"s"}</b></td><td style="padding-left: 10px;"><b>Station${region.stations==1?"":"s"}</b></td></tr>`+
-											`</tbody></table>`+
-											"<br/>"+
-											"<center>Click to view profile</center>");
+					if (!region) {
+						$('.tooltip').html("<center><h3>"+
+													d.properties.name+
+												"</h3></center>");
+					} else {
+						$('.tooltip').html("<center><h3>"+
+													d.properties.name+
+												"</h3></center>"+
+												`<table style="width:100%;text-align:center;font-size:14pt;"><tbody>`+
+													`<tr><td>${region.animals.length} ${icons.animals}</td><td style="padding-left: 10px;">${region.stations.length} ${icons.station}</td></tr>`+
+													`<tr><td><b>Animal${region.animals.length==1?"":"s"}</b></td><td style="padding-left: 10px;"><b>Station${region.stations.length==1?"":"s"}</b></td></tr>`+
+												`</tbody></table>`+
+												"<br/>"+
+												"<center>Click to view profile</center>");
+					}
 
 				} else if (t == 'station') {
-					if (d.group > 1) {
+					if (d.clump > 1) {
 						$('.tooltip').html(
 							"<big>"+
-								d.group + " Stations"+
+								d.clump + " Stations"+
 							"</big>"+
 							"<br/>"+
 							`<em><b>${d.nAnimals} animal${d.nAnimals==1?"":"s"}</b></em> of <em><b>${d.nSpecies} species</b></em> detected`+
@@ -349,8 +356,8 @@ function exploreMap({
 		dataClick: function(e, d, t) {
 			if (t == 'station') {
 
-				if (d.group > 1) {
-				//	console.log(d);
+				if (d.clump > 1) {
+					console.log(d);
 			/*		if (motusMap.rect) {motusMap.map.removeLayer(motusMap.rect);}
 					var line = [d.bounds[0], [d.bounds[1][0],d.bounds[0][1]], d.bounds[1], [d.bounds[0][0],d.bounds[1][1]], d.bounds[0]]
 
@@ -438,7 +445,7 @@ function exploreMap({
 				default_endDate = dtLims.max;
 
 
-				viewProfile('regions', d.properties.adm0_a3);
+				viewProfile('regions', d.properties.iso_a2);
 
 			} else if (t == 'animal') {
 				viewProfile("animals", d.id)
@@ -848,7 +855,7 @@ function loadMapObjects(callback) {
 	afterMapLoads();
 
 }
-
+/*
 function drawMapObjects(group) {
 
 	motusMap.groups[group] = motusMap.svg.append("g").attr('class', `motusMap-${group}-container`);
@@ -892,7 +899,7 @@ function drawMapObjects(group) {
 
 	}
 
-}
+}*/
 // Start at deployment locations
 // Tween to first station
 // Tween to subsequent stations
@@ -916,7 +923,7 @@ function populateProfilesMap() {
 					lons: Object.values(motusData.selectedStations).map( x => x.geometry.coordinates[0] ).flat(),
 					lats: Object.values(motusData.selectedStations).map( x => x.geometry.coordinates[1] ).flat()
 				}
-				
+
 			var trackBounds = {
 					lons: Object.values(motusData.tracksLongByAnimal).map( x => x.tracks.map( y => +y[0]) ).flat(),
 					lats: Object.values(motusData.tracksLongByAnimal).map( x => x.tracks.map( y => +y[1]) ).flat()

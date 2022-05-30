@@ -96,6 +96,45 @@ const conservationStatus = {
   }
 }
 
+var continentFreqs = {
+	"North America":"166.380 MHz",
+	"South America":"166.380 MHz",
+	"Europe":"150.10 MHz",
+	"Asia":"151.50 MHz",
+	"Oceania":"151.50 MHz",
+	"Africa":"150.10 MHz",
+	"Antarctica":"none"
+}
+
+var regionFreqs = {
+	"Americas":"166.380 MHz",
+	"Europe":"150.10 MHz",
+	"Asia":"151.50 MHz",
+	"Oceania":"151.50 MHz",
+	"Africa":"150.10 MHz",
+	"Antarctica":"none"
+}
+
+var projectGroupNames = {
+	1:'No affiliation',
+	2:'US Dept. of the Interior',
+	3:'Environment Canada',
+	8:'Atlantic Offshore Wind',
+	9:'Birds Canada'
+}
+var speciesGroupNames = {
+	1: 'Not defined',
+	'BATS': 'Bats',
+	'BEETLES': 'Insects',
+	'BIRDS': 'Birds',
+	'BUTTERFL': 'Insects',
+	'HYMENOPTERA': 'Insects',
+	'MAMMALS': 'Mammals',
+	'MOTHS': 'Insects',
+	'ODONATA': 'Insects',
+	'ORTHOPTERA': 'Insects',
+	'REPTILES': 'Reptiles'
+}
 const icon_paths = {
 	stations:"M 8.95 3.625 L 8.95 2.2 L 7 2.2 L 7 3.175 L 6.75 3.175 L 6.75 2.2 L 4.925 2.2 L 4.925 5.268 L 7.0001 11.3826 L 6.8897 11.4752 L 5.8 8.2643 L 5.8 8.45 L 4.925 8.45 L 4.925 10.1247 L 4.675 10.1247 L 4.675 8.45 L 3.7502 8.45 L 2.7116 11.5002 L 2.5999 11.4068 L 4.675 5.3126 L 4.675 2.2 L 2.85 2.2 L 2.85 3.175 L 2.6 3.175 L 2.6 2.2 L 0.75 2.2 L 0.75 3.8 L 0.5 3.8 L 0.5 0.5 L 0.75 0.5 L 0.75 1.95 L 2.6 1.95 L 2.6 1 L 2.85 1 L 2.85 1.95 L 4.675 1.95 L 4.675 1.4253 L 4.925 1.4253 L 4.925 1.95 L 6.75 1.95 L 6.75 1 L 7 1 L 7 1.95 L 8.95 1.95 L 8.95 0.5 L 9.2 0.5 L 9.2 1.95 L 9.2 2.2 L 9.2 3.625 L 8.95 3.625 Z M 4.925 8.2 L 5.7782 8.2 L 4.925 5.686 L 4.925 8.2 Z M 4.675 5.7339 L 3.8353 8.2 L 4.675 8.2 L 4.675 5.7339 Z"
 };
@@ -263,7 +302,7 @@ var requiredTables = {
 	main: {
 		stations: ["stations","stationDeps", "animals", "species", "projects"],
 		animals: ["stations","stationDeps", "animals", "tracksLongByAnimal", "species", "projects"],
-		regions: ["stations","stationDeps", "regions", "polygons", "species", "projects"],
+		regions: ["stations","stationDeps", "polygons", "regions", "species", "projects"],
 		projects: ["stations","stationDeps", "animals", "species", "projects"],
 		species: ["stations","stationDeps", "species", "projects"]
 	},
@@ -329,31 +368,40 @@ const LOCAL_TABLES = [
 
 var NEW_DOWNLOAD_AGE = 7; // Number of days before we download a new file
 
-	// These are all the tables I store in the local db along with their URLs.
+// These are all the tables I store in the local db along with their URLs.
+	// Links = How tables are linked together
+	//	- before: tables that should be loaded before loading this one
+	//	- after: 	tables that should be (re)loaded after loading this one
 var indexedDBTables = {
 	motusTables: 				{key: "name", get: true, done: true},
-	antennas: 					{file: filePrefix + "API_antenna-deployments.csv",					key: 'id', 															API: "antennaDeployments"},	// All receiver deployments, including deployment country
-	stationDeps: 				{file: filePrefix + "API_station_deployments.csv", 					key: 'id', 															API: "stationDeployments"},	// All receiver deployments, including deployment country
-	stationDetectedTags:{file: filePrefix + "API_station_tags.csv", 								key: 'deploymentID', 										API: "stationTags"}, //
-	stationLocalTags: 	{file: filePrefix + "API_tags_local.csv",										key: 'stationID', 											API: "tags/local"}, //
-	stationRecentData: 	{file: filePrefix + "API_station_recent.csv",								key: 'stationID', 											API: "station/recent", get: true}, //
-	stations: 					{file: filePrefix + "API_stations.csv", 										key: 'id, project, country, *animals', 	API: "stations"},	// All stations including station deployments (a.k.a. receiver deployments)
-	tags:					 			{file: filePrefix + "API_tags.csv", 												key: 'id', 															API: "tags"}, // All tag deployments, including deployment country
-	animals:					 	{file: filePrefix + "API_tag_deployments.csv", 							key: 'id, project, country, species', 	API: "tagDeployments"}, // All tag deployments, including deployment country
-	//tracks: 						{file: filePrefix + "siteTrans_real3.csv", 									key: 'route, *animal', 									API: false}, // All site transitions
-	species: 						{file: filePrefix + "API_species.csv",											key: 'id',															API: "species"}, // List of all species and various names/codes
-	tracksLongByAnimal: {file: filePrefix + "API_tracks.csv", 											key: 'id', 															API: "tracks"}, //
-	tracksByAnimal: 		{file: false, 																							key: 'id', 															API: false}, //
-	projects: 					{file: filePrefix + "API_projects.csv", 										key: 'id',															API: "projects"}, // All projects, their codes, and descriptions
-	polygons: 					{file: mapFilePrefix + "ne_50m_admin_0_countries.geojson", 	key: '++, id', 													API: false}, // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
-	regions: 						{file: filePrefix + "country-stats.csv", 										key: 'id', 															API: false}, // Number of projects, stations, and tag deployments in each country
-	prospectiveStations:{file: mapFilePrefix + "prospective_stations.geojson", 			key: 'id', 															API: false}, // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
-	coordinationRegions:{file: mapFilePrefix + "motus-regional-collaboratives.geojson", 	key: '++, id', 										API: false}, // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
-	antPulses:		 			{file: false, 																							key: 'id', 															API: "antPulses"}, //
-	gpsHits: 						{file: false, 																							key: 'id', 															API: "gps"}, //
-	stationsByRegion: 	{file: false, 																							key: 'region, regionType', 							API: false}, //
-	animalsByRegion: 		{file: false, 																							key: 'region, regionType', 							API: false} //
+
+	antennas: 					{file: filePrefix + "API_antenna-deployments.csv",					key: 'id', 															API: "antennaDeployments",					links: {before: [], after: []}},	// All receiver deployments, including deployment country
+	stationDeps: 				{file: filePrefix + "API_station_deployments.csv", 					key: 'id', 															API: "stationDeployments",					links: {before: ["antennas"], after: ["stations", "stationLocalTags", "stationDetectedTags","stationRecentData"]}},	// All receiver deployments, including deployment country
+	stationDetectedTags:{file: filePrefix + "API_station_tags.csv", 								key: 'deploymentID', 										API: "stationTags",									links: {before: [], after: []}}, //
+	stationLocalTags: 	{file: filePrefix + "API_tags_local.csv",										key: 'stationID', 											API: "tags/local",									links: {before: [], after: []}}, //
+	stationRecentData: 	{file: filePrefix + "API_station_recent.csv",								key: 'stationID', 											API: "station/recent", get: true,		links: {before: [], after: []}}, //
+	stations: 					{file: filePrefix + "API_stations.csv", 										key: 'id, project, country, *animals', 	API: "stations",										links: {before: ["stationDeps","antennas", "stationLocalTags", "stationDetectedTags","stationRecentData"], after: ["stationDeps"]}},	// All stations including station deployments (a.k.a. receiver deployments)
+
+	tags:					 			{file: filePrefix + "API_tags.csv", 												key: 'id', 															API: "tags",												links: {before: [], after: []}}, // All tag deployments, including deployment country
+	animals:					 	{file: filePrefix + "API_tag_deployments.csv", 							key: 'id, project, country, species', 	API: "tagDeployments",							links: {before: ["tags"], after: []}}, // All tag deployments, including deployment country
+	species: 						{file: filePrefix + "API_species.csv",											key: 'id',															API: "species",											links: {before: ["animals"], after: []}}, // List of all species and various names/codes
+	tracksLongByAnimal: {file: filePrefix + "API_tracks.csv", 											key: 'id', 															API: "tracks",											links: {before: ["animals","stations"], after: []}}, //
+	tracksByAnimal: 		{file: false, 																							key: 'id', 															API: false,													links: {before: ["animals","stations"], after: []}}, //
+
+	projects: 					{file: filePrefix + "API_projects.csv", 										key: 'id',															API: "projects",										links: {before: ["animals","stations"], after: []}}, // All projects, their codes, and descriptions
+
+	stationsByRegion: 	{file: false, 																							key: 'region, regionType', 							API: false,													links: {before: ["stations"], after: []}}, //
+	animalsByRegion: 		{file: false, 																							key: 'region, regionType', 							API: false,													links: {before: ["animals"], after: []}}, //
+	polygons: 					{file: mapFilePrefix + "ne_50m_admin_0_countries.geojson", 	key: '++, id', 													API: false,													links: {before: [], after: []}}, // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
+	regions: 						{file: false, 																							key: 'id', 															API: false,													links: {before: ["animals","stations", "polygons", "projects"], after: []}}, // Number of projects, stations, and tag deployments in each country
+
+	prospectiveStations:{file: mapFilePrefix + "prospective_stations.geojson", 			key: 'id', 															API: false,													links: {before: [], after: []}}, // GEOJSON dataset of country polygons. Includes ISO contry names and codes.
+	coordinationRegions:{file: mapFilePrefix + "motus-regional-collaboratives.geojson", 	key: '++, id', 										API: false,													links: {before: [], after: []}}, //GEOJSON dataset of country polygons. Includes ISO contry names and codes.
+
+	antPulses:		 			{file: false, 																							key: 'id', 															API: "antPulses",										links: {before: ["antennas","stations"], after: []}}, //
+	gpsHits: 						{file: false, 																							key: 'id', 															API: "gps",													links: {before: ["stations"], after: []}} //
 }
+
 // A list of all tables accessible from the API
 var MOTUS_TABLES = {
 	"antennaDeployments": {

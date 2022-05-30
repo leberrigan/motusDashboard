@@ -170,12 +170,14 @@ function updateURL(reload) {
 
 }
 
+const PAGE_LOAD_TIME = new Date();
 
-function logMessage(msg, severity) {
+function logMessage(msg, severity, category) {
 	if (severity == "title") {
 		$(".loader .loader-text-title").html( msg );
 	} else {
 		$(".loader .loader-text").text( msg );
+		msg = ("(" + (new Date() - PAGE_LOAD_TIME) + ")").padEnd(10," ") + (category?`[${category}]`:"[uncategorized]").padEnd(17, " ") + msg;
 		switch (severity) {
 			case "error":
 				console.error(msg);
@@ -589,7 +591,7 @@ var dataColNames = {
 		stations: "Stations",
 		animals: "Animals",
 		both: "Both",
-		adm0_a3: "Country Code"
+		adm0_a2: "Country Code"
 	}
 }
 function viewWebsite(url) {
